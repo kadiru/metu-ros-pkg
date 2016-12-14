@@ -1,0 +1,66 @@
+Perceptors:
+  Visual3D:
+    config:
+      is_active: true
+    visualization: true
+    logging: true
+    general:
+      table_extraction:
+        plane_detection_voxel_x_: 0.0
+        plane_detection_voxel_y_: 0.0
+        plane_detection_voxel_z_: 0.0
+        flatten_table_: true
+        inlier_threshold_=0.02
+      objects_extraction:
+        clustering_voxel_x_: 0.0
+        clustering_voxel_y_: 0.0
+        clustering_voxel_z_: 0.0
+        cluster_distance_: 0.03
+        min_cluster_size_: 0.0
+    features:
+      normals: 
+        is_active: true
+        radius_search: 0.025
+        visualization:
+          matlab: false
+          rviz: false
+      curvatures:
+        is_active: true
+      spatial:
+        is_active: true
+      human:
+        is_active: false
+    filters:
+      filter_outrem_cloud:
+        is_active: true
+        radius_search: 0.03
+        min_neighbors_in_radius: 15
+      filter_outrem_cluster_clouds:
+        is_active: false
+        radius_search: 0.03
+        min_neighbors_in_radius: 25
+      filter_pass_x_cloud:
+        is_active: false
+        min_limit: -1.0
+        max_limit: 0.0
+      filter_pass_y_cloud:
+        is_active: false
+        min_limit: -1.0
+        max_limit:  1.0
+      filter_pass_z_cloud:
+        is_active: true
+        min_limit: 0.0
+        max_limit: 2.0
+  Visual2D:
+    is_active: false
+    features:
+      color_r : false
+      color_g : false
+      color_b : false
+  Proprioceptor:
+    is_active: false
+    features:
+      end_eff_pose : false
+      joint_angles : false
+General:
+  is_sim: true

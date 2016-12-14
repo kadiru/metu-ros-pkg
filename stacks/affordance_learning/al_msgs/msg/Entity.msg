@@ -1,0 +1,3 @@
+arm_navigation_msgs/CollisionObject collision_object
+sensor_msgs/PointCloud2 cloud_object
+al_msgs/FeatureVector feature_vector

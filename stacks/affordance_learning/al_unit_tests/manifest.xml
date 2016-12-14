@@ -1,0 +1,25 @@
+<package>
+  <description brief="al_unit_tests">
+
+     al_unit_tests
+
+  </description>
+  <author>kadir</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/al_unit_tests</url>
+  <depend package="al_srvs"/>
+  <depend package="al_utils"/>
+  <depend package="al_acts"/>
+  <depend package="al_msgs"/>
+  <depend package="actionlib"/>
+  <depend package="actionlib_msgs"/>
+  <depend package="geometry_msgs"/>
+  <depend package="sensor_msgs"/>
+  <depend package="arm_navigation_msgs"/>
+  <depend package="tf"/>
+    
+
+</package>
+
+

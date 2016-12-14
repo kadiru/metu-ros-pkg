@@ -1,0 +1,5 @@
+  <launch>
+
+	<param name="human_description" command="$(find xacro)/xacro.py '$(find al_human)/defs/human3.urdf.xacro'"/>
+
+  </launch>

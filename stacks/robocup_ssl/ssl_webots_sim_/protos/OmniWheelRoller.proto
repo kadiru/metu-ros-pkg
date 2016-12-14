@@ -1,0 +1,27 @@
+PROTO OmniWheelRoller
+[
+	# the position of the roller w.r.t. the main wheel coord. system.
+	field SFVec3f roller_translation 0 0 0.023
+	
+	# the axial rotation of the servo. The angle is not important
+	field SFRotation roller_axial_rotation 0 0 1 0
+]
+{
+	Transform {
+	  translation IS roller_translation
+	  rotation IS roller_axial_rotation
+	  children [
+		Shape {
+			appearance Appearance {
+				material Material {
+				diffuseColor 0.101961 0.101961 0.101961
+					}
+				}
+			geometry Cylinder {
+				height 0.005
+				radius 0.005
+				}
+			}
+		]
+	}
+}

@@ -1,0 +1,16 @@
+<package>
+  <description brief="ssl_msgs">
+
+     ssl_msgs
+
+  </description>
+  <author>kadir</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/ssl_msgs</url>
+  <depend package="geometry_msgs"/>
+  <depend package="sensor_msgs"/>
+
+</package>
+
+

@@ -1,0 +1,18 @@
+<launch>
+	
+	<rosparam command="load" file="$(find al_prediction)/config/behavior_svm_models.yaml" />
+	<node name="al_effect_predictor" pkg="al_prediction" type="effect_predictor" output="screen" respawn="false">
+		<param name="models_directory_path" type="string" value="$(find al_prediction)/models"/>
+	</node>
+	
+	<rosparam command="load" file="$(find al_prediction)/config/object_shape_svm_models.yaml" />
+	<node name="al_object_shape_predictor" pkg="al_prediction" type="object_shape_predictor" output="screen" respawn="false">
+		<param name="models_directory_path" type="string" value="$(find al_prediction)/models"/>
+	</node>
+	
+	<rosparam command="load" file="$(find al_prediction)/config/adjective_svm_models.yaml" />
+	<node name="al_adjective_predictor" pkg="al_prediction" type="adjective_predictor" output="screen" respawn="false">
+		<param name="models_directory_path" type="string" value="$(find al_prediction)/models"/>
+		<param name="use_all_effects" type="bool" value="($arg use_all_effects)"/>
+	</node>
+</launch>

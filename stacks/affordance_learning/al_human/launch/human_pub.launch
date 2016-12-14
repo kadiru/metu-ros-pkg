@@ -1,0 +1,7 @@
+<launch>
+
+  <param name="human_description" command="$(find xacro)/xacro.py '$(find al_human)/defs/human.urdf.xacro'" />
+
+  <node pkg="al_human" type="human_tf_publisher" name="human_tf_publisher"/>
+</launch>
+

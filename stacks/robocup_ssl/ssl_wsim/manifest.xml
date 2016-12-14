@@ -1,0 +1,14 @@
+<package>
+  <description brief="ssl_wsim">
+
+     ssl_wsim
+
+  </description>
+  <author>kadir</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/ssl_wsim</url>
+
+</package>
+
+

@@ -1,0 +1,39 @@
+<launch>
+
+  <!--include file="$(find swissranger_camera)/launch/sr_eth.launch"/>
+    
+  <node pkg="point_cloud_converter" name="point_cloud_converter_preself" type="point_cloud_converter">
+        <remap from="/points_in" to="/swissranger/scan" />
+        <remap from="/points2_out" to="/swissranger/pointcloud2_raw" />
+  </node-->
+  
+  <include file="$(find al_icub)/launch/icub.launch"/>
+
+  <node pkg="robot_self_filter" type="self_filter" respawn="true" output="screen" name="self_filter">
+    <!--remap from="cloud_in" to="/swissranger/pointcloud2_raw" />
+    <remap from="cloud_out" to="/swissranger/pointcloud2_self_filtered" /-->
+    
+    <!--remap from="cloud_in" to="/camera/depth/points" /-->
+    <remap from="cloud_in" to="/right_camera/depth/points" />
+    <remap from="cloud_out" to="/perception_input_cloud" />
+
+     <!-- The frame of the sensor used to obtain the data to be
+       filtered; This parameter is optional. If it is not specified,
+       shadow points will be considered outside -->
+     <!--param name="sensor_frame" type="string" value="/swissranger_link" /-->
+     <!--param name="sensor_frame" type="string" value="/camera_depth_frame" /-->
+     <param name="sensor_frame" type="string" value="/right_camera_depth_frame" />
+
+     <param name="min_sensor_dist" type="double" value="0.01" />
+
+     <!-- The padding to be added for the body parts the robot can see -->
+     <param name="self_see_padd" type="double" value="0.02" />
+
+     <!-- The scaling to be added for the body parts the robot can see -->
+     <param name="self_see_scale" type="double" value="1.0" />
+    
+     <!-- The names of the links the sensor can see -->
+		<rosparam file="$(find al_icub)/config/icub_self_filter.yaml" command="load" />
+		<param name="subsample_value" type="double" value="0.0"/>
+	</node>
+</launch>

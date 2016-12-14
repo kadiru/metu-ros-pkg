@@ -1,0 +1,8 @@
+<launch>
+      
+      <node name="joy" pkg="joy" type="joy_node" />
+      <param name="axis_vx" type="int" value="1"/>
+      <param name="axis_vw" type="int" value="3"/>
+      <param name="axis_vy" type="int" value="0"/>
+      <node name="ssl_teleop_control" pkg="ssl_teleop_control" type="ssl_teleop_control" output="screen"/>
+</launch>

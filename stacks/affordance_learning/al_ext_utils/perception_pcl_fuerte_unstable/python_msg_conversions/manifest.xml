@@ -1,0 +1,18 @@
+<package>
+  <description brief="python_msg_conversions">
+
+    Python conversion functions for common ROS msgs.
+
+  </description>
+  <author>Jonathan Binney</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/python_msg_conversions</url>
+
+  <depend package="std_msgs"/>
+  <depend package="sensor_msgs"/>
+  <depend package="geometry_msgs"/>
+
+</package>
+
+

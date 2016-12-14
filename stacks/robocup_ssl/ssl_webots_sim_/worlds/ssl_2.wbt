@@ -1,0 +1,1373 @@
+#VRML_SIM V6.0 utf8
+WorldInfo {
+  info [
+    "Description: RoboCup SSL Simulation Environmental -- Experimental"
+    "Author: Kadir Firat Uyanik <kadir@ceng.metu.edu.tr>"
+    "Date: 07 Sep 2011"
+  ]
+  title "robocup_ssl"
+  gravity 0 0 -9.81
+  ERP 0.1
+  physics "omniwheels"
+  basicTimeStep 10
+  runRealTime TRUE
+  contactProperties [
+    ContactProperties {
+      bounce 1
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.13177 -0.578138 -0.805229 3.50494
+  position 0.472935 0.160182 0.288212
+}
+Background {
+  skyColor [
+    0.564706 0.933333 0.564706
+  ]
+}
+PointLight {
+  ambientIntensity 4
+  attenuation 0.5 0.5 0.5
+  intensity 4
+  location 3.7 2.7 4
+}
+PointLight {
+  ambientIntensity 4
+  attenuation 0.5 0.5 0.5
+  intensity 4
+  location -3.7 2.7 4
+}
+PointLight {
+  ambientIntensity 4
+  attenuation 0.5 0.5 0.5
+  intensity 4
+  location -3.7 -2.7 4
+}
+PointLight {
+  ambientIntensity 4
+  attenuation 0.5 0.5 0.5
+  intensity 4
+  location 3.7 -2.7 4
+}
+DEF FIELD Solid {
+  rotation 1 0 0 1.57
+  children [
+    DEF GROUND_P_SHAPE Shape {
+      appearance Appearance {
+        texture ImageTexture {
+          url [
+            "/home/kadir/interconnection/workspace/metu-ros-pkg/stacks/robocup_ssl/ssl_sim/protos/textures/ssl_field_2012.jpg"
+          ]
+        }
+      }
+      geometry Plane {
+        size 7.4 5.4
+      }
+    }
+  ]
+  boundingObject USE GROUND_P_SHAPE
+  locked TRUE
+}
+DEF EMPTY Robot {
+  translation 0.126575 -0.962055 0
+  rotation 0 0 1 0
+  children [
+    DEF DRIBBLER_MOTOR SSLRobotDribbler {
+    }
+    DEF KICKER_MOTOR SSLRobotKicker {
+    }
+    OmniWheel {
+      name "wheel0"
+    }
+    OmniWheel {
+      wheel_to_robot_trans -0.0775 0 0.028
+      wheel_to_robot_rot -1 0 0 0
+      wheel_local_rot 0 0 1 1.57
+    }
+    OmniWheel {
+      wheel_to_robot_trans 0.03875 -0.0671 0.028
+      wheel_to_robot_rot 0.500011 -0.866019 0 0
+      wheel_local_rot 0 0 1 0.52
+      name "wheel2"
+    }
+  ]
+  boundingObject Group {
+    children [
+      Transform {
+        translation 0 0 0.0775
+        rotation 1 0 0 1.57
+        children [
+          Cylinder {
+            height 0.145
+            radius 0.08
+          }
+        ]
+      }
+    ]
+  }
+  physics Physics {
+  }
+}
+DEF b0 Robot {
+  translation 0.160754 -0.555947 0
+  rotation 0 0 1 0
+  children [
+    DEF ACC Accelerometer {
+    }
+    DEF GYRO Gyro {
+    }
+    DEF IR DistanceSensor {
+      translation 0.075 0.0425 0.023
+      rotation 0 0 1 -1.57
+      name "ir"
+      lookupTable [
+        0 0 0
+        0.085 1000 0
+      ]
+    }
+    DEF PATTERN Transform {
+      translation -0.0055 0 0.15
+      rotation 1 0 0 1.57
+      children [
+        Shape {
+          appearance Appearance {
+            texture ImageTexture {
+              url [
+                "../protos/textures/b0.png"
+              ]
+            }
+          }
+          geometry Plane {
+            size 0.169 0.18
+          }
+        }
+      ]
+    }
+    DEF DRIBBLER_MOTOR Servo {
+      translation 0.07133 0 0.0425
+      children [
+        DEF DRIBBLER Transform {
+          rotation 0 1 0 1.57
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0 0 0
+                  emissiveColor 0.74902 0.74902 0.74902
+                  specularColor 0.74902 0.74902 0.74902
+                }
+                texture ImageTexture {
+                  url [
+                    "../protos/textures/dribbler.png"
+                  ]
+                }
+              }
+              geometry Cylinder {
+                height 0.0786
+                radius 0.008
+                subdivision 20
+              }
+            }
+          ]
+        }
+      ]
+      name "dribbler"
+      boundingObject USE DRIBBLER
+      physics Physics {
+        density -1
+        mass 0.1
+      }
+      maxVelocity 100
+      maxForce 6
+      position -4.21468e-08
+    }
+    DEF KICKER_MOTOR Servo {
+      translation 5.63512e-06 0 0.02
+      rotation 0 1 0 1.57
+      children [
+        Group {
+          children [
+            DEF FRONT_PART Transform {
+              translation 0 0 0.063
+              children [
+                Shape {
+                  appearance DEF KICKER_APP Appearance {
+                    material Material {
+                      diffuseColor 0.301961 0.301961 0.301961
+                      specularColor 0.898039 0.898039 0.898039
+                    }
+                  }
+                  geometry Box {
+                    size 0.01 0.06 0.003
+                  }
+                }
+              ]
+            }
+            DEF PLUNGER Transform {
+              translation 0 0 0.028
+              rotation 1 0 0 1.5708
+              children [
+                Shape {
+                  appearance USE KICKER_APP
+                  geometry Cylinder {
+                    height 0.07
+                    radius 0.002
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      name "kicker"
+      boundingObject Group {
+        children [
+          USE FRONT_PART
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.2
+      }
+      type "linear"
+      maxVelocity 120
+      maxForce 5
+      controlP 100
+      position 1.40868e-06
+      maxPosition 0.02
+      minStop -0.05
+      maxStop 0.03
+    }
+    DEF CHIPKICKER_MOTOR Servo {
+      translation 0.065 0.0425 0.02
+      children [
+        Group {
+          children [
+            DEF LEFT Transform {
+              translation 0 -0.0015 -0.008
+              children [
+                DEF CHIPKICKER_SIDE Shape {
+                  appearance USE KICKER_APP
+                  geometry Box {
+                    size 0.004 0.003 0.022
+                  }
+                }
+              ]
+            }
+            DEF RIGHT Transform {
+              translation 0 -0.0835 -0.008
+              children [
+                USE CHIPKICKER_SIDE
+              ]
+            }
+          ]
+        }
+        DEF CHIPKICKER Solid {
+          translation 0 -0.045 -0.022
+          children [
+            DEF CHIPKICKER_SHAPE Shape {
+              appearance USE KICKER_APP
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    0 -0.04 0.003
+                    0 -0.04 0.013
+                    0 0.045 0.003
+                    0 0.045 0.013
+                    0.01 -0.04 0.003
+                    0.01 0.045 0.003
+                  ]
+                }
+                coordIndex [
+                  2, 5, 0, -1, 0, 5, 4, -1, 3, 2,
+                  1, -1, 1, 2, 0, -1, 5, 3, 4, -1,
+                  4, 3, 1, -1, 2, 3, 5, -1, 4, 1,
+                  0, -1
+                ]
+              }
+            }
+          ]
+          boundingObject Transform {
+            translation 0.004 0.0025 0.008
+            rotation 0 1 0 0.707
+            children [
+              Shape {
+                geometry Box {
+                  size 0.0141 0.085 0.001
+                }
+              }
+            ]
+          }
+        }
+      ]
+      maxVelocity 200
+      controlP 100
+      minPosition -0.6
+      minStop -0.6
+    }
+    DEF WHEEL0 Servo {
+      translation 0.03875 0.0671 0.028
+      rotation 0.500011 0.866019 0 0
+      children [
+        DEF WHEEL0_TRANS Transform {
+          rotation 0 0 1 -0.52
+          children [
+            DEF ROLLERS Group {
+              children [
+                Transform {
+                  translation 0 0 0.023
+                  rotation 0 0 1 1.57
+                  children [
+                    DEF ROLLER_SHAPE Shape {
+                      appearance Appearance {
+                        material Material {
+                          diffuseColor 0 0 0
+                        }
+                      }
+                      geometry Cylinder {
+                        height 0.005
+                        radius 0.005
+                      }
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.016263 0 0.0162635
+                  rotation 0 0 1 0
+                  children [
+                    Transform {
+                      rotation 0.707107 0 0.707107 1.57
+                      children [
+                        USE ROLLER_SHAPE
+                      ]
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.023 0 0
+                  rotation 0 0 1 0
+                  children [
+                    Transform {
+                      rotation 1 0 0 1.57
+                      children [
+                        USE ROLLER_SHAPE
+                      ]
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.0162635 0 -0.0162635
+                  rotation 0.707107 0 -0.707107 1.57
+                  children [
+                    Transform {
+                      rotation 0 0 1 0
+                      children [
+                        USE ROLLER_SHAPE
+                      ]
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0 0 -0.023
+                  rotation 0 0 1 0
+                  children [
+                    Transform {
+                      rotation 0 0 -1 1.57
+                      children [
+                        USE ROLLER_SHAPE
+                      ]
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.0162635 0 -0.0162635
+                  rotation 0 0 1 0
+                  children [
+                    Transform {
+                      rotation -0.707107 0 -0.707107 1.57
+                      children [
+                        USE ROLLER_SHAPE
+                      ]
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.023 0 0
+                  rotation 0 0 1 0
+                  children [
+                    Transform {
+                      rotation -1 0 0 1.57
+                      children [
+                        USE ROLLER_SHAPE
+                      ]
+                    }
+                  ]
+                }
+                Transform {
+                  translation -0.0162635 0 0.0162635
+                  rotation 0 0 1 0
+                  children [
+                    Transform {
+                      rotation -0.707107 0 0.707107 1.57
+                      children [
+                        USE ROLLER_SHAPE
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            DEF WHEEL_SHAPE Shape {
+              geometry Cylinder {
+                height 0.01
+                radius 0.025
+              }
+            }
+          ]
+        }
+      ]
+      name "wheel1"
+      boundingObject Transform {
+        rotation 0 0 1 -0.52
+        children [
+          Cylinder {
+            height 0.01
+            radius 0.028
+            subdivision 20
+          }
+        ]
+      }
+      physics DEF WHEEL_PHY Physics {
+        density -1
+        mass 0.2
+      }
+      maxVelocity 200
+    }
+    DEF WHEEL1 Servo {
+      translation -0.0775 0 0.028
+      rotation -1 0 0 0
+      children [
+        DEF WHEEL1_TRANS Transform {
+          rotation 0 0 1 1.57
+          children [
+            USE ROLLERS
+            DEF WHEEL_SHAPE Shape {
+              geometry Cylinder {
+                height 0.01
+                radius 0.025
+              }
+            }
+          ]
+        }
+      ]
+      name "wheel2"
+      boundingObject Transform {
+        rotation 0 0 1 1.57
+        children [
+          Cylinder {
+            height 0.01
+            radius 0.028
+            subdivision 20
+          }
+        ]
+      }
+      physics DEF WHEEL_PHY Physics {
+        density -1
+        mass 0.2
+      }
+      maxVelocity 200
+    }
+    DEF WHEEL2 Servo {
+      translation 0.03875 -0.0671 0.028
+      rotation 0.500019 -0.866014 0 0
+      children [
+        DEF WHEEL1_TRANS Transform {
+          rotation 0 0 1 0.52
+          children [
+            USE ROLLERS
+            DEF WHEEL_SHAPE Shape {
+              geometry Cylinder {
+                height 0.01
+                radius 0.025
+              }
+            }
+          ]
+        }
+      ]
+      name "wheel3"
+      boundingObject Transform {
+        rotation 0 0 1 0.52
+        children [
+          Cylinder {
+            height 0.01
+            radius 0.028
+            subdivision 20
+          }
+        ]
+      }
+      physics DEF WHEEL_PHY Physics {
+        density -1
+        mass 0.2
+      }
+      maxVelocity 200
+    }
+    DEF BODY Solid {
+      rotation 0 0 1 0
+      children [
+        DEF SSLRobotBodyShape Shape {
+          appearance DEF BODY_APP Appearance {
+            material Material {
+              ambientIntensity 1
+              diffuseColor 0 0 0
+              emissiveColor 0.0784314 0.0784314 0.0784314
+              shininess 0.1
+              specularColor 0.898039 0.898039 0.898039
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.089829 -0.005543 0.005
+                -0.089829 -0.005543 0.1495
+                -0.089829 0.005543 0.005
+                -0.089829 0.005543 0.1495
+                -0.088466 -0.016544 0.005
+                -0.088466 -0.016544 0.1495
+                -0.088466 0.016544 0.005
+                -0.088466 0.016544 0.1495
+                -0.085762 -0.027294 0.005
+                -0.085762 -0.027294 0.1495
+                -0.085762 0.027294 0.005
+                -0.085762 0.027294 0.1495
+                -0.081756 -0.03763 0.005
+                -0.081756 -0.03763 0.1495
+                -0.081756 0.03763 0.005
+                -0.081756 0.03763 0.1495
+                -0.07651 -0.047395 0.005
+                -0.07651 -0.047395 0.1495
+                -0.07651 0.047395 0.005
+                -0.07651 0.047395 0.1495
+                -0.070103 -0.056441 0.005
+                -0.070103 -0.056441 0.1495
+                -0.070103 0.056441 0.005
+                -0.070103 0.056441 0.1495
+                -0.062633 -0.064631 0.005
+                -0.062633 -0.064631 0.1495
+                -0.062633 0.064631 0.005
+                -0.062633 0.064631 0.1495
+                -0.054212 -0.07184 0.005
+                -0.054212 -0.07184 0.1495
+                -0.054212 0.07184 0.005
+                -0.054212 0.07184 0.1495
+                -0.04497 -0.07796 0.005
+                -0.04497 -0.07796 0.1495
+                -0.04497 0.07796 0.005
+                -0.04497 0.07796 0.1495
+                -0.035045 -0.082897 0.005
+                -0.035045 -0.082897 0.1495
+                -0.035045 0.082897 0.005
+                -0.035045 0.082897 0.1495
+                -0.024588 -0.086576 0.005
+                -0.024588 -0.086576 0.1495
+                -0.024588 0.086576 0.005
+                -0.024588 0.086576 0.1495
+                -0.013758 -0.088942 0.005
+                -0.013758 -0.088942 0.1495
+                -0.013758 0.088942 0.005
+                -0.013758 0.088942 0.1495
+                -0.00272 -0.089959 0.005
+                -0.00272 -0.089959 0.1495
+                -0.00272 0.089959 0.005
+                -0.00272 0.089959 0.1495
+                0.00836 -0.089611 0.005
+                0.00836 -0.089611 0.1495
+                0.00836 0.089611 0.005
+                0.00836 0.089611 0.1495
+                0.019313 -0.087903 0.005
+                0.019313 -0.087903 0.1495
+                0.019313 0.087903 0.005
+                0.019313 0.087903 0.1495
+                0.029972 -0.084863 0.005
+                0.029972 -0.084863 0.1495
+                0.029972 0.084863 0.005
+                0.029972 0.084863 0.1495
+                0.040178 -0.080534 0.005
+                0.040178 -0.080534 0.1495
+                0.040178 0.080534 0.005
+                0.040178 0.080534 0.1495
+                0.049773 -0.074984 0.005
+                0.049773 -0.074984 0.1495
+                0.049773 0.074984 0.005
+                0.049773 0.074984 0.1495
+                0.058614 -0.068297 0.005
+                0.058614 -0.068297 0.1495
+                0.058614 0.068297 0.005
+                0.058614 0.068297 0.1495
+                0.059333 -0.0425 0.005
+                0.059333 -0.0425 0.05
+                0.059333 0.0425 0.005
+                0.059333 0.0425 0.05
+                0.066565 -0.060573 0.005
+                0.066565 -0.060573 0.1495
+                0.066565 0.060573 0.005
+                0.066565 0.060573 0.1495
+                0.073507 -0.05193 0.005
+                0.073507 -0.05193 0.1495
+                0.073507 0.05193 0.005
+                0.073507 0.05193 0.1495
+                0.079333 -0.0425 0.005
+                0.079333 -0.0425 0.05
+                0.079333 -0.0425 0.1495
+                0.079333 0.0425 0.005
+                0.079333 0.0425 0.05
+                0.079333 0.0425 0.1495
+              ]
+            }
+            coordIndex [
+              92, 91, 86, -1, 87, 93, 92, -1, 84, 88,
+              89, -1, 92, 86, 87, -1, 87, 86, 82, -1,
+              87, 82, 83, -1, 83, 82, 74, -1, 83, 74,
+              75, -1, 75, 74, 70, -1, 75, 70, 71, -1,
+              71, 70, 66, -1, 71, 66, 67, -1, 67, 66,
+              62, -1, 67, 62, 63, -1, 63, 62, 58, -1,
+              63, 58, 59, -1, 59, 58, 54, -1, 59, 54,
+              55, -1, 55, 54, 50, -1, 55, 50, 51, -1,
+              51, 50, 46, -1, 51, 46, 47, -1, 47, 46,
+              42, -1, 47, 42, 43, -1, 43, 42, 38, -1,
+              43, 38, 39, -1, 39, 38, 34, -1, 39, 34,
+              35, -1, 35, 34, 30, -1, 35, 30, 31, -1,
+              31, 30, 26, -1, 31, 26, 27, -1, 27, 26,
+              22, -1, 27, 22, 23, -1, 23, 22, 18, -1,
+              23, 18, 19, -1, 19, 18, 14, -1, 19, 14,
+              15, -1, 15, 14, 10, -1, 15, 10, 11, -1,
+              11, 10, 6, -1, 11, 6, 7, -1, 7, 6,
+              2, -1, 7, 2, 3, -1, 3, 2, 0, -1,
+              3, 0, 1, -1, 1, 0, 4, -1, 1, 4,
+              5, -1, 5, 4, 8, -1, 5, 8, 9, -1,
+              9, 8, 12, -1, 9, 12, 13, -1, 13, 12,
+              16, -1, 13, 16, 17, -1, 17, 16, 20, -1,
+              17, 20, 21, -1, 21, 20, 24, -1, 21, 24,
+              25, -1, 25, 24, 28, -1, 25, 28, 29, -1,
+              29, 28, 32, -1, 29, 32, 33, -1, 33, 32,
+              36, -1, 33, 36, 37, -1, 37, 36, 40, -1,
+              37, 40, 41, -1, 41, 40, 44, -1, 41, 44,
+              45, -1, 45, 44, 48, -1, 45, 48, 49, -1,
+              49, 48, 52, -1, 49, 52, 53, -1, 53, 52,
+              56, -1, 53, 56, 57, -1, 57, 56, 60, -1,
+              57, 60, 61, -1, 61, 60, 64, -1, 61, 64,
+              65, -1, 65, 64, 68, -1, 65, 68, 69, -1,
+              69, 68, 72, -1, 69, 72, 73, -1, 73, 72,
+              80, -1, 73, 80, 81, -1, 81, 80, 84, -1,
+              81, 84, 85, -1, 85, 84, 89, -1, 85, 89,
+              90, -1, 17, 21, 25, -1, 35, 31, 65, -1,
+              65, 31, 27, -1, 87, 65, 69, -1, 71, 67,
+              75, -1, 75, 67, 65, -1, 75, 65, 83, -1,
+              83, 65, 87, -1, 55, 51, 59, -1, 59, 51,
+              65, -1, 59, 65, 63, -1, 63, 65, 67, -1,
+              11, 7, 65, -1, 65, 7, 3, -1, 65, 3,
+              1, -1, 25, 45, 49, -1, 90, 93, 85, -1,
+              85, 93, 87, -1, 85, 87, 81, -1, 81, 87,
+              69, -1, 81, 69, 73, -1, 39, 35, 43, -1,
+              43, 35, 65, -1, 43, 65, 47, -1, 47, 65,
+              51, -1, 15, 11, 19, -1, 19, 11, 65, -1,
+              19, 65, 23, -1, 23, 65, 27, -1, 41, 45,
+              37, -1, 37, 45, 25, -1, 37, 25, 33, -1,
+              33, 25, 29, -1, 1, 5, 65, -1, 65, 5,
+              9, -1, 65, 9, 13, -1, 13, 17, 65, -1,
+              65, 17, 25, -1, 65, 25, 61, -1, 61, 25,
+              49, -1, 61, 49, 57, -1, 57, 49, 53, -1,
+              86, 91, 78, -1, 66, 70, 62, -1, 62, 70,
+              74, -1, 62, 74, 58, -1, 58, 74, 82, -1,
+              58, 82, 54, -1, 26, 30, 34, -1, 72, 68,
+              80, -1, 80, 68, 76, -1, 80, 76, 84, -1,
+              84, 76, 88, -1, 52, 48, 76, -1, 76, 48,
+              44, -1, 76, 44, 40, -1, 82, 86, 54, -1,
+              54, 86, 78, -1, 54, 78, 50, -1, 50, 78,
+              76, -1, 50, 76, 46, -1, 46, 76, 42, -1,
+              56, 52, 60, -1, 60, 52, 76, -1, 60, 76,
+              64, -1, 64, 76, 68, -1, 24, 20, 76, -1,
+              76, 20, 16, -1, 28, 24, 32, -1, 32, 24,
+              76, -1, 32, 76, 36, -1, 36, 76, 40, -1,
+              16, 12, 76, -1, 76, 12, 8, -1, 76, 8,
+              4, -1, 10, 14, 76, -1, 76, 14, 18, -1,
+              38, 42, 34, -1, 34, 42, 76, -1, 34, 76,
+              26, -1, 26, 76, 18, -1, 26, 18, 22, -1,
+              6, 10, 2, -1, 2, 10, 76, -1, 2, 76,
+              0, -1, 0, 76, 4, -1, 92, 93, 89, -1,
+              89, 93, 90, -1, 76, 77, 88, -1, 88, 77,
+              89, -1, 77, 79, 89, -1, 89, 79, 92, -1,
+              79, 78, 92, -1, 92, 78, 91, -1, 79, 77,
+              78, -1, 78, 77, 76, -1
+            ]
+          }
+        }
+      ]
+    }
+  ]
+  name "b0"
+  boundingObject Group {
+    children [
+      DEF UPPER_BOX Transform {
+        translation 0.0383 0 0.09975
+        children [
+          Shape {
+            geometry Box {
+              size 0.07933 0.09 0.0995
+            }
+          }
+        ]
+      }
+      DEF LOWER_BOX Transform {
+        translation 0.029665 0 0.0275
+        children [
+          Shape {
+            geometry Box {
+              size 0.05933 0.085 0.045
+            }
+          }
+        ]
+      }
+      DEF TR_1 Transform {
+        translation 0 0 0.07725
+        rotation 0 0 1 0.654498
+        children [
+          DEF ROTATOR_SHAPE Shape {
+            geometry Box {
+              size 0.17846 0.0234947 0.1445
+            }
+          }
+        ]
+      }
+      DEF TR_2 Transform {
+        translation 0 0 0.07725
+        rotation 0 0 1 0.916298
+        children [
+          USE ROTATOR_SHAPE
+        ]
+      }
+      DEF TR_3 Transform {
+        translation 0 0 0.07725
+        rotation 0 0 1 1.1781
+        children [
+          USE ROTATOR_SHAPE
+        ]
+      }
+      DEF TR_4 Transform {
+        translation 0 0 0.07725
+        rotation 0 0 1 1.4399
+        children [
+          USE ROTATOR_SHAPE
+        ]
+      }
+      DEF TR_5 Transform {
+        translation 0 0 0.07725
+        rotation 0 0 1 1.7017
+        children [
+          USE ROTATOR_SHAPE
+        ]
+      }
+      DEF TR_6 Transform {
+        translation 0 0 0.07725
+        rotation 0 0 1 1.9635
+        children [
+          USE ROTATOR_SHAPE
+        ]
+      }
+      DEF TR_7 Transform {
+        translation 0 0 0.07725
+        rotation 0 0 1 2.22529
+        children [
+          USE ROTATOR_SHAPE
+        ]
+      }
+      DEF TR_8 Transform {
+        translation 0 0 0.07725
+        rotation 0 0 1 2.48709
+        children [
+          USE ROTATOR_SHAPE
+        ]
+      }
+      DEF TR_9 Transform {
+        translation -0.0412189 0.0170734 0.07725
+        rotation 0 0 1 -0.392699
+        children [
+          DEF S_ROTATOR_SHAPE Shape {
+            geometry Box {
+              size 0.08923 0.0234947 0.1445
+            }
+          }
+        ]
+      }
+      DEF TR_10 Transform {
+        translation -0.0442333 0.00582343 0.07725
+        rotation 0 0 1 -0.1309
+        children [
+          USE S_ROTATOR_SHAPE
+        ]
+      }
+      DEF TR_11 Transform {
+        translation -0.0442333 -0.00582343 0.07725
+        rotation 0 0 1 0.1309
+        children [
+          USE S_ROTATOR_SHAPE
+        ]
+      }
+      DEF TR_12 Transform {
+        translation -0.0412189 -0.0170734 0.07725
+        rotation 0 0 1 0.392699
+        children [
+          USE S_ROTATOR_SHAPE
+        ]
+      }
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 2
+  }
+  controller "ssl_sim_robot_rc"
+}
+DEF visual Robot {
+  translation 0.0289231 -0.769212 -0.000261395
+  rotation 0.00878313 0.999961 1.70392e-06 0.00025472
+  children [
+    DEF ACC Accelerometer {
+    }
+    DEF GYRO Gyro {
+    }
+    DEF PATTERN Transform {
+      translation -0.0055 0 0.15
+      rotation 1 0 0 1.57
+      children [
+        Shape {
+          appearance Appearance {
+            texture ImageTexture {
+              url [
+                "../protos/textures/b0.png"
+              ]
+            }
+          }
+          geometry Plane {
+            size 0.169 0.18
+          }
+        }
+      ]
+    }
+    DEF WHEEL0 Solid {
+      rotation 0 0 1 1.0471
+      children [
+        DEF WHEEL_MOTOR Servo {
+          translation 0.0775 0 0.025
+          rotation 1 0 0 12.5362
+          children [
+            Transform {
+              rotation 0 0 1 1.57
+              children [
+                DEF WHEEL_SHAPE Shape {
+                  appearance Appearance {
+                    material Material {
+                      diffuseColor 0.678431 0.847059 0.901961
+                    }
+                  }
+                  geometry Cylinder {
+                    height 0.01
+                    radius 0.025
+                    subdivision 50
+                  }
+                }
+              ]
+            }
+          ]
+          name "wheel0"
+          boundingObject Transform {
+            rotation 0 0 1 1.57
+            children [
+              Cylinder {
+                height 0.01
+                radius 0.028
+                subdivision 40
+              }
+            ]
+          }
+          physics Physics {
+          }
+          maxVelocity 100
+          position 1.56702
+        }
+      ]
+      boundingObject DEF DUMMY Transform {
+        translation 0 0 0.025
+        children [
+          Sphere {
+            radius 0.001
+          }
+        ]
+      }
+      physics DEF DUMMY_PHYSICS Physics {
+      }
+    }
+    DEF WHEEL1 Solid {
+      rotation 0 0 1 3.14159
+      children [
+        DEF WHEEL_MOTOR Servo {
+          translation 0.0775 0 0.025
+          rotation 1 0 0 12.5362
+          children [
+            Transform {
+              rotation 0 0 1 1.57
+              children [
+                DEF WHEEL_SHAPE Shape {
+                  appearance Appearance {
+                    material Material {
+                      diffuseColor 0.678431 0.847059 0.901961
+                    }
+                  }
+                  geometry Cylinder {
+                    height 0.01
+                    radius 0.025
+                    subdivision 50
+                  }
+                }
+              ]
+            }
+          ]
+          name "wheel1"
+          boundingObject Transform {
+            rotation 0 0 1 1.57
+            children [
+              USE WHEEL_SHAPE
+            ]
+          }
+          physics Physics {
+          }
+          maxVelocity 100
+          position 1.56702
+        }
+      ]
+      boundingObject DEF DUMMY Transform {
+        translation 0 0 0.025
+        children [
+          Sphere {
+            radius 0.001
+          }
+        ]
+      }
+      physics DEF DUMMY_PHYSICS Physics {
+      }
+    }
+    DEF WHEEL2 Solid {
+      rotation 0 0 1 -1.0471
+      children [
+        DEF WHEEL_MOTOR Servo {
+          translation 0.0775 0 0.025
+          rotation 1 0 0 12.5362
+          children [
+            Transform {
+              rotation 0 0 1 1.57
+              children [
+                DEF WHEEL_SHAPE Shape {
+                  appearance Appearance {
+                    material Material {
+                      diffuseColor 0.678431 0.847059 0.901961
+                    }
+                  }
+                  geometry Cylinder {
+                    height 0.01
+                    radius 0.025
+                    subdivision 50
+                  }
+                }
+              ]
+            }
+          ]
+          name "wheel2"
+          boundingObject Transform {
+            rotation 0 0 1 1.57
+            children [
+              USE WHEEL_SHAPE
+            ]
+          }
+          physics Physics {
+          }
+          maxVelocity 100
+          position 1.56702
+        }
+      ]
+      boundingObject DEF DUMMY Transform {
+        translation 0 0 0.025
+        children [
+          Sphere {
+            radius 0.001
+          }
+        ]
+      }
+      physics DEF DUMMY_PHYSICS Physics {
+      }
+    }
+    DEF DRIBBLER_MOTOR Servo {
+      translation 0.07133 0 0.0425
+      children [
+        DEF DRIBBLER Transform {
+          rotation 0 1 0 1.57
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0 0 0
+                  emissiveColor 0.74902 0.74902 0.74902
+                  specularColor 0.74902 0.74902 0.74902
+                }
+                texture ImageTexture {
+                  url [
+                    "../protos/textures/dribbler.png"
+                  ]
+                }
+              }
+              geometry Cylinder {
+                height 0.0786
+                radius 0.008
+                subdivision 20
+              }
+            }
+          ]
+        }
+      ]
+      name "dribbler"
+      boundingObject USE DRIBBLER
+      physics Physics {
+        density -1
+        mass 0.1
+      }
+      maxVelocity 100
+      maxForce 6
+      position -4.21468e-08
+    }
+    DEF KICKER_MOTOR Servo {
+      translation 5.63512e-06 0 0.02
+      rotation 0 1 0 1.57
+      children [
+        Group {
+          children [
+            DEF FRONT_PART Transform {
+              translation 0 0 0.063
+              children [
+                Shape {
+                  appearance DEF KICKER_APP Appearance {
+                    material Material {
+                      diffuseColor 0.301961 0.301961 0.301961
+                      specularColor 0.898039 0.898039 0.898039
+                    }
+                  }
+                  geometry Box {
+                    size 0.01 0.06 0.003
+                  }
+                }
+              ]
+            }
+            DEF PLUNGER Transform {
+              translation 0 0 0.028
+              rotation 1 0 0 1.5708
+              children [
+                Shape {
+                  appearance USE KICKER_APP
+                  geometry Cylinder {
+                    height 0.07
+                    radius 0.002
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      name "kicker"
+      boundingObject Group {
+        children [
+          USE FRONT_PART
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.2
+      }
+      type "linear"
+      maxVelocity 120
+      maxForce 5
+      controlP 100
+      position 1.40868e-06
+      maxPosition 0.02
+      minStop -0.05
+      maxStop 0.03
+    }
+    DEF CHIPKICKER_MOTOR Servo {
+      translation 0.065 0.0425 0.02
+      children [
+        Group {
+          children [
+            DEF LEFT Transform {
+              translation 0 -0.0015 -0.008
+              children [
+                DEF CHIPKICKER_SIDE Shape {
+                  appearance USE KICKER_APP
+                  geometry Box {
+                    size 0.004 0.003 0.022
+                  }
+                }
+              ]
+            }
+            DEF RIGHT Transform {
+              translation 0 -0.0835 -0.008
+              children [
+                USE CHIPKICKER_SIDE
+              ]
+            }
+          ]
+        }
+        DEF CHIPKICKER Solid {
+          translation 0 -0.045 -0.022
+          children [
+            DEF CHIPKICKER_SHAPE Shape {
+              appearance USE KICKER_APP
+              geometry IndexedFaceSet {
+                coord Coordinate {
+                  point [
+                    0 -0.04 0.003
+                    0 -0.04 0.013
+                    0 0.045 0.003
+                    0 0.045 0.013
+                    0.01 -0.04 0.003
+                    0.01 0.045 0.003
+                  ]
+                }
+                coordIndex [
+                  2, 5, 0, -1, 0, 5, 4, -1, 3, 2,
+                  1, -1, 1, 2, 0, -1, 5, 3, 4, -1,
+                  4, 3, 1, -1, 2, 3, 5, -1, 4, 1,
+                  0, -1
+                ]
+              }
+            }
+          ]
+        }
+      ]
+      maxVelocity 200
+      controlP 100
+      minPosition -0.6
+      minStop -0.6
+    }
+    DEF BODY Solid {
+      rotation 0 0 1 0
+      children [
+        DEF SSLRobotBodyShape Shape {
+          appearance DEF BODY_APP Appearance {
+            material Material {
+              ambientIntensity 1
+              diffuseColor 0 0 0
+              emissiveColor 0.0784314 0.0784314 0.0784314
+              shininess 0.1
+              specularColor 0.898039 0.898039 0.898039
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.089829 -0.005543 0.005
+                -0.089829 -0.005543 0.1495
+                -0.089829 0.005543 0.005
+                -0.089829 0.005543 0.1495
+                -0.088466 -0.016544 0.005
+                -0.088466 -0.016544 0.1495
+                -0.088466 0.016544 0.005
+                -0.088466 0.016544 0.1495
+                -0.085762 -0.027294 0.005
+                -0.085762 -0.027294 0.1495
+                -0.085762 0.027294 0.005
+                -0.085762 0.027294 0.1495
+                -0.081756 -0.03763 0.005
+                -0.081756 -0.03763 0.1495
+                -0.081756 0.03763 0.005
+                -0.081756 0.03763 0.1495
+                -0.07651 -0.047395 0.005
+                -0.07651 -0.047395 0.1495
+                -0.07651 0.047395 0.005
+                -0.07651 0.047395 0.1495
+                -0.070103 -0.056441 0.005
+                -0.070103 -0.056441 0.1495
+                -0.070103 0.056441 0.005
+                -0.070103 0.056441 0.1495
+                -0.062633 -0.064631 0.005
+                -0.062633 -0.064631 0.1495
+                -0.062633 0.064631 0.005
+                -0.062633 0.064631 0.1495
+                -0.054212 -0.07184 0.005
+                -0.054212 -0.07184 0.1495
+                -0.054212 0.07184 0.005
+                -0.054212 0.07184 0.1495
+                -0.04497 -0.07796 0.005
+                -0.04497 -0.07796 0.1495
+                -0.04497 0.07796 0.005
+                -0.04497 0.07796 0.1495
+                -0.035045 -0.082897 0.005
+                -0.035045 -0.082897 0.1495
+                -0.035045 0.082897 0.005
+                -0.035045 0.082897 0.1495
+                -0.024588 -0.086576 0.005
+                -0.024588 -0.086576 0.1495
+                -0.024588 0.086576 0.005
+                -0.024588 0.086576 0.1495
+                -0.013758 -0.088942 0.005
+                -0.013758 -0.088942 0.1495
+                -0.013758 0.088942 0.005
+                -0.013758 0.088942 0.1495
+                -0.00272 -0.089959 0.005
+                -0.00272 -0.089959 0.1495
+                -0.00272 0.089959 0.005
+                -0.00272 0.089959 0.1495
+                0.00836 -0.089611 0.005
+                0.00836 -0.089611 0.1495
+                0.00836 0.089611 0.005
+                0.00836 0.089611 0.1495
+                0.019313 -0.087903 0.005
+                0.019313 -0.087903 0.1495
+                0.019313 0.087903 0.005
+                0.019313 0.087903 0.1495
+                0.029972 -0.084863 0.005
+                0.029972 -0.084863 0.1495
+                0.029972 0.084863 0.005
+                0.029972 0.084863 0.1495
+                0.040178 -0.080534 0.005
+                0.040178 -0.080534 0.1495
+                0.040178 0.080534 0.005
+                0.040178 0.080534 0.1495
+                0.049773 -0.074984 0.005
+                0.049773 -0.074984 0.1495
+                0.049773 0.074984 0.005
+                0.049773 0.074984 0.1495
+                0.058614 -0.068297 0.005
+                0.058614 -0.068297 0.1495
+                0.058614 0.068297 0.005
+                0.058614 0.068297 0.1495
+                0.059333 -0.0425 0.005
+                0.059333 -0.0425 0.05
+                0.059333 0.0425 0.005
+                0.059333 0.0425 0.05
+                0.066565 -0.060573 0.005
+                0.066565 -0.060573 0.1495
+                0.066565 0.060573 0.005
+                0.066565 0.060573 0.1495
+                0.073507 -0.05193 0.005
+                0.073507 -0.05193 0.1495
+                0.073507 0.05193 0.005
+                0.073507 0.05193 0.1495
+                0.079333 -0.0425 0.005
+                0.079333 -0.0425 0.05
+                0.079333 -0.0425 0.1495
+                0.079333 0.0425 0.005
+                0.079333 0.0425 0.05
+                0.079333 0.0425 0.1495
+              ]
+            }
+            coordIndex [
+              92, 91, 86, -1, 87, 93, 92, -1, 84, 88,
+              89, -1, 92, 86, 87, -1, 87, 86, 82, -1,
+              87, 82, 83, -1, 83, 82, 74, -1, 83, 74,
+              75, -1, 75, 74, 70, -1, 75, 70, 71, -1,
+              71, 70, 66, -1, 71, 66, 67, -1, 67, 66,
+              62, -1, 67, 62, 63, -1, 63, 62, 58, -1,
+              63, 58, 59, -1, 59, 58, 54, -1, 59, 54,
+              55, -1, 55, 54, 50, -1, 55, 50, 51, -1,
+              51, 50, 46, -1, 51, 46, 47, -1, 47, 46,
+              42, -1, 47, 42, 43, -1, 43, 42, 38, -1,
+              43, 38, 39, -1, 39, 38, 34, -1, 39, 34,
+              35, -1, 35, 34, 30, -1, 35, 30, 31, -1,
+              31, 30, 26, -1, 31, 26, 27, -1, 27, 26,
+              22, -1, 27, 22, 23, -1, 23, 22, 18, -1,
+              23, 18, 19, -1, 19, 18, 14, -1, 19, 14,
+              15, -1, 15, 14, 10, -1, 15, 10, 11, -1,
+              11, 10, 6, -1, 11, 6, 7, -1, 7, 6,
+              2, -1, 7, 2, 3, -1, 3, 2, 0, -1,
+              3, 0, 1, -1, 1, 0, 4, -1, 1, 4,
+              5, -1, 5, 4, 8, -1, 5, 8, 9, -1,
+              9, 8, 12, -1, 9, 12, 13, -1, 13, 12,
+              16, -1, 13, 16, 17, -1, 17, 16, 20, -1,
+              17, 20, 21, -1, 21, 20, 24, -1, 21, 24,
+              25, -1, 25, 24, 28, -1, 25, 28, 29, -1,
+              29, 28, 32, -1, 29, 32, 33, -1, 33, 32,
+              36, -1, 33, 36, 37, -1, 37, 36, 40, -1,
+              37, 40, 41, -1, 41, 40, 44, -1, 41, 44,
+              45, -1, 45, 44, 48, -1, 45, 48, 49, -1,
+              49, 48, 52, -1, 49, 52, 53, -1, 53, 52,
+              56, -1, 53, 56, 57, -1, 57, 56, 60, -1,
+              57, 60, 61, -1, 61, 60, 64, -1, 61, 64,
+              65, -1, 65, 64, 68, -1, 65, 68, 69, -1,
+              69, 68, 72, -1, 69, 72, 73, -1, 73, 72,
+              80, -1, 73, 80, 81, -1, 81, 80, 84, -1,
+              81, 84, 85, -1, 85, 84, 89, -1, 85, 89,
+              90, -1, 17, 21, 25, -1, 35, 31, 65, -1,
+              65, 31, 27, -1, 87, 65, 69, -1, 71, 67,
+              75, -1, 75, 67, 65, -1, 75, 65, 83, -1,
+              83, 65, 87, -1, 55, 51, 59, -1, 59, 51,
+              65, -1, 59, 65, 63, -1, 63, 65, 67, -1,
+              11, 7, 65, -1, 65, 7, 3, -1, 65, 3,
+              1, -1, 25, 45, 49, -1, 90, 93, 85, -1,
+              85, 93, 87, -1, 85, 87, 81, -1, 81, 87,
+              69, -1, 81, 69, 73, -1, 39, 35, 43, -1,
+              43, 35, 65, -1, 43, 65, 47, -1, 47, 65,
+              51, -1, 15, 11, 19, -1, 19, 11, 65, -1,
+              19, 65, 23, -1, 23, 65, 27, -1, 41, 45,
+              37, -1, 37, 45, 25, -1, 37, 25, 33, -1,
+              33, 25, 29, -1, 1, 5, 65, -1, 65, 5,
+              9, -1, 65, 9, 13, -1, 13, 17, 65, -1,
+              65, 17, 25, -1, 65, 25, 61, -1, 61, 25,
+              49, -1, 61, 49, 57, -1, 57, 49, 53, -1,
+              86, 91, 78, -1, 66, 70, 62, -1, 62, 70,
+              74, -1, 62, 74, 58, -1, 58, 74, 82, -1,
+              58, 82, 54, -1, 26, 30, 34, -1, 72, 68,
+              80, -1, 80, 68, 76, -1, 80, 76, 84, -1,
+              84, 76, 88, -1, 52, 48, 76, -1, 76, 48,
+              44, -1, 76, 44, 40, -1, 82, 86, 54, -1,
+              54, 86, 78, -1, 54, 78, 50, -1, 50, 78,
+              76, -1, 50, 76, 46, -1, 46, 76, 42, -1,
+              56, 52, 60, -1, 60, 52, 76, -1, 60, 76,
+              64, -1, 64, 76, 68, -1, 24, 20, 76, -1,
+              76, 20, 16, -1, 28, 24, 32, -1, 32, 24,
+              76, -1, 32, 76, 36, -1, 36, 76, 40, -1,
+              16, 12, 76, -1, 76, 12, 8, -1, 76, 8,
+              4, -1, 10, 14, 76, -1, 76, 14, 18, -1,
+              38, 42, 34, -1, 34, 42, 76, -1, 34, 76,
+              26, -1, 26, 76, 18, -1, 26, 18, 22, -1,
+              6, 10, 2, -1, 2, 10, 76, -1, 2, 76,
+              0, -1, 0, 76, 4, -1, 92, 93, 89, -1,
+              89, 93, 90, -1, 76, 77, 88, -1, 88, 77,
+              89, -1, 77, 79, 89, -1, 89, 79, 92, -1,
+              79, 78, 92, -1, 92, 78, 91, -1, 79, 77,
+              78, -1, 78, 77, 76, -1
+            ]
+          }
+        }
+      ]
+    }
+    DEF IR DistanceSensor {
+      translation 0.075 0.0425 0.023
+      rotation 0 0 1 -1.57
+      name "ir"
+      lookupTable [
+        0 0 0
+        0.085 1000 0
+      ]
+    }
+  ]
+  name "b0"
+  boundingObject USE SSLRobotBodyShape
+  physics Physics {
+    density -1
+    mass 2
+  }
+}
+Ball {
+  translation 0.257084 -0.550148 0.0215
+  radius 0.0215
+  mass 0.046
+  centerOfMass 0 0 0
+}

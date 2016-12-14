@@ -1,0 +1,276 @@
+<?xml version="1.0"?>
+<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+	 xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+	 xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+   xmlns:xacro="http://ros.org/wiki/xacro" 
+	 name="human">
+
+  <xacro:property name="M_PI" value="3.14159"/>
+  <xacro:property name="M_PI_2" value="1.570795"/>
+  <xacro:property name="ARM_MASS" value="1.0"/>
+
+	<xacro:macro name="black">
+		<material name="black">
+			<color rgba="0.1 0.1 0.1 0.9"/>
+		</material>
+	</xacro:macro>
+	
+	<xacro:macro name="white">
+		<material name="white">
+			<color rgba="0.8 0.8 0.8 0.9"/>
+		</material>
+	</xacro:macro>
+
+  <xacro:macro name="default_gazebo" params="name material">
+ 		<gazebo reference="${name}">
+			<material>${material}</material>
+			<selfCollide>false</selfCollide>
+			<turnGravityOff>True</turnGravityOff>
+		  <mu1 value="1.0" />
+		  <mu2 value="1.0" />
+		  <kp  value="1000000.0" />
+		  <kd  value="1000.0" />
+		</gazebo>
+  </xacro:macro>
+  
+  <xacro:macro name="default_inertial" params="mass">
+  	<inertial>
+	  	<mass value="${mass}" />
+		  <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                   iyy="0.001" iyz="0.0"
+                   izz="0.001" />                     
+		</inertial>
+  </xacro:macro>
+
+	<xacro:macro name="shape_cylinder" params="name l r xyz rpy mass material *rviz_color">
+		<link name="${name}">
+			<visual>	
+				<origin xyz="${xyz}" rpy="${rpy}" />
+				<geometry>
+					<cylinder length="${l}" radius="${r}" />
+				</geometry>
+			  <xacro:insert_block name="rviz_color" />				
+      </visual>
+      <collision>
+				<origin xyz="${xyz}" rpy="${rpy}" />
+				<geometry>
+					<cylinder length="${l}" radius="${r}" />
+				</geometry>
+      </collision>
+      <xacro:default_inertial mass="${mass}" />
+    </link>
+    <xacro:default_gazebo name="${name}" material="${material}" />
+	</xacro:macro>
+	
+	<xacro:macro name="shape_sphere" params="name r xyz rpy mass material *rviz_color">
+		<link name="${name}">
+			<visual>	
+				<origin xyz="${xyz}" rpy="${rpy}" />
+				<geometry>
+					<sphere radius="${r}" />
+				</geometry>
+			  <xacro:insert_block name="rviz_color" />				
+      </visual>
+      <collision>
+				<origin xyz="${xyz}" rpy="${rpy}" />
+				<geometry>
+					<sphere radius="${r}" />
+				</geometry>
+      </collision>
+      <xacro:default_inertial mass="${mass}" />
+    </link>
+    <xacro:default_gazebo name="${name}" material="${material}" />
+	</xacro:macro>	
+	
+	<xacro:macro name="shape_box" params="name lwh xyz rpy mass material *rviz_color">
+		<link name="${name}">
+			<visual>
+				<origin xyz="${xyz}" rpy="${rpy}" />
+				<geometry>
+					<box size="${lwh}" />
+				</geometry>
+			  <xacro:insert_block name="rviz_color" />
+      </visual>
+      <collision>
+				<origin xyz="${xyz}" rpy="${rpy}" />
+					<geometry>
+						<box size="${lwh}" />
+					</geometry>
+      </collision>
+      <xacro:default_inertial mass="${mass}" />   
+    </link>
+    <xacro:default_gazebo name="${name}" material="${material}" />
+	</xacro:macro>
+
+  <xacro:shape_box name="base_footprint" lwh="0 0 0" xyz="0 0 0" rpy="0 0 0" mass="0.001" material="Gazebo/FlatBlack">
+    <xacro:black />
+  </xacro:shape_box>
+  
+  <xacro:shape_box name="torso_x" lwh="0.0 0.0 0.0" xyz="0 0 0" rpy="0 0 0" mass="0.001" material="Gazebo/FlatBlack">
+		<xacro:black />
+  </xacro:shape_box>
+  
+  <xacro:shape_box name="torso_y" lwh="0.0 0.0 0.0" xyz="0 0 0" rpy="0 0 0" mass="0.001" material="Gazebo/FlatBlack">
+		<xacro:black />
+  </xacro:shape_box>
+  
+  <xacro:shape_box name="torso_z" lwh="0.0 0.0 0.0" xyz="0 0 0" rpy="0 0 0" mass="0.001" material="Gazebo/FlatBlack">
+		<xacro:black />
+  </xacro:shape_box>
+  
+  <xacro:shape_box name="torso_roll" lwh="0.0 0.0 0.0" xyz="0 0 0" rpy="0 0 0" mass="0.001" material="Gazebo/FlatBlack">
+		<xacro:black />
+  </xacro:shape_box>
+  
+  <xacro:shape_box name="torso_pitch" lwh="0.0 0.0 0.0" xyz="0 0 0" rpy="0 0 0" mass="0.001" material="Gazebo/FlatBlack">
+		<xacro:black />
+  </xacro:shape_box>
+  
+  <xacro:shape_box name="torso_yaw" lwh="0.13 0.30 0.60" xyz="0 0 0" rpy="0 0 0" mass="0.001" material="Gazebo/FlatBlack">
+		<xacro:black />
+  </xacro:shape_box>
+
+  <joint name="base_footprint_to_torso_x" type="prismatic">
+    <parent link="base_footprint"/>
+    <child link="torso_x"/>
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+  </joint>
+  
+  <joint name="torso_x_to_torso_y" type="prismatic">
+    <parent link="torso_x"/>
+    <child link="torso_y"/>
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <!--limit upper="2" lower="-2" effort="100" velocity="5" /-->    
+  </joint>
+  
+  <joint name="torso_y_to_torso_z" type="prismatic">
+    <parent link="torso_y"/>
+    <child link="torso_z"/>
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <axis xyz="0 0 1" />
+  </joint>  
+
+  <joint name="torso_z_to_torso_roll" type="continuous">
+    <parent link="torso_z"/>
+    <child link="torso_roll"/>
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <axis xyz="-1 0 0" />
+  </joint>
+  
+  <joint name="torso_roll_to_torso_pitch" type="continuous">
+    <parent link="torso_roll"/>
+    <child link="torso_pitch"/>
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <axis xyz="0 -1 0" />
+  </joint>  
+
+  <joint name="torso_pitch_to_torso_yaw" type="continuous">
+    <parent link="torso_pitch"/>
+    <child link="torso_yaw"/>
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <axis xyz="0 0 1" />
+  </joint>
+  
+  <xacro:shape_cylinder name="neck" l="0.14" r="0.05" xyz="0 0 0" rpy="0 0 0" mass="0.001" material="Gazebo/FlatBlack">
+		<xacro:black />
+  </xacro:shape_cylinder>  
+  	
+  <joint name="torso_yaw_to_neck" type="prismatic">
+    <parent link="torso_yaw"/>
+    <child link="neck"/>
+    <origin xyz="0 0 0.30" rpy="0 0 0" />
+  </joint>
+
+  <xacro:shape_sphere name="head" r="0.10" xyz="0 0 0" rpy="0 0 0" mass="0.001" material="Gazebo/FlatWhite">
+		<xacro:white />
+  </xacro:shape_sphere>
+  
+  <joint name="neck_to_head" type="prismatic">
+    <parent link="neck"/>
+    <child link="head"/>
+    <origin xyz="0 0 0.12" rpy="0 0 0" />
+  </joint>  
+  	
+  <xacro:shape_sphere name="l_shoulder" r="0.05" xyz="0 0 0" rpy="0 0 0" mass="0.001" material="Gazebo/FlatWhite">
+		<xacro:white />
+  </xacro:shape_sphere> 
+	
+  <xacro:shape_sphere name="r_shoulder" r="0.05" xyz="0 0 0" rpy="0 0 0" mass="0.001" material="Gazebo/FlatWhite">
+		<xacro:white />
+  </xacro:shape_sphere>
+
+  <joint name="torso_yaw_to_l_shoulder" type="prismatic">
+    <parent link="torso_yaw"/>
+    <child link="l_shoulder"/>
+    <origin xyz="0 -0.15 0.25" rpy="0 0 0" />
+  </joint>
+  
+  <joint name="torso_yaw_to_r_shoulder" type="prismatic">
+    <parent link="torso_yaw"/>
+    <child link="r_shoulder"/>
+    <origin xyz="0 0.15 0.25" rpy="0 0 0" />
+  </joint>
+
+  <xacro:shape_cylinder name="r_upper_arm_roll" l="0.0" r="0.0" xyz="0 0 0" rpy="0 0 0" mass="0.001" material="Gazebo/FlatBlack">
+		<xacro:black />
+  </xacro:shape_cylinder>
+
+  <xacro:shape_cylinder name="l_upper_arm_roll" l="0.0" r="0.0" xyz="0 0 0" rpy="0 0 0" mass="0.001" material="Gazebo/FlatBlack">
+		<xacro:black />
+  </xacro:shape_cylinder>
+
+  <xacro:shape_cylinder name="r_upper_arm_pitch" l="0.0" r="0.0" xyz="0 0 0" rpy="0 0 0" mass="0.001" material="Gazebo/FlatBlack">
+		<xacro:black />
+  </xacro:shape_cylinder>
+
+  <!--xacro:shape_cylinder name="l_upper_arm_pitch" l="0.0" r="0.0" xyz="0 0 0" rpy="0 0 0" mass="0.001" material="Gazebo/FlatBlack">
+		<xacro:black />
+  </xacro:shape_cylinder>
+  
+  <xacro:shape_cylinder name="r_upper_arm_yaw" l="0.28" r="0.05" xyz="0 0.14 0" rpy="0 0 0" mass="0.001" material="Gazebo/FlatBlack">
+		<xacro:black />
+  </xacro:shape_cylinder>
+
+  <xacro:shape_cylinder name="l_upper_arm_yaw" l="0.28" r="0.05" xyz="0 -0.14 0" rpy="0 0 0" mass="0.001" material="Gazebo/FlatBlack">
+		<xacro:black />
+  </xacro:shape_cylinder-->
+  
+  <joint name="r_shoulder_to_r_upper_arm_roll" type="continuous">
+    <parent link="r_shoulder"/>
+    <child link="r_upper_arm_roll"/>
+    <origin xyz="-1 0 0" rpy="0 0 0" />
+  </joint>
+  
+  <joint name="r_upper_arm_roll_to_pitch" type="continuous">
+    <parent link="r_upper_arm_roll"/>
+    <child link="r_upper_arm_pitch"/>
+    <origin xyz="0 -1 0" rpy="0 0 0" />
+  </joint>
+    
+  <joint name="r_upper_arm_pitch_to_yaw" type="continuous">
+    <parent link="r_upper_arm_pitch"/>
+    <child link="r_upper_arm_yaw"/>
+    <origin xyz="0 0 1" rpy="0 0 0" />
+  </joint>
+  
+  <!--joint name="l_shoulder_to_l_upper_arm_roll" type="continuous">
+    <parent link="l_shoulder"/>
+    <child link="l_upper_arm_roll"/>
+    <origin xyz="1 0 0" rpy="0 0 0" />
+  </joint>
+  
+  <joint name="l_upper_arm_roll_to_pitch" type="continuous">
+    <parent link="l_upper_arm_roll"/>
+    <child link="l_upper_arm_pitch"/>
+    <origin xyz="0 -1 0" rpy="0 0 0" />
+  </joint>
+    
+  <joint name="l_upper_arm_pitch_to_yaw" type="continuous">
+    <parent link="l_upper_arm_pitch"/>
+    <child link="l_upper_arm_yaw"/>
+    <origin xyz="0 0 1" rpy="0 0 0" />
+  </joint-->  
+  
+</robot>

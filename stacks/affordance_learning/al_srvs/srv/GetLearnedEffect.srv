@@ -1,0 +1,4 @@
+al_msgs/FeatureVector feature_vector
+int8 behavior_id
+---
+al_msgs/Effect[] effects

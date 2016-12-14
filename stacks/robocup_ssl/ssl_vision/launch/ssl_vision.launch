@@ -1,0 +1,8 @@
+<launch>
+
+	<rosparam command="load" file="$(find ssl_vision)/config/ssl_vision_conf.yaml" />
+	<node pkg="ssl_vision" type="ssl_vision" name="ssl_vision" output="screen">
+		<param name="is_sim" value="$(optenv IS_SIM false)"/>
+  </node>
+
+</launch>

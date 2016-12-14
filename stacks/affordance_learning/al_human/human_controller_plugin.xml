@@ -1,0 +1,5 @@
+<library path="lib/human_controller">
+  <class name="al_human/HumanControllerPlugin" 
+         type="human_controller_ns::HumanControllerClass"           
+         base_class_type="pr2_controller_interface::Controller" />
+</library>

@@ -1,0 +1,213 @@
+<?xml version="1.0"?>
+<robot xmlns:xi="http://www.w3.org/2001/XInclude"
+       xmlns:gazebo="http://playerstage.sourceforge.net/gazebo/xmlschema/#gz"
+       xmlns:model="http://playerstage.sourceforge.net/gazebo/xmlschema/#model"
+       xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+       xmlns:body="http://playerstage.sourceforge.net/gazebo/xmlschema/#body"
+       xmlns:geom="http://playerstage.sourceforge.net/gazebo/xmlschema/#geom"
+       xmlns:joint="http://playerstage.sourceforge.net/gazebo/xmlschema/#joint"
+       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+       xmlns:rendering="http://playerstage.sourceforge.net/gazebo/xmlschema/#rendering"
+       xmlns:renderable="http://playerstage.sourceforge.net/gazebo/xmlschema/#renderable"
+       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+       xmlns:physics="http://playerstage.sourceforge.net/gazebo/xmlschema/#physics"
+       xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" name="human">
+
+  <xacro:property name="M_PI" value="3.14159"/>
+  <xacro:property name="M_PI_2" value="1.570795"/>
+  <xacro:property name="ARM_MASS" value="1.0"/>
+
+	<xacro:macro name="black">
+		<material name="black">
+			<color rgba="0.1 0.1 0.1 0.9"/>
+		</material>
+	</xacro:macro>
+	
+	<xacro:macro name="white">
+		<material name="white">
+			<color rgba="0.8 0.8 0.8 0.9"/>
+		</material>
+	</xacro:macro>
+
+  <xacro:macro name="default_gazebo" params="name material">
+ 		<gazebo reference="${name}">
+			<material>${material}</material>
+			<selfCollide>false</selfCollide>
+			<turnGravityOff>false</turnGravityOff>
+		  <mu1 value="1.0" />
+		  <mu2 value="1.0" />
+		  <kp  value="1000000.0" />
+		  <kd  value="1000.0" />
+		</gazebo>
+  </xacro:macro>
+  
+  <xacro:macro name="default_inertial" params="mass">
+  	<inertial>
+	  	<mass value="${mass}" />
+		  <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                   iyy="0.001" iyz="0.0"
+                   izz="0.001" />                     
+		</inertial>
+  </xacro:macro>
+
+	<xacro:macro name="shape_cylinder" params="name l r xyz rpy mass material *rviz_color">
+		<link name="${name}">
+			<visual>	
+				<origin xyz="${xyz}" rpy="${rpy}" />
+				<geometry>
+					<cylinder length="${l}" radius="${r}" />
+				</geometry>
+			  <xacro:insert_block name="rviz_color" />				
+      </visual>
+      <collision>
+				<origin xyz="${xyz}" rpy="${rpy}" />
+				<geometry>
+					<cylinder length="${l}" radius="${r}" />
+				</geometry>
+      </collision>
+      <xacro:default_inertial mass="${mass}" />
+    </link>
+    <xacro:default_gazebo name="${name}" material="${material}" />
+	</xacro:macro>
+	
+	<xacro:macro name="shape_sphere" params="name r xyz rpy mass material *rviz_color">
+		<link name="${name}">
+			<visual>	
+				<origin xyz="${xyz}" rpy="${rpy}" />
+				<geometry>
+					<sphere radius="${r}" />
+				</geometry>
+			  <xacro:insert_block name="rviz_color" />				
+      </visual>
+      <collision>
+				<origin xyz="${xyz}" rpy="${rpy}" />
+				<geometry>
+					<sphere radius="${r}" />
+				</geometry>
+      </collision>
+      <xacro:default_inertial mass="${mass}" />
+    </link>
+    <xacro:default_gazebo name="${name}" material="${material}" />
+	</xacro:macro>	
+	
+	<xacro:macro name="shape_box" params="name lwh xyz rpy mass material *rviz_color">
+		<link name="${name}">
+			<visual>
+				<origin xyz="${xyz}" rpy="${rpy}" />
+				<geometry>
+					<box size="${lwh}" />
+				</geometry>
+			  <xacro:insert_block name="rviz_color" />
+      </visual>
+      <collision>
+				<origin xyz="${xyz}" rpy="${rpy}" />
+					<geometry>
+						<box size="${lwh}" />
+					</geometry>
+      </collision>
+      <xacro:default_inertial mass="${mass}" />   
+    </link>
+    <xacro:default_gazebo name="${name}" material="${material}" />
+	</xacro:macro>
+
+	<!--link name="base_footprint">
+	<visual>
+		<origin xyz="0 0 0" rpy="0 0 0" />
+		<geometry>
+			<box size="0 0 0" />
+		</geometry-->
+	  <!--xacro:insert_block name="rviz_color" /-->
+      <!--/visual>
+      <collision>
+		<origin xyz="0 0 0" rpy="0 0 0" />
+		<geometry>
+			<box size="0 0 0" />
+		</geometry>
+      </collision>
+    </link>
+    <xacro:default_gazebo name="base_footprint" material="Gazebo/FlatBlack" /-->
+
+  <xacro:shape_box name="base_footprint" lwh="0 0 0" xyz="0 0 0" rpy="0 0 0" mass="0.001" material="Gazebo/FlatBlack">
+    <xacro:black />
+  </xacro:shape_box>
+  
+  <xacro:shape_box name="torso_x" lwh="0.30 0.60 0.13" xyz="0 0 0" rpy="0 0 0" mass="0.001" material="Gazebo/FlatBlack">
+		<xacro:black />
+  </xacro:shape_box>  
+  
+  <!--xacro:shape_box name="torso_x" lwh="0.0 0.0 0.0" xyz="0 0 0" rpy="0 0 0" mass="0.001" material="Gazebo/FlatBlack">
+		<xacro:black />
+  </xacro:shape_box>
+  
+  <xacro:shape_box name="torso_y" lwh="0.0 0.0 0.0" xyz="0 0 0" rpy="0 0 0" mass="0.001" material="Gazebo/FlatBlack">
+		<xacro:black />
+  </xacro:shape_box-->
+  
+  <!--xacro:shape_box name="torso_z" lwh="0.0 0.0 0.0" xyz="0 0 0" rpy="0 0 0" mass="0.001" material="Gazebo/FlatBlack">
+		<xacro:black />
+  </xacro:shape_box-->
+  
+  <!--xacro:shape_box name="torso_z" lwh="0.30 0.60 0.13" xyz="0 0 0" rpy="0 0 0" mass="0.001" material="Gazebo/FlatBlack">
+		<xacro:black />
+  </xacro:shape_box-->  
+  
+  <joint name="base_footprint_to_torso_x" type="prismatic"><!-- fixed -->
+    <parent link="base_footprint"/>
+    <child link="torso_x"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0" />    
+  </joint>
+
+  <!--joint name="torso_x_to_torso_y" type="prismatic">
+    <parent link="torso_x"/>
+    <child link="torso_y"/>
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+  </joint>
+
+  <joint name="torso_y_to_torso_z" type="prismatic">
+    <parent link="torso_y"/>
+    <child link="torso_z"/>
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <axis xyz="0 0 1" />
+  </joint-->
+
+<!-- Transmission is important to link the joints and the controller -->
+<transmission name="trans_torso_x" type="SimpleTransmission">
+	<actuator name="motor_torso_x" />
+	<joint name="base_footprint_to_torso_x" />
+	<mechanicalReduction>1</mechanicalReduction>
+	<motorTorqueConstant>1</motorTorqueConstant>
+</transmission>z
+
+<!--transmission name="trans_torso_y" type="SimpleTransmission">
+	<actuator name="motor_torso_y" />
+	<joint name="torso_x_to_torso_y" />
+	<mechanicalReduction>1</mechanicalReduction>
+	<motorTorqueConstant>1</motorTorqueConstant>
+</transmission>
+
+<transmission name="trans_torso_z" type="SimpleTransmission">
+	<actuator name="motor_torso_z" />
+	<joint name="torso_y_to_torso_z" />
+	<mechanicalReduction>1</mechanicalReduction>
+	<motorTorqueConstant>1</motorTorqueConstant>
+</transmission-->
+
+ <gazebo>
+  <controller:gazebo_ros_time name="gazebo_ros_time" plugin="libgazebo_ros_time.so">
+	<alwaysOn>true</alwaysOn>
+	<updateRate>1000.0</updateRate>
+	<interface:audio name="dummy_gazebo_ros_time_iface_should_not_be_here"/>
+  </controller:gazebo_ros_time>
+
+  <!-- PR2_ACTARRAY -->
+  <controller:gazebo_ros_controller_manager name="gazebo_ros_controller_manager" plugin="libgazebo_ros_controller_manager.so">
+	<alwaysOn>true</alwaysOn>
+	<updateRate>1000.0</updateRate>
+	<interface:audio name="gazebo_ros_controller_manager_dummy_iface" />
+  </controller:gazebo_ros_controller_manager>
+
+  </gazebo>
+
+</robot>

@@ -1,0 +1,14 @@
+<launch>
+
+	<param name="human_description" command="$(find xacro)/xacro.py '$(find al_human)/defs/human3.urdf.xacro'"/>
+
+	<node pkg="al_human" type="camera_state_pub" name="camera_state_pub" output="screen" />
+	
+	<arg name="camera" default="camera"/>
+	<node pkg="openni_tracker" type="openni_tracker" name="openni_tracker" output="screen">
+	  <param name="camera_frame_id" type="string" value="$(arg camera)_depth_frame"/>
+	</node>
+	
+	<!--node pkg="al_human" type="human_state_pub" name="human_state_pub" output="screen" /-->
+
+</launch>

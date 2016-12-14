@@ -1,0 +1,30 @@
+<package>
+  <description brief="al_human">
+
+     al_human
+
+  </description>
+  <author>kadir</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/al_human</url>
+  <depend package="tf"/>
+  <depend package="sensor_msgs"/>
+  <depend package="gazebo_msgs"/>
+  <depend package="roscpp"/>
+  <depend package="robot_state_publisher"/>
+  <depend package="kdl_parser"/>
+  <depend package="al_utils"/>
+  <depend package="wiimote"/>
+  <depend package="std_srvs"/>
+  <depend package="pr2_controller_interface"/>
+  <depend package="pr2_mechanism_model"/>
+  <depend package="pluginlib"/>      
+
+  <export>
+    <pr2_controller_interface plugin="${prefix}/human_controller_plugin.xml" />
+  </export>
+    
+</package>
+
+

@@ -1,0 +1,6 @@
+<launch>
+  <node name="human" pkg="pocketsphinx" type="recognizer.py" output="screen">
+    <param name="lm" value="$(find al_speech_parser)/config/6611.lm"/>
+    <param name="dict" value="$(find al_speech_parser)/config/6611.dic"/>
+  </node>
+</launch>

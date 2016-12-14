@@ -1,0 +1,58 @@
+# 2012 RoboCup Small Size League Field
+# Author: Kadir Firat Uyanik <kadir@ceng.metu.edu.tr>
+# Last modification: 07 Sep 2011
+
+PROTO SSLField2012 []
+{
+Solid {
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          shininess 1
+        }
+        texture ImageTexture {
+          url [
+            "textures/ssl_field_2012.jpg"
+          ]
+        }
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            3.7 2.7 0
+            -3.7 2.7 0
+            -3.7 -2.7 0
+             3.7 -2.7 0
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            1 0
+            1 1
+            0 1
+          ]
+        }
+        ccw TRUE
+        coordIndex [
+          0 1 2 3 -1
+        ]
+        texCoordIndex [
+          1 0 3 2 -1
+        ]
+      }
+    }
+  ]
+  name "field"
+  boundingObject Transform {
+    rotation 1 0 0 1.5708
+    children [
+      Plane {
+        size 7.4 5.4
+      }
+    ]
+  }
+  locked TRUE
+}
+}

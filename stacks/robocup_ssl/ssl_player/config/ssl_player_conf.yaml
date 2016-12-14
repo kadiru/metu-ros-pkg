@@ -1,0 +1,8 @@
+Kinematics:
+  RobotRadius: 0.085 # in meters
+  WheelRadius: 0.025 # in meters
+  WheelPlacements: # x_dir: front, y_dir: left, in degrees
+    Wheel0: 60
+    Wheel1: 135
+    Wheel2: -135
+    Wheel3: -60

@@ -1,0 +1,71 @@
+PROTO SSLRobotOmniWheel[
+  field SFRotation rotation 0 0 1 0
+  field SFString name "wheel1"
+]
+{
+    Solid {
+      rotation IS rotation
+      children [
+        DEF WHEEL_MOTOR Servo {
+          translation 0.0775 0 0.025
+          rotation 1 0 0 12.5362
+          children [
+#			SSLRobotRoller {
+#				servo_translation 0 0 0.023
+#				roller_transform_rotation 0 0 1 0
+#				servo_axial_rotation 0 1 0 0
+#				name "roller0"
+#			}
+SSLRobotRoller { servo_translation 0 0 0.023 roller_transform_rotation -1 0 0 0 servo_axial_rotation 0 1 0 0 name "roller0"}
+SSLRobotRoller { servo_translation 0 0.01626 0.01626 roller_transform_rotation -1 0 0 0.7853 servo_axial_rotation 0 0.7071 -0.7071 0 name "roller1"}
+SSLRobotRoller { servo_translation 0 0.023 0.0 roller_transform_rotation -1 0 0 1.5707 servo_axial_rotation 0 0 -1 0 name "roller2"}
+SSLRobotRoller { servo_translation 0 0.01626 -0.01626 roller_transform_rotation -1 0 0 2.3561 servo_axial_rotation 0 -0.7071 -0.7071 0 name "roller3"}
+SSLRobotRoller { servo_translation 0 0.0 -0.023 roller_transform_rotation -1 0 0 3.1415 servo_axial_rotation 0 -1 0 0 name "roller4"}
+SSLRobotRoller { servo_translation 0 -0.01626 -0.01626 roller_transform_rotation -1 0 0 3.9269 servo_axial_rotation 0 -0.7071 0.7071 0 name "roller5"}
+SSLRobotRoller { servo_translation 0 -0.023 0.0 roller_transform_rotation -1 0 0 4.7123 servo_axial_rotation 0 0 1 0 name "roller6"}
+SSLRobotRoller { servo_translation 0 -0.01626 0.01626 roller_transform_rotation -1 0 0 5.4977 servo_axial_rotation 0 0.7071 0.7071 0 name "roller7"}
+            Transform {
+              rotation 0 0 1 1.57
+              children [
+                DEF WHEEL_SHAPE Shape {
+                  appearance Appearance {
+                    material Material {
+                      diffuseColor 0.678431 0.847059 0.901961
+                    }
+                  }
+                  geometry Cylinder {
+                    height 0.01
+                    radius 0.025
+                    subdivision 20
+                  }
+                }
+              ]
+            }
+          ]
+          name IS name
+          boundingObject Transform {
+            rotation 0 0 1 1.57
+            children [
+              USE WHEEL_SHAPE
+            ]
+          }
+          physics Physics {
+            coulombFriction 5
+            forceDependentSlip 0.2
+          }
+          maxVelocity 100
+          position 1.56702
+        }
+      ]
+      boundingObject DEF DUMMY Transform {
+        translation 0 0 0.025
+        children [
+          Sphere {
+            radius 0.001
+          }
+        ]
+      }
+      physics DEF DUMMY_PHYSICS Physics {
+      }      
+    }
+}

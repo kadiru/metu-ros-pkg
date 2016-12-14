@@ -1,0 +1,7 @@
+Field:
+  width: 6.050
+  height: 4.050
+  outer_width: 6.550
+  outer_height: 4.550
+Teams:
+  capacity: 5 # 5 robots each team

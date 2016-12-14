@@ -1,0 +1,53 @@
+<launch>
+
+  <include file="$(find al_robots)/launch/icub.launch"/>
+
+  <node pkg="robot_self_filter" type="self_filter" respawn="true" output="screen" name="self_filter">
+    <remap from="cloud_in" to="/camera/depth_registered/points" />
+    <remap from="cloud_out" to="/perception_input_cloud" />
+
+     <!-- The frame of the sensor used to obtain the data to be
+       filtered; This parameter is optional. If it is not specified,
+       shadow points will be considered outside -->
+     <param name="sensor_frame" type="string" value="/camera_link" />
+
+     <param name="min_sensor_dist" type="double" value="0.01" />
+
+     <!-- The padding to be added for the body parts the robot can see -->
+     <param name="self_see_padd" type="double" value="0.02" />
+
+     <!-- The scaling to be added for the body parts the robot can see -->
+     <param name="self_see_scale" type="double" value="1.0" />
+    
+         <!-- The names of the links the sensor can see -->
+     <!-- The names of the links the sensor can see -->
+		<rosparam file="$(find al_robots)/conf/icub_self_filter.yaml" command="load" />
+		<param name="subsample_value" type="double" value="0.0"/>
+  </node>
+
+    <node pkg="tabletop_object_detector" name="tabletop_segmentation" type="tabletop_segmentation" respawn="true" output="screen">
+    <remap from="cloud_in" to="/perception_input_cloud" />
+    <!--remap from="cloud_in" to="/kinect_camera/points" /-->
+    <remap from="segmentation_srv" to="tabletop_segmentation" />
+    <remap from="markers_out" to="tabletop_segmentation_markers" />
+    	  <param name="inlier_threshold" value="600" />
+	  <param name="plane_detection_voxel_size" value="0.01" />
+	  <param name="cluster_distance" value="0.02" />
+	  <param name="min_cluster_size" value="200" />
+	  <param name="processing_frame" value="base_footprint" />
+	  <param name="up_direction" value="1.0" /><!-- gravity is 1.0 direction -->
+	  <param name="tabletop_segmentation/z_filter_min" type="double" value="-2.0" />
+	  <param name="tabletop_segmentation/z_filter_max" type="double" value="2.0" />
+	  <param name="tabletop_segmentation/y_filter_min" type="double" value="-2.0" />
+	  <param name="tabletop_segmentation/y_filter_max" type="double" value="2.0" />
+	  <param name="tabletop_segmentation/x_filter_min" type="double" value="-2.0" />
+	  <param name="tabletop_segmentation/x_filter_max" type="double" value="2.0" />
+	  <!--param name="table_z_filter_min" value="-0.50" />
+	  <param name="table_z_filter_max" value="-0.01" /-->
+	  <param name="table_z_filter_min" value="-0.50" />
+	  <param name="table_z_filter_max" value="-0.01" />
+    </node>
+
+  <node name="cluster_bounding_box_finder" pkg="object_manipulator" type="cluster_bounding_box_finder_server.py" output="screen" respawn="false" />
+
+</launch>

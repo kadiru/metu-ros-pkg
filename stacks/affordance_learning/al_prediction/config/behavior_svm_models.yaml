@@ -1,0 +1,38 @@
+svm_models:
+  behavior:
+    REACH:
+      model_file_path: behavior_models/reach.svm.model
+      relevant_f_indices: [126]
+      scale_file_path: behavior_models/reach_scaled.svm.data
+    GRASP_TOP:
+      model_file_path: behavior_models/top_grasp.svm.model
+      relevant_f_indices: [58,128,132,2,30,28,84,78,29,37,86,85,126,1,129,13,105,16,88,31,103,53,33,12,32]
+      scale_file_path: behavior_models/top_grasp_scaled.svm.data
+    GRASP_SIDE:
+      model_file_path: behavior_models/side_grasp.svm.model
+      relevant_f_indices: [126,56,81,6,118]
+      scale_file_path: behavior_models/side_grasp_scaled.svm.data
+    PUSH_RGT:
+      model_file_path: behavior_models/push_right.svm.model
+      relevant_f_indices: [2,132,58,128,30,59,28,84,10,127,9,57,88,8,83,130,7,126,86,31,29,89,85,87,90]
+      scale_file_path: behavior_models/push_right.scale
+    PUSH_LFT:
+      model_file_path: behavior_models/push_left.svm.model
+      relevant_f_indices: [132,128,28,58,30,21,86,8,9,5,87,4,36,129,57,35,31,3,130,29,7,10,85,88,90,89,53,20,55,84,127,83,118,131,19,82,54,27,78,11,56,92,126,81,59,60,103,12,91,17,105,2,25,61,34,119,15,16,6,37,32,14,94,52,24]
+      scale_file_path: behavior_models/push_left.scale
+    PUSH_FWD:
+      model_file_path: behavior_models/newForward.svm.model
+      relevant_f_indices: [126,7,132,2,129,128,9,1,58,30,28,89,31,85,87]
+      scale_file_path: behavior_models/push_forward_scaled.svm.data
+    PUSH_BWD:
+      model_file_path: behavior_models/pull.svm.model
+      relevant_f_indices: [126,7,129,132,2,128,57,9,30,55,83,28,130,29,8]
+      scale_file_path: behavior_models/pull_scaled.svm.data
+    GOT_ATT:
+      model_file_path: behavior_models/got_attention.svm.model
+      relevant_f_indices: [134]
+      scale_file_path: behavior_models/got_attention.scale
+    GOT_SEAT:
+      model_file_path: behavior_models/got_seated.svm.model
+      relevant_f_indices: [134]
+      scale_file_path: behavior_models/got_seated.scale

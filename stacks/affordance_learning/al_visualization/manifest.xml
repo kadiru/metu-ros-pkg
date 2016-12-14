@@ -1,0 +1,17 @@
+<package>
+  <description brief="al_visualization">
+
+     al_visualization
+
+  </description>
+  <author>kadir</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/al_visualization</url>
+  <depend package="arm_navigation_msgs"/>
+  <depend package="sensor_msgs"/>
+  <depend package="visualization_msgs"/>
+  <depend package="al_utils"/>
+</package>
+
+

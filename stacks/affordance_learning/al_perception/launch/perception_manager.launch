@@ -1,0 +1,4 @@
+<launch>
+	<rosparam command="load" file="$(find al_perception)/config/perception_settings.yaml" />
+	<node name="al_perception" pkg="al_perception" type="al_perception" output="screen"/>
+</launch>

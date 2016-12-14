@@ -1,0 +1,19 @@
+<package>
+  <description brief="al_speech">
+
+     al_speech
+
+  </description>
+  <author>kadir</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/al_speech</url>
+  <depend package="roscpp"/>
+  <depend package="sound_play"/>
+  <depend package="actionlib"/>
+  <depend package="actionlib_msgs"/>
+  <depend package="al_acts"/>
+  <depend package="al_utils"/>
+</package>
+
+

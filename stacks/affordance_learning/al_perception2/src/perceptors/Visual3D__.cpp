@@ -1,0 +1,554 @@
+/*
+ * Visual3D.cpp
+ * Copyright (c) 2011, Kadir Firat Uyanik, Kovan Research Lab, METU
+ * kadir@ceng.metu.edu.tr
+ *
+ * All rights reserved.
+ *
+ * Software License Agreement (BSD License)
+ *
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of Kovan Lab nor the names of its
+ *       contributors may be used to endorse or promote products derived from
+ *       this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+#include "al_perception2/perceptors/Visual3D.h"
+
+namespace al
+{
+  namespace perception
+  {
+
+    Visual3D::Visual3D (ros::NodeHandle* nh) :
+        Perceptor (nh)
+    {
+      std::string cloud_in;
+      if (!nh_->getParam ("/input_cloud", cloud_in))
+        ROS_WARN("no such parameter as </input_cloud>");
+      sub_pointcloud_ = nh_->subscribe (cloud_in.c_str (), 10, &Visual3D::pc2RcvdCallback, this);
+      pub_pointcloud_filtered_ = nh_->advertise<sensor_msgs::PointCloud2> (POINTCLOUD_FILTERED, 0);
+
+      is_ready_ = false;
+      pointcloud_rcvd_ = false;
+      pointcloud_data_.reset (new pcl::PointCloud<Point>);
+      filter_cluster_clouds_ = NULL;
+      flatten_table_ = true;
+
+      min_z_limit = 0;
+      max_z_limit = 2.0;
+    }
+
+    void
+    Visual3D::init ()
+    {
+      // if filter_outrem_cloud is active, configure it and add to the filters_cloud_ filter array
+      bool filter_active = false;
+      bool any_filter_active = false;
+      if (nh_->getParam ("/Perceptors/Visual3D/filters/filter_outrem_cloud/is_active", filter_active))
+      {
+        if (filter_active)
+        {
+          pcl::RadiusOutlierRemoval<Point>* filter_outrem = new pcl::RadiusOutlierRemoval<Point> (false);
+          double radius_search = 0.03;
+          if (!nh_->getParam ("/Perceptors/Visual3D/filters/filter_outrem_cloud/radius_search", radius_search))
+          {
+            ROS_WARN("no such parameter as </Perceptors/Visual3D/filters/filter_outrem_cloud/radius_search>");
+          }
+          int min_neighbors_in_radius = 45;
+          if (!nh_->getParam ("/Perceptors/Visual3D/filters/filter_outrem_cloud/min_neighbors_in_radius",
+                              min_neighbors_in_radius))
+          {
+            ROS_WARN("no such parameter as </Perceptors/Visual3D/filters/filter_outrem_cloud/min_neighbors_in_radius>");
+          }
+
+          filter_outrem->setRadiusSearch (radius_search);
+          filter_outrem->setMinNeighborsInRadius (min_neighbors_in_radius);
+
+          filters_cloud_.push_back (filter_outrem);
+        }
+      }
+      else
+      {
+        ROS_WARN("no such parameter as </Perceptors/Visual3D/filters/filter_outrem_cloud/is_active>");
+      }
+      any_filter_active = any_filter_active || filter_active;
+
+      filter_active = false;
+      if (nh_->getParam ("/Perceptors/Visual3D/filters/filter_pass_x_cloud/is_active", filter_active))
+      {
+        if (filter_active)
+        {
+          pcl::PassThrough<Point>* filter_pass_x = new pcl::PassThrough<Point> (false);
+          double min_limit = 0.0;
+          if (!nh_->getParam ("/Perceptors/Visual3D/filters/filter_pass_x_cloud/min_limit", min_limit))
+          {
+            ROS_WARN("no such parameter as </Perceptors/Visual3D/filters/filter_pass_x_cloud/min_limit>");
+          }
+          double max_limit = 2.0;
+          if (!nh_->getParam ("/Perceptors/Visual3D/filters/filter_pass_x_cloud/max_limit", max_limit))
+          {
+            ROS_WARN("no such parameter as </Perceptors/Visual3D/filters/filter_pass_x_cloud/max_limit>");
+          }
+
+          filter_pass_x->setFilterLimits (min_limit, max_limit);
+
+          filters_cloud_.push_back (filter_pass_x);
+        }
+      }
+      else
+      {
+        ROS_WARN("no such parameter as </Perceptors/Visual3D/filters/filter_pass_x_cloud/is_active>");
+      }
+      any_filter_active = any_filter_active || filter_active;
+
+      filter_active = false;
+      if (nh_->getParam ("/Perceptors/Visual3D/filters/filter_pass_y_cloud/is_active", filter_active))
+      {
+        if (filter_active)
+        {
+          pcl::PassThrough<Point>* filter_pass_y = new pcl::PassThrough<Point> (false);
+          double min_limit = 0.0;
+          if (!nh_->getParam ("/Perceptors/Visual3D/filters/filter_pass_y_cloud/min_limit", min_limit))
+          {
+            ROS_WARN("no such parameter as </Perceptors/Visual3D/filters/filter_pass_y_cloud/min_limit>");
+          }
+          double max_limit = 2.0;
+          if (!nh_->getParam ("/Perceptors/Visual3D/filters/filter_pass_y_cloud/max_limit", max_limit))
+          {
+            ROS_WARN("no such parameter as </Perceptors/Visual3D/filters/filter_pass_y_cloud/max_limit>");
+          }
+
+          filter_pass_y->setFilterLimits (min_limit, max_limit);
+
+          filters_cloud_.push_back (filter_pass_y);
+        }
+      }
+      else
+      {
+        ROS_WARN("no such parameter as </Perceptors/Visual3D/filters/filter_pass_y_cloud/is_active>");
+      }
+      any_filter_active = any_filter_active || filter_active;
+
+      filter_active = false;
+      if (nh_->getParam ("/Perceptors/Visual3D/filters/filter_pass_z_cloud/is_active", filter_active))
+      {
+        if (filter_active)
+        {
+          pcl::PassThrough<Point>* filter_pass_z = new pcl::PassThrough<Point> (false);
+//          double min_limit = 0.0;
+          if (!nh_->getParam ("/Perceptors/Visual3D/filters/filter_pass_z_cloud/min_limit", min_z_limit))
+          {
+            ROS_WARN("no such parameter as </Perceptors/Visual3D/filters/filter_pass_z_cloud/min_limit>");
+          }
+//          double max_limit = 2.0;
+          if (!nh_->getParam ("/Perceptors/Visual3D/filters/filter_pass_z_cloud/max_limit", max_z_limit))
+          {
+            ROS_WARN("no such parameter as </Perceptors/Visual3D/filters/filter_pass_z_cloud/max_limit>");
+          }
+
+          filter_pass_z->setFilterLimits (min_z_limit, max_z_limit);
+
+          filters_cloud_.push_back (filter_pass_z);
+        }
+      }
+      else
+      {
+        ROS_WARN("no such parameter as </Perceptors/Visual3D/filters/filter_pass_z_cloud/is_active>");
+      }
+      any_filter_active = any_filter_active || filter_active;
+
+      filter_active = false;
+      if (nh_->getParam ("/Perceptors/Visual3D/filters/filter_outrem_cluster_clouds/is_active", filter_active))
+      {
+        if (filter_active)
+        {
+          filter_cluster_clouds_ = new pcl::RadiusOutlierRemoval<Point> (false);
+          double radius_search = 0.025;
+          if (!nh_->getParam ("/Perceptors/Visual3D/filters/filter_outrem_cluster_clouds/radius_search", radius_search))
+          {
+            ROS_WARN("no such parameter as </Perceptors/Visual3D/filters/filter_outrem_cluster_clouds/radius_search>");
+          }
+          int min_neighbors_in_radius = 45;
+          if (!nh_->getParam ("/Perceptors/Visual3D/filters/filter_outrem_cluster_clouds/min_neighbors_in_radius",
+                              min_neighbors_in_radius))
+          {
+            ROS_WARN(
+                "no such parameter as </Perceptors/Visual3D/filters/filter_outrem_cluster_clouds/min_neighbors_in_radius>");
+          }
+
+          filter_cluster_clouds_->setRadiusSearch (radius_search);
+          filter_cluster_clouds_->setMinNeighborsInRadius (min_neighbors_in_radius);
+        }
+      }
+      else
+      {
+        ROS_WARN("no such parameter as </Perceptors/Visual3D/filters/filter_outrem_cluster_clouds/is_active>");
+      }
+
+      //TODO: buraya grid ile alakali parametreler gelecek
+      if (!nh_->getParam ("/Perceptors/Visual3D/general/table_extraction/plane_detection_voxel_x_",
+                          plane_detection_voxel_x_))
+      {
+        ROS_WARN( "no such parameter as </Perceptors/Visual3D/general/table_extraction/plane_detection_voxel_x_>");
+      }
+      if (!nh_->getParam ("/Perceptors/Visual3D/general/table_extraction/plane_detection_voxel_y_",
+                          plane_detection_voxel_y_))
+      {
+        ROS_WARN( "no such parameter as </Perceptors/Visual3D/general/table_extraction/plane_detection_voxel_y_>");
+      }
+      if (!nh_->getParam ("/Perceptors/Visual3D/general/table_extraction/plane_detection_voxel_z_",
+                          plane_detection_voxel_z_))
+      {
+        ROS_WARN( "no such parameter as </Perceptors/Visual3D/general/table_extraction/plane_detection_voxel_z_>");
+      }
+      if (!nh_->getParam ("/Perceptors/Visual3D/general/objects_extraction/clustering_voxel_x_", clustering_voxel_x_))
+      {
+        ROS_WARN( "no such parameter as </Perceptors/Visual3D/general/objects_extraction/clustering_voxel_y_>");
+      }
+      if (!nh_->getParam ("/Perceptors/Visual3D/general/objects_extraction/clustering_voxel_y_", clustering_voxel_y_))
+      {
+        ROS_WARN( "no such parameter as </Perceptors/Visual3D/general/objects_extraction/clustering_voxel_y_>");
+      }
+      if (!nh_->getParam ("/Perceptors/Visual3D/general/objects_extraction/clustering_voxel_z_", clustering_voxel_z_))
+      {
+        ROS_WARN( "no such parameter as </Perceptors/Visual3D/general/objects_extraction/clustering_voxel_z_>");
+      }
+      if (!nh_->getParam ("/Perceptors/Visual3D/general/table_extraction/flatten_table_", flatten_table_))
+      {
+        ROS_WARN( "no such parameter as </Perceptors/Visual3D/general/table_extraction/flatten_table_>");
+      }
+      if (!nh_->getParam ("/Perceptors/Visual3D/general/table_extraction/inlier_threshold_", inlier_threshold_))
+      {
+        ROS_WARN( "no such parameter as </Perceptors/Visual3D/general/table_extraction/inlier_threshold_>");
+      }
+
+      bool f_normals_active_ = false;
+      if (!nh_->getParam ("/Perceptors/Visual3D/features/normals/is_active", f_normals_active_))
+        ROS_WARN("no such parameter as </Perceptors/Visual3D/features/normals/is_active>");
+
+      //TODO: we probably don't need this to be a member, be sure about it
+      bool f_curvatures_active_ = false;
+      if (!nh_->getParam ("/Perceptors/Visual3D/features/curvatures/is_active", f_curvatures_active_))
+        ROS_WARN("no such parameter as </Perceptors/Visual3D/features/curvatures/is_active>");
+
+      bool f_spatial_active_ = false;
+      if (!nh_->getParam ("/Perceptors/Visual3D/features/spatial/is_active", f_spatial_active_))
+        ROS_WARN("no such parameter as </Perceptors/Visual3D/features/spatial/is_active>");
+
+      bool f_human_active_ = false;
+      if (!nh_->getParam ("/Perceptors/Visual3D/features/human/is_active", f_human_active_))
+        ROS_WARN("no such parameter as </Perceptors/Visual3D/features/human/is_active>");
+      /*
+       if (f_normals_active_ || f_curvatures_active_)
+       {
+       SurfaceFExtractor* surface_feature_extractor = new SurfaceFExtractor (nh_);
+       surface_feature_extractor->enableNormals (f_normals_active_);
+       surface_feature_extractor->enableCurvatures (f_curvatures_active_);
+
+       if (f_normals_active_)
+       {
+       surface_feature_extractor->getNormalEstimator ()->setNumberOfThreads (N_NORMAL_ESTIMATION_THREADS);
+       double radius_search = 0.025;
+       if (!nh_->getParam ("/Perceptors/Visual3D/features/normals/radius_search", radius_search))
+       ROS_WARN("no such parameter as </Perceptors/Visual3D/features/normals/radius_search>");
+       surface_feature_extractor->getNormalEstimator ()->setRadiusSearch (radius_search);
+       }
+       if (f_curvatures_active_)
+       {
+       //TODO:
+       }
+       feature_extractors_.push_back (surface_feature_extractor);
+       }
+
+       if (f_spatial_active_)
+       {
+       SpatialFExtractor* spatial_feature_extractor = new SpatialFExtractor (nh_);
+       feature_extractors_.push_back (spatial_feature_extractor);
+       }
+
+       if (f_human_active_)
+       {
+       HumanFExtractor* human_feature_extractor = new HumanFExtractor (nh_);
+       feature_extractors_.push_back (human_feature_extractor);
+       }
+
+       //DEV_NOTE: this turns out to be necessary, due to some tf related problems, service server somehow drops the TCP connection
+       //This issue needs further clarification/
+       srv_cl_tabletop_detection_
+       = nh_->serviceClient<tabletop_object_detector::TabletopSegmentation> (TABLETOP_SEGMENTATION_SRV_NAME, true);
+       srv_cl_tabletop_detection_.waitForExistence ();
+       srv_cl_tabletop_detection_
+       = nh_->serviceClient<tabletop_object_detector::TabletopSegmentation> (TABLETOP_SEGMENTATION_SRV_NAME, true);
+
+       //wait forever for connections
+       collision_map_.connectionsEstablished (ros::Duration (-1.0));
+       */
+      is_ready_ = true;
+    }
+
+    bool
+    Visual3D::isReady ()
+    {
+      return is_ready_;
+    }
+
+    int
+    Visual3D::percept ()
+    {
+      if (pointcloud_rcvd_)
+      {
+        //extract table and tabletop objects
+
+        //then identify them
+
+        //put to the memory
+
+        //publish all the information as soon as some node is subscribed to
+      }
+      return 1;
+    }
+
+    Visual3D::~Visual3D ()
+    {
+    }
+
+    void
+    Visual3D::pc2RcvdCallback (sensor_msgs::PointCloud2::ConstPtr pc2_msg)
+    {
+      if (!pointcloud_rcvd_)
+        pointcloud_rcvd_ = true;
+
+      pcl::fromROSMsg (*pc2_msg, *pointcloud_data_);
+      ros::Time t1 = ros::Time::now ();
+      for (uint8_t i = 0; i < filters_cloud_.size (); i++)
+      {
+        filters_cloud_[i]->setInputCloud (pointcloud_data_);
+        filters_cloud_[i]->filter (*pointcloud_data_);
+      }
+      ROS_DEBUG("application of all filters take: %f seconds ", (ros::Time::now()-t1).toSec());
+
+      pcl::toROSMsg (*pointcloud_data_, msg_pointcloud_filtered_);
+
+      //first filter the cloud
+      if (pub_pointcloud_filtered_.getNumSubscribers () > 0)
+      {
+        ROS_DEBUG("msg_pointcloud_filtered_ has been sent");
+        pub_pointcloud_filtered_.publish (msg_pointcloud_filtered_);
+      }
+    }
+
+    int
+    Visual3D::extractTableAndObjects (al_msgs::Table & table, std::vector<pcl::PointCloud<Point>::Ptr>& objects)
+    {
+      ROS_INFO("Starting process on new cloud in frame %s", pointcloud_data_->header.frame_id.c_str());
+
+      // PCL objects
+      KdTreePtr normals_tree_, clusters_tree_;
+      pcl::VoxelGrid<Point> grid_, grid_objects_;
+      pcl::PassThrough<Point> pass_;
+      pcl::NormalEstimation<Point, pcl::Normal> n3d_;
+      pcl::SACSegmentationFromNormals<Point, pcl::Normal> seg_;
+      pcl::ProjectInliers<Point> proj_;
+      pcl::ConvexHull<Point> hull_;
+      pcl::ExtractPolygonalPrismData<Point> prism_;
+      pcl::EuclideanClusterExtraction<Point> pcl_cluster_;
+      pcl::PointCloud<Point>::Ptr table_hull_ptr (new pcl::PointCloud<Point>);
+
+      // Filtering parameters
+      grid_.setLeafSize (plane_detection_voxel_x_, plane_detection_voxel_y_, plane_detection_voxel_z_);
+      grid_objects_.setLeafSize (clustering_voxel_x_, clustering_voxel_y_, clustering_voxel_z_);
+      grid_.setFilterFieldName ("z");
+      grid_.setFilterLimits (min_z_limit, max_z_limit);
+      grid_.setDownsampleAllData (false);
+      grid_objects_.setDownsampleAllData (true);
+
+      normals_tree_ = boost::make_shared<pcl::search::KdTree<Point> > ();
+      clusters_tree_ = boost::make_shared<pcl::search::KdTree<Point> > ();
+
+      // Normal estimation parameters
+      n3d_.setKSearch (10);
+      n3d_.setSearchMethod (normals_tree_);
+      // Table model fitting parameters
+      seg_.setDistanceThreshold (0.05);
+      seg_.setMaxIterations (10000);
+      seg_.setNormalDistanceWeight (0.1);
+      seg_.setOptimizeCoefficients (true);
+      seg_.setModelType (pcl::SACMODEL_NORMAL_PLANE);
+      seg_.setMethodType (pcl::SAC_RANSAC);
+      seg_.setProbability (0.99);
+
+      proj_.setModelType (pcl::SACMODEL_PLANE);
+
+      // Clustering parameters
+      pcl_cluster_.setClusterTolerance (cluster_distance_);
+      pcl_cluster_.setMinClusterSize (min_cluster_size_);
+      pcl_cluster_.setSearchMethod (clusters_tree_);
+
+      // Step 1 : Filter, remove NaNs and downsample
+      //this is already done when the point cloud has been received.
+
+      ROS_INFO("Step 1 done");
+      if (pointcloud_data_->points.size () < (unsigned int)min_cluster_size_)
+      {
+        ROS_INFO("Filtered cloud only has %d points", (int)pointcloud_data_->points.size());
+        return (int)NO_TABLE;
+      }
+
+      pcl::PointCloud<Point>::Ptr cloud_downsampled_ptr (new pcl::PointCloud<Point>);
+      grid_.setInputCloud (pointcloud_data_);
+      grid_.filter (*cloud_downsampled_ptr);
+      if (cloud_downsampled_ptr->points.size () < (unsigned int)min_cluster_size_)
+      {
+        ROS_INFO("Downsampled cloud only has %d points", (int)cloud_downsampled_ptr->points.size());
+        return (int)NO_TABLE;
+      }
+
+      // Step 2 : Estimate normals
+      pcl::PointCloud<pcl::Normal>::Ptr cloud_normals_ptr (new pcl::PointCloud<pcl::Normal>);
+      n3d_.setInputCloud (cloud_downsampled_ptr);
+      n3d_.compute (*cloud_normals_ptr);
+      ROS_INFO("Step 2 done");
+
+      // Step 3 : Perform planar segmentation, if table is not given, otherwise use given table
+      tf::Transform table_plane_trans;
+      tf::Transform table_plane_trans_flat;
+      if (table.convex_hull.vertices.size () != 0)
+      {
+        ROS_INFO("Table input, skipping Step 3");
+        bool success = tableMsgToPointCloud (table, pointcloud_data_->header.frame_id, table_hull_ptr);
+        if (!success)
+        {
+          ROS_ERROR("Failure in converting table convex hull!");
+          return (int)OTHER_ERROR;
+        }
+        if (flatten_table_)
+        {
+          ROS_ERROR("flatten_table mode is disabled if table is given!");
+          flatten_table_ = false;
+        }
+      }
+      else
+      {
+        pcl::PointIndices::Ptr table_inliers_ptr (new pcl::PointIndices);
+        pcl::ModelCoefficients::Ptr table_coefficients_ptr (new pcl::ModelCoefficients);
+        seg_.setInputCloud (cloud_downsampled_ptr);
+        seg_.setInputNormals (cloud_normals_ptr);
+        seg_.segment (*table_inliers_ptr, *table_coefficients_ptr);
+
+        if (table_coefficients_ptr->values.size () <= 3)
+        {
+          ROS_INFO("Failed to detect table in scan");
+          return NO_TABLE;
+        }
+
+        if (table_inliers_ptr->indices.size () < (unsigned int)inlier_threshold_)
+        {
+          ROS_INFO(
+              "Plane detection has %d inliers, below min threshold of %d", (int)table_inliers_ptr->indices.size(), inlier_threshold_);
+          return NO_TABLE;
+        }
+
+        ROS_INFO(
+            "[TableObjectDetector::input_callback] Model found with %d inliers: [%f %f %f %f].", (int)table_inliers_ptr->indices.size (), table_coefficients_ptr->values[0], table_coefficients_ptr->values[1], table_coefficients_ptr->values[2], table_coefficients_ptr->values[3]);
+        ROS_INFO("Step 3 done");
+      }
+    }
+
+    bool
+    Visual3D::tableMsgToPointCloud (al_msgs::Table &table, std::string frame_id,
+                                    pcl::PointCloud<Point>::Ptr &table_hull)
+    {
+      //use table.pose (PoseStamped) to transform table.convex_hull.vertices (Point[]) into a pcl::PointCloud in frame_id
+      ros::Time now = ros::Time::now ();
+      pcl::PointCloud<Point>::Ptr table_frame_points;
+      table_frame_points->header.stamp = now;
+      table_frame_points->header.frame_id = "table_frame";
+      table_frame_points->points.resize (table.convex_hull.vertices.size ());
+      for (size_t i = 0; i < table.convex_hull.vertices.size (); i++)
+      {
+        table_frame_points->points[i].x = table.convex_hull.vertices[i].x;
+        table_frame_points->points[i].y = table.convex_hull.vertices[i].y;
+        table_frame_points->points[i].z = table.convex_hull.vertices[i].z;
+      }
+
+      //add the table frame transform to the tf listener
+      tf::Transform table_trans;
+      tf::poseMsgToTF (table.pose.pose, table_trans);
+      tf::StampedTransform table_pose_frame (table_trans, now, table.pose.header.frame_id, "table_frame");
+      listener_.setTransform (table_pose_frame);
+      ROS_INFO("transforming point cloud from table frame to frame %s", frame_id.c_str());
+
+      //make sure we can transform
+      std::string error_msg;
+      if (!listener_.waitForTransform (frame_id, "table_frame", now, ros::Duration (2.0), ros::Duration (0.01),
+                                       &error_msg))
+      {
+        ROS_ERROR(
+            "Can not transform point cloud from table frame to frame %s; error %s", frame_id.c_str(), error_msg.c_str());
+        return false;
+      }
+
+      //transform the points
+      int current_try = 0, max_tries = 3;
+      while (1)
+      {
+        bool transform_success = true;
+        try
+        {
+          pcl_ros::transformPointCloud (frame_id, *table_frame_points, *table_hull, listener_);
+        }
+        catch (tf::TransformException ex)
+        {
+          transform_success = false;
+          if (++current_try >= max_tries)
+          {
+            ROS_ERROR(
+                "Failed to transform point cloud from table frame into frame %s; error %s", frame_id.c_str(), ex.what());
+            return false;
+          }
+          //sleep a bit to give the listener a chance to get a new transform
+          ros::Duration (0.1).sleep ();
+        }
+        if (transform_success)
+          break;
+      }
+      table_hull->header.frame_id = frame_id;
+      table_hull->header.stamp = now;
+
+      //copy the transformed points back into the Table message and set the pose to identity in the cloud frame
+      for (size_t i = 0; i < table.convex_hull.vertices.size (); i++)
+      {
+        table.convex_hull.vertices[i].x = table_hull->points[i].x;
+        table.convex_hull.vertices[i].y = table_hull->points[i].y;
+        table.convex_hull.vertices[i].z = table_hull->points[i].z;
+      }
+      geometry_msgs::PoseStamped iden;
+      iden.pose.orientation.w = 1;
+      table.pose = iden;
+      table.pose.header.frame_id = frame_id;
+
+      return SUCCESS;
+    }
+  }
+}

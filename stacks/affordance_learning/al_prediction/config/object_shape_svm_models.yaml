@@ -1,0 +1,6 @@
+svm_models:
+  object:
+    SHAPE:
+      model_file_path: object_models/shape.svm.model
+      relevant_f_indices: [57,58,85,7,130,129,10,82,53,132,87,8,84,54,9,78,86,30,28,56,83,31,118,88,55,32,103,131,59,11,128,105,1,29,3]
+      scale_file_path: object_models/shape.scale

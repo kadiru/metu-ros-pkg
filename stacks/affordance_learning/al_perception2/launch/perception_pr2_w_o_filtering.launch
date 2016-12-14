@@ -1,0 +1,63 @@
+<launch>
+
+  <arg name="use_right_arm" default="true" />
+  <arg name="use_left_arm" default="true" />
+
+  <arg if="$(arg use_right_arm)"      name="right_arm_text" value="right" />
+  <arg unless="$(arg use_right_arm)"  name="right_arm_text" value="" />
+  <arg if="$(arg use_left_arm)"       name="left_arm_text" value="left" />
+  <arg unless="$(arg use_left_arm)"   name="left_arm_text" value="" />
+  <arg name="arm_config" value="$(arg right_arm_text)_$(arg left_arm_text)" />
+
+  <include file="$(find pr2_machine)/$(env ROBOT).machine" />
+
+  <!--node pkg="point_cloud_converter" name="point_cloud_converter_preself" type="point_cloud_converter">
+        <remap from="/points_in" to="/swissranger/scan" />
+        <remap from="/points2_out" to="/swissranger/pointcloud2_raw" />
+  </node-->
+  
+  <!--param name="robot_description" command="$(find xacro)/xacro.py '$(find pr2_gazebo)/robots/pr2_with_kinect.urdf.xacro'" /-->
+  
+  
+  <!-- pr2 self filter kinect data -->
+  <!--node pkg="robot_self_filter" type="self_filter" respawn="true" name="pr2_self_filter" output="screen">
+     <remap from="cloud_in" to="/kinect_camera/points" />
+     <remap from="cloud_out" to="/pointcloud2_pr2_self_filtered" />    
+     <param name="sensor_frame" type="string" value="/head_kinect_optical_frame" />         
+     <param name="subsample_value" type="double" value=".01"/>
+     <rosparam command="load" file="$(find pr2_arm_navigation_perception)/config/self_filter_$(arg arm_config).yaml" />
+  </node-->
+
+    <node pkg="tabletop_object_detector" name="tabletop_segmentation" type="tabletop_segmentation" respawn="true" output="screen">
+    <!--remap from="cloud_in" to="/pointcloud2_pr2_self_filtered" /-->
+    <remap from="cloud_in" to="/head_mount_kinect/depth/points" />
+    <!--remap from="cloud_in" to="/kinect_camera/points" /-->
+    <remap from="segmentation_srv" to="tabletop_segmentation" />
+    <remap from="markers_out" to="tabletop_segmentation_markers" />
+
+		<param name="inlier_threshold" value="300" />
+		<param name="plane_detection_voxel_size" value="0.01" />
+		<param name="cluster_distance" value="0.03" />
+		<param name="min_cluster_size" value="50" />
+		<param name="processing_frame" value="base_footprint" />
+		<param name="up_direction" value="1.0" /><!-- gravity is 1.0 direction -->
+		<param name="tabletop_segmentation/z_filter_min" type="double" value="0.50" />
+		<param name="tabletop_segmentation/z_filter_max" type="double" value="1.3" />
+		<param name="tabletop_segmentation/y_filter_min" type="double" value="-1.2" />
+		<param name="tabletop_segmentation/y_filter_max" type="double" value="1.2" />
+		<param name="tabletop_segmentation/x_filter_min" type="double" value="0.5" />
+		<param name="tabletop_segmentation/x_filter_max" type="double" value="1.5" />
+		<!--param name="table_z_filter_min" value="0.01" />
+		<param name="table_z_filter_max" value="0.50" /-->
+		<param name="table_z_filter_min" value="-0.50" />
+		<param name="table_z_filter_max" value="-0.01" />		
+  </node>
+  
+  <!-- cluster bounding box finder (required for ...)--> 
+  <node name="cluster_bounding_box_finder" pkg="object_manipulator" type="cluster_bounding_box_finder_server.py" output="screen" respawn="false" />
+  
+	<!--rosparam command="load" file="$(find al_perception)/config/perception_settings.yaml" />
+	<param name="input_cloud" type="string" value="/pointcloud2_pr2_self_filtered" />
+	<node name="al_perception" pkg="al_perception" type="al_perception" output="screen" respawn="false"/-->
+
+</launch>

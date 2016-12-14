@@ -1,0 +1,154 @@
+# 2012 RoboCup Small Size League Robot
+# Author: Kadir Firat Uyanik <kadir@ceng.metu.edu.tr>
+# Last modification: 07 Sep 2011
+
+PROTO SSLRobot
+[
+  field SFVec3f translation 0 0.0 0
+  field SFRotation rotation 0 0 1 0
+  field MFString texture "textures/b0.png"
+  field SFString controller "hardware_test"
+  field SFString controllerArgs ""
+  field SFBool synchronization FALSE
+  field SFString name "b0"
+]
+{
+	Robot
+	{
+		translation IS translation
+		rotation IS rotation
+		controller IS controller
+		controllerArgs IS controllerArgs
+		synchronization IS synchronization
+		name IS name
+		children [
+			DEF HAT_PATTERN Transform {
+			  translation -0.0055 0 0.15
+			  rotation 1 0 0 1.57
+			  children [
+				Shape {
+				  appearance Appearance {
+					texture ImageTexture {
+					  url IS texture
+					}
+				  }
+				  geometry Plane {
+					size 0.169 0.18
+				  }
+				}
+			  ]
+			}
+# This didn't work (changing the texture to sth else also didn't work)			
+#			SSLRobotHat {
+#				texture IS texture
+#			}
+			SSLRobotBody {
+			}
+#			SSLRobotOmniWheel {
+#				rotation 0 0 1 1.0471
+#				name "wheel0"
+#			}
+#			SSLRobotOmniWheel {
+#				rotation 0 0 1 3.141592
+#				name "wheel1"
+#			}
+#			SSLRobotOmniWheel {
+#				rotation 0 0 1 -1.0471
+#				name "wheel2"
+#			}
+			SSLRobotWheel {
+				rotation 0 0 1 1.0471
+				name "wheel0"
+			}
+			SSLRobotWheel {
+				rotation 0 0 1 3.141592
+				name "wheel1"
+			}
+			SSLRobotWheel {
+				rotation 0 0 1 -1.0471
+				name "wheel2"
+			}
+			SSLRobotDribbler {
+			}
+#			SSLRobotKicker {
+#				translation 0 0 0.020
+#			}
+    DEF KICKER_MOTOR Servo {
+      translation 0 0 0.02
+      rotation 0 1 0 1.57
+      children [
+        Group {
+          children [
+            DEF UPPER_PART Transform {
+              translation 0.01 0 0.063
+              children [
+                Shape {
+                  appearance DEF KICKER_APP Appearance {
+                    material Material {
+                      diffuseColor 0.301961 0.301961 0.301961
+                      specularColor 0.898039 0.898039 0.898039
+                    }
+                  }
+                  geometry Box {
+                    size 0.01 0.06 0.003
+                  }
+                }
+              ]
+            }
+            DEF LOWER_PART Transform {
+              translation 0 0 0.063
+              children [
+                Shape {
+                  appearance USE KICKER_APP
+                  geometry Box {
+                    size 0.012 0.01 0.003
+                  }
+                }
+              ]
+            }
+            DEF PLUNGER Transform {
+              translation 0 0 0.028
+              rotation 1 0 0 1.5708
+              children [
+                Shape {
+                  appearance USE KICKER_APP
+                  geometry Cylinder {
+                    height 0.07
+                    radius 0.002
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      name "kicker"
+      boundingObject Group {
+        children [
+          USE UPPER_PART
+          USE LOWER_PART
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.2
+        centerOfMass 0 0 0.02
+        bounce 0.7
+      }
+      type "linear"
+      maxVelocity 120
+      maxForce 5
+      controlP 100
+      position 1.40878e-06
+      maxPosition 0.020
+      minStop -0.05
+      maxStop 0.030
+    }
+		]
+		boundingObject SSLRobotBodyShape {
+		}
+		physics Physics {
+		}
+		selfCollision FALSE
+	}
+}

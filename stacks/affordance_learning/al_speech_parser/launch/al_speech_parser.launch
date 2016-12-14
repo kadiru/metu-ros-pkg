@@ -1,0 +1,7 @@
+<launch>
+  <arg name="robot_name" default="icub" />
+
+  <node name="al_speech_human_to_robot" pkg="al_speech_parser" type="human_to_robot" output="screen">
+    <param name="robot_name" value="$(arg robot_name)"/>
+  </node>
+</launch>

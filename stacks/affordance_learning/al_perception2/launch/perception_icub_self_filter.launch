@@ -1,0 +1,29 @@
+<launch>
+
+  <include file="$(find al_icub)/launch/icub_self_filter.launch"/>
+
+    <node pkg="tabletop_object_detector" name="tabletop_segmentation" type="tabletop_segmentation" respawn="true" output="screen">
+    <remap from="cloud_in" to="/perception_input_cloud" />
+    <!--remap from="cloud_in" to="/camera/depth/points" /-->
+    <!--remap from="cloud_in" to="/right_camera/depth/points" /-->
+    <remap from="segmentation_srv" to="tabletop_segmentation" />
+    <remap from="markers_out" to="tabletop_segmentation_markers" />
+    	  <param name="inlier_threshold" value="300" />
+	  <param name="plane_detection_voxel_size" value="0.01" />
+	  <param name="cluster_distance" value="0.02" />
+	  <param name="min_cluster_size" value="200" />
+	  <param name="processing_frame" value="base_footprint" />
+	  <param name="up_direction" value="-1.0" /><!-- gravity is 1.0 direction -->
+	  <param name="z_filter_min" type="double" value="-0.30" />
+	  <param name="z_filter_max" type="double" value="0.30" />
+	  <param name="y_filter_min" type="double" value="-0.6" />
+	  <param name="y_filter_max" type="double" value="0.6" />
+	  <param name="x_filter_min" type="double" value="-0.7" />
+	  <param name="x_filter_max" type="double" value="-0.1" />
+	  <param name="table_z_filter_min" value="0.01" />
+	  <param name="table_z_filter_max" value="0.50" />
+    </node>
+
+  <node name="cluster_bounding_box_finder" pkg="object_manipulator" type="cluster_bounding_box_finder_server.py" output="screen" respawn="false" />
+
+</launch>

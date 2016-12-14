@@ -1,0 +1,3 @@
+  human_controller:
+    type: HumanControllerPlugin
+    joint_name: 

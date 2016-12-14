@@ -1,0 +1,16 @@
+<package>
+  <description brief="al_acts">
+
+     al_acts
+
+  </description>
+  <author>kadir</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/al_acts</url>
+  <depend package="actionlib_msgs"/>
+  <depend package="al_msgs"/>
+
+</package>
+
+

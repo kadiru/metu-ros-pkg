@@ -1,0 +1,10 @@
+int8 MAX_SHAPE_INDEX=6
+int8 CUP=0
+int8 BOX=1
+int8 CYLINDER=2
+int8 BALL=3
+int8 SPHERE=4
+int8 CUBE=5
+int8 OTHER=6
+int8 shape
+float32 prob

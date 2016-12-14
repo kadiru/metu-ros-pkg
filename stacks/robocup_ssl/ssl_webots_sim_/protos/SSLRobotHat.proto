@@ -1,0 +1,22 @@
+PROTO SSLRobotHat
+[
+  field MFString texture "textures/b0.png"
+]
+{
+    Transform {
+      translation -0.0055 0 0.15
+      rotation 1 0 0 1.57
+      children [
+        Shape {
+          appearance Appearance {
+            texture ImageTexture {
+              url IS texture
+            }
+          }
+          geometry Plane {
+            size 0.169 0.18
+          }
+        }
+      ]
+    }
+}

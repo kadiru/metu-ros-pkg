@@ -1,0 +1,9 @@
+<stack>
+  <description brief="robocup_ssl">robocup_ssl</description>
+  <author>Maintained by Kadir F. Uyanik</author>
+  <license>BSD</license>  
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/robocup_ssl</url>
+  <depend stack="ros" />
+
+</stack>

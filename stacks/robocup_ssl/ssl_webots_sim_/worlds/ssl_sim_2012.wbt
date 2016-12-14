@@ -1,0 +1,52 @@
+#VRML_SIM V6.0 utf8
+WorldInfo {
+  info [
+    "Description"
+    "Author: Kadir Firat Uyanik <kadir@ceng.metu.edu.tr>"
+    "Author: Mehdi Ghanavati <ghanavatimehdi@yahoo.com>"
+    "Date: 10 May 2011"
+  ]
+  title "robocup_ssl"
+  gravity 0 0 -9.81
+  ERP 0.1
+  physics "ssl_sim_webots_physics"
+  basicTimeStep 10
+  runRealTime TRUE
+}
+Viewpoint {
+  orientation 0.00740942 -0.00150182 -0.999971 1.57491
+  position -0.13765 -0.00231845 8.94982
+}
+Background {
+  skyColor [
+    0.564706 0.933333 0.564706
+  ]
+}
+PointLight {
+  ambientIntensity 4
+  attenuation 0.5 0.5 0.5
+  intensity 4
+  location 3.7 2.7 4
+}
+PointLight {
+  ambientIntensity 4
+  attenuation 0.5 0.5 0.5
+  intensity 4
+  location -3.7 2.7 4
+}
+PointLight {
+  ambientIntensity 4
+  attenuation 0.5 0.5 0.5
+  intensity 4
+  location -3.7 -2.7 4
+}
+PointLight {
+  ambientIntensity 4
+  attenuation 0.5 0.5 0.5
+  intensity 4
+  location 3.7 -2.7 4
+}
+SSLField2012 {
+}
+Robot {
+}

@@ -1,0 +1,21 @@
+<package>
+  <description brief="al_behavior">
+
+     al_behavior
+
+  </description>
+  <author>user</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/al_behavior</url>
+  <depend package="roscpp"/>
+  <depend package="rospy"/>
+  <depend package="actionlib"/>
+  <depend package="actionlib_msgs"/>
+  <depend package="geometry_msgs"/>
+  <depend package="al_msgs"/>
+  <depend package="roslib"/>
+
+</package>
+
+

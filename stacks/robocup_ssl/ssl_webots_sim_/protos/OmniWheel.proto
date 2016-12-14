@@ -1,0 +1,55 @@
+PROTO OmniWheel
+[
+  field SFVec3f wheel_to_robot_trans 0.03875 0.0671 0.028
+  field SFRotation wheel_to_robot_rot 0.500011 0.866019 0 0
+  field SFRotation wheel_local_rot 0 0 1 -0.52
+  field SFString name "wheel1"
+]
+{
+	Servo {
+	  translation IS wheel_to_robot_trans
+	  rotation IS wheel_to_robot_rot
+	  children [
+		DEF WHEEL0_TRANS Transform {
+		  rotation IS wheel_local_rot
+		  children [
+			Shape {
+				appearance Appearance {
+					material Material {
+					diffuseColor 0.678431 0.847059 0.901961
+					}
+				}
+			  geometry Cylinder {
+				height 0.01
+				radius 0.025
+			  }
+			}
+			OmniWheelRoller { roller_translation 0 0 0.023 roller_axial_rotation 0 0 1 1.57}
+			OmniWheelRoller { roller_translation 0.0162634559672906 0 0.0162634559672906 roller_axial_rotation 0.707106781186547 0 0.707106781186548 1.57}
+			OmniWheelRoller { roller_translation 0.023 0 1.40834381901946E-018 roller_axial_rotation 1 0 6.12323399573677E-017 1.57}
+			OmniWheelRoller { roller_translation 0.0162634559672906 0 -0.0162634559672906 roller_axial_rotation 0.707106781186548 0 -0.707106781186547 1.57}
+			OmniWheelRoller { roller_translation 2.81668763803891E-018 0 -0.023 roller_axial_rotation 1.22464679914735E-016 0 -1 1.57}
+			OmniWheelRoller { roller_translation -0.0162634559672906 0 -0.0162634559672906 roller_axial_rotation -0.707106781186547 0 -0.707106781186548 1.57}
+			OmniWheelRoller { roller_translation -0.023 0 -4.22503145705837E-018 roller_axial_rotation -1 0 -1.83697019872103E-016 1.57}
+			OmniWheelRoller { roller_translation -0.0162634559672906 0 0.0162634559672906 roller_axial_rotation -0.707106781186548 0 0.707106781186547 1.57}
+		  ]
+		}
+	  ]
+	  name IS name
+	  boundingObject Transform {
+		rotation IS wheel_local_rot
+		children [
+		  Cylinder {
+			height 0.01
+			radius 0.028
+			subdivision 20
+		  }
+		]
+	  }
+	  physics DEF WHEEL_PHY Physics {
+		density -1
+		mass 0.2
+	  }
+	  maxVelocity 200
+	}
+}

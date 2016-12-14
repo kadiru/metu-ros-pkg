@@ -1,0 +1,189 @@
+#VRML_SIM V6.0 utf8
+WorldInfo {
+  info [
+    "Description"
+    "Author: Kadir Firat Uyanik <kadir@ceng.metu.edu.tr>"
+    "Author: Mehdi Ghanavati <ghanavatimehdi@yahoo.com>"
+    "Date: 10 May 2011"
+  ]
+  title "robocup_ssl"
+  gravity 0 0 -9.81
+  ERP 0.1
+  basicTimeStep 20
+  displayRefresh 4
+  runRealTime TRUE
+}
+Viewpoint {
+  orientation 0.589632 -0.804693 -0.0693035 0.0258007
+  position -0.146548 -0.0660041 8.91454
+}
+Background {
+  skyColor [
+    0.564706 0.933333 0.564706
+  ]
+}
+PointLight {
+  ambientIntensity 4
+  attenuation 0.5 0.5 0.5
+  intensity 4
+  location 3.7 2.7 4
+}
+PointLight {
+  ambientIntensity 4
+  attenuation 0.5 0.5 0.5
+  intensity 4
+  location -3.7 2.7 4
+}
+PointLight {
+  ambientIntensity 4
+  attenuation 0.5 0.5 0.5
+  intensity 4
+  location -3.7 -2.7 4
+}
+PointLight {
+  ambientIntensity 4
+  attenuation 0.5 0.5 0.5
+  intensity 4
+  location 3.7 -2.7 4
+}
+SSLField2012 {
+}
+DEF BALL Solid {
+  translation 0.59133 -0.541626 0.023
+  children [
+    DEF BALL_SHAPE Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 1 0.647059 0
+        }
+      }
+      geometry Sphere {
+        radius 0.023
+        subdivision 20
+      }
+    }
+  ]
+  boundingObject USE BALL_SHAPE
+  physics Physics {
+  }
+}
+SSLRobot {
+  translation 0 -0.3 0
+}
+SSLRobot {
+  translation 0.3 -0.3 0
+  texture [
+    "textures/b1.png"
+  ]
+  name "b1"
+}
+SSLRobot {
+  translation 0.6 -0.3 0
+  texture [
+    "textures/b2.png"
+  ]
+  name "b2"
+}
+SSLRobot {
+  translation 0.9 -0.3 0
+  texture [
+    "textures/b3.png"
+  ]
+  name "b3"
+}
+SSLRobot {
+  translation 1.2 -0.3 0
+  texture [
+    "textures/b4.png"
+  ]
+  name "b4"
+}
+SSLRobot {
+  translation 0 0.3 0
+  texture [
+    "textures/y0.png"
+  ]
+  name "y0"
+}
+SSLRobot {
+  translation 0.3 0.3 0
+  texture [
+    "textures/y1.png"
+  ]
+  name "y1"
+}
+SSLRobot {
+  translation 0.6 0.3 0
+  texture [
+    "textures/y2.png"
+  ]
+  name "b4"
+}
+SSLRobot {
+  translation 0.9 0.3 0
+  texture [
+    "textures/y3.png"
+  ]
+  name "y3"
+}
+SSLRobot {
+  translation 1.2 0.3 0
+  texture [
+    "textures/y4.png"
+  ]
+  name "y4"
+}
+DEF S_CAMERA_0 Supervisor {
+  children [
+    DEF CAMERA_0 Camera {
+      translation 1.5125 0 4
+      rotation 0 0 1 -1.57
+      children [
+        DEF CAM_BODY Transform {
+          rotation 1 0 0 1.57
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.647059 0.164706 0.164706
+                  specularColor 0.301961 0.301961 0.301961
+                }
+              }
+              geometry Cylinder {
+                height 0.15
+                radius 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "camera_0"
+      fieldOfView 1.15
+      width 780
+      height 580
+      pixelSize 0
+    }
+  ]
+  controller "vision_test"
+  controllerArgs "0"
+  synchronization FALSE
+}
+DEF S_CAMERA_1 Supervisor {
+  children [
+    DEF CAMERA_1 Camera {
+      translation -1.5125 0 4
+      rotation 0 0 1 -1.57
+      children [
+        USE CAM_BODY
+      ]
+      name "camera_1"
+      fieldOfView 1.15
+      width 780
+      height 580
+      pixelSize 0
+    }
+  ]
+  controller "vision_test"
+  controllerArgs "1"
+  synchronization FALSE
+}

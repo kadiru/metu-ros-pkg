@@ -1,0 +1,63 @@
+17:56:46 **** Incremental Build of project al_memory ****
+/usr/bin/make -j8 all 
+mkdir -p bin
+cd build && cmake -Wdev -DCMAKE_TOOLCHAIN_FILE=/opt/ros/groovy/share/ros/core/rosbuild/rostoolchain.cmake  ..
+[rosbuild] Building package al_memory
+-- Using CATKIN_DEVEL_PREFIX: /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build/devel
+-- Using CMAKE_PREFIX_PATH: /opt/ros/groovy
+-- This workspace overlays: /opt/ros/groovy
+-- Found gtest sources under '/usr/src/gtest': gtests will be built
+-- catkin 0.5.63
+[rosbuild] Including /opt/ros/groovy/share/roscpp/rosbuild/roscpp.cmake
+[rosbuild] Including /opt/ros/groovy/share/rospy/rosbuild/rospy.cmake
+-- Configuring done
+-- Generating done
+CMake Warning:
+  Manually-specified variables were not used by the project:
+-- Build files have been written to: /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build
+
+    CMAKE_TOOLCHAIN_FILE
+cd build && /usr/bin/make 
+
+make[1]: Entering directory `/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build'
+
+/usr/bin/cmake -H/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory -B/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build --check-build-system CMakeFiles/Makefile.cmake 0
+/usr/bin/cmake -E cmake_progress_start /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build/CMakeFiles /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build/CMakeFiles/progress.marks
+/usr/bin/make -f CMakeFiles/Makefile2 all
+make[2]: Entering directory `/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build'
+/usr/bin/make -f CMakeFiles/rospack_genmsg_libexe.dir/build.make CMakeFiles/rospack_genmsg_libexe.dir/depend
+make[3]: Entering directory `/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build'
+cd /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build/CMakeFiles/rospack_genmsg_libexe.dir/DependInfo.cmake --color=
+make[3]: Leaving directory `/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build'
+/usr/bin/make -f CMakeFiles/rospack_genmsg_libexe.dir/build.make CMakeFiles/rospack_genmsg_libexe.dir/build
+make[3]: Entering directory `/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build'
+make[3]: Nothing to be done for `CMakeFiles/rospack_genmsg_libexe.dir/build'.
+make[3]: Leaving directory `/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build'
+/usr/bin/cmake -E cmake_progress_report /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build/CMakeFiles 
+[  0%] Built target rospack_genmsg_libexe
+/usr/bin/make -f CMakeFiles/rosbuild_precompile.dir/build.make CMakeFiles/rosbuild_precompile.dir/depend
+make[3]: Entering directory `/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build'
+cd /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build/CMakeFiles/rosbuild_precompile.dir/DependInfo.cmake --color=
+make[3]: Leaving directory `/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build'
+/usr/bin/make -f CMakeFiles/rosbuild_precompile.dir/build.make CMakeFiles/rosbuild_precompile.dir/build
+make[3]: Entering directory `/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build'
+make[3]: Nothing to be done for `CMakeFiles/rosbuild_precompile.dir/build'.
+make[3]: Leaving directory `/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build'
+/usr/bin/cmake -E cmake_progress_report /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build/CMakeFiles 
+[  0%] Built target rosbuild_precompile
+/usr/bin/make -f CMakeFiles/al_memory.dir/build.make CMakeFiles/al_memory.dir/depend
+make[3]: Entering directory `/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build'
+cd /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build/CMakeFiles/al_memory.dir/DependInfo.cmake --color=
+make[3]: Leaving directory `/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build'
+/usr/bin/make -f CMakeFiles/al_memory.dir/build.make CMakeFiles/al_memory.dir/build
+make[3]: Entering directory `/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build'
+make[3]: Nothing to be done for `CMakeFiles/al_memory.dir/build'.
+make[3]: Leaving directory `/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build'
+/usr/bin/cmake -E cmake_progress_report /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build/CMakeFiles  1 2
+[100%] Built target al_memory
+make[2]: Leaving directory `/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build'
+/usr/bin/cmake -E cmake_progress_start /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build/CMakeFiles 0
+make[1]: Leaving directory `/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_memory/build'
+
+17:56:56 Build Finished (took 10s.341ms)
+

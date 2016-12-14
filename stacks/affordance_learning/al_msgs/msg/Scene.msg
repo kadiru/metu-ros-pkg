@@ -1,0 +1,2 @@
+al_msgs/Entities entities
+bool human_partner_exists

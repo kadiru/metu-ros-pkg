@@ -1,0 +1,133 @@
+#VRML_SIM V6.0 utf8
+WorldInfo {
+  info [
+    "Description"
+    "Author: Kadir Firat Uyanik <kadir@ceng.metu.edu.tr>"
+    "Author: Mehdi Ghanavati <ghanavatimehdi@yahoo.com>"
+    "Date: 10 May 2011"
+  ]
+  title "robocup_ssl"
+  gravity 0 0 -9.81
+  ERP 0.1
+  basicTimeStep 20
+  runRealTime TRUE
+}
+Viewpoint {
+  orientation 0.617702 0.459334 0.638323 1.76967
+  position 1.82804 -0.0863569 0.372592
+}
+Background {
+  skyColor [
+    0.564706 0.933333 0.564706
+  ]
+}
+PointLight {
+  ambientIntensity 4
+  attenuation 0.5 0.5 0.5
+  intensity 4
+  location 3.7 2.7 4
+}
+PointLight {
+  ambientIntensity 4
+  attenuation 0.5 0.5 0.5
+  intensity 4
+  location -3.7 2.7 4
+}
+PointLight {
+  ambientIntensity 4
+  attenuation 0.5 0.5 0.5
+  intensity 4
+  location -3.7 -2.7 4
+}
+PointLight {
+  ambientIntensity 4
+  attenuation 0.5 0.5 0.5
+  intensity 4
+  location 3.7 -2.7 4
+}
+SSLField2012 {
+}
+DEF BALL Solid {
+  translation 0.59133 -0.541626 0.023
+  children [
+    DEF BALL_SHAPE Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 1 0.647059 0
+        }
+      }
+      geometry Sphere {
+        radius 0.023
+        subdivision 20
+      }
+    }
+  ]
+  boundingObject USE BALL_SHAPE
+  physics Physics {
+  }
+}
+SSLRobot {
+}
+SSLRobot {
+  translation 0.3 0 0
+  texture [
+    "textures/b1.png"
+  ]
+  name "b1"
+}
+SSLRobot {
+  translation 0.6 0 0
+  texture [
+    "textures/b2.png"
+  ]
+  name "b2"
+}
+SSLRobot {
+  translation 0.9 0 0
+  texture [
+    "textures/b3.png"
+  ]
+  name "b3"
+}
+SSLRobot {
+  translation 1.2 0 0
+  texture [
+    "textures/b4.png"
+  ]
+  name "b4"
+}
+SSLRobot {
+  translation 0 0.3 0
+  texture [
+    "textures/y0.png"
+  ]
+  name "y0"
+}
+SSLRobot {
+  translation 0.3 0.3 0
+  texture [
+    "textures/y1.png"
+  ]
+  name "y1"
+}
+SSLRobot {
+  translation 0.6 0.3 0
+  texture [
+    "textures/y2.png"
+  ]
+  name "b4"
+}
+SSLRobot {
+  translation 0.9 0.3 0
+  texture [
+    "textures/y3.png"
+  ]
+  name "y3"
+}
+SSLRobot {
+  translation 1.2 0.3 0
+  texture [
+    "textures/y4.png"
+  ]
+  name "y4"
+}

@@ -1,0 +1,17 @@
+<package>
+  <description brief="ssl_vision">
+
+     ssl_vision
+
+  </description>
+  <author>kadir</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/ssl_vision</url>
+  <depend package="ssl_msgs"/>
+  <depend package="ssl_utils"/>
+  <depend package="roscpp"/>
+
+</package>
+
+

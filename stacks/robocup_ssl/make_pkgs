@@ -1,0 +1,30 @@
+#!/bin/sh
+
+roscd ssl_common
+rosmake
+
+roscd ssl_comm_primitives
+rosmake
+
+roscd ssl_game_planner
+rosmake
+
+roscd ssl_motion_planner
+rosmake
+
+roscd ssl_msgs
+rosmake
+
+roscd ssl_path_planner
+rosmake
+
+roscd ssl_refbox
+rosmake
+
+roscd ssl_state_estimator
+rosmake
+
+roscd ssl_vision
+rosmake
+
+roscd ssl_vision/../

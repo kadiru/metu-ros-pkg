@@ -1,0 +1,9 @@
+<launch>
+  <arg name="robot_name" default="icub" />
+
+  <node name="soundplay_node" pkg="sound_play" type="soundplay_node.py"/>
+
+  <node name="speech" pkg="al_speech" type="text_to_speech" output="screen">
+    <param name="robot_name" value="$(arg robot_name)"/>
+  </node>
+</launch>

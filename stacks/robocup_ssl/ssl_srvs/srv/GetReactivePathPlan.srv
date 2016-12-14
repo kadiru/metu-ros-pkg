@@ -1,0 +1,5 @@
+string robot_of_interest
+geometry_msgs/Pose target_pose
+string[] collision_allowed_object_names
+---
+float64 robot_velocity

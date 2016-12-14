@@ -1,0 +1,6 @@
+<launch>
+	<node name="icub_state_publisher" pkg="robot_state_publisher" type="state_publisher" output="screen">
+		<remap from="joint_states" to="/icub_joint_states" />
+		<remap from="robot_description" to="/icub_description" />
+	</node>
+</launch>

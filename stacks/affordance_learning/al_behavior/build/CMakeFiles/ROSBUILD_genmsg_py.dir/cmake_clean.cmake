@@ -1,0 +1,39 @@
+FILE(REMOVE_RECURSE
+  "../msg_gen"
+  "../src/al_behavior/msg"
+  "CMakeFiles/ROSBUILD_genmsg_py"
+  "../src/al_behavior/msg/__init__.py"
+  "../src/al_behavior/msg/_ArmAction.py"
+  "../src/al_behavior/msg/_ArmGoal.py"
+  "../src/al_behavior/msg/_ArmActionGoal.py"
+  "../src/al_behavior/msg/_ArmResult.py"
+  "../src/al_behavior/msg/_ArmActionResult.py"
+  "../src/al_behavior/msg/_ArmFeedback.py"
+  "../src/al_behavior/msg/_ArmActionFeedback.py"
+  "../src/al_behavior/msg/_HeadAction.py"
+  "../src/al_behavior/msg/_HeadGoal.py"
+  "../src/al_behavior/msg/_HeadActionGoal.py"
+  "../src/al_behavior/msg/_HeadResult.py"
+  "../src/al_behavior/msg/_HeadActionResult.py"
+  "../src/al_behavior/msg/_HeadFeedback.py"
+  "../src/al_behavior/msg/_HeadActionFeedback.py"
+  "../msg/ArmAction.msg"
+  "../msg/ArmGoal.msg"
+  "../msg/ArmActionGoal.msg"
+  "../msg/ArmResult.msg"
+  "../msg/ArmActionResult.msg"
+  "../msg/ArmFeedback.msg"
+  "../msg/ArmActionFeedback.msg"
+  "../msg/HeadAction.msg"
+  "../msg/HeadGoal.msg"
+  "../msg/HeadActionGoal.msg"
+  "../msg/HeadResult.msg"
+  "../msg/HeadActionResult.msg"
+  "../msg/HeadFeedback.msg"
+  "../msg/HeadActionFeedback.msg"
+)
+
+# Per-language clean rules from dependency scanning.
+FOREACH(lang)
+  INCLUDE(CMakeFiles/ROSBUILD_genmsg_py.dir/cmake_clean_${lang}.cmake OPTIONAL)
+ENDFOREACH(lang)

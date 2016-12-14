@@ -1,0 +1,19 @@
+<package>
+  <description brief="al_speech_parser">
+
+     al_speech_parser
+
+  </description>
+  <author>kadir</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/al_speech_parser</url>
+  <depend package="sound_play"/>
+  <depend package="al_msgs"/>
+  <depend package="std_msgs"/>
+  <depend package="roscpp"/>
+  <depend package="al_utils"/>
+
+</package>
+
+

@@ -1,0 +1,57 @@
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_perception2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec1222974314/fast"
+make[1]: Entering directory `/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_perception2/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTryCompileExec1222974314.dir/build.make CMakeFiles/cmTryCompileExec1222974314.dir/build
+make[2]: Entering directory `/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_perception2/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_perception2/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec1222974314.dir/CheckSymbolExists.c.o
+/usr/bin/gcc    -o CMakeFiles/cmTryCompileExec1222974314.dir/CheckSymbolExists.c.o   -c /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_perception2/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTryCompileExec1222974314
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1222974314.dir/link.txt --verbose=1
+/usr/bin/gcc         CMakeFiles/cmTryCompileExec1222974314.dir/CheckSymbolExists.c.o  -o cmTryCompileExec1222974314 -rdynamic 
+CMakeFiles/cmTryCompileExec1222974314.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x16): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+make[2]: *** [cmTryCompileExec1222974314] Error 1
+make[2]: Leaving directory `/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_perception2/build/CMakeFiles/CMakeTmp'
+make[1]: Leaving directory `/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_perception2/build/CMakeFiles/CMakeTmp'
+make[1]: *** [cmTryCompileExec1222974314/fast] Error 2
+
+File /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_perception2/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_perception2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec4042573756/fast"
+make[1]: Entering directory `/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_perception2/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTryCompileExec4042573756.dir/build.make CMakeFiles/cmTryCompileExec4042573756.dir/build
+make[2]: Entering directory `/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_perception2/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_perception2/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec4042573756.dir/CheckFunctionExists.c.o
+/usr/bin/gcc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTryCompileExec4042573756.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec4042573756
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec4042573756.dir/link.txt --verbose=1
+/usr/bin/gcc     -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTryCompileExec4042573756.dir/CheckFunctionExists.c.o  -o cmTryCompileExec4042573756 -rdynamic -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+make[2]: Leaving directory `/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_perception2/build/CMakeFiles/CMakeTmp'
+make[2]: *** [cmTryCompileExec4042573756] Error 1
+make[1]: Leaving directory `/home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_perception2/build/CMakeFiles/CMakeTmp'
+make[1]: *** [cmTryCompileExec4042573756/fast] Error 2
+
+

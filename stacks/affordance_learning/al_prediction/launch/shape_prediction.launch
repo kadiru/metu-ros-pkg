@@ -1,0 +1,7 @@
+<launch>
+
+	<rosparam command="load" file="$(find al_prediction)/config/object_shape_svm_models.yaml" />
+	<node name="al_object_shape_predictor" pkg="al_prediction" type="object_shape_predictor" output="screen" respawn="false">
+		<param name="models_directory_path" type="string" value="$(find al_prediction)/models"/>
+	</node>
+</launch>

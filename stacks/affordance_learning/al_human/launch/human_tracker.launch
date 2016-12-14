@@ -1,0 +1,8 @@
+<launch>
+
+  <arg name="camera" default="left_camera"/>
+  <node pkg="openni_tracker" type="openni_tracker" name="openni_tracker" output="screen">
+    <param name="camera_frame_id" type="string" value="$(arg camera)_depth_frame"/>
+  </node>
+
+</launch>

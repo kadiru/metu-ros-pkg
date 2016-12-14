@@ -1,0 +1,11 @@
+al_msgs/Behavior behavior
+---
+int8 FINISHED
+int8 CANCELLED #preempted
+int8 result
+---
+int8 STARTED
+int8 PERCEPTING
+int8 ACTING
+int8 FINISHING
+int8 status

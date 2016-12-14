@@ -1,0 +1,9 @@
+<launch>
+	
+	<rosparam command="load" file="$(find al_perception)/config/perception_settings.yaml" />
+	<!--param name="input_cloud" type="string" value="/perception_input_cloud" /-->
+	<param name="input_cloud" type="string" value="/right_camera/depth/points" />
+	<!--param name="input_cloud" type="string" value="/kinect_camera/points" /-->
+	<node name="perception" pkg="al_perception" type="al_perception" output="screen" respawn="false"/>
+	
+</launch>

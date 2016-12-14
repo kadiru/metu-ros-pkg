@@ -1,0 +1,14 @@
+float32 line_width
+float32 field_length
+float32 field_width
+float32 boundary_width
+float32 referee_width
+float32 goal_width
+float32 goal_depth
+float32 goal_wall_width
+float32 center_circle_radius
+float32 defense_radius
+float32 defense_stretch
+float32 free_kick_from_defense_dist
+float32 penalty_spot_from_field_line_dist
+float32 penalty_line_from_spot_dist

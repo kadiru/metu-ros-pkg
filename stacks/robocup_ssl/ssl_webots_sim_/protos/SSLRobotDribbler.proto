@@ -1,0 +1,43 @@
+PROTO SSLRobotDribbler
+[
+  field SFVec3f translation 0.07133 0 0.0425
+  field SFString name "dribbler"
+]
+{
+    DEF DRIBBLER_MOTOR Servo {
+      translation IS translation
+      rotation 0 1 0 0
+      children [
+        DEF DRIBBLER Transform {
+          rotation 0 1 0 1.57
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0 0 0
+                  emissiveColor 0.74902 0.74902 0.74902
+                  specularColor 0.74902 0.74902 0.74902
+                }
+              }
+              geometry Cylinder {
+                height 0.0786
+                radius 0.008
+                subdivision 20
+              }
+            }
+          ]
+        }
+      ]
+      name IS name
+      boundingObject USE DRIBBLER
+      physics Physics {
+        density -1
+        mass 0.1
+        bounce 0.1
+        bounceVelocity 0.001
+      }
+      maxVelocity 100
+      maxForce 6
+      position -4.21468e-08
+    }
+}

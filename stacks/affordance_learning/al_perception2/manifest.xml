@@ -1,0 +1,25 @@
+<package>
+  <description brief="al_perception2">
+
+     al_perception2
+
+  </description>
+  <author>kadir</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/al_perception2</url>
+  <depend package="tabletop_object_detector"/>
+  <depend package="tabletop_collision_map_processing"/>
+  <depend package="object_manipulation_msgs"/>
+  <depend package="visualization_msgs"/>
+  <depend package="arm_navigation_msgs"/>
+  <depend package="nodelet"/>
+  <depend package="nodelet_topic_tools"/>
+  <depend package="al_utils"/>
+  <depend package="al_msgs"/>
+  <depend package="al_srvs"/>
+  <depend package="roscpp"/>
+
+</package>
+
+

@@ -1,0 +1,43 @@
+<s> HELLO ICUB MY NAME IS KADIR </s>
+<s> HELLO PR2 MY NAME IS KADIR </s>
+<s> HELLO KADIR </s>
+<s> MY NAME IS ICUB </s>
+<s> MY NAME IS PR2 </s>
+<s> PUSH </s>
+<s> LEFT </s>
+<s> RIGHT </s>
+<s> FORWARD </s>
+<s> BACKWARD </s>
+<s> DOWN </s>
+<s> HOME </s>
+<s> LIFT </s>
+<s> GRASP </s>
+<s> ROLL </s>
+<s> RELEASE </s>
+<s> TAKE </s>
+<s> GIVE </s>
+<s> POINT </s>
+<s> CANCEL </s>
+<s> STOP </s>
+<s> SHOW </s>
+<s> EFFECT IS DISAPPEARED </s>
+<s> EFFECT IS ROLLED </s>
+<s> EFFECT IS PUSHED LEFT </s>
+<s> EFFECT IS PUSHED RIGHT </s>
+<s> EFFECT IS PUSHED FORWARD </s>
+<s> EFFECT IS PUSHED BACKWARD </s>
+<s> EFFECT IS LIFTED </s>
+<s> EFFECT IS GRASPED </s>
+<s> EFFECT IS ROLLED </s>
+<s> EFFECT IS KNOCKED DOWN </s>
+<s> EFFECT IS DISCARDED </s>
+<s> EFFECT IS DON'T CARE </s>
+<s> OBJECT ONE </s>
+<s> OBJECT TWO </s>
+<s> OBJECT THREE </s>
+<s> OBJECT FOUR </s>
+<s> OBJECT FIVE </s>
+<s> OBJECT SIX </s>
+<s> OBJECT SEVEN </s>
+<s> OBJECT EIGHT </s>
+<s> OBJECT NINE </s>

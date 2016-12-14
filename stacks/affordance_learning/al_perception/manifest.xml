@@ -1,0 +1,20 @@
+<package>
+  <description brief="al_perception">
+
+     al_perception v1.1
+
+  </description>
+  <author>kadir</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/al_perception</url>
+  <depend package="tabletop_object_detector"/>
+  <depend package="tabletop_collision_map_processing"/>
+  <depend package="al_utils"/>
+  <depend package="al_msgs"/>
+  <depend package="al_srvs"/>  
+  <depend package="object_manipulation_msgs"/>    
+
+</package>
+
+

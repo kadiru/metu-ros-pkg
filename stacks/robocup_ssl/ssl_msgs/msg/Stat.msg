@@ -1,0 +1,3 @@
+float32 batt_level
+float32 temp_level
+bool ball_possession

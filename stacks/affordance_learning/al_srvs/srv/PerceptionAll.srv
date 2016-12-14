@@ -1,0 +1,9 @@
+uint8 task
+---
+#uint8 PROCESSING = 0
+uint8 DONE = 1
+sensor_msgs/PointCloud2 pushable_object_centers
+sensor_msgs/PointCloud2 pushable_object_sizes
+sensor_msgs/PointCloud2 pushable_object_ids
+al_msgs/FeatureVectorVector pushable_object_features
+

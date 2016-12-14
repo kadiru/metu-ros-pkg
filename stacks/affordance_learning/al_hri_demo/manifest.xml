@@ -1,0 +1,19 @@
+<package>
+  <description brief="al_hri_demo">
+
+     al_hri_demo
+
+  </description>
+  <author>kadir</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/al_hri_demo</url>
+  <depend package="tf"/>
+  <depend package="roscpp"/>
+  <depend package="geometry_msgs"/>
+  <depend package="actionlib"/>
+  <depend package="al_acts"/>
+
+</package>
+
+

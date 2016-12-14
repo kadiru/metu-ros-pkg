@@ -1,0 +1,14 @@
+rosrun gazebo spawn_model -file `rospack find al_gazebo_worlds`/objects/sph_s.urdf -urdf -model sph -x 0.8 -y -0.25 -z 0.70
+
+rosrun gazebo spawn_model -file `rospack find al_gazebo_worlds`/objects/rect_s.urdf -urdf -model rect -x 0.8 -y 0.0 -z 0.60
+
+rosrun gazebo spawn_model -file `rospack find al_gazebo_worlds`/objects/box_s.urdf -urdf -model box -x 0.6 -y -0.0 -z 0.63
+
+rosrun gazebo spawn_model -file `rospack find al_gazebo_worlds`/objects/cyl_s.urdf -urdf -model cyl -x 0.6 -y -0.20 -z 0.70
+
+rosservice call gazebo/apply_body_wrench '{body_name: "rect::my_rect" , wrench: { torque: { x: 0.0, y: 2.0 , z: 0.0 } }, start_time: 10000000000, duration: 500000000 }'
+
+rosservice call gazebo/apply_body_wrench '{body_name: "cyl::my_cylinder" , wrench: { force: { x: 0.0, y: -2.0 , z: 0.0 } }, start_time: 10000000000, duration: 1000000000 }'
+
+rosservice call gazebo/apply_body_wrench '{body_name: "box::my_box" , wrench: { force: { x: 0.0, y: -3.0 , z: 0.0 } }, start_time: 10000000000, duration: 2000000000 }'
+

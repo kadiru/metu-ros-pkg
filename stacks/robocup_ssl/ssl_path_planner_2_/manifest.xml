@@ -1,0 +1,18 @@
+<package>
+  <description brief="ssl_path_planner">
+
+     ssl_path_planner
+
+  </description>
+  <author>Kadir Firat Uyanik</author>
+  <license>GNU GPL V3</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/ssl_path_planner</url>
+  <depend package="ssl_msgs"/>
+  <depend package="ssl_comm_primitives"/>
+  <depend package="ssl_common"/>
+  <depend package="roscpp"/>
+
+</package>
+
+

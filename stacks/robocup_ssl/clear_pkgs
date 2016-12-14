@@ -1,0 +1,49 @@
+#!/bin/sh
+
+roscd ssl_common
+make clean
+rm -rf bin build
+
+roscd ssl_comm_primitives
+make clean
+rm -rf bin build
+
+roscd ssl_game_planner
+make clean
+rm -rf bin build
+
+roscd ssl_motion_planner
+make clean
+rm -rf bin build
+
+roscd ssl_msgs
+make clean
+rm -rf bin build
+
+roscd ssl_path_planner
+make clean
+rm -rf bin build
+
+roscd ssl_refbox
+make clean
+rm -rf bin build
+
+roscd ssl_robot
+make clean
+rm -rf bin build
+
+roscd ssl_state_estimator
+make clean
+rm -rf bin build
+
+roscd ssl_vision
+make clean
+rm -rf bin build
+
+roscd ssl_vision/../ssl-vision
+make clean
+
+roscd ssl_refbox/../ssl-refbox
+make clean
+
+roscd ssl_vision/../

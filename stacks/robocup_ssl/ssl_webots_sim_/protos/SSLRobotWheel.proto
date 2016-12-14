@@ -1,0 +1,58 @@
+PROTO SSLRobotWheel[
+  field SFRotation rotation 0 0 1 0
+  field SFString name "wheel1"
+]
+{
+    Solid {
+      rotation IS rotation
+      children [
+        DEF WHEEL_MOTOR Servo {
+          translation 0.0775 0 0.025
+          rotation 1 0 0 12.5362
+          children [
+            Transform {
+              rotation 0 0 1 1.57
+              children [
+                DEF WHEEL_SHAPE Shape {
+                  appearance Appearance {
+                    material Material {
+                      diffuseColor 0.678431 0.847059 0.901961
+                    }
+                  }
+                  geometry Cylinder {
+                    height 0.01
+                    radius 0.025
+#                    subdivision 20
+                     subdivision 50
+                  }
+                }
+              ]
+            }
+          ]
+          name IS name
+          boundingObject Transform {
+            rotation 0 0 1 1.57
+            children [
+              USE WHEEL_SHAPE
+            ]
+          }
+          physics Physics {
+            coulombFriction 1.0
+            forceDependentSlip 0.1
+          }
+          maxVelocity 100
+          position 1.56702
+        }
+      ]
+      boundingObject DEF DUMMY Transform {
+        translation 0 0 0.025
+        children [
+          Sphere {
+            radius 0.001
+          }
+        ]
+      }
+      physics DEF DUMMY_PHYSICS Physics {
+      }      
+    }
+}

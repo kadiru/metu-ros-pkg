@@ -1,0 +1,12 @@
+<launch>
+  <arg name="robot_name" default="icub" />
+
+  <node name="human" pkg="pocketsphinx" type="recognizer.py" output="screen">
+    <param name="lm" value="$(find al_speech_parser)/config/6611.lm"/>
+    <param name="dict" value="$(find al_speech_parser)/config/6611.dic"/>
+  </node>
+
+  <node name="al_speech_human_to_robot" pkg="al_speech_parser" type="human_to_robot" output="screen">
+    <param name="robot_name" value="$(arg robot_name)"/>
+  </node>
+</launch>

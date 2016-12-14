@@ -1,0 +1,8 @@
+#goal definition
+geometry_msgs/Point goalPositon
+---
+#result definition
+geometry_msgs/Point lastPosition
+---
+#feedback
+geometry_msgs/Point feedback

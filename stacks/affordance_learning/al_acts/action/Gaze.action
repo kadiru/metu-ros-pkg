@@ -1,0 +1,10 @@
+float32[] gaze_position
+duration gaze_duration
+---
+int8 FINISHED
+int8 CANCELLED #preempted
+int8 result
+---
+int8 STARTED
+int8 FINISHED
+int8 status

@@ -1,0 +1,14 @@
+#goal definition
+bool goal_mode
+al_msgs/JointCmd[] goal_joint_pos
+geometry_msgs/Pose goal_cartesian_pos
+---
+#result definition
+bool result_mode
+al_msgs/JointCmd[] result_joint_pos
+geometry_msgs/Pose result_cartesian_pos
+---
+#feedback
+bool feed_mode
+al_msgs/JointCmd[] feed_joint_pos
+geometry_msgs/Pose feed_cartesian_pos

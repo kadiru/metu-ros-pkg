@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/kadir/workspace/work/Dropbox/metu-ros-pkg/trunk/affordance_learning/al_ext_utils/tabletop_collision_map_processing/build/devel/setup.sh

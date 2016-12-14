@@ -1,0 +1,50 @@
+<s> HELLO </s>
+<s> HEY </s>
+<s> THE </s>
+<s> THIS </s>
+<s> THAT </s>
+<s> PUSH LEFT </s>
+<s> PUSH RIGHT </s>
+<s> PUSH FORWARD </s>
+<s> PUSH BACKWARD </s>
+<s> GRASP </s>
+<s> GIVE </s>
+<s> TAKE </s>
+<s> CANCEL </s>
+<s> STOP </s>
+<s> EFFECT IS MOVED RIGHT </s>
+<s> EFFECT IS MOVED LEFT </s>
+<s> EFFECT IS MOVED FORWARD </s>
+<s> EFFECT IS MOVED BACKWARD </s>
+<s> EFFECT IS REACHED </s>
+<s> EFFECT IS GRASPED </s>
+<s> EFFECT IS DISAPPEARED </s>
+<s> EFFECT IS TAKEN </s>
+<s> EFFECT IS GIVEN </s>
+<s> EFFECT IS TOPPLED </s>
+<s> EFFECT IS NO CHANGE </s>
+<s> BALL IS MOVED RIGHT </s>
+<s> BALL IS MOVED LEFT </s>
+<s> BALL IS MOVED FORWARD </s>
+<s> BALL IS MOVED BACKWARD </s>
+<s> BALL IS DISAPPEARED </s>
+<s> BALL IS REACHED </s>
+<s> BALL IS GRASPED </s>
+<s> BALL IS DISAPPEARED </s>
+<s> BALL IS TAKEN </s>
+<s> BALL IS GIVEN </s>
+<s> BALL IS TOPPLED </s>
+<s> THERE IS NO CHANGE </s>
+<s> CUP </s>
+<s> BOX </s>
+<s> CYLINDER </s>
+<s> BALL </s>
+<s> OBJECT ONE </s>
+<s> OBJECT TWO </s>
+<s> OBJECT THREE </s>
+<s> OBJECT FOUR </s>
+<s> OBJECT FIVE </s>
+<s> OBJECT SIX </s>
+<s> OBJECT SEVEN </s>
+<s> OBJECT EIGHT </s>
+<s> OBJECT NINE </s>

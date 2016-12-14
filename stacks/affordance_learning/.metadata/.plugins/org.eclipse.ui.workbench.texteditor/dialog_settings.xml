@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="314" key="DIALOG_WIDTH"/>
+		<item value="239" key="DIALOG_Y_ORIGIN"/>
+		<item value="1478" key="DIALOG_X_ORIGIN"/>
+		<item value="475" key="DIALOG_HEIGHT"/>
+		<item value="1|Cantarell|11.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="true" key="wrap"/>
+		<item value="false" key="casesensitive"/>
+		<item value="false" key="isRegEx"/>
+		<item value="false" key="incremental"/>
+		<item value="false" key="wholeword"/>
+		<item value="transform" key="selection"/>
+		<list key="findhistory">
+			<item value="transform"/>
+			<item value="pub_entity_features_"/>
+			<item value="PointXYZ"/>
+			<item value="pointcloud_data_"/>
+			<item value="pub_pointcloud_filtered_"/>
+			<item value="msg_pointcloud_filtered_"/>
+		</list>
+		<list key="replacehistory">
+			<item value="PointXYZRGB"/>
+		</list>
+	</section>
+</section>

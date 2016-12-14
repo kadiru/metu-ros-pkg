@@ -1,0 +1,4 @@
+int8 effect_id
+al_msgs/Entity entity
+---
+al_msgs/Behavior[] behaviors

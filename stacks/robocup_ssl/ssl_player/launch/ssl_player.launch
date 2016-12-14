@@ -1,0 +1,17 @@
+<launch>
+
+  <arg name="team" default="blue"/>
+  <arg name="id" default="0"/>
+  <!--arg name="is_sim" default="$(optenv IS_SIM false)"/-->
+
+	<rosparam command="load" file="$(find ssl_player)/config/ssl_player_conf.yaml" />
+	<node pkg="ssl_player" type="ssl_player" name="$(arg team)_player_$(arg id)" output="screen">
+    <!--remap from="/joy" to="$(arg team)_player_$(arg id)/move" /-->
+    <remap from="$(arg team)_player_$(arg id)/move" to="/cmd_vel" />
+	 	<param name="team" value="$(arg team)"/>
+		<param name="id" value="$(arg id)"/>
+		<!--param name="is_sim" value="$(arg is_sim)"/-->
+		<param name="is_sim" value="$(optenv IS_SIM false)"/>
+  </node>
+
+</launch>

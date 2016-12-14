@@ -1,0 +1,9 @@
+string text
+---
+int8 FINISHED
+int8 CANCELLED #preempted
+int8 result
+---
+int8 STARTED
+int8 FINISHED
+int8 status

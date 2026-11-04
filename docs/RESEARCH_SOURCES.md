@@ -10,10 +10,10 @@ These landing pages document two historical stacks in `kadiru/metu-ros-pkg`. The
 | P2 | Yürüten et al. (2012), [Learning Adjectives and Nouns from Affordances on the iCub Humanoid Robot](https://link.springer.com/chapter/10.1007/978-3-642-33093-3_33) | A48/A8/appearance comparison; six behaviors and eight effects; adjective and noun results; original iCub video |
 | P3 | Uyanık et al. (2012), [Towards Context-aware Adjective Learning](https://kovan.ceng.metu.edu.tr/~sinan/publications/icra_hri_12.pdf) | Relative perceptual features and affordance-based contextual adjective learning |
 | P4 | Uyanık et al. (2011), [RoboTurk 2011 Team Description](https://download.tigers-mannheim.de/tdps/2011_TDP_RoboTurk.pdf) | Five robots per team; four-omniwheel mechanics; control electronics; ROS architecture; Webots; development-stage limitations |
-| P5 | Kadir Fırat Uyanık, *A study on Artificial Potential Fields* — author-supplied course technical report | Potential-field experiments; Table I; simulation architecture; Section VI video links |
-| P6 | Kadir Fırat Uyanık, *A comprehensive study on path planning algorithms in multi-agent robot soccer domain* — author-supplied EE586 progress report | Preliminary APF results and explicitly unfinished visibility-graph/RRT comparison |
+| P5 | Kadir Fırat Uyanık, [A study on Artificial Potential Fields](https://www.academia.edu/2007421/A_study_on_Artificial_Potential_Fields) — author-supplied course technical report, 6 pages | Potential-field experiments; Table I; simulation architecture; Section VI video links |
+| P6 | Kadir Fırat Uyanık, [A comprehensive study on path planning algorithms in multi-agent robot soccer domain](https://www.scribd.com/document/55167175/A-comprehensive-study-on-path-planning-algorithms-in-multi-agent-robot-soccer-domain) — author-supplied EE586 progress report, 7 pages | Preliminary APF results and explicitly unfinished visibility-graph/RRT comparison |
 
-The two course reports are identified by their verified titles, not assigned a guessed venue, publication year, DOI or public download URL. Their PDF files are not bundled in this documentation change.
+The two course reports were checked against the original author-supplied PDFs. Their titles and authorship also match the public document pages linked above. Those links open Academia.edu and Scribd, not direct PDF files hosted in this repository; downloading may require an account with the respective host. Scribd displays the alternative platform title “Path Planning in Multi-Agent Robotics”; the title printed in the report is retained here. No venue, publication year or DOI has been guessed, and the original PDF files are not bundled in this repository.
 
 ## Visuals
 

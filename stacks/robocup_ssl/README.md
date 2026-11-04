@@ -64,13 +64,13 @@ Archival video links recovered from [P5], Section VI. These are original experim
 **[P4] [RoboTurk 2011 Team Description](https://download.tigers-mannheim.de/tdps/2011_TDP_RoboTurk.pdf)**  
 Kadir Fırat Uyanık, Mumin Yildirim, Salih Can Camdere, Meric Sariisik, Sertac Olgunsoylu. *RoboCup Small Size League*, 2011. Hardware redesign, ROS architecture and Webots simulation. At the time of writing, several nodes were stubs, physical encoders had not yet been mounted, and higher-level game behaviors remained unfinished.
 
-**[P5] A study on Artificial Potential Fields**  
-Kadir Fırat Uyanık. Course technical report. Potential-field experiments, navigation functions and archival demonstration links.
+**[P5] [A study on Artificial Potential Fields](https://www.academia.edu/2007421/A_study_on_Artificial_Potential_Fields)**  
+Kadir Fırat Uyanık. Course technical report, 6 pages. Potential-field experiments, navigation functions and archival demonstration links. [Read the report on Academia.edu](https://www.academia.edu/2007421/A_study_on_Artificial_Potential_Fields).
 
-**[P6] A comprehensive study on path planning algorithms in multi-agent robot soccer domain**  
-Kadir Fırat Uyanık. *EE586 Artificial Intelligence — Project Progress Report*. Completed preliminary APF tests and a proposed broader comparison.
+**[P6] [A comprehensive study on path planning algorithms in multi-agent robot soccer domain](https://www.scribd.com/document/55167175/A-comprehensive-study-on-path-planning-algorithms-in-multi-agent-robot-soccer-domain)**  
+Kadir Fırat Uyanık. *EE586 Artificial Intelligence — Project Progress Report*, 7 pages. Completed preliminary APF tests and a proposed broader comparison. [Read the report on Scribd](https://www.scribd.com/document/55167175/A-comprehensive-study-on-path-planning-algorithms-in-multi-agent-robot-soccer-domain).
 
-[P5] and [P6] were reviewed from author-supplied PDFs; no public PDF URL is asserted here. [Detailed source notes](../../docs/RESEARCH_SOURCES.md).
+[P5] and [P6] were verified against the original author-supplied PDFs. The links above open public document pages, not PDF files hosted in this repository; downloading may require an account with the respective host. Scribd displays an alternative platform title, “Path Planning in Multi-Agent Robotics”; the original report title is retained here. [Detailed source notes](../../docs/RESEARCH_SOURCES.md).
 
 ## Archive status and credits
 

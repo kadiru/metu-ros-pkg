@@ -18,7 +18,7 @@ def test_team_replay_and_gym_contract():
     np.testing.assert_array_equal(first, second)
     np.testing.assert_array_equal(a[0], b[0])
     assert a[1:] == b[1:]
-    assert first.shape == (34,)
+    assert first.shape == (36,)
 
 
 def test_team_actions_and_role_masks():

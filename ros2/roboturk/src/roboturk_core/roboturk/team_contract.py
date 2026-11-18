@@ -6,7 +6,8 @@ from .capture_contract import capture_observation
 from .shoot_contract import shoot_observation
 from .model import Command, Intent, Skill, bounded
 
-TEAM_CONTRACT = "roboturk.pass_receive.v1"
+TEAM_CONTRACT_V1 = "roboturk.pass_receive.v1"
+TEAM_CONTRACT = "roboturk.pass_receive.v2"
 PASS_SPEED = 1.8
 
 
@@ -28,7 +29,20 @@ def team_observation(world, passer, receiver, state, cfg):
     ).astype(np.float32)
     if not np.all(np.isfinite(observation)):
         raise ValueError("Nonfinite team observation")
-    return observation
+    return augment_angles(observation)
+
+
+def augment_angles(observation):
+    """Add signed aiming errors; usable on original training data, without labels."""
+    x = np.asarray(observation, dtype=np.float32)
+    return np.concatenate(
+        [
+            x,
+            np.arctan2(x[..., 15:16], x[..., 14:15]) / math.pi,
+            np.arctan2(x[..., 20:21], x[..., 19:20]) / math.pi,
+        ],
+        axis=-1,
+    ).astype(np.float32)
 
 
 def team_commands(action, passer, receiver, passed, cfg):

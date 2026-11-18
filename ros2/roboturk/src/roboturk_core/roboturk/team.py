@@ -29,7 +29,14 @@ from .model import (
 )
 from .shoot import ShootEnv
 from .shoot_contract import shoot_action
-from .team_contract import TEAM_CONTRACT, PASS_SPEED, team_action, team_commands, team_observation
+from .team_contract import (
+    TEAM_CONTRACT,
+    TEAM_CONTRACT_V1,
+    PASS_SPEED,
+    team_action,
+    team_commands,
+    team_observation,
+)
 
 
 @dataclass
@@ -86,8 +93,11 @@ class TeamCheckpoint:
         from stable_baselines3 import PPO
 
         metadata = json.loads(Path(path).with_suffix(".json").read_text())
-        if metadata["contract"] != TEAM_CONTRACT or metadata["config"] != asdict(cfg):
+        if metadata["contract"] not in (TEAM_CONTRACT, TEAM_CONTRACT_V1) or metadata[
+            "config"
+        ] != asdict(cfg):
             raise ValueError("Team policy manifest does not match contract/config")
+        self.contract = metadata["contract"]
         self.model = PPO.load(path, device="cpu")
 
     def action(self, env):
@@ -95,6 +105,8 @@ class TeamCheckpoint:
 
     def predict(self, world, passer, receiver, state, cfg):
         obs = team_observation(world, passer, receiver, state, cfg)
+        if self.contract == TEAM_CONTRACT_V1:
+            obs = obs[:34]
         return self.model.predict(obs, deterministic=True)[0]
 
 
@@ -107,7 +119,7 @@ class PassReceiveEnv(gym.Env):
         self.cfg, self.backend = cfg, backend or ReferenceBackend(cfg)
         self.passer, self.receiver = RobotKey("blue", 0), RobotKey("blue", 1)
         self.action_space = gym.spaces.Box(-1, 1, (7,), dtype=np.float32)
-        self.observation_space = gym.spaces.Box(-np.inf, np.inf, (34,), dtype=np.float32)
+        self.observation_space = gym.spaces.Box(-np.inf, np.inf, (36,), dtype=np.float32)
         self.finished = True
 
     def reset(self, *, seed=None, options=None):
@@ -151,7 +163,12 @@ class PassReceiveEnv(gym.Env):
         return team_observation(self.world, self.passer, self.receiver, self.state, self.cfg)
 
     def info(self, success, reason):
+        p, r, b = self.world.robot(self.passer), self.world.robot(self.receiver), self.world.ball
         return {
+            "pass_heading_error": wrap(math.atan2(r.y - b.y, r.x - b.x) - p.yaw),
+            "receive_heading_error": wrap(math.atan2(b.y - r.y, b.x - r.x) - r.yaw),
+            "passer_speed": math.hypot(p.vx, p.vy),
+            "receiver_speed": math.hypot(r.vx, r.vy),
             "is_success": bool(success),
             "reason": reason,
             "steps": self.steps,
@@ -266,12 +283,40 @@ def scoring_handoff(env):
 
 def evaluate_team(env, policy, episodes=200, seed=450000, shooter=None, recorder=None):
     records = []
+    play = None
+    if isinstance(policy, TeamCheckpoint) and shooter is not None:
+        from .team_play import PassReceiveScorePlay
+
+        play = PassReceiveScorePlay(policy, shooter, env.cfg)
     for i in range(episodes):
         env.reset(seed=seed + i)
+        if play:
+            play.reset(env.world, env.passer, env.receiver)
         if recorder:
             recorder.begin_episode(i, seed + i, env)
         while True:
-            _, _, done, truncated, info = env.step(policy.action(env))
+            action = (
+                team_action(play.commands(env.world), env.passer, env.receiver, env.cfg)
+                if play
+                else policy.action(env)
+            )
+            _, _, done, truncated, info = env.step(action)
+            if play:
+                play.observe(
+                    getattr(env.backend, "last_substep_worlds", [env.world]),
+                    env.backend.last_kick_events,
+                )
+                assert (
+                    play.state.passed,
+                    play.state.received,
+                    play.state.passer_dwell,
+                    play.state.receiver_dwell,
+                ) == (
+                    env.state.passed,
+                    env.state.received,
+                    env.state.passer_dwell,
+                    env.state.receiver_dwell,
+                )
             if recorder:
                 recorder.step(env, info, None)
             if done or truncated:
@@ -281,9 +326,18 @@ def evaluate_team(env, policy, episodes=200, seed=450000, shooter=None, recorder
         if info["is_success"] and shooter is not None:
             shot = scoring_handoff(env)
             while True:
-                c = shooter.command(shot.world, shot.key, shot.intent, shot.cfg)
+                c = (
+                    play.commands(shot.world)[env.receiver]
+                    if play
+                    else shooter.command(shot.world, shot.key, shot.intent, shot.cfg)
+                )
                 _, _, done, truncated, shot_info = shot.step(shoot_action(c, shot.cfg))
                 env.world = shot.world
+                if play:
+                    play.observe(
+                        getattr(env.backend, "last_substep_worlds", [env.world]),
+                        env.backend.last_kick_events,
+                    )
                 # ShootEnv sends no passer command; backend defaults it to HOLD.
                 if any(
                     math.hypot(
@@ -328,9 +382,10 @@ def evaluate_team(env, policy, episodes=200, seed=450000, shooter=None, recorder
     half = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / (1 + z * z / n)
     return {
         "episodes": records,
+        "inference_play": "PassReceiveScorePlay" if play else "transfer_only_or_teacher_baseline",
         "successes": count,
         "success_rate": p,
-        "wilson_95": [center - half, center + half],
+        "wilson_95": [max(0.0, center - half), min(1.0, center + half)],
         "transfer_successes": sum(r["transfer"]["is_success"] for r in records),
         "mean_success_seconds": float(
             np.mean([r["elapsed_seconds"] for r in records if r["is_success"]])

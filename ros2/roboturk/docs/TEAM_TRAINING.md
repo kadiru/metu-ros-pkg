@@ -2,7 +2,13 @@
 
 The transfer policy is a centralized 34-input/seven-action MLP coordinating two teammates. A deterministic play assigns roles, holds the passer after its actual kick, and switches the receiver to the existing qualified scoring policy after 0.4 s of stable reception. Motion and fire decisions come from learned networks. The role switch is scripted; this is hierarchical skill composition, not decentralized multi-agent RL or an end-to-end learned strategy.
 
-`PassReceiveScorePlay` is the core deployment API. Supply world state, role assignment, measured physics substeps and actual kick feedback. It rejects time rewinds/duplicate frames and holds on referee stops or missing perception. The current ROS message graph does not yet provide the kick feedback this play requires; full ROS integration remains future work. The Supervisor evaluator runs the same observation, actuator and handoff semantics.
+`PassReceiveScorePlay` is the core deployment API. Supply world state, role assignment, measured physics substeps and actual kick feedback. It rejects time rewinds/duplicate frames and holds on referee stops or missing perception. The current ROS message graph does not yet provide the kick feedback this play requires; full ROS integration remains future work. The full learned Supervisor evaluator and demo invoke this play directly and assert that its observable memory agrees with the independent task monitor.
+
+## V2 experiment
+
+The initial34-input model received54/60 development passes after cloning and37/60 after DAgger; all failures were pass-release timeouts, with no possession losses. The original constrained PPO completed56/60; all64 actor updates were rejected, so no PPO actor improvement is claimed. V2 adds the signed passer and receiver aiming errors (each divided byπ), making36 inputs. It reuses only v1 training data and the cloned checkpoint, then refits80 epochs, collects150 new DAgger episodes520000–520149 and refits50 epochs. Development510000–510059; reserved qualification550000–550199 and demo560000–560005. PPO seed57 uses65,536 steps and a lower anchor-projection learning rate3e−6. Task criteria and actuator semantics are unchanged. No qualification/demo observations are added to training. Results are pending.
+
+For exact v1 regeneration, use [the original source revision](https://github.com/kadiru/metu-ros-pkg/commit/0f95043714d4c2e4fa66175d1fe87efe94c2af38); current team-train uses the36-input contract. Then run current code with `--mode team-upgrade --checkpoint runs/team-v1/bc.zip --steps 65536 --seed 57 --output runs/team-v2 --timeout 1200`. The original v1 reproduction commands and seeds below document that experiment.
 
 ## Scenario and acceptance target, declared before qualification
 

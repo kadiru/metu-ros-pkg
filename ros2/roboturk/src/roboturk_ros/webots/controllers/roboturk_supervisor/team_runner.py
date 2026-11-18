@@ -11,7 +11,17 @@ def run(supervisor, backend, cfg, mode):
     env = PassReceiveEnv(cfg, backend)
     output = Path(os.environ.get("ROBOTURK_OUTPUT", "runs/team/result"))
     output.parent.mkdir(parents=True, exist_ok=True)
-    if mode == "team-train":
+    if mode == "team-upgrade":
+        from roboturk.team_upgrade import upgrade_team
+
+        upgrade_team(
+            env,
+            os.environ["ROBOTURK_CHECKPOINT"],
+            output,
+            int(os.environ.get("ROBOTURK_STEPS", "65536")),
+            int(os.environ.get("ROBOTURK_SEED", "57")),
+        )
+    elif mode == "team-train":
         from roboturk.team_training import train_team
 
         train_team(

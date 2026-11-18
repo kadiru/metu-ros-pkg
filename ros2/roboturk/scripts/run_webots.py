@@ -24,6 +24,9 @@ def main():
             "capture-train",
             "capture-evaluate",
             "capture-demo",
+            "dribble-train",
+            "dribble-evaluate",
+            "dribble-demo",
         ],
         default="evaluate",
     )

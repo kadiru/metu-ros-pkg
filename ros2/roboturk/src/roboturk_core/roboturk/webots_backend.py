@@ -96,6 +96,7 @@ class WebotsBackend:
         cfg = self.cfg
         commands = {k: bounded(c, cfg) for k, c in commands.items()}
         kicked = set()
+        self.last_substep_worlds = []
         for _ in range(self.substeps):
             current = self.read()
             for r in current.robots:
@@ -122,6 +123,7 @@ class WebotsBackend:
                 self.closed = True
                 raise RuntimeError("Webots simulation ended")
             self.world = self.read()
+            self.last_substep_worlds.append(self.world)
         self.kick_held = {k for k, c in commands.items() if c.kick > 0}
         return self.world
 

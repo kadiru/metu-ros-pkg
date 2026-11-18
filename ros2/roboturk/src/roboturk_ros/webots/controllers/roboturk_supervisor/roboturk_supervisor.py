@@ -15,6 +15,17 @@ def main():
     cfg = Config()
     backend = WebotsBackend(supervisor, cfg)
     mode = os.environ.get("ROBOTURK_MODE", "evaluate")
+    if mode.startswith("dribble-"):
+        from dribble_runner import run
+
+        try:
+            run(supervisor, backend, cfg, mode)
+        except Exception:
+            import traceback
+
+            traceback.print_exc()
+            supervisor.simulationQuit(1)
+        return
     if mode.startswith("capture-"):
         from capture_runner import run
 

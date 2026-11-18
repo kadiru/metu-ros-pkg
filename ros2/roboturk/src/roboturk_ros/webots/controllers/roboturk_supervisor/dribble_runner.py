@@ -11,7 +11,22 @@ def run(supervisor, backend, cfg, mode):
     env = DribbleEnv(cfg, backend)
     output = Path(os.environ.get("ROBOTURK_OUTPUT", "runs/dribble/result"))
     output.parent.mkdir(parents=True, exist_ok=True)
-    if mode == "dribble-train":
+    if mode == "dribble-refine":
+        from roboturk.dribble_refinement import refine_dribble
+
+        checkpoint = os.environ.get("ROBOTURK_CHECKPOINT")
+        if not checkpoint:
+            raise ValueError(
+                "dribble-refine requires a cloned checkpoint and its training observations"
+            )
+        refine_dribble(
+            env,
+            checkpoint,
+            output,
+            int(os.environ.get("ROBOTURK_STEPS", "65536")),
+            int(os.environ.get("ROBOTURK_SEED", "18")),
+        )
+    elif mode == "dribble-train":
         from roboturk.dribble_training import train_dribble
 
         train_dribble(

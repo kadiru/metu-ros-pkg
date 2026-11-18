@@ -25,6 +25,7 @@ def main():
             "capture-evaluate",
             "capture-demo",
             "dribble-train",
+            "dribble-refine",
             "dribble-evaluate",
             "dribble-demo",
         ],

@@ -1,0 +1,572 @@
+{
+  "move": {
+    "episodes": [
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "move",
+        "steps": 78,
+        "seed": 2000,
+        "return": 13.3154
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "move",
+        "steps": 78,
+        "seed": 2001,
+        "return": 13.3288
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "move",
+        "steps": 78,
+        "seed": 2002,
+        "return": 13.3299
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "move",
+        "steps": 78,
+        "seed": 2003,
+        "return": 13.3708
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "move",
+        "steps": 81,
+        "seed": 2004,
+        "return": 13.3183
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "move",
+        "steps": 78,
+        "seed": 2005,
+        "return": 13.3158
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "move",
+        "steps": 78,
+        "seed": 2006,
+        "return": 13.316
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "move",
+        "steps": 78,
+        "seed": 2007,
+        "return": 13.3174
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "move",
+        "steps": 77,
+        "seed": 2008,
+        "return": 13.3098
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "move",
+        "steps": 80,
+        "seed": 2009,
+        "return": 13.3156
+      }
+    ],
+    "success_rate": 1.0
+  },
+  "chase": {
+    "episodes": [
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "chase",
+        "steps": 61,
+        "seed": 2000,
+        "return": 11.0121
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "chase",
+        "steps": 68,
+        "seed": 2001,
+        "return": 11.4905
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "chase",
+        "steps": 71,
+        "seed": 2002,
+        "return": 11.6865
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "chase",
+        "steps": 71,
+        "seed": 2003,
+        "return": 11.6792
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "chase",
+        "steps": 75,
+        "seed": 2004,
+        "return": 11.9613
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "chase",
+        "steps": 73,
+        "seed": 2005,
+        "return": 11.8417
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "chase",
+        "steps": 65,
+        "seed": 2006,
+        "return": 11.3043
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "chase",
+        "steps": 64,
+        "seed": 2007,
+        "return": 11.2138
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "chase",
+        "steps": 74,
+        "seed": 2008,
+        "return": 11.8871
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "chase",
+        "steps": 76,
+        "seed": 2009,
+        "return": 12.0354
+      }
+    ],
+    "success_rate": 1.0
+  },
+  "dribble": {
+    "episodes": [
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "dribble",
+        "steps": 77,
+        "seed": 2000,
+        "return": 11.5789
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "dribble",
+        "steps": 78,
+        "seed": 2001,
+        "return": 11.5985
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "dribble",
+        "steps": 78,
+        "seed": 2002,
+        "return": 11.5981
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "dribble",
+        "steps": 82,
+        "seed": 2003,
+        "return": 11.6786
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "dribble",
+        "steps": 79,
+        "seed": 2004,
+        "return": 11.6182
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "dribble",
+        "steps": 77,
+        "seed": 2005,
+        "return": 11.5789
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "dribble",
+        "steps": 77,
+        "seed": 2006,
+        "return": 11.5789
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "dribble",
+        "steps": 77,
+        "seed": 2007,
+        "return": 11.5789
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "dribble",
+        "steps": 77,
+        "seed": 2008,
+        "return": 11.579
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "dribble",
+        "steps": 78,
+        "seed": 2009,
+        "return": 11.5985
+      }
+    ],
+    "success_rate": 1.0
+  },
+  "pass": {
+    "episodes": [
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "pass",
+        "steps": 47,
+        "seed": 2000,
+        "return": 11.955
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "pass",
+        "steps": 47,
+        "seed": 2001,
+        "return": 11.955
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "pass",
+        "steps": 63,
+        "seed": 2002,
+        "return": 11.8847
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "pass",
+        "steps": 58,
+        "seed": 2003,
+        "return": 11.9056
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "pass",
+        "steps": 54,
+        "seed": 2004,
+        "return": 11.9244
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "pass",
+        "steps": 58,
+        "seed": 2005,
+        "return": 11.9057
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "pass",
+        "steps": 62,
+        "seed": 2006,
+        "return": 11.8888
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "pass",
+        "steps": 60,
+        "seed": 2007,
+        "return": 11.8965
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "pass",
+        "steps": 63,
+        "seed": 2008,
+        "return": 11.8849
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "pass",
+        "steps": 60,
+        "seed": 2009,
+        "return": 11.8972
+      }
+    ],
+    "success_rate": 1.0
+  },
+  "receive": {
+    "episodes": [
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "receive",
+        "steps": 50,
+        "seed": 2000,
+        "return": 11.4963
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "receive",
+        "steps": 42,
+        "seed": 2001,
+        "return": 11.5241
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "receive",
+        "steps": 39,
+        "seed": 2002,
+        "return": 11.5479
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "receive",
+        "steps": 40,
+        "seed": 2003,
+        "return": 11.5349
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "receive",
+        "steps": 36,
+        "seed": 2004,
+        "return": 11.5508
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "receive",
+        "steps": 38,
+        "seed": 2005,
+        "return": 11.5403
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "receive",
+        "steps": 45,
+        "seed": 2006,
+        "return": 11.5148
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "receive",
+        "steps": 46,
+        "seed": 2007,
+        "return": 11.5172
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "receive",
+        "steps": 37,
+        "seed": 2008,
+        "return": 11.545
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "receive",
+        "steps": 36,
+        "seed": 2009,
+        "return": 11.5444
+      }
+    ],
+    "success_rate": 1.0
+  },
+  "shoot": {
+    "episodes": [
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "shoot",
+        "steps": 72,
+        "seed": 2000,
+        "return": 14.1179
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "shoot",
+        "steps": 72,
+        "seed": 2001,
+        "return": 14.1173
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "shoot",
+        "steps": 72,
+        "seed": 2002,
+        "return": 13.8927
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "shoot",
+        "steps": 72,
+        "seed": 2003,
+        "return": 14.0303
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "shoot",
+        "steps": 72,
+        "seed": 2004,
+        "return": 14.0779
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "shoot",
+        "steps": 72,
+        "seed": 2005,
+        "return": 14.0211
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "shoot",
+        "steps": 72,
+        "seed": 2006,
+        "return": 13.9052
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "shoot",
+        "steps": 72,
+        "seed": 2007,
+        "return": 13.9894
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "shoot",
+        "steps": 72,
+        "seed": 2008,
+        "return": 13.888
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "shoot",
+        "steps": 72,
+        "seed": 2009,
+        "return": 13.9682
+      }
+    ],
+    "success_rate": 1.0
+  }
+}

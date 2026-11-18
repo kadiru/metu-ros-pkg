@@ -1,0 +1,9 @@
+{
+  "runtime": "Webots R2025a nightly",
+  "tag": "nightly_17_11_2026",
+  "commit": "e5d1122a3cd59f007ee4b37c8f651b50e7ee83d2",
+  "asset_url": "https://github.com/cyberbotics/webots/releases/download/nightly_17_11_2026/webots-R2025a.dmg",
+  "published_at": "2026-11-17T23:14:27Z",
+  "reason": "Original stable binary fails macOS 27 port detection; nightly includes upstream PR #7032",
+  "baseline_linux": "Webots R2025a / ROS 2 Jazzy / Ubuntu 24.04 (ROS build pending)"
+}

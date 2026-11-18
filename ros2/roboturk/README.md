@@ -4,19 +4,19 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 This is an initial implementation, not a competition-ready team. It provides six skill environments, interchangeable analytic/learned policies, a stateful team-play layer, ROS 2 messages/nodes and a Webots Supervisor backend. See [validation](docs/VALIDATION.md) for exactly what has run.
 
-The learned **capture-and-dribble policy passed 200/200 unseen Webots episodes with zero possession losses**, including both goal directions and stationary/rolling balls. It moved the ball an average of **3.59 m closer to the goal-side target**, then stopped and held it for one second; mean full-task time was **13.02 s**. Possession is checked every 5 ms after acquisition. Training uses demonstrations and constrained PPO; inference is a single neural network. This result covers one robot on an unobstructed field with approximate dynamics. [Checkpoint and model card](policies/capture_dribble_v1/README.md) · [Training and failed-experiment record](docs/DRIBBLE_TRAINING.md) · [Six consecutive demo episodes](media/capture-dribble-demo.mp4).
+The learned **capture → dribble → shoot policy scored in 200/200 unseen Webots scenarios**, with zero premature shots and zero possession losses before shooting. It averaged **3.17 m of controlled progress** and **8.37 s** from the initial state to a goal. Scoring requires an actual kick and full-ball crossing inside the opponent's posts. Both goal directions and stationary/rolling balls were tested. Training uses demonstrations, recovery data and constrained PPO; inference is one neural network with fixed retain/fire actuator semantics. This result covers one robot and an unguarded goal in approximate dynamics. [Checkpoint and model card](policies/capture_dribble_shoot_v2/README.md) · [Training and experiment history](docs/SCORING_TRAINING.md) · [Fresh native Webots demo](media/capture-dribble-score-demo.mp4).
 
-[![Actual Webots capture-and-dribble recording](media/capture-dribble-preview.jpg)](media/capture-dribble-demo.mp4)
+[![Actual Webots capture-dribble-score recording](media/capture-dribble-score-preview.jpg)](media/capture-dribble-score-demo.mp4)
 
-The earlier [capture-only policy](policies/chase_capture_v1/README.md) remains available: 200/200 unseen captures, mean 1.63 s. [Capture-only demo](media/chase-capture-demo.mp4).
+Earlier releases remain available: [capture and retained dribbling](policies/capture_dribble_v1/README.md), 200/200 successes; [capture only](policies/chase_capture_v1/README.md), 200/200 captures. The [earlier scoring experiment](policies/capture_dribble_shoot_v1/README.md) retains its 192/200 result and 5/6 demo, including all failures.
 
 Replay the shipped checkpoint, using the environment and Webots installation described below:
 
 ```sh
 ../.venv/bin/python scripts/run_webots.py \
   --webots ../runtime/Webots-nightly.app/Contents/MacOS/webots \
-  --mode dribble-demo --checkpoint policies/capture_dribble_v1/policy.zip \
-  --episodes 6 --seed 160000 --output runs/dribble-demo --timeout 240 --render
+  --mode shoot-demo --checkpoint policies/capture_dribble_shoot_v2/policy.zip \
+  --episodes 6 --seed 360000 --output runs/scoring-demo --timeout 240 --render
 ```
 
 ```mermaid
@@ -121,14 +121,14 @@ PYTHONPATH=src/roboturk_core ../.venv/bin/python -m roboturk.cli train \
 
 PPO uses one CPU thread here. A `.zip` checkpoint has a companion `.json` with observation contract version, skill, full configuration, backend and seed. Loading rejects incompatible skill/configuration/contract combinations. Successful loading is not a qualification for deployment.
 
-In Python, register `CheckpointPolicy(path, Skill.CHASE, cfg)` or `CheckpointPolicy(path, Skill.DRIBBLE, cfg)` with `BehaviorLibrary.register`, matching the checkpoint. The dribble policy receives `Intent.target` through its shared observation contract. The ROS strategy node accepts a `policies` JSON parameter mapping individual skill names to checkpoint paths. Both paths apply the same actuator masks and the runtime referee gate. Recurrent policies and observation normalization beyond the fixed contract are not supported yet.
+In Python, register `CheckpointPolicy(path, skill, cfg)` with `BehaviorLibrary.register`, matching `Skill.CHASE`, `Skill.DRIBBLE` or `Skill.SHOOT` to the checkpoint. Dribble and scoring policies receive `Intent.target` through their shared observation contracts; for the released scoring policy this is the opponent goal center. The ROS strategy node accepts a `policies` JSON parameter mapping individual skill names to checkpoint paths. Both paths apply the same actuator masks and runtime referee gate. Recurrent policies and observation normalization beyond the fixed contract are not supported yet.
 
 ## What to develop next
 
 1. Validate the complete Webots/ROS live graph on Ubuntu. CI already builds all three ROS packages and passes the two bridge/interface tests; full simulator integration remains separate.
 2. Confirm which physical robot revision to reproduce: the archive contains both three- and four-wheel references. Add real motor/roller geometry and measure step response, slip, braking, dribbler capture and kick speed.
 3. Improve obstacle avoidance and skill termination, add randomized opponents, latency, observation noise and dynamics; evaluate held-out configurations.
-4. Extend the qualified unobstructed capture/dribble policies to receive → pass/shoot. Maintain analytic and random-policy comparisons, success rates, collision rates and uncertainty across training seeds.
+4. Extend the qualified capture/dribble/scoring policies to receiving, passing and guarded goals. Maintain analytic and random-policy comparisons, success rates, collision rates and uncertainty across training seeds.
 5. Add official SSL vision/game-controller adapters and rule enforcement, then multi-agent rollouts, centralized-critic training and self-play. The current Gymnasium tasks are single controlled robot with a scripted receiving teammate, not multi-agent RL.
 
 New code has no release license selected yet (`LicenseRef-Unlicensed` metadata). The historical repository's file-specific licenses and authorship remain intact. No archive implementation was copied into the modern Python stack.

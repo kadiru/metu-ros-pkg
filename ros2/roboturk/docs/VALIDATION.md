@@ -2,7 +2,7 @@
 
 ## Verified locally
 
-- 42 Python tests pass. They include Gymnasium contract checks for all six tasks and randomized capture/dribble; seeded replay; coordinate transforms and target rotation invariance; finite action validation; velocity/actuator limits; HALT/STOP/stale-input overrides; goal-line crossing; receiving/passing success; sustained capture versus brief contact; possession loss between control frames; stationary arrival hold; pass-role persistence; reset clearing; and the deferred Webots reset regression.
+- 50 Python tests pass. They include Gymnasium contracts for all six tasks and capture/dribble/scoring curricula; seeded replay; coordinate/target rotation invariance; finite actions; actuator limits and retain/fire semantics; HALT/STOP/stale-input overrides; full-ball goal crossing in both directions; rejecting premature shots and pushed-in balls; possession loss between control frames; arrival hold; passing/receiving and role persistence; reset clearing; and the deferred Webots reset regression.
 - Ruff static checks pass and Python sources compile.
 - Both Python packages built and installed as editable packages; `pip check` reports no broken dependencies. Exact local versions are recorded in `requirements-macos-validation.txt` (a macOS validation environment, not a universal ROS lockfile).
 - ROS-specific tests are skipped locally because this Mac has no ROS 2 installation. GitHub Actions on Ubuntu 24.04 / ROS 2 Jazzy built all three packages and passed **2/2 ROS bridge/interface tests** at commit `3b543642`. These tests exercise conversions, command/referee watchdogs and reset with a reference backend; a complete Webots/ROS live-graph run is still pending.
@@ -45,6 +45,14 @@ Development exposed a real regression: unconstrained PPO lost possession during 
 
 Core and ROS CI passed for source commit `10089703`, including the new training mode. The [native simulator demo](../media/capture-dribble-demo.mp4) passed **6/6 fresh scenarios**, retaining possession for another 0.8 s after arrival in all six. A camera-only rerender produced identical episode metrics. The complete 81.96 s H.264 video decoded successfully, and route/tracking frames were visually inspected; only the camera and nonphysical target marker affect presentation.
 
+## Qualified learned capture-dribble-score policy
+
+V2 scored **200/200** new reserved scenarios (350000–350199), with **zero invalid shots and zero pre-shot possession losses** across 241,996 physics checks. Stationary/rolling subsets were 112/112 and 88/88; positive/negative goals 106/106 and 94/94. Mean full-sequence time **8.3683 s**, controlled progress **3.1708 m**, shot distance **1.2865 m**. Each goal required exactly one applied kick after acquisition and at least 0.5 m of retained carry, followed by full-ball crossing inside the opponent's posts. [Model card and complete records](../policies/capture_dribble_shoot_v2/README.md).
+
+The earlier v1 scored 192/200 and 5/6 demo scenarios, with premature-shot failures retained. V2 adds explicit radial goal distance and new recovery data; its initial range-only refit was 0/60, while DAgger and anchored PPO each scored 60/60 on new development seeds. All stages remain in the published evidence. This does not establish an incremental PPO success benefit. Qualification uses a single loaded MLP, with dribbler-until-fire and fixed 3.5 m/s kick semantics, against an unguarded goal in approximate dynamics. Core and ROS CI passed at training source commit `5edfd064`.
+
+The [new native simulator demo](../media/capture-dribble-score-demo.mp4) scored **6/6**, on preselected seeds 360000–360005. All outcomes are retained. Full H.264 decoding and visual inspection of route and goal frames verify the recording artifact. The [earlier 5/6 demo](../media/capture-dribble-score-v1-demo.mp4) remains available, including its failure.
+
 ## Synthetic backend
 
 [Recorded analytic baseline results](synthetic-baseline-results.json) are a software comparison only. The synthetic backend deliberately simplifies contacts and snaps a held ball to the robot mouth. It must not be confused with Webots physics or hardware evidence.
@@ -57,4 +65,4 @@ The reloaded policy achieved **0/10 successes** on held-out seeds 3000–3009 (o
 
 ## Remaining qualification work
 
-Full Webots/ROS live graph on Linux; motor/roller/dribbler/kicker calibration; official vision/referee adapters and full rule enforcement; obstructed and adversarial scenarios; multiple training seeds and ablations; learned receive/pass/shoot skills; full team match evaluation; recurrent policies; multi-agent training and self-play; physical transfer. No GPU training has been launched.
+Full Webots/ROS live graph on Linux; motor/roller/dribbler/kicker calibration; official vision/referee adapters and full rule enforcement; guarded goals, obstructed/adversarial scenarios; multiple training seeds and ablations; learned receiving/passing and variable kick power; full team match evaluation; recurrent policies; multi-agent training and self-play; physical transfer. No GPU training has been launched.

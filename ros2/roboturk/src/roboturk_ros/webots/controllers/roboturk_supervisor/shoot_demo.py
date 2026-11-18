@@ -69,7 +69,7 @@ class Recorder:
             0.215,
             0.038,
         )
-        if self.follow and env.shot and not self.preview_saved:
+        if self.follow and info["is_success"] and not self.preview_saved:
             self.supervisor.exportImage(str(self.output.with_suffix(".jpg")), 95)
             self.preview_saved = True
 

@@ -18,7 +18,7 @@ WorldInfo {
     }
   ]
 }
-Viewpoint { orientation 0 1 0 1.57079632679 position 0 0 13 }
+DEF CAMERA Viewpoint { orientation 0 1 0 1.57079632679 position 0 0 13 }
 Background { skyColor [ 0.08 0.1 0.14 ] }
 DirectionalLight { direction -0.2 -0.3 -1 intensity 1 }
 Solid {

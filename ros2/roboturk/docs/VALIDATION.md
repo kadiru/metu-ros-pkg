@@ -2,10 +2,10 @@
 
 ## Verified locally
 
-- 33 Python tests pass. They include Gymnasium contract checks for all six tasks; seeded replay; coordinate transforms; finite action validation; velocity/actuator limits; HALT/STOP/stale-input overrides; goal-line crossing; receiving/passing success; pass-role persistence; reset clearing; and the deferred Webots reset regression.
+- 38 Python tests pass. They include Gymnasium contract checks for all six tasks and randomized capture; seeded replay; coordinate transforms and capture rotation invariance; finite action validation; velocity/actuator limits; HALT/STOP/stale-input overrides; goal-line crossing; receiving/passing success; sustained capture versus brief contact; pass-role persistence; reset clearing; and the deferred Webots reset regression.
 - Ruff static checks pass and Python sources compile.
 - Both Python packages built and installed as editable packages; `pip check` reports no broken dependencies. Exact local versions are recorded in `requirements-macos-validation.txt` (a macOS validation environment, not a universal ROS lockfile).
-- ROS-specific tests are skipped locally because this Mac has no ROS 2 installation. The included Jazzy CI job and generated interface build have **not** been run here.
+- ROS-specific tests are skipped locally because this Mac has no ROS 2 installation. GitHub Actions on Ubuntu 24.04 / ROS 2 Jazzy built all three packages and passed **2/2 ROS bridge/interface tests** at commit `3b543642`. These tests exercise conversions, command/referee watchdogs and reset with a reference backend; a complete Webots/ROS live-graph run is still pending.
 - The original source checkout remains unchanged.
 
 ## Webots measurements
@@ -27,18 +27,26 @@ After diagnosing on seeds 1000–1009, the final analytic baseline ran against *
 
 Actual simulator testing caught three issues that the synthetic backend did not reveal: dynamic PROTOs need an `IMPORTABLE EXTERNPROTO` declaration; deferred physics reset erased initial ball velocity; and a loose kick-heading tolerance missed the receiving robot. Passing also needed a hold phase after releasing the ball, matching team-play behavior. All are corrected in the recorded final runs.
 
-Webots emits an Apple GPU capability warning and a texture-loader warning. The simulator parsed the authored world and PROTOs, stepped the Supervisor controller, created robots dynamically, and wrote the recorded episode results successfully. No visual-quality claim is made.
+Webots emits an Apple GPU capability warning and a texture-loader warning. The simulator parsed the authored world and PROTOs, stepped the Supervisor controller, created robots dynamically, and wrote the recorded episode results successfully. Native movie recording also completed; the resulting H.264 video was decoded and inspected.
+
+## Qualified learned capture policy
+
+The new `capture.randomized.v1` task tests full-circle robot headings/bearings, starting distances 0.35–2 m, and stationary or initially rolling balls (0.15–0.6 m/s). Success requires 0.4 s of continuous mouth possession, low relative speed and active dribbler.
+
+The neural checkpoint achieved **200/200** reserved episodes (seeds 50000–50199), comprising **100/100 stationary** and **100/100 moving** cases. Mean capture time: **1.628 s**; Wilson 95% interval: **98.12–100%**. Six consecutive new demo seeds all succeeded and retained the ball for another second under the same policy. [Model card and episode records](../policies/chase_capture_v1/README.md) · [Actual Webots video](../media/chase-capture-demo.mp4).
+
+Training used 300 demonstrations, 150 DAgger episodes and 131,072 PPO steps, seed 7, one CPU thread. Teacher commands are absent from inference. Development was 50/50 both before and after PPO, so these results do not establish PPO's incremental benefit. This is qualification for the stated unobstructed approximate simulation distribution only.
 
 ## Synthetic backend
 
 [Recorded analytic baseline results](synthetic-baseline-results.json) are a software comparison only. The synthetic backend deliberately simplifies contacts and snaps a held ball to the robot mouth. It must not be confused with Webots physics or hardware evidence.
 
-## PPO training/checkpoint smoke test
+## Historical PPO training/checkpoint smoke test
 
 Actual Webots backend, chase skill, seed 7, exactly 2,048 steps, SB3 PPO, CPU device with one training thread. Training completed and saved `runs/webots_smoke/policy.zip` plus its contract/config manifest. Loading and inference passed; loading the chase checkpoint as a passing skill correctly raised a compatibility error.
 
-The reloaded policy achieved **0/10 successes** on held-out seeds 3000–3009 (out-of-bounds or collision). This short run verifies training and persistence, not skill learning quality. No learned policy is qualified for use. [Recorded training manifest and evaluation](ppo-smoke-results.json). Checkpoint binaries remain ignored local artifacts.
+The reloaded policy achieved **0/10 successes** on held-out seeds 3000–3009 (out-of-bounds or collision). This short run verified training and persistence, not skill learning quality. It preceded the specialized capture curriculum and qualified checkpoint above. [Recorded training manifest and evaluation](ppo-smoke-results.json). This obsolete smoke checkpoint remains an ignored local artifact.
 
 ## Remaining qualification work
 
-ROS colcon build and live graph on Linux; motor/roller/dribbler/kicker calibration; official vision/referee adapters and full rule enforcement; obstructed and adversarial scenarios; full team match evaluation; qualified learned policies; recurrent policies; multi-agent training and self-play; physical transfer. No GPU training has been launched.
+Full Webots/ROS live graph on Linux; motor/roller/dribbler/kicker calibration; official vision/referee adapters and full rule enforcement; obstructed and adversarial scenarios; multiple training seeds and ablations; learned dribble/pass/shoot skills; full team match evaluation; recurrent policies; multi-agent training and self-play; physical transfer. No GPU training has been launched.

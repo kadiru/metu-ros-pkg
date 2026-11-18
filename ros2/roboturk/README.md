@@ -4,6 +4,19 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 This is an initial implementation, not a competition-ready team. It provides six skill environments, interchangeable analytic/learned policies, a stateful team-play layer, ROS 2 messages/nodes and a Webots Supervisor backend. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+The first learned **chase-and-capture policy passed 200/200 unseen Webots episodes** (100 stationary and 100 rolling balls), with mean capture time **1.63 s** including 0.4 s of stable possession. Training used demonstrations, DAgger and 131,072 PPO steps. Inference uses the neural network alone. This result covers one robot on an unobstructed field with approximate dynamics. [Checkpoint and model card](policies/chase_capture_v1/README.md) · [Training procedure](docs/CAPTURE_TRAINING.md) · [Six consecutive demo episodes](media/chase-capture-demo.mp4).
+
+[![Actual Webots recording](media/chase-capture-preview.jpg)](media/chase-capture-demo.mp4)
+
+Replay the shipped checkpoint, using the environment and Webots installation described below:
+
+```sh
+../.venv/bin/python scripts/run_webots.py \
+  --webots ../runtime/Webots-nightly.app/Contents/MacOS/webots \
+  --mode capture-demo --checkpoint policies/chase_capture_v1/policy.zip \
+  --episodes 6 --seed 60000 --output runs/capture-demo --timeout 180 --render
+```
+
 ```mermaid
 flowchart TD
   Vision[Webots ground truth / future SSL vision] --> World[World state + referee state]
@@ -110,10 +123,10 @@ In Python, register `CheckpointPolicy(path, Skill.CHASE, cfg)` with `BehaviorLib
 
 ## What to develop next
 
-1. Validate the ROS build and live graph on Ubuntu; run the included ROS integration tests and inspect stop/reset behavior in simulation.
+1. Validate the complete Webots/ROS live graph on Ubuntu. CI already builds all three ROS packages and passes the two bridge/interface tests; full simulator integration remains separate.
 2. Confirm which physical robot revision to reproduce: the archive contains both three- and four-wheel references. Add real motor/roller geometry and measure step response, slip, braking, dribbler capture and kick speed.
 3. Improve obstacle avoidance and skill termination, add randomized opponents, latency, observation noise and dynamics; evaluate held-out configurations.
-4. Train and qualify one skill at a time: move → chase/receive → dribble → pass/shoot. Maintain analytic and random-policy comparisons, success rates, collision rates and uncertainty across seeds.
+4. Extend the qualified unobstructed capture policy to receive → dribble → pass/shoot. Maintain analytic and random-policy comparisons, success rates, collision rates and uncertainty across training seeds.
 5. Add official SSL vision/game-controller adapters and rule enforcement, then multi-agent rollouts, centralized-critic training and self-play. The current Gymnasium tasks are single controlled robot with a scripted receiving teammate, not multi-agent RL.
 
 New code has no release license selected yet (`LicenseRef-Unlicensed` metadata). The historical repository's file-specific licenses and authorship remain intact. No archive implementation was copied into the modern Python stack.

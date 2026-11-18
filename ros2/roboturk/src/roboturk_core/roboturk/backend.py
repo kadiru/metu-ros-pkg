@@ -38,6 +38,7 @@ class ReferenceBackend:
         ball = old.ball
         held = False
         next_kick_held = set()
+        self.last_kick_events = []
         for robot in old.robots:
             c = bounded(commands.get(robot.key, Command()), cfg)
             vx, vy = world_vector(c.vx, c.vy, robot.yaw)
@@ -55,6 +56,7 @@ class ReferenceBackend:
                 next_kick_held.add(robot.key)
             if not held and possession(old, robot.key, cfg):
                 if c.kick > 0 and robot.key not in self.kick_held:
+                    self.last_kick_events.append((robot.key, old, c.kick))
                     ball = replace(
                         ball, vx=c.kick * math.cos(robot.yaw), vy=c.kick * math.sin(robot.yaw)
                     )

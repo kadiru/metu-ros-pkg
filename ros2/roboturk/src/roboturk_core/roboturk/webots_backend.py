@@ -97,6 +97,7 @@ class WebotsBackend:
         commands = {k: bounded(c, cfg) for k, c in commands.items()}
         kicked = set()
         self.last_substep_worlds = []
+        self.last_kick_events = []
         for _ in range(self.substeps):
             current = self.read()
             for r in current.robots:
@@ -111,6 +112,7 @@ class WebotsBackend:
                             [c.kick * math.cos(r.yaw), c.kick * math.sin(r.yaw), 0.0, 0.0, 0.0, 0.0]
                         )
                         kicked.add(r.key)
+                        self.last_kick_events.append((r.key, current, c.kick))
                     elif c.dribbler > 0.5 and r.key not in kicked:
                         # Bounded spring/damper attraction at the mouth. Calibrate before transfer.
                         x = r.x + cfg.possession_x * math.cos(r.yaw)

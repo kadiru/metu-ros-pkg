@@ -7,6 +7,7 @@ bounds. This is a training constraint; inference is the ordinary single MLP.
 
 import hashlib
 import json
+import math
 from pathlib import Path
 import time
 import numpy as np
@@ -19,7 +20,7 @@ from .dribble_training import ModelPolicy, save
 
 
 class AnchoredPPO(PPO):
-    def prepare_anchor(self, observations, seed):
+    def prepare_anchor(self, observations, seed, groups=None):
         self.anchor_rng = np.random.default_rng(seed)
         self.anchor_inputs = torch.as_tensor(observations, dtype=torch.float32)
         with torch.no_grad():
@@ -31,11 +32,17 @@ class AnchoredPPO(PPO):
             )
         held = observations[:, 11] >= 0.5
         near = np.linalg.norm(observations[:, 12:14], axis=1) * 5 < 0.4
-        self.anchor_groups = [
-            np.flatnonzero(~held),
-            np.flatnonzero(held & ~near),
-            np.flatnonzero(held & near),
-        ]
+        self.anchor_groups = (
+            groups
+            if groups is not None
+            else [
+                np.flatnonzero(~held),
+                np.flatnonzero(held & ~near),
+                np.flatnonzero(held & near),
+            ]
+        )
+        if not self.anchor_groups or any(len(group) == 0 for group in self.anchor_groups):
+            raise ValueError("Each anchor phase must contain training observations")
         self.anchor_probe = np.concatenate(
             [self.anchor_rng.choice(g, 4096, replace=True) for g in self.anchor_groups]
         )
@@ -78,7 +85,9 @@ class AnchoredPPO(PPO):
             ).distribution.mean
             difference = prediction - self.anchor_targets[self.anchor_probe]
             mse, maximum = float((difference**2).mean()), float(difference.abs().max())
-        rejected = mse > 1e-6 or maximum > 0.01
+        rejected = (
+            not math.isfinite(mse) or not math.isfinite(maximum) or mse > 1e-6 or maximum > 0.01
+        )
         if rejected:
             with torch.no_grad():
                 for parameter, old in zip(self.actor_parameters(), previous, strict=True):

@@ -79,14 +79,17 @@ class CheckpointPolicy:
         manifest = json.loads(Path(path).with_suffix(".json").read_text())
         from .capture_contract import CAPTURE_CONTRACT
         from .dribble_contract import DRIBBLE_CONTRACT
+        from .shoot_contract import SHOOT_CONTRACT
 
         self.contract = manifest["contract"]
         if (
-            self.contract not in (CONTRACT_VERSION, CAPTURE_CONTRACT, DRIBBLE_CONTRACT)
+            self.contract
+            not in (CONTRACT_VERSION, CAPTURE_CONTRACT, DRIBBLE_CONTRACT, SHOOT_CONTRACT)
             or manifest["skill"] != skill.value
             or manifest["config"] != asdict(cfg)
             or (self.contract == CAPTURE_CONTRACT and skill != Skill.CHASE)
             or (self.contract == DRIBBLE_CONTRACT and skill != Skill.DRIBBLE)
+            or (self.contract == SHOOT_CONTRACT and skill != Skill.SHOOT)
         ):
             raise ValueError("Policy manifest does not match the runtime contract/skill/config")
         self.skill = skill
@@ -97,6 +100,15 @@ class CheckpointPolicy:
             raise ValueError("Policy invoked for a different skill")
         from .capture_contract import CAPTURE_CONTRACT, capture_command, capture_observation
         from .dribble_contract import DRIBBLE_CONTRACT, dribble_observation
+        from .shoot_contract import SHOOT_CONTRACT, shoot_command, shoot_observation
+
+        if self.contract == SHOOT_CONTRACT:
+            if not world.ball.visible or not world.robot(key).visible:
+                return Command()
+            action, _ = self.model.predict(
+                shoot_observation(world, key, intent, cfg), deterministic=True
+            )
+            return shoot_command(action, cfg)
 
         if self.contract in (CAPTURE_CONTRACT, DRIBBLE_CONTRACT):
             if not world.ball.visible or not world.robot(key).visible:

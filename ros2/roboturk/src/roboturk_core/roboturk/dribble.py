@@ -169,8 +169,10 @@ class DribbleEnv(CaptureEnv):
         )
 
 
-def evaluate_dribble(env, policy, episodes=200, seed=150000, recorder=None):
+def evaluate_dribble(env, policy, episodes=200, seed=150000, recorder=None, action_encoder=None):
     from .capture_contract import capture_action
+
+    encoder = capture_action if action_encoder is None else action_encoder
 
     records = []
     for i in range(episodes):
@@ -179,7 +181,7 @@ def evaluate_dribble(env, policy, episodes=200, seed=150000, recorder=None):
             recorder.begin_episode(i, seed + i, env)
         while True:
             command = policy.command(env.world, env.key, env.intent, env.cfg)
-            _, _, done, truncated, info = env.step(capture_action(command, env.cfg))
+            _, _, done, truncated, info = env.step(encoder(command, env.cfg))
             if recorder:
                 recorder.step(env, info)
             if done or truncated:
@@ -187,7 +189,7 @@ def evaluate_dribble(env, policy, episodes=200, seed=150000, recorder=None):
                 break
         if (i + 1) % 20 == 0:
             print(
-                f"Dribble evaluation {i + 1}/{episodes}: {sum(r['is_success'] for r in records)}/{i + 1}",
+                f"{env.skill.value} evaluation {i + 1}/{episodes}: {sum(r['is_success'] for r in records)}/{i + 1}",
                 flush=True,
             )
     successes = sum(r["is_success"] for r in records)

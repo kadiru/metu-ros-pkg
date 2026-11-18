@@ -28,6 +28,9 @@ def main():
             "dribble-refine",
             "dribble-evaluate",
             "dribble-demo",
+            "shoot-train",
+            "shoot-evaluate",
+            "shoot-demo",
         ],
         default="evaluate",
     )

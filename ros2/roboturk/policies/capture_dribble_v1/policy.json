@@ -1,0 +1,56 @@
+{
+  "contract": "roboturk.capture_dribble.v1",
+  "skill": "dribble",
+  "config": {
+    "length": 9.0,
+    "width": 6.0,
+    "goal_width": 1.0,
+    "robot_radius": 0.09,
+    "ball_radius": 0.0215,
+    "ball_mass": 0.046,
+    "max_speed": 2.0,
+    "max_omega": 8.0,
+    "max_kick": 5.0,
+    "dt": 0.02,
+    "max_steps": 500,
+    "neighbors": 5,
+    "possession_x": 0.115
+  },
+  "task": "capture_dribble.randomized.v1",
+  "backend": "webots_ideal_body_velocity",
+  "method": "Webots cloning + PPO with reference-policy anchoring",
+  "stage": "anchored_ppo",
+  "actual_steps": 65536,
+  "validated_for_hardware": false,
+  "episode_steps": 1200,
+  "target_radius": 0.18,
+  "arrival_hold_steps": 50,
+  "possession_sample_seconds": 0.005,
+  "seed": 18,
+  "demonstration_episodes": 300,
+  "dagger_episodes": 150,
+  "demonstration_seed_range": [
+    100000,
+    100299
+  ],
+  "dagger_seed_range": [
+    120000,
+    120149
+  ],
+  "development_seed_range": [
+    110000,
+    110059
+  ],
+  "qualification_seed_range": [
+    150000,
+    150199
+  ],
+  "parent_checkpoint_sha256": "860accb2131b6d1bceec64823ff3fa5cb1699274b16134876e8acb27953d166c",
+  "anchor_max_normalized_action_delta": 0.01,
+  "anchor_mean_square_delta": 1e-06,
+  "learning_rate": 3e-07,
+  "anchor_projection_steps": 8,
+  "anchor_reference": "cloned actor; demonstration and DAgger observations only",
+  "anchor_updates": 64,
+  "anchor_rejected_updates": 2
+}

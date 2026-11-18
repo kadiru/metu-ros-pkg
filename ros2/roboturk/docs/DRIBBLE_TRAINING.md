@@ -10,6 +10,8 @@ Acquisition requires 0.4 s of continuous mouth possession, active dribbler and r
 
 Before qualification: require at least 95% full-task success on **200 reserved episodes**, and **zero post-acquisition possession-loss episodes**. Qualification seeds are 150000–150199. Development uses 110000–110059; demonstrations use 100000–100299; DAgger uses 120000–120149. Fresh demo seeds are 160000–160005, recorded consecutively without removing failures. Report all attempts and subgroup counts, including both goal directions.
 
+The frozen constrained-PPO candidate met this target: **200/200 successes, zero possession losses across 438,456 post-acquisition physics checks**. Mean progress was 3.5867 m, and mean task duration was 13.0177 s. Stationary/rolling subsets were 85/85 and 115/115; positive/negative goals were 97/97 and 103/103. [Released checkpoint, complete records and model card](../policies/capture_dribble_v1/README.md).
+
 ## Training
 
 A single goal-conditioned 16-input/four-action neural policy controls acquisition, turning, carrying and stopping. The first 12 inputs are the existing capture observation; four additional inputs encode target displacement and unit direction in the robot frame. The shared `roboturk.capture_dribble.v1` contract is used by both Gym and the behavior/ROS checkpoint plugin. Inference does not call a teacher or blend scripted commands.
@@ -41,7 +43,7 @@ The anchoring observations contain the demonstration and DAgger training data. T
 ../.venv/bin/python scripts/run_webots.py \
   --webots ../runtime/Webots-nightly.app/Contents/MacOS/webots \
   --mode dribble-demo --checkpoint runs/dribble-anchored-v1/policy.zip \
-  --episodes 6 --seed 160000 --output runs/dribble-anchored-v1/demo --timeout 180 --render
+  --episodes 6 --seed 160000 --output runs/dribble-anchored-v1/demo --timeout 240 --render
 ```
 
 This remains the approximate Webots model: ideal body velocity, ODE contacts and a bounded spring/damper dribbler. It does not establish calibrated wheel/roller behavior, hardware transfer, robustness to noisy perception or contested possession. The prior capture policy remains available separately.

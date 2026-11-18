@@ -30,9 +30,10 @@ class Recorder:
 
     def begin_episode(self, index, seed, env):
         r, target = env.world.robot(env.key), env.intent.target
+        self.follow = index % 2 == 1
         # Keep the route and actual goal in view; only this presentation camera moves.
         self.supervisor.getFromDef("CAMERA").getField("position").setSFVec3f(
-            [(r.x + target[0]) / 2, 0, max(7.5, abs(target[0] - r.x) * 1.25 + 2)]
+            [(r.x + target[0]) / 2, 0, max(9.0, (abs(target[0] - r.x) + 2.5) * 2.2)]
         )
         self.supervisor.getFromDef("DRIBBLE_TARGET").getField("translation").setSFVec3f(
             [*target, 0.004]
@@ -40,12 +41,20 @@ class Recorder:
         self.label(0, "RoboTurk | Learned capture + dribble", 0.025, 0.06)
         kind = "rolling" if env.scenario["moving"] else "stationary"
         side = "+X" if env.world.attack_sign == 1 else "-X"
-        self.label(1, f"Episode {index + 1} | seed {seed} | {kind} ball | goal {side}", 0.10, 0.04)
+        view = "tracking view" if self.follow else "route view"
+        self.label(
+            1, f"Episode {index + 1} | seed {seed} | {kind} ball | goal {side} | {view}", 0.10, 0.04
+        )
         self.label(
             4, "Neural control: demonstrations + PPO | approximate Webots dynamics", 0.93, 0.034
         )
 
     def step(self, env, info):
+        if self.follow:
+            robot = env.world.robot(env.key)
+            self.supervisor.getFromDef("CAMERA").getField("position").setSFVec3f(
+                [robot.x + 0.25 * env.world.attack_sign, robot.y, 4.0]
+            )
         phase = (
             "CONTROLLED ARRIVAL"
             if info["is_success"]
@@ -66,7 +75,12 @@ class Recorder:
             0.215,
             0.038,
         )
-        if not self.preview_saved and env.acquired and info["carried_progress"] >= 1.0:
+        if (
+            not self.preview_saved
+            and self.follow
+            and env.acquired
+            and info["target_distance"] < 0.7
+        ):
             self.supervisor.exportImage(str(self.output.with_suffix(".jpg")), 95)
             self.preview_saved = True
 
@@ -74,7 +88,7 @@ class Recorder:
 def record(supervisor, env, policy, output, episodes=6, seed=160000):
     output = Path(output)
     recorder = Recorder(supervisor, output)
-    supervisor.movieStartRecording(str(output.with_suffix(".mp4")), 1280, 720, 0, 75, 1, False)
+    supervisor.movieStartRecording(str(output.with_suffix(".mp4")), 1280, 720, 0, 85, 1, False)
     records = []
     for i in range(episodes):
 

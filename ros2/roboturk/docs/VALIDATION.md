@@ -2,7 +2,7 @@
 
 ## Verified locally
 
-- 38 Python tests pass. They include Gymnasium contract checks for all six tasks and randomized capture; seeded replay; coordinate transforms and capture rotation invariance; finite action validation; velocity/actuator limits; HALT/STOP/stale-input overrides; goal-line crossing; receiving/passing success; sustained capture versus brief contact; pass-role persistence; reset clearing; and the deferred Webots reset regression.
+- 42 Python tests pass. They include Gymnasium contract checks for all six tasks and randomized capture/dribble; seeded replay; coordinate transforms and target rotation invariance; finite action validation; velocity/actuator limits; HALT/STOP/stale-input overrides; goal-line crossing; receiving/passing success; sustained capture versus brief contact; possession loss between control frames; stationary arrival hold; pass-role persistence; reset clearing; and the deferred Webots reset regression.
 - Ruff static checks pass and Python sources compile.
 - Both Python packages built and installed as editable packages; `pip check` reports no broken dependencies. Exact local versions are recorded in `requirements-macos-validation.txt` (a macOS validation environment, not a universal ROS lockfile).
 - ROS-specific tests are skipped locally because this Mac has no ROS 2 installation. GitHub Actions on Ubuntu 24.04 / ROS 2 Jazzy built all three packages and passed **2/2 ROS bridge/interface tests** at commit `3b543642`. These tests exercise conversions, command/referee watchdogs and reset with a reference backend; a complete Webots/ROS live-graph run is still pending.
@@ -37,6 +37,14 @@ The neural checkpoint achieved **200/200** reserved episodes (seeds 50000–5019
 
 Training used 300 demonstrations, 150 DAgger episodes and 131,072 PPO steps, seed 7, one CPU thread. Teacher commands are absent from inference. Development was 50/50 both before and after PPO, so these results do not establish PPO's incremental benefit. This is qualification for the stated unobstructed approximate simulation distribution only.
 
+## Qualified learned capture-and-dribble policy
+
+The frozen goal-conditioned policy passed **200/200** reserved episodes (150000–150199), with **zero possession losses across 438,456 physics-step checks** after acquisition. Both attacking directions and stationary/initially rolling balls were included. Mean progress toward the goal-side target was **3.5867 m**; mean duration **13.0177 s**, including the final one-second stationary hold. Wilson 95% success interval: **98.12–100%** for this distribution. [Model card, qualification and all development outcomes](../policies/capture_dribble_v1/README.md).
+
+Development exposed a real regression: unconstrained PPO lost possession during arrival in 60/60 cases. The released experiment restarted from the successful cloned actor and used 65,536 PPO steps with reference-policy anchoring; it passed 60/60 development before the checkpoint was frozen. The clone itself already achieved 60/60 and was faster on development, so no incremental PPO benefit is claimed. Qualification uses actual Webots and the loaded `CheckpointPolicy` inference path, with no teacher fallback.
+
+Core and ROS CI passed for source commit `10089703`, including the new training mode. The [native simulator demo](../media/capture-dribble-demo.mp4) passed **6/6 fresh scenarios**, retaining possession for another 0.8 s after arrival in all six. A camera-only rerender produced identical episode metrics. The complete 81.96 s H.264 video decoded successfully, and route/tracking frames were visually inspected; only the camera and nonphysical target marker affect presentation.
+
 ## Synthetic backend
 
 [Recorded analytic baseline results](synthetic-baseline-results.json) are a software comparison only. The synthetic backend deliberately simplifies contacts and snaps a held ball to the robot mouth. It must not be confused with Webots physics or hardware evidence.
@@ -49,4 +57,4 @@ The reloaded policy achieved **0/10 successes** on held-out seeds 3000–3009 (o
 
 ## Remaining qualification work
 
-Full Webots/ROS live graph on Linux; motor/roller/dribbler/kicker calibration; official vision/referee adapters and full rule enforcement; obstructed and adversarial scenarios; multiple training seeds and ablations; learned dribble/pass/shoot skills; full team match evaluation; recurrent policies; multi-agent training and self-play; physical transfer. No GPU training has been launched.
+Full Webots/ROS live graph on Linux; motor/roller/dribbler/kicker calibration; official vision/referee adapters and full rule enforcement; obstructed and adversarial scenarios; multiple training seeds and ablations; learned receive/pass/shoot skills; full team match evaluation; recurrent policies; multi-agent training and self-play; physical transfer. No GPU training has been launched.

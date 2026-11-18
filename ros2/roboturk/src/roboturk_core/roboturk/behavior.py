@@ -77,10 +77,14 @@ class CheckpointPolicy:
         from stable_baselines3 import PPO
 
         manifest = json.loads(Path(path).with_suffix(".json").read_text())
+        from .capture_contract import CAPTURE_CONTRACT
+
+        self.contract = manifest["contract"]
         if (
-            manifest["contract"] != CONTRACT_VERSION
+            self.contract not in (CONTRACT_VERSION, CAPTURE_CONTRACT)
             or manifest["skill"] != skill.value
             or manifest["config"] != asdict(cfg)
+            or (self.contract == CAPTURE_CONTRACT and skill != Skill.CHASE)
         ):
             raise ValueError("Policy manifest does not match the runtime contract/skill/config")
         self.skill = skill
@@ -89,6 +93,13 @@ class CheckpointPolicy:
     def command(self, world, key, intent, cfg):
         if intent.skill != self.skill:
             raise ValueError("Policy invoked for a different skill")
+        from .capture_contract import CAPTURE_CONTRACT, capture_command, capture_observation
+
+        if self.contract == CAPTURE_CONTRACT:
+            if not world.ball.visible or not world.robot(key).visible:
+                return Command()
+            action, _ = self.model.predict(capture_observation(world, key, cfg), deterministic=True)
+            return capture_command(action, cfg)
         action, _ = self.model.predict(observe(world, key, intent, cfg), deterministic=True)
         return decode_action(action, cfg)
 

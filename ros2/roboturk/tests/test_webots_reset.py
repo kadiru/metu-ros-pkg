@@ -1,4 +1,5 @@
 """Regression for Webots' deferred resetPhysics semantics, without requiring its binary."""
+
 from dataclasses import replace
 
 from roboturk.model import Ball, Config, World

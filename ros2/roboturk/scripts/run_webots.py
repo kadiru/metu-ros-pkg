@@ -14,7 +14,19 @@ def main():
     root = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser()
     parser.add_argument("--webots", default=shutil.which("webots"))
-    parser.add_argument("--mode", choices=["evaluate", "suite", "train", "ros"], default="evaluate")
+    parser.add_argument(
+        "--mode",
+        choices=[
+            "evaluate",
+            "suite",
+            "train",
+            "ros",
+            "capture-train",
+            "capture-evaluate",
+            "capture-demo",
+        ],
+        default="evaluate",
+    )
     parser.add_argument(
         "--skill", choices=["move", "chase", "dribble", "pass", "receive", "shoot"], default="chase"
     )

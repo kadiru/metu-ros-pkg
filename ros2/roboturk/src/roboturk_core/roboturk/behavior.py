@@ -79,17 +79,23 @@ class CheckpointPolicy:
         manifest = json.loads(Path(path).with_suffix(".json").read_text())
         from .capture_contract import CAPTURE_CONTRACT
         from .dribble_contract import DRIBBLE_CONTRACT
-        from .shoot_contract import SHOOT_CONTRACT
+        from .shoot_contract import SHOOT_CONTRACT, SHOOT_CONTRACT_V1
 
         self.contract = manifest["contract"]
         if (
             self.contract
-            not in (CONTRACT_VERSION, CAPTURE_CONTRACT, DRIBBLE_CONTRACT, SHOOT_CONTRACT)
+            not in (
+                CONTRACT_VERSION,
+                CAPTURE_CONTRACT,
+                DRIBBLE_CONTRACT,
+                SHOOT_CONTRACT,
+                SHOOT_CONTRACT_V1,
+            )
             or manifest["skill"] != skill.value
             or manifest["config"] != asdict(cfg)
             or (self.contract == CAPTURE_CONTRACT and skill != Skill.CHASE)
             or (self.contract == DRIBBLE_CONTRACT and skill != Skill.DRIBBLE)
-            or (self.contract == SHOOT_CONTRACT and skill != Skill.SHOOT)
+            or (self.contract in (SHOOT_CONTRACT, SHOOT_CONTRACT_V1) and skill != Skill.SHOOT)
         ):
             raise ValueError("Policy manifest does not match the runtime contract/skill/config")
         self.skill = skill
@@ -100,14 +106,20 @@ class CheckpointPolicy:
             raise ValueError("Policy invoked for a different skill")
         from .capture_contract import CAPTURE_CONTRACT, capture_command, capture_observation
         from .dribble_contract import DRIBBLE_CONTRACT, dribble_observation
-        from .shoot_contract import SHOOT_CONTRACT, shoot_command, shoot_observation
+        from .shoot_contract import (
+            SHOOT_CONTRACT,
+            SHOOT_CONTRACT_V1,
+            shoot_command,
+            shoot_observation,
+        )
 
-        if self.contract == SHOOT_CONTRACT:
+        if self.contract in (SHOOT_CONTRACT, SHOOT_CONTRACT_V1):
             if not world.ball.visible or not world.robot(key).visible:
                 return Command()
-            action, _ = self.model.predict(
-                shoot_observation(world, key, intent, cfg), deterministic=True
-            )
+            observation = shoot_observation(world, key, intent, cfg)
+            if self.contract == SHOOT_CONTRACT_V1:
+                observation = observation[:16]
+            action, _ = self.model.predict(observation, deterministic=True)
             return shoot_command(action, cfg)
 
         if self.contract in (CAPTURE_CONTRACT, DRIBBLE_CONTRACT):

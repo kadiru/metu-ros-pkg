@@ -29,6 +29,7 @@ def main():
             "dribble-evaluate",
             "dribble-demo",
             "shoot-train",
+            "shoot-upgrade",
             "shoot-evaluate",
             "shoot-demo",
         ],

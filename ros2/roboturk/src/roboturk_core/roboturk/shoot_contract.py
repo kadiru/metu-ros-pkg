@@ -4,13 +4,16 @@ import numpy as np
 from .dribble_contract import dribble_observation
 from .model import Command, bounded
 
-SHOOT_CONTRACT = "roboturk.capture_dribble_shoot.v1"
+SHOOT_CONTRACT_V1 = "roboturk.capture_dribble_shoot.v1"
+SHOOT_CONTRACT = "roboturk.capture_dribble_shoot.v2"
 SHOT_SPEED = 3.5
 
 
 def shoot_observation(world, key, intent, cfg):
     # Intent.target is the actual opponent goal center, not the dribble stopping point.
-    return dribble_observation(world, key, intent, cfg)
+    original = dribble_observation(world, key, intent, cfg)
+    # Make radial goal range explicit so firing need not infer a norm from rotated components.
+    return np.concatenate([original, [np.linalg.norm(original[12:14])]]).astype(np.float32)
 
 
 def shoot_command(action, cfg):
@@ -19,7 +22,7 @@ def shoot_command(action, cfg):
         raise ValueError("Expected four finite shooting actions")
     a = np.clip(action, -1, 1)
     fire = a[3] > 0
-    # Skill-level actuator semantics: retain until firing; fixed calibrated-in-simulation request.
+    # Skill-level actuator semantics: retain until firing; fixed simulated kick request.
     return bounded(
         Command(
             float(a[0]) * cfg.max_speed,

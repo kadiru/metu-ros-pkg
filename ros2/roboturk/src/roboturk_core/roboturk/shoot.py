@@ -54,7 +54,7 @@ class ShootEnv(CaptureEnv):
         super().__init__(*args, **kwargs)
         self.skill = Skill.SHOOT
         self.intent = Intent(Skill.SHOOT, (self.cfg.length / 2, 0.0))
-        self.observation_space = spaces.Box(-np.inf, np.inf, (16,), dtype=np.float32)
+        self.observation_space = spaces.Box(-np.inf, np.inf, (17,), dtype=np.float32)
         self.clear_metrics()
 
     def clear_metrics(self):

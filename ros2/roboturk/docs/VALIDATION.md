@@ -2,7 +2,7 @@
 
 ## Verified locally
 
-- 50 Python tests pass. They include Gymnasium contracts for all six tasks and capture/dribble/scoring curricula; seeded replay; coordinate/target rotation invariance; finite actions; actuator limits and retain/fire semantics; HALT/STOP/stale-input overrides; full-ball goal crossing in both directions; rejecting premature shots and pushed-in balls; possession loss between control frames; arrival hold; passing/receiving and role persistence; reset clearing; and the deferred Webots reset regression.
+- 59 Python tests pass. They include Gymnasium contracts for all six tasks and capture/dribble/scoring/team-transfer curricula; seeded replay; coordinate/target rotation invariance; finite actions; actuator limits and retain/fire semantics; HALT/STOP/stale-input overrides; full-ball goal crossing in both directions; rejecting premature shots and pushed-in balls; possession loss between control frames; arrival hold; passing/receiving and role persistence; reset clearing; the deferred Webots reset regression; actual-pass/reception gating; collision rejection; unchanged physics at the scoring handoff; and play-memory agreement with the task monitor.
 - Ruff static checks pass and Python sources compile.
 - Both Python packages built and installed as editable packages; `pip check` reports no broken dependencies. Exact local versions are recorded in `requirements-macos-validation.txt` (a macOS validation environment, not a universal ROS lockfile).
 - ROS-specific tests are skipped locally because this Mac has no ROS 2 installation. GitHub Actions on Ubuntu 24.04 / ROS 2 Jazzy built all three packages and passed **2/2 ROS bridge/interface tests** at commit `3b543642`. These tests exercise conversions, command/referee watchdogs and reset with a reference backend; a complete Webots/ROS live-graph run is still pending.
@@ -53,6 +53,16 @@ The earlier v1 scored 192/200 and 5/6 demo scenarios, with premature-shot failur
 
 The [new native simulator demo](../media/capture-dribble-score-demo.mp4) scored **6/6**, on preselected seeds 360000–360005. All outcomes are retained. Full H.264 decoding and visual inspection of route and goal frames verify the recording artifact. The [earlier 5/6 demo](../media/capture-dribble-score-v1-demo.mp4) remains available, including its failure.
 
+## Qualified learned two-robot passing and scoring play
+
+The frozen play scored **200/200** reserved scenarios (550000–550199), with **zero premature kicks, possession losses before either release, or robot collisions** across **399,816 physics possession checks**. Negative/positive goals: 95/95 and 105/105. Passer ID0/ID1: 87/87 and 113/113. Every goal followed exactly one passer kick, at least 1 m of ball displacement, 0.4 s stable reception, at least 0.5 m of retained progress toward goal, and one receiver kick. Whole-ball goal crossing is required. Mean full sequence: **12.3278 s**; pass-to-reception ball displacement: **1.9138 m**; receiver carry progress: **2.7488 m**. [Model card, checkpoints and every outcome](../policies/pass_receive_v2/README.md).
+
+The initial 34-input transfer experiment achieved 54/60 cloned, 37/60 DAgger and 56/60 final PPO development receptions. All failures were pass-release timeouts and all 64 actor updates were rejected. V2 adds two explicit signed aiming-error inputs. Refit, new DAgger and constrained PPO each passed 60/60 transfer development; the full play then scored 60/60 before qualification. V2 accepted all 64 actor updates, but no incremental PPO success benefit is established. All stage results, original experiment checkpoints and mixed-collection failures remain published.
+
+The play composes a centralized learned transfer network with the frozen learned scorer. Role assignment, passer hold after release, receiver handoff after stable possession and fixed kick speeds are explicit interface rules. Full evaluation invokes `PassReceiveScorePlay` and checks its memory against an independent task monitor. The ball is never reset at handoff. The passer starts holding a stationary ball; both headings, teammate positions, robot roles and attack direction vary. Ground-truth state, unguarded goals and approximate dynamics only. Source core and ROS CI passed at commit `04a6ee14`; complete live ROS integration still requires actual kick feedback in the message graph.
+
+The [native two-robot demo](../media/pass-receive-score-demo.mp4) scored **6/6**, on consecutive preselected fresh seeds 560000–560005. All outcomes are retained. The 77.64 s, 1280×720, 25 fps recording shows actual Webots physics at normal simulation speed. The complete H.264 file decoded successfully; passing, reception/carry and goal frames were inspected. No generated animation or teacher fallback is used.
+
 ## Synthetic backend
 
 [Recorded analytic baseline results](synthetic-baseline-results.json) are a software comparison only. The synthetic backend deliberately simplifies contacts and snaps a held ball to the robot mouth. It must not be confused with Webots physics or hardware evidence.
@@ -65,4 +75,4 @@ The reloaded policy achieved **0/10 successes** on held-out seeds 3000–3009 (o
 
 ## Remaining qualification work
 
-Full Webots/ROS live graph on Linux; motor/roller/dribbler/kicker calibration; official vision/referee adapters and full rule enforcement; guarded goals, obstructed/adversarial scenarios; multiple training seeds and ablations; learned receiving/passing and variable kick power; full team match evaluation; recurrent policies; multi-agent training and self-play; physical transfer. No GPU training has been launched.
+Full Webots/ROS live graph on Linux; motor/roller/dribbler/kicker calibration; official vision/referee adapters and full rule enforcement; guarded goals, obstructed/adversarial scenarios; multiple training seeds and ablations; passes to moving teammates, coordinated acquisition and variable kick power; full team match evaluation; recurrent policies; multi-agent training and self-play; physical transfer. No GPU training has been launched.

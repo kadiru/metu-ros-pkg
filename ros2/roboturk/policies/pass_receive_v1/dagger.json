@@ -1,0 +1,51 @@
+{
+  "contract": "roboturk.pass_receive.v1",
+  "skill": "pass_receive_team",
+  "config": {
+    "length": 9.0,
+    "width": 6.0,
+    "goal_width": 1.0,
+    "robot_radius": 0.09,
+    "ball_radius": 0.0215,
+    "ball_mass": 0.046,
+    "max_speed": 2.0,
+    "max_omega": 8.0,
+    "max_kick": 5.0,
+    "dt": 0.02,
+    "max_steps": 500,
+    "neighbors": 5,
+    "possession_x": 0.115
+  },
+  "task": "pass_receive.randomized.v1",
+  "backend": "webots_ideal_body_velocity",
+  "stage": "dagger",
+  "method": "Webots cloning + DAgger selection + anchored PPO",
+  "actual_steps": 0,
+  "pass_speed": 1.8,
+  "centralized": true,
+  "validated_for_hardware": false,
+  "seed": 47,
+  "demonstration_seed_range": [
+    400000,
+    400299
+  ],
+  "dagger_seed_range": [
+    420000,
+    420149
+  ],
+  "development_seed_range": [
+    410000,
+    410059
+  ],
+  "qualification_seed_range": [
+    450000,
+    450199
+  ],
+  "demo_seed_range": [
+    460000,
+    460005
+  ],
+  "learning_rate": 3e-07,
+  "anchor_max_normalized_action_delta": 0.01,
+  "anchor_mean_square_delta": 1e-06
+}

@@ -4,19 +4,24 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 This is an initial implementation, not a competition-ready team. It provides six skill environments, interchangeable analytic/learned policies, a stateful team-play layer, ROS 2 messages/nodes and a Webots Supervisor backend. See [validation](docs/VALIDATION.md) for exactly what has run.
 
-The learned **capture → dribble → shoot policy scored in 200/200 unseen Webots scenarios**, with zero premature shots and zero possession losses before shooting. It averaged **3.17 m of controlled progress** and **8.37 s** from the initial state to a goal. Scoring requires an actual kick and full-ball crossing inside the opponent's posts. Both goal directions and stationary/rolling balls were tested. Training uses demonstrations, recovery data and constrained PPO; inference is one neural network with fixed retain/fire actuator semantics. This result covers one robot and an unguarded goal in approximate dynamics. [Checkpoint and model card](policies/capture_dribble_shoot_v2/README.md) · [Training and experiment history](docs/SCORING_TRAINING.md) · [Fresh native Webots demo](media/capture-dribble-score-demo.mp4).
+The learned **two-robot pass → receive → score play scored in 200/200 reserved Webots scenarios**, with zero premature kicks, possession losses before either kick, or robot collisions. It averaged **1.91 m from pass to reception**, **2.75 m of controlled carry by the receiver**, and **12.33 s for the complete sequence**. Both attacking directions and both robot-ID role assignments were tested. A learned coordination network controls the pass and reception; a scripted handoff assigns the existing learned scoring policy to the receiver. No physics reset or teacher fallback occurs at the handoff. [Checkpoints and model card](policies/pass_receive_v2/README.md) · [Training and experiment history](docs/TEAM_TRAINING.md).
 
-[![Actual Webots capture-dribble-score recording](media/capture-dribble-score-preview.jpg)](media/capture-dribble-score-demo.mp4)
+The [fresh native Webots demo](media/pass-receive-score-demo.mp4) scored **6/6**, with every outcome retained.
 
-Earlier releases remain available: [capture and retained dribbling](policies/capture_dribble_v1/README.md), 200/200 successes; [capture only](policies/chase_capture_v1/README.md), 200/200 captures. The [earlier scoring experiment](policies/capture_dribble_shoot_v1/README.md) retains its 192/200 result and 5/6 demo, including all failures.
+[![Actual Webots pass-receive-score recording](media/pass-receive-score-preview.jpg)](media/pass-receive-score-demo.mp4)
 
-Replay the shipped checkpoint, using the environment and Webots installation described below:
+This benchmark starts with possession at the passer and uses ground-truth observations, unguarded goals and approximate Webots dynamics. Passing and shooting use fixed kick speeds. It does not establish performance against opponents or on calibrated hardware.
+
+Earlier releases remain available: [capture, dribble and score](policies/capture_dribble_shoot_v2/README.md), 200/200 goals; [capture and retained dribbling](policies/capture_dribble_v1/README.md), 200/200 successes; [capture only](policies/chase_capture_v1/README.md), 200/200 captures. The [initial passing experiment](policies/pass_receive_v1/README.md) and [earlier scoring experiment](policies/capture_dribble_shoot_v1/README.md) preserve their failures and stage results.
+
+Replay the shipped two-robot play, using the environment and Webots installation described below:
 
 ```sh
 ../.venv/bin/python scripts/run_webots.py \
   --webots ../runtime/Webots-nightly.app/Contents/MacOS/webots \
-  --mode shoot-demo --checkpoint policies/capture_dribble_shoot_v2/policy.zip \
-  --episodes 6 --seed 360000 --output runs/scoring-demo --timeout 240 --render
+  --mode team-demo --checkpoint policies/pass_receive_v2/policy.zip \
+  --shoot-checkpoint policies/capture_dribble_shoot_v2/policy.zip \
+  --episodes 6 --seed 560000 --output runs/team-demo --timeout 240 --render
 ```
 
 ```mermaid

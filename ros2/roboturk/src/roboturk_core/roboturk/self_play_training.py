@@ -423,19 +423,57 @@ def bootstrap(backend, cfg, output, sources, seed=217):
 def train_league(backend, cfg, output, rounds=2, steps=32768, seed=227):
     output = Path(output)
     initial = json.loads((output / "bootstrap-bundle.json").read_text())
-    history = [initial]
-    ledger = []
-    for generation in range(1, rounds + 1):
+    completed = (
+        json.loads((output / "league.json").read_text())
+        if (output / "league.json").exists()
+        else {"snapshots": [initial], "updates": []}
+    )
+    history = completed["snapshots"]
+    progress = output / "training-progress.json"
+    ledger = (
+        json.loads(progress.read_text())["updates"] if progress.exists() else completed["updates"]
+    )
+    for generation in range(len(history), rounds + 1):
         current = load_bundle(history[-1], cfg)
         pool = [load_bundle(b, cfg) for b in history]
         # Defense first; attackers subsequently face this new defense and history.
         for role in ("defender", "keeper", "transfer", "finish"):
-            start_bundle = save_bundle(
-                current,
-                output / f"round{generation}" / ("before-" + role),
-                cfg,
-                {"stage": "frozen_training_opponents", "generation": generation},
-            )
+            target = output / f"round{generation}" / role
+            records_path = output / f"round{generation}" / (role + "-rollouts.json")
+            updates_path = output / f"round{generation}" / (role + "-updates.json")
+            if target.with_suffix(".json").exists():
+                from .self_play import load_model
+
+                meta = json.loads(target.with_suffix(".json").read_text())
+                saved = load_model(target.with_suffix(".zip"), role, cfg)
+                if (
+                    not records_path.exists()
+                    or not updates_path.exists()
+                    or actor_hash(saved) != meta["actor_after"]
+                    or meta["generation"] != generation
+                    or meta["ppo_steps"] != steps
+                ):
+                    raise ValueError(
+                        "Incomplete or inconsistent saved role; retain and inspect before recovery"
+                    )
+                current[role] = saved
+                if not any(x["generation"] == generation and x["role"] == role for x in ledger):
+                    ledger.append(meta)
+                print(f"Resumed completed round{generation} {role}", flush=True)
+                continue
+            before_dir = output / f"round{generation}" / ("before-" + role)
+            if (before_dir / "bundle.json").exists():
+                start_bundle = json.loads((before_dir / "bundle.json").read_text())
+                frozen = load_bundle(start_bundle, cfg)
+                if any(actor_hash(frozen[r]) != actor_hash(current[r]) for r in ROLES):
+                    raise ValueError("Resume opponent actors differ from the saved snapshot")
+            else:
+                start_bundle = save_bundle(
+                    current,
+                    before_dir,
+                    cfg,
+                    {"stage": "frozen_training_opponents", "generation": generation},
+                )
             training_pool = pool + (
                 [load_bundle(start_bundle, cfg)] if role in ("transfer", "finish") else []
             )
@@ -499,16 +537,24 @@ def train_league(backend, cfg, output, rounds=2, steps=32768, seed=227):
             )
             write(output / f"round{generation}" / (role + "-updates.json"), model.anchor_log)
             ledger.append(metadata)
+            write(progress, {"snapshots": history, "updates": ledger})
             print(
                 f"Self-play {role}: {model.anchor_updates - model.anchor_rejections}/{model.anchor_updates} accepted updates; actor changed {before != actor_hash(model)}",
                 flush=True,
             )
-        bundle = save_bundle(
-            current,
-            output / f"round{generation}" / "snapshot",
-            cfg,
-            {"stage": "self_play_snapshot", "generation": generation, "seed": seed},
-        )
+        snapshot_dir = output / f"round{generation}" / "snapshot"
+        if (snapshot_dir / "bundle.json").exists():
+            bundle = json.loads((snapshot_dir / "bundle.json").read_text())
+            frozen = load_bundle(bundle, cfg)
+            if any(actor_hash(frozen[r]) != actor_hash(current[r]) for r in ROLES):
+                raise ValueError("Completed snapshot differs on resume")
+        else:
+            bundle = save_bundle(
+                current,
+                snapshot_dir,
+                cfg,
+                {"stage": "self_play_snapshot", "generation": generation, "seed": seed},
+            )
         history.append(bundle)
         dev = evaluate_bundle(backend, cfg, current, 60, 2200100)
         write(output / f"round{generation}" / "development.json", dev)

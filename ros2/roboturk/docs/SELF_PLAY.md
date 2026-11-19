@@ -132,3 +132,18 @@ inputs, then checks each reserved panel without deleting failures. Seven synthet
 unit tampering tests reject missing seeds, false goal geometry, absent contact,
 inactive opponents, collisions and changed model bytes; those tests are not native
 performance evidence. Core and ROS CI passed on65b1fd61 after the dependency fix.
+
+The completed DAgger development run produced9goals,29defender interceptions,
+one invalid pass and one defensive-teammate collision:38/40 clean outcomes,
+zero timeouts/field exits/pre-release losses. Evaluation initially stopped on a
+premature pass because play memory records applied kicks while the task monitor
+rejects invalid kicks. A regression test now verifies that such terminal failures
+are retained as outcomes; valid/running state agreement is still asserted. The
+unchanged saved models were evaluated on the same development set after that fix.
+
+Before PPO, collision penalties were made dominant over simultaneous contact events,
+and per-role checkpoint/progress recovery was added. Historical opponents are checked
+by file hashes; resumed phases verify actor hashes and do not repeat completed updates.
+The bootstrap initial checkpoint is the full DAgger snapshot, not a weaker defender
+selected to increase attacker scoring. Its preserved development remains below the
+collision-rate gate on this small40-case set. Reserved evaluation remains untouched.

@@ -143,10 +143,16 @@ class MatchEnv(gym.Env):
             )
         else:
             reward = float(np.clip(reward, -2, 2)) * 0.1
+        collision = False
         if self.done:
             reason = self.record["reason"]
             defensive = reason in ("keeper_save", "defender_interception")
-            collision = "collision" in reason
+            last = self.record["shooting"] or self.record["transfer"]
+            collision = bool(
+                "collision" in reason
+                or last.get("defender_robot_contacts", 0)
+                or last.get("keeper_robot_contacts", 0)
+            )
             reward = (
                 -40.0
                 if collision
@@ -165,6 +171,7 @@ class MatchEnv(gym.Env):
             {
                 "is_success": bool(
                     self.done
+                    and not collision
                     and (
                         info["reason"] in ("keeper_save", "defender_interception")
                         if self.role in ("defender", "keeper")

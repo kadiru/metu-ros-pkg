@@ -335,11 +335,25 @@ def outcomes(result):
     from collections import Counter
 
     counts = Counter(r["reason"] for r in result["episodes"])
-    clean = counts["goal"] + counts["defender_interception"] + counts["keeper_save"]
+    clean = collisions = stops = 0
+    for record in result["episodes"]:
+        last = record.get("shooting") or record.get("transfer", {})
+        collision = bool(
+            last.get("defender_robot_contacts", 0)
+            or last.get("keeper_robot_contacts", 0)
+            or "collision" in record["reason"]
+        )
+        outside = bool(
+            last.get("defender_outside_checks", 0) or last.get("keeper_outside_checks", 0)
+        )
+        stop = record["reason"] in ("defender_interception", "keeper_save")
+        clean += (stop or record["reason"] == "goal") and not collision and not outside
+        collisions += collision
+        stops += stop and not collision and not outside
     return {
         "goals": counts["goal"],
-        "defensive_stops": counts["defender_interception"] + counts["keeper_save"],
+        "defensive_stops": stops,
         "clean_outcomes": clean,
-        "collisions": sum(v for k, v in counts.items() if "collision" in k),
+        "collisions": collisions,
         "reasons": dict(counts),
     }

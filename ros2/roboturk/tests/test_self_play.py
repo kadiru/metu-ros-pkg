@@ -179,3 +179,37 @@ def test_feint_target_changes_once_per_frame_and_stops_after_pass():
     env.state.passed = True
     update_receiving_target(replace(w, time=6), env.passer, env.receiver, env.state, env.cfg)
     assert env.state.receiver_target == target
+
+
+def test_collision_penalty_wins_over_simultaneous_keeper_contact():
+    m = models()
+    env = MatchEnv(ReferenceBackend(), Config(), "defender", m, [m], seed=42)
+    env.reset(seed=7)
+
+    def simultaneous(action):
+        env.done = True
+        env.record = {
+            "reason": "keeper_save",
+            "transfer": {"defender_robot_contacts": 1},
+            "shooting": None,
+        }
+        return 0, {"is_success": False, "reason": "keeper_save"}
+
+    env._advance = simultaneous
+    _, reward, done, _, info = env.step(np.zeros(3, np.float32))
+    assert done and reward == -40 and not info["is_success"]
+    summary = outcomes({"episodes": [env.record]})
+    assert summary["defensive_stops"] == summary["clean_outcomes"] == 0
+    assert summary["collisions"] == 1
+
+
+def test_early_neural_release_is_recorded_without_crashing_evaluation():
+    from roboturk.team import evaluate_team
+
+    env, m = environment()
+    m["transfer"].value[3] = 1
+    transfer = MobileTransfer(cfg=env.cfg, model=m["transfer"])
+    finish = MobileFinish(cfg=env.cfg, model=m["finish"])
+    result = evaluate_team(env, transfer, 1, 2200044, finish)
+    assert result["successes"] == 0
+    assert result["episodes"][0]["reason"] == "invalid_pass"

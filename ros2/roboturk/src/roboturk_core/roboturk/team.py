@@ -321,17 +321,21 @@ def evaluate_team(env, policy, episodes=200, seed=450000, shooter=None, recorder
                     getattr(env.backend, "last_substep_worlds", [env.world]),
                     env.backend.last_kick_events,
                 )
-                assert (
-                    play.state.passed,
-                    play.state.received,
-                    play.state.passer_dwell,
-                    play.state.receiver_dwell,
-                ) == (
-                    env.state.passed,
-                    env.state.received,
-                    env.state.passer_dwell,
-                    env.state.receiver_dwell,
-                )
+                # Memory observes every applied kick; the task monitor deliberately
+                # rejects premature/invalid kicks. Preserve those terminal failures
+                # as outcomes rather than demanding a valid-state transition.
+                if not (done or truncated) or info["is_success"]:
+                    assert (
+                        play.state.passed,
+                        play.state.received,
+                        play.state.passer_dwell,
+                        play.state.receiver_dwell,
+                    ) == (
+                        env.state.passed,
+                        env.state.received,
+                        env.state.passer_dwell,
+                        env.state.receiver_dwell,
+                    ), f"Play/task state mismatch at seed {seed + i}, step {env.steps}"
             if recorder:
                 recorder.step(env, info, None)
             if done or truncated:

@@ -36,10 +36,19 @@ The200 native teacher plays produced91goals,98defender interceptions,7keeper sav
 and4defender collisions;181stable receptions and zero pre-release losses. After60
 cloning epochs per actor, fully neural development scored17/40, with15defensive stops,
 5field exits and3timeouts; zero collisions/losses.32/40 clean outcomes is below the
-reliability gate. The100-episode mixed DAgger collection/refit is underway. These
-bootstrap checkpoints have not yet received self-play PPO updates.
+reliability gate. The100-episode mixed DAgger collection produced73goals and23stops,
+plus four invalid outcomes. Its80% neural/20% teacher command mixture is training
+data, not a fully learned result. After40refit epochs, the fully neural DAgger
+development set produced9goals,29interceptions, one invalid pass and one defensive
+teammate collision:38/40 clean outcomes. All outcomes and four checkpoints are retained.
+Two generations of four-role self-play PPO have now started from this full DAgger
+snapshot, with32768steps per role/generation. Reserved evaluation remains untouched.
 
 [Teacher outcomes](artifacts/teacher-collection.json) ·
 [Neural development](artifacts/teacher-development.json) ·
 [Four initial checkpoints](artifacts/teacher) ·
 [Bootstrap numerical source hashes](artifacts/bootstrap-runtime.json).
+
+[DAgger collection](artifacts/dagger-collection.json) ·
+[DAgger neural development](artifacts/dagger-development.json) ·
+[DAgger checkpoints](artifacts/dagger).

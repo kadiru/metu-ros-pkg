@@ -238,7 +238,8 @@ def finishing_observation(w, key, plan, cfg):
 class MobileFinishPlan(PressureFinishPlan):
     # The learned stopping distribution extends beyond the original7cm tolerance.
     # This changes tactical context only; the actor still chooses every command.
-    arrival_radius = 0.12
+    arrival_radius = 0.14
+    arrival_angle = 0.10
 
     def parking(self, w, key, cfg):
         # Scripted shot setup stays farther from a keeper able to leave its line.
@@ -258,6 +259,22 @@ class MobileFinishEnv(PressureFinishEnv):
 
     def observation(self):
         return finishing_observation(self.world, self.key, self.plan, self.cfg)
+
+    def info(self, success, reason):
+        result = super().info(success, reason)
+        if self.plan:
+            r, b = self.world.robot(self.key), self.world.ball
+            px, py = self.plan.parking(self.world, self.key, self.cfg)
+            tx, ty = self.plan.target
+            result.update(
+                finish_heading_error=math.atan2(
+                    math.sin(math.atan2(ty - b.y, tx - b.x) - r.yaw),
+                    math.cos(math.atan2(ty - b.y, tx - b.x) - r.yaw),
+                ),
+                finish_speed=math.hypot(r.vx, r.vy),
+                parking_error=math.hypot(px - b.x, py - b.y),
+            )
+        return result
 
 
 class MobilePlayEnv(LearnedOpponentPlayEnv):

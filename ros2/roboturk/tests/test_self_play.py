@@ -234,14 +234,14 @@ def test_proximity_cost_penalizes_robot_spacing_without_changing_motion():
 
 
 def test_mobile_finish_advances_from_observed_stopping_offset():
-    # Regression for the native timeout at1.26m from goal: the ball stopped9cm
-    # beyond its parking point, outside the older7cm tactical tolerance.
+    # Regression for a native timeout:10.8cm parking error and0.0575rad aim
+    # error kept the stopped actor in phase zero under the earlier thresholds.
     from roboturk.self_play import MobileFinishPlan, finishing_observation
 
     env, _ = environment()
     sign, cfg = env.world.attack_sign, env.cfg
-    bx, by = sign * 3.24, 0.075
-    yaw = math.atan2(0.43 - by, sign * 4.5 - bx)
+    bx, by = sign * 3.221625, 0.081527
+    yaw = math.atan2(0.43 - by, sign * 4.5 - bx) + 0.057485
     robot = replace(
         env.world.robot(env.receiver),
         x=bx - cfg.possession_x * math.cos(yaw),

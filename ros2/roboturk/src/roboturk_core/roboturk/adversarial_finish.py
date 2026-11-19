@@ -34,6 +34,7 @@ class PressureFinishPlan(CloseFinishPlan):
     """Choose an open corner; target selection never supplies an actuator command."""
 
     arrival_radius = 0.07
+    arrival_angle = 0.05
 
     def update(self, w, key, cfg):
         if self.last_time == w.time:
@@ -47,7 +48,7 @@ class PressureFinishPlan(CloseFinishPlan):
         ready = (
             math.hypot(px - b.x, py - b.y) < self.arrival_radius and math.hypot(r.vx, r.vy) < 0.15
         )
-        if self.phase == 0 and ready and abs(angle) < 0.05:
+        if self.phase == 0 and ready and abs(angle) < self.arrival_angle:
             self.phase = 1
         if self.phase and abs(angle) < 0.12:
             other = (self.target[0], -self.target[1])

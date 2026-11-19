@@ -131,6 +131,8 @@ def main():
                 "release-head-development.json",
                 "release-head-v2-development.json",
                 "spacing-v2-development.json",
+                "spacing-v2-phase-development.json",
+                "spacing-v2-stall-diagnostic.json",
                 "cross-play-generation3-matrix.json",
                 "cross-play-generation4-matrix.json",
             )

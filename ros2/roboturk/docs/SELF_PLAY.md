@@ -307,3 +307,15 @@ Validate on the existing100current/current development cases before generation5.
 Since tactical runtime changed, archive the old5×5matrix and rerun cross-play
 under a source fingerprint; never reuse an old-runtime result as new evidence.
 Reserved/demo cases remain untouched and all original gates remain unchanged.
+
+
+The first wider-clearance panel returned95/100clean:45goals,47interceptions,
+3keeper saves,3defender–keeper collisions and2timeouts. It fails the≤2%collision
+gate. A native diagnostic repeat at2201033 reproduced a phase-zero stall with
+parking error0.10846m, speed0.01213m/s and aim error−0.05749rad: the remaining
+0.05rad transition threshold prevented the precise-finishing phase. The mobile
+setup transition now uses0.14m/0.10rad, still requiring possession and speed<0.15m/s;
+other tactics retain0.07m/0.05rad. Neural precise aim and kick decisions are unchanged.
+This is a scripted-context correction, not a learned policy improvement. Terminal
+parking error, aim error and speed are now included in native evidence. Rerun the
+same100development cases with identical spacing-v2 actor parameters before PPO.

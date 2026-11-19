@@ -29,17 +29,29 @@ def run(supervisor, backend, cfg, mode):
             seed,
         )
     elif mode == "opponents-challenge":
-        from roboturk.opponent_training import OpponentChallengeEnv, ChallengeTeacher
+        from roboturk.opponent_training import OpponentChallengeEnv, ChallengeTeacher, ActionModel
         from roboturk.micro_training import evaluate, Actor
 
         role = os.environ.get("ROBOTURK_OPPONENT_ROLE", "keeper")
         env = OpponentChallengeEnv(backend, cfg, role)
         path = os.environ.get("ROBOTURK_CHECKPOINT")
+        stationary = os.environ.get("ROBOTURK_CHALLENGE_CONTROL") == "stationary"
+        if stationary and path:
+            raise ValueError("Stationary baseline cannot also specify a checkpoint")
         actor = (
-            Actor(OpponentController(role, cfg, path=path).model) if path else ChallengeTeacher()
+            Actor(ActionModel())
+            if stationary
+            else Actor(OpponentController(role, cfg, path=path).model)
+            if path
+            else ChallengeTeacher()
         )
         result = evaluate(env, actor, episodes, seed)
         result.update(
+            actor_source="stationary"
+            if stationary
+            else "neural_checkpoint"
+            if path
+            else "analytic_teacher",
             backend=backend.name,
             checkpoint_sha256=hashlib.sha256(Path(path).read_bytes()).hexdigest() if path else None,
         )

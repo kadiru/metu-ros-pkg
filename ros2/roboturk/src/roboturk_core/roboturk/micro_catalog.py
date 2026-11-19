@@ -27,6 +27,26 @@ CATALOG = {
     spec.name: spec
     for spec in (
         MicroBehaviorSpec(
+            "continuous_lane_guard",
+            "assigned midfield line; live opponent play",
+            "physical interception; continuous activity through attacker handoff",
+            "role anchor, geometric threat projections, actuator limits and dribbler enable",
+            ("attack_frame_vx", "attack_frame_vy", "omega"),
+            "policies/learned_opponents_v1/defender/policy.zip",
+            "policies/learned_opponents_v1/defender/qualification.json",
+            CMDRAGONS,
+        ),
+        MicroBehaviorSpec(
+            "continuous_goalkeeper",
+            "assigned goal; live holder or incoming shot",
+            "physical save without a goal in the declared challenge interval",
+            "goal anchor, geometric threat projections, actuator limits, latency and dribbler enable",
+            ("attack_frame_vx", "attack_frame_vy", "omega"),
+            "policies/learned_opponents_v1/keeper/policy.zip",
+            "policies/learned_opponents_v1/keeper/qualification.json",
+            ER_FORCE,
+        ),
+        MicroBehaviorSpec(
             "pass_around_defender",
             "passer controls ball; teammate assigned",
             "actual pass, >=1m travel, 0.4s stable reception",

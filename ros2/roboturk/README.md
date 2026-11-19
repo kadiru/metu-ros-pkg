@@ -4,6 +4,8 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 This is an initial implementation, not a competition-ready team. It provides six skill environments, interchangeable analytic/learned policies, a stateful team-play layer, ROS 2 messages/nodes and a Webots Supervisor backend. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+Work in progress: [continuous learned opponents and attacker retraining](docs/LEARNED_OPPONENTS.md). Both neural opponent controllers and the native training pipeline are implemented; new qualification is pending. The results below belong to the previous analytic-opponent benchmark.
+
 The learned **two-robot play passes around a defender, receives, draws the goalkeeper and scores**. The frozen play scored **199/200 reserved Webots cases (99.5%)**, with **zero pre-release possession losses or robot collisions**. One pass was intercepted; all 199 successful receptions ended in goals. Mean complete sequence: **14.94 s**; mean ball displacement to reception: **2.83 m**; receiver carry: **3.49 m**. [Model card and all outcomes](policies/keeper_finish_v1/README.md) · [Training protocol](docs/KEEPER_TRAINING.md).
 
 The [fresh native Webots demo](media/keeper-pass-receive-score-demo.mp4) scored **6/6** consecutive cases. Blue is the passer, cyan the receiver/scorer, yellow the midfield defender and red the goalkeeper. Every native frame and outcome is retained (99.16 seconds).

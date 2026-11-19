@@ -15,11 +15,13 @@ def main():
     cfg = Config()
     backend = WebotsBackend(supervisor, cfg)
     mode = os.environ.get("ROBOTURK_MODE", "evaluate")
-    if mode.startswith(("keeper-", "micro-", "opponents-")):
+    if mode.startswith(("keeper-", "micro-", "opponents-", "selfplay-")):
         from keeper_runner import run as keeper_run
 
         try:
-            if mode.startswith("opponents-"):
+            if mode.startswith("selfplay-"):
+                from self_play_runner import run
+            elif mode.startswith("opponents-"):
                 from opponent_runner import run
             elif mode.startswith("micro-"):
                 from micro_runner import run

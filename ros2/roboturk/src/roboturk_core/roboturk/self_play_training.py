@@ -1,0 +1,623 @@
+"""Native alternating self-play with immutable historical opponents.
+
+Analytic teachers only bootstrap the new spatial curriculum. After bootstrap,
+PPO updates use rewards from complete plays against sampled frozen checkpoints.
+"""
+
+from dataclasses import asdict
+import hashlib
+import json
+import math
+from pathlib import Path
+import time
+import gymnasium as gym
+import numpy as np
+import torch
+from stable_baselines3 import PPO
+from stable_baselines3.common.callbacks import BaseCallback
+from stable_baselines3.common.monitor import Monitor
+from .model import RobotKey, possession, wrap
+from .defended import DefendedTeacher
+from .keeper import FinishTeacher
+from .team import evaluate_team, scoring_handoff
+from .shoot_contract import shoot_action
+from .dribble_refinement import AnchoredPPO
+from .self_play import (
+    CONTRACTS,
+    SHAPES,
+    ROLES,
+    MobileOpponent,
+    MobilePlayEnv,
+    MobileFinishPlan,
+    mobile_observation,
+    finishing_observation,
+    make_play,
+    digest,
+    outcomes,
+)
+
+
+def write(path, value):
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(value, indent=2) + "\n")
+
+
+class Carrier:
+    def __init__(self, role):
+        obs, acts = SHAPES[role]
+        self.observation_space = gym.spaces.Box(-np.inf, np.inf, (obs,), dtype=np.float32)
+        self.action_space = gym.spaces.Box(-1, 1, (acts,), dtype=np.float32)
+        self.value = np.zeros(acts, np.float32)
+
+    def predict(self, obs, deterministic=True):
+        return self.value.copy(), None
+
+
+def mobile_teacher(w, c):
+    """Training-only mobile lane interception, pursuit and keeper advancement."""
+    r, b, cfg, sign = w.robot(c.key), w.ball, c.cfg, w.attack_sign
+    blue = [w.robot(RobotKey("blue", i)) for i in range(2)]
+    holder = min(blue, key=lambda p: math.hypot(p.x - b.x, p.y - b.y))
+    other = next(p for p in blue if p.key != holder.key)
+    held = possession(w, holder.key, cfg)
+    if c.role == "defender":
+        if held and sign * b.x < 0.8:
+            tx, ty = b.x + 0.6 * (other.x - b.x), b.y + 0.6 * (other.y - b.y)
+        elif held:
+            tx, ty = b.x + sign * 0.24, b.y
+        else:
+            dt = min(0.5, math.hypot(b.x - r.x, b.y - r.y) / max(0.1, c.speed + 1.8))
+            tx, ty = b.x + b.vx * dt, b.y + b.vy * dt
+    else:
+        goal = cfg.length / 2
+        depth = float(np.clip((3.2 - (goal - sign * b.x)) * 0.42, 0.18, 0.85))
+        tx = sign * (goal - depth)
+        ty = b.y * depth / max(0.3, goal - sign * b.x)
+        if sign * b.vx > 0.3:
+            dt = (tx - b.x) / b.vx
+            if 0 < dt < 2:
+                ty = b.y + b.vy * dt
+        elif held and sign * b.x > 2.0 and sign * math.cos(holder.yaw) > 0.1:
+            ty = b.y + (tx - b.x) * math.tan(holder.yaw)
+        ty = float(np.clip(ty, -0.75, 0.75))
+    tx = float(np.clip(tx, -cfg.length / 2 + 0.2, cfg.length / 2 - 0.2))
+    ty = float(np.clip(ty, -cfg.width / 2 + 0.2, cfg.width / 2 - 0.2))
+    vx, vy = 3 * (tx - r.x), 3 * (ty - r.y)
+    # Training labels discourage ramming. Runtime contains no avoidance override.
+    for p in w.robots:
+        if p.key == c.key:
+            continue
+        dx, dy = r.x - p.x, r.y - p.y
+        d = max(1e-6, math.hypot(dx, dy))
+        if d < 0.38:
+            push = 5 * (0.38 - d)
+            vx += push * dx / d
+            vy += push * dy / d
+    scale = max(c.speed, math.hypot(vx, vy))
+    angle = wrap(math.atan2(b.y - r.y, b.x - r.x) - r.yaw)
+    return np.array(
+        [sign * vx / scale, sign * vy / scale, np.clip(5 * angle / 4, -1, 1)], np.float32
+    )
+
+
+class CollectOpponent(MobileOpponent):
+    def __init__(self, role, cfg, data, model=None, mix=0, seed=217):
+        super().__init__(role, cfg, model=model or Carrier(role))
+        self.data, self.mix, self.rng = data, mix, np.random.default_rng(seed)
+
+    def action(self, w):
+        obs, label = mobile_observation(w, self), mobile_teacher(w, self)
+        self.data[self.role][0].append(obs.copy())
+        self.data[self.role][1].append(label.copy())
+        return super().action(w) if self.rng.random() < self.mix else label
+
+
+class CollectTransfer:
+    def __init__(self, data, model=None, mix=0, seed=217):
+        self.data, self.model, self.mix = data, model, mix
+        self.rng, self.teacher = np.random.default_rng(seed), DefendedTeacher()
+
+    def action(self, env):
+        obs, label = env.observation(), self.teacher.action(env)
+        self.data["transfer"][0].append(obs.copy())
+        self.data["transfer"][1].append(label.copy())
+        return (
+            self.model.predict(obs, deterministic=True)[0]
+            if self.rng.random() < self.mix
+            else label
+        )
+
+
+class CollectFinish:
+    def __init__(self, data, model=None, mix=0, seed=217):
+        self.data, self.model, self.mix = data, model, mix
+        self.rng, self.teacher = np.random.default_rng(seed), FinishTeacher()
+        self.reset()
+
+    def reset(self):
+        self.plan = None
+
+    def command(self, w, key, intent, cfg):
+        from .shoot_contract import shoot_command
+
+        if self.plan is None:
+            self.plan = MobileFinishPlan(w, key, cfg)
+        obs = finishing_observation(w, key, self.plan, cfg)
+        label = shoot_action(self.teacher.planned_command(w, key, self.plan, cfg), cfg)
+        self.data["finish"][0].append(obs.copy())
+        self.data["finish"][1].append(label.copy())
+        a = (
+            self.model.predict(obs, deterministic=True)[0]
+            if self.rng.random() < self.mix
+            else label
+        )
+        return shoot_command(a, cfg)
+
+
+def collect_full(backend, cfg, count, seed, models=None, mix=0):
+    data = {r: ([], []) for r in ROLES}
+    models = models or {r: None for r in ROLES}
+    d = CollectOpponent("defender", cfg, data, models["defender"], mix, seed)
+    k = CollectOpponent("keeper", cfg, data, models["keeper"], mix, seed + 1)
+    env = MobilePlayEnv(cfg, backend, d, k)
+    result = evaluate_team(
+        env,
+        CollectTransfer(data, models["transfer"], mix, seed + 2),
+        count,
+        seed,
+        CollectFinish(data, models["finish"], mix, seed + 3),
+    )
+    result["collection_control"] = (
+        "analytic teachers" if not mix else f"per-command{mix:.0%} neural /{1 - mix:.0%} teacher"
+    )
+    return {
+        r: tuple(np.asarray(a, np.float32) for a in values) for r, values in data.items()
+    }, result
+
+
+class SelfPlayPPO(AnchoredPPO):
+    """PPO with a wider, measured actor trust region than previous micro tasks."""
+
+    def train(self):
+        previous = [p.detach().clone() for p in self.actor_parameters()]
+        PPO.train(self)
+        for _ in range(4):
+            ids = self.anchor_rng.integers(0, len(self.anchor_inputs), 2048)
+            pred = self.policy.get_distribution(self.anchor_inputs[ids]).distribution.mean
+            loss = ((pred - self.anchor_targets[ids]) ** 2).mean()
+            self.anchor_optimizer.zero_grad()
+            loss.backward()
+            self.anchor_optimizer.step()
+        with torch.no_grad():
+            d = (
+                self.policy.get_distribution(
+                    self.anchor_inputs[self.anchor_probe]
+                ).distribution.mean
+                - self.anchor_targets[self.anchor_probe]
+            )
+            mse, maximum = float((d**2).mean()), float(d.abs().max())
+        reject = not math.isfinite(mse) or mse > 3e-5 or maximum > 0.06
+        if reject:
+            with torch.no_grad():
+                for p, old in zip(self.actor_parameters(), previous, strict=True):
+                    p.copy_(old)
+            self.anchor_optimizer.state.clear()
+        self.anchor_updates += 1
+        self.anchor_rejections += int(reject)
+        self.anchor_log.append(
+            {"steps": self.num_timesteps, "mse": mse, "max_delta": maximum, "rejected": reject}
+        )
+
+
+def new_model(role, source, seed):
+    carrier = Carrier(role)
+
+    class ShapeEnv(gym.Env):
+        observation_space, action_space = carrier.observation_space, carrier.action_space
+
+    model = SelfPlayPPO(
+        "MlpPolicy",
+        ShapeEnv(),
+        device="cpu",
+        seed=seed,
+        n_steps=1024,
+        batch_size=256,
+        n_epochs=5,
+        learning_rate=1e-6,
+        gamma=0.995,
+        clip_range=0.1,
+        ent_coef=0,
+        policy_kwargs={"net_arch": dict(pi=[192, 192], vf=[192, 192]), "log_std_init": -4.0},
+    )
+    old = PPO.load(source, device="cpu").policy.state_dict()
+    state = model.policy.state_dict()
+    for name, v in state.items():
+        if v.shape == old[name].shape:
+            state[name] = old[name]
+        elif name.endswith("policy_net.0.weight") or name.endswith("value_net.0.weight"):
+            v.zero_()
+            v[:, : old[name].shape[1]] = old[name]
+        else:
+            raise ValueError("Unsupported expansion: " + name)
+    model.policy.load_state_dict(state)
+    with torch.no_grad():
+        model.policy.log_std.fill_(-4.0 if role in ("transfer", "finish") else -3.3)
+    return model
+
+
+def fit(model, x, y, role, epochs, seed):
+    if len(x) == 0:
+        raise ValueError("No bootstrap observations for " + role)
+    rng = np.random.default_rng(seed)
+    inputs, targets = torch.as_tensor(x), torch.as_tensor(y)
+    groups = [np.arange(len(x))]
+    if role == "finish":
+        groups = [
+            np.flatnonzero(x[:, 27] < 0.5),
+            np.flatnonzero(x[:, 27] >= 0.5),
+            np.flatnonzero(y[:, 3] > 0),
+        ]
+    elif role == "transfer":
+        from .team_training import groups as transfer_groups
+
+        groups = transfer_groups(x, y)
+    groups = [g for g in groups if len(g)]
+    opt = torch.optim.Adam(model.actor_parameters(), lr=3e-4)
+    for epoch in range(epochs):
+        ids = np.concatenate([rng.choice(g, 8192, replace=True) for g in groups])
+        rng.shuffle(ids)
+        losses = []
+        for batch in np.array_split(ids, max(1, len(ids) // 512)):
+            pred = model.policy.get_distribution(inputs[batch]).distribution.mean
+            loss = ((pred - targets[batch]) ** 2).mean()
+            opt.zero_grad()
+            loss.backward()
+            opt.step()
+            losses.append(float(loss.detach()))
+        if (epoch + 1) % 10 == 0:
+            print(f"Bootstrap {role} {epoch + 1}/{epochs}: {np.mean(losses):.7f}", flush=True)
+
+
+def actor_hash(model):
+    h = hashlib.sha256()
+    parameters = list(model.policy.mlp_extractor.policy_net.parameters()) + list(
+        model.policy.action_net.parameters()
+    )
+    for p in parameters:
+        h.update(p.detach().cpu().numpy().tobytes())
+    return h.hexdigest()
+
+
+def save_bundle(models, output, cfg, metadata):
+    output = Path(output)
+    output.mkdir(parents=True, exist_ok=True)
+    bundle = {}
+    for role, model in models.items():
+        path = output / (role + ".zip")
+        model.save(path)
+        write(
+            path.with_suffix(".json"),
+            {
+                **metadata,
+                "contract": CONTRACTS[role],
+                "role": role,
+                "config": asdict(cfg),
+                "actor_sha256": actor_hash(model),
+                "validated_for_hardware": False,
+            },
+        )
+        bundle[role] = {
+            "path": str(path),
+            "sha256": digest(path),
+            "actor_sha256": actor_hash(model),
+        }
+    write(output / "bundle.json", bundle)
+    return bundle
+
+
+def load_bundle(bundle, cfg):
+    from .self_play import load_model
+
+    result = {}
+    for role in ROLES:
+        if digest(bundle[role]["path"]) != bundle[role]["sha256"]:
+            raise ValueError("Historical opponent checkpoint changed")
+        result[role] = load_model(bundle[role]["path"], role, cfg)
+    return result
+
+
+class MatchEnv(gym.Env):
+    """One learning role; other roles are immutable snapshots during an episode."""
+
+    metadata = {}
+
+    def __init__(self, backend, cfg, role, current, pool, seed=217):
+        self.backend, self.cfg, self.role, self.current, self.pool = (
+            backend,
+            cfg,
+            role,
+            current,
+            pool,
+        )
+        self.selector = np.random.default_rng(seed)
+        self.carrier = Carrier(role)
+        self.observation_space, self.action_space = (
+            self.carrier.observation_space,
+            self.carrier.action_space,
+        )
+        self.records, self.prefix_failures = [], []
+
+    def reset(self, *, seed=None, options=None):
+        super().reset(seed=seed)
+        if seed is not None:
+            self.selector = np.random.default_rng(seed)
+        for attempt in range(64):
+            self.episode_seed = int(self.selector.integers(2100000, 2200000))
+            self.pool_index = int(self.selector.integers(len(self.pool)))
+            models = dict(self.current)
+            adversaries = (
+                ("transfer", "finish")
+                if self.role in ("defender", "keeper")
+                else ("defender", "keeper")
+            )
+            for r in adversaries:
+                models[r] = self.pool[self.pool_index][r]
+            if self.role in ("defender", "keeper"):
+                models[self.role] = self.carrier
+            self.env, self.transfer, self.finish = make_play(self.backend, self.cfg, models)
+            self.env.reset(seed=self.episode_seed)
+            self.shot, self.transfer_info, self.done = None, None, False
+            self.carrier.value.fill(0)
+            if self.role == "finish":
+                while self.shot is None and not self.done:
+                    self._advance(None)
+                if self.done:
+                    self.prefix_failures.append(self.record)
+                    continue
+            return self.observation(), {}
+        raise RuntimeError(
+            "No reachable finishing state in64 training prefixes; all failures retained"
+        )
+
+    def observation(self):
+        if self.role in ("defender", "keeper"):
+            c = getattr(self.env.backend, self.role)
+            return mobile_observation(self.env.world, c)
+        if self.role == "transfer":
+            return self.env.observation()
+        return self.shot.observation()
+
+    def _advance(self, action):
+        if self.role in ("defender", "keeper") and action is not None:
+            self.carrier.value = np.asarray(action, np.float32)
+        if self.shot is None:
+            a = (
+                action
+                if self.role == "transfer" and action is not None
+                else self.transfer.action(self.env)
+            )
+            _, reward, done, trunc, info = self.env.step(a)
+            if done or trunc:
+                self.transfer_info = info.copy()
+                if info["is_success"]:
+                    self.shot = scoring_handoff(self.env)
+                    done = trunc = False
+        else:
+            a = (
+                action
+                if self.role == "finish" and action is not None
+                else self.finish.action(self.shot)
+            )
+            _, reward, done, trunc, info = self.shot.step(a)
+            self.env.world = self.shot.world
+            # Same cross-attacker collision test as deployed full-play evaluation.
+            for w in getattr(self.env.backend, "last_substep_worlds", [self.env.world]):
+                p, r = w.robot(self.env.passer), w.robot(self.env.receiver)
+                if math.hypot(p.x - r.x, p.y - r.y) < 2 * self.cfg.robot_radius + 0.01:
+                    done, info["is_success"], info["reason"] = True, False, "robot_collision"
+        self.done = bool(done or trunc)
+        if self.done:
+            self.record = {
+                "seed": self.episode_seed,
+                "is_success": bool(info["is_success"] and self.shot is not None),
+                "reason": info["reason"],
+                "transfer": self.transfer_info or info.copy(),
+                "shooting": info.copy() if self.shot is not None else None,
+                "elapsed_seconds": self.env.steps * self.cfg.dt
+                + (self.shot.steps * self.cfg.dt if self.shot else 0),
+                "opponent_pool_index": self.pool_index,
+            }
+        return reward, info
+
+    def step(self, action):
+        if self.done:
+            raise RuntimeError("Reset the terminated match")
+        old = self.env.world
+        reward, info = self._advance(action)
+        if self.role == "transfer" and self.shot is not None:
+            while not self.done:
+                _, info = self._advance(None)
+        if self.role in ("defender", "keeper"):
+            c = getattr(self.env.backend, self.role)
+            r0, r1, b0, b1 = (
+                old.robot(c.key),
+                self.env.world.robot(c.key),
+                old.ball,
+                self.env.world.ball,
+            )
+            reward = (
+                0.2 * (math.hypot(r0.x - b0.x, r0.y - b0.y) - math.hypot(r1.x - b1.x, r1.y - b1.y))
+                - 0.001
+            )
+        else:
+            reward = float(np.clip(reward, -2, 2)) * 0.1
+        if self.done:
+            reason = self.record["reason"]
+            defensive = reason in ("keeper_save", "defender_interception")
+            collision = "collision" in reason
+            reward = (
+                -40.0
+                if collision
+                else (
+                    (25 if defensive else -25 if reason == "goal" else -5)
+                    if self.role in ("defender", "keeper")
+                    else (35 if reason == "goal" else -25)
+                )
+            )
+            self.records.append(self.record)
+        return (
+            self.observation(),
+            reward,
+            self.done,
+            False,
+            {
+                "is_success": bool(
+                    self.done
+                    and (
+                        info["reason"] in ("keeper_save", "defender_interception")
+                        if self.role in ("defender", "keeper")
+                        else info["is_success"]
+                    )
+                ),
+                "reason": info["reason"],
+            },
+        )
+
+    def close(self):
+        pass  # One Supervisor owns and closes the native backend.
+
+
+def evaluate_bundle(backend, cfg, models, count, seed):
+    env, transfer, finish = make_play(backend, cfg, models)
+    return evaluate_team(env, transfer, count, seed, finish)
+
+
+def bootstrap(backend, cfg, output, sources, seed=217):
+    output = Path(output)
+    torch.manual_seed(seed)
+    models = {r: new_model(r, sources[r], seed + i) for i, r in enumerate(ROLES)}
+    save_bundle(
+        models, output / "warm-start", cfg, {"stage": "expanded_source_weights", "seed": seed}
+    )
+    for name, count, base, mix, epochs in [
+        ("teacher", 200, 2000000, 0, 60),
+        ("dagger", 100, 2010000, 0.8, 40),
+    ]:
+        data, result = collect_full(backend, cfg, count, base, models, mix)
+        write(output / (name + "-collection.json"), result)
+        print(name, outcomes(result), flush=True)
+        for i, role in enumerate(ROLES):
+            x, y = data[role]
+            if name == "dagger":
+                old = np.load(output / (role + "-data.npz"))
+                x, y = np.concatenate([old["observations"], x]), np.concatenate([old["actions"], y])
+            np.savez_compressed(output / (role + "-data.npz"), observations=x, actions=y)
+            fit(models[role], x, y, role, epochs, seed + i)
+        bundle = save_bundle(
+            models,
+            output / name,
+            cfg,
+            {"stage": name, "seed": seed, "sources": {r: digest(sources[r]) for r in ROLES}},
+        )
+        dev = evaluate_bundle(backend, cfg, models, 40, 2200000)
+        write(output / (name + "-development.json"), dev)
+        print(name + " development", outcomes(dev), flush=True)
+    write(output / "bootstrap-bundle.json", bundle)
+
+
+def train_league(backend, cfg, output, rounds=2, steps=32768, seed=227):
+    output = Path(output)
+    initial = json.loads((output / "bootstrap-bundle.json").read_text())
+    history = [initial]
+    ledger = []
+    for generation in range(1, rounds + 1):
+        current = load_bundle(history[-1], cfg)
+        pool = [load_bundle(b, cfg) for b in history]
+        # Defense first; attackers subsequently face this new defense and history.
+        for role in ("defender", "keeper", "transfer", "finish"):
+            start_bundle = save_bundle(
+                current,
+                output / f"round{generation}" / ("before-" + role),
+                cfg,
+                {"stage": "frozen_training_opponents", "generation": generation},
+            )
+            training_pool = pool + (
+                [load_bundle(start_bundle, cfg)] if role in ("transfer", "finish") else []
+            )
+            env = MatchEnv(
+                backend,
+                cfg,
+                role,
+                current,
+                training_pool,
+                seed + generation * 31 + ROLES.index(role),
+            )
+            path = history[-1][role]["path"]
+            model = SelfPlayPPO.load(
+                path,
+                env=Monitor(env),
+                device="cpu",
+                learning_rate=3e-6 if role in ("defender", "keeper") else 8e-7,
+            )
+            model.set_random_seed(seed + generation * 31 + ROLES.index(role))
+            data = np.load(output / (role + "-data.npz"))
+            x = data["observations"]
+            model.prepare_anchor(x, seed + generation, [np.arange(len(x))])
+            for group in model.anchor_optimizer.param_groups:
+                group["lr"] = 2e-6
+            before = actor_hash(model)
+            started = time.monotonic()
+
+            class Progress(BaseCallback):
+                def _on_step(self):
+                    if self.num_timesteps % 8192 == 0:
+                        print(
+                            f"Self-play round{generation} {role}: {self.num_timesteps}/{steps}, {time.monotonic() - started:.1f}s",
+                            flush=True,
+                        )
+                    return True
+
+            model.learn(total_timesteps=steps, callback=Progress())
+            current[role] = model
+            target = output / f"round{generation}" / role
+            model.save(target)
+            metadata = {
+                "contract": CONTRACTS[role],
+                "role": role,
+                "config": asdict(cfg),
+                "generation": generation,
+                "training_seed": seed + generation * 31 + ROLES.index(role),
+                "ppo_steps": model.num_timesteps,
+                "actor_before": before,
+                "actor_after": actor_hash(model),
+                "updates": model.anchor_updates,
+                "rejected_updates": model.anchor_rejections,
+                "opponent_bundles": history
+                + ([start_bundle] if role in ("transfer", "finish") else []),
+                "training_only_seed_range": [2100000, 2199999],
+                "method": "alternating PPO with historical opponents and actor trust region",
+            }
+            write(target.with_suffix(".json"), metadata)
+            write(
+                output / f"round{generation}" / (role + "-rollouts.json"),
+                {"episodes": env.records, "failed_finish_prefixes": env.prefix_failures},
+            )
+            write(output / f"round{generation}" / (role + "-updates.json"), model.anchor_log)
+            ledger.append(metadata)
+            print(
+                f"Self-play {role}: {model.anchor_updates - model.anchor_rejections}/{model.anchor_updates} accepted updates; actor changed {before != actor_hash(model)}",
+                flush=True,
+            )
+        bundle = save_bundle(
+            current,
+            output / f"round{generation}" / "snapshot",
+            cfg,
+            {"stage": "self_play_snapshot", "generation": generation, "seed": seed},
+        )
+        history.append(bundle)
+        dev = evaluate_bundle(backend, cfg, current, 60, 2200100)
+        write(output / f"round{generation}" / "development.json", dev)
+        print(f"Round{generation} development", outcomes(dev), flush=True)
+        write(output / "league.json", {"snapshots": history, "updates": ledger})
+    return history

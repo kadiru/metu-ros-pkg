@@ -4,6 +4,8 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 This is an initial implementation, not a competition-ready team. It provides six skill environments, interchangeable analytic/learned policies, a stateful team-play layer, ROS 2 messages/nodes and a Webots Supervisor backend. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+Current work: [mobile defense and alternating self-play](docs/SELF_PLAY.md). The new curriculum is in development; the qualified fixed-opponent result below remains a separate milestone.
+
 The two attackers now **pass around a learned defender, receive, dribble and score
 against a learned goalkeeper**. Both opponent motion controllers are neural policies;
 the attacking transfer and finishing policies were retrained against those frozen

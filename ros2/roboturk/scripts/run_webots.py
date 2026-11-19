@@ -17,6 +17,11 @@ def main():
     parser.add_argument(
         "--mode",
         choices=[
+            "selfplay-probe",
+            "selfplay-bootstrap",
+            "selfplay-train",
+            "selfplay-evaluate",
+            "selfplay-demo",
             "evaluate",
             "suite",
             "train",

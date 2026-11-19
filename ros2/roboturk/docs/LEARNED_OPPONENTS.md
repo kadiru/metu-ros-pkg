@@ -111,3 +111,27 @@ The revised open-lane teacher passed60/60 native development cases with zero
 pre-release losses (mean8.8777s). These are teacher feasibility results, not the
 learned attacker release. Both attacking actors are now being trained against
 defender06fd042a and keeper9dea9369; all final full-play seeds remain untouched.
+
+
+Both attacking actors completed training. Transfer demonstrations300/300 and
+DAgger150/150; cloned, DAgger and final PPO each60/60 development, zero losses.
+Finisher source weights on the new tactic scored0/60 (58timeouts,2losses); cloned
+57/60 (three arrival timeouts, no losses); DAgger and final PPO60/60, no losses.
+Each completed65,536 PPO steps and64 accepted updates. Complete-play development
+is running before the four-checkpoint/runtime freeze. Candidate staging:
+
+```sh
+../.venv/bin/python scripts/stage_learned_play.py \
+  --source runs/learned-attackers-v1 --output policies/learned_opponents_play_v1
+```
+
+The stager retains every candidate and selects by development success count,
+then possession losses; final PPO, then DAgger, breaks ties. This rule uses no
+reserved full-play outcomes. The selected actor paths are `transfer/policy.zip`
+and `finish/policy.zip` within that release directory.
+
+Complete-play development passed120/120, zero pre-release losses/collisions,
+mean15.0448s. Both neural opponents were verified active on every control and
+5ms physics frame. The four actors and all runtime/source/physics inputs were
+frozen before any1650000-series qualification episode. No numerical or model
+changes are permitted between this freeze, qualification and the fresh demo.

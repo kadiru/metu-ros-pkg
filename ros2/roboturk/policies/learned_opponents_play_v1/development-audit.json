@@ -1,0 +1,10 @@
+{
+  "count": 120,
+  "successes": 120,
+  "failures": {},
+  "loss_episodes": 0,
+  "collision_episodes": 0,
+  "passes_gate": true,
+  "policy_continuity_verified": true,
+  "mean_success_seconds": 15.044833333333335
+}

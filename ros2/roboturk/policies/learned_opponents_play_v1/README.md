@@ -1,8 +1,10 @@
 # Passing and scoring against learned defense v1
 
 Both attacking actors have completed training against the frozen learned
-midfielder and goalkeeper. Complete-play development and final qualification
-are in progress; no reserved full-play result is claimed yet.
+midfielder and goalkeeper. Complete-play development passed120/120, with zero
+pre-release possession losses or robot collisions; mean15.0448s. All four actors
+and the runtime are now frozen. Reserved qualification is pending.
+[Development audit](development-audit.json) · [Complete records](full-development.json) · [Freeze](freeze.json).
 
 ## Four deployed policies
 

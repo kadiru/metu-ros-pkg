@@ -4,30 +4,65 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 This is an initial implementation, not a competition-ready team. It provides six skill environments, interchangeable analytic/learned policies, a stateful team-play layer, ROS 2 messages/nodes and a Webots Supervisor backend. See [validation](docs/VALIDATION.md) for exactly what has run.
 
-Work in progress: [continuous learned opponents and attacker retraining](docs/LEARNED_OPPONENTS.md). Both neural opponent controllers and the native training pipeline are implemented; new qualification is pending. The results below belong to the previous analytic-opponent benchmark.
+The two attackers now **pass around a learned defender, receive, dribble and score
+against a learned goalkeeper**. Both opponent motion controllers are neural policies;
+the attacking transfer and finishing policies were retrained against those frozen
+opponents. The four-policy play scored **200/200 reserved native Webots cases**,
+with **zero pre-release possession losses or robot collisions**. Mean sequence:
+**15.22s**; mean ball displacement to reception **2.93m** and retained receiver carry
+**3.77m**. [Model card and every outcome](policies/learned_opponents_play_v1/README.md) ·
+[Training and qualification protocol](docs/LEARNED_OPPONENTS.md).
 
-The learned **two-robot play passes around a defender, receives, draws the goalkeeper and scores**. The frozen play scored **199/200 reserved Webots cases (99.5%)**, with **zero pre-release possession losses or robot collisions**. One pass was intercepted; all 199 successful receptions ended in goals. Mean complete sequence: **14.94 s**; mean ball displacement to reception: **2.83 m**; receiver carry: **3.49 m**. [Model card and all outcomes](policies/keeper_finish_v1/README.md) · [Training protocol](docs/KEEPER_TRAINING.md).
+The [fresh native Webots demo](media/learned-opponents-pass-receive-score-demo.mp4)
+scored **6/6 consecutive cases**. All2,346 native frames are retained at normal
+simulation speed (93.84s). Blue is the passer, cyan the receiver/scorer, yellow the
+defender and red the keeper.
 
-The [fresh native Webots demo](media/keeper-pass-receive-score-demo.mp4) scored **6/6** consecutive cases. Blue is the passer, cyan the receiver/scorer, yellow the midfield defender and red the goalkeeper. Every native frame and outcome is retained (99.16 seconds).
+[![Actual Webots play against learned defense](media/learned-opponents-pass-receive-score-preview.jpg)](media/learned-opponents-pass-receive-score-demo.mp4)
 
-[![Actual Webots keeper-aware finishing](media/keeper-pass-receive-score-preview.jpg)](media/keeper-pass-receive-score-demo.mp4)
+The neural defender intercepted **100/100** reserved direct passes; the neural
+keeper saved **99/100** reserved direct shots. Their [independent defensive checks](policies/learned_opponents_v1/README.md)
+include stationary and teacher comparisons. The previous attackers scored45/60
+against these same frozen opponents, with15 keeper saves. All failed candidates
+and development outcomes remain published.
 
-The existing goal-conditioned transfer actor controls both attackers. A new learned finisher supplies dribbling, turning and release commands after measured stable reception, without a physics reset or teacher fallback. Receiving-point selection, draw/finish aim targets, phase handoff and kick power are scripted. The fixed analytic opponents stay active throughout the play. The previous scorer managed 0/40 goals against this corrected keeper on the comparison development set.
+A62-input/seven-output transfer actor controls both attackers until stable reception;
+a32-input/four-output finisher controls dribbling, turning and shot release. The
+33-input/three-output opponents control their own translation and rotation throughout
+both phases, without reset or analytic motion fallback. Receiving/finishing targets,
+open-corner aim selection, role handoff and fixed kick speeds remain scripted.
+Training used demonstrations, DAgger and anchored PPO; no incremental PPO success-rate
+benefit over the best imitation stage is established.
 
-Two additional learned micro behaviors passed separate reserved tests: [block/recover](policies/block_shot_v1/README.md), **200/200 physical interceptions and retentions**; [cover a passing lane](policies/cover_pass_lane_v1/README.md), **200/200 continuous positioning holds**. Both have **3/3 fresh native demo cases**, shown in the [19.56-second defensive demo](media/defensive-micro-behaviors-demo.mp4). Their inference adapters share training observation/action contracts. [Behavior contracts and team-paper provenance](docs/BEHAVIOR_SOURCES.md) trace the ideas to CMDragons2015, TIGERs Mannheim2025 and ER-Force2024. These learned defensive primitives do not replace the fixed opponents during attacking qualification.
+This is a bounded approximate, ground-truth Webots curriculum, starting with passer
+possession. The defender is a lane guard (0.25–0.55m/s); the keeper retains a goal-line
+role,0.65–0.95m/s speed limit and0.08–0.14s command delay. It does not establish
+unrestricted match strength, a self-play equilibrium or calibrated hardware behavior.
+A complete live ROS/Webots graph with applied-kick feedback also remains to be validated.
 
-This benchmark starts with passer possession and uses ground-truth state, approximate Webots dynamics, a bounded midfield line guard and delayed lateral goalkeeper. It qualifies this distribution; unrestricted adversaries, calibrated hardware and full SSL matches require further work. A complete live ROS/Webots graph with applied-kick feedback also remains to be validated.
+Earlier releases remain available: [analytic-opponent keeper play](policies/keeper_finish_v1/README.md)
+(199/200), [defended passing](policies/defended_pass_receive_v3/README.md),
+[unguarded passing/scoring](policies/pass_receive_v2/README.md),
+[capture/dribble/shoot](policies/capture_dribble_shoot_v2/README.md),
+[capture/dribble](policies/capture_dribble_v1/README.md) and
+[capture](policies/chase_capture_v1/README.md) (each200/200 in its own curriculum).
+Separate [block/recover](policies/block_shot_v1/README.md) and
+[passing-lane coverage](policies/cover_pass_lane_v1/README.md) policies each passed200/200
+and have a [native defensive demo](media/defensive-micro-behaviors-demo.mp4).
+[Behavior contracts and paper provenance](docs/BEHAVIOR_SOURCES.md) trace inspiration
+to CMDragons2015, TIGERs Mannheim2025 and ER-Force2024.
 
-Earlier qualified releases remain available: [defended passing](policies/defended_pass_receive_v3/README.md), [unguarded passing/scoring](policies/pass_receive_v2/README.md), [capture/dribble/shoot](policies/capture_dribble_shoot_v2/README.md), [capture/dribble](policies/capture_dribble_v1/README.md) and [capture](policies/chase_capture_v1/README.md), each200/200 in its own declared curriculum. Their demos and failed earlier candidates are retained.
-
-Replay the keeper play with the pinned environment and Webots installation:
+Replay the learned-opponent play with the pinned environment and Webots installation:
 
 ```sh
 ../.venv/bin/python scripts/run_webots.py \
   --webots ../runtime/Webots-nightly.app/Contents/MacOS/webots \
-  --mode keeper-demo --checkpoint policies/defended_pass_receive_v3/policy.zip \
-  --shoot-checkpoint policies/keeper_finish_v1/policy.zip \
-  --episodes 6 --seed 960000 --output runs/keeper-demo --timeout 900 --render
+  --mode opponents-demo \
+  --checkpoint policies/learned_opponents_play_v1/transfer/policy.zip \
+  --shoot-checkpoint policies/learned_opponents_play_v1/finish/policy.zip \
+  --defender-checkpoint policies/learned_opponents_v1/defender/policy.zip \
+  --keeper-checkpoint policies/learned_opponents_v1/keeper/policy.zip \
+  --episodes 6 --seed 1660000 --output runs/learned-opponents-demo --timeout 1800 --render
 ```
 
 ```mermaid
@@ -139,7 +174,7 @@ In Python, register `CheckpointPolicy(path, skill, cfg)` with `BehaviorLibrary.r
 1. Validate the complete Webots/ROS live graph on Ubuntu. CI already builds all three ROS packages and passes the two bridge/interface tests; full simulator integration remains separate.
 2. Confirm which physical robot revision to reproduce: the archive contains both three- and four-wheel references. Add real motor/roller geometry and measure step response, slip, braking, dribbler capture and kick speed.
 3. Improve obstacle avoidance and skill termination, add randomized opponents, latency, observation noise and dynamics; evaluate held-out configurations.
-4. Extend the qualified defended-passing play to free-ranging opponents, moving receivers and goalkeepers. Maintain analytic and random-policy comparisons, success rates, collision rates and uncertainty across training seeds.
-5. Add official SSL vision/game-controller adapters and rule enforcement, then multi-agent rollouts, centralized-critic training and self-play. Generic skill tasks control one robot; the passing play uses a centralized two-robot policy and a scripted opponent.
+4. Extend the qualified play to free-ranging defenders and keepers, moving receivers and broader defensive training. Maintain analytic and random-policy comparisons, success rates, collision rates and uncertainty across training seeds.
+5. Add official SSL vision/game-controller adapters and rule enforcement, then multi-agent rollouts, centralized-critic training and self-play. Generic skill tasks control one robot; the passing play uses a centralized two-robot transfer policy, a learned finisher and two bounded learned opponents.
 
 New code has no release license selected yet (`LicenseRef-Unlicensed` metadata). The historical repository's file-specific licenses and authorship remain intact. No archive implementation was copied into the modern Python stack.

@@ -3,7 +3,7 @@
 November 19, 2026, America/Los_Angeles. The previous keeper milestone's analytic
 opponents remain reproducible. This new experiment replaces both motion controllers
 with separate neural actors and retrains both attacking actors against frozen opponents.
-Results are pending; no reliability claim is made by this protocol.
+The completed frozen play passed200/200 reserved cases; the evidence and scope are below.
 
 ## Contracts and boundaries
 
@@ -59,8 +59,9 @@ explicit resets/observations never enter datasets, anchors or candidate selectio
 Direct defensive challenges use1.8m/s longitudinal passes and3.5m/s longitudinal
 shots (total speed slightly higher with lateral velocity),1.8–2.8m from the line;
 initial guard offset≤0.12m. Keeper target y±0.28m, pass target within±0.22m of the
-initial lane. A pass interception requires measured contact. A keeper save requires
-contact and no goal through at least2s. These are makeable direct challenges, not
+initial lane. A pass interception requires center distance within robot radius + ball radius +2mm
+or the modeled dribbler-mouth possession predicate. A keeper save requires that
+event and no goal through at least2s. This is not an ODE contact-sensor measurement. These are makeable direct challenges, not
 attacker feints or a claim that a keeper should save every shot. Compare the neural
 actor with its analytic teacher on the same challenge distribution. Planned release
 gate:≥90/100 direct challenges for each opponent, separately from attacking success.
@@ -109,8 +110,8 @@ qualification/demo splits remain unchanged.
 
 The revised open-lane teacher passed60/60 native development cases with zero
 pre-release losses (mean8.8777s). These are teacher feasibility results, not the
-learned attacker release. Both attacking actors are now being trained against
-defender06fd042a and keeper9dea9369; all final full-play seeds remain untouched.
+learned attacker release. Both attacking actors were then trained against
+defender06fd042a and keeper9dea9369, while all final full-play seeds remained untouched.
 
 
 Both attacking actors completed training. Transfer demonstrations300/300 and
@@ -118,7 +119,8 @@ DAgger150/150; cloned, DAgger and final PPO each60/60 development, zero losses.
 Finisher source weights on the new tactic scored0/60 (58timeouts,2losses); cloned
 57/60 (three arrival timeouts, no losses); DAgger and final PPO60/60, no losses.
 Each completed65,536 PPO steps and64 accepted updates. Complete-play development
-is running before the four-checkpoint/runtime freeze. Candidate staging:
+then preceded the four-checkpoint/runtime freeze. Candidate staging used this command
+(the stager refuses to overwrite a frozen release):
 
 ```sh
 ../.venv/bin/python scripts/stage_learned_play.py \
@@ -135,3 +137,34 @@ mean15.0448s. Both neural opponents were verified active on every control and
 5ms physics frame. The four actors and all runtime/source/physics inputs were
 frozen before any1650000-series qualification episode. No numerical or model
 changes are permitted between this freeze, qualification and the fresh demo.
+
+## Frozen full-play qualification
+
+All200 reserved cases1650000–1650199 scored, with zero pre-release possession losses
+and robot collisions. Every success included one applied pass, stable reception,
+retained carry, one applied shot and whole-ball crossing inside the goal posts.
+Mean15.2234s; Wilson95% interval98.12–100%. Direction split102/98, passer-role split99/101.
+The audit verified152,234 calls per defensive actor,608,936 physics checks per
+opponent,487,852 possession checks, all model/manifest hashes and71 frozen runtime
+inputs. Freeze2026-11-19T12:05:54.587414-08:00 was published at9fec0371 before this run.
+[Model card and complete evidence](../policies/learned_opponents_play_v1/README.md).
+
+```sh
+../.venv/bin/python scripts/audit_opponent_release.py audit \
+  --freeze policies/learned_opponents_play_v1/freeze.json \
+  --result policies/learned_opponents_play_v1/qualification.json \
+  --seed 1650000 --count 200 \
+  --output policies/learned_opponents_play_v1/qualification-audit.json
+```
+
+The fresh native movie passed6/6 on1660000–1660005, with zero losses/collisions.
+Every native frame is retained (2,346 frames,93.84s,1280×720 at25fps). These six
+predeclared seeds all happened to attack +X; both directions were qualified above.
+Full native/final decoding and representative pass/carry/goal frame checks passed.
+[Movie and evidence](../policies/learned_opponents_play_v1/README.md).
+The [main README](../README.md) provides the exact four-checkpoint replay command.
+
+Next experiments should widen the learned defenders' operating region, train
+interception and recovery from varied attacker trajectories, and alternate opponent
+and attacker updates in a retained checkpoint league. Use independent training seeds
+and fresh reserved sets; this fixed-opponent result is not evidence for those extensions.

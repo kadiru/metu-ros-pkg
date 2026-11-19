@@ -1,10 +1,30 @@
 # Passing and scoring against learned defense v1
 
-Both attacking actors have completed training against the frozen learned
-midfielder and goalkeeper. Complete-play development passed120/120, with zero
-pre-release possession losses or robot collisions; mean15.0448s. All four actors
-and the runtime are now frozen. Reserved qualification is pending.
-[Development audit](development-audit.json) · [Complete records](full-development.json) · [Freeze](freeze.json).
+The frozen learned play scored **200/200 reserved native Webots cases**, with
+**zero pre-release possession losses or robot collisions**. Both defensive motion
+controllers are learned policies and remained active throughout every play.
+Mean complete sequence **15.2234s**; Wilson95% interval **98.12–100%** for this
+bounded distribution. Both directions passed (102 positive /98 negative), with
+both passer roles (99 ID0 /101 ID1). Mean ball displacement to reception2.9344m,
+retained receiver carry3.7730m, shot distance0.7173m.
+
+The audit verified all200 ordered reserved seeds, all four checkpoint/manifest
+hashes and71 frozen runtime inputs. Each opponent supplied152,234 neural commands
+and was checked608,936 times at5ms; possession was checked487,852 times.
+No teacher fallback, opponent reset or disabled opponent at the handoff.
+[Every episode](qualification.json) · [Audit](qualification-audit.json) ·
+[Summary](qualification-summary.json) · [Freeze](freeze.json).
+
+Complete-play development was120/120, zero losses/collisions, mean15.0448s.
+The four-policy/runtime freeze was published at`9fec0371` before reserved evaluation.
+[Development audit](development-audit.json) · [Development records](full-development.json).
+The [fresh native Webots demo](../../media/learned-opponents-pass-receive-score-demo.mp4)
+scored **6/6**, with zero losses/collisions. It retains all2,346 native frames at25fps,
+1280×720,93.84s, without cuts or speed changes. All six preselected seeds1660000–1660005
+happened to attack +X; the200-case qualification includes98 negative-direction goals.
+Full native and published decoding passed; passing, carry, keeper interaction and
+goal frames were visually inspected. [Demo outcomes](demo.json) · [Audit](demo-audit.json) ·
+[Video hashes and provenance](demo-video.json).
 
 ## Four deployed policies
 

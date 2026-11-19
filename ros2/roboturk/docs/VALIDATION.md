@@ -1,24 +1,47 @@
 # Validation — November 19, 2026 (America/Los_Angeles)
 
-## Learned continuous opponents
+## Qualified play against learned defense
 
-The frozen neural defender intercepted100/100 reserved passes; the frozen neural
-keeper saved99/100 reserved shots at3.5m/s longitudinal speed. Both must make
-physical contact; keeper success also requires no goal through2s. One keeper goal
-conceded (seed1260065) is retained. The audit checks all reserved seeds, model hashes,
-unchanged opponent runtime and34,424/39,780 physics samples respectively.
-[Model card and evidence](../policies/learned_opponents_v1/README.md).
+The four frozen policies scored **200/200 reserved native Webots cases**, with
+**zero pre-release possession losses or robot collisions**. Mean15.2234s;
+Wilson95% interval98.12–100%. Positive/negative goals102/98; passer roles99/101.
+Mean ball displacement to reception2.9344m, retained receiver carry3.7730m and
+shot distance0.7173m. Every success required an actual pass,0.4s stable reception,
+retained carry, an actual shot and whole-ball crossing inside the posts.
 
-Stationary development baselines45/60 and35/60 contrast with final neural60/60
-and59/60; analytic teachers achieved60/60 and57/60 on those same development sets.
-Both learned actors completed32,768 anchored PPO steps with32 accepted updates.
-There is no incremental PPO success-count gain over selected imitation actors.
+The independent release audit verified every reserved seed1650000–1650199,
+all four checkpoint/manifest hashes and71 frozen runtime inputs. Both opponents
+remained active through the handoff:152,234 neural calls per opponent and608,936
+physics checks each. There were487,852 possession checks. No analytic movement
+fallback or handoff reset. [Complete model card and raw evidence](../policies/learned_opponents_play_v1/README.md).
 
-The unchanged previous attackers scored45/60 against these exact frozen opponents:
-all60 passes received;15 keeper saves, zero pre-release losses. Attacker retraining
-and final full-play qualification are in progress. A close-only teacher's32/40
-and revised open-lane teacher's60/60 are retained as development evidence; they
-are not learned-attacker qualification results.
+Complete-play development passed120/120 before the freeze was published at9fec0371.
+Each attacking actor trained from300 demonstrations,150 mixed DAgger episodes and
+65,536 anchored PPO steps. Transfer BC/DAgger/PPO60/60; new finisher source0/60,
+BC57/60, DAgger/PPO60/60. No incremental PPO success-count benefit is established.
+The old full play scored45/60 against these opponents, with15 keeper saves.
+Failed close-only teacher32/40 and revised teacher60/60 remain development evidence.
+
+The independently frozen neural defender intercepted100/100 reserved direct passes;
+the neural keeper saved99/100 direct shots at3.5m/s longitudinal speed. The event
+predicate is center distance within summed radii +2mm or modeled mouth possession;
+keeper success also requires no goal through2s. It is not an ODE contact-sensor
+measurement. One conceded goal1260065 is retained. Stationary development45/60 and
+35/60; neural60/60 and59/60; teachers60/60 and57/60. Each defensive actor completed
+32,768 anchored PPO steps. [Opponent model card and audit](../policies/learned_opponents_v1/README.md).
+
+This is a bounded approximate, ground-truth Webots curriculum. The passer starts
+with possession. Tactical receiving/finishing targets and role handoff are scripted;
+neural actors provide motion and release. The keeper/defender retain fixed role
+anchors, speed/acceleration limits and latency context. It is not an evolving
+self-play league, unrestricted match play or a calibrated hardware result.
+
+The [fresh native demo](../media/learned-opponents-pass-receive-score-demo.mp4) scored6/6,
+zero losses/collisions. All2,346 frames are retained at25fps,1280×720,93.84s. Both
+native and published files fully decoded; representative pass, carry, keeper and
+goal frames were inspected. All six reserved demo seeds happened to attack +X;
+the qualification includes98 successful -X cases. No runtime/model changes after
+freeze or qualification. [Video provenance](../policies/learned_opponents_play_v1/demo-video.json).
 
 ## Previous analytic-opponent keeper play
 

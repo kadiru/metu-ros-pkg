@@ -89,3 +89,8 @@ simulator contact/possession test, not an instrumented ODE contact-sensor report
 Defender success does not require subsequent retention; keeper success additionally
 requires no goal through2s. The complete attacking-play audit treats any such
 opponent interaction as a failure, including a goalkeeper deflection into goal.
+
+The attackers were subsequently retrained against these unchanged checkpoints.
+The [four-policy release](../learned_opponents_play_v1/README.md) scored200/200 reserved
+complete plays and6/6 fresh native demo cases. The attacking targets/handoff remain
+scripted, and these opponents retain the bounded role/actuator context above.

@@ -22,7 +22,9 @@ class Recorder:
         )
         self.label(0, "RoboTurk | " + title, 0.025, 0.052)
         self.label(1, f"Episode {index + 1} | seed {seed}", 0.10)
-        self.label(4, "CYAN: learned defender | fixed line / target-selection tactic", 0.9, 0.033)
+        self.label(
+            4, "CYAN: learned defender | scripted interception / coverage targets", 0.9, 0.033
+        )
         self.label(
             5, "Separate micro curriculum | actual Webots physics | no teacher fallback", 0.95, 0.03
         )

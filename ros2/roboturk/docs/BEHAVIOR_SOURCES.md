@@ -19,8 +19,8 @@ The teams' methods below are not being described as reinforcement learning.
   fixed kick power. Entry: stable possession after a real teammate pass.
   Exit: actual receiver kick and whole-ball crossing inside the goal posts.
   Any keeper/defender touch, collision or pre-release possession loss fails.
-- `block_shot`: bounded lateral interception micro task; learned velocity on a
-  fixed defensive line. Success requires physically stopping and retaining a
+- `block_shot`: bounded lateral interception micro task; learned translation to intercept and recover near an
+  assigned defensive line. Success requires physically stopping and retaining a
   rolling shot. This is a reachable-shot curriculum, not unrestricted goalkeeping.
 - `cover_pass_lane`: learned tracking of a geometrically assigned ball-to-opponent
   lane. Success requires continuous coverage dwell. This measures positioning,
@@ -30,3 +30,24 @@ Exact checkpoint status, training splits and outcomes belong in the correspondin
 model cards. A task definition is not evidence that a policy has been trained or
 qualified. Future strategy work can select these contracts based on observable
 threats, teammate readiness and possession, then assess complete plays.
+
+## Candidate behaviors for the next strategy layer
+
+These are proposals, not trained releases:
+
+- **Support and recover:** assign a nearby teammate to collect a loose ball while
+  preserving a useful attacking angle; switch to covering a direct threat when
+  possession changes. Inspired by CMDragons' support-attacker discussion (§2.2).
+  Proposed metric: recovery time and possession outcome after randomized loose-ball events.
+- **Receive and redirect:** choose between stopping the incoming ball and a timed
+  direct shot. Inspired by TIGERs' explicit receive/redirect pass descriptions.
+  Proposed metric: physically measured reception or redirect goal under randomized
+  ball speed, receiver orientation and defender interception windows.
+- **Keeper feint counter:** retain central coverage while the holder rotates, then
+  commit when shot evidence is stronger. Inspired by ER-Force's keeper countermeasure
+  analysis. This should become a distinct adversarial benchmark rather than changing
+  the opponent during an existing qualification run.
+
+Our current fixed-target and fixed-opponent curricula are starting points for these
+contracts. General strategy quality requires evaluating role selection and behavior
+composition against varied opponents, not adding isolated success rates together.

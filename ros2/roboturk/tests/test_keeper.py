@@ -134,8 +134,8 @@ def test_defense_deployment_codec_matches_environment():
             command = defense_command(action, env.world, GUARD, kind)
             vx, vy = world_vector(command.vx, command.vy, env.world.robot(GUARD).yaw)
             if kind == "block":
-                assert vx == pytest.approx(0, abs=1e-9)
-                assert vy == pytest.approx(env.world.attack_sign * action[0] * 1.2)
+                assert vx == pytest.approx(env.world.attack_sign * action[0] * 1.2)
+                assert vy == pytest.approx(env.world.attack_sign * action[1] * 1.2)
             assert command.kick == 0 and command.dribbler == 1
 
 
@@ -197,3 +197,29 @@ def test_ppo_automatic_unseeded_reset_is_supported_and_replayable():
     play = KeeperPlayEnv()
     play.reset(seed=97)
     assert play.reset()[0].shape == (62,)
+
+
+def test_two_axis_block_checkpoint_loads_and_old_shape_is_rejected(monkeypatch, tmp_path):
+    import json, sys
+    from dataclasses import asdict
+    from types import SimpleNamespace
+    from roboturk.defense_micro import DefenseCheckpoint
+
+    cfg = Config()
+    path = tmp_path / "policy.zip"
+    path.with_suffix(".json").write_text(
+        json.dumps({"contract": "roboturk.block.v2", "config": asdict(cfg)})
+    )
+    model = SimpleNamespace(
+        observation_space=SimpleNamespace(shape=(16,)), action_space=SimpleNamespace(shape=(2,))
+    )
+    monkeypatch.setitem(
+        sys.modules,
+        "stable_baselines3",
+        SimpleNamespace(PPO=SimpleNamespace(load=lambda *a, **k: model)),
+    )
+    loaded = DefenseCheckpoint(path, kind="block", cfg=cfg)
+    assert loaded.model is model
+    model.action_space.shape = (1,)
+    with pytest.raises(ValueError, match="shape mismatch"):
+        DefenseCheckpoint(path, kind="block", cfg=cfg)

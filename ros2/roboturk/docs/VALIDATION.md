@@ -1,8 +1,22 @@
 # Validation — November 19, 2026 (America/Los_Angeles)
 
+## Latest keeper play
+
+Frozen qualification: **199/200 goals**, one defender interception, zero pre-release
+possession losses or robot collisions. All199 completed receptions ended in goals.
+Wilson95% interval97.22–99.91%; mean successful sequence14.943s. Six fresh consecutive
+native Webots demo cases scored6/6;99.16s,2,479 frames,1280×720 at25fps.
+[Model card and raw evidence](../policies/keeper_finish_v1/README.md).
+
+The two attackers use the frozen learned transfer actor and a new learned finisher.
+The midfield defender and keeper are bounded analytic opponents. Target/phase
+selection is scripted, motion and release are learned. Standalone development was
+60/60 before and after constrained PPO; no incremental PPO success benefit is claimed.
+The blocking/recovery and coverage policies are being qualified separately.
+
 ## Verified locally
 
-- 71 Python tests pass. They include Gymnasium contracts for all six tasks and capture/dribble/scoring/team-transfer/defended-transfer curricula; seeded replay; coordinate/target rotation invariance; finite actions; actuator limits and retain/fire semantics; HALT/STOP/stale-input overrides; full-ball goal crossing in both directions; rejecting premature shots and pushed-in balls; possession loss between control frames; arrival hold; passing/receiving and role persistence; reset clearing; the deferred Webots reset regression; actual-pass/reception gating; collision rejection; unchanged physics at the scoring handoff; play-memory agreement with the task monitor; defender interception/collision checks between control frames; continuing opponent control through scoring; body/field action conversion; and fixed, mirrored receiving-point targets shared by the policy and monitor.
+- 84 Python tests pass (including keeper/defensive contracts, mirrored goalkeeper positioning, automatic PPO resets and inference parity). They include Gymnasium contracts for all six tasks and capture/dribble/scoring/team-transfer/defended-transfer curricula; seeded replay; coordinate/target rotation invariance; finite actions; actuator limits and retain/fire semantics; HALT/STOP/stale-input overrides; full-ball goal crossing in both directions; rejecting premature shots and pushed-in balls; possession loss between control frames; arrival hold; passing/receiving and role persistence; reset clearing; the deferred Webots reset regression; actual-pass/reception gating; collision rejection; unchanged physics at the scoring handoff; play-memory agreement with the task monitor; defender interception/collision checks between control frames; continuing opponent control through scoring; body/field action conversion; and fixed, mirrored receiving-point targets shared by the policy and monitor.
 - Ruff static checks pass and Python sources compile.
 - Both Python packages built and installed as editable packages; `pip check` reports no broken dependencies. Exact local versions are recorded in `requirements-macos-validation.txt` (a macOS validation environment, not a universal ROS lockfile).
 - ROS-specific tests are skipped locally because this Mac has no ROS 2 installation. GitHub Actions on Ubuntu 24.04 / ROS 2 Jazzy built all three packages and passed **2/2 ROS bridge/interface tests** at commit `3b543642`. These tests exercise conversions, command/referee watchdogs and reset with a reference backend; a complete Webots/ROS live-graph run is still pending.

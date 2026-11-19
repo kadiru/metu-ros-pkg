@@ -21,9 +21,9 @@ class DefenseMicroEnv(gym.Env):
         if kind not in ("block", "cover"):
             raise ValueError("Unknown defense micro behavior")
         self.cfg, self.backend, self.kind = cfg, backend or ReferenceBackend(cfg), kind
-        self.contract = "roboturk." + kind + ".v1"
-        self.task_version = kind + ".randomized.v1"
-        self.action_space = gym.spaces.Box(-1, 1, (1 if kind == "block" else 2,), dtype=np.float32)
+        self.contract = "roboturk." + kind + (".v2" if kind == "block" else ".v1")
+        self.task_version = kind + (".randomized.v2" if kind == "block" else ".randomized.v1")
+        self.action_space = gym.spaces.Box(-1, 1, (2,), dtype=np.float32)
         self.observation_space = gym.spaces.Box(-np.inf, np.inf, (16,), dtype=np.float32)
 
     def reset(self, *, seed=None, options=None):
@@ -72,9 +72,14 @@ class DefenseMicroEnv(gym.Env):
         if self.kind == "cover":
             t = w.robot(TARGET)
             return ((b.x + t.x) / 2, (b.y + t.y) / 2, t.vx / 2, t.vy / 2)
-        r = w.robot(GUARD)
-        if possession(w, GUARD, self.cfg) and math.hypot(b.vx, b.vy) < 0.35:
-            return (self.anchor, r.y, 0.0, 0.0)
+        if self.contact_checks:
+            # Measured interception switches the tactical target to a bounded
+            # recovery point. The actor still supplies both translation commands.
+            sign = w.attack_sign
+            desired_x = b.x + sign * self.cfg.possession_x
+            low, high = sorted((self.anchor, self.anchor - sign * 0.6))
+            x = float(np.clip(desired_x, low, high))
+            return (x, b.y, b.vx if low < desired_x < high else 0.0, b.vy)
         time = (
             (self.anchor - w.attack_sign * self.cfg.possession_x - b.x) / b.vx
             if abs(b.vx) > 0.05
@@ -200,7 +205,14 @@ class DefenseTeacher:
         tx, ty, tvx, tvy = env.target()
         sign = env.world.attack_sign
         if env.kind == "block":
-            return np.array([np.clip(sign * 8 * (ty - r.y) / 1.2, -1, 1)], np.float32)
+            return np.clip(
+                np.array(
+                    [sign * (6 * (tx - r.x) + tvx) / 1.2, sign * (8 * (ty - r.y) + tvy) / 1.2],
+                    np.float32,
+                ),
+                -1,
+                1,
+            )
         return np.clip(
             np.array([sign * (3 * (tx - r.x) + tvx), sign * (3 * (ty - r.y) + tvy)], np.float32),
             -1,
@@ -241,15 +253,12 @@ def defense_observation(world, key, target, stable_seconds, kind, cfg):
 
 def defense_command(action, world, key, kind):
     action = np.asarray(action, dtype=np.float32)
-    if action.shape != (1 if kind == "block" else 2,) or not np.all(np.isfinite(action)):
+    if action.shape != (2,) or not np.all(np.isfinite(action)):
         raise ValueError("Invalid defensive action")
     a = np.clip(action, -1, 1)
     sign = -world.direction(key.team)
-    vx, vy = (
-        (0.0, sign * float(a[0]) * 1.2)
-        if kind == "block"
-        else (sign * float(a[0]), sign * float(a[1]))
-    )
+    scale = 1.2 if kind == "block" else 1.0
+    vx, vy = sign * float(a[0]) * scale, sign * float(a[1]) * scale
     bx, by = body_vector(vx, vy, world.robot(key).yaw)
     return Command(bx, by, 0, 1)
 
@@ -263,13 +272,13 @@ class DefenseCheckpoint:
         if kind not in ("block", "cover"):
             raise ValueError("Assign a defense behavior kind")
         meta = json.loads(Path(path).with_suffix(".json").read_text())
-        if meta["contract"] != "roboturk." + kind + ".v1" or meta["config"] != asdict(cfg):
+        if meta["contract"] != "roboturk." + kind + (".v2" if kind == "block" else ".v1") or meta[
+            "config"
+        ] != asdict(cfg):
             raise ValueError("Defense manifest mismatch")
         self.kind, self.cfg = kind, cfg
         self.model = PPO.load(path, device="cpu")
-        if self.model.observation_space.shape != (16,) or self.model.action_space.shape != (
-            1 if kind == "block" else 2,
-        ):
+        if self.model.observation_space.shape != (16,) or self.model.action_space.shape != (2,):
             raise ValueError("Defense shape mismatch")
 
     def action(self, env):
@@ -279,7 +288,7 @@ class DefenseCheckpoint:
         """Deploy on an assigned defensive line/target; no simulator or teacher needed.
 
         Caller supplies the same observed dwell and tactical target/velocity used
-        by training. Fixed heading/longitudinal line for block is part of its scope.
+        by training. Fixed heading and bounded interception/recovery targets are part of its scope.
         """
         if (
             world.referee != Referee.RUNNING

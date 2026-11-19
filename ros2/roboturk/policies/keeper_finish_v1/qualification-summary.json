@@ -1,0 +1,52 @@
+{
+  "count": 200,
+  "successes": 199,
+  "failures": {
+    "defender_interception": 1
+  },
+  "loss_episodes": 0,
+  "collision_episodes": 0,
+  "passes_gate": true,
+  "checkpoint_sha256": "7252f42b80f71f1578b238d28f288544ab38a5344660c7ac7106233a278e0be7",
+  "wilson_95": [
+    0.9722262956021069,
+    0.9991168312843989
+  ],
+  "mean_success_seconds": 14.943115577889447,
+  "mean_ball_transfer_distance": 2.8264086600083713,
+  "mean_controlled_carry": 3.4902513063694167,
+  "possession_physics_checks": 472364,
+  "opponent_physics_checks": 594988,
+  "keeper_saves": 0,
+  "minimum_ball_keeper_distance": 0.21501839739943573,
+  "by_direction": {
+    "-1": [
+      91,
+      91
+    ],
+    "1": [
+      108,
+      109
+    ]
+  },
+  "by_passer": {
+    "0": [
+      100,
+      101
+    ],
+    "1": [
+      99,
+      99
+    ]
+  },
+  "by_keeper_style": {
+    "aim_tracking": [
+      107,
+      107
+    ],
+    "ball_line": [
+      92,
+      93
+    ]
+  }
+}

@@ -27,7 +27,8 @@ class Recorder(TeamRecorder):
     def camera(self, env, shot):
         r, b = env.world.robot(env.receiver), env.world.ball
         if shot is None:
-            robots = env.world.robots
+            # Establish all four roles, then follow the pass at a readable scale.
+            robots = tuple(r for r in env.world.robots if env.steps < 40 or r.key != KEEPER)
             xs, ys = [p.x for p in robots], [p.y for p in robots]
             x, y = (min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2
             z = max(10.0, (max(xs) - min(xs) + 1.0) * 2.35, (max(ys) - min(ys) + 1.2) * 1.6)

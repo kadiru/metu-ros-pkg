@@ -46,6 +46,8 @@ def run(supervisor, backend, cfg, mode):
         else:
             shooter = FinishCheckpoint(shooter_path, cfg) if shooter_path else FinishTeacher()
         if mode == "keeper-demo":
+            if not shooter_path:
+                raise ValueError("Keeper demo requires a learned finishing checkpoint")
             from keeper_demo import record
 
             result = record(supervisor, env, transfer, shooter, output, episodes, seed)

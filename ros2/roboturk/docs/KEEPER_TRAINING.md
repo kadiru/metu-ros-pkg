@@ -72,8 +72,7 @@ Run native Webots jobs sequentially. The launcher owns and bounds its process gr
 
 The cover actor's inference adapter accepts `(target_x,target_y,target_vx,target_vy)`
 and measured stable dwell. The block actor uses the same interface with a predicted
-crossing point. These tactical contexts are not neural outputs. Fixed defensive
-heading and, for block, a fixed longitudinal line are part of the action contract.
+crossing point. These tactical contexts are not neural outputs. Fixed defensive heading and assigned interception/recovery targets are part of the contract.
 `micro_catalog.py` exposes entry/outcome/action/provenance records for later strategy
 composition. Catalog membership alone is not a qualification claim.
 
@@ -94,3 +93,20 @@ Separate defensive demo seeds, declared before their training: block1060000–10
 cover1160000–1160002. Record all three consecutive cases in each task only after
 its frozen200-case qualification. These learned defensive actors are tested
 separately; they do not replace the fixed opponent during attacking qualification.
+
+Blocking baseline revision before any block training/qualification: the lateral-only
+v1 contract retained23/40 shots and timed out after rebounds in17 cases (no conceded
+goals). Preserved as policies/block_shot_v1/teacher-lateral-only.json. The v2 block
+contract adds learned longitudinal translation. A measured mouth-contact event
+switches the tactical target from the shot crossing point to ball recovery within
+0.6m ahead of the initial line; heading remains fixed. Shot distribution and the
+0.5s physical-retention success criterion are unchanged. This does not modify the
+frozen goalkeeper/defender opponents or any attacking qualification source.
+
+Block training completed200/200 teacher and100/100 DAgger episodes; BC, DAgger and
+32768-step anchoredPPO each scored60/60 development. The first qualification launch
+stopped in checkpoint construction because its shape guard still expected the
+untrained one-axis contract. No reset or reserved observation occurred. The guard
+now accepts the two-axis v2 contract, with a regression and actual-checkpoint
+inference parity check. Original traceback and freeze manifest are retained; the
+unchanged model was refrozen after the loader fix before qualification.

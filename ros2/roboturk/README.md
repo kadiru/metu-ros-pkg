@@ -4,24 +4,26 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 This is an initial implementation, not a competition-ready team. It provides six skill environments, interchangeable analytic/learned policies, a stateful team-play layer, ROS 2 messages/nodes and a Webots Supervisor backend. See [validation](docs/VALIDATION.md) for exactly what has run.
 
-The learned **two-robot pass → receive → score play scored in 200/200 reserved Webots scenarios**, with zero premature kicks, possession losses before either kick, or robot collisions. It averaged **1.91 m from pass to reception**, **2.75 m of controlled carry by the receiver**, and **12.33 s for the complete sequence**. Both attacking directions and both robot-ID role assignments were tested. A learned coordination network controls the pass and reception; a scripted handoff assigns the existing learned scoring policy to the receiver. No physics reset or teacher fallback occurs at the handoff. [Checkpoints and model card](policies/pass_receive_v2/README.md) · [Training and experiment history](docs/TEAM_TRAINING.md).
+The learned **two-robot play passes around a moving defender, receives, dribbles and scores**. It scored **200/200 reserved Webots scenarios**, with **zero interceptions, pre-kick possession losses or robot collisions**. Mean complete sequence: **13.30 s**; ball displacement to reception: **2.83 m**; controlled receiver carry: **3.25 m**. Both attacking directions and both robot-ID role assignments were tested. [Checkpoints and model card](policies/defended_pass_receive_v3/README.md) · [Training and all earlier failures](docs/DEFENDER_TRAINING.md).
 
-The [fresh native Webots demo](media/pass-receive-score-demo.mp4) scored **6/6**, with every outcome retained.
+The [fresh native Webots demo](media/defended-pass-receive-score-demo.mp4) scored **6/6**, with every outcome retained. Blue is the passer, cyan the receiver/scorer, and yellow the reactive lane defender.
 
-[![Actual Webots pass-receive-score recording](media/pass-receive-score-preview.jpg)](media/pass-receive-score-demo.mp4)
+[![Actual Webots defended passing and scoring](media/defended-pass-receive-score-preview.jpg)](media/defended-pass-receive-score-demo.mp4)
 
-This benchmark starts with possession at the passer and uses ground-truth observations, unguarded goals and approximate Webots dynamics. Passing and shooting use fixed kick speeds. It does not establish performance against opponents or on calibrated hardware.
+The play selects a receiving point on the opposite flank with room to turn inside the field. A goal-conditioned neural policy controls both attackers' movement, pass timing and reception; a scripted stable-reception handoff assigns the frozen learned scorer. No physics reset or analytic motion fallback occurs. Target selection, role handoff, dribbler enabling and fixed kick speeds are explicit interface rules.
 
-Earlier releases remain available: [capture, dribble and score](policies/capture_dribble_shoot_v2/README.md), 200/200 goals; [capture and retained dribbling](policies/capture_dribble_v1/README.md), 200/200 successes; [capture only](policies/chase_capture_v1/README.md), 200/200 captures. The [initial passing experiment](policies/pass_receive_v1/README.md) and [earlier scoring experiment](policies/capture_dribble_shoot_v1/README.md) preserve their failures and stage results.
+This benchmark starts with possession at the passer and uses ground-truth observations, approximate Webots dynamics, and a fixed analytic midfield lane guard with speed 0.25–0.55 m/s. It qualifies this curriculum; free-ranging adversaries, goalkeepers and calibrated hardware remain future work. The earlier [185/200 failed qualification](policies/defended_pass_receive_v2/README.md) and [first defender experiment](policies/defended_pass_receive_v1/MODEL_CARD.md) remain published.
 
-Replay the shipped two-robot play, using the environment and Webots installation described below:
+Earlier releases remain available: [unguarded two-robot passing/scoring](policies/pass_receive_v2/README.md),200/200; [capture, dribble and score](policies/capture_dribble_shoot_v2/README.md),200/200; [capture and retained dribbling](policies/capture_dribble_v1/README.md),200/200; [capture only](policies/chase_capture_v1/README.md),200/200. Their native demos and failed development candidates are retained.
+
+Replay the defended play using the environment and Webots installation described below:
 
 ```sh
 ../.venv/bin/python scripts/run_webots.py \
   --webots ../runtime/Webots-nightly.app/Contents/MacOS/webots \
-  --mode team-demo --checkpoint policies/pass_receive_v2/policy.zip \
+  --mode defended-demo --checkpoint policies/defended_pass_receive_v3/policy.zip \
   --shoot-checkpoint policies/capture_dribble_shoot_v2/policy.zip \
-  --episodes 6 --seed 560000 --output runs/team-demo --timeout 240 --render
+  --episodes 6 --seed 860000 --output runs/defended-demo --timeout 900 --render
 ```
 
 ```mermaid
@@ -133,7 +135,7 @@ In Python, register `CheckpointPolicy(path, skill, cfg)` with `BehaviorLibrary.r
 1. Validate the complete Webots/ROS live graph on Ubuntu. CI already builds all three ROS packages and passes the two bridge/interface tests; full simulator integration remains separate.
 2. Confirm which physical robot revision to reproduce: the archive contains both three- and four-wheel references. Add real motor/roller geometry and measure step response, slip, braking, dribbler capture and kick speed.
 3. Improve obstacle avoidance and skill termination, add randomized opponents, latency, observation noise and dynamics; evaluate held-out configurations.
-4. Extend the qualified capture/dribble/scoring policies to receiving, passing and guarded goals. Maintain analytic and random-policy comparisons, success rates, collision rates and uncertainty across training seeds.
-5. Add official SSL vision/game-controller adapters and rule enforcement, then multi-agent rollouts, centralized-critic training and self-play. The current Gymnasium tasks are single controlled robot with a scripted receiving teammate, not multi-agent RL.
+4. Extend the qualified defended-passing play to free-ranging opponents, moving receivers and goalkeepers. Maintain analytic and random-policy comparisons, success rates, collision rates and uncertainty across training seeds.
+5. Add official SSL vision/game-controller adapters and rule enforcement, then multi-agent rollouts, centralized-critic training and self-play. Generic skill tasks control one robot; the passing play uses a centralized two-robot policy and a scripted opponent.
 
 New code has no release license selected yet (`LicenseRef-Unlicensed` metadata). The historical repository's file-specific licenses and authorship remain intact. No archive implementation was copied into the modern Python stack.

@@ -1,0 +1,30 @@
+{
+  "frozen_at": "2026-11-19T02:51:49.262614-08:00",
+  "source_commit_local": "944f6451f74ee77f0cfd15d04cf4fb960e1849bf",
+  "source_commit_github": "f380ec8a3c8d478afc026b9fbf3eaeb73b0bb808",
+  "qualification_seeds": [
+    850000,
+    850199
+  ],
+  "demo_seeds": [
+    860000,
+    860005
+  ],
+  "acceptance": {
+    "minimum_complete_success_rate": 0.95,
+    "maximum_possession_loss_episodes": 0,
+    "maximum_robot_collisions": 0
+  },
+  "opponent": "reactive_lane_defender_v1",
+  "receiving_point_tactic": "bounded_opposite_flank_v1",
+  "full_development_successes": 120,
+  "full_development_episodes": 120,
+  "full_development_seeds": [
+    810000,
+    810119
+  ],
+  "checkpoint_hashes": {
+    "transfer_checkpoint": "7e3cf3125d10a532716ca5b621f436ef22278541504bc28f99063d7c580f7d5c",
+    "shooting_checkpoint": "6558b977dcdeb0001e9590b01ca1cfb9f3ec3fd16da1f43d17b8c3e6c9f6cc11"
+  }
+}

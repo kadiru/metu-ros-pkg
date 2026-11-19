@@ -1,0 +1,47 @@
+{
+  "source": "Native Webots movie recorder; H.264 transcode of the complete recording",
+  "file": "media/defended-pass-receive-score-demo.mp4",
+  "sha256": "d397043258460caf159ea105f2dec6c4e931b7aa684bb7b546037e4a440f2a6d",
+  "probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1280,
+        "height": 720,
+        "avg_frame_rate": "25/1",
+        "nb_frames": "2103"
+      }
+    ],
+    "format": {
+      "duration": "84.120000",
+      "size": "1935968"
+    }
+  },
+  "episode_seeds": [
+    860000,
+    860001,
+    860002,
+    860003,
+    860004,
+    860005
+  ],
+  "goals": 6,
+  "episode_seconds": [
+    13.14,
+    12.600000000000001,
+    15.100000000000001,
+    13.92,
+    12.68,
+    13.06
+  ],
+  "expected_simulation_seconds_with_outcomes": 84.1,
+  "complete_native_and_published_decodes_passed": true,
+  "inspected_frame_seconds": [
+    4.7,
+    9.5,
+    13.3
+  ],
+  "presentation_only_changes": "Camera, labels, robot colors and 0.6-second outcome display; no policy/physics changes."
+}

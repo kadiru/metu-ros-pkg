@@ -37,6 +37,8 @@ class Recorder(OpponentRecorder):
                 "DEFENDER INTERCEPT" if info["reason"] == "defender_interception" else "KEEPER SAVE"
             )
             self.label(2, f"{label} | defense wins | {total:.2f} s", 0.16, 0.042, 0xFFD660)
+        elif info["reason"] not in ("running", "reset", "received", "goal"):
+            self.label(2, "CONTROL FAILURE: " + info["reason"], 0.16, 0.042, 0xFF6666)
         ev = env.backend.evidence()
         self.label(
             6,

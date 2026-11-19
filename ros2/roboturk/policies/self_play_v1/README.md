@@ -29,3 +29,17 @@ updates, checkpoints, outcomes and failures will be retained. The current simula
 uses initial passer possession, ground-truth state, ideal body velocities, ODE
 contacts, a spring dribbler and applied velocity kicks. It is a repeated attack/defend
 drill with approximate physics, not full-match or hardware qualification.
+
+## First neural initialization
+
+The200 native teacher plays produced91goals,98defender interceptions,7keeper saves
+and4defender collisions;181stable receptions and zero pre-release losses. After60
+cloning epochs per actor, fully neural development scored17/40, with15defensive stops,
+5field exits and3timeouts; zero collisions/losses.32/40 clean outcomes is below the
+reliability gate. The100-episode mixed DAgger collection/refit is underway. These
+bootstrap checkpoints have not yet received self-play PPO updates.
+
+[Teacher outcomes](artifacts/teacher-collection.json) ·
+[Neural development](artifacts/teacher-development.json) ·
+[Four initial checkpoints](artifacts/teacher) ·
+[Bootstrap numerical source hashes](artifacts/bootstrap-runtime.json).

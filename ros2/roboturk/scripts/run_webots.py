@@ -28,6 +28,11 @@ def main():
             "dribble-refine",
             "dribble-evaluate",
             "dribble-demo",
+            "opponents-train",
+            "opponents-challenge",
+            "opponents-evaluate",
+            "opponents-attack-train",
+            "opponents-demo",
             "keeper-train",
             "keeper-finish-evaluate",
             "keeper-evaluate",
@@ -61,6 +66,8 @@ def main():
     parser.add_argument("--output", default="runs/webots/result")
     parser.add_argument("--checkpoint")
     parser.add_argument("--shoot-checkpoint", help="Frozen scoring policy for the two-robot play")
+    parser.add_argument("--defender-checkpoint")
+    parser.add_argument("--keeper-checkpoint")
     parser.add_argument("--timeout", type=float, default=120)
     parser.add_argument("--render", action="store_true")
     args = parser.parse_args()
@@ -81,6 +88,10 @@ def main():
         env["ROBOTURK_CHECKPOINT"] = str(Path(args.checkpoint).resolve())
     if args.shoot_checkpoint:
         env["ROBOTURK_SHOOT_CHECKPOINT"] = str(Path(args.shoot_checkpoint).resolve())
+    for role in ("defender", "keeper"):
+        path = getattr(args, role + "_checkpoint")
+        if path:
+            env["ROBOTURK_" + role.upper() + "_CHECKPOINT"] = str(Path(path).resolve())
     command = [
         args.webots,
         "--batch",

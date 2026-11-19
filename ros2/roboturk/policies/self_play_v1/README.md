@@ -52,3 +52,11 @@ snapshot, with32768steps per role/generation. Reserved evaluation remains untouc
 [DAgger collection](artifacts/dagger-collection.json) ·
 [DAgger neural development](artifacts/dagger-development.json) ·
 [DAgger checkpoints](artifacts/dagger).
+
+## First self-play generation
+
+All four roles completed32768PPOsteps each, with32/32accepted updates per role and
+changed actor-parameter hashes. Full neural development produced20goals,38defender
+interceptions and2defender collisions in60games:96.7% clean outcomes, but3.3%
+collisions misses the≤2% gate. Generation two is running; no reserved evaluation
+or demo has run. [Every first-generation checkpoint and rollout](artifacts/round1).

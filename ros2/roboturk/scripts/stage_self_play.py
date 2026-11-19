@@ -45,6 +45,8 @@ def main():
             "dagger-development.json",
             "league.json",
             "bootstrap-bundle.json",
+            "bootstrap-runtime.json",
+            "training-progress.json",
             "cross-play-matrix.json",
         ):
             continue

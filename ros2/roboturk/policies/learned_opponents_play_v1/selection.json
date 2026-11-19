@@ -1,0 +1,16 @@
+{
+  "created_at": "2026-11-19T11:38:44.587510-08:00",
+  "actors": {
+    "transfer": {
+      "selected_stage": "policy",
+      "development_successes": 60,
+      "path": "policies/learned_opponents_play_v1/transfer/policy.zip",
+      "sha256": "457a645ecad0ab35cbcf320710a8d3e20af648c1dc80131c2211e0f539803361",
+      "candidate_sha256": {
+        "bc": "0328849644c89667099addd264bbaadf34a846a4170a8f5d59c52dfb7d1e4c57",
+        "dagger": "83745e51edbb6a73697d37326397d2273df441811a187992a7b6baef76979897",
+        "policy": "457a645ecad0ab35cbcf320710a8d3e20af648c1dc80131c2211e0f539803361"
+      }
+    }
+  }
+}

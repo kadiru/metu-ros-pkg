@@ -80,10 +80,25 @@ def audit_release(args):
         "webots_"
     ):
         raise ValueError("Expected native Webots and explicit absence of opponent fallback")
+    if result.get("inference_play") != "PassReceiveScorePlay":
+        raise ValueError("Expected deployed play inference, not a teacher-only evaluation")
+    config = json.loads(
+        (ROOT / frozen["models"]["finish"]["path"]).with_suffix(".json").read_text()
+    )["config"]
     report = audit(result, args.seed, args.count, "play")
     calls = {"defender": 0, "keeper": 0}
     for record in result["episodes"]:
         transfer, shot = record["transfer"], record["shooting"]
+        if record["is_success"]:
+            if not (
+                shot["is_success"]
+                and shot["reason"] == "goal"
+                and shot["goal_crossing_y"] is not None
+                and abs(shot["goal_crossing_y"]) <= config["goal_width"] / 2 - config["ball_radius"]
+                and shot["attack_sign"] * shot["ball_final"][0]
+                >= config["length"] / 2 + config["ball_radius"]
+            ):
+                raise ValueError("Claimed score lacks a whole-ball goal crossing")
         total = transfer["steps"] + (shot["steps"] if shot else 0)
         last = shot or transfer
         if last["opponent"] != "learned_lane_v1" or last["keeper"] != "learned_keeper_v1":

@@ -98,3 +98,38 @@ def test_geometry_features_rotate_with_field():
     c.phase = math.pi
     b = opponent_observation(rotated, c)
     assert np.allclose(a, b, atol=1e-6)
+
+
+def test_pressure_finish_replays_training_observation_and_handoff():
+    from roboturk.adversarial_finish import PressureFinishEnv, PressureFinishCheckpoint
+    from roboturk.learned_opponents import LearnedKeeperBackend
+    from roboturk.shoot_contract import shoot_action
+    from roboturk.team import scoring_handoff
+
+    class FinishModel:
+        observation_space = SimpleNamespace(shape=(32,))
+        action_space = SimpleNamespace(shape=(4,))
+
+        def predict(self, observation, deterministic=True):
+            self.last_observation = observation.copy()
+            return np.array([0.1, -0.1, 0.05, -1], np.float32), None
+
+    cfg = Config()
+    keeper = OpponentController("keeper", cfg, model=ConstantModel([0, 0, 0]))
+    env = PressureFinishEnv(cfg, LearnedKeeperBackend(ReferenceBackend(cfg), cfg, keeper))
+    env.reset(seed=1240100)
+    model = FinishModel()
+    actor = PressureFinishCheckpoint(None, cfg, model=model)
+    command = actor.command(env.world, env.key, env.intent, cfg)
+    np.testing.assert_array_equal(model.last_observation, env.observation())
+    np.testing.assert_allclose(shoot_action(command, cfg), actor.action(env))
+    assert actor.plan.parking(env.world, env.key, cfg) == (env.world.attack_sign * 3.8, 0)
+    defender = OpponentController("defender", cfg, model=ConstantModel([0, 0, 0]))
+    play = LearnedOpponentPlayEnv(cfg, ReferenceBackend(cfg), defender, keeper)
+    play.scoring_env_type = PressureFinishEnv
+    play.reset(seed=1240101)
+    play.state.received = True
+    shot = scoring_handoff(play)
+    assert isinstance(shot, PressureFinishEnv)
+    assert shot.world is play.world and shot.backend is play.backend
+    assert shot.plan.parking(shot.world, shot.key, cfg) == (shot.world.attack_sign * 3.8, 0)

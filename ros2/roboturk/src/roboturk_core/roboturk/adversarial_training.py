@@ -11,8 +11,9 @@ from stable_baselines3.common.monitor import Monitor
 from stable_baselines3.common.callbacks import BaseCallback
 from .dribble_refinement import AnchoredPPO
 from .defended import DefendedTeacher, DEFENDED_CONTRACT
-from .keeper import FinishTeacher, KEEPER_CONTRACT
-from .learned_opponents import LearnedOpponentPlayEnv, learned_finish_env
+from .keeper import FinishTeacher
+from .adversarial_finish import PressureFinishEnv, PRESSURE_FINISH_CONTRACT
+from .learned_opponents import LearnedOpponentPlayEnv, LearnedKeeperBackend
 from .team import evaluate_team
 from .team_training import ModelTeam, collect as team_collect, fit_actor, groups as team_groups
 from .micro_training import Actor, collect, evaluate, fit, phase_groups
@@ -33,7 +34,7 @@ def train_attackers(
         env = (
             LearnedOpponentPlayEnv(cfg, backend, defender, keeper)
             if kind == "transfer"
-            else learned_finish_env(cfg, backend, keeper)
+            else PressureFinishEnv(cfg, LearnedKeeperBackend(backend, cfg, keeper))
         )
         target = output / kind
         target.mkdir(exist_ok=True)
@@ -41,13 +42,14 @@ def train_attackers(
         model.set_random_seed(seed)
         teacher = DefendedTeacher() if kind == "transfer" else FinishTeacher()
         metadata = {
-            "contract": DEFENDED_CONTRACT if kind == "transfer" else KEEPER_CONTRACT,
+            "contract": DEFENDED_CONTRACT if kind == "transfer" else PRESSURE_FINISH_CONTRACT,
             "config": asdict(cfg),
             "task": env.task_version,
             "backend": env.backend.name,
             "source_checkpoint_sha256": hashlib.sha256(Path(source).read_bytes()).hexdigest(),
             "frozen_opponents": opponents,
             "training_seed": seed,
+            "warm_start_ppo_steps": model.num_timesteps,
             "method": "warm-start + native Webots demonstrations/DAgger + anchored PPO against frozen neural opponents",
             "demonstration_seed_range": [base, base + 299],
             "dagger_seed_range": [base + 20000, base + 20149],
@@ -73,7 +75,15 @@ def train_attackers(
             model.save(target / stage)
             (target / (stage + ".json")).write_text(
                 json.dumps(
-                    {**metadata, "stage": stage, "actual_steps": model.num_timesteps}, indent=2
+                    {
+                        **metadata,
+                        "stage": stage,
+                        "actual_steps": model.num_timesteps,
+                        "current_experiment_ppo_steps": model.num_timesteps
+                        if stage == "policy"
+                        else 0,
+                    },
+                    indent=2,
                 )
                 + "\n"
             )

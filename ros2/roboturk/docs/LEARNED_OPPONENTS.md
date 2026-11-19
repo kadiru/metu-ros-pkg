@@ -76,3 +76,22 @@ Modes: `opponents-train`, `opponents-challenge`, `opponents-attack-train`,
 (transfer), `--shoot-checkpoint`, `--defender-checkpoint`, `--keeper-checkpoint`.
 The direct challenge role is `ROBOTURK_OPPONENT_ROLE=defender|keeper`.
 Training and qualification run sequentially, one native Webots process at a time.
+
+## Development amendment: closer centered finishing
+
+The80 mixed-DAgger full plays completed80/80 transfers but only66/80 goals;
+all14 failures were keeper saves, with no pre-release possession losses. This
+is development evidence, not frozen-opponent qualification. The old finisher
+and all of these failures remain available.
+
+Before attacker training, add the distinct `roboturk.pressure_finish.v1` contract:
+the32-input/four-output actor receives a parking target0.70m from goal on the
+centerline, retaining the latched lure/opposite-corner plan. This reduces shot
+flight distance and changes the open lane geometry. Target choice is scripted;
+the neural actor learns carrying, pivoting and release from native demonstrations,
+DAgger and PPO against the frozen learned keeper. It is not an opponent nerf.
+Qualification/demonstration seed reservations and gates are unchanged.
+
+The pre-training pressure-finisher teacher feasibility check reserves development
+seeds1530000–1530039. Stationary/teacher defensive comparisons reuse only the
+declared defensive development seeds. They never alter reserved opponent outcomes.

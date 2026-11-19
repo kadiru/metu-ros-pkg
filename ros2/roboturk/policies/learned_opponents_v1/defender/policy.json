@@ -1,0 +1,51 @@
+{
+  "contract": "roboturk.continuous_opponent.v1",
+  "config": {
+    "length": 9.0,
+    "width": 6.0,
+    "goal_width": 1.0,
+    "robot_radius": 0.09,
+    "ball_radius": 0.0215,
+    "ball_mass": 0.046,
+    "max_speed": 2.0,
+    "max_omega": 8.0,
+    "max_kick": 5.0,
+    "dt": 0.02,
+    "max_steps": 500,
+    "neighbors": 5,
+    "possession_x": 0.115
+  },
+  "role": "defender",
+  "seed": 127,
+  "method": "native Webots behavioral cloning + DAgger + anchored PPO",
+  "full_play_training_seeds": [
+    1200000,
+    1200159
+  ],
+  "challenge_training_seeds": [
+    1210000,
+    1210299
+  ],
+  "full_play_dagger_seeds": [
+    1230000,
+    1230079
+  ],
+  "challenge_dagger_seeds": [
+    1212000,
+    1212149
+  ],
+  "development_seeds": [
+    1211000,
+    1211059
+  ],
+  "physical_shot_speed": 3.5,
+  "no_analytic_inference_fallback": true,
+  "hardware_validated": false,
+  "stage": "policy",
+  "actual_steps": 32768,
+  "anchor_reference": "bc",
+  "anchor_updates": 32,
+  "anchor_rejected_updates": 0,
+  "selected_stage": "policy",
+  "selection_rule": "highest defensive development successes; PPO then DAgger breaks ties; no attacker outcomes used"
+}

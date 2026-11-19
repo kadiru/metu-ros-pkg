@@ -32,6 +32,7 @@ def main():
             "opponents-challenge",
             "opponents-evaluate",
             "opponents-attack-train",
+            "opponents-finish-evaluate",
             "opponents-demo",
             "keeper-train",
             "keeper-finish-evaluate",

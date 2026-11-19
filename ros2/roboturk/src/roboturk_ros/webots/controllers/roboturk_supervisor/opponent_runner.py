@@ -6,8 +6,17 @@ import os
 from pathlib import Path
 import torch
 from roboturk.defended import DefendedCheckpoint
-from roboturk.keeper import FinishCheckpoint
-from roboturk.learned_opponents import OpponentController, LearnedOpponentPlayEnv
+from roboturk.keeper import FinishCheckpoint, FinishTeacher
+from roboturk.adversarial_finish import (
+    PressureFinishCheckpoint,
+    PressureFinishEnv,
+    PRESSURE_FINISH_CONTRACT,
+)
+from roboturk.learned_opponents import (
+    OpponentController,
+    LearnedOpponentPlayEnv,
+    LearnedKeeperBackend,
+)
 from roboturk.team import evaluate_team
 
 
@@ -28,6 +37,20 @@ def run(supervisor, backend, cfg, mode):
             int(os.environ["ROBOTURK_STEPS"]),
             seed,
         )
+    elif mode == "opponents-finish-evaluate":
+        from roboturk.micro_training import evaluate
+
+        keeper = OpponentController("keeper", cfg, path=os.environ["ROBOTURK_KEEPER_CHECKPOINT"])
+        env = PressureFinishEnv(cfg, LearnedKeeperBackend(backend, cfg, keeper))
+        path = os.environ.get("ROBOTURK_SHOOT_CHECKPOINT")
+        actor = PressureFinishCheckpoint(path, cfg) if path else FinishTeacher()
+        result = evaluate(env, actor, episodes, seed)
+        result.update(
+            backend=env.backend.name,
+            keeper_checkpoint_sha256=keeper.sha256,
+            actor_source="neural_checkpoint" if path else "analytic_teacher",
+        )
+        output.with_suffix(".json").write_text(json.dumps(result, indent=2) + "\n")
     elif mode == "opponents-challenge":
         from roboturk.opponent_training import OpponentChallengeEnv, ChallengeTeacher, ActionModel
         from roboturk.micro_training import evaluate, Actor
@@ -66,10 +89,18 @@ def run(supervisor, backend, cfg, mode):
             os.environ["ROBOTURK_CHECKPOINT"],
             os.environ["ROBOTURK_SHOOT_CHECKPOINT"],
         )
-        transfer, shooter = (
-            DefendedCheckpoint(transfer_path, cfg),
-            FinishCheckpoint(finish_path, cfg),
+        pressure = (
+            json.loads(Path(finish_path).with_suffix(".json").read_text())["contract"]
+            == PRESSURE_FINISH_CONTRACT
         )
+        transfer = DefendedCheckpoint(transfer_path, cfg)
+        shooter = (
+            PressureFinishCheckpoint(finish_path, cfg)
+            if pressure
+            else FinishCheckpoint(finish_path, cfg)
+        )
+        if pressure:
+            env.scoring_env_type = PressureFinishEnv
         if mode == "opponents-attack-train":
             from roboturk.adversarial_training import train_attackers
 

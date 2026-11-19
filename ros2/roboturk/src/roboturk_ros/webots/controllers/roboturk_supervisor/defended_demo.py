@@ -19,7 +19,7 @@ class Recorder(TeamRecorder):
         )
         self.label(
             5,
-            f"Learned attackers | guard speed {env.backend.defender.speed:.2f} m/s | approximate Webots physics",
+            f"Receiving-point tactic + learned controls | guard {env.backend.defender.speed:.2f} m/s | approximate Webots physics",
             0.95,
             0.03,
         )

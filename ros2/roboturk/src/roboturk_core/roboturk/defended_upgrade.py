@@ -11,7 +11,12 @@ from stable_baselines3.common.callbacks import BaseCallback
 from stable_baselines3.common.monitor import Monitor
 from .dribble_refinement import AnchoredPPO
 from .team import evaluate_team
-from .defended import DEFENDED_CONTRACT, DefendedTeacher, augment_field_velocities, upgrade_actions
+from .defended import (
+    DEFENDED_CONTRACT_V2,
+    DefendedTeacher,
+    augment_field_velocities,
+    upgrade_actions,
+)
 from .team_training import ModelTeam, collect, fit_actor, groups, save
 
 
@@ -56,7 +61,7 @@ def upgrade_defended(env, checkpoint, output, steps=65536, seed=77):
     current["action_net.bias"][4:6].zero_()
     model.policy.load_state_dict(current)
     metadata = {
-        "contract": DEFENDED_CONTRACT,
+        "contract": DEFENDED_CONTRACT_V2,
         "opponent": "reactive_lane_defender_v1",
         "seed": seed,
         "source_checkpoint_sha256": hashlib.sha256(checkpoint.read_bytes()).hexdigest(),

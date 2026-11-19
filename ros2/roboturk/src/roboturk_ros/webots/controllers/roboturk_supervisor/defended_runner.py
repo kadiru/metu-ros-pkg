@@ -11,14 +11,30 @@ from roboturk.defended import (
     DefendedTeacher,
     DEFENDED_CONTRACT,
     DEFENDED_CONTRACT_V1,
+    DEFENDED_CONTRACT_V2,
 )
 
 
 def run(supervisor, backend, cfg, mode):
-    env = DefendedEnv(cfg, backend)
+    env = DefendedEnv(
+        cfg,
+        backend,
+        contract=DEFENDED_CONTRACT_V2
+        if mode in ("defended-train", "defended-upgrade")
+        else DEFENDED_CONTRACT,
+    )
     output = Path(os.environ.get("ROBOTURK_OUTPUT", "runs/team/result"))
     output.parent.mkdir(parents=True, exist_ok=True)
-    if mode == "defended-train":
+    if mode == "defended-tactical-train":
+        from roboturk.defended_tactical_training import train_tactical
+
+        train_tactical(
+            env,
+            output,
+            int(os.environ.get("ROBOTURK_STEPS", "65536")),
+            int(os.environ.get("ROBOTURK_SEED", "87")),
+        )
+    elif mode == "defended-train":
         from roboturk.defended_training import train_defended
 
         train_defended(
@@ -43,7 +59,7 @@ def run(supervisor, backend, cfg, mode):
             (
                 DefendedCheckpoint(checkpoint, cfg)
                 if json.loads(Path(checkpoint).with_suffix(".json").read_text())["contract"]
-                in (DEFENDED_CONTRACT, DEFENDED_CONTRACT_V1)
+                in (DEFENDED_CONTRACT, DEFENDED_CONTRACT_V2, DEFENDED_CONTRACT_V1)
                 else TeamCheckpoint(checkpoint, cfg)
             )
             if checkpoint

@@ -33,7 +33,8 @@ from .team import PassReceiveEnv, TransferState, TeamCheckpoint
 from .team_contract import team_observation, team_action, team_commands, PASS_SPEED
 
 DEFENDED_CONTRACT_V1 = "roboturk.defended_transfer.v1"
-DEFENDED_CONTRACT = "roboturk.defended_transfer.v2"
+DEFENDED_CONTRACT_V2 = "roboturk.defended_transfer.v2"
+DEFENDED_CONTRACT = "roboturk.defended_transfer.v3"
 DEFENDER = RobotKey("yellow", 0)
 
 
@@ -44,7 +45,7 @@ def lane_clearance(world, receiver):
     return math.hypot(d.x - b.x - t * vx, d.y - b.y - t * vy)
 
 
-def defended_observation(world, passer, receiver, state, cfg):
+def defended_observation(world, passer, receiver, state, cfg, contract=DEFENDED_CONTRACT):
     base = team_observation(world, passer, receiver, state, cfg)
     d, b, r = world.robot(DEFENDER), world.ball, world.robot(receiver)
     extra = []
@@ -66,7 +67,25 @@ def defended_observation(world, passer, receiver, state, cfg):
     result = np.concatenate([base, extra]).astype(np.float32)
     if not np.all(np.isfinite(result)):
         raise ValueError("Nonfinite defended observation")
-    return augment_field_velocities(result)
+    result = augment_field_velocities(result)
+    if contract == DEFENDED_CONTRACT_V2:
+        return result
+    if state.receiver_target is None:
+        raise ValueError("The tactical play must assign a receiving point before inference")
+    tx, ty = state.receiver_target
+    return np.concatenate(
+        [
+            result,
+            [
+                sign * (tx - r.x) / 3,
+                sign * (ty - r.y) / 3,
+                math.hypot(tx - r.x, ty - r.y) / 3,
+                sign * b.y / 3,
+                sign * r.y / 3,
+                math.hypot(r.vx, r.vy) / cfg.max_speed,
+            ],
+        ]
+    ).astype(np.float32)
 
 
 def augment_field_velocities(x):
@@ -110,6 +129,22 @@ def defended_action(commands, world, passer, receiver, cfg):
     sign = world.direction(receiver.team)
     action[4:6] = [sign * vx, sign * vy]
     return action
+
+
+def receiving_point(world, passer, receiver, cfg):
+    """Play-layer tactic: opposite flank, with room for the receiver to turn.
+
+    This selects a stationary target once per play; it generates no robot command.
+    The checkpoint learns motion, stopping, pass timing and interception control.
+    """
+    b, r, d = world.ball, world.robot(receiver), world.robot(DEFENDER)
+    side = 1.0 if r.y > d.y else -1.0
+    margin = cfg.width / 2 - 0.65
+    return (r.x, float(np.clip(b.y - side * 2.2, -margin, margin)))
+
+
+def tactical_state(world, passer, receiver, cfg):
+    return TransferState(receiver_target=receiving_point(world, passer, receiver, cfg))
 
 
 class LaneDefender:
@@ -214,9 +249,12 @@ class DefendedEnv(PassReceiveEnv):
     task_version = "defended_pass_receive.randomized.v1"
     episode_steps = 1000
 
-    def __init__(self, cfg=Config(), backend=None):
+    def __init__(self, cfg=Config(), backend=None, contract=DEFENDED_CONTRACT):
+        self.contract = contract
         super().__init__(cfg, DefendedBackend(backend or ReferenceBackend(cfg), cfg))
-        self.observation_space = gym.spaces.Box(-np.inf, np.inf, (56,), dtype=np.float32)
+        self.observation_space = gym.spaces.Box(
+            -np.inf, np.inf, (56 if contract == DEFENDED_CONTRACT_V2 else 62,), dtype=np.float32
+        )
 
     def reset(self, *, seed=None, options=None):
         gym.Env.reset(self, seed=seed)
@@ -254,7 +292,12 @@ class DefendedEnv(PassReceiveEnv):
             sign,
         )
         self.world = self.backend.reset(initial)
-        self.state, self.steps, self.finished = TransferState(), 0, False
+        self.state = (
+            tactical_state(self.world, self.passer, self.receiver, self.cfg)
+            if self.contract == DEFENDED_CONTRACT
+            else TransferState()
+        )
+        self.steps, self.finished = 0, False
         self.initial_receiver = (rx, ry)
         self.scenario = {
             "attack_sign": sign,
@@ -272,7 +315,9 @@ class DefendedEnv(PassReceiveEnv):
         return self.observation(), self.info(False, "reset")
 
     def observation(self):
-        return defended_observation(self.world, self.passer, self.receiver, self.state, self.cfg)
+        return defended_observation(
+            self.world, self.passer, self.receiver, self.state, self.cfg, self.contract
+        )
 
     def decode_action(self, action):
         return defended_commands(
@@ -322,7 +367,13 @@ class DefendedTeacher:
         side = 1.0 if r.y > d.y else -1.0
         target_y = b.y + side * self.flank_offset
         vy = float(np.clip(2 * (target_y - r.y), -1.1, 1.1))
-        rvx, rvy = body_vector(0, vy, r.yaw)
+        vx = 0.0
+        if s.receiver_target is not None:
+            tx, target_y = s.receiver_target
+            vx, vy = 2 * (tx - r.x), 2 * (target_y - r.y)
+            scale = max(1.0, math.hypot(vx, vy) / 1.1)
+            vx, vy = vx / scale, vy / scale
+        rvx, rvy = body_vector(vx, vy, r.yaw)
         rc = bounded(Command(rvx, rvy, 5 * rangle, 1), cfg)
         if s.passed:
             pc = Command()
@@ -335,7 +386,12 @@ class DefendedTeacher:
             s.passer_dwell >= 30
             and abs(angle) < 0.035
             and abs(rangle) < 0.06
-            and abs(target_y - r.y) < 0.06
+            and (
+                math.hypot(s.receiver_target[0] - r.x, target_y - r.y)
+                if s.receiver_target
+                else abs(target_y - r.y)
+            )
+            < 0.06
             and math.hypot(r.vx, r.vy) < 0.15
             and math.hypot(p.vx, p.vy) < 0.15
             and lane_clearance(w, env.receiver) > 0.45
@@ -349,15 +405,28 @@ class DefendedCheckpoint(TeamCheckpoint):
         from stable_baselines3 import PPO
 
         metadata = json.loads(Path(path).with_suffix(".json").read_text())
-        if metadata["contract"] not in (DEFENDED_CONTRACT, DEFENDED_CONTRACT_V1) or metadata[
-            "config"
-        ] != asdict(cfg):
+        if metadata["contract"] not in (
+            DEFENDED_CONTRACT,
+            DEFENDED_CONTRACT_V2,
+            DEFENDED_CONTRACT_V1,
+        ) or metadata["config"] != asdict(cfg):
             raise ValueError("Defended policy manifest mismatch")
         self.contract = metadata["contract"]
         self.model = PPO.load(path, device="cpu")
-        expected = (52,) if self.contract == DEFENDED_CONTRACT_V1 else (56,)
+        expected = {
+            DEFENDED_CONTRACT_V1: (52,),
+            DEFENDED_CONTRACT_V2: (56,),
+            DEFENDED_CONTRACT: (62,),
+        }[self.contract]
         if self.model.observation_space.shape != expected or self.model.action_space.shape != (7,):
             raise ValueError("Defended checkpoint shape mismatch")
+
+    def initial_state(self, world, passer, receiver, cfg):
+        return (
+            tactical_state(world, passer, receiver, cfg)
+            if self.contract == DEFENDED_CONTRACT
+            else TransferState()
+        )
 
     def action(self, env):
         raw = self.predict(env.world, env.passer, env.receiver, env.state, env.cfg)
@@ -370,7 +439,14 @@ class DefendedCheckpoint(TeamCheckpoint):
         return defended_commands(action, world, passer, receiver, state, cfg)
 
     def predict(self, world, passer, receiver, state, cfg):
-        observation = defended_observation(world, passer, receiver, state, cfg)
+        observation = defended_observation(
+            world,
+            passer,
+            receiver,
+            state,
+            cfg,
+            DEFENDED_CONTRACT if self.contract == DEFENDED_CONTRACT else DEFENDED_CONTRACT_V2,
+        )
         if self.contract == DEFENDED_CONTRACT_V1:
             observation = observation[:52]
         return self.model.predict(observation, deterministic=True)[0]

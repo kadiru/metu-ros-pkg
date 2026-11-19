@@ -30,7 +30,7 @@ V1 collected 298/300 teacher receptions and 145/150 mixed DAgger receptions. Its
 
 V2 (`roboturk.defended_transfer.v2`) keeps the same scenario, defender and seven-action interface, but expresses receiver vx/vy in the attack-aligned field frame. A kinematic rotation converts them to robot body commands. Four coordinate-transformed ball/receiver velocity inputs extend the observation to56 values. No desired route, action shield or teacher is introduced at inference. Passer actions and scorer are unchanged. The v1 DAgger checkpoint's shared weights warm-start v2; the two receiver translation output rows are reset. V1 training labels are transformed using recorded headings; no evaluation observations are reused.
 
-V2 training seed77:100 refit epochs,150 new mixed DAgger episodes720000–720149,60 refit epochs, then65,536 constrained PPO steps with the same bounds. New development710000–710059; qualification750000–750199 and demo760000–760005. The current `defended-train` also supports a fresh v2 run; the recorded upgrade uses:
+V2 training seed77:100 refit epochs,150 new mixed DAgger episodes720000–720149,60 refit epochs, then65,536 constrained PPO steps with the same bounds. New development710000–710059; qualification750000–750199 and demo760000–760005. V2 refit received59/60, DAgger58/60 (two field exits), and final constrainedPPO59/60 development passes. The refit was selected for anchoring. All64 updates were accepted; no incremental PPO success benefit is established. Full-play development scored58/60: one interception and one receiver field exit during its turn toward goal, before shooting; zero possession losses or collisions. The new mixed DAgger collection received148/150, with one interception and one field exit. The current `defended-train` also supports a fresh v2 run; the recorded upgrade uses:
 
 ```sh
 ../.venv/bin/python scripts/run_webots.py \
@@ -64,3 +64,18 @@ Original v1 commands (use its source revision):
 The native recording uses blue for the passer, cyan for the receiver/scorer and yellow for the opponent. Inference uses the same `PassReceiveScorePlay` and actual kick feedback as the previous milestone. Current evidence remains direct Webots Supervisor operation; full ROS integration needs applied-kick feedback in the message graph.
 
 Approximate ideal body velocity, ODE contacts, spring/damper dribbler and fixed kicks; ground-truth state. No calibrated hardware, noisy vision, radio delay, free-ranging defenders, goalkeepers, variable kick power or complete SSL rules. [Webots Supervisor API](https://github.com/cyberbotics/webots/blob/master/docs/reference/supervisor.md) · [PPO implementation](https://stable-baselines3.readthedocs.io/en/master/modules/ppo.html).
+
+## V2 qualification failure and v3 receiving-point experiment
+
+The frozen v2 play scored185/200 (92.5%), below95%. Its187 receptions included11interceptions, one field exit and one timeout; scoring added one invalid shot and one field exit. Zero pre-kick possession-loss episodes. [Complete failed qualification and models](../policies/defended_pass_receive_v2/README.md). Reserved v2 demo seeds were not run.
+
+V3 keeps the opponent, scenario distribution and acceptance criteria unchanged. It makes a tactic explicit in the play layer: select a stationary receiving point on the opposite lateral side from the receiver's initial side of the defender,2.2m from the initial ball y, clipped to stay0.65m inside the touchline. Target x is the receiver's initial x. It remains fixed for the play. This is scripted tactical target selection; no robot velocity, kick timing or reception command is produced by it. The62-input learned policy receives the target error/range, ball/receiver field y and receiver speed in addition to the v2 features. It still controls all seven motion/fire outputs. No analytic attacker control or safety shield replaces its action. This is a goal-conditioned hierarchical play, not fully learned target selection.
+
+V3 starts from v2's56-input PPO checkpoint (six new input weights zero), uses300 fresh demonstrations800000–800299,100cloning epochs,150DAgger820000–820149,60refit epochs and65,536anchoredPPO steps, trainingseed87. Development810000–810059. New reserved qualification850000–850199 and demo860000–860005. Failed v2 qualification observations are not collected into training. Teacher-only full-play comparison810000–810039 precedes training. The runtime and task monitor initialize the exact same receiving-point state.
+
+```sh
+../.venv/bin/python scripts/run_webots.py \
+  --webots ../runtime/Webots-nightly.app/Contents/MacOS/webots \
+  --mode defended-tactical-train --checkpoint policies/defended_pass_receive_v2/policy.zip \
+  --steps 65536 --seed 87 --output runs/defended-v3 --timeout 2400
+```

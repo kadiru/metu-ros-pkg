@@ -13,7 +13,7 @@ from stable_baselines3.common.callbacks import BaseCallback
 from .dribble_refinement import AnchoredPPO
 from .team import evaluate_team
 from .team_training import ModelTeam, collect, fit_actor, groups, save
-from .defended import DEFENDED_CONTRACT, DefendedTeacher
+from .defended import DEFENDED_CONTRACT_V2, DefendedTeacher
 
 
 def train_defended(env, output, steps=65536, seed=67):
@@ -55,7 +55,7 @@ def train_defended(env, output, steps=65536, seed=67):
     current["action_net.bias"][4:6].zero_()
     model.policy.load_state_dict(current)
     metadata = {
-        "contract": DEFENDED_CONTRACT,
+        "contract": DEFENDED_CONTRACT_V2,
         "source_checkpoint_sha256": hashlib.sha256(checkpoint.read_bytes()).hexdigest(),
         "opponent": "reactive_lane_defender_v1",
         "defender_speed_range": [0.25, 0.55],

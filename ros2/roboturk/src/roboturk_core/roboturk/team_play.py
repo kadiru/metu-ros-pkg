@@ -21,7 +21,12 @@ class PassReceiveScorePlay:
             raise ValueError("Pass roles require distinct teammates")
         world.robot(passer)
         world.robot(receiver)
-        self.passer, self.receiver, self.state = passer, receiver, TransferState()
+        self.passer, self.receiver = passer, receiver
+        self.state = (
+            self.transfer_policy.initial_state(world, passer, receiver, self.cfg)
+            if self.transfer_policy is not None
+            else TransferState()
+        )
         self.last_time = world.time
 
     def commands(self, world):

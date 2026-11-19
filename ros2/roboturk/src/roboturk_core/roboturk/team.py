@@ -41,6 +41,7 @@ from .team_contract import (
 
 @dataclass
 class TransferState:
+    receiver_target: tuple[float, float] | None = None
     passed: bool = False
     received: bool = False
     passer_dwell: int = 0
@@ -99,6 +100,9 @@ class TeamCheckpoint:
             raise ValueError("Team policy manifest does not match contract/config")
         self.contract = metadata["contract"]
         self.model = PPO.load(path, device="cpu")
+
+    def initial_state(self, world, passer, receiver, cfg):
+        return TransferState()
 
     def action(self, env):
         raw = self.predict(env.world, env.passer, env.receiver, env.state, env.cfg)

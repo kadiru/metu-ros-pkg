@@ -18,7 +18,7 @@ def test_defended_reset_replay_and_blocked_lane():
     np.testing.assert_array_equal(a, b)
     np.testing.assert_array_equal(first[0], second[0])
     assert first[1:] == second[1:]
-    assert a.shape == (56,)
+    assert a.shape == (62,)
     for seed in range(20):
         _, info = env.reset(seed=seed)
         assert info["initial_lane_clearance"] < 0.03
@@ -114,7 +114,8 @@ def test_defended_contract_matches_opposite_attacking_direction():
         ),
         ball=replace(w.ball, x=-w.ball.x, y=-w.ball.y, vx=-w.ball.vx, vy=-w.ball.vy),
     )
-    b = defended_observation(rotated, env.passer, env.receiver, env.state, env.cfg)
+    state = replace(env.state, receiver_target=tuple(-v for v in env.state.receiver_target))
+    b = defended_observation(rotated, env.passer, env.receiver, state, env.cfg)
     np.testing.assert_allclose(a, b, atol=1e-6)
 
 
@@ -167,7 +168,44 @@ def test_attack_frame_velocity_features_match_world_measurements():
         )
         obs = defended_observation(w, env.passer, env.receiver, env.state, env.cfg)
         np.testing.assert_allclose(
-            obs[52:],
+            obs[52:56],
             w.attack_sign * np.array([0.6, -0.2, -0.4, 0.3]) / env.cfg.max_speed,
             atol=1e-7,
         )
+
+
+def test_receiving_point_has_turn_margin_and_stays_fixed():
+    from roboturk.defended import receiving_point
+
+    env = DefendedEnv()
+    for seed in range(100):
+        obs, _ = env.reset(seed=seed)
+        target = env.state.receiver_target
+        r, d = env.world.robot(env.receiver), env.world.robot(DEFENDER)
+        assert abs(target[1]) <= env.cfg.width / 2 - 0.65
+        assert (target[1] - env.world.ball.y) * (r.y - d.y) < 0
+        assert target == receiving_point(env.world, env.passer, env.receiver, env.cfg)
+        env.step([0, 0, 0, -1, 0.1, 0.1, 0])
+        assert env.state.receiver_target == target
+        assert obs.shape == (62,)
+
+
+def test_tactical_target_matches_play_reset_and_legacy_contract_remains_available():
+    from roboturk.defended import tactical_state, DEFENDED_CONTRACT_V2
+    from roboturk.team_play import PassReceiveScorePlay
+
+    class TargetPolicy:
+        initial_state = staticmethod(tactical_state)
+
+    env = DefendedEnv()
+    env.reset(seed=12)
+    play = PassReceiveScorePlay(TargetPolicy(), None)
+    play.reset(env.world, env.passer, env.receiver)
+    assert play.state.receiver_target == env.state.receiver_target
+    np.testing.assert_array_equal(
+        env.observation(),
+        defended_observation(env.world, env.passer, env.receiver, play.state, env.cfg),
+    )
+    old = DefendedEnv(contract=DEFENDED_CONTRACT_V2)
+    obs, _ = old.reset(seed=12)
+    assert obs.shape == (56,) and old.state.receiver_target is None

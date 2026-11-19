@@ -286,13 +286,15 @@ def scoring_handoff(env):
     """Evaluator handoff with no physical reset, after measured stable reception."""
     if not env.state.received:
         raise ValueError("Cannot shoot before a completed reception")
-    shot = ShootEnv(env.cfg, env.backend)
+    shot = getattr(env, "scoring_env_type", ShootEnv)(env.cfg, env.backend)
     shot.key, shot.world = env.receiver, env.world
     shot.intent = Intent(Skill.SHOOT, (env.world.attack_sign * env.cfg.length / 2, 0.0))
     shot.steps, shot.dwell, shot.finished = 0, 20, False
     shot.acquired, shot.capture_step = True, 0
     shot.capture_distance = shot.initial_target_distance = shot.target_distance(shot.world)
     shot.scenario = {"attack_sign": env.world.attack_sign, "moving": False}
+    if hasattr(shot, "begin_finish"):
+        shot.begin_finish()
     return shot
 
 
@@ -305,6 +307,8 @@ def evaluate_team(env, policy, episodes=200, seed=450000, shooter=None, recorder
         play = PassReceiveScorePlay(policy, shooter, env.cfg)
     for i in range(episodes):
         env.reset(seed=seed + i)
+        if shooter is not None and hasattr(shooter, "reset"):
+            shooter.reset()
         if play:
             play.reset(env.world, env.passer, env.receiver)
         if recorder:

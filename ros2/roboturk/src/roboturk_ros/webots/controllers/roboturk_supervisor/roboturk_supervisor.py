@@ -15,6 +15,22 @@ def main():
     cfg = Config()
     backend = WebotsBackend(supervisor, cfg)
     mode = os.environ.get("ROBOTURK_MODE", "evaluate")
+    if mode.startswith(("keeper-", "micro-")):
+        from keeper_runner import run as keeper_run
+        try:
+            if mode.startswith("micro-"):
+                from micro_runner import run
+            else:
+                run = keeper_run
+            run(supervisor, backend, cfg, mode)
+        except Exception:
+            import traceback
+            traceback.print_exc()
+            error = Path(os.environ["ROBOTURK_OUTPUT"]).with_suffix(".error.txt")
+            error.parent.mkdir(parents=True, exist_ok=True)
+            error.write_text(traceback.format_exc())
+            supervisor.simulationQuit(1)
+        return
     if mode.startswith("defended-"):
         from defended_runner import run
 

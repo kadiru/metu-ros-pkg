@@ -162,57 +162,38 @@ def train(env, teacher, output, steps, seed, kind):
         )
 
     def report(stage):
-        result = evaluate(env, Actor(model), 60, start_seed + 10000)
-        (output / (stage + "-development.json")).write_text(json.dumps(result, indent=2) + "\n")
-        return result
+        result = evaluate(env, Acto…1103 tokens truncated…2,
+                f"{phase} | {env.steps * env.cfg.dt + info['elapsed_seconds']:.2f} s",
+                0.16,
+                0.042,
+                0x68FFB0,
+            )
+        self.label(
+            6,
+            f"Keeper: {env.backend.keeper.style.replace('_', ' ')} | saves {env.backend.contacts}",
+            0.275,
+            0.03,
+        )
 
-    x, y, records = collect(env, teacher, demos, start_seed)
-    (output / "teacher-collection.json").write_text(json.dumps(records, indent=2) + "\n")
-    fit(model, x, y, 100, seed, kind)
-    save("bc")
-    bc = report("bc")
-    best = "bc"
-    if dagger:
-        dx, dy, records = collect(env, teacher, dagger, start_seed + 20000, model)
-        (output / "dagger-collection.json").write_text(json.dumps(records, indent=2) + "\n")
-        x, y = np.concatenate([x, dx]), np.concatenate([y, dy])
-        fit(model, x, y, 80, seed + 1, kind)
-        save("dagger")
-        candidate = report("dagger")
-        if (
-            candidate["successes"],
-            -candidate["possession_loss_episodes"],
-            -(candidate["mean_success_seconds"] or 1000),
-        ) >= (
-            bc["successes"],
-            -bc["possession_loss_episodes"],
-            -(bc["mean_success_seconds"] or 1000),
-        ):
-            best = "dagger"
-    np.savez_compressed(output / "demonstrations.npz", observations=x, actions=y)
-    metadata["anchor_reference"] = best
-    print(f"Selected {best}; reserved qualification untouched", flush=True)
-    model = AnchoredPPO.load(
-        output / (best + ".zip"), env=Monitor(env), device="cpu", learning_rate=3e-7
+
+def record(supervisor, env, policy, shooter, output, episodes=6, seed=960000):
+    output = Path(output)
+    recorder = Recorder(supervisor, output, policy, shooter)
+    supervisor.movieStartRecording(str(output.with_suffix(".mp4")), 1280, 720, 0, 85, 1, False)
+    result = evaluate_team(env, policy, episodes, seed, shooter, recorder)
+    supervisor.movieStopRecording()
+    deadline = time.monotonic() + 60
+    while not supervisor.movieIsReady() and time.monotonic() < deadline:
+        if supervisor.step(20) == -1:
+            raise RuntimeError("Webots closed during movie encoding")
+    if not supervisor.movieIsReady() or supervisor.movieFailed():
+        raise RuntimeError("Webots movie encoding failed or timed out")
+    result.update(
+        source="actual Webots movie recorder",
+        policy_fallback=False,
+        scripted_target_selection=True,
+        scripted_role_handoff=True,
+        outcome_display_seconds=0.6,
+        possession_sample_seconds=0.005,
     )
-    model.prepare_anchor(x, seed, phase_groups(x, y, kind))
-    for group in model.anchor_optimizer.param_groups:
-        group["lr"] = 3e-6
-    start = time.monotonic()
-
-    class Progress(BaseCallback):
-        def _on_step(self):
-            if self.num_timesteps % 8192 == 0:
-                print(
-                    f"Anchored PPO {self.num_timesteps}/{steps}; {time.monotonic() - start:.1f}s",
-                    flush=True,
-                )
-            return True
-
-    model.learn(total_timesteps=steps, callback=Progress())
-    metadata.update(
-        anchor_updates=model.anchor_updates, anchor_rejected_updates=model.anchor_rejections
-    )
-    save("policy")
-    (output / "anchor-updates.json").write_text(json.dumps(model.anchor_log, indent=2) + "\n")
-    report("policy")
+    return result

@@ -84,50 +84,16 @@ class DefenseMicroEnv(gym.Env):
         return (self.anchor, float(np.clip(crossing, -0.42, 0.42)), 0.0, 0.0)
 
     def observation(self):
-        w, b, r = self.world, self.world.ball, self.world.robot(GUARD)
-        tx, ty, tvx, tvy = self.target()
-        sign = w.attack_sign
-        o = np.array(
-            [
-                sign * (tx - r.x),
-                sign * (ty - r.y),
-                sign * r.vx,
-                sign * r.vy,
-                sign * tvx,
-                sign * tvy,
-                sign * (b.x - r.x) / 3,
-                sign * (b.y - r.y) / 3,
-                sign * b.vx / 3,
-                sign * b.vy / 3,
-                math.hypot(tx - r.x, ty - r.y),
-                float(possession(w, GUARD, self.cfg)),
-                sign * r.y,
-                sign * b.y,
-                self.dwell * self.cfg.dt,
-                float(self.kind == "block"),
-            ],
-            np.float32,
+        return defense_observation(
+            self.world, GUARD, self.target(), self.dwell * self.cfg.dt, self.kind, self.cfg
         )
-        if not np.all(np.isfinite(o)):
-            raise ValueError("Nonfinite defensive observation")
-        return o
 
     def step(self, action):
         if self.finished:
             raise RuntimeError("reset required")
-        action = np.asarray(action, dtype=np.float32)
-        if action.shape != self.action_space.shape or not np.all(np.isfinite(action)):
-            raise ValueError("Invalid defensive action")
-        a = np.clip(action, -1, 1)
-        w, r = self.world, self.world.robot(GUARD)
+        w = self.world
         sign = w.attack_sign
-        vx, vy = (
-            (0.0, sign * float(a[0]) * 1.2)
-            if self.kind == "block"
-            else (sign * float(a[0]), sign * float(a[1]))
-        )
-        bx, by = body_vector(vx, vy, r.yaw)
-        commands = {GUARD: Command(bx, by, 0, 1)}
+        commands = {GUARD: defense_command(action, w, GUARD, self.kind)}
         if self.kind == "cover":
             t = w.robot(TARGET)
             target_y = self.amplitude * math.sin(self.phase + self.frequency * w.time)
@@ -242,19 +208,85 @@ class DefenseTeacher:
         )
 
 
+def defense_observation(world, key, target, stable_seconds, kind, cfg):
+    """Shared inference contract: target=(x,y,vx,vy) from the tactical layer."""
+    b, r = world.ball, world.robot(key)
+    tx, ty, tvx, tvy = target
+    sign = -world.direction(key.team)
+    observation = np.array(
+        [
+            sign * (tx - r.x),
+            sign * (ty - r.y),
+            sign * r.vx,
+            sign * r.vy,
+            sign * tvx,
+            sign * tvy,
+            sign * (b.x - r.x) / 3,
+            sign * (b.y - r.y) / 3,
+            sign * b.vx / 3,
+            sign * b.vy / 3,
+            math.hypot(tx - r.x, ty - r.y),
+            float(possession(world, key, cfg)),
+            sign * r.y,
+            sign * b.y,
+            stable_seconds,
+            float(kind == "block"),
+        ],
+        np.float32,
+    )
+    if not np.all(np.isfinite(observation)):
+        raise ValueError("Nonfinite defensive observation")
+    return observation
+
+
+def defense_command(action, world, key, kind):
+    action = np.asarray(action, dtype=np.float32)
+    if action.shape != (1 if kind == "block" else 2,) or not np.all(np.isfinite(action)):
+        raise ValueError("Invalid defensive action")
+    a = np.clip(action, -1, 1)
+    sign = -world.direction(key.team)
+    vx, vy = (
+        (0.0, sign * float(a[0]) * 1.2)
+        if kind == "block"
+        else (sign * float(a[0]), sign * float(a[1]))
+    )
+    bx, by = body_vector(vx, vy, world.robot(key).yaw)
+    return Command(bx, by, 0, 1)
+
+
 class DefenseCheckpoint:
-    def __init__(self, path, env):
+    def __init__(self, path, env=None, *, cfg=Config(), kind=None):
         from stable_baselines3 import PPO
 
+        if env is not None:
+            cfg, kind = env.cfg, env.kind
+        if kind not in ("block", "cover"):
+            raise ValueError("Assign a defense behavior kind")
         meta = json.loads(Path(path).with_suffix(".json").read_text())
-        if meta["contract"] != env.contract or meta["config"] != asdict(env.cfg):
+        if meta["contract"] != "roboturk." + kind + ".v1" or meta["config"] != asdict(cfg):
             raise ValueError("Defense manifest mismatch")
+        self.kind, self.cfg = kind, cfg
         self.model = PPO.load(path, device="cpu")
-        if (
-            self.model.observation_space.shape != (16,)
-            or self.model.action_space.shape != env.action_space.shape
+        if self.model.observation_space.shape != (16,) or self.model.action_space.shape != (
+            1 if kind == "block" else 2,
         ):
             raise ValueError("Defense shape mismatch")
 
     def action(self, env):
         return self.model.predict(env.observation(), deterministic=True)[0]
+
+    def command(self, world, key, target, stable_seconds=0.0):
+        """Deploy on an assigned defensive line/target; no simulator or teacher needed.
+
+        Caller supplies the same observed dwell and tactical target/velocity used
+        by training. Fixed heading/longitudinal line for block is part of its scope.
+        """
+        if (
+            world.referee != Referee.RUNNING
+            or not world.ball.visible
+            or not world.robot(key).visible
+        ):
+            return Command()
+        observation = defense_observation(world, key, target, stable_seconds, self.kind, self.cfg)
+        action = self.model.predict(observation, deterministic=True)[0]
+        return defense_command(action, world, key, self.kind)

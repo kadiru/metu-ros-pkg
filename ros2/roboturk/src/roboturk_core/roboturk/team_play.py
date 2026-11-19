@@ -28,6 +28,8 @@ class PassReceiveScorePlay:
             else TransferState()
         )
         self.last_time = world.time
+        if hasattr(self.shooting_policy, "reset"):
+            self.shooting_policy.reset()
 
     def commands(self, world):
         if self.passer is None:

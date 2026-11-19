@@ -169,10 +169,10 @@ class FinishPlan:
         self.phase = 0
         self.arrival_time = None
         self.last_time = None
-        self.target = (w.direction(key.team) * cfg.length / 2, self.side * 0.36)
+        self.target = (w.direction(key.team) * cfg.length / 2, self.side * 0.43)
 
     def parking(self, w, key, cfg):
-        return (w.direction(key.team) * (cfg.length / 2 - 1.3), self.side * 0.18)
+        return (w.direction(key.team) * (cfg.length / 2 - 1.0), self.side * 0.18)
 
     def update(self, w, key, cfg):
         if self.last_time == w.time:
@@ -197,7 +197,7 @@ class FinishPlan:
             )
         ):
             self.phase = 1
-            self.target = (self.target[0], -self.side * 0.36)
+            self.target = (self.target[0], -self.side * 0.43)
 
 
 def finish_observation(w, key, plan, cfg):
@@ -255,7 +255,7 @@ class FinishTeacher:
         angle = math.atan2(gy, gx)
         px, py = plan.parking(w, key, cfg)
         dx, dy = body_vector(px - b.x, py - b.y, r.yaw)
-        if plan.phase and abs(angle) < 0.025 and math.hypot(r.vx, r.vy) < 0.22:
+        if plan.phase and abs(angle) < 0.015 and math.hypot(r.vx, r.vy) < 0.22:
             return Command(kick=SHOT_SPEED)
         omega = float(
             np.clip(

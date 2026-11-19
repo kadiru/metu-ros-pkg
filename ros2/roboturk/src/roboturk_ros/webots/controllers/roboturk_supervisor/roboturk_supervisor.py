@@ -17,6 +17,7 @@ def main():
     mode = os.environ.get("ROBOTURK_MODE", "evaluate")
     if mode.startswith(("keeper-", "micro-")):
         from keeper_runner import run as keeper_run
+
         try:
             if mode.startswith("micro-"):
                 from micro_runner import run
@@ -25,6 +26,7 @@ def main():
             run(supervisor, backend, cfg, mode)
         except Exception:
             import traceback
+
             traceback.print_exc()
             error = Path(os.environ["ROBOTURK_OUTPUT"]).with_suffix(".error.txt")
             error.parent.mkdir(parents=True, exist_ok=True)

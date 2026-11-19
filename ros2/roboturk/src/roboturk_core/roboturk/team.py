@@ -307,7 +307,7 @@ def evaluate_team(env, policy, episodes=200, seed=450000, shooter=None, recorder
         play = PassReceiveScorePlay(policy, shooter, env.cfg)
     for i in range(episodes):
         env.reset(seed=seed + i)
-        if shooter is not None and hasattr(shooter, "reset"):
+        if not play and shooter is not None and hasattr(shooter, "reset"):
             shooter.reset()
         if play:
             play.reset(env.world, env.passer, env.receiver)

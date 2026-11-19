@@ -117,3 +117,67 @@ def test_defense_contract_replay_and_shape(kind):
     assert step[1:] == replay[1:]
     with pytest.raises(ValueError):
         env.step([float("nan")] * env.action_space.shape[0])
+
+
+def test_defense_deployment_codec_matches_environment():
+    from roboturk.defense_micro import GUARD, defense_observation, defense_command
+    from roboturk.model import world_vector
+
+    for kind in ("block", "cover"):
+        env = DefenseMicroEnv(kind=kind)
+        for seed in range(5):
+            obs, _ = env.reset(seed=seed)
+            np.testing.assert_array_equal(
+                obs, defense_observation(env.world, GUARD, env.target(), 0, kind, env.cfg)
+            )
+            action = DefenseTeacher().action(env)
+            command = defense_command(action, env.world, GUARD, kind)
+            vx, vy = world_vector(command.vx, command.vy, env.world.robot(GUARD).yaw)
+            if kind == "block":
+                assert vx == pytest.approx(0, abs=1e-9)
+                assert vy == pytest.approx(env.world.attack_sign * action[0] * 1.2)
+            assert command.kick == 0 and command.dribbler == 1
+
+
+def test_latched_finish_phase_and_play_reset():
+    from roboturk.team_play import PassReceiveScorePlay
+    from roboturk.defended import tactical_state
+
+    class Transfer:
+        initial_state = staticmethod(tactical_state)
+
+    teacher = FinishTeacher()
+    teacher.plan = object()
+    env = KeeperPlayEnv()
+    env.reset(seed=7)
+    play = PassReceiveScorePlay(Transfer(), teacher)
+    play.reset(env.world, env.passer, env.receiver)
+    assert teacher.plan is None
+    p = FinishPlan(env.world, env.receiver, env.cfg)
+    p.phase = 1
+    target = p.target
+    p.update(replace(env.world, time=1), env.receiver, env.cfg)
+    assert p.phase == 1 and p.target == target
+
+
+def test_keeper_ball_line_is_symmetric():
+    from roboturk.keeper import ReactiveKeeper
+    from roboturk.model import world_vector
+
+    env = KeeperPlayEnv()
+    env.reset(seed=9)
+    w = replace(env.world, ball=Ball(0, 0.3))
+    opposite = replace(
+        w,
+        attack_sign=-w.attack_sign,
+        robots=tuple(replace(r, x=-r.x, y=-r.y, yaw=r.yaw + math.pi) for r in w.robots),
+        ball=Ball(0, -0.3),
+    )
+    a, b = ReactiveKeeper(env.cfg), ReactiveKeeper(env.cfg)
+    for k in (a, b):
+        k.style = "ball_line"
+        k.targets.clear()
+    ca, cb = a.command(w), b.command(opposite)
+    va = world_vector(ca.vx, ca.vy, w.robot(KEEPER).yaw)
+    vb = world_vector(cb.vx, cb.vy, opposite.robot(KEEPER).yaw)
+    np.testing.assert_allclose(va, -np.array(vb), atol=1e-8)

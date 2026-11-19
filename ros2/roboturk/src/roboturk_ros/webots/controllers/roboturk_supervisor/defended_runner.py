@@ -5,7 +5,13 @@ from pathlib import Path
 from roboturk.behavior import CheckpointPolicy
 from roboturk.model import Skill
 from roboturk.team import TeamCheckpoint, evaluate_team
-from roboturk.defended import DefendedEnv, DefendedCheckpoint, DefendedTeacher, DEFENDED_CONTRACT
+from roboturk.defended import (
+    DefendedEnv,
+    DefendedCheckpoint,
+    DefendedTeacher,
+    DEFENDED_CONTRACT,
+    DEFENDED_CONTRACT_V1,
+)
 
 
 def run(supervisor, backend, cfg, mode):
@@ -21,13 +27,23 @@ def run(supervisor, backend, cfg, mode):
             int(os.environ.get("ROBOTURK_STEPS", "65536")),
             int(os.environ.get("ROBOTURK_SEED", "67")),
         )
+    elif mode == "defended-upgrade":
+        from roboturk.defended_upgrade import upgrade_defended
+
+        upgrade_defended(
+            env,
+            os.environ["ROBOTURK_CHECKPOINT"],
+            output,
+            int(os.environ.get("ROBOTURK_STEPS", "65536")),
+            int(os.environ.get("ROBOTURK_SEED", "77")),
+        )
     else:
         checkpoint = os.environ.get("ROBOTURK_CHECKPOINT")
         policy = (
             (
                 DefendedCheckpoint(checkpoint, cfg)
                 if json.loads(Path(checkpoint).with_suffix(".json").read_text())["contract"]
-                == DEFENDED_CONTRACT
+                in (DEFENDED_CONTRACT, DEFENDED_CONTRACT_V1)
                 else TeamCheckpoint(checkpoint, cfg)
             )
             if checkpoint

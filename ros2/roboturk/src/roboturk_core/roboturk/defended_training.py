@@ -50,6 +50,9 @@ def train_defended(env, output, steps=65536, seed=67):
             value[:, :36] = old
         else:
             raise ValueError(f"Unsupported warm-start shape: {name}")
+    # Receiver outputs changed from body velocities to the attack frame.
+    current["action_net.weight"][4:6].zero_()
+    current["action_net.bias"][4:6].zero_()
     model.policy.load_state_dict(current)
     metadata = {
         "contract": DEFENDED_CONTRACT,

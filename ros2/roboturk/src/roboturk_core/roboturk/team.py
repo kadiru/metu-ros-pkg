@@ -101,7 +101,12 @@ class TeamCheckpoint:
         self.model = PPO.load(path, device="cpu")
 
     def action(self, env):
-        return self.predict(env.world, env.passer, env.receiver, env.state, env.cfg)
+        raw = self.predict(env.world, env.passer, env.receiver, env.state, env.cfg)
+        commands = self.decode_action(raw, env.world, env.passer, env.receiver, env.state, env.cfg)
+        return env.encode_commands(commands)
+
+    def decode_action(self, action, world, passer, receiver, state, cfg):
+        return team_commands(action, passer, receiver, state.passed, cfg)
 
     def predict(self, world, passer, receiver, state, cfg):
         obs = team_observation(world, passer, receiver, state, cfg)
@@ -179,11 +184,17 @@ class PassReceiveEnv(gym.Env):
             **asdict(self.state),
         }
 
+    def decode_action(self, action):
+        return team_commands(action, self.passer, self.receiver, self.state.passed, self.cfg)
+
+    def encode_commands(self, commands):
+        return team_action(commands, self.passer, self.receiver, self.cfg)
+
     def step(self, action):
         if self.finished:
             raise RuntimeError("reset required")
         cfg, s, previous = self.cfg, self.state, self.world
-        commands = team_commands(action, self.passer, self.receiver, s.passed, cfg)
+        commands = self.decode_action(action)
         self.world = self.backend.step(commands)
         self.steps += 1
         samples = getattr(self.backend, "last_substep_worlds", [self.world])
@@ -295,11 +306,7 @@ def evaluate_team(env, policy, episodes=200, seed=450000, shooter=None, recorder
         if recorder:
             recorder.begin_episode(i, seed + i, env)
         while True:
-            action = (
-                team_action(play.commands(env.world), env.passer, env.receiver, env.cfg)
-                if play
-                else policy.action(env)
-            )
+            action = env.encode_commands(play.commands(env.world)) if play else policy.action(env)
             _, _, done, truncated, info = env.step(action)
             if play:
                 play.observe(

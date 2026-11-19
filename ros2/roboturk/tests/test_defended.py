@@ -18,7 +18,7 @@ def test_defended_reset_replay_and_blocked_lane():
     np.testing.assert_array_equal(a, b)
     np.testing.assert_array_equal(first[0], second[0])
     assert first[1:] == second[1:]
-    assert a.shape == (52,)
+    assert a.shape == (56,)
     for seed in range(20):
         _, info = env.reset(seed=seed)
         assert info["initial_lane_clearance"] < 0.03
@@ -100,3 +100,74 @@ def test_observation_sees_defender_and_rejects_nonfinite():
     )
     with pytest.raises(ValueError):
         defended_observation(changed, env.passer, env.receiver, env.state, env.cfg)
+
+
+def test_defended_contract_matches_opposite_attacking_direction():
+    env = DefendedEnv()
+    a, _ = env.reset(seed=4)
+    w = env.world
+    rotated = replace(
+        w,
+        attack_sign=-w.attack_sign,
+        robots=tuple(
+            replace(r, x=-r.x, y=-r.y, yaw=r.yaw + math.pi, vx=-r.vx, vy=-r.vy) for r in w.robots
+        ),
+        ball=replace(w.ball, x=-w.ball.x, y=-w.ball.y, vx=-w.ball.vx, vy=-w.ball.vy),
+    )
+    b = defended_observation(rotated, env.passer, env.receiver, env.state, env.cfg)
+    np.testing.assert_allclose(a, b, atol=1e-6)
+
+
+def test_defender_reacts_to_ball_crossing_direction():
+    from roboturk.model import world_vector
+
+    env = DefendedEnv()
+    env.reset(seed=8)
+    d = env.world.robot(DEFENDER)
+    for lateral in (-1, 1):
+        w = replace(env.world, ball=Ball(d.x - 1, d.y, 1, lateral))
+        c = env.backend.defender.command(w)
+        _, vy = world_vector(c.vx, c.vy, d.yaw)
+        assert lateral * vy > 0.2
+
+
+def test_receiver_action_frames_and_offline_upgrade_agree():
+    from roboturk.defended import upgrade_actions
+    from roboturk.team_contract import team_action
+    from roboturk.model import body_vector, world_vector
+
+    env = DefendedEnv()
+    for seed in range(12):
+        obs, _ = env.reset(seed=seed)
+        r = env.world.robot(env.receiver)
+        sign = env.world.direction(env.receiver.team)
+        vx, vy = body_vector(0.3, -0.7, r.yaw)
+        commands = {env.passer: Command(dribbler=1), env.receiver: Command(vx, vy, 0.2, 1)}
+        old = team_action(commands, env.passer, env.receiver, env.cfg)
+        converted = upgrade_actions(obs[:52], old)
+        np.testing.assert_allclose(converted, env.encode_commands(commands), atol=1e-7)
+        assert converted[4] == pytest.approx(sign * 0.3 / env.cfg.max_speed)
+        result = env.decode_action(converted)[env.receiver]
+        np.testing.assert_allclose(
+            world_vector(result.vx, result.vy, r.yaw), [0.3, -0.7], atol=1e-7
+        )
+
+
+def test_attack_frame_velocity_features_match_world_measurements():
+    env = DefendedEnv()
+    for seed in range(8):
+        env.reset(seed=seed)
+        w = replace(
+            env.world,
+            ball=replace(env.world.ball, vx=0.6, vy=-0.2),
+            robots=tuple(
+                replace(r, vx=-0.4, vy=0.3) if r.key == env.receiver else r
+                for r in env.world.robots
+            ),
+        )
+        obs = defended_observation(w, env.passer, env.receiver, env.state, env.cfg)
+        np.testing.assert_allclose(
+            obs[52:],
+            w.attack_sign * np.array([0.6, -0.2, -0.4, 0.3]) / env.cfg.max_speed,
+            atol=1e-7,
+        )

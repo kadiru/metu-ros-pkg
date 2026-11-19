@@ -7,7 +7,6 @@ API is available to a Supervisor integration; ROS does not yet carry kick feedba
 import math
 from .model import Command, Config, Intent, Referee, Skill, possession
 from .team import TransferState
-from .team_contract import team_commands
 
 
 class PassReceiveScorePlay:
@@ -45,7 +44,9 @@ class PassReceiveScorePlay:
         action = self.transfer_policy.predict(
             world, self.passer, self.receiver, self.state, self.cfg
         )
-        return team_commands(action, self.passer, self.receiver, self.state.passed, self.cfg)
+        return self.transfer_policy.decode_action(
+            action, world, self.passer, self.receiver, self.state, self.cfg
+        )
 
     def observe(self, samples, kick_events):
         if not samples:

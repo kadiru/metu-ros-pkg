@@ -22,9 +22,24 @@ Target: at least 95% complete-sequence success on 200 reserved scenarios, with z
 
 Contract `roboturk.defended_transfer.v1`: 52 inputs, seven actions. The previous 36-input transfer state is extended with defender positions/velocities in both attackers' frames, attack-relative geometry, the receiver's lateral-axis direction, current lane clearance and a stable-control flag. Actions and scripted role-handoff semantics match the previous play. The new actor starts from the previous transfer checkpoint, with additional input weights initialized to zero.
 
-Training seed 67, one CPU thread. 300 new Webots teacher demonstrations (600000–600299), 100 balanced cloning epochs, 150 DAgger episodes (620000–620149), 60 refit epochs. Development seeds 610000–610059 select the warm start. Then 65,536 constrained PPO steps, learning rate 3e−7, training-observation regression, maximum normalized action change 0.01 and MSE 1e−6; projection learning rate 3e−6. Qualification 650000–650199 and demo 660000–660005 remain reserved until freezing. Report before/after PPO results without claiming a benefit if imitation already succeeds.
+Training seed 67, one CPU thread. 300 new Webots teacher demonstrations (600000–600299), 100 balanced cloning epochs, 150 DAgger episodes (620000–620149), 60 refit epochs. Development seeds 610000–610059 select the warm start. Then 65,536 constrained PPO steps, learning rate 3e−7, training-observation regression, maximum normalized action change 0.01 and MSE 1e−6; projection learning rate 3e−6. V1 qualification 650000–650199 and demo 660000–660005 were never used: the candidate failed development. Reproduce v1 with source commit `41be952f41c313c7f6c2a6d6d18437645a2b41b6` (the current trainer uses the v2 contract). Report before/after PPO results without claiming a benefit if imitation already succeeds.
 
 The previously qualified transfer policy failed **40/40** comparison scenarios (610000–610039): all were defender interceptions. The initial 1.85 m demonstration flank scored **37/40**, with three interceptions against the fastest defenders. The revised 2.2 m demonstration route scored **40/40**, with no possession losses, mean full-sequence duration 13.3195 s and mean pass distance 2.9529 m. All outcomes are retained. The defender and task criteria were unchanged during this attacker adjustment.
+
+V1 collected 298/300 teacher receptions and 145/150 mixed DAgger receptions. Its cloned actor received23/60 development passes, DAgger38/60, and constrained PPO38/60. All64 PPO updates were accepted; no success benefit. These failed models and per-episode results are retained.
+
+V2 (`roboturk.defended_transfer.v2`) keeps the same scenario, defender and seven-action interface, but expresses receiver vx/vy in the attack-aligned field frame. A kinematic rotation converts them to robot body commands. Four coordinate-transformed ball/receiver velocity inputs extend the observation to56 values. No desired route, action shield or teacher is introduced at inference. Passer actions and scorer are unchanged. The v1 DAgger checkpoint's shared weights warm-start v2; the two receiver translation output rows are reset. V1 training labels are transformed using recorded headings; no evaluation observations are reused.
+
+V2 training seed77:100 refit epochs,150 new mixed DAgger episodes720000–720149,60 refit epochs, then65,536 constrained PPO steps with the same bounds. New development710000–710059; qualification750000–750199 and demo760000–760005. The current `defended-train` also supports a fresh v2 run; the recorded upgrade uses:
+
+```sh
+../.venv/bin/python scripts/run_webots.py \
+  --webots ../runtime/Webots-nightly.app/Contents/MacOS/webots \
+  --mode defended-upgrade --checkpoint runs/defended-v1/dagger.zip \
+  --steps 65536 --seed 77 --output runs/defended-v2 --timeout 2400
+```
+
+Original v1 commands (use its source revision):
 
 ```sh
 ../.venv/bin/python scripts/run_webots.py \

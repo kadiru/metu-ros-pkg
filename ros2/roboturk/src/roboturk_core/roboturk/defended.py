@@ -25,13 +25,15 @@ from .model import (
     bounded,
     possession,
     wrap,
+    world_vector,
 )
 from .backend import ReferenceBackend
 from .capture import CaptureTeacher
 from .team import PassReceiveEnv, TransferState, TeamCheckpoint
-from .team_contract import team_observation, team_action, PASS_SPEED
+from .team_contract import team_observation, team_action, team_commands, PASS_SPEED
 
-DEFENDED_CONTRACT = "roboturk.defended_transfer.v1"
+DEFENDED_CONTRACT_V1 = "roboturk.defended_transfer.v1"
+DEFENDED_CONTRACT = "roboturk.defended_transfer.v2"
 DEFENDER = RobotKey("yellow", 0)
 
 
@@ -64,7 +66,50 @@ def defended_observation(world, passer, receiver, state, cfg):
     result = np.concatenate([base, extra]).astype(np.float32)
     if not np.all(np.isfinite(result)):
         raise ValueError("Nonfinite defended observation")
+    return augment_field_velocities(result)
+
+
+def augment_field_velocities(x):
+    """Coordinate features only; no route or motion command is calculated here."""
+    x = np.asarray(x, dtype=np.float32)
+    ax, ay = x[..., 48:49], x[..., 49:50]
+    return np.concatenate(
+        [
+            x,
+            ay * x[..., 21:22] - ax * x[..., 22:23],
+            ax * x[..., 21:22] + ay * x[..., 22:23],
+            ay * x[..., 23:24] - ax * x[..., 24:25],
+            ax * x[..., 23:24] + ay * x[..., 24:25],
+        ],
+        axis=-1,
+    ).astype(np.float32)
+
+
+def upgrade_actions(x, y):
+    """Convert recorded v1 receiver body actions into the v2 attack frame."""
+    result = np.array(y, dtype=np.float32, copy=True)
+    vx, vy = y[..., 4], y[..., 5]
+    result[..., 4] = x[..., 49] * vx - x[..., 48] * vy
+    result[..., 5] = x[..., 48] * vx + x[..., 49] * vy
     return result
+
+
+def defended_commands(action, world, passer, receiver, state, cfg):
+    commands = team_commands(action, passer, receiver, state.passed, cfg)
+    c, r = commands[receiver], world.robot(receiver)
+    sign = world.direction(receiver.team)
+    vx, vy = body_vector(sign * c.vx, sign * c.vy, r.yaw)
+    commands[receiver] = Command(vx, vy, c.omega, c.dribbler, c.kick)
+    return commands
+
+
+def defended_action(commands, world, passer, receiver, cfg):
+    action = team_action(commands, passer, receiver, cfg)
+    r = world.robot(receiver)
+    vx, vy = world_vector(float(action[4]), float(action[5]), r.yaw)
+    sign = world.direction(receiver.team)
+    action[4:6] = [sign * vx, sign * vy]
+    return action
 
 
 class LaneDefender:
@@ -171,7 +216,7 @@ class DefendedEnv(PassReceiveEnv):
 
     def __init__(self, cfg=Config(), backend=None):
         super().__init__(cfg, DefendedBackend(backend or ReferenceBackend(cfg), cfg))
-        self.observation_space = gym.spaces.Box(-np.inf, np.inf, (52,), dtype=np.float32)
+        self.observation_space = gym.spaces.Box(-np.inf, np.inf, (56,), dtype=np.float32)
 
     def reset(self, *, seed=None, options=None):
         gym.Env.reset(self, seed=seed)
@@ -228,6 +273,14 @@ class DefendedEnv(PassReceiveEnv):
 
     def observation(self):
         return defended_observation(self.world, self.passer, self.receiver, self.state, self.cfg)
+
+    def decode_action(self, action):
+        return defended_commands(
+            action, self.world, self.passer, self.receiver, self.state, self.cfg
+        )
+
+    def encode_commands(self, commands):
+        return defended_action(commands, self.world, self.passer, self.receiver, self.cfg)
 
     def info(self, success, reason):
         return {
@@ -288,7 +341,7 @@ class DefendedTeacher:
             and lane_clearance(w, env.receiver) > 0.45
         ):
             pc = Command(kick=PASS_SPEED)
-        return team_action({env.passer: pc, env.receiver: rc}, env.passer, env.receiver, cfg)
+        return env.encode_commands({env.passer: pc, env.receiver: rc})
 
 
 class DefendedCheckpoint(TeamCheckpoint):
@@ -296,13 +349,28 @@ class DefendedCheckpoint(TeamCheckpoint):
         from stable_baselines3 import PPO
 
         metadata = json.loads(Path(path).with_suffix(".json").read_text())
-        if metadata["contract"] != DEFENDED_CONTRACT or metadata["config"] != asdict(cfg):
+        if metadata["contract"] not in (DEFENDED_CONTRACT, DEFENDED_CONTRACT_V1) or metadata[
+            "config"
+        ] != asdict(cfg):
             raise ValueError("Defended policy manifest mismatch")
+        self.contract = metadata["contract"]
         self.model = PPO.load(path, device="cpu")
-        if self.model.observation_space.shape != (52,) or self.model.action_space.shape != (7,):
+        expected = (52,) if self.contract == DEFENDED_CONTRACT_V1 else (56,)
+        if self.model.observation_space.shape != expected or self.model.action_space.shape != (7,):
             raise ValueError("Defended checkpoint shape mismatch")
 
+    def action(self, env):
+        raw = self.predict(env.world, env.passer, env.receiver, env.state, env.cfg)
+        commands = self.decode_action(raw, env.world, env.passer, env.receiver, env.state, env.cfg)
+        return env.encode_commands(commands)
+
+    def decode_action(self, action, world, passer, receiver, state, cfg):
+        if self.contract == DEFENDED_CONTRACT_V1:
+            return team_commands(action, passer, receiver, state.passed, cfg)
+        return defended_commands(action, world, passer, receiver, state, cfg)
+
     def predict(self, world, passer, receiver, state, cfg):
-        return self.model.predict(
-            defended_observation(world, passer, receiver, state, cfg), deterministic=True
-        )[0]
+        observation = defended_observation(world, passer, receiver, state, cfg)
+        if self.contract == DEFENDED_CONTRACT_V1:
+            observation = observation[:52]
+        return self.model.predict(observation, deterministic=True)[0]

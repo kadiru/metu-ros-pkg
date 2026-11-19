@@ -29,6 +29,7 @@ def main():
             "dribble-evaluate",
             "dribble-demo",
             "defended-train",
+            "defended-upgrade",
             "defended-evaluate",
             "defended-demo",
             "team-train",

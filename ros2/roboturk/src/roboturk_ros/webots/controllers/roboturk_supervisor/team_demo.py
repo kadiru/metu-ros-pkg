@@ -4,7 +4,6 @@ from pathlib import Path
 import time
 from roboturk.model import Command, Intent, Skill
 from roboturk.team import evaluate_team
-from roboturk.team_contract import team_commands
 
 
 class Recorder:
@@ -87,9 +86,7 @@ class Recorder:
                     ),
                 }
             else:
-                commands = team_commands(
-                    self.policy.action(env), env.passer, env.receiver, env.state.passed, env.cfg
-                )
+                commands = env.decode_action(self.policy.action(env))
             env.world = env.backend.step(commands)
 
 

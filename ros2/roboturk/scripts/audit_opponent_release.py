@@ -39,6 +39,8 @@ def freeze(args):
         + sorted(ROOT.glob("src/**/*.wbt"))
         + [
             ROOT / "docs/runtime-manifest.json",
+            ROOT / "requirements-macos-validation.txt",
+            ROOT / "src/roboturk_ros/webots/controllers/roboturk_supervisor/runtime.ini",
             ROOT / "scripts/run_webots.py",
             Path(__file__).resolve(),
             ROOT / "scripts/audit_micro_release.py",

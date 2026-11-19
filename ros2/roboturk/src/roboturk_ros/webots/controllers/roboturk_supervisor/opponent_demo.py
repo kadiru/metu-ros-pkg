@@ -17,7 +17,7 @@ class Recorder(TeamRecorder):
         )
         self.label(
             5,
-            "Four neural controls | scripted attacking targets / handoff | Webots physics",
+            "Learned attackers + defense | scripted attacking targets / handoff | Webots physics",
             0.95,
             0.03,
         )
@@ -41,7 +41,7 @@ class Recorder(TeamRecorder):
     def step(self, env, info, shot):
         super().step(env, info, shot)
         if shot is not None and not shot.shot:
-            phase = "CHANGE AIM / FINISH" if shot.plan.phase else "DRIBBLE / DRAW KEEPER"
+            phase = "SELECT CORNER / FINISH" if shot.plan.phase else "DRIBBLE / ALIGN SHOT"
             self.label(
                 2,
                 f"{phase} | {env.steps * env.cfg.dt + info['elapsed_seconds']:.2f} s",

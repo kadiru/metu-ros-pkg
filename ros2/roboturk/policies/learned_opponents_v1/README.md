@@ -82,3 +82,10 @@ The unchanged previous attacking play scored45/60 against these exact frozen
 opponents on full-play development seeds1240000–1240059. All60 passes were
 received; all15 failures were keeper saves, with zero pre-release possession
 losses. [Complete frozen-opponent baseline](old-attackers-baseline.json).
+
+Contact in these task monitors means center distance≤robot radius+ball radius+
+0.002m, or entry into the modeled dribbler-mouth possession region. This is the
+simulator contact/possession test, not an instrumented ODE contact-sensor report.
+Defender success does not require subsequent retention; keeper success additionally
+requires no goal through2s. The complete attacking-play audit treats any such
+opponent interaction as a failure, including a goalkeeper deflection into goal.

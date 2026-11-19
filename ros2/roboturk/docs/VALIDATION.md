@@ -1,6 +1,26 @@
 # Validation — November 19, 2026 (America/Los_Angeles)
 
-## Latest keeper play
+## Learned continuous opponents
+
+The frozen neural defender intercepted100/100 reserved passes; the frozen neural
+keeper saved99/100 reserved shots at3.5m/s longitudinal speed. Both must make
+physical contact; keeper success also requires no goal through2s. One keeper goal
+conceded (seed1260065) is retained. The audit checks all reserved seeds, model hashes,
+unchanged opponent runtime and34,424/39,780 physics samples respectively.
+[Model card and evidence](../policies/learned_opponents_v1/README.md).
+
+Stationary development baselines45/60 and35/60 contrast with final neural60/60
+and59/60; analytic teachers achieved60/60 and57/60 on those same development sets.
+Both learned actors completed32,768 anchored PPO steps with32 accepted updates.
+There is no incremental PPO success-count gain over selected imitation actors.
+
+The unchanged previous attackers scored45/60 against these exact frozen opponents:
+all60 passes received;15 keeper saves, zero pre-release losses. Attacker retraining
+and final full-play qualification are in progress. A close-only teacher's32/40
+and revised open-lane teacher's60/60 are retained as development evidence; they
+are not learned-attacker qualification results.
+
+## Previous analytic-opponent keeper play
 
 Frozen qualification: **199/200 goals**, one defender interception, zero pre-release
 possession losses or robot collisions. All199 completed receptions ended in goals.
@@ -16,7 +36,7 @@ Separately, [block/recover](../policies/block_shot_v1/README.md) passed200/200 p
 
 ## Verified locally
 
-- 84 Python tests pass (including keeper/defensive contracts, mirrored goalkeeper positioning, automatic PPO resets and inference parity). They include Gymnasium contracts for all six tasks and capture/dribble/scoring/team-transfer/defended-transfer curricula; seeded replay; coordinate/target rotation invariance; finite actions; actuator limits and retain/fire semantics; HALT/STOP/stale-input overrides; full-ball goal crossing in both directions; rejecting premature shots and pushed-in balls; possession loss between control frames; arrival hold; passing/receiving and role persistence; reset clearing; the deferred Webots reset regression; actual-pass/reception gating; collision rejection; unchanged physics at the scoring handoff; play-memory agreement with the task monitor; defender interception/collision checks between control frames; continuing opponent control through scoring; body/field action conversion; and fixed, mirrored receiving-point targets shared by the policy and monitor.
+- 90 Python tests pass (including keeper/defensive contracts, mirrored goalkeeper positioning, automatic PPO resets and inference parity). They include Gymnasium contracts for all six tasks and capture/dribble/scoring/team-transfer/defended-transfer curricula; seeded replay; coordinate/target rotation invariance; finite actions; actuator limits and retain/fire semantics; HALT/STOP/stale-input overrides; full-ball goal crossing in both directions; rejecting premature shots and pushed-in balls; possession loss between control frames; arrival hold; passing/receiving and role persistence; reset clearing; the deferred Webots reset regression; actual-pass/reception gating; collision rejection; unchanged physics at the scoring handoff; play-memory agreement with the task monitor; defender interception/collision checks between control frames; continuing opponent control through scoring; body/field action conversion; and fixed, mirrored receiving-point targets shared by the policy and monitor.
 - Ruff static checks pass and Python sources compile.
 - Both Python packages built and installed as editable packages; `pip check` reports no broken dependencies. Exact local versions are recorded in `requirements-macos-validation.txt` (a macOS validation environment, not a universal ROS lockfile).
 - ROS-specific tests are skipped locally because this Mac has no ROS 2 installation. GitHub Actions on Ubuntu 24.04 / ROS 2 Jazzy built all three packages and passed **2/2 ROS bridge/interface tests** at commit `3b543642`. These tests exercise conversions, command/referee watchdogs and reset with a reference backend; a complete Webots/ROS live-graph run is still pending.

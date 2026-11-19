@@ -133,3 +133,28 @@ def test_pressure_finish_replays_training_observation_and_handoff():
     assert isinstance(shot, PressureFinishEnv)
     assert shot.world is play.world and shot.backend is play.backend
     assert shot.plan.parking(shot.world, shot.key, cfg) == (shot.world.attack_sign * 3.8, 0)
+
+
+def test_open_corner_can_fire_directly_and_covered_corner_changes_aim():
+    from roboturk.adversarial_finish import PressureFinishPlan
+    from roboturk.model import RobotKey
+
+    cfg = Config()
+    key = RobotKey("blue", 0)
+    angle = math.atan2(0.43, 0.70)
+    robot = Robot(
+        key, 3.8 - cfg.possession_x * math.cos(angle), -cfg.possession_x * math.sin(angle), angle
+    )
+    world = World(0, (robot, Robot(KEEPER, 4.32, 0, math.pi)), Ball(3.8, 0), Referee.RUNNING)
+    plan = PressureFinishPlan(world, key, cfg)
+    plan.update(world, key, cfg)
+    assert plan.phase == 1 and plan.target == (4.5, 0.43)
+    # A keeper moving into the ray must also count as coverage, before contact.
+    for keeper in (Robot(KEEPER, 4.32, 0.32, math.pi), Robot(KEEPER, 4.32, 0, math.pi, vy=0.95)):
+        covered = replace(world, robots=(robot, keeper))
+        plan = PressureFinishPlan(covered, key, cfg)
+        plan.update(covered, key, cfg)
+        assert plan.phase == 1 and plan.target == (4.5, -0.43)
+        target = plan.target
+        plan.update(covered, key, cfg)
+        assert plan.target == target  # Re-reading the same frame is idempotent.

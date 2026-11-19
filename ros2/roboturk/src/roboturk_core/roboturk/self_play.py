@@ -5,9 +5,10 @@ opponents have the entire field available, subject to actuator/referee limits.
 Tactical receiving/finishing targets remain explicit scripted attacking context.
 """
 
-from dataclasses import asdict
+from dataclasses import asdict, replace
 import hashlib
 import json
+import math
 from pathlib import Path
 import gymnasium as gym
 import numpy as np
@@ -18,6 +19,8 @@ from .defended import (
     DefendedCheckpoint,
     defended_observation,
     tactical_state,
+    lane_clearance,
+    defended_commands,
 )
 from .keeper import KEEPER, finish_observation
 from .learned_opponents import (
@@ -38,6 +41,7 @@ CONTRACTS = {
 }
 SHAPES = {"defender": (45, 3), "keeper": (45, 3), "transfer": (70, 7), "finish": (36, 4)}
 ROLES = tuple(SHAPES)
+MOBILE_PASS_SPEED = 2.5
 
 
 def digest(path):
@@ -146,6 +150,8 @@ class MobileDefendedBackend(LearnedDefendedBackend, Excursion):
         result = super().step(commands)
         for w in getattr(self.base, "last_substep_worlds", [result]):
             self.measure(w, DEFENDER)
+        if self.outside_checks and not self.failure:
+            self.failure = "defender_field_exit"
         return result
 
     def evidence(self):
@@ -166,6 +172,12 @@ class MobileKeeperBackend(LearnedKeeperBackend, Excursion):
         result = super().step(commands)
         for w in getattr(self.base, "last_substep_worlds", [result]):
             self.measure(w, KEEPER)
+            k, d = w.robot(KEEPER), w.robot(DEFENDER)
+            if math.hypot(k.x - d.x, k.y - d.y) < 2 * self.cfg.robot_radius + 0.01:
+                self.collisions += 1
+                self.keeper_failure = "defensive_team_collision"
+        if self.outside_checks and not self.keeper_failure:
+            self.keeper_failure = "keeper_field_exit"
         return result
 
     def evidence(self):
@@ -177,6 +189,7 @@ class MobileKeeperBackend(LearnedKeeperBackend, Excursion):
 
 
 def transfer_observation(w, passer, receiver, state, cfg):
+    update_receiving_target(w, passer, receiver, state, cfg)
     return np.concatenate(
         [
             defended_observation(w, passer, receiver, state, cfg),
@@ -184,6 +197,36 @@ def transfer_observation(w, passer, receiver, state, cfg):
             relative_robot(w, receiver, KEEPER, cfg),
         ]
     ).astype(np.float32)
+
+
+def mobile_transfer_commands(action, world, passer, receiver, state, cfg):
+    commands = defended_commands(action, world, passer, receiver, state, cfg)
+    c = commands[passer]
+    if c.kick > 0:
+        commands[passer] = replace(c, kick=MOBILE_PASS_SPEED)
+    return commands
+
+
+def update_receiving_target(w, passer, receiver, state, cfg):
+    """Scripted off-ball feint: change flanks when the reached target is covered."""
+    if state.passed or getattr(state, "mobile_frame", None) == w.time:
+        return
+    state.mobile_frame = w.time
+    r, b = w.robot(receiver), w.ball
+    tx, ty = state.receiver_target
+    if (
+        math.hypot(tx - r.x, ty - r.y) < 0.10
+        and lane_clearance(w, receiver) < 0.45
+        and w.time - getattr(state, "mobile_changed_at", 0) > 2
+    ):
+        margin = cfg.width / 2 - 0.65
+        sign = w.direction(passer.team)
+        state.receiver_target = (
+            sign * min(sign * r.x + 0.20, cfg.length / 2 - 2),
+            float(np.clip(b.y - (1 if ty > b.y else -1) * 2.2, -margin, margin)),
+        )
+        state.mobile_changed_at = w.time
+        state.mobile_feints = getattr(state, "mobile_feints", 0) + 1
 
 
 def finishing_observation(w, key, plan, cfg):
@@ -233,6 +276,17 @@ class MobilePlayEnv(LearnedOpponentPlayEnv):
     def observation(self):
         return transfer_observation(self.world, self.passer, self.receiver, self.state, self.cfg)
 
+    def info(self, success, reason):
+        return {
+            **super().info(success, reason),
+            "receiving_feints": getattr(self.state, "mobile_feints", 0),
+        }
+
+    def decode_action(self, action):
+        return mobile_transfer_commands(
+            action, self.world, self.passer, self.receiver, self.state, self.cfg
+        )
+
 
 class MobileTransfer(DefendedCheckpoint):
     def __init__(self, path=None, cfg=Config(), model=None):
@@ -247,6 +301,9 @@ class MobileTransfer(DefendedCheckpoint):
         return self.model.predict(
             transfer_observation(world, passer, receiver, state, cfg), deterministic=True
         )[0]
+
+    def decode_action(self, action, world, passer, receiver, state, cfg):
+        return mobile_transfer_commands(action, world, passer, receiver, state, cfg)
 
 
 class MobileFinish(PressureFinishCheckpoint):

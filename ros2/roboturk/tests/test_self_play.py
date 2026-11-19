@@ -15,7 +15,7 @@ from roboturk.self_play import (
     SHAPES,
     outcomes,
 )
-from roboturk.self_play_training import Carrier, MatchEnv
+from roboturk.self_play_match import Carrier, MatchEnv
 from roboturk.team import scoring_handoff
 
 
@@ -142,3 +142,40 @@ def test_excursion_metrics_and_reset_measure_both_dimensions():
     assert ev["keeper_policy_calls"] == ev["defender_policy_calls"] == 10
     env.reset(seed=2200000)
     assert env.backend.evidence()["keeper_x_excursion"] == 0
+
+
+def test_mobile_pass_speed_shared_by_environment_and_deployed_adapter():
+    env, m = environment()
+    actor = MobileTransfer(cfg=env.cfg, model=m["transfer"])
+    action = np.zeros(7, np.float32)
+    action[3] = 1
+    trained = env.decode_action(action)
+    deployed = actor.decode_action(action, env.world, env.passer, env.receiver, env.state, env.cfg)
+    assert trained == deployed and trained[env.passer].kick == 2.5
+
+
+def test_feint_target_changes_once_per_frame_and_stops_after_pass():
+    from roboturk.self_play import update_receiving_target
+    from roboturk.defended import DEFENDER
+
+    env, _ = environment()
+    w = replace(env.world, time=3)
+    r = w.robot(env.receiver)
+    b = w.ball
+    guard = w.robot(DEFENDER)
+    w = replace(
+        w,
+        robots=tuple(
+            replace(guard, x=(b.x + r.x) / 2, y=(b.y + r.y) / 2) if p.key == DEFENDER else p
+            for p in w.robots
+        ),
+    )
+    env.state.receiver_target = (r.x, r.y)
+    update_receiving_target(w, env.passer, env.receiver, env.state, env.cfg)
+    target = env.state.receiver_target
+    assert target != (r.x, r.y) and env.state.mobile_feints == 1
+    update_receiving_target(w, env.passer, env.receiver, env.state, env.cfg)
+    assert env.state.receiver_target == target and env.state.mobile_feints == 1
+    env.state.passed = True
+    update_receiving_target(replace(w, time=6), env.passer, env.receiver, env.state, env.cfg)
+    assert env.state.receiver_target == target

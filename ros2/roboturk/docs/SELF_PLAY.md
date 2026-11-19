@@ -100,3 +100,25 @@ defender followed the original fixed receiving point and continuously blocked it
 lane. No collisions or possession losses occurred. [All outcomes](../policies/self_play_v1/development/fixed-target-teacher.json).
 A target-switching attacking feint will be tested next, without changing defensive
 freedom or actuator limits. This is scripted tactic development, not self-play learning.
+
+The first flank-switch revision (2020100–2020119) produced four interceptions and
+16timeouts, no receptions. The receiving robot braked too early, allowing the
+mobile guard to re-cover the lane. Next development probe2020200–2020209 increases
+only attacking off-ball travel to the existing2m/s actuator limit, uses a faster
+arrival controller, and raises the fixed pass speed from1.8 to2.5m/s in the new
+mobile transfer contract. Both training and deployed command decoders share that
+change. Receiving target switches remain scripted; defenders are unchanged.
+Core CI exposed an optional-dependency import in the new tests (torch absent in
+minimal core CI); the pure Gymnasium match environment is now separated from the
+training module so its contract tests do not require PyTorch.
+
+The faster-feint ten-case teacher test reached9/10 receptions: three goals, six
+interceptions, one defender collision, zero possession losses. [All outcomes](../policies/self_play_v1/development/quick-feint-teacher.json).
+Defender longitudinal excursions exceeded3m and keeper excursions reached0.65m.
+Before bootstrap, demonstration labels gained a relative closing-speed limit near
+other robots to discourage ramming; no such motion override is used at inference.
+Both defensive field exits and teammate collisions are now explicit invalid outcomes.
+The98 local tests pass. Native200-demonstration/100-DAgger bootstrap has started;
+no trained-policy qualification claim is made yet.
+
+Bootstrap initially stopped before collecting any episode: the finisher source uses128-unit hidden layers while the other actors use192. The expansion loader now preserves each source architecture; four role-specific optional training tests verify identical actor outputs when appended inputs are zero. The original traceback is retained.

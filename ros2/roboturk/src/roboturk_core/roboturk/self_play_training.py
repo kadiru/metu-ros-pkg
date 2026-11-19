@@ -16,15 +16,17 @@ import torch
 from stable_baselines3 import PPO
 from stable_baselines3.common.callbacks import BaseCallback
 from stable_baselines3.common.monitor import Monitor
-from .model import RobotKey, possession, wrap
-from .defended import DefendedTeacher
+from .model import RobotKey, possession, wrap, Command, Intent, Skill, body_vector, bounded
+from .defended import lane_clearance
+from .capture import CaptureTeacher
+from .team_contract import PASS_SPEED
 from .keeper import FinishTeacher
-from .team import evaluate_team, scoring_handoff
+from .team import evaluate_team
 from .shoot_contract import shoot_action
 from .dribble_refinement import AnchoredPPO
+from .self_play_match import Carrier, MatchEnv
 from .self_play import (
     CONTRACTS,
-    SHAPES,
     ROLES,
     MobileOpponent,
     MobilePlayEnv,
@@ -41,17 +43,6 @@ def write(path, value):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(value, indent=2) + "\n")
-
-
-class Carrier:
-    def __init__(self, role):
-        obs, acts = SHAPES[role]
-        self.observation_space = gym.spaces.Box(-np.inf, np.inf, (obs,), dtype=np.float32)
-        self.action_space = gym.spaces.Box(-1, 1, (acts,), dtype=np.float32)
-        self.value = np.zeros(acts, np.float32)
-
-    def predict(self, obs, deterministic=True):
-        return self.value.copy(), None
 
 
 def mobile_teacher(w, c):
@@ -94,6 +85,13 @@ def mobile_teacher(w, c):
             push = 5 * (0.38 - d)
             vx += push * dx / d
             vy += push * dy / d
+        if d < 0.5:
+            # Relative closing-speed limit in demonstration labels only.
+            radial = vx * dx / d + vy * dy / d
+            minimum = p.vx * dx / d + p.vy * dy / d - 4 * max(0, d - 0.215)
+            if radial < minimum:
+                vx += (minimum - radial) * dx / d
+                vy += (minimum - radial) * dy / d
     scale = max(c.speed, math.hypot(vx, vy))
     angle = wrap(math.atan2(b.y - r.y, b.x - r.x) - r.yaw)
     return np.array(
@@ -113,10 +111,50 @@ class CollectOpponent(MobileOpponent):
         return super().action(w) if self.rng.random() < self.mix else label
 
 
+class MobileTransferTeacher:
+    """Training-only anticipatory turn and faster off-ball feint."""
+
+    def action(self, env):
+        w, cfg, s = env.world, env.cfg, env.state
+        p, r, b = w.robot(env.passer), w.robot(env.receiver), w.ball
+        tx, ty = s.receiver_target
+        angle = wrap(math.atan2(ty - b.y, tx - b.x) - p.yaw)
+        live_angle = wrap(math.atan2(r.y - b.y, r.x - b.x) - p.yaw)
+        rangle = wrap(math.atan2(b.y - r.y, b.x - r.x) - r.yaw)
+        omega = float(np.clip(3 * angle, -1.4, 1.4))
+        bx, by = body_vector(b.x - p.x, b.y - p.y, p.yaw)
+        pc = bounded(
+            Command(3 * (bx - cfg.possession_x), -cfg.possession_x * omega + 3 * by, omega, 1), cfg
+        )
+        vx, vy = 12 * (tx - r.x), 12 * (ty - r.y)
+        scale = max(1, math.hypot(vx, vy) / 2.0)
+        if math.hypot(tx - r.x, ty - r.y) < 0.045:
+            vx = vy = 0
+        rvx, rvy = body_vector(vx / scale, vy / scale, r.yaw)
+        rc = bounded(Command(rvx, rvy, 5 * rangle, 1), cfg)
+        if s.passed:
+            pc, rc = Command(), Command(omega=float(np.clip(5 * rangle, -8, 8)), dribbler=1)
+            if math.hypot(b.x - r.x, b.y - r.y) < 0.7:
+                rc = CaptureTeacher().command(
+                    w, env.receiver, Intent(Skill.RECEIVE, (r.x, r.y)), cfg
+                )
+        elif (
+            s.passer_dwell >= 30
+            and abs(live_angle) < 0.035
+            and abs(rangle) < 0.06
+            and math.hypot(tx - r.x, ty - r.y) < 0.06
+            and math.hypot(r.vx, r.vy) < 0.15
+            and math.hypot(p.vx, p.vy) < 0.15
+            and lane_clearance(w, env.receiver) > 0.45
+        ):
+            pc = Command(kick=PASS_SPEED)
+        return env.encode_commands({env.passer: pc, env.receiver: rc})
+
+
 class CollectTransfer:
     def __init__(self, data, model=None, mix=0, seed=217):
         self.data, self.model, self.mix = data, model, mix
-        self.rng, self.teacher = np.random.default_rng(seed), DefendedTeacher()
+        self.rng, self.teacher = np.random.default_rng(seed), MobileTransferTeacher()
 
     def action(self, env):
         obs, label = env.observation(), self.teacher.action(env)
@@ -161,12 +199,28 @@ def collect_full(backend, cfg, count, seed, models=None, mix=0):
     d = CollectOpponent("defender", cfg, data, models["defender"], mix, seed)
     k = CollectOpponent("keeper", cfg, data, models["keeper"], mix, seed + 1)
     env = MobilePlayEnv(cfg, backend, d, k)
+
+    class Progress:
+        def begin_episode(self, index, seed, env):
+            self.index = index
+
+        def step(self, env, info, shot):
+            pass
+
+        def end_episode(self, env, result):
+            if (self.index + 1) % 5 == 0:
+                print(
+                    f"Collection {self.index + 1}/{count}: {result['reason']} in{result['elapsed_seconds']:.2f}s",
+                    flush=True,
+                )
+
     result = evaluate_team(
         env,
         CollectTransfer(data, models["transfer"], mix, seed + 2),
         count,
         seed,
         CollectFinish(data, models["finish"], mix, seed + 3),
+        Progress(),
     )
     result["collection_control"] = (
         "analytic teachers" if not mix else f"per-command{mix:.0%} neural /{1 - mix:.0%} teacher"
@@ -212,6 +266,7 @@ class SelfPlayPPO(AnchoredPPO):
 
 def new_model(role, source, seed):
     carrier = Carrier(role)
+    source_model = PPO.load(source, device="cpu")
 
     class ShapeEnv(gym.Env):
         observation_space, action_space = carrier.observation_space, carrier.action_space
@@ -228,9 +283,9 @@ def new_model(role, source, seed):
         gamma=0.995,
         clip_range=0.1,
         ent_coef=0,
-        policy_kwargs={"net_arch": dict(pi=[192, 192], vf=[192, 192]), "log_std_init": -4.0},
+        policy_kwargs={"net_arch": source_model.policy.net_arch, "log_std_init": -4.0},
     )
-    old = PPO.load(source, device="cpu").policy.state_dict()
+    old = source_model.policy.state_dict()
     state = model.policy.state_dict()
     for name, v in state.items():
         if v.shape == old[name].shape:
@@ -325,167 +380,6 @@ def load_bundle(bundle, cfg):
             raise ValueError("Historical opponent checkpoint changed")
         result[role] = load_model(bundle[role]["path"], role, cfg)
     return result
-
-
-class MatchEnv(gym.Env):
-    """One learning role; other roles are immutable snapshots during an episode."""
-
-    metadata = {}
-
-    def __init__(self, backend, cfg, role, current, pool, seed=217):
-        self.backend, self.cfg, self.role, self.current, self.pool = (
-            backend,
-            cfg,
-            role,
-            current,
-            pool,
-        )
-        self.selector = np.random.default_rng(seed)
-        self.carrier = Carrier(role)
-        self.observation_space, self.action_space = (
-            self.carrier.observation_space,
-            self.carrier.action_space,
-        )
-        self.records, self.prefix_failures = [], []
-
-    def reset(self, *, seed=None, options=None):
-        super().reset(seed=seed)
-        if seed is not None:
-            self.selector = np.random.default_rng(seed)
-        for attempt in range(64):
-            self.episode_seed = int(self.selector.integers(2100000, 2200000))
-            self.pool_index = int(self.selector.integers(len(self.pool)))
-            models = dict(self.current)
-            adversaries = (
-                ("transfer", "finish")
-                if self.role in ("defender", "keeper")
-                else ("defender", "keeper")
-            )
-            for r in adversaries:
-                models[r] = self.pool[self.pool_index][r]
-            if self.role in ("defender", "keeper"):
-                models[self.role] = self.carrier
-            self.env, self.transfer, self.finish = make_play(self.backend, self.cfg, models)
-            self.env.reset(seed=self.episode_seed)
-            self.shot, self.transfer_info, self.done = None, None, False
-            self.carrier.value.fill(0)
-            if self.role == "finish":
-                while self.shot is None and not self.done:
-                    self._advance(None)
-                if self.done:
-                    self.prefix_failures.append(self.record)
-                    continue
-            return self.observation(), {}
-        raise RuntimeError(
-            "No reachable finishing state in64 training prefixes; all failures retained"
-        )
-
-    def observation(self):
-        if self.role in ("defender", "keeper"):
-            c = getattr(self.env.backend, self.role)
-            return mobile_observation(self.env.world, c)
-        if self.role == "transfer":
-            return self.env.observation()
-        return self.shot.observation()
-
-    def _advance(self, action):
-        if self.role in ("defender", "keeper") and action is not None:
-            self.carrier.value = np.asarray(action, np.float32)
-        if self.shot is None:
-            a = (
-                action
-                if self.role == "transfer" and action is not None
-                else self.transfer.action(self.env)
-            )
-            _, reward, done, trunc, info = self.env.step(a)
-            if done or trunc:
-                self.transfer_info = info.copy()
-                if info["is_success"]:
-                    self.shot = scoring_handoff(self.env)
-                    done = trunc = False
-        else:
-            a = (
-                action
-                if self.role == "finish" and action is not None
-                else self.finish.action(self.shot)
-            )
-            _, reward, done, trunc, info = self.shot.step(a)
-            self.env.world = self.shot.world
-            # Same cross-attacker collision test as deployed full-play evaluation.
-            for w in getattr(self.env.backend, "last_substep_worlds", [self.env.world]):
-                p, r = w.robot(self.env.passer), w.robot(self.env.receiver)
-                if math.hypot(p.x - r.x, p.y - r.y) < 2 * self.cfg.robot_radius + 0.01:
-                    done, info["is_success"], info["reason"] = True, False, "robot_collision"
-        self.done = bool(done or trunc)
-        if self.done:
-            self.record = {
-                "seed": self.episode_seed,
-                "is_success": bool(info["is_success"] and self.shot is not None),
-                "reason": info["reason"],
-                "transfer": self.transfer_info or info.copy(),
-                "shooting": info.copy() if self.shot is not None else None,
-                "elapsed_seconds": self.env.steps * self.cfg.dt
-                + (self.shot.steps * self.cfg.dt if self.shot else 0),
-                "opponent_pool_index": self.pool_index,
-            }
-        return reward, info
-
-    def step(self, action):
-        if self.done:
-            raise RuntimeError("Reset the terminated match")
-        old = self.env.world
-        reward, info = self._advance(action)
-        if self.role == "transfer" and self.shot is not None:
-            while not self.done:
-                _, info = self._advance(None)
-        if self.role in ("defender", "keeper"):
-            c = getattr(self.env.backend, self.role)
-            r0, r1, b0, b1 = (
-                old.robot(c.key),
-                self.env.world.robot(c.key),
-                old.ball,
-                self.env.world.ball,
-            )
-            reward = (
-                0.2 * (math.hypot(r0.x - b0.x, r0.y - b0.y) - math.hypot(r1.x - b1.x, r1.y - b1.y))
-                - 0.001
-            )
-        else:
-            reward = float(np.clip(reward, -2, 2)) * 0.1
-        if self.done:
-            reason = self.record["reason"]
-            defensive = reason in ("keeper_save", "defender_interception")
-            collision = "collision" in reason
-            reward = (
-                -40.0
-                if collision
-                else (
-                    (25 if defensive else -25 if reason == "goal" else -5)
-                    if self.role in ("defender", "keeper")
-                    else (35 if reason == "goal" else -25)
-                )
-            )
-            self.records.append(self.record)
-        return (
-            self.observation(),
-            reward,
-            self.done,
-            False,
-            {
-                "is_success": bool(
-                    self.done
-                    and (
-                        info["reason"] in ("keeper_save", "defender_interception")
-                        if self.role in ("defender", "keeper")
-                        else info["is_success"]
-                    )
-                ),
-                "reason": info["reason"],
-            },
-        )
-
-    def close(self):
-        pass  # One Supervisor owns and closes the native backend.
 
 
 def evaluate_bundle(backend, cfg, models, count, seed):

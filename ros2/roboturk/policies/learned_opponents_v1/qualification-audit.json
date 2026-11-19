@@ -1,0 +1,32 @@
+{
+  "defender": {
+    "successes": 100,
+    "episodes": 100,
+    "wilson_95": [
+      0.9630065017930143,
+      1
+    ],
+    "failures": {},
+    "physics_checks": 34424,
+    "checkpoint_sha256": "06fd042a37390dd0e51ab73f668763730a2e52faade721fbd421fa847612a726",
+    "passed_gate": true,
+    "all_reserved_seeds_present": true,
+    "runtime_verified": true
+  },
+  "keeper": {
+    "successes": 99,
+    "episodes": 100,
+    "wilson_95": [
+      0.9455138038212946,
+      0.9982325679358593
+    ],
+    "failures": {
+      "goal_conceded": 1
+    },
+    "physics_checks": 39780,
+    "checkpoint_sha256": "9dea9369b2b6bfe3811ca338c4d89f9b7854f7146ae0f33f1fd755967ecc52f4",
+    "passed_gate": true,
+    "all_reserved_seeds_present": true,
+    "runtime_verified": true
+  }
+}

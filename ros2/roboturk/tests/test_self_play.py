@@ -231,3 +231,31 @@ def test_proximity_cost_penalizes_robot_spacing_without_changing_motion():
     assert proximity_penalty(near, key, 0) == 0
     assert proximity_penalty(near, key, 0.3) > 0.2
     assert near.robot(key) == r  # Reward shaping does not override learned motion.
+
+
+def test_mobile_finish_advances_from_observed_stopping_offset():
+    # Regression for the native timeout at1.26m from goal: the ball stopped9cm
+    # beyond its parking point, outside the older7cm tactical tolerance.
+    from roboturk.self_play import MobileFinishPlan, finishing_observation
+
+    env, _ = environment()
+    sign, cfg = env.world.attack_sign, env.cfg
+    bx, by = sign * 3.24, 0.075
+    yaw = math.atan2(0.43 - by, sign * 4.5 - bx)
+    robot = replace(
+        env.world.robot(env.receiver),
+        x=bx - cfg.possession_x * math.cos(yaw),
+        y=by - cfg.possession_x * math.sin(yaw),
+        yaw=yaw,
+        vx=0,
+        vy=0,
+        omega=0,
+    )
+    world = replace(
+        env.world,
+        robots=tuple(robot if r.key == env.receiver else r for r in env.world.robots),
+        ball=replace(env.world.ball, x=bx, y=by, vx=0, vy=0),
+    )
+    plan = MobileFinishPlan(world, env.receiver, cfg)
+    obs = finishing_observation(world, env.receiver, plan, cfg)
+    assert plan.phase == 1 and obs[27] == 1

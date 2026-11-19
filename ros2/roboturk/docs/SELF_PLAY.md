@@ -284,3 +284,26 @@ also preserve the motion mapping outside that sample. Training classification
 errors are recorded and do not establish Webots reliability. Native development
 is required before another four-role self-play continuation. Reserved and demo
 cases remain untouched; qualification gates remain unchanged.
+
+
+The conservative kick-readout candidate (seed367,120epochs, negative weight8,
+1.60m training range,4130synthetic incomplete-dwell observations) also failed:
+18/20clean, zero goals,11interceptions,7keeper saves, one loss andone field exit.
+All movement outputs remained identical, but changed release timing altered the
+subsequent trajectories. Retain this failure; do not select either kick refit.
+
+Inspection isolated a tactical phase-transition issue: native stopping positions
+around1.26m from goal are about9cm beyond the1.35m parking target, while phase zero
+required a7cm parking radius. The mobile tactic now uses12cm, retaining possession,
+low-speed and aim-angle conditions. It supplies context only; original neural
+motion and kick outputs remain responsible for every command. Other finishing
+tactics retain7cm. This is an explicit scripted-tactic correction, not an RL gain.
+
+A second defensive preparation starts from generation four's original four actors,
+not any kick refit. Train both defenders for100epochs/seed377 on the same native
+training data, with0.38m desired clearance and0.80m near-state radius. Attackers
+remain byte-equivalent in actor parameters. No runtime projection is added.
+Validate on the existing100current/current development cases before generation5.
+Since tactical runtime changed, archive the old5×5matrix and rerun cross-play
+under a source fingerprint; never reuse an old-runtime result as new evidence.
+Reserved/demo cases remain untouched and all original gates remain unchanged.

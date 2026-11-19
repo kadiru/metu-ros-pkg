@@ -14,7 +14,7 @@ from .self_play import ROLES, digest
 from .self_play_training import SelfPlayPPO, actor_hash, save_bundle, write
 
 
-def spacing_labels(x, teacher, reference, max_speed=2.0):
+def spacing_labels(x, teacher, reference, max_speed=2.0, clearance=0.28, radius=0.65):
     """Conservative relative-velocity labels in the existing attack-frame contract."""
     sine, cosine = x[:, 6], x[:, 7]
     neighbors = []
@@ -37,13 +37,13 @@ def spacing_labels(x, teacher, reference, max_speed=2.0):
         for (position, other_velocity), distance in zip(neighbors, distances, strict=True):
             normal = position / np.maximum(distance[:, None], 1e-6)
             closing = ((velocity - other_velocity) * normal).sum(axis=1)
-            allowed = 2 * np.maximum(0, distance - 0.28)
-            correction = np.where(distance < 0.65, np.maximum(0, closing - allowed), 0)
+            allowed = 2 * np.maximum(0, distance - clearance)
+            correction = np.where(distance < radius, np.maximum(0, closing - allowed), 0)
             velocity -= correction[:, None] * normal
     speed = x[:, 15:16]
     velocity /= np.maximum(1, np.linalg.norm(velocity, axis=1, keepdims=True) / speed)
     labels = reference.copy()
-    close = nearest < 0.65
+    close = nearest < radius
     labels[close, :2] = velocity[close] / speed[close]
     return labels.astype(np.float32), nearest
 
@@ -58,7 +58,7 @@ def means(model, x):
         )
 
 
-def repair(source, output, epochs=80, seed=337):
+def repair(source, output, epochs=80, seed=337, clearance=0.28, radius=0.65):
     torch.set_num_threads(1)
     torch.manual_seed(seed)
     output.mkdir(parents=True, exist_ok=False)
@@ -75,6 +75,8 @@ def repair(source, output, epochs=80, seed=337):
         "config": asdict(cfg),
         "method": "training-only close-spacing relabeling and weighted actor distillation",
         "reserved_observations_used": False,
+        "clearance": clearance,
+        "radius": radius,
         "roles": {},
     }
     for i, role in enumerate(("defender", "keeper")):
@@ -83,8 +85,8 @@ def repair(source, output, epochs=80, seed=337):
         data = np.load(data_path)
         x, teacher = data["observations"], data["actions"]
         reference = means(model, x)
-        y, nearest = spacing_labels(x, teacher, reference, cfg.max_speed)
-        near = np.flatnonzero(nearest < 0.65)
+        y, nearest = spacing_labels(x, teacher, reference, cfg.max_speed, clearance, radius)
+        near = np.flatnonzero(nearest < radius)
         if len(near) < 100:
             raise ValueError("Insufficient close-range training observations")
         before = actor_hash(model)
@@ -117,7 +119,7 @@ def repair(source, output, epochs=80, seed=337):
             "near_label_mse_before": float(((reference[near] - y[near]) ** 2).mean()),
             "near_label_mse_after": float(((after[near] - y[near]) ** 2).mean()),
             "far_reference_mse": float(
-                ((after[nearest >= 0.65] - reference[nearest >= 0.65]) ** 2).mean()
+                ((after[nearest >= radius] - reference[nearest >= radius]) ** 2).mean()
             ),
         }
     bundle = save_bundle(models, output, cfg, {"stage": "close_spacing_preparation", "seed": seed})
@@ -132,8 +134,10 @@ def main():
     p.add_argument("--output", type=Path, required=True)
     p.add_argument("--epochs", type=int, default=80)
     p.add_argument("--seed", type=int, default=337)
+    p.add_argument("--clearance", type=float, default=0.28)
+    p.add_argument("--radius", type=float, default=0.65)
     a = p.parse_args()
-    repair(a.source.resolve(), a.output.resolve(), a.epochs, a.seed)
+    repair(a.source.resolve(), a.output.resolve(), a.epochs, a.seed, a.clearance, a.radius)
 
 
 if __name__ == "__main__":

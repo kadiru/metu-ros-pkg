@@ -94,6 +94,7 @@ def main():
             continue
         if (
             not rel.parts[0].startswith("round")
+            and not rel.parts[0].startswith("cross-play-")
             and rel.parts[0]
             not in (
                 "warm-start",
@@ -106,6 +107,9 @@ def main():
                 "broader-development",
                 "timing-repair",
                 "release-head-repair",
+                "release-head-v2",
+                "spacing-v2",
+                "broader-generation5",
             )
             and file.name
             not in (
@@ -125,6 +129,8 @@ def main():
                 "spacing-repair-development.json",
                 "timing-repair-development.json",
                 "release-head-development.json",
+                "release-head-v2-development.json",
+                "spacing-v2-development.json",
                 "cross-play-generation3-matrix.json",
                 "cross-play-generation4-matrix.json",
             )

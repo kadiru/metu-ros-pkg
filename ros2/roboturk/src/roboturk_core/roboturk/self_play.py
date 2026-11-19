@@ -236,6 +236,10 @@ def finishing_observation(w, key, plan, cfg):
 
 
 class MobileFinishPlan(PressureFinishPlan):
+    # The learned stopping distribution extends beyond the original7cm tolerance.
+    # This changes tactical context only; the actor still chooses every command.
+    arrival_radius = 0.12
+
     def parking(self, w, key, cfg):
         # Scripted shot setup stays farther from a keeper able to leave its line.
         return (w.direction(key.team) * (cfg.length / 2 - 1.35), 0.0)

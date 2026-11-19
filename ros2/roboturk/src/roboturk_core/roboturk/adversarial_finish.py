@@ -33,6 +33,8 @@ def predicted_lane_clearance(w, target, cfg):
 class PressureFinishPlan(CloseFinishPlan):
     """Choose an open corner; target selection never supplies an actuator command."""
 
+    arrival_radius = 0.07
+
     def update(self, w, key, cfg):
         if self.last_time == w.time:
             return
@@ -42,7 +44,9 @@ class PressureFinishPlan(CloseFinishPlan):
         r, b = w.robot(key), w.ball
         angle = wrap(math.atan2(self.target[1] - b.y, self.target[0] - b.x) - r.yaw)
         px, py = self.parking(w, key, cfg)
-        ready = math.hypot(px - b.x, py - b.y) < 0.07 and math.hypot(r.vx, r.vy) < 0.15
+        ready = (
+            math.hypot(px - b.x, py - b.y) < self.arrival_radius and math.hypot(r.vx, r.vy) < 0.15
+        )
         if self.phase == 0 and ready and abs(angle) < 0.05:
             self.phase = 1
         if self.phase and abs(angle) < 0.12:

@@ -352,6 +352,11 @@ def evaluate_team(env, policy, episodes=200, seed=450000, shooter=None, recorder
                         "robot_collision",
                         True,
                     )
+                if hasattr(env, "opponent_failure"):
+                    failure = env.opponent_failure()
+                    shot_info.update(env.backend.evidence())
+                    if failure:
+                        shot_info["is_success"], shot_info["reason"], done = False, failure, True
                 if recorder:
                     recorder.step(env, shot_info, shot)
                 if done or truncated:

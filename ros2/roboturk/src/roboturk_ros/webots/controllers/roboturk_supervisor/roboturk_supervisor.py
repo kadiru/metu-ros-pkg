@@ -15,6 +15,22 @@ def main():
     cfg = Config()
     backend = WebotsBackend(supervisor, cfg)
     mode = os.environ.get("ROBOTURK_MODE", "evaluate")
+    if mode.startswith("defended-"):
+        from defended_runner import run
+
+        try:
+            run(supervisor, backend, cfg, mode)
+        except Exception:
+            import traceback
+
+            traceback.print_exc()
+            error_path = Path(os.environ.get("ROBOTURK_OUTPUT", "runs/defended/error")).with_suffix(
+                ".error.txt"
+            )
+            error_path.parent.mkdir(parents=True, exist_ok=True)
+            error_path.write_text(traceback.format_exc())
+            supervisor.simulationQuit(1)
+        return
     if mode.startswith("team-"):
         from team_runner import run
 

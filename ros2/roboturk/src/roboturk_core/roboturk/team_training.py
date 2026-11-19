@@ -35,8 +35,8 @@ def groups(x, y):
     ]
 
 
-def collect(env, episodes, seed, model=None):
-    teacher, rng = TransferTeacher(), np.random.default_rng(seed)
+def collect(env, episodes, seed, model=None, teacher=None):
+    teacher, rng = teacher or TransferTeacher(), np.random.default_rng(seed)
     x, y, records = [], [], []
     for i in range(episodes):
         obs, _ = env.reset(seed=seed + i)

@@ -1,0 +1,20 @@
+{
+  "source": "consecutive native Webots captures, concatenated without trimming",
+  "block_cases": [
+    1060000,
+    1060002
+  ],
+  "coverage_cases": [
+    1160000,
+    1160002
+  ],
+  "successes": 6,
+  "episodes": 6,
+  "frames": 489,
+  "duration_seconds": 19.56,
+  "width": 1280,
+  "height": 720,
+  "fps": 25,
+  "full_decode_check": "passed",
+  "published_sha256": "edd59a1d20bd06e036859ceca4f9a53993e29c1a1cbbdacef692e9ca27268c9c"
+}

@@ -1,0 +1,54 @@
+{
+  "episodes": [
+    {
+      "is_success": true,
+      "reason": "saved",
+      "elapsed_seconds": 2.54,
+      "attack_sign": 1,
+      "stable_dwell_seconds": 0.5,
+      "possession_physics_checks": 127,
+      "physics_checks": 508,
+      "maximum_target_error": 0.1958044293055623,
+      "task": "block.randomized.v2",
+      "seed": 1060000
+    },
+    {
+      "is_success": true,
+      "reason": "saved",
+      "elapsed_seconds": 2.1,
+      "attack_sign": -1,
+      "stable_dwell_seconds": 0.5,
+      "possession_physics_checks": 128,
+      "physics_checks": 420,
+      "maximum_target_error": 0.15841883147666996,
+      "task": "block.randomized.v2",
+      "seed": 1060001
+    },
+    {
+      "is_success": true,
+      "reason": "saved",
+      "elapsed_seconds": 2.5,
+      "attack_sign": 1,
+      "stable_dwell_seconds": 0.5,
+      "possession_physics_checks": 136,
+      "physics_checks": 500,
+      "maximum_target_error": 0.2289481759609938,
+      "task": "block.randomized.v2",
+      "seed": 1060002
+    }
+  ],
+  "successes": 3,
+  "success_rate": 1.0,
+  "wilson_95": [
+    0.4385029682449546,
+    1
+  ],
+  "possession_loss_episodes": 0,
+  "mean_success_seconds": 2.3800000000000003,
+  "source": "actual Webots movie recorder",
+  "policy_fallback": false,
+  "outcome_display_seconds": 0.4,
+  "checkpoint_sha256": "1a9bcb7a8a591dbe32a81342c0bdc280bcebc7472c2d7301393feebae62aefb9",
+  "backend": "webots_ideal_body_velocity",
+  "policy": "/Users/kadir/linkedin/projects/roboturk/modern/policies/block_shot_v1/policy.zip"
+}

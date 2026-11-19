@@ -12,7 +12,7 @@ The two attackers use the frozen learned transfer actor and a new learned finish
 The midfield defender and keeper are bounded analytic opponents. Target/phase
 selection is scripted, motion and release are learned. Standalone development was
 60/60 before and after constrained PPO; no incremental PPO success benefit is claimed.
-The blocking/recovery and coverage policies are being qualified separately.
+Separately, [block/recover](../policies/block_shot_v1/README.md) passed200/200 physical-retention cases and3/3 demo cases. [Coverage](../policies/cover_pass_lane_v1/README.md) passed200/200 geometric lane-hold cases and3/3 demos. Mean completion2.2179s and3.4481s respectively. The combined native defensive video preserves all489 frames (19.56s). Their actors are separate from the fixed attacking-test opponents.
 
 ## Verified locally
 

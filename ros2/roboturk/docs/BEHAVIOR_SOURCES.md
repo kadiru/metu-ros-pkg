@@ -51,3 +51,16 @@ These are proposals, not trained releases:
 Our current fixed-target and fixed-opponent curricula are starting points for these
 contracts. General strategy quality requires evaluating role selection and behavior
 composition against varied opponents, not adding isolated success rates together.
+
+## Qualified releases from this iteration
+
+| Behavior / composition | Reserved native Webots result | Fresh native demo | Evidence |
+|---|---:|---:|---|
+| Pass around defender, receive, draw keeper and score | 199/200; one intercepted pass, zero losses/collisions | 6/6 | [Keeper model card](../policies/keeper_finish_v1/README.md) |
+| Block and recover possession | 200/200; at least0.5s stable retention | 3/3 | [Block model card](../policies/block_shot_v1/README.md) |
+| Cover a moving passing lane | 200/200; within0.08m continuously for3s | 3/3 | [Coverage model card](../policies/cover_pass_lane_v1/README.md) |
+
+The finisher uses one shared actor across scripted draw/finish phases. All three
+new actors used demonstration learning, DAgger and anchored PPO; no incremental
+PPO success-rate gain was observed over their selected imitation actors. These
+are separate bounded curricula using approximate ground-truth simulation.

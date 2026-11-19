@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/Users/kadir/linkedin/projects/roboturk/modern/src/roboturk_ros/webots/controllers/roboturk_supervisor/roboturk_supervisor.py", line 26, in main
+    run(supervisor, backend, cfg, mode)
+  File "/Users/kadir/linkedin/projects/roboturk/modern/src/roboturk_ros/webots/controllers/roboturk_supervisor/micro_runner.py", line 25, in run
+    actor = DefenseCheckpoint(path, env) if path else DefenseTeacher()
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kadir/linkedin/projects/roboturk/modern/src/roboturk_core/roboturk/defense_micro.py", line 284, in __init__
+    raise ValueError("Defense shape mismatch")
+ValueError: Defense shape mismatch

@@ -1,0 +1,20 @@
+{
+  "frozen_at": "2026-11-19T04:39:48.267301-08:00",
+  "checkpoint_sha256": "1a9bcb7a8a591dbe32a81342c0bdc280bcebc7472c2d7301393feebae62aefb9",
+  "development_sha256": "86852d91004b886eb8540b12f36e2f947d3a9fda11932766447e1714f2da9325",
+  "runtime_source_sha256": {
+    "defense_micro.py": "07fe2175ec1032ad62198a49b445d366bb762f92c26b97eded2c9ea2d94adb44",
+    "model.py": "0489022ffecdaa2b269a7b547218d056401749aaa03f050b0cc8393d861cfa10",
+    "webots_backend.py": "1cc82885cb85d158463a94ab39a224d9c734ad8ae8699be40e501b018d3befaf"
+  },
+  "qualification_seeds": [
+    1050000,
+    1050199
+  ],
+  "demo_seeds": [
+    1060000,
+    1060002
+  ],
+  "gate": ">=190/200 successes; zero robot collisions",
+  "scope": "reachable rolling-shot physical retention"
+}

@@ -200,7 +200,8 @@ def test_ppo_automatic_unseeded_reset_is_supported_and_replayable():
 
 
 def test_two_axis_block_checkpoint_loads_and_old_shape_is_rejected(monkeypatch, tmp_path):
-    import json, sys
+    import json
+    import sys
     from dataclasses import asdict
     from types import SimpleNamespace
     from roboturk.defense_micro import DefenseCheckpoint

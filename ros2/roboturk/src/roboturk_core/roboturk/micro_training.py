@@ -21,14 +21,20 @@ class Actor:
         return self.model.predict(env.observation(), deterministic=True)[0]
 
 
-def evaluate(env, actor, episodes, seed):
+def evaluate(env, actor, episodes, seed, recorder=None):
     records = []
     for i in range(episodes):
         env.reset(seed=seed + i)
+        if recorder:
+            recorder.begin_episode(i, seed + i, env)
         while True:
             _, _, done, truncated, info = env.step(actor.action(env))
+            if recorder:
+                recorder.step(env, info)
             if done or truncated:
                 records.append({**info, "seed": seed + i})
+                if recorder:
+                    recorder.end_episode(env)
                 break
         if (i + 1) % 20 == 0:
             print(

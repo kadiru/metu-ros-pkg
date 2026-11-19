@@ -89,3 +89,8 @@ Gym reset without a seed, exposing a None-seed bug before the first optimizer up
 Fixed reset handling and added deterministic seeded-then-unseeded replay coverage.
 Resumed from saved BC and the retained demonstration/DAgger dataset with
 ROBOTURK_RESUME=1; no recollection or reserved-seed use. Original traceback retained.
+
+Separate defensive demo seeds, declared before their training: block1060000–1060002,
+cover1160000–1160002. Record all three consecutive cases in each task only after
+its frozen200-case qualification. These learned defensive actors are tested
+separately; they do not replace the fixed opponent during attacking qualification.

@@ -1,3 +1,4 @@
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -22,9 +23,25 @@ def run(supervisor, backend, cfg, mode):
     else:
         path = os.environ.get("ROBOTURK_CHECKPOINT")
         actor = DefenseCheckpoint(path, env) if path else DefenseTeacher()
-        result = evaluate(
-            env, actor, int(os.environ["ROBOTURK_EPISODES"]), int(os.environ["ROBOTURK_SEED"])
-        )
+        if mode == "micro-demo":
+            if not path:
+                raise ValueError("A learned checkpoint is required for demo")
+            from micro_demo import record
+
+            result = record(
+                supervisor,
+                env,
+                actor,
+                output,
+                int(os.environ["ROBOTURK_EPISODES"]),
+                int(os.environ["ROBOTURK_SEED"]),
+            )
+        else:
+            result = evaluate(
+                env, actor, int(os.environ["ROBOTURK_EPISODES"]), int(os.environ["ROBOTURK_SEED"])
+            )
+        if path:
+            result["checkpoint_sha256"] = hashlib.sha256(Path(path).read_bytes()).hexdigest()
         result.update(backend=env.backend.name, policy=path or "analytic_teacher")
         output.with_suffix(".json").write_text(json.dumps(result, indent=2) + "\n")
         print(json.dumps({k: v for k, v in result.items() if k != "episodes"}), flush=True)

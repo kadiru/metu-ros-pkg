@@ -24,7 +24,7 @@ Training:300 native Webots demonstrations and150 mixed DAgger episodes all score
 Both cloned and refitted actors scored60/60 development episodes; the faster clone
 was selected for anchored PPO. All65536 PPO steps completed, with64 accepted actor updates; final standalone development60/60, zero losses, mean8.823s. No success-rate improvement over cloning was observed. A None-seed reset bug interrupted PPO before its
 first update; refinement resumed from retained data/checkpoint after a replay-tested
-fix. Complete-play qualification and demo are pending; development is not a reliability claim.
+fix. Complete-play development scored120/120 with zero losses/collisions, mean14.9725s. Checkpoints and runtime hashes frozen04:19:46 Pacific before reserved evaluation. Qualification and demo are pending; development is not a reliability claim.
 No incremental PPO benefit is established merely by running PPO.
 
 See [protocol and reproduction](../../docs/KEEPER_TRAINING.md) and

@@ -35,6 +35,7 @@ def main():
             "keeper-demo",
             "micro-train",
             "micro-evaluate",
+            "micro-demo",
             "defended-train",
             "defended-upgrade",
             "defended-tactical-train",

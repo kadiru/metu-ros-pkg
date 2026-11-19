@@ -249,3 +249,38 @@ zero collisions/invalid outcomes. Preparation and PPO are separate recorded stag
 the change from59/60 to60/60 is one development comparison, not independent-seed
 replication or an isolated causal estimate of PPO benefit. Broader panels and
 reserved qualification are still pending.
+
+
+## Broader development failures and release-timing preparation
+
+Generation four's broader panels failed the unchanged development gates:
+
+| Pair | Goals | Defensive stops | Clean | Collisions | Other failures |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Current/current, 2201000–2201099 | 35 | 57 | 92/100 | 4 | 4 |
+| Current attack/bootstrap defense, 2201100–2201199 | 27 | 61 | 88/100 | 12 | 0 |
+| Bootstrap attack/current defense, 2201200–2201299 | 35 | 54 | 89/100 | 3 | 8 |
+
+The complete5×5×20cross-play matrix is retained. The current/current20-case
+cell had7goals,11stops,one timeout andone premature pass. Four broader current-pair
+timeouts stalled around1.26m from goal before the scripted parking-phase transition.
+Several collisions occurred during late finishing convergence. This disproves a
+reliability claim based only on the earlier60development games.
+
+A whole-actor timing refit,80epochs/seed347, is retained as a failed candidate:
+2goals/6stops/one field exit/one possession loss over2200200–2200209. Its movement
+regressions motivate restricting the next preparation to the neural kick readout.
+
+The next preparation starts again from generation four. Freeze every actor feature
+and movement-output weight; fit only action-head row3 and bias3 for transfer and
+finish. Transfer labels require stable possession and legal range. Finisher labels
+allow a forward ray through the goal mouth from≤1.70m, held ball and bounded yaw
+speed, including phase-zero moving releases. These are training-only labels on the
+original native datasets, not a runtime kick gate or analytic motion fallback.
+80epochs,seed357,Adam3e-4. The finisher dataset contains16557positive held-ball
+phase-zero examples. Movement outputs are verified bit-identical over all83193
+transfer and99226finisher training observations; unchanged network parameters
+also preserve the motion mapping outside that sample. Training classification
+errors are recorded and do not establish Webots reliability. Native development
+is required before another four-role self-play continuation. Reserved and demo
+cases remain untouched; qualification gates remain unchanged.

@@ -446,11 +446,16 @@ def train_league(backend, cfg, output, rounds=2, steps=32768, seed=227, prepared
             receipt = json.loads(Path(prepared_bundle).with_name("training.json").read_text())
             if receipt["parent"] != history[-1] or receipt["bundle"] != prepared:
                 raise ValueError("Prepared actor provenance does not match the current league")
-            if any(
-                prepared[r]["actor_sha256"] != history[-1][r]["actor_sha256"]
-                for r in ("transfer", "finish")
-            ):
-                raise ValueError("Spacing preparation unexpectedly changed an attacking actor")
+            for r in ROLES:
+                original, revised = history[-1][r]["actor_sha256"], prepared[r]["actor_sha256"]
+                if r in receipt["roles"]:
+                    if (
+                        receipt["roles"][r]["actor_before"] != original
+                        or receipt["roles"][r]["actor_after"] != revised
+                    ):
+                        raise ValueError("Prepared actor hashes disagree with its training receipt")
+                elif revised != original:
+                    raise ValueError("Preparation changed an unreported role")
             current = load_bundle(prepared, cfg)
         pool = [load_bundle(b, cfg) for b in history]
         # Defense first; attackers subsequently face this new defense and history.

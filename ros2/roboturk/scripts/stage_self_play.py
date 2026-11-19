@@ -103,7 +103,9 @@ def main():
                 "round2",
                 "cross-play",
                 "spacing-repair",
-            "broader-development",
+                "broader-development",
+                "timing-repair",
+                "release-head-repair",
             )
             and file.name
             not in (
@@ -118,9 +120,13 @@ def main():
                 "cross-play-matrix.json",
                 "cross-play-initial-matrix.json",
                 "generation3-runtime.json",
-            "generation4-runtime.json",
+                "generation4-runtime.json",
+                "generation5-runtime.json",
                 "spacing-repair-development.json",
+                "timing-repair-development.json",
+                "release-head-development.json",
                 "cross-play-generation3-matrix.json",
+                "cross-play-generation4-matrix.json",
             )
         ):
             continue

@@ -95,3 +95,12 @@ reserved qualification/demo cases are untouched. [All fourth-generation artifact
 retain the prepared initialization separately from each PPOupdate.
 [Training audit](artifacts/training-audit.json) verifies524288totalPPOsteps,16role
 jobs, historical checkpoint hashes, actor transitions and recorded training resets.
+
+
+Broader generation-four development failed:92/100clean current/current,
+88/100currentattack/bootstrapdefense,89/100bootstrapattack/currentdefense.
+Full25-pair cross-play and all300broader outcomes are retained under artifacts.
+Two timing preparations also failed: whole-actor refit8/10clean; frozen-motion
+kick-readout refit12/20clean(3goals,9stops,5invalid shots,2invalid passes,1loss).
+These are development failures, not qualified releases. Further training is in
+progress; reserved qualification and demo scenarios remain untouched.

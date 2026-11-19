@@ -1,0 +1,23 @@
+{
+  "stage": "kick_readout_preparation",
+  "seed": 357,
+  "contract": "roboturk.mobile_finish.v1",
+  "role": "finish",
+  "config": {
+    "length": 9.0,
+    "width": 6.0,
+    "goal_width": 1.0,
+    "robot_radius": 0.09,
+    "ball_radius": 0.0215,
+    "ball_mass": 0.046,
+    "max_speed": 2.0,
+    "max_omega": 8.0,
+    "max_kick": 5.0,
+    "dt": 0.02,
+    "max_steps": 500,
+    "neighbors": 5,
+    "possession_x": 0.115
+  },
+  "actor_sha256": "0f7abc626b6d07a35cde4c108fb14912427885652e9d50be4b27ec69bb0a543d",
+  "validated_for_hardware": false
+}

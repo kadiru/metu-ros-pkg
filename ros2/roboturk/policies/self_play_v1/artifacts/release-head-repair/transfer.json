@@ -1,0 +1,23 @@
+{
+  "stage": "kick_readout_preparation",
+  "seed": 357,
+  "contract": "roboturk.mobile_transfer.v1",
+  "role": "transfer",
+  "config": {
+    "length": 9.0,
+    "width": 6.0,
+    "goal_width": 1.0,
+    "robot_radius": 0.09,
+    "ball_radius": 0.0215,
+    "ball_mass": 0.046,
+    "max_speed": 2.0,
+    "max_omega": 8.0,
+    "max_kick": 5.0,
+    "dt": 0.02,
+    "max_steps": 500,
+    "neighbors": 5,
+    "possession_x": 0.115
+  },
+  "actor_sha256": "7b6fc4b878b8705dc86d68fb76405adf20c25c54f467811f7e89720ca3b62d19",
+  "validated_for_hardware": false
+}

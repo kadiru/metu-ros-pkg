@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "/Users/kadir/linkedin/projects/roboturk/modern/src/roboturk_ros/webots/controllers/roboturk_supervisor/roboturk_supervisor.py", line 25, in main
+    run = keeper_run
+  File "/Users/kadir/linkedin/projects/roboturk/modern/src/roboturk_ros/webots/controllers/roboturk_supervisor/keeper_runner.py", line 29, in run
+    train(env, FinishTeacher(), output, int(os.environ["ROBOTURK_STEPS"]), seed, "keeper")
+  File "/Users/kadir/linkedin/projects/roboturk/modern/src/roboturk_core/roboturk/micro_training.py", line 212, in train
+    model.learn(total_timesteps=steps, callback=Progress())
+  File "/Users/kadir/linkedin/projects/roboturk/.venv/lib/python3.12/site-packages/stable_baselines3/ppo/ppo.py", line 311, in learn
+    return super().learn(
+           ^^^^^^^^^^^^^^
+  File "/Users/kadir/linkedin/projects/roboturk/.venv/lib/python3.12/site-packages/stable_baselines3/common/on_policy_algorithm.py", line 324, in learn
+    continue_training = self.collect_rollouts(self.env, callback, self.rollout_buffer, n_rollout_steps=self.n_steps)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kadir/linkedin/projects/roboturk/.venv/lib/python3.12/site-packages/stable_baselines3/common/on_policy_algorithm.py", line 218, in collect_rollouts
+    new_obs, rewards, dones, infos = env.step(clipped_actions)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kadir/linkedin/projects/roboturk/.venv/lib/python3.12/site-packages/stable_baselines3/common/vec_env/base_vec_env.py", line 222, in step
+    return self.step_wait()
+           ^^^^^^^^^^^^^^^^
+  File "/Users/kadir/linkedin/projects/roboturk/.venv/lib/python3.12/site-packages/stable_baselines3/common/vec_env/dummy_vec_env.py", line 71, in step_wait
+    obs, self.reset_infos[env_idx] = self.envs[env_idx].reset()
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kadir/linkedin/projects/roboturk/.venv/lib/python3.12/site-packages/stable_baselines3/common/monitor.py", line 85, in reset
+    return self.env.reset(**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kadir/linkedin/projects/roboturk/modern/src/roboturk_core/roboturk/keeper.py", line 295, in reset
+    self.backend.keeper.configure(np.random.default_rng(seed + 17000000))
+                                                        ~~~~~^~~~~~~~~~
+TypeError: unsupported operand type(s) for +: 'NoneType' and 'int'

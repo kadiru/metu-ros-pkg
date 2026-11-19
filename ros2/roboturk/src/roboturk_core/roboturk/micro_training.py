@@ -115,6 +115,8 @@ def fit(model, x, y, epochs, seed, kind):
 
 
 def train(env, teacher, output, steps, seed, kind):
+    if os.environ.get("ROBOTURK_RESUME") == "1":
+        return refine_existing(env, output, steps, seed, kind)
     torch.set_num_threads(1)
     torch.manual_seed(seed)
     output = Path(output)
@@ -216,3 +218,55 @@ def train(env, teacher, output, steps, seed, kind):
     save("policy")
     (output / "anchor-updates.json").write_text(json.dumps(model.anchor_log, indent=2) + "\n")
     report("policy")
+
+
+def refine_existing(env, output, steps, seed, kind):
+    """Resume an interrupted refinement from retained imitation/data artifacts."""
+    torch.set_num_threads(1)
+    torch.manual_seed(seed)
+    output = Path(output)
+    results = {
+        name: json.loads((output / (name + "-development.json")).read_text())
+        for name in ("bc", "dagger")
+    }
+
+    def rank(name):
+        r = results[name]
+        return (
+            r["successes"],
+            -r["possession_loss_episodes"],
+            -(r["mean_success_seconds"] or 1000),
+        )
+
+    best = max(results, key=rank)
+    metadata = json.loads((output / (best + ".json")).read_text())
+    metadata.update(anchor_reference=best, resumed_refinement=True)
+    data = np.load(output / "demonstrations.npz")
+    x, y = data["observations"], data["actions"]
+    model = AnchoredPPO.load(
+        output / (best + ".zip"), env=Monitor(env), device="cpu", learning_rate=3e-7
+    )
+    model.set_random_seed(seed)
+    model.prepare_anchor(x, seed, phase_groups(x, y, kind))
+    for group in model.anchor_optimizer.param_groups:
+        group["lr"] = 3e-6
+    print(f"Resuming PPO from {best}; qualification untouched", flush=True)
+
+    class Progress(BaseCallback):
+        def _on_step(self):
+            if self.num_timesteps % 8192 == 0:
+                print(f"Anchored PPO {self.num_timesteps}/{steps}", flush=True)
+            return True
+
+    model.learn(total_timesteps=steps, callback=Progress())
+    model.save(output / "policy")
+    metadata.update(
+        stage="policy",
+        actual_steps=model.num_timesteps,
+        anchor_updates=model.anchor_updates,
+        anchor_rejected_updates=model.anchor_rejections,
+    )
+    (output / "policy.json").write_text(json.dumps(metadata, indent=2) + "\n")
+    (output / "anchor-updates.json").write_text(json.dumps(model.anchor_log, indent=2) + "\n")
+    result = evaluate(env, Actor(model), 60, metadata["development_seed_range"][0])
+    (output / "policy-development.json").write_text(json.dumps(result, indent=2) + "\n")

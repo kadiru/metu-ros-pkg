@@ -76,3 +76,16 @@ crossing point. These tactical contexts are not neural outputs. Fixed defensive
 heading and, for block, a fixed longitudinal line are part of the action contract.
 `micro_catalog.py` exposes entry/outcome/action/provenance records for later strategy
 composition. Catalog membership alone is not a qualification claim.
+
+Publication note: an intermediate bulk text upload was truncated, which CI caught
+as invalid Python in micro_training.py. Local training sources were intact. Commit
+92d81b2 repairs every changed source using individually uploaded Git blobs whose
+SHA-1 values match local Git blob hashes. Subsequent publication uses that verified
+blob path for source files as well as checkpoints and evidence.
+
+Training interruption: both cloned and DAgger-refitted actors scored60/60 development
+episodes. Original clone was faster and selected. PPO's first automatic reset called
+Gym reset without a seed, exposing a None-seed bug before the first optimizer update.
+Fixed reset handling and added deterministic seeded-then-unseeded replay coverage.
+Resumed from saved BC and the retained demonstration/DAgger dataset with
+ROBOTURK_RESUME=1; no recollection or reserved-seed use. Original traceback retained.

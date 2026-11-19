@@ -292,7 +292,10 @@ class KeeperFinishEnv(ShootEnv):
     def reset(self, *, seed=None, options=None):
         gym.Env.reset(self, seed=seed)
         rng = self.np_random
-        self.backend.keeper.configure(np.random.default_rng(seed + 17000000))
+        keeper_seed = (
+            seed + 17000000 if seed is not None else int(self.np_random.integers(0, 2**31))
+        )
+        self.backend.keeper.configure(np.random.default_rng(keeper_seed))
         sign = int(rng.choice([-1, 1]))
         self.key = RobotKey("blue", int(rng.integers(0, 2)))
         x, y = (
@@ -349,7 +352,11 @@ class KeeperPlayEnv(DefendedEnv):
         self.backend = KeeperBackend(self.backend, cfg)
 
     def reset(self, *, seed=None, options=None):
-        self.backend.keeper.configure(np.random.default_rng(seed + 17000000))
+        gym.Env.reset(self, seed=seed)
+        keeper_seed = (
+            seed + 17000000 if seed is not None else int(self.np_random.integers(0, 2**31))
+        )
+        self.backend.keeper.configure(np.random.default_rng(keeper_seed))
         return super().reset(seed=seed, options=options)
 
 

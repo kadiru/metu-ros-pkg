@@ -181,3 +181,19 @@ def test_keeper_ball_line_is_symmetric():
     va = world_vector(ca.vx, ca.vy, w.robot(KEEPER).yaw)
     vb = world_vector(cb.vx, cb.vy, opposite.robot(KEEPER).yaw)
     np.testing.assert_allclose(va, -np.array(vb), atol=1e-8)
+
+
+def test_ppo_automatic_unseeded_reset_is_supported_and_replayable():
+    cfg = Config()
+    env = KeeperFinishEnv(cfg, KeeperBackend(ReferenceBackend(cfg), cfg))
+    first = []
+    for attempt in range(2):
+        env.reset(seed=97)
+        observations = [env.reset()[0] for _ in range(3)]
+        if attempt == 0:
+            first = observations
+        else:
+            np.testing.assert_array_equal(first, observations)
+    play = KeeperPlayEnv()
+    play.reset(seed=97)
+    assert play.reset()[0].shape == (62,)

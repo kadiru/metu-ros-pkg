@@ -242,3 +242,10 @@ with the selfplay-train command. After training, run broader development panels 
 2201000–2201099(final/final),2201100–2201199(final attack/bootstrap defense), and
 2201200–2201299(bootstrap attack/final defense) before freezing. These are development
 sets; all prior reserved qualification/demo seeds and gates remain unchanged.
+
+Generation four completed128accepted updates, bringing total PPOsteps to524288.
+All60full development games ended cleanly:26goals,32interceptions,2keeper saves,
+zero collisions/invalid outcomes. Preparation and PPO are separate recorded stages;
+the change from59/60 to60/60 is one development comparison, not independent-seed
+replication or an isolated causal estimate of PPO benefit. Broader panels and
+reserved qualification are still pending.

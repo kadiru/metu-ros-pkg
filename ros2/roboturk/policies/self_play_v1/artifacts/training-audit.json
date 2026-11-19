@@ -1,0 +1,295 @@
+{
+  "historical_hashes_verified": true,
+  "reserved_training_resets": 0,
+  "ppo_steps": 524288,
+  "roles": [
+    {
+      "generation": 1,
+      "role": "defender",
+      "ppo_steps": 32768,
+      "complete_rollouts": 71,
+      "failed_finish_prefixes": 0,
+      "accepted_updates": 32,
+      "supervised_preparation": false,
+      "sampled_pool_indices": [
+        0
+      ],
+      "seed_range": [
+        2100857,
+        2199376
+      ]
+    },
+    {
+      "generation": 1,
+      "role": "keeper",
+      "ppo_steps": 32768,
+      "complete_rollouts": 82,
+      "failed_finish_prefixes": 0,
+      "accepted_updates": 32,
+      "supervised_preparation": false,
+      "sampled_pool_indices": [
+        0
+      ],
+      "seed_range": [
+        2100351,
+        2199154
+      ]
+    },
+    {
+      "generation": 1,
+      "role": "transfer",
+      "ppo_steps": 32768,
+      "complete_rollouts": 180,
+      "failed_finish_prefixes": 0,
+      "accepted_updates": 32,
+      "supervised_preparation": false,
+      "sampled_pool_indices": [
+        0,
+        1
+      ],
+      "seed_range": [
+        2102817,
+        2199483
+      ]
+    },
+    {
+      "generation": 1,
+      "role": "finish",
+      "ppo_steps": 32768,
+      "complete_rollouts": 83,
+      "failed_finish_prefixes": 111,
+      "accepted_updates": 32,
+      "supervised_preparation": false,
+      "sampled_pool_indices": [
+        0,
+        1
+      ],
+      "seed_range": [
+        2100268,
+        2199992
+      ]
+    },
+    {
+      "generation": 2,
+      "role": "defender",
+      "ppo_steps": 32768,
+      "complete_rollouts": 92,
+      "failed_finish_prefixes": 0,
+      "accepted_updates": 32,
+      "supervised_preparation": false,
+      "sampled_pool_indices": [
+        0,
+        1
+      ],
+      "seed_range": [
+        2100688,
+        2199112
+      ]
+    },
+    {
+      "generation": 2,
+      "role": "keeper",
+      "ppo_steps": 32768,
+      "complete_rollouts": 82,
+      "failed_finish_prefixes": 0,
+      "accepted_updates": 32,
+      "supervised_preparation": false,
+      "sampled_pool_indices": [
+        0,
+        1
+      ],
+      "seed_range": [
+        2100808,
+        2199841
+      ]
+    },
+    {
+      "generation": 2,
+      "role": "transfer",
+      "ppo_steps": 32768,
+      "complete_rollouts": 179,
+      "failed_finish_prefixes": 0,
+      "accepted_updates": 32,
+      "supervised_preparation": false,
+      "sampled_pool_indices": [
+        0,
+        1,
+        2
+      ],
+      "seed_range": [
+        2100167,
+        2199454
+      ]
+    },
+    {
+      "generation": 2,
+      "role": "finish",
+      "ppo_steps": 32768,
+      "complete_rollouts": 83,
+      "failed_finish_prefixes": 116,
+      "accepted_updates": 32,
+      "supervised_preparation": false,
+      "sampled_pool_indices": [
+        0,
+        1,
+        2
+      ],
+      "seed_range": [
+        2100894,
+        2199795
+      ]
+    },
+    {
+      "generation": 3,
+      "role": "defender",
+      "ppo_steps": 32768,
+      "complete_rollouts": 78,
+      "failed_finish_prefixes": 0,
+      "accepted_updates": 32,
+      "supervised_preparation": false,
+      "sampled_pool_indices": [
+        0,
+        1,
+        2
+      ],
+      "seed_range": [
+        2101307,
+        2199961
+      ]
+    },
+    {
+      "generation": 3,
+      "role": "keeper",
+      "ppo_steps": 32768,
+      "complete_rollouts": 76,
+      "failed_finish_prefixes": 0,
+      "accepted_updates": 32,
+      "supervised_preparation": false,
+      "sampled_pool_indices": [
+        0,
+        1,
+        2
+      ],
+      "seed_range": [
+        2100200,
+        2199631
+      ]
+    },
+    {
+      "generation": 3,
+      "role": "transfer",
+      "ppo_steps": 32768,
+      "complete_rollouts": 181,
+      "failed_finish_prefixes": 0,
+      "accepted_updates": 32,
+      "supervised_preparation": false,
+      "sampled_pool_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "seed_range": [
+        2100502,
+        2199914
+      ]
+    },
+    {
+      "generation": 3,
+      "role": "finish",
+      "ppo_steps": 32768,
+      "complete_rollouts": 82,
+      "failed_finish_prefixes": 93,
+      "accepted_updates": 32,
+      "supervised_preparation": false,
+      "sampled_pool_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "seed_range": [
+        2101217,
+        2199741
+      ]
+    },
+    {
+      "generation": 4,
+      "role": "defender",
+      "ppo_steps": 32768,
+      "complete_rollouts": 72,
+      "failed_finish_prefixes": 0,
+      "accepted_updates": 32,
+      "supervised_preparation": true,
+      "sampled_pool_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "seed_range": [
+        2102463,
+        2199986
+      ]
+    },
+    {
+      "generation": 4,
+      "role": "keeper",
+      "ppo_steps": 32768,
+      "complete_rollouts": 92,
+      "failed_finish_prefixes": 0,
+      "accepted_updates": 32,
+      "supervised_preparation": true,
+      "sampled_pool_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "seed_range": [
+        2101093,
+        2199479
+      ]
+    },
+    {
+      "generation": 4,
+      "role": "transfer",
+      "ppo_steps": 32768,
+      "complete_rollouts": 188,
+      "failed_finish_prefixes": 0,
+      "accepted_updates": 32,
+      "supervised_preparation": true,
+      "sampled_pool_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "seed_range": [
+        2100345,
+        2199681
+      ]
+    },
+    {
+      "generation": 4,
+      "role": "finish",
+      "ppo_steps": 32768,
+      "complete_rollouts": 86,
+      "failed_finish_prefixes": 107,
+      "accepted_updates": 32,
+      "supervised_preparation": true,
+      "sampled_pool_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "seed_range": [
+        2100036,
+        2199312
+      ]
+    }
+  ]
+}

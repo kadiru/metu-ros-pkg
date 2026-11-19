@@ -84,3 +84,14 @@ unchanged. Native development improved to23goals/36stops/1collision,59/60clean.
 [All60prepared-policy outcomes](artifacts/spacing-repair-development.json).
 A fourth four-role PPOgeneration and broader development panels follow before any
 reserved qualification. This preparation is supervised learning, not a PPO-only gain.
+
+## Fourth generation
+
+After the documented defensive preparation, all four actors completed another
+32768PPOsteps. Full development:26goals,32interceptions and2keeper saves/60games,
+**60/60clean with zero collisions or other control failures**. This remains
+development evidence; historical and broader development panels are running and
+reserved qualification/demo cases are untouched. [All fourth-generation artifacts](artifacts/round4)
+retain the prepared initialization separately from each PPOupdate.
+[Training audit](artifacts/training-audit.json) verifies524288totalPPOsteps,16role
+jobs, historical checkpoint hashes, actor transitions and recorded training resets.

@@ -60,3 +60,14 @@ changed actor-parameter hashes. Full neural development produced20goals,38defend
 interceptions and2defender collisions in60games:96.7% clean outcomes, but3.3%
 collisions misses the≤2% gate. Generation two is running; no reserved evaluation
 or demo has run. [Every first-generation checkpoint and rollout](artifacts/round1).
+
+## Second generation and development amendment
+
+Generation two completed another131072PPOsteps,128/128accepted updates and four
+changed actors. It repeated20goals/38interceptions/2collisions on60development
+cases, including the same collision seeds. No success-count improvement is claimed.
+[All second-generation records](artifacts/round2). The complete initial3×3cross-play
+matrix is being retained. A third four-role generation will use a dense close-robot
+spacing cost and a larger defensive update allowance, with unchanged inference,
+attacking update settings and qualification gates. See the protocol amendment;
+reserved qualification and fresh demo cases are still untouched.

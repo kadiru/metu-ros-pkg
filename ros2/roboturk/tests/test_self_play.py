@@ -213,3 +213,21 @@ def test_early_neural_release_is_recorded_without_crashing_evaluation():
     result = evaluate_team(env, transfer, 1, 2200044, finish)
     assert result["successes"] == 0
     assert result["episodes"][0]["reason"] == "invalid_pass"
+
+
+def test_proximity_cost_penalizes_robot_spacing_without_changing_motion():
+    from roboturk.self_play_match import proximity_penalty
+
+    env, _ = environment()
+    w, key = env.world, env.backend.defender.key
+    r, other = w.robot(key), w.robot(env.passer)
+    near = replace(
+        w,
+        robots=tuple(
+            replace(p, x=r.x + 0.22, y=r.y) if p.key == other.key else p for p in w.robots
+        ),
+    )
+    assert proximity_penalty(w, key, 0.3) == 0
+    assert proximity_penalty(near, key, 0) == 0
+    assert proximity_penalty(near, key, 0.3) > 0.2
+    assert near.robot(key) == r  # Reward shaping does not override learned motion.

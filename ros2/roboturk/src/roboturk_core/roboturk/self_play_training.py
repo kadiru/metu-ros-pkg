@@ -251,7 +251,11 @@ class SelfPlayPPO(AnchoredPPO):
                 - self.anchor_targets[self.anchor_probe]
             )
             mse, maximum = float((d**2).mean()), float(d.abs().max())
-        reject = not math.isfinite(mse) or mse > 3e-5 or maximum > 0.06
+        reject = (
+            not math.isfinite(mse)
+            or mse > getattr(self, "actor_mse_limit", 3e-5)
+            or maximum > getattr(self, "actor_delta_limit", 0.06)
+        )
         if reject:
             with torch.no_grad():
                 for p, old in zip(self.actor_parameters(), previous, strict=True):
@@ -484,14 +488,21 @@ def train_league(backend, cfg, output, rounds=2, steps=32768, seed=227):
                 current,
                 training_pool,
                 seed + generation * 31 + ROLES.index(role),
+                proximity_cost=0.3 if generation >= 3 and role in ("defender", "keeper") else 0,
+            )
+            defensive_revision = generation >= 3 and role in ("defender", "keeper")
+            learning_rate = (
+                3e-5 if defensive_revision else (3e-6 if role in ("defender", "keeper") else 8e-7)
             )
             path = history[-1][role]["path"]
             model = SelfPlayPPO.load(
                 path,
                 env=Monitor(env),
                 device="cpu",
-                learning_rate=3e-6 if role in ("defender", "keeper") else 8e-7,
+                learning_rate=learning_rate,
             )
+            model.actor_mse_limit = 3e-4 if defensive_revision else 3e-5
+            model.actor_delta_limit = 0.15 if defensive_revision else 0.06
             model.set_random_seed(seed + generation * 31 + ROLES.index(role))
             data = np.load(output / (role + "-data.npz"))
             x = data["observations"]
@@ -529,6 +540,10 @@ def train_league(backend, cfg, output, rounds=2, steps=32768, seed=227):
                 + ([start_bundle] if role in ("transfer", "finish") else []),
                 "training_only_seed_range": [2100000, 2199999],
                 "method": "alternating PPO with historical opponents and actor trust region",
+                "learning_rate": learning_rate,
+                "proximity_cost": env.proximity_cost,
+                "actor_mse_limit": model.actor_mse_limit,
+                "actor_delta_limit": model.actor_delta_limit,
             }
             write(target.with_suffix(".json"), metadata)
             write(

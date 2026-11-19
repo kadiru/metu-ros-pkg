@@ -31,23 +31,29 @@ def main():
         rel = file.relative_to(args.source)
         if file.suffix not in (".json", ".zip"):
             continue
-        if rel.parts[0] not in (
-            "warm-start",
-            "teacher",
-            "dagger",
-            "round1",
-            "round2",
-            "cross-play",
-        ) and file.name not in (
-            "teacher-collection.json",
-            "dagger-collection.json",
-            "teacher-development.json",
-            "dagger-development.json",
-            "league.json",
-            "bootstrap-bundle.json",
-            "bootstrap-runtime.json",
-            "training-progress.json",
-            "cross-play-matrix.json",
+        if (
+            not rel.parts[0].startswith("round")
+            and rel.parts[0]
+            not in (
+                "warm-start",
+                "teacher",
+                "dagger",
+                "round1",
+                "round2",
+                "cross-play",
+            )
+            and file.name
+            not in (
+                "teacher-collection.json",
+                "dagger-collection.json",
+                "teacher-development.json",
+                "dagger-development.json",
+                "league.json",
+                "bootstrap-bundle.json",
+                "bootstrap-runtime.json",
+                "training-progress.json",
+                "cross-play-matrix.json",
+            )
         ):
             continue
         dest = args.output / "artifacts" / rel
@@ -72,7 +78,7 @@ def main():
                 "actor_sha256": entry["actor_sha256"],
             }
     result = {
-        "rule": "last completed two-generation snapshot; no reserved-outcome selection",
+        "rule": "last completed generation after development; no reserved-outcome selection",
         "generations": len(league["snapshots"]) - 1,
         "models": selected,
         "artifacts": copied,

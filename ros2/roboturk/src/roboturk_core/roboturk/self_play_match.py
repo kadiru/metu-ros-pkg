@@ -18,12 +18,21 @@ class Carrier:
         return self.value.copy(), None
 
 
+def proximity_penalty(world, key, weight):
+    """Training-only cost for close robot spacing; never changes an action."""
+    robot = world.robot(key)
+    nearest = min(
+        math.hypot(robot.x - p.x, robot.y - p.y) for p in world.robots if p.key != key
+    )
+    return weight * float(np.clip((0.38 - nearest) / 0.19, 0, 1)) ** 2
+
+
 class MatchEnv(gym.Env):
     """One learning role; other roles are immutable snapshots during an episode."""
 
     metadata = {}
 
-    def __init__(self, backend, cfg, role, current, pool, seed=217):
+    def __init__(self, backend, cfg, role, current, pool, seed=217, proximity_cost=0.0):
         self.backend, self.cfg, self.role, self.current, self.pool = (
             backend,
             cfg,
@@ -38,6 +47,7 @@ class MatchEnv(gym.Env):
             self.carrier.action_space,
         )
         self.records, self.prefix_failures = [], []
+        self.proximity_cost = proximity_cost
 
     def reset(self, *, seed=None, options=None):
         super().reset(seed=seed)
@@ -140,6 +150,7 @@ class MatchEnv(gym.Env):
             reward = (
                 0.2 * (math.hypot(r0.x - b0.x, r0.y - b0.y) - math.hypot(r1.x - b1.x, r1.y - b1.y))
                 - 0.001
+                - proximity_penalty(self.env.world, c.key, self.proximity_cost)
             )
         else:
             reward = float(np.clip(reward, -2, 2)) * 0.1

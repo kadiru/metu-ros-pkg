@@ -21,6 +21,7 @@ def main():
             "selfplay-bootstrap",
             "selfplay-train",
             "selfplay-evaluate",
+            "selfplay-panel",
             "selfplay-demo",
             "evaluate",
             "suite",

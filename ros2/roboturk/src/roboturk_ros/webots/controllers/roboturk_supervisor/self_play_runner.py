@@ -33,6 +33,10 @@ def run(supervisor, backend, cfg, mode):
             "keeper": os.environ["ROBOTURK_KEEPER_CHECKPOINT"],
         }
         bootstrap(backend, cfg, output, sources, seed)
+    elif mode == "selfplay-panel":
+        from roboturk.self_play_panel import cross_play
+
+        cross_play(backend, cfg, output, episodes, seed)
     elif mode == "selfplay-train":
         train_league(
             backend,

@@ -66,7 +66,7 @@ checkpoint pool is not a population-scale replication or an equilibrium claim.
 | PPO episode resets |2100000–2199999 only, sampled by training RNG|
 | Bootstrap development |2200000–2200039|
 | Generation development |2200100–2200159|
-| Cross-play development |2200200–2200999, declared pair mapping before run|
+| Cross-play development |2200200–2200219 shared across all nine pairs (bootstrap, generation1, generation2)|
 | Reserved final vs final |2300000–2300199|
 | Reserved final attackers vs bootstrap defense |2310000–2310099|
 | Reserved bootstrap attackers vs final defense |2320000–2320099|
@@ -122,3 +122,13 @@ The98 local tests pass. Native200-demonstration/100-DAgger bootstrap has started
 no trained-policy qualification claim is made yet.
 
 Bootstrap initially stopped before collecting any episode: the finisher source uses128-unit hidden layers while the other actors use192. The expansion loader now preserves each source architecture; four role-specific optional training tests verify identical actor outputs when appended inputs are zero. The original traceback is retained.
+
+The native development matrix runs with `--mode selfplay-panel --episodes 20
+--seed 2200200 --output runs/selfplay-v1`, reusing the same20 development scenarios
+for every attack/defense snapshot pair. `scripts/stage_self_play.py` retains all
+stage models, update logs and unfiltered outcomes, and refuses a frozen release.
+`scripts/audit_self_play.py` freezes both final and bootstrap models and all runtime
+inputs, then checks each reserved panel without deleting failures. Seven synthetic
+unit tampering tests reject missing seeds, false goal geometry, absent contact,
+inactive opponents, collisions and changed model bytes; those tests are not native
+performance evidence. Core and ROS CI passed on65b1fd61 after the dependency fix.

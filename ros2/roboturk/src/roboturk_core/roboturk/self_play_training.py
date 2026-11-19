@@ -424,7 +424,7 @@ def bootstrap(backend, cfg, output, sources, seed=217):
     write(output / "bootstrap-bundle.json", bundle)
 
 
-def train_league(backend, cfg, output, rounds=2, steps=32768, seed=227):
+def train_league(backend, cfg, output, rounds=2, steps=32768, seed=227, prepared_bundle=None):
     output = Path(output)
     initial = json.loads((output / "bootstrap-bundle.json").read_text())
     completed = (
@@ -437,8 +437,21 @@ def train_league(backend, cfg, output, rounds=2, steps=32768, seed=227):
     ledger = (
         json.loads(progress.read_text())["updates"] if progress.exists() else completed["updates"]
     )
+    prepared_generation = len(history)
     for generation in range(len(history), rounds + 1):
         current = load_bundle(history[-1], cfg)
+        prepared = None
+        if prepared_bundle is not None and generation == prepared_generation:
+            prepared = json.loads(Path(prepared_bundle).read_text())
+            receipt = json.loads(Path(prepared_bundle).with_name("training.json").read_text())
+            if receipt["parent"] != history[-1] or receipt["bundle"] != prepared:
+                raise ValueError("Prepared actor provenance does not match the current league")
+            if any(
+                prepared[r]["actor_sha256"] != history[-1][r]["actor_sha256"]
+                for r in ("transfer", "finish")
+            ):
+                raise ValueError("Spacing preparation unexpectedly changed an attacking actor")
+            current = load_bundle(prepared, cfg)
         pool = [load_bundle(b, cfg) for b in history]
         # Defense first; attackers subsequently face this new defense and history.
         for role in ("defender", "keeper", "transfer", "finish"):
@@ -494,7 +507,7 @@ def train_league(backend, cfg, output, rounds=2, steps=32768, seed=227):
             learning_rate = (
                 3e-5 if defensive_revision else (3e-6 if role in ("defender", "keeper") else 8e-7)
             )
-            path = history[-1][role]["path"]
+            path = start_bundle[role]["path"]
             model = SelfPlayPPO.load(
                 path,
                 env=Monitor(env),
@@ -533,6 +546,8 @@ def train_league(backend, cfg, output, rounds=2, steps=32768, seed=227):
                 "training_seed": seed + generation * 31 + ROLES.index(role),
                 "ppo_steps": model.num_timesteps,
                 "actor_before": before,
+                "previous_generation_actor": history[-1][role]["actor_sha256"],
+                "preparation": prepared,
                 "actor_after": actor_hash(model),
                 "updates": model.anchor_updates,
                 "rejected_updates": model.anchor_rejections,

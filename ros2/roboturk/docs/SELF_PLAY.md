@@ -199,3 +199,46 @@ scenarios. Existing raw pair results are hash/seed matched and retained, not
 replaced. Last completed generation remains the selection rule. All400reserved
 cases and the eight demo cases remain untouched; qualification gates are unchanged.
 To continue the existing run, use `ROBOTURK_ROUNDS=3` with the train command above.
+
+## Close-spacing preparation after generation three
+
+The revised third generation completed all128actor updates, but its60development
+games still had the same two defender collisions:19goals/39interceptions/2collisions.
+The full4×4cross-play matrix is retained. No reserved cases were used.
+
+Before another self-play generation, refit only the two defensive actors on the
+retained182419native teacher/DAgger training observations per role. Use current
+actor outputs as reference outside0.65m nearest-robot spacing. Inside that region,
+relabel only translation using the original training teacher and a conservative
+relative closing-speed target,2×max(0,distance−0.28)m/s; three projection passes
+and normal actuator speed bounds. Nearby blue velocities are observed; the other
+defender uses a stationary forecast because the45-input contract lacks its velocity.
+Yaw targets remain the current actor output. This is training-only supervised
+preparation, with no deployed action projection or new development observations.
+
+Seed337,80epochs/actor, Adam1e-4,8192uniform+32768near samples/epoch. Defender24763
+near examples andkeeper4819. Near label MSE fell0.02127→0.001842 and0.004605→0.001009;
+far reference MSE0.001705/0.000447. These are training fit errors, not success rates.
+The prepared bundle is evaluated on the existing60development scenarios before
+resuming four-role PPO. Its exact parent actors, dataset hashes and losses are
+retained in spacing-repair/training.json. Attacking actor hashes are unchanged.
+
+Reproduce preparation with `python -m roboturk.self_play_repair --source
+runs/selfplay-v1 --output runs/selfplay-v1/spacing-repair --epochs 80 --seed 337`.
+The continuation accepts `ROBOTURK_PREPARED_BUNDLE` pointing to that bundle.json;
+it verifies the parent generation and records the preparation separately from PPO.
+All original qualification gates and reserved/demo seeds remain unchanged.
+
+The prepared defensive actors produced23goals,32interceptions,4keeper saves and
+one defender collision/60development games:59/60clean. Both previously recurring
+collision cases were resolved; new failure2200137 is retained. This is development
+evidence. Resume generation four with32768PPOsteps for each role and all prior
+opponents retained. The prepared actors are explicit initializations; actor hashes
+trace both the supervised preparation and subsequent PPO. Last completed generation
+remains the selection rule. Extend the matrix to5×5 on the same20development seeds.
+
+Run `ROBOTURK_ROUNDS=4 ROBOTURK_PREPARED_BUNDLE=/absolute/path/to/spacing-repair/bundle.json`
+with the selfplay-train command. After training, run broader development panels on
+2201000–2201099(final/final),2201100–2201199(final attack/bootstrap defense), and
+2201200–2201299(bootstrap attack/final defense) before freezing. These are development
+sets; all prior reserved qualification/demo seeds and gates remain unchanged.

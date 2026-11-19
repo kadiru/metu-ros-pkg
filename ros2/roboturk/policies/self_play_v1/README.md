@@ -71,3 +71,16 @@ matrix is being retained. A third four-role generation will use a dense close-ro
 spacing cost and a larger defensive update allowance, with unchanged inference,
 attacking update settings and qualification gates. See the protocol amendment;
 reserved qualification and fresh demo cases are still untouched.
+
+## Third generation and close-spacing preparation
+
+Generation three completed128accepted PPOupdates but still had19goals,39interceptions
+and the same2collisions/60development games. [All third-generation records](artifacts/round3)
+and [full4×4cross-play matrix](artifacts/cross-play-generation3-matrix.json) remain
+unqualified. Training-only weighted spacing distillation then refit the two defensive
+actors using the retained teacher/DAgger observations; the attacking weights were
+unchanged. Native development improved to23goals/36stops/1collision,59/60clean.
+[Preparation, dataset hashes and fit losses](artifacts/spacing-repair/training.json) ·
+[All60prepared-policy outcomes](artifacts/spacing-repair-development.json).
+A fourth four-role PPOgeneration and broader development panels follow before any
+reserved qualification. This preparation is supervised learning, not a PPO-only gain.

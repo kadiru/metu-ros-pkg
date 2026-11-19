@@ -1,0 +1,22 @@
+{
+  "defender": {
+    "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/spacing-repair/defender.zip",
+    "sha256": "88f6bc67f3c75f067de2724c3c55e22e295bad2559ace67ca2eacc9838213e03",
+    "actor_sha256": "cfd48c2c203eaab1400d82ae5ffb323ec38f46a229fdc464dc2b6e1e80fedab5"
+  },
+  "keeper": {
+    "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/spacing-repair/keeper.zip",
+    "sha256": "8b39fcb1e60eed476b7ffbce343eb80712bff30be9f79239d2f31fa35efafffd",
+    "actor_sha256": "bb2a7390fa272be4d8c6893d88addf8642c8a20e7882a0927fe97b450d0fe11e"
+  },
+  "transfer": {
+    "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/spacing-repair/transfer.zip",
+    "sha256": "b9ce76c2f8474725b29268e60a28e25dffaa33420a2278cfbb3dd823bffd3d98",
+    "actor_sha256": "f66092708a44fec4faa2116d3febe8baf365842b687a38516fa3a9e9c176644b"
+  },
+  "finish": {
+    "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/spacing-repair/finish.zip",
+    "sha256": "7e25f8538ea49afa5007cea5fec1d5fe4d8061267d7aa54c3ee0406ec3494db7",
+    "actor_sha256": "64951e5099d81dc6bc468b13a27a783234be32bf29b2d2b7a830f750ec3df930"
+  }
+}

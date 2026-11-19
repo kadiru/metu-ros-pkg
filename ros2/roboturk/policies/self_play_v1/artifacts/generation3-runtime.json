@@ -1,0 +1,8 @@
+{
+  "source_sha256": {
+    "src/roboturk_core/roboturk/self_play.py": "ffad8fc9c9009ba8301edb2ed81e8012235cfe3c2cfc9a2891c8d673319465d7",
+    "src/roboturk_core/roboturk/self_play_match.py": "a9f97bbe1abb750972b274454e89b65e10fc4ae2d3fcee5684bda24f4b963acc",
+    "src/roboturk_core/roboturk/self_play_training.py": "c481186c5eb7b2725727d8e2e1fcd2af678e0dbb33da30b6df40c17289f0f39d"
+  },
+  "note": "Before third-generation training; all reserved seeds untouched"
+}

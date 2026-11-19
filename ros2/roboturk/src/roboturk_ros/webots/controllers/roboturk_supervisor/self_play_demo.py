@@ -1,7 +1,9 @@
 """Unfiltered native self-play movie: goals and defensive stops are both outcomes."""
 
 from pathlib import Path
+from dataclasses import replace
 import time
+from roboturk.model import Referee
 from roboturk.defended import DEFENDER
 from roboturk.keeper import KEEPER
 from roboturk.team import evaluate_team
@@ -9,6 +11,16 @@ from opponent_demo import Recorder as OpponentRecorder
 
 
 class Recorder(OpponentRecorder):
+    def end_episode(self, env, result):
+        # The scored episode has ended. Halt robots during the outcome display,
+        # instead of continuing an unscored attack after a defensive contact.
+        native = env.backend
+        while hasattr(native, "base"):
+            native = native.base
+        native.world = replace(native.world, referee=Referee.HALT)
+        for _ in range(30):
+            env.world = env.backend.step({})
+
     def begin_episode(self, index, seed, env):
         super().begin_episode(index, seed, env)
         self.label(0, "RoboTurk | Mobile defense + alternating self-play", 0.025, 0.05)
@@ -67,6 +79,7 @@ def record(supervisor, env, transfer, finish, output, episodes=8, seed=2400000):
         scripted_target_selection=True,
         scripted_role_handoff=True,
         outcome_display_seconds=0.6,
+        post_terminal_control="referee HALT during outcome display; excluded from scored episode",
         possession_sample_seconds=0.005,
     )
     return result

@@ -21,9 +21,7 @@ class Carrier:
 def proximity_penalty(world, key, weight):
     """Training-only cost for close robot spacing; never changes an action."""
     robot = world.robot(key)
-    nearest = min(
-        math.hypot(robot.x - p.x, robot.y - p.y) for p in world.robots if p.key != key
-    )
+    nearest = min(math.hypot(robot.x - p.x, robot.y - p.y) for p in world.robots if p.key != key)
     return weight * float(np.clip((0.38 - nearest) / 0.19, 0, 1)) ** 2
 
 

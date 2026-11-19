@@ -1,0 +1,194 @@
+[
+  {
+    "steps": 1024,
+    "mse": 5.011677330912789e-06,
+    "max_delta": 0.01981353759765625,
+    "rejected": false
+  },
+  {
+    "steps": 2048,
+    "mse": 1.1152274964842945e-05,
+    "max_delta": 0.02584075927734375,
+    "rejected": false
+  },
+  {
+    "steps": 3072,
+    "mse": 2.7937605409533717e-05,
+    "max_delta": 0.029763996601104736,
+    "rejected": false
+  },
+  {
+    "steps": 4096,
+    "mse": 2.0072557163075544e-05,
+    "max_delta": 0.029891371726989746,
+    "rejected": false
+  },
+  {
+    "steps": 5120,
+    "mse": 2.0535235307761468e-05,
+    "max_delta": 0.030800342559814453,
+    "rejected": false
+  },
+  {
+    "steps": 6144,
+    "mse": 3.8404177757911384e-05,
+    "max_delta": 0.03377193212509155,
+    "rejected": false
+  },
+  {
+    "steps": 7168,
+    "mse": 4.171465116087347e-05,
+    "max_delta": 0.03394138813018799,
+    "rejected": false
+  },
+  {
+    "steps": 8192,
+    "mse": 2.9147871828172356e-05,
+    "max_delta": 0.030414879322052002,
+    "rejected": false
+  },
+  {
+    "steps": 9216,
+    "mse": 3.402012589504011e-05,
+    "max_delta": 0.04110783338546753,
+    "rejected": false
+  },
+  {
+    "steps": 10240,
+    "mse": 4.697246549767442e-05,
+    "max_delta": 0.04658162593841553,
+    "rejected": false
+  },
+  {
+    "steps": 11264,
+    "mse": 3.877936978824437e-05,
+    "max_delta": 0.05241960287094116,
+    "rejected": false
+  },
+  {
+    "steps": 12288,
+    "mse": 3.56024902430363e-05,
+    "max_delta": 0.048434674739837646,
+    "rejected": false
+  },
+  {
+    "steps": 13312,
+    "mse": 3.123411079286598e-05,
+    "max_delta": 0.0477638840675354,
+    "rejected": false
+  },
+  {
+    "steps": 14336,
+    "mse": 3.8233578379731625e-05,
+    "max_delta": 0.047222912311553955,
+    "rejected": false
+  },
+  {
+    "steps": 15360,
+    "mse": 2.955917443614453e-05,
+    "max_delta": 0.04872846603393555,
+    "rejected": false
+  },
+  {
+    "steps": 16384,
+    "mse": 3.285678394604474e-05,
+    "max_delta": 0.05109518766403198,
+    "rejected": false
+  },
+  {
+    "steps": 17408,
+    "mse": 2.946737367892638e-05,
+    "max_delta": 0.045884668827056885,
+    "rejected": false
+  },
+  {
+    "steps": 18432,
+    "mse": 3.624119926826097e-05,
+    "max_delta": 0.04567062854766846,
+    "rejected": false
+  },
+  {
+    "steps": 19456,
+    "mse": 2.9708580768783577e-05,
+    "max_delta": 0.049090027809143066,
+    "rejected": false
+  },
+  {
+    "steps": 20480,
+    "mse": 3.4957633033627644e-05,
+    "max_delta": 0.04976236820220947,
+    "rejected": false
+  },
+  {
+    "steps": 21504,
+    "mse": 4.825055293622427e-05,
+    "max_delta": 0.0502583384513855,
+    "rejected": false
+  },
+  {
+    "steps": 22528,
+    "mse": 4.591284960042685e-05,
+    "max_delta": 0.04691052436828613,
+    "rejected": false
+  },
+  {
+    "steps": 23552,
+    "mse": 4.764692494063638e-05,
+    "max_delta": 0.04876089096069336,
+    "rejected": false
+  },
+  {
+    "steps": 24576,
+    "mse": 5.0678452680585906e-05,
+    "max_delta": 0.05079957842826843,
+    "rejected": false
+  },
+  {
+    "steps": 25600,
+    "mse": 4.55910230812151e-05,
+    "max_delta": 0.052014630287885666,
+    "rejected": false
+  },
+  {
+    "steps": 26624,
+    "mse": 5.03780429426115e-05,
+    "max_delta": 0.04903612285852432,
+    "rejected": false
+  },
+  {
+    "steps": 27648,
+    "mse": 4.166635699220933e-05,
+    "max_delta": 0.04457080364227295,
+    "rejected": false
+  },
+  {
+    "steps": 28672,
+    "mse": 4.497298505157232e-05,
+    "max_delta": 0.0427243709564209,
+    "rejected": false
+  },
+  {
+    "steps": 29696,
+    "mse": 4.098459976376034e-05,
+    "max_delta": 0.04160451889038086,
+    "rejected": false
+  },
+  {
+    "steps": 30720,
+    "mse": 4.166889993939549e-05,
+    "max_delta": 0.045007407665252686,
+    "rejected": false
+  },
+  {
+    "steps": 31744,
+    "mse": 4.4503543904284015e-05,
+    "max_delta": 0.055049002170562744,
+    "rejected": false
+  },
+  {
+    "steps": 32768,
+    "mse": 4.9956008297158405e-05,
+    "max_delta": 0.05705291032791138,
+    "rejected": false
+  }
+]

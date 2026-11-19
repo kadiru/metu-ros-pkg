@@ -45,6 +45,7 @@ def run(supervisor, backend, cfg, mode):
             rounds=int(os.environ.get("ROBOTURK_ROUNDS", "2")),
             steps=int(os.environ["ROBOTURK_STEPS"]),
             seed=seed,
+            prepared_bundle=os.environ.get("ROBOTURK_PREPARED_BUNDLE"),
         )
     else:
         paths = {

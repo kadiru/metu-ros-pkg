@@ -95,3 +95,19 @@ Qualification/demonstration seed reservations and gates are unchanged.
 The pre-training pressure-finisher teacher feasibility check reserves development
 seeds1530000–1530039. Stationary/teacher defensive comparisons reuse only the
 declared defensive development seeds. They never alter reserved opponent outcomes.
+
+
+The close-only teacher scored32/40 on1530000–1530039: eight keeper saves and zero
+possession losses. This failed development tactic is retained. The revised
+`roboturk.pressure_finish.v2` keeps the0.70m centered parking point and selects
+between the two goal corners using observed keeper position/velocity and the
+predicted shot-line clearance. An already open corner can be shot directly;
+a covered corner triggers another aim change. This remains scripted aim selection,
+with neural motion and release to be trained. Teacher feasibility development
+seeds1530100–1530159 are reserved before that run. Opponent hashes and all final
+qualification/demo splits remain unchanged.
+
+The revised open-lane teacher passed60/60 native development cases with zero
+pre-release losses (mean8.8777s). These are teacher feasibility results, not the
+learned attacker release. Both attacking actors are now being trained against
+defender06fd042a and keeper9dea9369; all final full-play seeds remain untouched.

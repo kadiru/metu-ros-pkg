@@ -15,3 +15,10 @@ Planned next training: two fresh alternating PPO generations, all three roles,
 updating option, robot, corner and target-update head rows. All runtime choices
 and targets remain neural. No reliability or demo claim yet. The original unused
 reserved seed ranges and release gates remain in docs/LEARNED_DECISIONS.md.
+
+
+Boundary-coached baseline completed:56/60clean and110/120broader, no field exits.
+The broader run had41goals,69stops,six defender collisions,two timeouts,one loss and
+one ball-out. All records remain. Defender spacing coaching now runs before PPO,
+using derived relative closing-speed labels on native observations; no runtime
+avoidance override. The60/120development panels will be repeated and retained.

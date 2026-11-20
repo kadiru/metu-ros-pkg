@@ -241,3 +241,17 @@ All coefficients are training-only. The deployed contract and physical monitors
 remain unchanged. Reassess on development; do not lower reserved gates.
 Full matched cross-play is required for the candidate league; failed earlier leagues
 retain all generation evaluations and training records without a qualification claim.
+
+
+The boundary-coached preparation removed field exits but yielded56/60clean and
+110/120clean in broader development. All six broader collisions involved the field
+defender. Before fresh PPO, coach its planar outputs on the same native observations:
+repulsion within0.38m (gain5/s), relative closing-speed bound within0.5m (gain4/s,
+stand-off0.215m), accounting for both blue robots' measured velocities. These are
+training labels adapted from the earlier mobile_teacher, with no inference override.
+Fit100epochs, retain the pre-spacing bundle, and repeat60/120development games.
+
+Because exact coordinate weights are now frozen, tactical PPO may use a wider
+choice-head trust region (MSE0.02,maximumdelta2.0), allowing discrete behavior/corner
+changes without centimeter-scale target drift. This replaces only the precision-mode
+manager trust limits; all other new-run settings and reserved gates remain unchanged.

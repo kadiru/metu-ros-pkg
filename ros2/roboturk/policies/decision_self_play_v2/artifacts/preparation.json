@@ -1,0 +1,48 @@
+{
+  "method": "Supervised derived boundary labels on native observations; no runtime projection",
+  "epochs": 100,
+  "seed": 457,
+  "samples": 176011,
+  "corrected_samples": 114477,
+  "margin_m": 0.2,
+  "gain_per_second": 3.0,
+  "learning_rate": 0.0001,
+  "stale_ppo_optimizer_momenta_cleared": true,
+  "actor_before": "0e15c8c1fcc85fe53d29a98ab6592478a938f2953a9f1d3336fd56b84afd7f73",
+  "actor_after": "969bc8dfeaef939b6bf12d0063d3b34399765deb80bcb400af4d9bfd441100c6",
+  "last_mean_loss": 0.000168116595432366,
+  "parent_models": {
+    "transfer": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round3/snapshot/transfer.zip",
+      "sha256": "d2580a658fc74fe744a075e6b61166b4c468e4c9a387161c0e3ffce943735f1c",
+      "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+    },
+    "finish": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round3/snapshot/finish.zip",
+      "sha256": "944821a36e8c9c714a6c460a3e8ff6c5299d7b9afb2f1e7c5233f88311ccb80c",
+      "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+    },
+    "defender": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round3/snapshot/defender.zip",
+      "sha256": "2e6376d0d1f19d1454167dc2d7a80878a75b0bd03e6ee5de50f2dd54ca838629",
+      "actor_sha256": "a82a9ad55e8369140885268ac9de0634806b5c887f6d3b4ef1e5d231ee83eb2d"
+    },
+    "keeper": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round3/snapshot/keeper.zip",
+      "sha256": "9b731aa001a9354f08093799a4e44cdddaac4def7ba84db066825d36e4670eea",
+      "actor_sha256": "0e15c8c1fcc85fe53d29a98ab6592478a938f2953a9f1d3336fd56b84afd7f73"
+    },
+    "manager": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v3/manager.zip",
+      "sha256": "4c521d8ba6956bc2da5d025567311e295b19dd3601a1ac6c7be45a4a22d2751f",
+      "actor_sha256": "a2e60c47dc377cd218d0206fde0d326b5b2c4bbde69660d7e2d21021d0b7ede8"
+    }
+  },
+  "discarded_manager_ppo": {
+    "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round3/snapshot/manager.zip",
+    "sha256": "46a0af15ee044b0c2ecbcac5f20c2313c219380df05b407dc68c0425d57b12f8",
+    "actor_sha256": "a4e5a2b2b5e7cbdca04618766a8c72c8b8056a80b93f0c352582beeb60a5cc26"
+  },
+  "source_data_sha256": "8572326a12a7e193134d93275f6efeff3b6dbaf29cb3da718a90ff6700a39436",
+  "rationale": "Prior 3-generation league retained; target regression drift and keeper field exits persisted in development"
+}

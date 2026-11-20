@@ -48,3 +48,26 @@ def test_boundary_coaching_is_symmetric_and_preserves_interior_commands():
     np.testing.assert_array_equal(y[:, 1:], a[:, 1:])
     np.testing.assert_array_equal(y[2], a[2])
     np.testing.assert_array_equal(original, a)
+
+
+def test_spacing_coaching_uses_relative_velocity_and_robot_frame():
+    from roboturk.decision_precision import spacing_labels
+    from roboturk.model import Config
+
+    x = np.zeros((2, 45), np.float32)
+    x[:, 15] = 1
+    x[0, 7] = 1  # yaw0
+    x[1, 6] = 1  # yaw pi/2; identical canonical geometry below
+    x[0, 35:37] = [0.23 / 3, 0]
+    x[1, 35:37] = [0, -0.23 / 3]
+    x[0, 39:41] = [-2 / 3, 0]
+    x[1, 39:41] = [0, 2 / 3]
+    actions = np.tile([1.0, 0, 0.2], (2, 1)).astype(np.float32)
+    result = spacing_labels(x, actions, Config())
+    np.testing.assert_allclose(result[0], result[1], atol=1e-6)
+    assert 0 <= result[0, 0] <= 0.061
+    assert result[0, 2] == actions[0, 2]
+    # A teammate moving away allows a greater safe closing velocity.
+    x[0, 37] = 0.5 / Config().max_speed
+    moving = spacing_labels(x[:1], actions[:1], Config())
+    assert moving[0, 0] > result[0, 0]

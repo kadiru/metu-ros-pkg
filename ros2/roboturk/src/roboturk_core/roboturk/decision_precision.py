@@ -52,16 +52,50 @@ def boundary_labels(observations, actions, cfg, margin=0.20):
     return y
 
 
-def repair_keeper(model, observations, cfg, seed, epochs=100):
+def spacing_labels(observations, actions, cfg):
+    """Training-only relative closing-speed labels, adapted from mobile_teacher."""
+    y = actions.copy()
+    speed = observations[:, 15]
+    velocity = y[:, :2] * speed[:, None]
+    sn, cs = observations[:, 6], observations[:, 7]
+    for start in (35, 39):
+        bx, by = observations[:, start] * 3, observations[:, start + 1] * 3
+        away = -np.column_stack((cs * bx - sn * by, sn * bx + cs * by))
+        distance = np.linalg.norm(away, axis=1)
+        unit = away / np.maximum(distance[:, None], 1e-6)
+        bvx, bvy = (
+            observations[:, start + 2] * cfg.max_speed,
+            observations[:, start + 3] * cfg.max_speed,
+        )
+        other_v = np.column_stack((cs * bvx - sn * bvy, sn * bvx + cs * bvy))
+        velocity += 5 * np.maximum(0, 0.38 - distance[:, None]) * unit
+        radial = np.sum(velocity * unit, axis=1)
+        minimum = np.sum(other_v * unit, axis=1) - 4 * np.maximum(0, distance - 0.215)
+        correction = np.where(distance < 0.5, np.maximum(0, minimum - radial), 0)
+        velocity += correction[:, None] * unit
+    y[:, :2] = np.clip(velocity / speed[:, None], -1, 1)
+    return y
+
+
+def repair_actor(
+    model,
+    observations,
+    cfg,
+    seed,
+    epochs=100,
+    labeler=boundary_labels,
+    label="Keeper boundary",
+    parameters=None,
+):
     rng = np.random.default_rng(seed)
     x = np.asarray(observations, np.float32)
     original = np.concatenate(
         [model.predict(q, deterministic=True)[0] for q in np.array_split(x, 100)]
     )
-    y = boundary_labels(x, original, cfg)
+    y = labeler(x, original, cfg)
     changed = np.max(abs(y - original), axis=1) > 1e-6
     if not changed.any():
-        raise ValueError("No boundary coaching samples")
+        raise ValueError("No coaching samples")
     groups = [np.flatnonzero(changed), np.flatnonzero(~changed)]
     inputs, targets = torch.as_tensor(x), torch.as_tensor(y)
     optimizer = torch.optim.Adam(model.actor_parameters(), lr=1e-4)
@@ -79,18 +113,17 @@ def repair_keeper(model, observations, cfg, seed, epochs=100):
             losses.append(float(loss.detach()))
         if (epoch + 1) % 20 == 0:
             print(
-                f"Keeper boundary coaching {epoch + 1}/{epochs}: {np.mean(losses[-32:]):.7f}",
+                f"{label} coaching {epoch + 1}/{epochs}: {np.mean(losses[-32:]):.7f}",
                 flush=True,
             )
     model.policy.optimizer.state.clear()
     return {
-        "method": "Supervised derived boundary labels on native observations; no runtime projection",
+        "method": f"{label}: supervised derived labels on native observations; no runtime projection",
         "epochs": epochs,
         "seed": seed,
         "samples": len(x),
         "corrected_samples": int(changed.sum()),
-        "margin_m": 0.20,
-        "gain_per_second": 3.0,
+        "parameters": parameters or {"margin_m": 0.20, "gain_per_second": 3.0},
         "learning_rate": 1e-4,
         "stale_ppo_optimizer_momenta_cleared": True,
         "actor_before": before,
@@ -116,7 +149,7 @@ def prepare(backend, cfg, output, parent, seed=457):
     for role in ("manager", "defender", "keeper"):
         shutil.copy2(parent / (role + "-data.npz"), output / (role + "-data.npz"))
     data = np.load(output / "keeper-data.npz")
-    receipt = repair_keeper(models["keeper"], data["observations"], cfg, seed)
+    receipt = repair_actor(models["keeper"], data["observations"], cfg, seed)
     receipt.update(
         parent_models=selected,
         discarded_manager_ppo=latest["manager"],
@@ -134,6 +167,50 @@ def prepare(backend, cfg, output, parent, seed=457):
     for name, base, count in [
         ("prepared-development", 3200000, 60),
         ("prepared-broad", 3201000, 120),
+    ]:
+        result = evaluate(DecisionEnv(backend, cfg, models), count, base)
+        write(output / (name + ".json"), result)
+        print(name, result["summary"], flush=True)
+
+
+def prepare_spacing(backend, cfg, output, seed=467):
+    output = Path(output)
+    if (output / "league.json").exists() or (output / "spacing-prepared").exists():
+        raise ValueError("Refusing to overwrite a league or spacing preparation")
+    initial = json.loads((output / "bootstrap-bundle.json").read_text())
+    write(output / "bootstrap-before-spacing.json", initial)
+    models = load(initial, cfg)
+    from .self_play_training import SelfPlayPPO
+
+    models["defender"] = SelfPlayPPO.load(initial["defender"]["path"], device="cpu")
+    data = np.load(output / "defender-data.npz")
+    receipt = repair_actor(
+        models["defender"],
+        data["observations"],
+        cfg,
+        seed,
+        labeler=spacing_labels,
+        label="Defender spacing",
+        parameters={
+            "closing_gain_per_second": 4,
+            "stand_off_m": 0.215,
+            "repulsion_radius_m": 0.38,
+            "repulsion_gain": 5,
+            "closing_check_radius_m": 0.5,
+        },
+    )
+    receipt.update(parent_models=initial, source_data_sha256=digest(output / "defender-data.npz"))
+    bundle = save(
+        models,
+        output / "spacing-prepared",
+        cfg,
+        {"stage": "learned_defender_spacing_preparation", "seed": seed},
+    )
+    write(output / "spacing-preparation.json", receipt)
+    write(output / "bootstrap-bundle.json", bundle)
+    for name, base, count in [
+        ("spacing-development", 3200000, 60),
+        ("spacing-broad", 3201000, 120),
     ]:
         result = evaluate(DecisionEnv(backend, cfg, models), count, base)
         write(output / (name + ".json"), result)

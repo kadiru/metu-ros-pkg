@@ -14,8 +14,8 @@ def training_settings(role, precision=False):
         if role == "manager":
             return {
                 "learning_rate": 1e-4,
-                "mse_limit": 5e-4,
-                "delta_limit": 0.2,
+                "mse_limit": 0.02,
+                "delta_limit": 2.0,
                 "choice_log_std": -1.2,
                 "target_log_std": -8.0,
                 "gate_log_std": -1.5,

@@ -14,7 +14,7 @@ class Recorder:
         self.supervisor = supervisor
 
     def label(self, index, text, y, size=0.04, color=0xFFFFFF):
-        self.supervisor.setLabel(index, text, 0.025, y, size, color, 0, "Arial")
+        self.supervisor.setLabel(index, text, 0.025, y, size * 1.45, color, 0, "Arial")
 
     def begin_episode(self, index, env):
         self.label(0, "RoboTurk | Learned decisions + self-play", 0.025, 0.05)

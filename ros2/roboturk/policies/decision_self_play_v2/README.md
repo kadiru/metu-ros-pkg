@@ -21,10 +21,13 @@ flank/behavior/owner/corner/update heads remain trainable.
 | Generation1,60games |30|29|59/60|
 | Generation2,60games |32|27|59/60|
 | Generation2,120broader games |47|70|117/120|
+| Generation2,240extended games |123|112|235/240|
+| All9historical pairings,270games |157|113|270/270|
 
 The final broader panel has two ball-outs and one collision; ten stable receptions.
-The240-game extended panel, all retained candidate matchups and recording preflight
-are in progress. **No reserved qualification or new demonstration is claimed yet.**
+The extended panel recorded38stable receptions and118carry episodes; failures were
+three collisions, one robot field exit and one ball-out. Native portable-bundle and
+recording preflights passed. **Reserved qualification and the fresh demo are pending.**
 [Protocol and unchanged release gates](../../docs/LEARNED_DECISIONS.md),
 [training audit](training-audit.json), [generation2 outcomes](artifacts/round2/development.json).
 

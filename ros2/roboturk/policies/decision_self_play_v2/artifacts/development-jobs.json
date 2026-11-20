@@ -1,0 +1,97 @@
+[
+  {
+    "name": "final-broad",
+    "command": [
+      "/Users/kadir/linkedin/projects/roboturk/.venv/bin/python",
+      "/Users/kadir/linkedin/projects/roboturk/modern/scripts/run_webots.py",
+      "--webots",
+      "/Users/kadir/linkedin/projects/roboturk/runtime/Webots-nightly.app/Contents/MacOS/webots",
+      "--mode",
+      "decision-evaluate",
+      "--checkpoint",
+      "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/round2/snapshot/bundle.json",
+      "--episodes",
+      "120",
+      "--seed",
+      "3201000",
+      "--output",
+      "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/final-broad",
+      "--timeout",
+      "1800"
+    ],
+    "started_at": "2026-11-19T19:15:25.229255-08:00",
+    "exit_code": 0,
+    "finished_at": "2026-11-19T19:17:16.846236-08:00"
+  },
+  {
+    "name": "extended-development",
+    "command": [
+      "/Users/kadir/linkedin/projects/roboturk/.venv/bin/python",
+      "/Users/kadir/linkedin/projects/roboturk/modern/scripts/run_webots.py",
+      "--webots",
+      "/Users/kadir/linkedin/projects/roboturk/runtime/Webots-nightly.app/Contents/MacOS/webots",
+      "--mode",
+      "decision-evaluate",
+      "--checkpoint",
+      "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/round2/snapshot/bundle.json",
+      "--episodes",
+      "240",
+      "--seed",
+      "3203000",
+      "--output",
+      "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/extended-development",
+      "--timeout",
+      "2400"
+    ],
+    "started_at": "2026-11-19T19:17:16.856403-08:00",
+    "exit_code": 0,
+    "finished_at": "2026-11-19T19:21:17.726914-08:00"
+  },
+  {
+    "name": "cross-play",
+    "command": [
+      "/Users/kadir/linkedin/projects/roboturk/.venv/bin/python",
+      "/Users/kadir/linkedin/projects/roboturk/modern/scripts/run_webots.py",
+      "--webots",
+      "/Users/kadir/linkedin/projects/roboturk/runtime/Webots-nightly.app/Contents/MacOS/webots",
+      "--mode",
+      "decision-panel",
+      "--episodes",
+      "30",
+      "--seed",
+      "3202000",
+      "--output",
+      "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2",
+      "--timeout",
+      "3600"
+    ],
+    "started_at": "2026-11-19T19:21:17.746294-08:00",
+    "exit_code": 0,
+    "finished_at": "2026-11-19T19:26:06.700244-08:00"
+  },
+  {
+    "name": "demo-development",
+    "command": [
+      "/Users/kadir/linkedin/projects/roboturk/.venv/bin/python",
+      "/Users/kadir/linkedin/projects/roboturk/modern/scripts/run_webots.py",
+      "--webots",
+      "/Users/kadir/linkedin/projects/roboturk/runtime/Webots-nightly.app/Contents/MacOS/webots",
+      "--mode",
+      "decision-demo",
+      "--checkpoint",
+      "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/round2/snapshot/bundle.json",
+      "--episodes",
+      "3",
+      "--seed",
+      "3202000",
+      "--output",
+      "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/demo-development",
+      "--timeout",
+      "1800",
+      "--render"
+    ],
+    "started_at": "2026-11-19T19:26:06.700712-08:00",
+    "exit_code": 0,
+    "finished_at": "2026-11-19T19:26:15.435794-08:00"
+  }
+]

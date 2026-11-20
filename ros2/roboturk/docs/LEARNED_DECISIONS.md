@@ -1,4 +1,4 @@
-# Learned tactical decisions and self-play v1
+# Learned tactical decisions and self-play
 
 Started November19,2026 America/Los_Angeles. This is a new experiment; the previous
 mobile-self-play release remains available at commit76679c00 and is not evidence
@@ -290,3 +290,24 @@ checks passing/reception coverage and error rates on more development cases befo
 spending the reserved seeds. It does not replace the original reserved240/120/120
 panels or relax their gates. A three-case development movie at3202000–3202002 checks
 recorder layout/encoding before freezing; it is not the reserved demonstration.
+
+## Completed v2 development, before freeze
+
+Two fresh generations completed196,608native PPO steps and192accepted updates.
+The saved geometry regressors were independently verified unchanged; learned
+behavior, owner, target-update, shot-corner and receiving-flank readouts remained
+trainable. All opponent actor hashes changed in both generations.
+
+Final broad development117/120clean (47goals,70stops;2ball-outs,1collision).
+Predeclared extended development235/240clean (123goals,112stops;3collisions,
+1robot field exit,1ball-out),38stable receptions,118carry episodes,197shots.
+Midfield76/80clean20goals;advanced79/80clean43goals;close80/80clean60goals.
+All270games in the3x3cross-play matrix were clean; goal counts by attacker row
+and defense column were[19,17,16],[18,17,17],[18,17,18], each out of30.
+These do not establish monotonic playing-strength improvement. Raw physics and
+learned-decision traces were independently audited.
+
+Portable checkpoint loading was checked natively on development seeds3202000–2.
+The native recording preflight used the same three cases, never reserved demo
+seeds. Larger on-screen labels are a presentation-only adjustment before freeze.
+No frozen release or reserved qualification claim is made by these results.

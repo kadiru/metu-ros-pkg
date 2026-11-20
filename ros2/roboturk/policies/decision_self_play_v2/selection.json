@@ -81,6 +81,74 @@
       "sha256": "aece509ff97b858f7fa95f87ab1f8a736015c1029bb3c2b0a56a8dce7f8718dd"
     },
     {
+      "path": "artifacts/bundle-path-fix.json",
+      "sha256": "ef1e9a6a73f588848a86c399dfb7defdc94fb504fea15a39139df09fefc20ef9"
+    },
+    {
+      "path": "artifacts/cross-play-4cce66fcfb47/attack0-defense0.json",
+      "sha256": "04a6e1e83d01e13970bf7a80f3574a3504736a7c93bd7abc2e97f1ff11b2b571"
+    },
+    {
+      "path": "artifacts/cross-play-4cce66fcfb47/attack0-defense1.json",
+      "sha256": "e7bb7ab14302a631ee82c50d2a200eae2b80df9ea4206c647c0d7be852d6c5c7"
+    },
+    {
+      "path": "artifacts/cross-play-4cce66fcfb47/attack0-defense2.json",
+      "sha256": "1fb7f688fc641cd63d3dfd29da6acc10dd4edb8855aafdd6d1868e475e9ab3e6"
+    },
+    {
+      "path": "artifacts/cross-play-4cce66fcfb47/attack1-defense0.json",
+      "sha256": "b9f4e996568adc7cca03599350069804a5ee4562b0576ccec4596da4ce20b6e8"
+    },
+    {
+      "path": "artifacts/cross-play-4cce66fcfb47/attack1-defense1.json",
+      "sha256": "9e71ba44d3ffeabad21cbe55da9c570acce02877e79a18d6da1d39b97ba407ee"
+    },
+    {
+      "path": "artifacts/cross-play-4cce66fcfb47/attack1-defense2.json",
+      "sha256": "baa6834b116537bd2ae9668b03087e719e895cdc2132ce5d60c0104390f2ee57"
+    },
+    {
+      "path": "artifacts/cross-play-4cce66fcfb47/attack2-defense0.json",
+      "sha256": "573c8cde268c50051245abb4ccbe84462dac957c5e3f36f862202a062de0679a"
+    },
+    {
+      "path": "artifacts/cross-play-4cce66fcfb47/attack2-defense1.json",
+      "sha256": "edaad800b9eb7c8b825fc933a085fc666cf48377c6acecac36f629446f1ed593"
+    },
+    {
+      "path": "artifacts/cross-play-4cce66fcfb47/attack2-defense2.json",
+      "sha256": "a472c7ba52e2528376d35a611dc5b59e5837f63576db9e828f2fd96b2b5b2cbf"
+    },
+    {
+      "path": "artifacts/cross-play-audit.json",
+      "sha256": "221a0dfe56b2b52ffced4bf5568c54f419a1256f2d5fbefa36828b35b2b54671"
+    },
+    {
+      "path": "artifacts/cross-play-matrix.json",
+      "sha256": "c2238d8cec6560d261d4f7421ac6a8990ba0271a3161615762165a2de2b6cd55"
+    },
+    {
+      "path": "artifacts/demo-development.json",
+      "sha256": "cbbb2971d27fca55eb7bd416f4260d76f48a52cdf542e56fc0e3f6bbfa224ee2"
+    },
+    {
+      "path": "artifacts/development-jobs.json",
+      "sha256": "4f44a3cc027da2bc029a0e0f419d1d133a981dcf05aaf7c6f3467efd8cb52493"
+    },
+    {
+      "path": "artifacts/extended-development-audit.json",
+      "sha256": "64ca9ae823190f71d9460b3e2998f89d476dfc52c7152c21a78410990917c95f"
+    },
+    {
+      "path": "artifacts/extended-development.json",
+      "sha256": "5cccb03258524a56d02faab053bf8081d396d9f42029d02e0da5b116ab1e05ce"
+    },
+    {
+      "path": "artifacts/final-broad.json",
+      "sha256": "c55784dfb1a60aeedf60b7ebc5972a934912b68aedcb3233d1c49fb67d21f6a3"
+    },
+    {
       "path": "artifacts/flank-broad.json",
       "sha256": "a5c6a75b53cbb3bafdb783698cd052e49a3a229290e3ebc31c957cf8248d5b3a"
     },
@@ -137,8 +205,36 @@
       "sha256": "2ae4b6907bd23dcf2e158a44930232c145fde928f183d0f3a4fae21d771cd2cd"
     },
     {
+      "path": "artifacts/initialization-provenance.json",
+      "sha256": "d26b38742b787779c44fcddc084145fd4889e0c24076e555509614a0de59cdd0"
+    },
+    {
       "path": "artifacts/league.json",
       "sha256": "9bb262e58e026512e3e1d24c586389b3933d3c8f62825e32469a60f64441a675"
+    },
+    {
+      "path": "artifacts/metadata/flank-runtime.json",
+      "sha256": "b5e1848eff6343278533d6cfac96da090e7677f65c1fb18d9fff6be3c5ba2c0c"
+    },
+    {
+      "path": "artifacts/metadata/preparation-runtime.json",
+      "sha256": "f80f12bafb6fd81de9f61c3a6c55d022570cf931d2a850274de7c37e85e39c96"
+    },
+    {
+      "path": "artifacts/metadata/spacing-runtime.json",
+      "sha256": "3dee4370f3b3fc48c383b78e1eeeb64df3bac7a60a6d32fc96135d8d43f8e7c8"
+    },
+    {
+      "path": "artifacts/portable-preflight.json",
+      "sha256": "5ccbd8d9f2c3d1e3caa86aa2c48e65d913e4cd50a3127732e0c53f8fdcc8a9c2"
+    },
+    {
+      "path": "artifacts/portable-recording-preflight.json",
+      "sha256": "79a552bd13ec258878b56fb1f76402ac10e613ffc5035a480a6e5aa01c46ee46"
+    },
+    {
+      "path": "artifacts/preflight-audit.json",
+      "sha256": "5a51fc86acf19960abadf093f8c756061344c7471744bfd57b51061e43706536"
     },
     {
       "path": "artifacts/preparation.json",
@@ -975,6 +1071,10 @@
     {
       "path": "artifacts/spacing-prepared/transfer.zip",
       "sha256": "fc0a2b7e1a11dafbcb1b6055f799383ea014aefc00749721895f35b2332fd3ca"
+    },
+    {
+      "path": "artifacts/staging-audit.json",
+      "sha256": "a564302e2d80c7d27c77396d9693c935b8bd23406e4ca8634484470cc8c19ff4"
     },
     {
       "path": "training-audit.json",

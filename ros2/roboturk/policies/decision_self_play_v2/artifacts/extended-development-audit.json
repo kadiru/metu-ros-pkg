@@ -1,0 +1,50 @@
+{
+  "scope": "development only, not frozen reserved qualification",
+  "all_physics_and_decision_traces_verified": true,
+  "summary": {
+    "count": 240,
+    "goals": 123,
+    "stops": 112,
+    "clean": 235,
+    "collisions": 3,
+    "reasons": {
+      "goal": 123,
+      "keeper_save": 74,
+      "defender_interception": 38,
+      "robot_collision": 3,
+      "robot_field_exit": 1,
+      "ball_out": 1
+    },
+    "passes": 80,
+    "shots": 197,
+    "receptions": 38,
+    "carry_episodes": 118,
+    "direct_goals": 103
+  },
+  "families": {
+    "close": {
+      "count": 80,
+      "goals": 60,
+      "stops": 20,
+      "clean": 80,
+      "collisions": 0,
+      "unforced": 0
+    },
+    "midfield": {
+      "count": 80,
+      "goals": 20,
+      "stops": 56,
+      "clean": 76,
+      "collisions": 2,
+      "unforced": 2
+    },
+    "advanced": {
+      "count": 80,
+      "goals": 43,
+      "stops": 36,
+      "clean": 79,
+      "collisions": 1,
+      "unforced": 0
+    }
+  }
+}

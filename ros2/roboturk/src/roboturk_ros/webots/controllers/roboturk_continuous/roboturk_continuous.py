@@ -31,6 +31,18 @@ def main():
         elif mode == "fit":
             fit(out, seed, int(env["CONTINUOUS_EPOCHS"]), source)
             result = None
+        elif mode == "train":
+            from roboturk.continuous_selfplay import train
+
+            train(
+                backend,
+                out,
+                seed,
+                int(env["CONTINUOUS_ROUNDS"]),
+                int(env["CONTINUOUS_STEPS"]),
+                duration,
+            )
+            result = None
         elif mode == "evaluate":
             blue = load(source)
             yellow = load(env.get("CONTINUOUS_OPPONENT", source))

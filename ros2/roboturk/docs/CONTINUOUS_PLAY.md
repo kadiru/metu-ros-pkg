@@ -5,8 +5,11 @@ The qualified tactical-decision release and its frozen runtime remain unchanged.
 
 ## Runtime contract
 
-Both teams have two robots and opposite goals. A shared policy uses a robot-centered,
-attack-normalized observation and can execute recovery, dribbling, passing, shooting,
+Both teams have two robots and opposite goals. The v2 shared policy uses88 robot-centered, attack-normalized observations
+(including match clock and score) and35 outputs: seven behavior scores and seven
+separate four-output neural motion heads. Argmax selects the executed motion head,
+so behavior choice changes the physical command. The selected head supplies body
+velocity, rotation and release. It can execute recovery, dribbling, passing, shooting,
 pressing, covering or support. Both colors and IDs use the same contract; there is
 no permanent goalkeeper or privileged attacking side. Seed, scenario label, teacher
 state and match outcome are excluded from observations.
@@ -79,3 +82,13 @@ passes, completed with zero goals, eight passes, six receptions and four matches
 with turnovers. No robot contacts or field exits. Two-dimensional friction made
 steep-angle shots miss; a central shooting setup is being tested. Both pilot files
 are native teacher results, not neural-policy performance.
+
+The central-shot pilot completed6/6matches,18passes,8receptions,3turnovermatches,
+zero goals/contacts/fieldexits. Restrictive shot eligibility and changing goal-corner
+selection delayed shooting. A revised fixed near-corner/angle-compensated teacher
+is under development; all changes are training labels, not neural runtime overrides.
+
+The v2 factored-head/angle-compensated pilot completed6x45s:four goals (blue1/yellow3),
+21passes,six stable receptions,four matches with turnovers,zero robot contacts or
+fieldexits. Three games had goals, including one1–1draw. Teacher collection now uses
+30fresh matches4200000–4200029. These are analytic demonstrations, not neural results.

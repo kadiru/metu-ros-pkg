@@ -107,7 +107,7 @@ def test_pending_restart_cannot_mutate_before_fresh_inference():
     e.reset(1)
     e.pending_restart = "goal"
     with pytest.raises(RuntimeError):
-        e.step(np.zeros((4, 11), np.float32))
+        e.step(np.zeros((4, 35), np.float32))
     assert b.resets == 1 and e.pending_restart == "goal"
     e.restart_if_needed()
     assert b.resets == 2 and e.events[-1]["type"] == "referee_restart"
@@ -121,3 +121,17 @@ def test_referee_halt_and_skill_kick_masks():
         assert math.hypot(c.vx, c.vy) <= 1.200001
         assert (c.kick > 0) == (mode in (2, 3))
         assert decode(a, replace(w, referee=Referee.HALT), KEYS[0])[1] == Command()
+
+
+def test_behavior_selects_a_distinct_motion_head():
+    w = world()
+    a = np.zeros(35, np.float32)
+    a[0] = 1
+    a[7] = 0.5
+    a[7 + 4 * 6 + 1] = 0.5
+    first = decode(a, w, KEYS[0])[1]
+    a[0] = 0
+    a[6] = 1
+    second = decode(a, w, KEYS[0])[1]
+    assert first.vx == 0.6 and first.vy == 0
+    assert second.vx == 0 and second.vy == 0.6

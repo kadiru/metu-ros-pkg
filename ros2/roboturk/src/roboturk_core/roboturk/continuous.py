@@ -22,9 +22,9 @@ from .model import (
 )
 from .capture_contract import capture_observation
 
-CONTRACT = "roboturk.continuous_robot.v1"
+CONTRACT = "roboturk.continuous_robot.v2"
 MODES = ("recover", "dribble", "pass", "shoot", "press", "cover", "support")
-OBSERVATIONS, ACTIONS = 86, 11
+OBSERVATIONS, ACTIONS = 88, 35
 SPEED, OMEGA = 1.2, 4.0
 KEYS = tuple(RobotKey(t, i) for t in ("blue", "yellow") for i in range(2))
 
@@ -52,6 +52,8 @@ class Memory:
         self.mode = {k: 0 for k in KEYS}
         self.last_kick = {k: -10.0 for k in KEYS}
         self.last_control = w.time
+        self.duration = 45.0
+        self.scores = Counter(blue=0, yellow=0)
 
     def observe(self, samples, kicks, cfg):
         w = samples[-1]
@@ -97,6 +99,10 @@ def observation(w, k, memory, cfg=Config()):
     values += [min(5, w.time - memory.last_kick[key]) / 5 for key in keys[:2]]
     values += [min(5, w.time - memory.last_control) / 5]
     values += [float(memory.mode[k] == i) for i in range(len(MODES))]
+    values += [
+        max(0, memory.duration - w.time) / 45,
+        (memory.scores[k.team] - memory.scores[other_team(k.team)]) / 5,
+    ]
     result = np.asarray(values, np.float32)
     if result.shape != (OBSERVATIONS,) or not np.isfinite(result).all():
         raise ValueError(f"Invalid continuous observation {result.shape}")
@@ -106,14 +112,15 @@ def observation(w, k, memory, cfg=Config()):
 def decode(action, w, k, cfg=Config()):
     a = np.asarray(action, np.float32)
     if a.shape != (ACTIONS,) or not np.isfinite(a).all():
-        raise ValueError("Expected eleven finite continuous-policy outputs")
+        raise ValueError("Expected 35 finite continuous-policy outputs")
     a = np.clip(a, -1, 1)
     mode = int(np.argmax(a[:7]))
-    fire = a[10] > 0 and mode in (2, 3)
+    motor = a[7 + 4 * mode : 11 + 4 * mode]
+    fire = motor[3] > 0 and mode in (2, 3)
     c = Command(
-        float(a[7]) * SPEED,
-        float(a[8]) * SPEED,
-        float(a[9]) * OMEGA,
+        float(motor[0]) * SPEED,
+        float(motor[1]) * SPEED,
+        float(motor[2]) * OMEGA,
         0.0 if fire else 1.0,
         (2.2 if mode == 2 else 3.5) if fire else 0.0,
     )
@@ -123,10 +130,15 @@ def decode(action, w, k, cfg=Config()):
 
 
 def encode(mode, c):
-    a = np.full(ACTIONS, -0.8, np.float32)
+    a = np.zeros(ACTIONS, np.float32)
+    a[:7] = -0.8
     a[mode] = 0.8
-    a[7:10] = [c.vx / SPEED, c.vy / SPEED, c.omega / OMEGA]
-    a[10] = 0.8 if c.kick > 0 else -0.8
+    a[7 + 4 * mode : 11 + 4 * mode] = [
+        c.vx / SPEED,
+        c.vy / SPEED,
+        c.omega / OMEGA,
+        0.8 if c.kick > 0 else -0.8,
+    ]
     return np.clip(a, -1, 1)
 
 
@@ -203,6 +215,8 @@ class ContinuousMatch:
         self.restarts = 0
         self.last_acquisition_step = -1
         self.total_resets = 1
+        self.memory.duration = self.duration
+        self.memory.scores = self.scores
         return self.world
 
     def observations(self):
@@ -306,7 +320,11 @@ class ContinuousMatch:
                 self.distance[name(r.key)] += dist
                 if self.memory.mode[r.key] in (5, 6) and not possession(w, r.key, self.cfg):
                     self.support_distance[r.key.team] += dist
-                if possession(prior, r.key, self.cfg) and possession(w, r.key, self.cfg):
+                if (
+                    holders == [r.key]
+                    and self.memory.dwell[r.key] >= 15
+                    and possession(prior, r.key, self.cfg)
+                ):
                     self.controlled_carry[r.key.team] += max(
                         0, w.direction(r.key.team) * (w.ball.x - prior.ball.x)
                     )
@@ -382,6 +400,8 @@ class ContinuousMatch:
         self.last_pass = None
         self.restarts += 1
         self.total_resets += 1
+        self.memory.duration = self.duration
+        self.memory.scores = self.scores
 
     def result(self):
         return {

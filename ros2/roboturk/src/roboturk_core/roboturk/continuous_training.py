@@ -98,7 +98,9 @@ def collect(backend, output, count, seed, duration, model=None, mix=0):
             match.restart_if_needed()
             x = match.observations()
             y = teacher.actions(match)
-            if match.steps % 2 == 0:
+            if match.steps % 2 == 0 or np.any(
+                y[np.arange(4), 10 + 4 * np.argmax(y[:, :7], axis=1)] > 0
+            ):
                 xs.extend(x)
                 ys.extend(y)
             action = y.copy()
@@ -157,10 +159,16 @@ def fit(output, seed, epochs, source=None):
     torch.manual_seed(seed)
     xt, yt = torch.as_tensor(x), torch.as_tensor(y)
     modes = np.argmax(y[:, :7], axis=1)
-    groups = [np.flatnonzero(modes == i) for i in range(7)] + [np.flatnonzero(y[:, 10] > 0)]
+    groups = [np.flatnonzero(modes == i) for i in range(7)] + [
+        np.flatnonzero(y[np.arange(len(y)), 10 + 4 * modes] > 0)
+    ]
     groups = [g for g in groups if len(g)]
     opt = torch.optim.Adam(model.actor_parameters(), lr=3e-4)
-    weights = torch.tensor([1.0] * 7 + [15.0, 15.0, 5.0, 3.0])
+    weights = torch.zeros_like(yt)
+    weights[:, :7] = 1
+    for mode in range(7):
+        ids = np.flatnonzero(modes == mode)
+        weights[ids, 7 + 4 * mode : 11 + 4 * mode] = torch.tensor([15.0, 15.0, 5.0, 3.0])
     history = []
     for e in range(epochs):
         ids = np.concatenate([rng.choice(g, 2048) for g in groups])
@@ -168,7 +176,7 @@ def fit(output, seed, epochs, source=None):
         losses = []
         for batch in np.array_split(ids, max(1, len(ids) // 512)):
             pred = model.policy.get_distribution(xt[batch]).distribution.mean
-            loss = ((pred - yt[batch]).square() * weights).mean()
+            loss = ((pred - yt[batch]).square() * weights[batch]).sum(1).mean() / 11
             opt.zero_grad()
             loss.backward()
             opt.step()

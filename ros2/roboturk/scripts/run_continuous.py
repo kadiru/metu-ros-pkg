@@ -9,6 +9,7 @@ from zoneinfo import ZoneInfo
 import os
 from pathlib import Path
 import signal
+import shutil
 import subprocess
 import sys
 
@@ -71,6 +72,10 @@ def main():
         )
         + "\n"
     )
+    for source in sources:
+        target = receipt.with_suffix("") / "runtime" / source.relative_to(root)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, target)
     child = subprocess.Popen(cmd, env=env, start_new_session=True)
     try:
         return child.wait(timeout=a.timeout)

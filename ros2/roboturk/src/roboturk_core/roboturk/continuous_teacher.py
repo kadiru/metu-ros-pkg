@@ -89,8 +89,7 @@ class ContinuousTeacher:
             chaser = k.id == 0
         closest = min(opps, key=lambda p: math.hypot(p.x - r.x, p.y - r.y))
         pressure = math.hypot(closest.x - r.x, closest.y - r.y)
-        goal_def = min(opps, key=lambda p: math.hypot(sign * 4.5 - p.x, p.y))
-        gy = sign * (-0.35 if sign * goal_def.y > 0 else 0.35)
+        gy = 0.25 if b.y >= 0 else -0.25
         if held:
             contested = any(possession(w, p.key, cfg) for p in opps)
             distance = math.hypot(sign * 4.5 - b.x, gy - b.y)
@@ -105,7 +104,11 @@ class ContinuousTeacher:
                 and pressure < 1.6
                 and w.time - m.last_kick[k] > 1
             )
-            if distance < 1.65 and sign * b.x < 3.6 and abs(b.y) < 0.65:
+            if (
+                (distance < 1.8 or (m.mode[k] == 3 and distance < 2.1))
+                and sign * b.x < 4.15
+                and abs(b.y) < 1.4
+            ):
                 mode = 3
                 tx, ty = sign * 4.5, gy
                 speed = 0.0
@@ -127,7 +130,7 @@ class ContinuousTeacher:
                     )
                     tx = sign * min(3.1, sign * closest.x + 0.7)
                 speed = 0.6
-            angle = wrap(math.atan2(ty - b.y, tx - b.x) - r.yaw)
+            angle = wrap(math.atan2((ty - b.y) * (0.8 if mode == 3 else 1), tx - b.x) - r.yaw)
             omega = float(np.clip(2.2 * angle, -1.1, 1.1))
             bx, by = body_vector(b.x - r.x, b.y - r.y, r.yaw)
             vx = speed * max(0, math.cos(angle)) ** 3 + 3 * (bx - cfg.possession_x)

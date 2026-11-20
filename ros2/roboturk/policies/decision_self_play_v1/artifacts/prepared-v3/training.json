@@ -1,0 +1,44 @@
+{
+  "epochs": 120,
+  "seed": 447,
+  "samples": 139273,
+  "mode_counts": {
+    "0": 40730,
+    "1": 87393,
+    "2": 11150
+  },
+  "last_mean_loss": 0.023278111378507067,
+  "reset_samples": 600,
+  "switch_samples": 3766,
+  "parent": {
+    "transfer": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v2/transfer.zip",
+      "sha256": "1168c89b7c5903481dbbda96c362297272d6a74fdac20a232fe696e8ec0891fd",
+      "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+    },
+    "finish": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v2/finish.zip",
+      "sha256": "5924080ce847fae46e9a2227cf936c97cced2ea1fa24d01a6a7f234b847861c1",
+      "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+    },
+    "defender": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v2/defender.zip",
+      "sha256": "b005e400ea9805a0c6c5b1e21fceaa97ed4d7169f743d3ff78f478f621f6c72b",
+      "actor_sha256": "59b9598a05993578be7b300a5f0c9f242561f4b6b4be44a32ead1edcfdb85d36"
+    },
+    "keeper": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v2/keeper.zip",
+      "sha256": "2bfbe09946f4fddac5f51d1700341cffd875b56828bc47510fc2861608487c62",
+      "actor_sha256": "b6297278ab5d458a458b13f9664abfb9addaa51664e0d867a5d074719e0e3d83"
+    },
+    "manager": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v2/manager.zip",
+      "sha256": "48342520873e266906456ec5f74f7c43da382fe85e6eff68d5b75f4014a8737d",
+      "actor_sha256": "848b423be930451ce1c16772e2379d5431077a274708ca936049d72f1c4ae337"
+    }
+  },
+  "actor_before": "48af3a7029631f9c4ed08e2d0f61c3f7c4b1524433d39f9bd61d30b609b3e658",
+  "actor_after": "cbb8f438aeedb6111b9292c260cb9f64ad5119302f0bb33271f393a64622ee34",
+  "source_data_sha256": "637e215306918602060cdd0fa66ef8e728e8e6a0e42132f55f876d1cbee46290",
+  "change": "v3 eleven outputs: learned target update/retain gate; v2 labels extended from consecutive teacher target changes and reset rows"
+}

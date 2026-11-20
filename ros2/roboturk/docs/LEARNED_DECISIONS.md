@@ -72,3 +72,23 @@ baseline and all retained snapshot pairings on development scenarios.
 Approximate ground-truth Webots simulation, ideal body velocities, spring dribbler,
 velocity kicks, contact-distance/modeled mouth stop predicate and initial possession
 remain explicit limits. No full-match, official-rule or hardware qualification.
+
+## Initial native development and monitor correction
+
+First teacher-decision baseline, with frozen neural skills/opponents:56/60clean,
+28goals/28stops, two possession-loss labels, one field exit and one collision.
+Midfield18/20clean, advanced18/20, close20/20. One loss label occurred before any
+stable reception; the new monitor mistakenly treated a transient mouth touch as
+acquisition. It now requires20stable control ticks before enforcing received-ball
+retention (initial holder starts acquired). This is a measurement correction, not
+a behavior selector. The other loss followed stable reception and remains a failure.
+All original outcomes remain in development/teacher-initial.json. Added explicit
+reception events, possession counts, goal crossing segment and terminal coordinates.
+No reserved cases have run. A corrected teacher panel precedes300native teacher and
+150mixedDAgger collection; teacher control is labeled separately from learned results.
+
+The corrected same-seed teacher panel produced57/60clean:28goals,15interceptions,
+14keeper saves,one loss after stable reception,one field exit andone collision.
+The first transient contact case now terminates as a later legitimate interception.
+Native demonstration collection started with this source; all original results
+and runtime hashes are retained. No neural-manager performance claim yet.

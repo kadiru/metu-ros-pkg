@@ -290,6 +290,10 @@ class DecisionEnv(gym.Env):
         self.events, self.trace = [], []
         self.decisions = Counter()
         self.receptions = set()
+        self.reception_events = []
+        self.controlled = [True, False]
+        self.possession_checks = self.lost_checks = 0
+        self.goal_crossing_segment = None
         self.previous_fire = {k: False for k in self.keys}
         self.goal_crossing_y = None
         self.last_option = self.last_owner = None
@@ -331,6 +335,7 @@ class DecisionEnv(gym.Env):
             self.previous_fire[key] = c.kick > 0
             for _, w, speed in applied:
                 owner = self.keys.index(key)
+                self.controlled[owner] = False
                 distance = math.hypot(w.attack_sign * cfg.length / 2 - w.ball.x, w.ball.y)
                 self.events.append(
                     {
@@ -347,13 +352,34 @@ class DecisionEnv(gym.Env):
                 )
                 if owner != d.owner or d.option == 1 or (d.option == 2 and distance > 2):
                     error = "invalid_kick"
-            held_before = possession(old, key, cfg)
-            if held_before and not applied and not all(possession(w, key, cfg) for w in samples):
-                error = "lost_possession"
+            if self.controlled[self.keys.index(key)] and not applied:
+                held = [possession(w, key, cfg) for w in samples]
+                self.possession_checks += len(held)
+                self.lost_checks += sum(not h for h in held)
+                if not all(held):
+                    error = "lost_possession"
         for i in range(2):
+            if self.play.dwell[i] >= 20:
+                self.controlled[i] = True
             if self.play.dwell[i] >= 20 and any(
                 e["type"] == "pass" and e["owner"] != i for e in self.events
             ):
+                if i not in self.receptions:
+                    latest = next(
+                        e for e in reversed(self.events) if e["type"] == "pass" and e["owner"] != i
+                    )
+                    self.reception_events.append(
+                        {
+                            "owner": i,
+                            "step": self.steps,
+                            "dwell": self.play.dwell[i],
+                            "ball": [self.world.ball.x, self.world.ball.y],
+                            "pass_displacement": math.hypot(
+                                self.world.ball.x - latest["ball"][0],
+                                self.world.ball.y - latest["ball"][1],
+                            ),
+                        }
+                    )
                 self.receptions.add(i)
         crossing = False
         last = old.ball
@@ -363,6 +389,7 @@ class DecisionEnv(gym.Env):
                 line = w.attack_sign * (cfg.length / 2 + cfg.ball_radius)
                 alpha = (line - last.x) / (w.ball.x - last.x)
                 self.goal_crossing_y = last.y + alpha * (w.ball.y - last.y)
+                self.goal_crossing_segment = [[last.x, last.y], [w.ball.x, w.ball.y]]
             last = w.ball
             if any(
                 math.hypot(a.x - b.x, a.y - b.y) < 2 * cfg.robot_radius + 0.01
@@ -425,9 +452,15 @@ class DecisionEnv(gym.Env):
             "owner_changes": int(self.owner_changes),
             "controlled_carry": self.play.carry.copy(),
             "stable_receptions": len(self.receptions),
+            "reception_events": self.reception_events.copy(),
+            "possession_checks": self.possession_checks,
+            "lost_possession_checks": self.lost_checks,
             "events": self.events.copy(),
             "decisions": self.trace.copy(),
             "goal_crossing_y": self.goal_crossing_y,
+            "goal_crossing_segment": self.goal_crossing_segment,
+            "ball_final": [self.world.ball.x, self.world.ball.y],
+            "robots_final": {f"{r.key.team}{r.key.id}": [r.x, r.y] for r in self.world.robots},
             **self.backend.evidence(),
         }
 

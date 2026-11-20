@@ -9,5 +9,8 @@ and labeled baselines. No new reliability result or demo is claimed yet.
 
 [Protocol, fresh seeds and gates](../../docs/LEARNED_DECISIONS.md).
 Local contract/regression checks:124passed,oneROS-onlyskip; Ruff clean. Native
-teacher feasibility is running. Existing mobile-self-play policies are the motion
+teacher baseline completed57/60clean:28goals,29defensive stops,one possession loss,
+one field exit and one collision. The first56/60panel is retained; a premature
+acquisition measurement was corrected before training.300native demonstration
+episodes and150mixedDAgger episodes are now being collected/trained. Existing mobile-self-play policies are the motion
 skill/opponent starting point, not evidence for learned tactical decisions.

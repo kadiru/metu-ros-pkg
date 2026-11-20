@@ -39,11 +39,15 @@ def run(supervisor, backend, cfg, mode):
             models = {r: load_model(p, r, cfg) for r, p in sources.items()}
             bundle = {r: {"path": p, "sha256": digest(p)} for r, p in sources.items()}
         env = DecisionEnv(backend, cfg, models)
+        env.defender.sha256 = bundle["defender"]["sha256"]
+        env.keeper.sha256 = bundle["keeper"]["sha256"]
         if mode == "decision-probe":
             result = evaluate(env, count, seed, DecisionTeacher())
             result["manager_control"] = (
                 "scripted training teacher; low-level motion and opponents neural"
             )
+            result["scripted_handoff"] = True
+            result["scripted_target_selection"] = True
         elif mode == "decision-evaluate":
             result = evaluate(env, count, seed)
         elif mode == "decision-demo":

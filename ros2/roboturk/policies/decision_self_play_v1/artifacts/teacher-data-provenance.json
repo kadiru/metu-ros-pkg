@@ -1,0 +1,35 @@
+{
+  "manager": {
+    "path": "runs/decision-selfplay-v1/teacher-data/manager-data.npz",
+    "sha256": "33c33fcc2009f8cf684add43998a10b5a1fea7a85d69ac43b2179eb15435c7fd",
+    "bytes": 12599947,
+    "samples": 71913,
+    "observations_sha256": "40d393bf6a7cce8e522a0160ffbcf62d4ee93378e3d8672691b0b6e59f769646",
+    "actions_sha256": "82ef092de28d39500e5aaf06d850a539971150308f70c1800e16830f1d908b18",
+    "scope": "teacher-only arrays reconstructed from the first71913 unchanged rows of the combined107028-row teacher+DAgger dataset; not original NPZ container bytes",
+    "combined_source": "runs/decision-selfplay-v1/manager-data.npz",
+    "combined_sha256": "89773be46bf139e7b614ea8edfd48c3a1126541278f5ea18297ab6f904a9190d"
+  },
+  "defender": {
+    "path": "runs/decision-selfplay-v1/teacher-data/defender-data.npz",
+    "sha256": "9dd8301dfbcd974172771eeeb89e5f9958188095726c6d7c9aa248f5ed7efd3a",
+    "bytes": 9997690,
+    "samples": 71913,
+    "observations_sha256": "0e0413c58ffb2154402974e512c0eb88197d5e6e333487a69842e113c0e5a0c7",
+    "actions_sha256": "8145ba0a879df64b43200f9debe6cc3a1e2053ab8d562e9d64afdc638999a037",
+    "scope": "teacher-only arrays reconstructed from the first71913 unchanged rows of the combined107028-row teacher+DAgger dataset; not original NPZ container bytes",
+    "combined_source": "runs/decision-selfplay-v1/defender-data.npz",
+    "combined_sha256": "821c3422aa9528f958669c3106db9d5e38d65d8ed9d9fc7fb94526b22c80f783"
+  },
+  "keeper": {
+    "path": "runs/decision-selfplay-v1/teacher-data/keeper-data.npz",
+    "sha256": "dad6f1db8b7e6eaa553bbceda9fc06a056ff950236eec8ea560746446cfca0dd",
+    "bytes": 9880171,
+    "samples": 71913,
+    "observations_sha256": "7aacf443149ccf75b57a8f652a955d7792b60c2358d08246a42d05e800eb9a50",
+    "actions_sha256": "e0bcf616cb85f19db7aec82b2368a25762becd1ab24d4419f99c01797515e38c",
+    "scope": "teacher-only arrays reconstructed from the first71913 unchanged rows of the combined107028-row teacher+DAgger dataset; not original NPZ container bytes",
+    "combined_source": "runs/decision-selfplay-v1/keeper-data.npz",
+    "combined_sha256": "19ac7b842d0b208a1766ac1dafed3c0225d49254ebced5857784c62ffb490c61"
+  }
+}

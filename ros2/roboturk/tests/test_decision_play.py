@@ -5,7 +5,7 @@ import gymnasium as gym
 import numpy as np
 import pytest
 from roboturk.backend import ReferenceBackend
-from roboturk.model import Config, Referee
+from roboturk.model import Ball, Config, Referee
 from roboturk.decision_play import DecisionEnv, Decision, OPTIONS, encode, decode
 
 
@@ -102,3 +102,28 @@ def test_nonfinite_decision_rejected_and_physics_rewind_rejected():
     with pytest.raises(ValueError, match="control period"):
         e.play.observe(e.world, [e.world], [])
     assert OPTIONS == ("pass", "dribble", "shoot")
+
+
+@pytest.mark.parametrize("acquired", [False, True])
+def test_receiving_touch_is_not_stable_acquisition(monkeypatch, acquired):
+    e, _ = env()
+    r = e.world.robot(e.keys[1])
+    import math
+
+    before = replace(
+        e.world,
+        ball=Ball(
+            r.x + e.cfg.possession_x * math.cos(r.yaw), r.y + e.cfg.possession_x * math.sin(r.yaw)
+        ),
+    )
+    after = replace(before, time=0.02, ball=Ball(r.x + 0.4, r.y + 0.4))
+    e.world = before
+    e.controlled = [False, acquired]
+    e.play.dwell = [0, 19]
+    monkeypatch.setattr(e.backend, "step", lambda commands: after)
+    monkeypatch.setattr(e.backend, "last_substep_worlds", [after], raising=False)
+    monkeypatch.setattr(e.backend, "last_kick_events", [], raising=False)
+    a = encode(Decision(1, 1, (0, 2), (3, 0), (before.attack_sign * 4.5, 0.4)), before, e.cfg)
+    _, _, done, _, info = e.step(a)
+    assert (info["reason"] == "lost_possession") == acquired
+    assert done == acquired

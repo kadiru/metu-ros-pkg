@@ -14,3 +14,12 @@ one field exit and one collision. The first56/60panel is retained; a premature
 acquisition measurement was corrected before training.300native demonstration
 episodes and150mixedDAgger episodes are now being collected/trained. Existing mobile-self-play policies are the motion
 skill/opponent starting point, not evidence for learned tactical decisions.
+
+First fully neural manager development FAILED:52/60clean,4goals,48defensive stops,
+six invalid-kick labels and two field exits. Every invalid-kick label followed an
+already applied valid shot (empty retrigger while ball in flight); original records
+remain. Goal-mouth target averaging and reset-state target errors are under review.
+Teacher collection300games:172goals,109stops,19failures. The manager fit used71,913
+native observations/100epochs; DAgger is still running. No self-play or qualification
+claim yet. [Initial manager](artifacts/teacher/manager.zip),
+[collection](artifacts/teacher-collection.json), [pure-neural outcomes](artifacts/teacher-development.json).

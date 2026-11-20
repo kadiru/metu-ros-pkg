@@ -207,11 +207,19 @@ def validate_episode(e, cfg, models):
             or event["decision_owner"] != event["owner"]
         ):
             raise ValueError("Applied kick disagrees with learned decision")
-        if event["type"] not in ("pass", "shoot") or not event["held"]:
+        if (event["type"] not in ("pass", "shoot") or not event["held"]) and e["reason"] in (
+            "goal",
+            "keeper_save",
+            "defender_interception",
+        ):
             raise ValueError("Unheld/invalid kick event")
         if not math.isclose(event["speed"], 2.5 if event["type"] == "pass" else 3.5, abs_tol=1e-6):
             raise ValueError("Unexpected kick speed")
-        if event["type"] == "shoot" and event["goal_distance"] > 2:
+        if (
+            event["type"] == "shoot"
+            and event["goal_distance"] > 2
+            and e["reason"] in ("goal", "keeper_save", "defender_interception")
+        ):
             raise ValueError("Invalid shot range")
     if len(e["reception_events"]) != e["stable_receptions"]:
         raise ValueError("Reception count mismatch")

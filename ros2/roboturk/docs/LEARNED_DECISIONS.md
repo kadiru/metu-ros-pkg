@@ -92,3 +92,58 @@ The corrected same-seed teacher panel produced57/60clean:28goals,15interceptions
 The first transient contact case now terminates as a later legitimate interception.
 Native demonstration collection started with this source; all original results
 and runtime hashes are retained. No neural-manager performance claim yet.
+
+## Inference boundary and reproducibility
+
+`DecisionPlay` receives world state, measured physics substeps and applied-kick
+feedback. Its75inputs contain physical robot/ball geometry and velocity, possession
+and dwell measurements, observed kick history, initial blue positions, previous
+manager outputs, controlled forward travel and geometric distances/angles. It never
+receives a seed, scenario-family label, teacher phase or teacher target. Blue robots
+are ordered by their initial possession roles; IDs and attacking direction vary.
+
+| Manager outputs | Runtime meaning |
+| --- | --- |
+|0–2|Learned pass/receive, dribble and shoot scores; argmax chooses the behavior|
+|3–4|Learned acting-robot scores; argmax chooses the blue robot|
+|5–6|Receiving point in normalized attack-frame field coordinates|
+|7–8|Dribble setup point in the same frame|
+|9|Goal-mouth lateral aim; goal line itself is fixed field geometry|
+
+All target coordinates come from network outputs. Coordinate decoding imposes only
+field/goal bounds. The pass skill controls the selected passer and the other robot;
+the dribble/shoot skill controls the selected holder while the other holds position.
+Dribble has no kick actuator. Shoot uses the existing learned precise-release head.
+The pass decoder retains its measured applied-pass memory; that memory cannot
+select dribble, shoot, robot ownership or a target. Initial acquisition and physical
+stable reception are measured by a separate monitor, not a handoff rule.
+
+```mermaid
+flowchart LR
+  W[Measured world and event history] --> M[Learned tactical manager]
+  M --> T[Behavior, robot and target outputs]
+  T --> S[Frozen neural motion skills]
+  S --> P[Native Webots physics]
+  D[Learned defender and keeper] --> P
+  P --> W
+```
+
+Training-only `DecisionTeacher` contains the former target/phase logic and labels
+manager observations. Its baseline/demo-collection records explicitly identify
+teacher control. Unit checks make old target/phase planners raise if called from
+`DecisionPlay`, verify that reception cannot force a mode/owner change, and check
+referee/visibility stopping. Event-audit tampering tests use retained native baseline
+records; these are software checks, not additional performance trials.
+
+Once a frozen bundle is available, replay from the repository root with the pinned
+Python environment and native Webots installation:
+
+```sh
+python scripts/run_webots.py --webots /path/to/webots \
+  --mode decision-demo --checkpoint policies/decision_self_play_v1/final-bundle.json \
+  --episodes 9 --seed 3400000 --output runs/decision-replay --timeout 1800 --render
+```
+
+Replay of declared scenarios is not a new independent qualification. The runtime
+manifest pins native binaries and package versions. Historical absolute paths are
+provenance; staged bundle paths are relative to the modern repository root.

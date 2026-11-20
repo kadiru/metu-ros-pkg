@@ -26,9 +26,9 @@ from .self_play import (
     mobile_transfer_commands,
 )
 
-CONTRACT = "roboturk.tactical_decision.v2"
+CONTRACT = "roboturk.tactical_decision.v3"
 OBSERVATIONS = 75
-ACTIONS = 10
+ACTIONS = 11
 OPTIONS = ("pass", "dribble", "shoot")
 
 
@@ -39,12 +39,13 @@ class Decision:
     receive: tuple[float, float]
     parking: tuple[float, float]
     aim: tuple[float, float]
+    receive_update: bool = True
 
 
 def decode(action, world, cfg):
     a = np.asarray(action, np.float32)
     if a.shape != (ACTIONS,) or not np.isfinite(a).all():
-        raise ValueError("Expected ten finite tactical outputs")
+        raise ValueError("Expected eleven finite tactical outputs")
     a = np.clip(a, -1, 1)
     sx, sy, sign = cfg.length / 2 - 0.2, cfg.width / 2 - 0.2, world.attack_sign
     return Decision(
@@ -53,6 +54,7 @@ def decode(action, world, cfg):
         (sign * float(a[5]) * sx, sign * float(a[6]) * sy),
         (sign * float(a[7]) * sx, sign * float(a[8]) * sy),
         (sign * cfg.length / 2, sign * (1 if a[9] >= 0 else -1) * (cfg.goal_width / 2 - 0.07)),
+        bool(a[10] > 0),
     )
 
 
@@ -67,6 +69,7 @@ def encode(decision, world, cfg):
         sign * d.parking[1] / (cfg.width / 2 - 0.2),
     ]
     a[9] = sign * d.aim[1] / (cfg.goal_width / 2 - 0.06)
+    a[10] = 0.8 if d.receive_update else -0.8
     return a
 
 
@@ -129,7 +132,7 @@ class DecisionPlay:
         values.extend(min(10, w.time - t) / 10 for t in self.last_kick_time)
         values.extend(min(3, k) / 3 for k in self.kicks)
         values.extend(v for x, y in self.initial for v in (sign * x / 4.5, sign * y / 3))
-        values.extend(self.previous)
+        values.extend(self.previous[:10])
         values.extend(float(s.passed) for s in self.states)
         values.extend(c / 4 for c in self.carry)
         values.append(min(w.time, 40) / 40)
@@ -170,7 +173,10 @@ class DecisionPlay:
             return {k: Command() for k in self.keys}
         if action is None:
             action = self.manager.predict(self.observation(world), deterministic=True)[0]
-        self.decision = decode(action, world, self.cfg)
+        proposed = decode(action, world, self.cfg)
+        if not proposed.receive_update:
+            proposed.receive = self.decision.receive
+        self.decision = proposed
         # Remember the executed option/robot/target, not uncertain raw score margins.
         # This is action encoding; it does not choose a behavior or perform a handoff.
         self.previous = encode(self.decision, world, self.cfg)
@@ -312,7 +318,12 @@ class DecisionEnv(gym.Env):
         self.decisions[OPTIONS[d.option]] += 1
         self.option_changes += self.last_option is not None and self.last_option != d.option
         self.owner_changes += self.last_owner is not None and self.last_owner != d.owner
-        if self.steps % 10 == 0 or self.last_option != d.option or self.last_owner != d.owner:
+        if (
+            self.steps % 10 == 0
+            or self.last_option != d.option
+            or self.last_owner != d.owner
+            or d.receive_update
+        ):
             self.trace.append(
                 {
                     "step": self.steps,
@@ -321,6 +332,7 @@ class DecisionEnv(gym.Env):
                     "receive": d.receive,
                     "parking": d.parking,
                     "aim": d.aim,
+                    "receive_update": d.receive_update,
                 }
             )
         self.last_option, self.last_owner = d.option, d.owner

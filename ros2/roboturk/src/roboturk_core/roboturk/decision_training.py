@@ -4,10 +4,14 @@ from dataclasses import asdict
 import json
 import math
 from pathlib import Path
+from collections import Counter
+import time
 import gymnasium as gym
 import numpy as np
 import torch
 from stable_baselines3.common.monitor import Monitor
+from stable_baselines3.common.callbacks import BaseCallback
+from .decision_rewards import boundary_cost, training_settings
 from .decision_play import (
     ACTIONS,
     OBSERVATIONS,
@@ -42,6 +46,7 @@ class DecisionTeacher:
         self.finishing = not self.start_pass
         self.owner = 0
         self.plan = None
+        self.previous_target = None
 
     def action(self, env):
         w, cfg, p = env.world, env.cfg, env.play
@@ -69,6 +74,8 @@ class DecisionTeacher:
                 (w.attack_sign * (cfg.length / 2 - 1.35), 0),
                 (w.attack_sign * cfg.length / 2, (1 if w.ball.y >= 0 else -1) * 0.43),
             )
+        d.receive_update = self.previous_target != d.receive
+        self.previous_target = d.receive
         return encode(d, w, cfg)
 
 
@@ -180,6 +187,8 @@ def fit(model, x, y, epochs, seed):
         | (np.sign(previous[:, 9]) != np.sign(y[:, 9]))
     )
     groups += [np.flatnonzero(reset), np.flatnonzero(switch)]
+    if ACTIONS == 11:
+        groups += [np.flatnonzero(y[:, 10] > 0)]
     groups = [g for g in groups if len(g)]
     optimizer = torch.optim.Adam(model.actor_parameters(), lr=3e-4)
     losses = []
@@ -189,7 +198,7 @@ def fit(model, x, y, epochs, seed):
         for batch in np.array_split(ids, len(ids) // 512):
             pred = model.policy.get_distribution(inputs[batch]).distribution.mean
             # Targets need centimeter-scale accuracy; discrete logits use wide margins.
-            weight = torch.tensor([1, 1, 1, 1, 1, 12, 12, 12, 12, 4], dtype=torch.float32)
+            weight = torch.tensor([1, 1, 1, 1, 1, 12, 12, 12, 12, 4, 2], dtype=torch.float32)
             loss = ((pred - targets[batch]) ** 2 * weight).mean()
             optimizer.zero_grad()
             loss.backward()
@@ -260,6 +269,9 @@ class DecisionMatch(gym.Env):
             ShapeEnv.action_space if role == "manager" else self.carrier.action_space
         )
         self.records = []
+        self.resets = []
+        self.sampled_choices = Counter()
+        self.choice_disagreements = 0
 
     def reset(self, *, seed=None, options=None):
         super().reset(seed=seed)
@@ -267,6 +279,7 @@ class DecisionMatch(gym.Env):
             self.rng = np.random.default_rng(seed)
         self.pool_index = int(self.rng.integers(len(self.pool)))
         self.episode_seed = int(self.rng.integers(3100000, 3200000))
+        self.resets.append({"seed": self.episode_seed, "pool_index": self.pool_index})
         models = dict(self.current)
         for r in ("defender", "keeper") if self.role == "manager" else ("manager",):
             models[r] = self.pool[self.pool_index][r]
@@ -285,6 +298,15 @@ class DecisionMatch(gym.Env):
         )
 
     def step(self, action):
+        if self.role == "manager":
+            baseline = self.current["manager"].predict(self.observation(), deterministic=True)[0]
+            choice = (int(np.argmax(action[:3])), int(np.argmax(action[3:5])), bool(action[10] > 0))
+            self.sampled_choices[str(choice)] += 1
+            self.choice_disagreements += choice != (
+                int(np.argmax(baseline[:3])),
+                int(np.argmax(baseline[3:5])),
+                bool(baseline[10] > 0),
+            )
         if self.role != "manager":
             self.carrier.value = np.asarray(action, np.float32)
             action = self.env.play.manager.predict(
@@ -303,16 +325,17 @@ class DecisionMatch(gym.Env):
                 )
                 - 0.002
                 - proximity_penalty(self.env.world, c.key, 0.3)
+                - boundary_cost(self.env.world, c.key, self.cfg)
             )
             if done:
                 reward = (
                     -40
-                    if "collision" in info["reason"]
+                    if "collision" in info["reason"] or info["reason"] == "robot_field_exit"
                     else 25
                     if info["reason"] in ("keeper_save", "defender_interception")
                     else -25
                     if info["reason"] == "goal"
-                    else -5
+                    else -25
                 )
         if done:
             info["opponent_pool_index"] = self.pool_index
@@ -358,6 +381,8 @@ def train(backend, cfg, output, rounds=3, steps=32768, seed=427):
             receipt = base / "training.json"
             if receipt.exists():
                 saved = json.loads(receipt.read_text())
+                if saved["actor_before"] == saved["actor_after"]:
+                    raise ValueError("Failed unchanged-actor run needs explicit new experiment")
                 b = json.loads((base / "bundle.json").read_text())
                 current = load(b, cfg)
                 if saved["steps"] != steps or saved["generation"] != generation:
@@ -375,21 +400,45 @@ def train(backend, cfg, output, rounds=3, steps=32768, seed=427):
             env = DecisionMatch(
                 backend, cfg, role, current, pool, seed + generation * 31 + TRAIN_ROLES.index(role)
             )
+            settings = training_settings(role)
+            role_seed = seed + generation * 31 + TRAIN_ROLES.index(role)
             m = SelfPlayPPO.load(
                 before[role]["path"],
                 env=Monitor(env),
                 device="cpu",
-                learning_rate=8e-7 if role == "manager" else 3e-6,
+                learning_rate=settings["learning_rate"],
             )
+            m.set_random_seed(role_seed)
+            with torch.no_grad():
+                if role == "manager":
+                    m.policy.log_std.fill_(settings["target_log_std"])
+                    m.policy.log_std[:5].fill_(settings["choice_log_std"])
+                    m.policy.log_std[10].fill_(settings["choice_log_std"])
+                else:
+                    m.policy.log_std.fill_(settings["motion_log_std"])
+            initial_log_std = m.policy.log_std.detach().tolist()
             data = np.load(output / (role + "-data.npz"))
             x = data["observations"]
             rng = np.random.default_rng(seed + generation)
             ids = rng.choice(len(x), min(50000, len(x)), replace=False)
             m.prepare_anchor(x[ids], seed + generation, groups=[np.arange(len(ids))])
-            m.actor_mse_limit = 3e-5
-            m.actor_delta_limit = 0.06
+            for group in m.anchor_optimizer.param_groups:
+                group["lr"] = 2e-6
+            m.actor_mse_limit = settings["mse_limit"]
+            m.actor_delta_limit = settings["delta_limit"]
             old_hash = actor_hash(m)
-            m.learn(total_timesteps=steps, reset_num_timesteps=True)
+            started = time.monotonic()
+
+            class Progress(BaseCallback):
+                def _on_step(self):
+                    if self.num_timesteps % 8192 == 0:
+                        print(
+                            f"Decision self-play G{generation} {role}: {self.num_timesteps}/{steps}, {time.monotonic() - started:.1f}s",
+                            flush=True,
+                        )
+                    return True
+
+            m.learn(total_timesteps=steps, reset_num_timesteps=True, callback=Progress())
             current[role] = m
             after = save(
                 current,
@@ -409,12 +458,21 @@ def train(backend, cfg, output, rounds=3, steps=32768, seed=427):
                 "after": after,
                 "historical_pool": league["snapshots"].copy(),
                 "complete_rollouts": len(env.records),
+                "reset_count": len(env.resets),
+                "seed": role_seed,
+                "settings": settings,
+                "initial_log_std": initial_log_std,
+                "final_log_std": m.policy.log_std.detach().tolist(),
+                "sampled_manager_choices": dict(env.sampled_choices),
+                "choices_different_from_starting_manager": env.choice_disagreements,
+                "seconds": time.monotonic() - started,
             }
-            if old_hash == row["actor_after"]:
-                raise RuntimeError("No accepted actor change; retain failed run")
             write(base / "rollouts.json", env.records)
+            write(base / "resets.json", env.resets)
             write(base / "updates.json", m.anchor_log)
             write(receipt, row)
+            if old_hash == row["actor_after"]:
+                raise RuntimeError("No accepted actor change; retained failed run")
             league["updates"].append(row)
             print(f"Generation{generation} {role}: {row['accepted_updates']} accepted", flush=True)
         bundle = save(

@@ -25,6 +25,10 @@ def run(supervisor, backend, cfg, mode):
         from roboturk.decision_prepare import prepare
 
         prepare(backend, cfg, output, seed)
+    elif mode == "decision-commitment":
+        from roboturk.decision_commitment import prepare
+
+        prepare(backend, cfg, output, seed)
     elif mode == "decision-panel":
         from roboturk.decision_panel import cross_play
 

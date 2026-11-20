@@ -20,6 +20,7 @@ def main():
             "decision-probe",
             "decision-bootstrap",
             "decision-prepare",
+            "decision-commitment",
             "decision-panel",
             "decision-train",
             "decision-evaluate",

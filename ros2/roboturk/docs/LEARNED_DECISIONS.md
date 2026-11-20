@@ -181,3 +181,27 @@ new applied/unheld kicks, wrong-owner releases and out-of-range shots remain inv
 Original strict-monitor failures remain. This correction is separate from any learned
 improvement. The keeper's field exits are real and must be addressed through training;
 no position clamp or weakening of the defense is introduced.
+
+Development amendment, November 19 Pacific (before any reserved resets): v2 DAgger
+scored32/60 but only53/60clean (two keeper field exits, two ball-outs, three timeouts).
+Midfield target traces drifted by over1m or switched flanks. Retain that failed version.
+Contractv3 keeps75observations and adds an eleventh learned output: positive updates
+the receiving point, negative retains the last executed point. There is no automatic
+reset update, arrival trigger, reception handoff or teacher fallback. Option/robot,
+dribble point and goal corner still come from the neural manager each command.
+The previous-action observation retains the original ten executed fields.
+
+V3 preparation explicitly migrates the first ten output rows and all matching model
+weights from v2. Gate labels on existing native data indicate reset or a change in the
+consecutive teacher receiving-point label; fresh training-only DAgger uses the same
+teacher-change labels. Refit120epochs, development60, fresh150mixed games at
+3040000–3040149 (80%learned/20%teacher percommand), refit120, development60.
+All supervised contributions and failed development results remain separate from PPO.
+
+Self-play uses Gaussian latent option/owner/gate exploration (logstd−0.5), target
+logstd−4.5 and defensive-motion logstd−3.5. PPO learning rate1e−5; anchor projection
+rate2e−6; actor trust limits managerMSE5e−4/max0.2 and defenseMSE3e−4/max0.15.
+Defensive reward includes a smooth training-only field-margin cost; collision or
+field exit costs40, goal/other unforced ending costs25, valid defensive stop earns25.
+No runtime boundary projection is added. Every reset, including the unfinished last
+rollout, is logged alongside sampled decisions, actor updates and historical pools.

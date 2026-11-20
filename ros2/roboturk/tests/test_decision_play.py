@@ -6,7 +6,7 @@ import numpy as np
 import pytest
 from roboturk.backend import ReferenceBackend
 from roboturk.model import Ball, Config, Referee
-from roboturk.decision_play import DecisionEnv, Decision, OPTIONS, encode, decode
+from roboturk.decision_play import ACTIONS, DecisionEnv, Decision, OPTIONS, encode, decode
 
 
 class Fixed:
@@ -112,10 +112,27 @@ def test_referee_halt_stops_without_manager_or_motion_calls():
 def test_nonfinite_decision_rejected_and_physics_rewind_rejected():
     e, _ = env()
     with pytest.raises(ValueError, match="finite"):
-        decode(np.full(10, np.nan), e.world, e.cfg)
+        decode(np.full(ACTIONS, np.nan), e.world, e.cfg)
     with pytest.raises(ValueError, match="control period"):
         e.play.observe(e.world, [e.world], [])
     assert OPTIONS == ("pass", "dribble", "shoot")
+
+
+def test_target_memory_changes_only_when_the_learned_gate_requests_it():
+    e, _ = env()
+    d = Decision(0, 0, (0.2, 2.1), (3, 0), (4.5, 0.43), False)
+    e.play.commands(e.world, encode(d, e.world, e.cfg))
+    assert e.play.decision.receive == (0, 0)
+    d.receive_update = True
+    e.play.commands(e.world, encode(d, e.world, e.cfg))
+    np.testing.assert_allclose(e.play.decision.receive, d.receive)
+    d.receive = (-1.2, -2)
+    d.receive_update = False
+    d.option, d.owner = 2, 1
+    e.play.commands(e.world, encode(d, e.world, e.cfg))
+    np.testing.assert_allclose(e.play.decision.receive, (0.2, 2.1))
+    assert (e.play.decision.option, e.play.decision.owner) == (2, 1)
+    assert e.play.observation(e.world).shape == (75,)
 
 
 @pytest.mark.parametrize("acquired", [False, True])

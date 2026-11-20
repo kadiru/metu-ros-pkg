@@ -54,6 +54,19 @@ def stage(source, release):
         base = source / f"round{row['generation']}" / role
         events = json.loads((base / "updates.json").read_text())
         rolls = json.loads((base / "rollouts.json").read_text())
+        resets = json.loads((base / "resets.json").read_text())
+        if (
+            len(resets) != row["reset_count"]
+            or not resets
+            or any(not 3100000 <= r["seed"] < 3200000 for r in resets)
+            or [r["seed"] for r in resets[: len(rolls)]] != [r["seed"] for r in rolls]
+        ):
+            raise ValueError("Incomplete or contaminated reset ledger")
+        if role == "manager" and (
+            sum(row["sampled_manager_choices"].values()) != row["steps"]
+            or row["choices_different_from_starting_manager"] <= 0
+        ):
+            raise ValueError("Manager did not explore decisions")
         if (
             row["steps"] != 32768
             or len(events) != 32
@@ -172,7 +185,7 @@ def freeze(release):
     return result
 
 
-def validate_episode(e, cfg, models):
+def validate_episode(e, cfg, models, require_gate=False):
     steps = e["steps"]
     if e["manager_calls"] != steps or sum(e["option_counts"].values()) != steps:
         raise ValueError("Manager decision discontinuity")
@@ -192,6 +205,7 @@ def validate_episode(e, cfg, models):
         )
     ):
         raise ValueError("Missing learned decisions")
+    previous_target = [0, 0]
     for t in trace:
         if (
             t["option"] not in ("pass", "dribble", "shoot")
@@ -199,6 +213,12 @@ def validate_episode(e, cfg, models):
             or not all(math.isfinite(v) for key in ("receive", "parking", "aim") for v in t[key])
         ):
             raise ValueError("Invalid learned decision")
+        if require_gate:
+            if type(t.get("receive_update")) is not bool:
+                raise ValueError("Missing target update decision")
+            if not t["receive_update"] and t["receive"] != previous_target:
+                raise ValueError("Target changed without learned update")
+            previous_target = t["receive"]
     for event in e["events"]:
         decision = next((t for t in reversed(trace) if t["step"] <= event["step"] - 1), None)
         if (
@@ -328,7 +348,7 @@ def audit(release, path, split):
     directions = Counter()
     options = Counter()
     for e in records:
-        goal, stop, collision, outside = validate_episode(e, cfg, models)
+        goal, stop, collision, outside = validate_episode(e, cfg, models, require_gate=True)
         counts[e["reason"]] += 1
         counts["goals"] += goal
         counts["stops"] += stop

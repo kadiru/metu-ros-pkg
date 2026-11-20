@@ -1,0 +1,23 @@
+{
+  "stage": "v2_balanced_preparation",
+  "seed": 437,
+  "contract": "roboturk.tactical_decision.v2",
+  "role": "manager",
+  "config": {
+    "length": 9.0,
+    "width": 6.0,
+    "goal_width": 1.0,
+    "robot_radius": 0.09,
+    "ball_radius": 0.0215,
+    "ball_mass": 0.046,
+    "max_speed": 2.0,
+    "max_omega": 8.0,
+    "max_kick": 5.0,
+    "dt": 0.02,
+    "max_steps": 500,
+    "neighbors": 5,
+    "possession_x": 0.115
+  },
+  "actor_sha256": "2399a9aebfa14978b91127d1c2d1655ad1767cabe33f83cdf0b13cbab745a0a4",
+  "validated_for_hardware": false
+}

@@ -56,7 +56,7 @@ Freeze and publish models/runtime before reserved cases. Never tune on those cas
 or reuse them to qualify a changed candidate. Gates:≥95% clean outcomes (goal or
 legitimate defensive contact stop),≤2% robot collisions,≤3% unforced errors; final
 pair≥20% goals and final defense≥20% stops against bootstrap. Each final-pair family
-must have≥90% clean outcomes. Also require≥20 actual passes,≥20 stable receptions,
+must have≥90% clean outcomes and≥10% goals. Also require≥20 actual passes,≥20 stable receptions,
 ≥20 episodes with≥0.5m controlled carry,≥20 actual shots and≥5 goals without a prior
 pass in the240final cases. These measure exercised decisions, not tactical optimality.
 All nine demo cases must be clean; include every case in original order. A failed
@@ -108,7 +108,7 @@ are ordered by their initial possession roles; IDs and attacking direction vary.
 |3–4|Learned acting-robot scores; argmax chooses the blue robot|
 |5–6|Receiving point in normalized attack-frame field coordinates|
 |7–8|Dribble setup point in the same frame|
-|9|Goal-mouth lateral aim; goal line itself is fixed field geometry|
+|9|Learned left/right corner score; its sign selects a geometric goal-mouth corner|
 
 All target coordinates come from network outputs. Coordinate decoding imposes only
 field/goal bounds. The pass skill controls the selected passer and the other robot;
@@ -147,3 +147,37 @@ python scripts/run_webots.py --webots /path/to/webots \
 Replay of declared scenarios is not a new independent qualification. The runtime
 manifest pins native binaries and package versions. Historical absolute paths are
 provenance; staged bundle paths are relative to the modern repository root.
+
+
+## Development amendment: v2 decision encoding before self-play
+
+The first neural clone scored4/60 with52clean outcomes; mixedDAgger initialization
+improved to16/60 and57clean. All16goals were close-range starts, with no midfield
+or advanced-family goals. These candidates are retained as failed development.
+V1 dataset:300teacher+150mixedDAgger games,107,028manager observations. Teacher-only
+arrays are recoverable as the first71,913rows; the separate reconstructed NPZ receipt
+explicitly does not claim the original compressed container bytes.
+
+V2 keeps75inputs/10outputs but makes output9 a learned corner score: its sign selects
+±(goal half-width−0.07m), avoiding interpolation between mutually exclusive corner
+choices. Receive/dribble points remain continuous learned coordinates. Previous-action
+memory now encodes the executed choice/target, not raw uncertain logits. This is
+an explicit contract change (roboturk.tactical_decision.v2), not an analytic corner
+selector. Old v1 checkpoints require their original runtime commit.
+
+Refit sampling now balances reset and decision-switch examples as well as all three
+behavior classes. The old DAgger manager initializes120epochs of supervised refitting;
+then150fresh mixedDAgger games3030000–3030149 and another120epochs refine the new
+contract before self-play. Native/development results and original v1 artifacts
+remain separate. All reserved seeds are untouched. Add a≥10% goal-rate gate to each
+final-pair family, before any reserved run, to prevent close-range-only scoring from
+passing the new strategic benchmark.
+
+Development traces also showed empty fire retriggers after an already-applied valid
+shot: all four teacher invalid-kick labels and all six initial neural invalid labels
+were of this form. The monitor now records these harmless no-op requests separately
+instead of inventing another physical kick. It does not suppress/override actions;
+new applied/unheld kicks, wrong-owner releases and out-of-range shots remain invalid.
+Original strict-monitor failures remain. This correction is separate from any learned
+improvement. The keeper's field exits are real and must be addressed through training;
+no position clamp or weakening of the defense is introduced.

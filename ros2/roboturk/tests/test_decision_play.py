@@ -47,6 +47,20 @@ def test_manager_contract_and_geometry_are_finite():
         np.testing.assert_allclose(out.parking, d.parking, atol=1e-6)
 
 
+def test_corner_choice_is_learned_and_executed_memory_is_canonical():
+    e, _ = env()
+    for score in (-0.03, 0.03):
+        a = encode(
+            Decision(1, 1, (0.5, 1), (3, 0), (e.world.attack_sign * 4.5, 0.4)), e.world, e.cfg
+        )
+        a[:5] *= 0.1
+        a[9] = score
+        e.play.commands(e.world, a)
+        assert e.play.decision.aim[1] == pytest.approx(e.world.attack_sign * np.sign(score) * 0.43)
+        assert e.play.previous[1] == pytest.approx(0.8)
+        assert e.play.previous[4] == pytest.approx(0.8)
+
+
 @pytest.mark.parametrize("mode", range(3))
 def test_no_scripted_target_or_phase_planner_during_inference(monkeypatch, mode):
     e, _ = env()
@@ -127,3 +141,30 @@ def test_receiving_touch_is_not_stable_acquisition(monkeypatch, acquired):
     _, _, done, _, info = e.step(a)
     assert (info["reason"] == "lost_possession") == acquired
     assert done == acquired
+
+
+@pytest.mark.parametrize("already_shot", [False, True])
+def test_empty_retrigger_is_counted_without_overriding_actions(monkeypatch, already_shot):
+    e, _ = env()
+    b = e.world.ball
+    before = replace(e.world, ball=Ball(b.x + e.world.attack_sign * 0.3, b.y))
+    after = replace(before, time=0.02)
+    e.world = before
+    e.controlled = [False, False]
+    if already_shot:
+        e.events = [{"type": "shoot", "owner": 0}]
+    observed = {}
+
+    def advance(commands):
+        observed.update(commands)
+        return after
+
+    monkeypatch.setattr(e.backend, "step", advance)
+    monkeypatch.setattr(e.backend, "last_substep_worlds", [after], raising=False)
+    monkeypatch.setattr(e.backend, "last_kick_events", [], raising=False)
+    a = encode(Decision(2, 0, (0, 2), (3, 0), (before.attack_sign * 4.5, 0.4)), before, e.cfg)
+    _, _, done, _, info = e.step(a)
+    assert observed[e.keys[0]].kick == 3.5
+    assert info["empty_shot_retriggers"] == int(already_shot)
+    assert (info["reason"] == "invalid_kick") == (not already_shot)
+    assert done == (not already_shot)

@@ -19,6 +19,8 @@ def main():
         choices=[
             "decision-probe",
             "decision-bootstrap",
+            "decision-prepare",
+            "decision-panel",
             "decision-train",
             "decision-evaluate",
             "decision-demo",

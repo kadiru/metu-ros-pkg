@@ -26,7 +26,7 @@ from .self_play import (
     mobile_transfer_commands,
 )
 
-CONTRACT = "roboturk.tactical_decision.v1"
+CONTRACT = "roboturk.tactical_decision.v2"
 OBSERVATIONS = 75
 ACTIONS = 10
 OPTIONS = ("pass", "dribble", "shoot")
@@ -52,7 +52,7 @@ def decode(action, world, cfg):
         int(np.argmax(a[3:5])),
         (sign * float(a[5]) * sx, sign * float(a[6]) * sy),
         (sign * float(a[7]) * sx, sign * float(a[8]) * sy),
-        (sign * cfg.length / 2, sign * float(a[9]) * (cfg.goal_width / 2 - 0.06)),
+        (sign * cfg.length / 2, sign * (1 if a[9] >= 0 else -1) * (cfg.goal_width / 2 - 0.07)),
     )
 
 
@@ -171,7 +171,9 @@ class DecisionPlay:
         if action is None:
             action = self.manager.predict(self.observation(world), deterministic=True)[0]
         self.decision = decode(action, world, self.cfg)
-        self.previous = np.clip(np.asarray(action, np.float32), -1, 1)
+        # Remember the executed option/robot/target, not uncertain raw score margins.
+        # This is action encoding; it does not choose a behavior or perform a handoff.
+        self.previous = encode(self.decision, world, self.cfg)
         self.calls += 1
         d = self.decision
         key, other = self.keys[d.owner], self.keys[1 - d.owner]
@@ -293,6 +295,7 @@ class DecisionEnv(gym.Env):
         self.reception_events = []
         self.controlled = [True, False]
         self.possession_checks = self.lost_checks = 0
+        self.empty_shot_retriggers = 0
         self.goal_crossing_segment = None
         self.previous_fire = {k: False for k in self.keys}
         self.goal_crossing_y = None
@@ -331,7 +334,19 @@ class DecisionEnv(gym.Env):
             edges = c.kick > 0 and not self.previous_fire[key]
             applied = [e for e in kicks if e[0] == key]
             if edges and (len(applied) != 1 or not possession(old, key, cfg)):
-                error = "invalid_kick"
+                completed_shot = (
+                    not applied
+                    and d.option == 2
+                    and self.events
+                    and self.events[-1]["type"] == "shoot"
+                    and self.events[-1]["owner"] == self.keys.index(key)
+                )
+                if completed_shot:
+                    # An empty retrigger after an applied shot has no physical effect.
+                    # Keep counting it; do not turn a valid shot into a phantom second kick.
+                    self.empty_shot_retriggers += 1
+                else:
+                    error = "invalid_kick"
             self.previous_fire[key] = c.kick > 0
             for _, w, speed in applied:
                 owner = self.keys.index(key)
@@ -455,6 +470,7 @@ class DecisionEnv(gym.Env):
             "reception_events": self.reception_events.copy(),
             "possession_checks": self.possession_checks,
             "lost_possession_checks": self.lost_checks,
+            "empty_shot_retriggers": self.empty_shot_retriggers,
             "events": self.events.copy(),
             "decisions": self.trace.copy(),
             "goal_crossing_y": self.goal_crossing_y,

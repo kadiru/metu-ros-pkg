@@ -21,6 +21,14 @@ def run(supervisor, backend, cfg, mode):
     }
     if mode == "decision-bootstrap":
         bootstrap(backend, cfg, output, sources, seed)
+    elif mode == "decision-prepare":
+        from roboturk.decision_prepare import prepare
+
+        prepare(backend, cfg, output, seed)
+    elif mode == "decision-panel":
+        from roboturk.decision_panel import cross_play
+
+        cross_play(backend, cfg, output, count, seed)
     elif mode == "decision-train":
         train(
             backend,

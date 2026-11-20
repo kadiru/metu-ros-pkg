@@ -158,6 +158,7 @@ def freeze(release):
             "max_unforced": 0.03,
             "min_final_goals": 0.2,
             "min_final_family_clean": 0.9,
+            "min_final_family_goals": 0.1,
             "min_defense_stops": 0.2,
             "min_final_passes": 20,
             "min_final_receptions": 20,
@@ -354,6 +355,7 @@ def audit(release, path, split):
         gate &= (
             counts["goals"] / count >= 0.2
             and all(c["clean"] / c["count"] >= 0.9 for c in families.values())
+            and all(c["goals"] / c["count"] >= 0.1 for c in families.values())
             and all(counts[k] >= 20 for k in ("passes", "shots", "receptions", "carry_episodes"))
             and counts["direct_goals"] >= 5
         )

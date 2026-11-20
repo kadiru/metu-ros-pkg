@@ -170,6 +170,16 @@ def fit(model, x, y, epochs, seed):
     inputs, targets = torch.as_tensor(x), torch.as_tensor(y)
     mode = np.argmax(y[:, :3], axis=1)
     groups = [np.flatnonzero(mode == i) for i in range(3)]
+    # Reset and transition decisions are rare in long native trajectories. Sampling
+    # them explicitly prevents a previous-action identity shortcut from dominating.
+    previous = x[:, 46:56]
+    reset = np.max(np.abs(previous), axis=1) < 1e-7
+    switch = (
+        (np.argmax(previous[:, :3], axis=1) != mode)
+        | (np.argmax(previous[:, 3:5], axis=1) != np.argmax(y[:, 3:5], axis=1))
+        | (np.sign(previous[:, 9]) != np.sign(y[:, 9]))
+    )
+    groups += [np.flatnonzero(reset), np.flatnonzero(switch)]
     groups = [g for g in groups if len(g)]
     optimizer = torch.optim.Adam(model.actor_parameters(), lr=3e-4)
     losses = []
@@ -193,6 +203,8 @@ def fit(model, x, y, epochs, seed):
         "samples": len(x),
         "mode_counts": {str(i): int(sum(mode == i)) for i in range(3)},
         "last_mean_loss": float(np.mean(losses[-48:])),
+        "reset_samples": int(reset.sum()),
+        "switch_samples": int(switch.sum()),
     }
 
 

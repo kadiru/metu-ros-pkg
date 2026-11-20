@@ -4,7 +4,27 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 This is an initial implementation, not a competition-ready team. It provides six skill environments, interchangeable analytic/learned policies, a stateful team-play layer, ROS 2 messages/nodes and a Webots Supervisor backend. See [validation](docs/VALIDATION.md) for exactly what has run.
 
-Current work: [mobile defense and alternating self-play](docs/SELF_PLAY.md). The new curriculum is in development; the qualified fixed-opponent result below remains a separate milestone.
+The latest release gives the neural defender and keeper wider planar movement and
+trains both sides through **five generations of alternating self-play** (655,360
+PPO steps). The final pair produced **194/200 clean reserved outcomes**: 78 goals,
+100 defender interceptions and 16 keeper saves. Six failures remain documented.
+Clean means a goal or valid defensive stop, not an attacking win. Historical panels
+also passed: 99/100 and 97/100 clean outcomes.
+
+The [fresh 73.2-second Webots demo](media/mobile-self-play-demo.mp4) includes all eight
+consecutive games: two goals, three interceptions and three saves, with no collisions
+or unforced failures. The goals are episodes 7 and 8. All frames and original timing
+are retained. [Model card, checkpoints and evidence](policies/self_play_v1/README.md) ·
+[Self-play protocol and replay commands](docs/SELF_PLAY.md).
+
+[![Actual Webots self-play goal](media/mobile-self-play-preview.jpg)](media/mobile-self-play-demo.mp4)
+
+Motion and kick decisions are learned; tactical targets and phase handoff remain
+scripted. This is an approximate, ground-truth two-attacker versus defender/keeper
+drill. Training includes imitation and supervised spacing preparations; neither
+isolated PPO gains nor monotonically improving match strength is established.
+
+## Earlier fixed-opponent milestone
 
 The two attackers now **pass around a learned defender, receive, dribble and score
 against a learned goalkeeper**. Both opponent motion controllers are neural policies;

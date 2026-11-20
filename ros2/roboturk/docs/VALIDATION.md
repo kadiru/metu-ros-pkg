@@ -1,6 +1,49 @@
 # Validation — November 19, 2026 (America/Los_Angeles)
 
-## Qualified play against learned defense
+## Qualified mobile defense and alternating self-play
+
+Five generations completed 655,360 native PPO steps across four roles, with
+637 accepted / 640 attempted updates and six retained historical snapshots. All
+four actors changed each generation. Supervised spacing preparations and a scripted
+phase-transition correction are separate contributions; no isolated PPO gain is claimed.
+
+| Reserved panel | Goals | Defensive stops | Clean outcomes | Collisions | Unforced errors |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Final attackers / final defense | 78 | 116 | **194/200** | 2 | 4 |
+| Final attackers / bootstrap defense | 19 | 80 | **99/100** | 0 | 1 |
+| Bootstrap attackers / final defense | 47 | 50 | **97/100** | 1 | 2 |
+
+All panels passed unchanged predeclared gates after the freeze was published at
+[a143963](https://github.com/kadiru/metu-ros-pkg/commit/a143963da3e7cc7d2061276e4c1b500d0e3b5d8c).
+Clean outcomes include goals and legitimate defensive stops. Final-pair goals were
+78/200 (39%), with 100 interceptions and 16 keeper saves. Six failures remain:
+two defender collisions, possession loss, keeper field exit, invalid pass and attacker
+field exit. Clean Wilson 95% interval: 93.61–98.62%; these gates use point estimates.
+No reserved-case tuning, outcome selection or runtime/model changes followed freezing.
+
+Both defensive actors made 82,189 calls in the final panel; the audit checks continuous
+inference/physics sampling and real pass/reception/carry/shot/whole-ball crossing.
+Stops use contact-distance or modeled mouth possession, not sustained-capture or
+ODE contact-sensor guarantees. Maximum x excursions: defender 4.076m, keeper 0.670m.
+All 720 matched-runtime development cross-play games are retained; final/final was
+18/20 clean. The separate development attack/bootstrap panel failed with six collisions.
+Passing reserved results do not erase those robustness failures.
+
+[Fresh native movie](../media/mobile-self-play-demo.mp4): 8/8 clean, two goals, three
+interceptions, three saves. All 1,830 frames retained, 73.2s, 1280×720, 25fps. Full
+native/final decodes and all terminal frames plus passing/dribbling frames passed QA.
+[Model card and raw audits](../policies/self_play_v1/README.md) ·
+[Video provenance](../policies/self_play_v1/demo-video.json) ·
+[Protocol/replay](SELF_PLAY.md).
+
+Local checks: 116 tests passed, one ROS-only module skipped, Ruff clean. Core and
+ROS CI passed on the frozen source and subsequent evidence publication. Native
+qualification uses the Supervisor directly; live ROS/Webots applied-kick feedback
+and complete graph validation remain separate. Scope: ground-truth approximate
+2v2 drill, initial passer possession, scripted tactical targets/handoff, learned
+motion/release. No full-match, official SSL rules or hardware qualification.
+
+## Earlier qualified play against fixed learned defense
 
 The four frozen policies scored **200/200 reserved native Webots cases**, with
 **zero pre-release possession losses or robot collisions**. Mean15.2234s;

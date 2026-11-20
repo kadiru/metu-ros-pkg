@@ -1,129 +1,137 @@
-# Mobile defense and alternating self-play v1 — in development
+# Mobile defense and alternating self-play v1
 
-The new curriculum is being trained; no reserved qualification or demo has run.
-Both opponents can choose translation in two dimensions across the field. New
-45-input defensive actors observe nearby robots;70-input transfer and36-input
-finishing actors observe both opponents. Defensive limits are0.55–0.85m/s and
-0.8–1.15m/s, with acceleration and keeper latency. Tactical receiving-point feints,
-finishing target/corner selection and role handoff remain scripted.
+Qualified November 19, 2026 (America/Los_Angeles), in native Webots R2025a
+nightly17/11/2026. Five generations alternated PPO updates across defender, keeper,
+transfer and finishing policies against retained historical opponents. All three
+untouched reserved panels passed their predeclared gates.
 
-[Protocol, seed splits and reliability gates](../../docs/SELF_PLAY.md).
+| Reserved panel | Goals | Defensive stops | Clean outcomes | Collisions | Unforced errors |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Final attackers / final defense | 78 | 116 | **194/200** | 2 | 4 |
+| Final attackers / bootstrap defense | 19 | 80 | **99/100** | 0 | 1 |
+| Bootstrap attackers / final defense | 47 | 50 | **97/100** | 1 | 2 |
 
-Retained native teacher development:
+**Clean means a goal or a legitimate defensive stop, not an attacking win.**
+The final pair scored 78/200 (39%) and stopped 116/200 attacks (58%): 100 defender
+interceptions and 16 keeper saves. Its six failures were two defender collisions,
+one possession loss, one keeper field exit, one invalid pass and one attacker field
+exit. Clean-outcome Wilson 95% interval: 93.61–98.62%; goal interval: 32.51–45.91%.
+The historical attack panel had one timeout; the historical defense panel had one
+collision, one possession loss and one timeout. All failures remain in the raw files.
+These are observed rates on the declared distribution, not future-game guarantees.
 
-| Tactic | Goals | Defensive stops | Other outcomes |
-|---|---:|---:|---|
-| Fixed receiving target |0/40|0|40 timeouts|
-| Slow flank-switch feint |0/20|4|16 timeouts|
-| Fast feint and2.5m/s pass |3/10|6|1 defender collision|
+[Final-pair outcomes](qualification-final.json) / [audit](qualification-final-audit.json) ·
+[Attack panel](qualification-attack.json) / [audit](qualification-attack-audit.json) ·
+[Defense panel](qualification-defense.json) / [audit](qualification-defense-audit.json).
 
-These are analytic demonstrations, not learned-policy results. The last test had
-9/10 stable receptions and no pre-release losses. A closing-speed limit was then
-added to training-only defensive labels; inference contains no such motion override.
-[Raw development records](development). The initial source-network expansion error
-occurred before any bootstrap episode; its traceback is preserved.
+## Native demo
 
-Initialization uses200 teacher and100 mixed DAgger full plays, then two generations
-of alternating four-role PPO against immutable historical checkpoints. Both sides'
-updates, checkpoints, outcomes and failures will be retained. The current simulation
-uses initial passer possession, ground-truth state, ideal body velocities, ODE
-contacts, a spring dribbler and applied velocity kicks. It is a repeated attack/defend
-drill with approximate physics, not full-match or hardware qualification.
+[Watch the complete 73.2-second Webots movie](../../media/mobile-self-play-demo.mp4).
+All eight predeclared consecutive cases are included in their original order:
+three interceptions, three keeper saves and two goals; zero collisions, field exits
+or unforced failures. The two goals are episodes 7 and 8, starting at 47.62s and
+61.94s. Four episodes attack each goal direction. This small demo illustrates the
+policies; the separate 400 reserved games establish the reported panel rates.
 
-## First neural initialization
+[![Actual Webots goal frame](../../media/mobile-self-play-preview.jpg)](../../media/mobile-self-play-demo.mp4)
 
-The200 native teacher plays produced91goals,98defender interceptions,7keeper saves
-and4defender collisions;181stable receptions and zero pre-release losses. After60
-cloning epochs per actor, fully neural development scored17/40, with15defensive stops,
-5field exits and3timeouts; zero collisions/losses.32/40 clean outcomes is below the
-reliability gate. The100-episode mixed DAgger collection produced73goals and23stops,
-plus four invalid outcomes. Its80% neural/20% teacher command mixture is training
-data, not a fully learned result. After40refit epochs, the fully neural DAgger
-development set produced9goals,29interceptions, one invalid pass and one defensive
-teammate collision:38/40 clean outcomes. All outcomes and four checkpoints are retained.
-Two generations of four-role self-play PPO have now started from this full DAgger
-snapshot, with32768steps per role/generation. Reserved evaluation remains untouched.
+Blue: passer; cyan: receiver/scorer; yellow: defender; red: goalkeeper.
+All 1,830 frames are retained at 25fps, 1280×720 and normal simulation speed.
+Both native and compressed movies fully decoded; all eight terminal frames plus
+pass/reception and dribble/pursuit frames were inspected. A 0.6s outcome display
+follows each terminal event, with robot HALT; ball motion can continue during the
+display and is excluded from episode scoring. [Raw demo](demo.json),
+[audit](demo-audit.json) and [video hashes/provenance](demo-video.json).
 
-[Teacher outcomes](artifacts/teacher-collection.json) ·
-[Neural development](artifacts/teacher-development.json) ·
-[Four initial checkpoints](artifacts/teacher) ·
-[Bootstrap numerical source hashes](artifacts/bootstrap-runtime.json).
+## Learned control and movement freedom
 
-[DAgger collection](artifacts/dagger-collection.json) ·
-[DAgger neural development](artifacts/dagger-development.json) ·
-[DAgger checkpoints](artifacts/dagger).
+The defender and keeper each use a 45-input/three-output actor for planar velocity
+and rotation. Nearby robots, ball and role geometry are observations. No line or
+goal-area position clamp, analytic motion fallback or runtime spacing projection
+provides defensive actions. Defender speed is 0.55–0.85m/s, keeper 0.8–1.15m/s,
+with acceleration bounds and 0.04–0.10s keeper command latency. The wider observation,
+training and speed distribution provides the new freedom; old neural opponents
+already lacked a hard position clamp.
 
-## First self-play generation
+The 70-input/seven-output transfer actor controls both blue robots until stable
+reception; the 36-input/four-output finisher then controls the receiver. Four policy
+roles therefore do not mean one independent policy per physical robot. Receiving
+flank feints, setup/aim targets, phase transitions, role handoff, kick powers and
+dribbler masks remain scripted. Motion and kick decisions are neural. Both opponents
+remain active across the continuous handoff with no world reset.
 
-All four roles completed32768PPOsteps each, with32/32accepted updates per role and
-changed actor-parameter hashes. Full neural development produced20goals,38defender
-interceptions and2defender collisions in60games:96.7% clean outcomes, but3.3%
-collisions misses the≤2% gate. Generation two is running; no reserved evaluation
-or demo has run. [Every first-generation checkpoint and rollout](artifacts/round1).
+In the 200-case final panel each defender made 82,189 inference calls, with four
+physics checks per control step. The defender's maximum x/y excursions were
+4.076/2.250m; the keeper's were 0.670/0.419m. Mean x/y excursions were
+1.692/1.234m and 0.315/0.167m respectively. Full distributions are in the audit.
 
-## Second generation and development amendment
+## Training and retained failures
 
-Generation two completed another131072PPOsteps,128/128accepted updates and four
-changed actors. It repeated20goals/38interceptions/2collisions on60development
-cases, including the same collision seeds. No success-count improvement is claimed.
-[All second-generation records](artifacts/round2). The complete initial3×3cross-play
-matrix is being retained. A third four-role generation will use a dense close-robot
-spacing cost and a larger defensive update allowance, with unchanged inference,
-attacking update settings and qualification gates. See the protocol amendment;
-reserved qualification and fresh demo cases are still untouched.
+Bootstrap: 200 teacher plays, 60 cloning epochs, 100 mixed DAgger plays and 40 refit
+epochs per actor. Self-play: five generations × four roles × 32,768 PPO steps =
+**655,360 steps**, 637 accepted / 640 attempted updates across 20 role jobs. Every
+actor changed in every generation. Three final-generation keeper updates were
+rejected by the trust-region check. Six snapshots (bootstrap plus G1–G5) remain
+available. The [training audit](training-audit.json) checks model lineage, historical
+bytes and training-only reset seeds. The older artifacts/training-audit.json is the
+retained four-generation audit, not the final total.
 
-## Third generation and close-spacing preparation
+Defensive supervised spacing preparations preceded generations 4 and 5. A mobile
+setup transition correction to 0.14m/0.10rad also removed a scripted phase stall;
+precise neural aiming/kicking stayed unchanged. Neither improvement is attributed
+to PPO alone. Failed whole-actor and kick-readout refits were retained but not used
+in the final bundle. Training ran on one CPU thread and one native simulator.
 
-Generation three completed128accepted PPOupdates but still had19goals,39interceptions
-and the same2collisions/60development games. [All third-generation records](artifacts/round3)
-and [full4×4cross-play matrix](artifacts/cross-play-generation3-matrix.json) remain
-unqualified. Training-only weighted spacing distillation then refit the two defensive
-actors using the retained teacher/DAgger observations; the attacking weights were
-unchanged. Native development improved to23goals/36stops/1collision,59/60clean.
-[Preparation, dataset hashes and fit losses](artifacts/spacing-repair/training.json) ·
-[All60prepared-policy outcomes](artifacts/spacing-repair-development.json).
-A fourth four-role PPOgeneration and broader development panels follow before any
-reserved qualification. This preparation is supervised learning, not a PPO-only gain.
+Generation-five broader development was 99/100 clean for the final pair, 94/100
+against bootstrap defense (six collisions, failed gate), and 96/100 for bootstrap
+attackers against final defense. The full 6×6 cross-play matrix contains 720 games;
+its final/final cell was only 18/20 clean (one invalid pass, one possession loss).
+All failures remain even though the later reserved panels passed. These are mixed
+robustness results, not evidence of monotonically improving strength or isolated
+PPO benefit. [Full matrix](artifacts/cross-play-matrix.json) and
+[complete development history, amendments and replay commands](../../docs/SELF_PLAY.md).
 
-## Fourth generation
+## Freeze and evaluation protocol
 
-After the documented defensive preparation, all four actors completed another
-32768PPOsteps. Full development:26goals,32interceptions and2keeper saves/60games,
-**60/60clean with zero collisions or other control failures**. This remains
-development evidence; historical and broader development panels are running and
-reserved qualification/demo cases are untouched. [All fourth-generation artifacts](artifacts/round4)
-retain the prepared initialization separately from each PPOupdate.
-[Training audit](artifacts/training-audit.json) verifies524288totalPPOsteps,16role
-jobs, historical checkpoint hashes, actor transitions and recorded training resets.
+The last completed generation was selected using development evidence and frozen
+at 2026-11-19T16:45:07.614215−08:00. [Freeze](freeze.json), [selection](selection.json)
+and 483 retained artifacts were published at
+[a143963](https://github.com/kadiru/metu-ros-pkg/commit/a143963da3e7cc7d2061276e4c1b500d0e3b5d8c)
+before any reserved reset. All 583 compared remote files matched local Git blobs.
+[Publication receipt](publication.json). No model, runtime or selected artifact
+changed after freezing; reserved observations never entered training.
 
+Seeds: final pair 2300000–2300199; final attack/bootstrap defense 2310000–2310099;
+bootstrap attack/final defense 2320000–2320099; fresh demo 2400000–2400007.
+Every panel requires at least 95% clean outcomes, at most 2% collisions and at most
+3% unforced errors. Final-pair goals must reach 20%; final defense must stop at
+least 20% of bootstrap attacks. These are point-estimate gates, not lower confidence
+bound guarantees. No outcome selection, resampling or post-qualification tuning.
 
-Broader generation-four development failed:92/100clean current/current,
-88/100currentattack/bootstrapdefense,89/100bootstrapattack/currentdefense.
-Full25-pair cross-play and all300broader outcomes are retained under artifacts.
-Two timing preparations also failed: whole-actor refit8/10clean; frozen-motion
-kick-readout refit12/20clean(3goals,9stops,5invalid shots,2invalid passes,1loss).
-These are development failures, not qualified releases. Further training is in
-progress; reserved qualification and demo scenarios remain untouched.
+Audits require actual applied pass, stable reception, retained carry, applied shot
+and whole-ball goal crossing. Defensive stops use contact-distance or modeled
+mouth-possession predicates; they do not establish sustained capture or measure
+ODE contact sensors. Robot collisions are failures, including after a shot.
 
+| Final actor | Checkpoint SHA256 |
+| --- | --- |
+| defender | `ef0e9a73f29488d37b4302c3e3f2342f39c0a8e225732b990098c6e7e5202abc` |
+| keeper | `87e14001b27755ecef88ad8d554f90f34a806fcd8e47caef0dd85be3a7098ddd` |
+| transfer | `f55cc19989397f6c7965f9a2612b7aea300f648f616b20b9dcae3eb5b5bad42a` |
+| finish | `3310235fa2a121234ae51264c72510184feb136c8e6c6e8c87708bdb504f0534` |
 
-The wider-clearance preparation plus corrected mobile setup transition subsequently
-passed100/100development games:47goals,44interceptions,9keeper saves, zero collisions
-or unforced errors. This uses the original generation-four attackers and supervised
-refitting of the two defenders; the tactical correction is explicit. Generation five
-is now training all four actors against historical opponents. No reserved result or
-new demo is claimed yet. Full history and exact amendments are in SELF_PLAY.md.
+## Scope and provenance
 
+This is a repeated two-attacker versus defender/keeper drill with initial passer
+possession, ground-truth state, ideal body velocity, ODE contacts, a spring dribbler
+and velocity kicks. It does not qualify full-match tactics, official SSL rules,
+perception/noise robustness or calibrated hardware. Live ROS/Webots applied-kick
+feedback and end-to-end graph validation remain separate; core and ROS build/tests
+run in CI. Local validation: 116 tests passed, one ROS-only module skipped; Ruff clean.
 
-Generation five completed655360cumulative PPOsteps and637accepted updates. Its60-case
-saved-snapshot development panel was60/60clean:21goals,34interceptions,5keeper saves.
-All20role jobs, checkpoint transitions and recorded training seeds passed the audit.
-Broader development/cross-play are running; reserved qualification and the fresh demo
-are still pending. This remains an unqualified development release.
-
-
-Generation-five broader development: current/current99/100clean(38goals,61stops,
-1collision); currentattack/bootstrapdefense94/100(34goals,60stops,6collisions)—fails;
-bootstrapattack/currentdefense96/100(32goals,64stops,1collision,3unforced)—passes.
-The historical-defense failure prevents a full-protocol reliability claim. Reserved
-qualification has not run. All results and the successful native recorder smoke-test
-receipt are retained; the complete6×6cross-play matrix is running.
+The [behavior-source catalog](../../docs/BEHAVIOR_SOURCES.md) retains CMDragons2015
+blocking/coverage/support, TIGERs Mannheim2025 pass decision/execution/outcome
+separation and ER-Force2024 keeper prediction/reversal inspiration. Those teams'
+methods are not described as this RL implementation. Historical-opponent sampling
+is informed by [Bansal et al.](https://arxiv.org/abs/1710.03748); this small alternating
+pool is not a population-scale reproduction or equilibrium claim.

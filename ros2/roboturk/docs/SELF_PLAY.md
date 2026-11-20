@@ -1,7 +1,19 @@
 # Mobile defense and alternating self-play v1
 
 November19,2026, America/Los_Angeles. This extends the previous fixed-opponent
-release. Results are pending; previous200/200 outcomes do not qualify this task.
+release. All three reserved panels passed; the fresh eight-game native demo is complete.
+The earlier 200/200 fixed-opponent result remains a separate curriculum.
+See the [final model card](../policies/self_play_v1/README.md) for the release summary.
+
+| Reserved panel | Goals | Defensive stops | Clean outcomes | Collisions | Unforced errors |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Final attackers / final defense | 78 | 116 | **194/200** | 2 | 4 |
+| Final attackers / bootstrap defense | 19 | 80 | **99/100** | 0 | 1 |
+| Bootstrap attackers / final defense | 47 | 50 | **97/100** | 1 | 2 |
+
+Clean outcomes include both attacking goals and legitimate defensive stops. The
+main result is 194/200 clean (97%), with six retained failures; it is not a 97%
+attacking win rate. [Watch all eight fresh games](../media/mobile-self-play-demo.mp4).
 
 ## Freedom and observation contracts
 
@@ -20,7 +32,7 @@ receiving points, a farther1.35m finishing setup, open-corner aim selection, mea
 stable-reception handoff, fixed kick speeds and dribbler masks remain scripted.
 Opponents remain active through handoff, without resets or teacher fallback.
 
-## Training protocol
+## Original training protocol and later amendments
 
 1. Check analytic mobile-lane interception/pursuit and keeper advancement with
   40 native development plays. Preserve all outcomes, including collisions/timeouts.
@@ -66,7 +78,7 @@ checkpoint pool is not a population-scale replication or an equilibrium claim.
 | PPO episode resets |2100000–2199999 only, sampled by training RNG|
 | Bootstrap development |2200000–2200039|
 | Generation development |2200100–2200159|
-| Cross-play development |2200200–2200219 shared across all nine pairs (bootstrap, generation1, generation2)|
+| Cross-play development |2200200–2200219 shared across all 36 final pairs (bootstrap, G1–G5); earlier matrices retained|
 | Reserved final vs final |2300000–2300199|
 | Reserved final attackers vs bootstrap defense |2310000–2310099|
 | Reserved bootstrap attackers vs final defense |2320000–2320099|
@@ -94,6 +106,9 @@ Earlier releases are reproducible at their original Git commits; their broad
 runtime freezes intentionally do not match this new experiment's added source.
 
 ## Retained development
+
+The following entries preserve the experiment chronology. Statements about pending
+training or untouched reserved seeds describe that stage; final results are below.
 
 The first40-case analytic feasibility test timed out40/40 before any pass. The mobile
 defender followed the original fixed receiving point and continuously blocked its
@@ -363,11 +378,12 @@ one interception and one goal,14.36s,359frames,1280×720 at25fps. Full decode an
 actual interception/dribble/goal-crossing/display frames were inspected. The native
 encoder reported a target-bitrate convergence warning, but completed successfully;
 full decoding found no errors. This clip is recorder validation, not the fresh demo.
-Full6×6×20cross-play is underway; all reserved tests/demo remain untouched.
+At this stage the 6×6×20 matrix was still running and reserved tests were untouched.
+The completed matrix and subsequent frozen qualification are reported below.
 
 ## Replaying the frozen policies
 
-After the release is staged, activate the pinned Python environment and run from
+The release is staged. Activate the pinned Python environment and run from
 `ros2/roboturk`. The four `final` checkpoint paths are portable; absolute paths in
 historical training records preserve the original run's provenance.
 
@@ -421,8 +437,9 @@ The final/final cell has7goals,11defensive stops,one premature pass andone posse
 loss:18/20clean,zero collisions. Together with its separate60/60and99/100development
 panels, this is mixed development evidence; the small shared set exposes failures
 that the larger panel missed. Keep the last completed generation as predeclared;
-freeze it before untouched qualification, retain all failures and do not tune on
-reserved cases. The original-defense100-case challenge also remains failed.
+the candidate was then frozen before untouched qualification. All failures were
+retained and no reserved-case tuning occurred. The original-defense 100-case
+development challenge remains failed; the distinct reserved panel later passed.
 No claim of monotonically improving playing strength or isolated PPO benefit is made.
 
 
@@ -440,6 +457,37 @@ bounded distribution, not a guarantee of future play or full-match reliability.
 The audit verified each goal's physical pass/reception/carry/shot/crossing events,
 contact predicates for stops, uninterrupted defensive policy/physics counts, and
 frozen source/model/artifact hashes. Both defensive actors made82189inference calls.
-Maximum longitudinal excursion: defender4.076m,keeper0.670m. Historical qualification
-panels and the fresh eight-case demo remain in progress. No model or runtime changes
-are permitted after this reserved evaluation.
+Maximum longitudinal excursion: defender4.076m,keeper0.670m. Both historical panels
+and the fresh demo have now completed, as detailed below. No model or runtime changed
+after this reserved evaluation.
+
+
+## Completed reserved historical panels and fresh demo
+
+| Reserved panel | Goals | Defensive stops | Clean outcomes | Collisions | Unforced errors |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Final attackers / final defense | 78 | 116 | **194/200** | 2 | 4 |
+| Final attackers / bootstrap defense | 19 | 80 | **99/100** | 0 | 1 |
+| Bootstrap attackers / final defense | 47 | 50 | **97/100** | 1 | 2 |
+
+All three predeclared gates passed without tuning or rerunning reserved cases.
+Final attack versus bootstrap defense: 19 goals, 71 interceptions, nine keeper saves,
+one timeout. Bootstrap attack versus final defense: 47 goals, 41 interceptions,
+nine saves, one defender collision, one possession loss and one timeout. The earlier
+six-collision development panel remains a failed robustness challenge; a passing
+reserved panel does not erase it or establish improvement against every snapshot.
+
+Fresh seeds 2400000–2400007 produced eight clean outcomes: three interceptions,
+three saves and two goals, with no collision or unforced error. All cases remain in
+order, including defensive wins. Goals are episodes 7 and 8. Four episodes attack
+each direction. [Movie](../media/mobile-self-play-demo.mp4): 73.2s, 1,830 frames,
+1280×720, 25fps, normal simulation speed. Native and final full decodes passed;
+every terminal frame plus passing/reception and dribble/pursuit frames was inspected.
+The 0.6s post-terminal robot-HALT display is excluded from scoring; ball motion can
+continue. [Video provenance](../policies/self_play_v1/demo-video.json) records exact
+hashes, timeline and the nonfatal native bitrate-convergence warning.
+
+Raw panels and independent audits are linked from the [model card](../policies/self_play_v1/README.md).
+The six final-pair failures are retained. Contact-distance/modeled mouth-possession
+stops do not imply sustained defensive capture or ODE contact-sensor validation.
+This is bounded approximate native simulation, not full-match or hardware reliability.

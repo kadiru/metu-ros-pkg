@@ -66,6 +66,7 @@ def main():
             {
                 "started_at": datetime.now(ZoneInfo("America/Los_Angeles")).isoformat(),
                 "arguments": vars(a),
+                "webots_executable_sha256": hashlib.sha256(Path(a.webots).read_bytes()).hexdigest(),
                 "runtime_sha256": {
                     str(s.relative_to(ROOT)): hashlib.sha256(s.read_bytes()).hexdigest()
                     for s in sources

@@ -1,0 +1,1 @@
+{"kind":"clear","training_seed":733,"bc_successes":60,"dagger_successes":60,"final_successes":60,"development_count":60,"ppo_steps":32768,"accepted_updates":32,"actor_changed":true,"dataset_sha256":"aead765edb39a83c80c115f72aa14a71acc79e791100863092e7fcfcaaae3225","selection":"final PPO checkpoint; requires development pass before reserved qualification"}

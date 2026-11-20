@@ -50,6 +50,13 @@ def main():
     kind = args["TDP_KIND"]
     try:
         kinds = KINDS if kind == "all" else (kind,)
+        recorder = None
+        if mode == "demo":
+            from tdp_demo import Recorder
+
+            out.parent.mkdir(parents=True, exist_ok=True)
+            recorder = Recorder(supervisor, int(args["TDP_EPISODES"]))
+            supervisor.movieStartRecording(str(out.with_suffix(".mp4")), 1280, 720, 0, 85, 1, False)
         for k in kinds:
             env = BallOptionEnv(backend, k)
             destination = out / k if kind == "all" else out
@@ -74,25 +81,37 @@ def main():
                     else Path(args["TDP_CHECKPOINT"])
                 )
                 actor = OptionActor(load(source, env))
-                if mode == "demo":
-                    from tdp_demo import record
+                from roboturk.tdp_evaluation import evaluate as coordinated_evaluate
 
-                    result = record(
-                        supervisor,
-                        env,
-                        actor,
-                        destination,
-                        int(args["TDP_EPISODES"]),
-                        seed,
-                        evaluate,
-                    )
-                else:
-                    result = evaluate(env, actor, int(args["TDP_EPISODES"]), seed)
+                result = coordinated_evaluate(
+                    env,
+                    actor,
+                    int(args["TDP_EPISODES"]),
+                    seed,
+                    recorder=recorder,
+                    orchestrated=True,
+                )
                 from roboturk.tdp_training import descriptor
 
                 result["checkpoint"] = descriptor(source, actor.model)
             write(destination.with_suffix(".json"), result)
             print(k, result["successes"], result["count"], flush=True)
+        if recorder:
+            from tdp_demo import finish_movie
+
+            finish_movie(supervisor)
+            write(
+                out.with_suffix(".movie.json"),
+                {
+                    "source": "actual Webots movie recorder",
+                    "cuts": 0,
+                    "outcome_selection": False,
+                    "speed": 1,
+                    "post_episode_hold_seconds": 0.6,
+                    "order": list(kinds),
+                    "cases_per_kind": int(args["TDP_EPISODES"]),
+                },
+            )
         supervisor.simulationQuit(0)
     except Exception:
         traceback.print_exc()

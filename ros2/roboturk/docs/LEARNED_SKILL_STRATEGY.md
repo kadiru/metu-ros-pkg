@@ -41,3 +41,18 @@ The task is approximate ground-truth Webots simulation with ideal body velocity,
 spring dribbling, velocity kicks and simplified restarts. Full SSL rules, noisy
 perception/radio, hardware and a complete live ROS graph remain separate work.
 Paper provenance for the new skills is in [the TDP study](TDP_SKILL_PACK.md).
+
+### Retained first preparation and loss correction
+
+The first preparation used 48 native teacher matches, two independent cloned
+selectors, 24 mixed DAgger matches per seed (80% student decisions), and refits.
+The initial clones each scored twice in eight development matches. The DAgger
+refits regressed to zero goals in 16 matches each, despite completing every match
+without detected robot contact or field exit. These are failed development
+candidates, retained under `preparation/prepare-v1`; neither is a release candidate.
+The independent 5 ms trace auditor reproduced the initial clone and refit metrics.
+
+The next preparation adds 96 fresh native teacher matches. Target regression now
+uses option entry and positive target-refresh decisions, with those states
+oversampled; a retained target is not treated as a newly issued target command.
+Choice and refresh decisions remain learned. No reserved cases have been used.

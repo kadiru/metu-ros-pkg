@@ -21,7 +21,7 @@ def main():
     p.add_argument("--webots", required=True)
     p.add_argument(
         "--mode",
-        choices=("pilot", "collect", "prepare", "train", "evaluate", "demo"),
+        choices=("pilot", "collect", "prepare", "refine", "train", "evaluate", "demo"),
         required=True,
     )
     p.add_argument("--opponent")

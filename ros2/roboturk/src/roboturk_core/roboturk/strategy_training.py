@@ -225,7 +225,12 @@ def fit(data_paths, out, seed=811, epochs=120, parent=None):
     modes = y[:, :10].argmax(1)
     groups = [np.flatnonzero(modes == i) for i in range(10)]
     groups = [g for g in groups if len(g)]
+    # Retained targets are state, not fresh commands. Regressing them on every
+    # holding tick teaches the student to reproduce its own earlier errors.
+    sets_target = (modes >= 7) & ((x[:, 122:132].argmax(1) != modes) | (y[:, 16] > 0))
+    groups += [g for i in range(7, 10) if len(g := np.flatnonzero(sets_target & (modes == i)))]
     inputs, labels = torch.as_tensor(x), torch.as_tensor(y)
+    target_mask = torch.as_tensor(sets_target)
     rng = np.random.default_rng(seed)
     opt = torch.optim.Adam(model.actor_parameters(), lr=3e-4)
     for epoch in range(epochs):
@@ -238,7 +243,12 @@ def fit(data_paths, out, seed=811, epochs=120, parent=None):
             loss = torch.nn.functional.cross_entropy(pred[:, :10] * 3, target)
             special = target >= 7
             if special.any():
-                loss = loss + 30 * ((pred[special, 10:] - labels[ids][special, 10:]) ** 2).mean()
+                loss = loss + 3 * ((pred[special, 16] - labels[ids][special, 16]) ** 2).mean()
+            setting = target_mask[ids]
+            if setting.any():
+                loss = (
+                    loss + 30 * ((pred[setting, 10:16] - labels[ids][setting, 10:16]) ** 2).mean()
+                )
             opt.zero_grad()
             loss.backward()
             opt.step()
@@ -255,6 +265,8 @@ def fit(data_paths, out, seed=811, epochs=120, parent=None):
             "epochs": epochs,
             "datasets": [{"path": str(p), "sha256": digest(p)} for p in data_paths],
             "counts": {str(i): int((modes == i).sum()) for i in range(10)},
+            "target_loss": "entry/positive-refresh only; target-setting states oversampled",
+            "target_setting_rows": int(sets_target.sum()),
         },
     )
     return model
@@ -291,6 +303,36 @@ def prepare(backend, bank, out):
             "teacher_matches": 48,
             "mixed_dagger_matches_per_seed": 24,
             "mix": 0.8,
+            "datasets": [{"path": str(p), "sha256": digest(p)} for p in datasets],
+        },
+    )
+
+
+def refine(backend, bank, out):
+    """Broader native demonstrations and corrected target-setting supervision."""
+    out = Path(out)
+    if out.exists():
+        raise ValueError("Retain existing preparation")
+    out.mkdir(parents=True)
+    collect(backend, bank, out / "teacher", 96, 6102000, 12)
+    old = out.parent / "prepare-v1"
+    datasets = [
+        out / "teacher/data.npz",
+        old / "teacher/data.npz",
+        old / "dagger811/data.npz",
+        old / "dagger822/data.npz",
+    ]
+    for seed in (811, 822):
+        model = fit(datasets, out / f"seed{seed}/refit.zip", seed, 200, old / f"seed{seed}/bc.zip")
+        write(
+            out / f"seed{seed}/development.json",
+            evaluate(backend, bank, [model, model], 16, 6300200, 20),
+        )
+    write(
+        out / "complete.json",
+        {
+            "seeds": [811, 822],
+            "additional_teacher_matches": 96,
             "datasets": [{"path": str(p), "sha256": digest(p)} for p in datasets],
         },
     )

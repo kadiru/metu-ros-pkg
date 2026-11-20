@@ -45,6 +45,11 @@ def main():
 
             prepare(backend, bank, out)
             result = None
+        elif mode == "refine":
+            from roboturk.strategy_training import refine
+
+            refine(backend, bank, out)
+            result = None
         elif mode == "train":
             from roboturk.strategy_selfplay import train
 

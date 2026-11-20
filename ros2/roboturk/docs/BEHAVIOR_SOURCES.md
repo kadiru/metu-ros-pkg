@@ -1,5 +1,13 @@
 # Behavior ideas and their provenance
 
+November 20 update: the [new TDP study and trained skill pack](TDP_SKILL_PACK.md)
+adds CMDragons 2016 coordination, Thai Skuba 2013 play/role/skill decomposition and
+TIGERs 2025 stop/redirect contracts. Receive-stop 197/200, redirect 200/200, and defensive
+clearance 200/200 passed reserved native tests; all 12 fresh demo cases passed. The
+historical candidate descriptions below record the earlier iteration, not current
+unimplemented status. Support/recovery also exists in the separately qualified
+[continuous 2v2 release](../policies/continuous_play_v2/README.md).
+
 These papers inspire our task decomposition and tactics. They do not establish that
 our learned policies reproduce the teams' implementations or match performance.
 The teams' methods below are not being described as reinforcement learning.

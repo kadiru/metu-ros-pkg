@@ -4,7 +4,16 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 This is an initial implementation, not a competition-ready team. It provides six skill environments, interchangeable analytic/learned policies, a stateful team-play layer, ROS 2 messages/nodes and a Webots Supervisor backend. See [validation](docs/VALIDATION.md) for exactly what has run.
 
-The latest [continuous 2v2 release](policies/continuous_play_v2/README.md) adds learned
+The new [TDP-inspired skill pack](policies/tdp_skills_v1/README.md) adds timed
+receive-and-stop (197/200 reserved cases), one-touch redirect (200/200), and defensive
+recover-and-clear (200/200), with zero collision/field-exit/own-goal/premature-release
+failures. Three receive timeouts are retained. [Native 30.8-second demo](media/tdp-skills-demo.mp4)
+shows all 12 fresh cases, 12/12 successful. [CMDragons, Thai Skuba and TIGERs provenance](docs/TDP_SKILL_PACK.md)
+explains the explicit play/role/committed-option coordinator around learned motion
+and release. The previous continuous learned manager stays unchanged; these new
+bounded fixtures do not yet establish improved match strategy.
+
+The [continuous 2v2 release](policies/continuous_play_v2/README.md) adds learned
 recovery, support, pressing, coverage and counterattacks through two independent
 historical self-play leagues. Both seeds passed all reserved gates:120/120matches
 completed,73goals,146stable receptions and74counterattack matches, with zero

@@ -1,0 +1,136 @@
+{
+  "version": 1,
+  "contract": "roboturk.tdp_options.v1",
+  "tasks": {
+    "receive": {
+      "training_seed": 711,
+      "teacher": [
+        5000000,
+        5000199
+      ],
+      "development": [
+        5010000,
+        5010059
+      ],
+      "dagger": [
+        5020000,
+        5020099
+      ],
+      "ppo_reset_base": 5030000,
+      "orchestration_development": [
+        5040000,
+        5040029
+      ],
+      "qualification": [
+        5050000,
+        5050199
+      ],
+      "demo": [
+        5060000,
+        5060003
+      ]
+    },
+    "redirect": {
+      "training_seed": 722,
+      "teacher": [
+        5200000,
+        5200199
+      ],
+      "development": [
+        5210000,
+        5210059
+      ],
+      "dagger": [
+        5220000,
+        5220099
+      ],
+      "ppo_reset_base": 5230000,
+      "orchestration_development": [
+        5240000,
+        5240029
+      ],
+      "qualification": [
+        5250000,
+        5250199
+      ],
+      "demo": [
+        5260000,
+        5260003
+      ]
+    },
+    "clear": {
+      "training_seed": 733,
+      "teacher": [
+        5400000,
+        5400199
+      ],
+      "development": [
+        5410000,
+        5410059
+      ],
+      "dagger": [
+        5420000,
+        5420099
+      ],
+      "ppo_reset_base": 5430000,
+      "orchestration_development": [
+        5440000,
+        5440029
+      ],
+      "qualification": [
+        5450000,
+        5450199
+      ],
+      "demo": [
+        5460000,
+        5460003
+      ]
+    }
+  },
+  "gates_per_skill": {
+    "episodes": 200,
+    "minimum_success_rate": 0.95,
+    "maximum_robot_collision_episodes": 0,
+    "maximum_robot_field_exit_episodes": 0,
+    "maximum_own_goals": 0,
+    "maximum_premature_clearance_episodes": 0,
+    "all_event_and_hash_audits_pass": true
+  },
+  "selection": "Final PPO model per skill after development; no selection on reserved cases",
+  "ppo_steps_per_skill": 32768,
+  "evaluation": "One attempt per reserved seed; all outcomes retained; publish and verify freeze before use",
+  "demo_count_per_skill": 4,
+  "orchestration": "Auditable scripted play/role/option hierarchy; low-level motor/release policies learned; previous frozen continuous manager unchanged",
+  "boundaries": [
+    "Native approximate Webots ground-truth dynamics",
+    "Stationary scripted teammate pass server for receive/redirect",
+    "Stationary clearance obstacle; no moving adversarial clearance claim",
+    "No official rule, hardware, or complete live ROS-graph qualification",
+    "No isolated PPO improvement claim"
+  ],
+  "sources": [
+    {
+      "team": "CMDragons",
+      "year": 2016,
+      "url": "https://ssl.robocup.org/wp-content/uploads/2019/01/2016_ETDP_CMDragons.pdf",
+      "sections": "2,3.3,4,4.2; pp2-9"
+    },
+    {
+      "team": "Skuba (Kasetsart University, Thailand)",
+      "year": 2013,
+      "url": "https://ssl.robocup.org/wp-content/uploads/2019/01/2013_ETDP_Skuba.pdf",
+      "sections": "3.2-3.2.1; pp7-8"
+    },
+    {
+      "team": "TIGERs Mannheim",
+      "year": 2025,
+      "url": "https://ssl.robocup.org/wp-content/uploads/2025/04/2025_ETDP_TIGERs-Mannheim.pdf",
+      "sections": "1.1,2.1-2.4,3.2; pp1-8,12"
+    }
+  ],
+  "success_contracts": {
+    "receive": "Actual teammate kick, 0.5s uninterrupted mouth contact at every5ms sample, relative ball/robot speed<0.2m/s and ball speed<0.25m/s at every20ms endpoint; no receiver kick",
+    "redirect": "Actual teammate kick followed by exactly one receiver mouth kick within0.15s of first measured mouth contact, then whole-ball crossing inside opponent goal; no catch-and-hold handoff",
+    "clear": "Loose own-third ball, >=0.4s stable possession before exactly one kick, actual ball crossing canonical x=-1.0 with signed outlet y in[0.8,2.2]m, no opponent touch or own goal"
+  }
+}

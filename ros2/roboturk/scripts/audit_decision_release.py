@@ -40,6 +40,7 @@ def stage(source, release):
     if {(r["generation"], r["role"]) for r in updates} != expected or len(updates) != len(expected):
         raise ValueError("Incomplete role/generation ledger")
     total = accepted = 0
+    expected_actors = {r: m["actor_sha256"] for r, m in history[0].items()}
     for bundle in history:
         for role, m in bundle.items():
             if sha(Path(m["path"])) != m["sha256"]:
@@ -49,17 +50,27 @@ def stage(source, release):
                 and m["actor_sha256"] != history[0][role]["actor_sha256"]
             ):
                 raise ValueError("Frozen motion actor changed")
-    for row in updates:
+    for row in sorted(
+        updates, key=lambda r: (r["generation"], ("defender", "keeper", "manager").index(r["role"]))
+    ):
         role = row["role"]
+        if row["historical_pool"] != history[: row["generation"]]:
+            raise ValueError("Historical opponent pool changed")
+        if {r: m["actor_sha256"] for r, m in row["before"].items()} != expected_actors:
+            raise ValueError("Unreported change between role updates")
         base = source / f"round{row['generation']}" / role
         events = json.loads((base / "updates.json").read_text())
         rolls = json.loads((base / "rollouts.json").read_text())
         resets = json.loads((base / "resets.json").read_text())
+        pool_size = len(row["historical_pool"]) + int(role == "manager")
         if (
             len(resets) != row["reset_count"]
             or not resets
             or any(not 3100000 <= r["seed"] < 3200000 for r in resets)
+            or any(not 0 <= r["pool_index"] < pool_size for r in resets)
             or [r["seed"] for r in resets[: len(rolls)]] != [r["seed"] for r in rolls]
+            or [r["pool_index"] for r in resets[: len(rolls)]]
+            != [r["opponent_pool_index"] for r in rolls]
         ):
             raise ValueError("Incomplete or contaminated reset ledger")
         if role == "manager" and (
@@ -88,6 +99,11 @@ def stage(source, release):
             raise ValueError("Reserved reset entered training")
         total += row["steps"]
         accepted += row["accepted_updates"]
+        expected_actors = {r: m["actor_sha256"] for r, m in row["after"].items()}
+        if role == "manager" and expected_actors != {
+            r: m["actor_sha256"] for r, m in history[row["generation"]].items()
+        }:
+            raise ValueError("Generation snapshot differs from accepted actors")
     copied = []
     for p in sorted(source.rglob("*")):
         if p.suffix not in (".json", ".zip") or any(
@@ -347,6 +363,8 @@ def audit(release, path, split):
     families = {}
     directions = Counter()
     options = Counter()
+    target_updates = 0
+    pass_targets = []
     for e in records:
         goal, stop, collision, outside = validate_episode(e, cfg, models, require_gate=True)
         counts[e["reason"]] += 1
@@ -366,6 +384,10 @@ def audit(release, path, split):
         family["goals"] += goal
         directions[str(e["attack_sign"])] += 1
         options.update(e["option_counts"])
+        target_updates += sum(t["receive_update"] for t in e["decisions"])
+        pass_targets.extend(
+            t["receive"] for t in e["decisions"] if t["option"] == "pass" and t["receive_update"]
+        )
     gate = (
         counts["clean"] / count >= 0.95
         and counts["collisions"] / count <= 0.02
@@ -403,6 +425,12 @@ def audit(release, path, split):
         "families": families,
         "directions": dict(directions),
         "option_control_ticks": dict(options),
+        "learned_target_updates": target_updates,
+        "pass_target_ranges": [
+            [min(t[i] for t in pass_targets), max(t[i] for t in pass_targets)] for i in range(2)
+        ]
+        if pass_targets
+        else [],
         "clean_wilson_95": wilson(counts["clean"], count),
         "goal_wilson_95": wilson(counts["goals"], count),
         "models": models,

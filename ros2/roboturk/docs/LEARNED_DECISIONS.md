@@ -7,7 +7,8 @@ for learned target/option selection. Do not modify its policy artifacts.
 ## Contract and scope
 
 A centralized neural manager chooses pass/receive, dribble or shoot, the acting
-blue robot, a receiving point, a dribble setup point and goal-mouth aim. The same
+blue robot, a receiving point, whether to update or retain that point, a dribble setup
+point and goal-mouth aim. The same
 manager runs throughout an episode. No scripted receiving-point planner, finish
 phase threshold or reception-triggered handoff runs in deployed inference.
 Physical possession/dwell, applied kicks and previous decisions are observations;
@@ -37,7 +38,9 @@ choice across starting situations rather than full-match recovery or counteratta
 | --- | --- |
 | Teacher development |3020000–3020059|
 | Native demonstrations |3000000–3000299|
-| Mixed DAgger |3010000–3010149|
+| Initial mixed DAgger |3010000–3010149|
+| V2 mixed DAgger |3030000–3030149|
+| V3 mixed DAgger |3040000–3040149|
 | PPO resets only |3100000–3199999|
 | Learned development |3200000–3200059|
 | Broader development |3201000–3201119|
@@ -109,8 +112,10 @@ are ordered by their initial possession roles; IDs and attacking direction vary.
 |5–6|Receiving point in normalized attack-frame field coordinates|
 |7–8|Dribble setup point in the same frame|
 |9|Learned left/right corner score; its sign selects a geometric goal-mouth corner|
+|10|Learned receiving-point update/retain score; positive commits outputs5–6, otherwise retains the previous neural point|
 
-All target coordinates come from network outputs. Coordinate decoding imposes only
+All target coordinates come from network outputs (including the retained last neural
+receiving point). Coordinate decoding imposes only
 field/goal bounds. The pass skill controls the selected passer and the other robot;
 the dribble/shoot skill controls the selected holder while the other holds position.
 Dribble has no kick actuator. Shoot uses the existing learned precise-release head.

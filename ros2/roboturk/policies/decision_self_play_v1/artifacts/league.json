@@ -53,6 +53,33 @@
         "sha256": "8e2045216eaa7296934038b5ec68c44e6ac224926d4c874795e1859f402b0242",
         "actor_sha256": "5d7bf1c3611b05872788aa14f9047cd61b97d9d58b563da17f1a7c985994e413"
       }
+    },
+    {
+      "transfer": {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/snapshot/transfer.zip",
+        "sha256": "d6a3504acaf4910130850a15fe2778caf28f46919642db715b6737523bd128b3",
+        "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+      },
+      "finish": {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/snapshot/finish.zip",
+        "sha256": "fb7010c738033d03ac3df8eee316e03c9d37ddde4229a84e109b80f6f22864aa",
+        "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+      },
+      "defender": {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/snapshot/defender.zip",
+        "sha256": "ad0c76c1efff1406b2c070810eb562ea4e4911053c5698eab66a69f26f1afdcd",
+        "actor_sha256": "77088357e43e75d5fdd450261665fc624adf4b8214e3892de02e397b3ddffccb"
+      },
+      "keeper": {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/snapshot/keeper.zip",
+        "sha256": "b297d22a747c0c7540722c00f81c5ed0c16f60e8c15d97329f0879a9f4497e4e",
+        "actor_sha256": "2fda2bcd47e3439e5ddb09a9cb2009b39986cd7d520905335f5c6861af6566c1"
+      },
+      "manager": {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/snapshot/manager.zip",
+        "sha256": "ae9c45beedca8abfb7036b38d07c0bde4348441b37893e9e4d6446769720af20",
+        "actor_sha256": "ca54ce167be8fccc160cc998e660aba0c22939194a968e230a777d4c6c0c3d0c"
+      }
     }
   ],
   "updates": [
@@ -427,6 +454,459 @@
       },
       "choices_different_from_starting_manager": 7300,
       "seconds": 142.99574479088187
+    },
+    {
+      "generation": 2,
+      "role": "defender",
+      "steps": 32768,
+      "actor_before": "3535d284b00538377c70bb9934c5497722023a8be2a7fe0030d2e1ec7fd788df",
+      "actor_after": "77088357e43e75d5fdd450261665fc624adf4b8214e3892de02e397b3ddffccb",
+      "accepted_updates": 32,
+      "rejected_updates": 0,
+      "before": {
+        "transfer": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/defender/before/transfer.zip",
+          "sha256": "cd10afb4ed39f7b5364fd5647df8ae622b202e4b7d6e4c86b066702261f716c4",
+          "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+        },
+        "finish": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/defender/before/finish.zip",
+          "sha256": "2b2abdcd14017be9da46f7817d7d2302533a6a0d97db226254a08e231f65a216",
+          "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+        },
+        "defender": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/defender/before/defender.zip",
+          "sha256": "97b70af00a007961075c33597ee26f51206231b2de6761b3d5a72d71da304f41",
+          "actor_sha256": "3535d284b00538377c70bb9934c5497722023a8be2a7fe0030d2e1ec7fd788df"
+        },
+        "keeper": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/defender/before/keeper.zip",
+          "sha256": "841b63e8c2070ca495baccedc5efb937877d1ff165880177f5cc1e4307f34866",
+          "actor_sha256": "3a5a26d832596138548fbfd5e9f62ee31f325c0c0aa478fbbcba4ffe5c74898e"
+        },
+        "manager": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/defender/before/manager.zip",
+          "sha256": "5c5fd72373dbb7fecbe045f9dea14bf4322da520ff99750e020ae7a16ebf8fc5",
+          "actor_sha256": "5d7bf1c3611b05872788aa14f9047cd61b97d9d58b563da17f1a7c985994e413"
+        }
+      },
+      "after": {
+        "transfer": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/defender/transfer.zip",
+          "sha256": "8eae08b601ec114aa20c7aa11980bc41a8de6144ee330eac57346a8557e302ce",
+          "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+        },
+        "finish": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/defender/finish.zip",
+          "sha256": "7c4b02fa976dfa50a1749b7b620f2da19b6e99215664c5a9c87a70403c649371",
+          "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+        },
+        "defender": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/defender/defender.zip",
+          "sha256": "8fdeed8b80b097915e8c1c9195e6d5bd046e42f43432b634267480cad15faa57",
+          "actor_sha256": "77088357e43e75d5fdd450261665fc624adf4b8214e3892de02e397b3ddffccb"
+        },
+        "keeper": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/defender/keeper.zip",
+          "sha256": "00475b998c113df5c19c2f60685a30b8cc4ce858b7472b324d6855bbea7e8ffb",
+          "actor_sha256": "3a5a26d832596138548fbfd5e9f62ee31f325c0c0aa478fbbcba4ffe5c74898e"
+        },
+        "manager": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/defender/manager.zip",
+          "sha256": "75fc376383966c415caff0c969f3fc564c3aa8e957427dc5118db3382dea79c6",
+          "actor_sha256": "5d7bf1c3611b05872788aa14f9047cd61b97d9d58b563da17f1a7c985994e413"
+        }
+      },
+      "historical_pool": [
+        {
+          "transfer": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v3/transfer.zip",
+            "sha256": "ee4e3d54ae22024fa5cd0354ff23779e087941e78913270a2558b2f16b8ee5d3",
+            "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+          },
+          "finish": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v3/finish.zip",
+            "sha256": "8bf90bd83ff21ae9b518fe72fa87b6bd480ed71465abf77171eff0e15cb93875",
+            "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+          },
+          "defender": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v3/defender.zip",
+            "sha256": "d8730433968dc62312d72c9f09c89cb0cb991087b2048cd2ac03d98798de2641",
+            "actor_sha256": "59b9598a05993578be7b300a5f0c9f242561f4b6b4be44a32ead1edcfdb85d36"
+          },
+          "keeper": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v3/keeper.zip",
+            "sha256": "b78f1b75ef5463339f9cb136e7618b8f7fb72f7104458415be39989ea5c77e25",
+            "actor_sha256": "b6297278ab5d458a458b13f9664abfb9addaa51664e0d867a5d074719e0e3d83"
+          },
+          "manager": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v3/manager.zip",
+            "sha256": "4c521d8ba6956bc2da5d025567311e295b19dd3601a1ac6c7be45a4a22d2751f",
+            "actor_sha256": "a2e60c47dc377cd218d0206fde0d326b5b2c4bbde69660d7e2d21021d0b7ede8"
+          }
+        },
+        {
+          "transfer": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round1/snapshot/transfer.zip",
+            "sha256": "65fae70678b73cca887f101d8ebe74cbc17f744a175045f3399e04c5494c15ea",
+            "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+          },
+          "finish": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round1/snapshot/finish.zip",
+            "sha256": "87a864fa1b39dd2db4fbfc673c84982a08cf38c4bef17231840eb6098e25bd24",
+            "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+          },
+          "defender": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round1/snapshot/defender.zip",
+            "sha256": "f2ebc97634782f89fdbc5c206c180ed5dd2e09e85cd9c3f02d8713af83f50278",
+            "actor_sha256": "3535d284b00538377c70bb9934c5497722023a8be2a7fe0030d2e1ec7fd788df"
+          },
+          "keeper": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round1/snapshot/keeper.zip",
+            "sha256": "b6298445b5e037e8b891091a2a3cff5d625b31bf6664b9ec7815222279c2493c",
+            "actor_sha256": "3a5a26d832596138548fbfd5e9f62ee31f325c0c0aa478fbbcba4ffe5c74898e"
+          },
+          "manager": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round1/snapshot/manager.zip",
+            "sha256": "8e2045216eaa7296934038b5ec68c44e6ac224926d4c874795e1859f402b0242",
+            "actor_sha256": "5d7bf1c3611b05872788aa14f9047cd61b97d9d58b563da17f1a7c985994e413"
+          }
+        }
+      ],
+      "complete_rollouts": 137,
+      "reset_count": 138,
+      "seed": 489,
+      "settings": {
+        "learning_rate": 1e-05,
+        "mse_limit": 0.0003,
+        "delta_limit": 0.15,
+        "motion_log_std": -3.5
+      },
+      "initial_log_std": [
+        -3.5,
+        -3.5,
+        -3.5
+      ],
+      "final_log_std": [
+        -3.499739646911621,
+        -3.5008039474487305,
+        -3.5005390644073486
+      ],
+      "sampled_manager_choices": {},
+      "choices_different_from_starting_manager": 0,
+      "seconds": 136.69691591709852
+    },
+    {
+      "generation": 2,
+      "role": "keeper",
+      "steps": 32768,
+      "actor_before": "3a5a26d832596138548fbfd5e9f62ee31f325c0c0aa478fbbcba4ffe5c74898e",
+      "actor_after": "2fda2bcd47e3439e5ddb09a9cb2009b39986cd7d520905335f5c6861af6566c1",
+      "accepted_updates": 32,
+      "rejected_updates": 0,
+      "before": {
+        "transfer": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/keeper/before/transfer.zip",
+          "sha256": "8eae08b601ec114aa20c7aa11980bc41a8de6144ee330eac57346a8557e302ce",
+          "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+        },
+        "finish": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/keeper/before/finish.zip",
+          "sha256": "7c4b02fa976dfa50a1749b7b620f2da19b6e99215664c5a9c87a70403c649371",
+          "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+        },
+        "defender": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/keeper/before/defender.zip",
+          "sha256": "8fdeed8b80b097915e8c1c9195e6d5bd046e42f43432b634267480cad15faa57",
+          "actor_sha256": "77088357e43e75d5fdd450261665fc624adf4b8214e3892de02e397b3ddffccb"
+        },
+        "keeper": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/keeper/before/keeper.zip",
+          "sha256": "00475b998c113df5c19c2f60685a30b8cc4ce858b7472b324d6855bbea7e8ffb",
+          "actor_sha256": "3a5a26d832596138548fbfd5e9f62ee31f325c0c0aa478fbbcba4ffe5c74898e"
+        },
+        "manager": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/keeper/before/manager.zip",
+          "sha256": "75fc376383966c415caff0c969f3fc564c3aa8e957427dc5118db3382dea79c6",
+          "actor_sha256": "5d7bf1c3611b05872788aa14f9047cd61b97d9d58b563da17f1a7c985994e413"
+        }
+      },
+      "after": {
+        "transfer": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/keeper/transfer.zip",
+          "sha256": "83de2108e9fa6558c287150dc6db6044380832e7dae51efb4e97d9d405a77ec8",
+          "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+        },
+        "finish": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/keeper/finish.zip",
+          "sha256": "cb409aa0ec5d11f47e2cc51b7c96c79cb79259a80128f7ba0b51eb79af266f57",
+          "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+        },
+        "defender": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/keeper/defender.zip",
+          "sha256": "e5a09f46c7ca8f1770a9b80d831ebb923e5a4dea4ebe668ef727fcfe05905291",
+          "actor_sha256": "77088357e43e75d5fdd450261665fc624adf4b8214e3892de02e397b3ddffccb"
+        },
+        "keeper": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/keeper/keeper.zip",
+          "sha256": "2aa56d7e0c29f6c8d3084709ec55e065c0199af3d25a0230cf0ee88e6b531e0c",
+          "actor_sha256": "2fda2bcd47e3439e5ddb09a9cb2009b39986cd7d520905335f5c6861af6566c1"
+        },
+        "manager": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/keeper/manager.zip",
+          "sha256": "ac2123202c2bba48afed5811dc90af0e64eea637e0e733e734a878ebd92328e2",
+          "actor_sha256": "5d7bf1c3611b05872788aa14f9047cd61b97d9d58b563da17f1a7c985994e413"
+        }
+      },
+      "historical_pool": [
+        {
+          "transfer": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v3/transfer.zip",
+            "sha256": "ee4e3d54ae22024fa5cd0354ff23779e087941e78913270a2558b2f16b8ee5d3",
+            "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+          },
+          "finish": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v3/finish.zip",
+            "sha256": "8bf90bd83ff21ae9b518fe72fa87b6bd480ed71465abf77171eff0e15cb93875",
+            "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+          },
+          "defender": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v3/defender.zip",
+            "sha256": "d8730433968dc62312d72c9f09c89cb0cb991087b2048cd2ac03d98798de2641",
+            "actor_sha256": "59b9598a05993578be7b300a5f0c9f242561f4b6b4be44a32ead1edcfdb85d36"
+          },
+          "keeper": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v3/keeper.zip",
+            "sha256": "b78f1b75ef5463339f9cb136e7618b8f7fb72f7104458415be39989ea5c77e25",
+            "actor_sha256": "b6297278ab5d458a458b13f9664abfb9addaa51664e0d867a5d074719e0e3d83"
+          },
+          "manager": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v3/manager.zip",
+            "sha256": "4c521d8ba6956bc2da5d025567311e295b19dd3601a1ac6c7be45a4a22d2751f",
+            "actor_sha256": "a2e60c47dc377cd218d0206fde0d326b5b2c4bbde69660d7e2d21021d0b7ede8"
+          }
+        },
+        {
+          "transfer": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round1/snapshot/transfer.zip",
+            "sha256": "65fae70678b73cca887f101d8ebe74cbc17f744a175045f3399e04c5494c15ea",
+            "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+          },
+          "finish": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round1/snapshot/finish.zip",
+            "sha256": "87a864fa1b39dd2db4fbfc673c84982a08cf38c4bef17231840eb6098e25bd24",
+            "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+          },
+          "defender": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round1/snapshot/defender.zip",
+            "sha256": "f2ebc97634782f89fdbc5c206c180ed5dd2e09e85cd9c3f02d8713af83f50278",
+            "actor_sha256": "3535d284b00538377c70bb9934c5497722023a8be2a7fe0030d2e1ec7fd788df"
+          },
+          "keeper": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round1/snapshot/keeper.zip",
+            "sha256": "b6298445b5e037e8b891091a2a3cff5d625b31bf6664b9ec7815222279c2493c",
+            "actor_sha256": "3a5a26d832596138548fbfd5e9f62ee31f325c0c0aa478fbbcba4ffe5c74898e"
+          },
+          "manager": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round1/snapshot/manager.zip",
+            "sha256": "8e2045216eaa7296934038b5ec68c44e6ac224926d4c874795e1859f402b0242",
+            "actor_sha256": "5d7bf1c3611b05872788aa14f9047cd61b97d9d58b563da17f1a7c985994e413"
+          }
+        }
+      ],
+      "complete_rollouts": 134,
+      "reset_count": 135,
+      "seed": 490,
+      "settings": {
+        "learning_rate": 1e-05,
+        "mse_limit": 0.0003,
+        "delta_limit": 0.15,
+        "motion_log_std": -3.5
+      },
+      "initial_log_std": [
+        -3.5,
+        -3.5,
+        -3.5
+      ],
+      "final_log_std": [
+        -3.5003912448883057,
+        -3.5005009174346924,
+        -3.50113582611084
+      ],
+      "sampled_manager_choices": {},
+      "choices_different_from_starting_manager": 0,
+      "seconds": 131.58625120809302
+    },
+    {
+      "generation": 2,
+      "role": "manager",
+      "steps": 32768,
+      "actor_before": "5d7bf1c3611b05872788aa14f9047cd61b97d9d58b563da17f1a7c985994e413",
+      "actor_after": "ca54ce167be8fccc160cc998e660aba0c22939194a968e230a777d4c6c0c3d0c",
+      "accepted_updates": 32,
+      "rejected_updates": 0,
+      "before": {
+        "transfer": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/manager/before/transfer.zip",
+          "sha256": "83de2108e9fa6558c287150dc6db6044380832e7dae51efb4e97d9d405a77ec8",
+          "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+        },
+        "finish": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/manager/before/finish.zip",
+          "sha256": "cb409aa0ec5d11f47e2cc51b7c96c79cb79259a80128f7ba0b51eb79af266f57",
+          "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+        },
+        "defender": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/manager/before/defender.zip",
+          "sha256": "e5a09f46c7ca8f1770a9b80d831ebb923e5a4dea4ebe668ef727fcfe05905291",
+          "actor_sha256": "77088357e43e75d5fdd450261665fc624adf4b8214e3892de02e397b3ddffccb"
+        },
+        "keeper": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/manager/before/keeper.zip",
+          "sha256": "2aa56d7e0c29f6c8d3084709ec55e065c0199af3d25a0230cf0ee88e6b531e0c",
+          "actor_sha256": "2fda2bcd47e3439e5ddb09a9cb2009b39986cd7d520905335f5c6861af6566c1"
+        },
+        "manager": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/manager/before/manager.zip",
+          "sha256": "ac2123202c2bba48afed5811dc90af0e64eea637e0e733e734a878ebd92328e2",
+          "actor_sha256": "5d7bf1c3611b05872788aa14f9047cd61b97d9d58b563da17f1a7c985994e413"
+        }
+      },
+      "after": {
+        "transfer": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/manager/transfer.zip",
+          "sha256": "d6a3504acaf4910130850a15fe2778caf28f46919642db715b6737523bd128b3",
+          "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+        },
+        "finish": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/manager/finish.zip",
+          "sha256": "fb7010c738033d03ac3df8eee316e03c9d37ddde4229a84e109b80f6f22864aa",
+          "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+        },
+        "defender": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/manager/defender.zip",
+          "sha256": "ad0c76c1efff1406b2c070810eb562ea4e4911053c5698eab66a69f26f1afdcd",
+          "actor_sha256": "77088357e43e75d5fdd450261665fc624adf4b8214e3892de02e397b3ddffccb"
+        },
+        "keeper": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/manager/keeper.zip",
+          "sha256": "b297d22a747c0c7540722c00f81c5ed0c16f60e8c15d97329f0879a9f4497e4e",
+          "actor_sha256": "2fda2bcd47e3439e5ddb09a9cb2009b39986cd7d520905335f5c6861af6566c1"
+        },
+        "manager": {
+          "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round2/manager/manager.zip",
+          "sha256": "ae9c45beedca8abfb7036b38d07c0bde4348441b37893e9e4d6446769720af20",
+          "actor_sha256": "ca54ce167be8fccc160cc998e660aba0c22939194a968e230a777d4c6c0c3d0c"
+        }
+      },
+      "historical_pool": [
+        {
+          "transfer": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v3/transfer.zip",
+            "sha256": "ee4e3d54ae22024fa5cd0354ff23779e087941e78913270a2558b2f16b8ee5d3",
+            "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+          },
+          "finish": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v3/finish.zip",
+            "sha256": "8bf90bd83ff21ae9b518fe72fa87b6bd480ed71465abf77171eff0e15cb93875",
+            "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+          },
+          "defender": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v3/defender.zip",
+            "sha256": "d8730433968dc62312d72c9f09c89cb0cb991087b2048cd2ac03d98798de2641",
+            "actor_sha256": "59b9598a05993578be7b300a5f0c9f242561f4b6b4be44a32ead1edcfdb85d36"
+          },
+          "keeper": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v3/keeper.zip",
+            "sha256": "b78f1b75ef5463339f9cb136e7618b8f7fb72f7104458415be39989ea5c77e25",
+            "actor_sha256": "b6297278ab5d458a458b13f9664abfb9addaa51664e0d867a5d074719e0e3d83"
+          },
+          "manager": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v3/manager.zip",
+            "sha256": "4c521d8ba6956bc2da5d025567311e295b19dd3601a1ac6c7be45a4a22d2751f",
+            "actor_sha256": "a2e60c47dc377cd218d0206fde0d326b5b2c4bbde69660d7e2d21021d0b7ede8"
+          }
+        },
+        {
+          "transfer": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round1/snapshot/transfer.zip",
+            "sha256": "65fae70678b73cca887f101d8ebe74cbc17f744a175045f3399e04c5494c15ea",
+            "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+          },
+          "finish": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round1/snapshot/finish.zip",
+            "sha256": "87a864fa1b39dd2db4fbfc673c84982a08cf38c4bef17231840eb6098e25bd24",
+            "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+          },
+          "defender": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round1/snapshot/defender.zip",
+            "sha256": "f2ebc97634782f89fdbc5c206c180ed5dd2e09e85cd9c3f02d8713af83f50278",
+            "actor_sha256": "3535d284b00538377c70bb9934c5497722023a8be2a7fe0030d2e1ec7fd788df"
+          },
+          "keeper": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round1/snapshot/keeper.zip",
+            "sha256": "b6298445b5e037e8b891091a2a3cff5d625b31bf6664b9ec7815222279c2493c",
+            "actor_sha256": "3a5a26d832596138548fbfd5e9f62ee31f325c0c0aa478fbbcba4ffe5c74898e"
+          },
+          "manager": {
+            "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/round1/snapshot/manager.zip",
+            "sha256": "8e2045216eaa7296934038b5ec68c44e6ac224926d4c874795e1859f402b0242",
+            "actor_sha256": "5d7bf1c3611b05872788aa14f9047cd61b97d9d58b563da17f1a7c985994e413"
+          }
+        }
+      ],
+      "complete_rollouts": 530,
+      "reset_count": 531,
+      "seed": 491,
+      "settings": {
+        "learning_rate": 1e-05,
+        "mse_limit": 0.0005,
+        "delta_limit": 0.2,
+        "choice_log_std": -0.5,
+        "target_log_std": -4.5
+      },
+      "initial_log_std": [
+        -0.5,
+        -0.5,
+        -0.5,
+        -0.5,
+        -0.5,
+        -4.5,
+        -4.5,
+        -4.5,
+        -4.5,
+        -4.5,
+        -0.5
+      ],
+      "final_log_std": [
+        -0.5009909868240356,
+        -0.5008935928344727,
+        -0.49949121475219727,
+        -0.5007839202880859,
+        -0.5008660554885864,
+        -4.499648094177246,
+        -4.499332427978516,
+        -4.500192165374756,
+        -4.498960018157959,
+        -4.498632431030273,
+        -0.5000892281532288
+      ],
+      "sampled_manager_choices": {
+        "(1, 0, True)": 2270,
+        "(1, 0, False)": 14323,
+        "(0, 0, False)": 8259,
+        "(0, 0, True)": 1860,
+        "(2, 0, False)": 4186,
+        "(2, 0, True)": 670,
+        "(2, 1, False)": 168,
+        "(0, 1, False)": 262,
+        "(1, 1, False)": 534,
+        "(2, 1, True)": 39,
+        "(1, 1, True)": 127,
+        "(0, 1, True)": 70
+      },
+      "choices_different_from_starting_manager": 7517,
+      "seconds": 134.1353598749265
     }
   ]
 }

@@ -44,3 +44,5 @@ migration/refitting and fresh DAgger are running. No PPO or reserved result yet.
 [V2 failed development](artifacts/dagger-v2-development.json).
 
 V3 completed: prepared29goals/56clean; DAgger26goals/56clean, with one collision, one ball-out and two keeper field exits in60development games. Goals by family3/7/16; eight stable receptions. This remains unqualified. Alternating native PPO now starts from the final v3 DAgger model; transfer/finishing actors stay frozen.
+
+Initialization used750native collection episodes (300teacher plus three150-game mixedDAgger stages),176,011stored manager observations, and six supervised fits totaling660epochs. V2/v3 label/contract conversions are explicit. PPO then updates manager/defender/keeper against retained opponents; isolated PPO benefit is not assumed.

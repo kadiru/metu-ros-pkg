@@ -202,11 +202,15 @@ class ContinuousMatch:
         self.contested_seconds = 0.0
         self.distance = Counter()
         self.support_distance = Counter()
+        self.cover_distance = Counter()
         self.controlled_carry = Counter()
         self.last_owner = None
         self.current_owner = None
         self.acquisitions = Counter()
         self.turnovers = Counter()
+        self.recoveries = Counter()
+        self.loose_ticks = 0
+        self.was_loose = False
         self.last_pass = None
         self.passes = Counter()
         self.shots = Counter()
@@ -240,6 +244,11 @@ class ContinuousMatch:
         samples = getattr(self.backend, "last_substep_worlds", [self.world])
         kicks = self.backend.last_kick_events
         self.memory.observe(samples, kicks, self.cfg)
+        # A loose interval is physical absence of exclusive mouth control, not
+        # merely a velocity transient that resets the stable-acquisition clock.
+        exclusive = all(sum(possession(w, k, self.cfg) for k in KEYS) == 1 for w in samples)
+        self.loose_ticks = 0 if exclusive else self.loose_ticks + 1
+        self.was_loose |= self.loose_ticks >= 10
         for k, state, speed in kicks:
             mode = self.memory.mode[k]
             typ = "pass" if mode == 2 else "shot"
@@ -258,7 +267,17 @@ class ContinuousMatch:
             self.last_pass = event if typ == "pass" else None
         owner = next((k for k in KEYS if self.memory.dwell[k] >= 15), None)
         self.current_owner = owner
-        if owner and owner != self.last_owner:
+        if self.last_pass and (
+            self.steps - self.last_pass["step"] > 250
+            or (owner and owner.team != self.last_pass["team"])
+            or (
+                owner
+                and name(owner) == self.last_pass["robot"]
+                and self.steps - self.last_pass["step"] >= 15
+            )
+        ):
+            self.last_pass = None
+        if owner and (owner != self.last_owner or self.was_loose):
             typ = (
                 "turnover"
                 if self.last_owner and owner.team != self.last_owner.team
@@ -267,6 +286,9 @@ class ContinuousMatch:
             self.acquisitions[owner.team] += 1
             if typ == "turnover":
                 self.turnovers[owner.team] += 1
+            recovered = bool(self.was_loose and self.last_owner is not None)
+            if recovered:
+                self.recoveries[owner.team] += 1
             event = {
                 "type": typ,
                 "step": self.steps,
@@ -274,6 +296,7 @@ class ContinuousMatch:
                 "team": owner.team,
                 "previous_robot": name(self.last_owner) if self.last_owner else None,
                 "dwell": self.memory.dwell[owner],
+                "after_loose_ball": recovered,
                 "ball": [self.world.ball.x, self.world.ball.y],
             }
             self.events.append(event)
@@ -294,7 +317,9 @@ class ContinuousMatch:
                             "displacement": dist,
                         }
                     )
+                    self.last_pass = None
             self.last_owner = owner
+            self.was_loose = False
         prior = previous
         for w in samples:
             self.physics_checks += 1
@@ -318,8 +343,10 @@ class ContinuousMatch:
                 old = prior.robot(r.key)
                 dist = math.hypot(r.x - old.x, r.y - old.y)
                 self.distance[name(r.key)] += dist
-                if self.memory.mode[r.key] in (5, 6) and not possession(w, r.key, self.cfg):
+                if self.memory.mode[r.key] == 6 and not possession(w, r.key, self.cfg):
                     self.support_distance[r.key.team] += dist
+                if self.memory.mode[r.key] == 5 and not possession(w, r.key, self.cfg):
+                    self.cover_distance[r.key.team] += dist
                 if (
                     holders == [r.key]
                     and self.memory.dwell[r.key] >= 15
@@ -398,6 +425,8 @@ class ContinuousMatch:
         self.current_owner = None
         self.last_owner = None
         self.last_pass = None
+        self.loose_ticks = 0
+        self.was_loose = False
         self.restarts += 1
         self.total_resets += 1
         self.memory.duration = self.duration
@@ -405,6 +434,7 @@ class ContinuousMatch:
 
     def result(self):
         return {
+            "metric_version": 2,
             "seed": self.seed,
             "start": self.start_family,
             "attack_sign": self.sign,
@@ -423,9 +453,11 @@ class ContinuousMatch:
             "contested_seconds": self.contested_seconds,
             "distance": dict(self.distance),
             "support_distance": dict(self.support_distance),
+            "cover_distance": dict(self.cover_distance),
             "controlled_carry": dict(self.controlled_carry),
             "acquisitions": dict(self.acquisitions),
             "turnovers": dict(self.turnovers),
+            "recoveries": dict(self.recoveries),
             "passes": dict(self.passes),
             "shots": dict(self.shots),
             "receptions": dict(self.receptions),
@@ -449,7 +481,8 @@ def summary(records):
         "draws": sum(r["score"]["blue"] == r["score"]["yellow"] for r in records),
         "goal_matches": sum(sum(r["score"].values()) > 0 for r in records),
         "turnover_matches": sum(sum(r["turnovers"].values()) > 0 for r in records),
-        "recovery_matches": sum(sum(r["acquisitions"].values()) > 0 for r in records),
+        "acquisition_matches": sum(sum(r["acquisitions"].values()) > 0 for r in records),
+        "recovery_matches": sum(sum(r.get("recoveries", {}).values()) > 0 for r in records),
         "passes": sum(sum(r["passes"].values()) for r in records),
         "receptions": sum(sum(r["receptions"].values()) for r in records),
         "mean_contact_fraction": sum(r["contact_fraction"] for r in records) / max(1, n),

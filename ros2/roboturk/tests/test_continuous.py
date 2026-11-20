@@ -135,3 +135,45 @@ def test_behavior_selects_a_distinct_motion_head():
     second = decode(a, w, KEYS[0])[1]
     assert first.vx == 0.6 and first.vy == 0
     assert second.vx == 0 and second.vy == 0.6
+
+
+def set_holder(e, b, key=None):
+    robots = tuple(Robot(k, (-2, 0, 2, 3)[i], 1 if i == 3 else 0) for i, k in enumerate(KEYS))
+    holder = next((r for r in robots if r.key == key), None)
+    ball = Ball(holder.x + 0.115, holder.y) if holder else Ball(0, 2)
+    e.world = b.world = World(e.steps * 0.02, robots, ball, Referee.RUNNING)
+    for _ in range(20):
+        e.step(np.stack([encode(0, Command())] * 4))
+
+
+def test_interception_invalidates_old_pass_reception():
+    b = Replay()
+    e = ContinuousMatch(b, duration=10)
+    e.reset(1)
+    set_holder(e, b, KEYS[0])
+    e.last_pass = {
+        "type": "pass",
+        "step": e.steps,
+        "robot": "blue0",
+        "team": "blue",
+        "ball": [-1.885, 0],
+    }
+    set_holder(e, b, KEYS[2])
+    assert e.last_pass is None
+    set_holder(e, b, KEYS[1])
+    assert e.receptions["blue"] == 0
+    assert e.turnovers["blue"] == e.turnovers["yellow"] == 1
+
+
+def test_same_robot_recovery_is_counted_after_a_loose_interval():
+    b = Replay()
+    e = ContinuousMatch(b, duration=10)
+    e.reset(1)
+    set_holder(e, b, KEYS[0])
+    assert e.acquisitions["blue"] == 1 and e.recoveries["blue"] == 0
+    set_holder(e, b)
+    set_holder(e, b, KEYS[0])
+    assert e.acquisitions["blue"] == 2 and e.recoveries["blue"] == 1
+    set_holder(e, b, KEYS[0])
+    assert e.acquisitions["blue"] == 2
+    assert b.resets == 1

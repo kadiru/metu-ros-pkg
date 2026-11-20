@@ -22,12 +22,26 @@ def load(path):
     meta = json.loads(Path(path).with_suffix(".json").read_text())
     if meta["contract"] != CONTRACT:
         raise ValueError("Wrong continuous contract")
+    if meta["config"] != asdict(Config()):
+        raise ValueError("Wrong continuous physics configuration")
+    if "checkpoint_sha256" in meta and digest(path) != meta["checkpoint_sha256"]:
+        raise ValueError("Changed checkpoint bytes")
     model = PPO.load(path, device="cpu")
     if model.observation_space.shape != (OBSERVATIONS,) or model.action_space.shape != (ACTIONS,):
         raise ValueError("Wrong model shape")
     if actor_hash(model) != meta["actor_sha256"]:
         raise ValueError("Changed actor")
     return model
+
+
+def descriptor(path, model):
+    return {
+        "path": str(path),
+        "sha256": digest(path),
+        "metadata_sha256": digest(Path(path).with_suffix(".json")),
+        "actor_sha256": actor_hash(model),
+        "contract": CONTRACT,
+    }
 
 
 def save(model, path, metadata):
@@ -41,6 +55,7 @@ def save(model, path, metadata):
             "contract": CONTRACT,
             "config": asdict(Config()),
             "actor_sha256": actor_hash(model),
+            "checkpoint_sha256": digest(path),
             "hardware_validated": False,
         },
     )

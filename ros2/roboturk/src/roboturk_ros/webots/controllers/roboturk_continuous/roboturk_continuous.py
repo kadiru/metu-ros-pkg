@@ -7,7 +7,7 @@ import torch
 from controller import Supervisor
 from roboturk.model import Config
 from roboturk.webots_backend import WebotsBackend
-from roboturk.continuous_training import collect, evaluate, fit, load
+from roboturk.continuous_training import collect, evaluate, fit, load, descriptor
 from roboturk.self_play_training import write
 
 
@@ -43,11 +43,20 @@ def main():
                 duration,
             )
             result = None
-        elif mode == "evaluate":
+        elif mode in ("evaluate", "demo"):
             blue = load(source)
-            yellow = load(env.get("CONTINUOUS_OPPONENT", source))
-            result = evaluate(backend, blue, yellow, count, seed, duration)
-            result["models"] = {"blue": source, "yellow": env.get("CONTINUOUS_OPPONENT", source)}
+            opponent = env.get("CONTINUOUS_OPPONENT", source)
+            yellow = load(opponent)
+            if mode == "demo":
+                from continuous_demo import record
+
+                result = record(supervisor, backend, blue, yellow, out, count, seed, duration)
+            else:
+                result = evaluate(backend, blue, yellow, count, seed, duration)
+            result["models"] = {
+                "blue": descriptor(source, blue),
+                "yellow": descriptor(opponent, yellow),
+            }
         else:
             raise ValueError("Continuous mode not implemented yet: " + mode)
         if result:

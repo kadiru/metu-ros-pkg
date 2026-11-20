@@ -1,0 +1,80 @@
+[
+  {
+    "panel": "final",
+    "command": [
+      "/Users/kadir/linkedin/projects/roboturk/.venv/bin/python",
+      "/Users/kadir/linkedin/projects/roboturk/modern/scripts/run_webots.py",
+      "--webots",
+      "/Users/kadir/linkedin/projects/roboturk/runtime/Webots-nightly.app/Contents/MacOS/webots",
+      "--mode",
+      "decision-evaluate",
+      "--checkpoint",
+      "/Users/kadir/linkedin/projects/roboturk/modern/policies/decision_self_play_v2/final-bundle.json",
+      "--episodes",
+      "240",
+      "--seed",
+      "3300000",
+      "--output",
+      "/Users/kadir/linkedin/projects/roboturk/modern/policies/decision_self_play_v2/qualification/final",
+      "--timeout",
+      "2400"
+    ],
+    "freeze_commit": "690601957abde5cd40980290288a4806c198db26",
+    "started_at": "2026-11-19T19:31:03.706019-08:00",
+    "exit_code": 0,
+    "finished_at": "2026-11-19T19:35:06.454309-08:00",
+    "audit_exit_code": 0
+  },
+  {
+    "panel": "attack",
+    "command": [
+      "/Users/kadir/linkedin/projects/roboturk/.venv/bin/python",
+      "/Users/kadir/linkedin/projects/roboturk/modern/scripts/run_webots.py",
+      "--webots",
+      "/Users/kadir/linkedin/projects/roboturk/runtime/Webots-nightly.app/Contents/MacOS/webots",
+      "--mode",
+      "decision-evaluate",
+      "--checkpoint",
+      "/Users/kadir/linkedin/projects/roboturk/modern/policies/decision_self_play_v2/attack-bundle.json",
+      "--episodes",
+      "120",
+      "--seed",
+      "3310000",
+      "--output",
+      "/Users/kadir/linkedin/projects/roboturk/modern/policies/decision_self_play_v2/qualification/attack",
+      "--timeout",
+      "2400"
+    ],
+    "freeze_commit": "690601957abde5cd40980290288a4806c198db26",
+    "started_at": "2026-11-19T19:35:06.700828-08:00",
+    "exit_code": 0,
+    "finished_at": "2026-11-19T19:37:14.407049-08:00",
+    "audit_exit_code": 0
+  },
+  {
+    "panel": "defense",
+    "command": [
+      "/Users/kadir/linkedin/projects/roboturk/.venv/bin/python",
+      "/Users/kadir/linkedin/projects/roboturk/modern/scripts/run_webots.py",
+      "--webots",
+      "/Users/kadir/linkedin/projects/roboturk/runtime/Webots-nightly.app/Contents/MacOS/webots",
+      "--mode",
+      "decision-evaluate",
+      "--checkpoint",
+      "/Users/kadir/linkedin/projects/roboturk/modern/policies/decision_self_play_v2/defense-bundle.json",
+      "--episodes",
+      "120",
+      "--seed",
+      "3320000",
+      "--output",
+      "/Users/kadir/linkedin/projects/roboturk/modern/policies/decision_self_play_v2/qualification/defense",
+      "--timeout",
+      "2400"
+    ],
+    "freeze_commit": "690601957abde5cd40980290288a4806c198db26",
+    "started_at": "2026-11-19T19:37:14.634441-08:00",
+    "exit_code": 0,
+    "finished_at": "2026-11-19T19:39:20.246773-08:00",
+    "audit_exit_code": 0
+  }
+]

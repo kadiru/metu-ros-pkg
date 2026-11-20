@@ -1,0 +1,88 @@
+#!/usr/bin/env python3
+"""Launch the isolated continuous-match world without changing prior frozen runtimes."""
+
+import argparse
+import hashlib
+import json
+from datetime import datetime
+from zoneinfo import ZoneInfo
+import os
+from pathlib import Path
+import signal
+import subprocess
+import sys
+
+
+def main():
+    p = argparse.ArgumentParser()
+    p.add_argument("--webots", required=True)
+    p.add_argument(
+        "--mode", choices=["pilot", "collect", "fit", "evaluate", "train", "demo"], required=True
+    )
+    p.add_argument("--output", required=True)
+    p.add_argument("--checkpoint")
+    p.add_argument("--opponent")
+    p.add_argument("--seed", type=int, default=4100000)
+    p.add_argument("--episodes", type=int, default=12)
+    p.add_argument("--duration", type=float, default=45)
+    p.add_argument("--steps", type=int, default=32768)
+    p.add_argument("--epochs", type=int, default=80)
+    p.add_argument("--rounds", type=int, default=2)
+    p.add_argument("--mix", type=float, default=0)
+    p.add_argument("--timeout", type=float, default=3600)
+    p.add_argument("--render", action="store_true")
+    a = p.parse_args()
+    if min(a.episodes, a.duration, a.steps, a.epochs, a.rounds, a.timeout) <= 0:
+        p.error("Positive limits required")
+    root = Path(__file__).resolve().parents[1]
+    env = dict(os.environ)
+    env["PATH"] = str(Path(sys.executable).parent) + os.pathsep + env["PATH"]
+    env["PYTHONPATH"] = os.pathsep.join(
+        [str(root / "src/roboturk_core"), env.get("PYTHONPATH", "")]
+    )
+    for k, v in vars(a).items():
+        if v is not None:
+            env["CONTINUOUS_" + k.upper()] = (
+                str(Path(v).resolve()) if k in ("output", "checkpoint", "opponent") else str(v)
+            )
+    cmd = [a.webots, "--batch", "--stdout", "--stderr", "--mode=fast"]
+    if not a.render:
+        cmd += ["--no-rendering", "--minimize"]
+    cmd += [str(root / "src/roboturk_ros/webots/worlds/ssl_continuous.wbt")]
+    sources = list((root / "src/roboturk_core/roboturk").glob("continuous*.py"))
+    sources += list((root / "src/roboturk_ros/webots/controllers/roboturk_continuous").glob("*.py"))
+    sources += [
+        Path(__file__).resolve(),
+        root / "src/roboturk_ros/webots/worlds/ssl_continuous.wbt",
+    ]
+    receipt = Path(a.output).with_suffix(".launch.json")
+    receipt.parent.mkdir(parents=True, exist_ok=True)
+    receipt.write_text(
+        json.dumps(
+            {
+                "started_at": datetime.now(ZoneInfo("America/Los_Angeles")).isoformat(),
+                "arguments": vars(a),
+                "runtime_sha256": {
+                    str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest()
+                    for p in sources
+                },
+            },
+            indent=2,
+        )
+        + "\n"
+    )
+    child = subprocess.Popen(cmd, env=env, start_new_session=True)
+    try:
+        return child.wait(timeout=a.timeout)
+    except (subprocess.TimeoutExpired, KeyboardInterrupt):
+        os.killpg(child.pid, signal.SIGTERM)
+        try:
+            child.wait(timeout=5)
+        except subprocess.TimeoutExpired:
+            os.killpg(child.pid, signal.SIGKILL)
+            child.wait()
+        return 124
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

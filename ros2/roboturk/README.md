@@ -13,6 +13,10 @@ explains the explicit play/role/committed-option coordinator around learned moti
 and release. The previous continuous learned manager stays unchanged; these new
 bounded fixtures do not yet establish improved match strategy.
 
+[![Receive, one-touch redirect and defensive clearance in Webots](media/tdp-skills-preview.gif)](media/tdp-skills-demo.mp4)
+
+*Animated preview: all 12 skill cases, 30.8 seconds at normal speed. Click for the full-resolution video.*
+
 The [continuous 2v2 release](policies/continuous_play_v2/README.md) adds learned
 recovery, support, pressing, coverage and counterattacks through two independent
 historical self-play leagues. Both seeds passed all reserved gates:120/120matches
@@ -25,6 +29,10 @@ matches, scores0–0,1–0,0–0. [Architecture and limits](docs/CONTINUOUS_PLAY
 The [unfiltered attempts](policies/continuous_play_v1/README.md) remain available.
 This is approximate ground-truth simulation with simplified restarts; official
 SSL match, hardware and complete live ROS graph qualification remain outstanding.
+
+[![Continuous 2v2 self-play goal in Webots](media/continuous-goal-preview.gif)](media/continuous-self-play-demo.mp4)
+
+*Selected goal highlight, 1:04–1:20 at normal speed. Click for all three uncut matches and their outcomes.*
 
 The previous qualified drill replaces scripted tactical targets and handoffs with a **neural
 manager** that chooses when to pass, dribble or shoot, which robot acts, and where
@@ -41,7 +49,9 @@ The [fresh 45.6-second Webots demo](media/learned-decisions-self-play-demo.mp4) 
 all nine consecutive games: five goals, two interceptions and two saves. Episode 3
 (starting 6.84 s) shows learned passing, receiver handoff, dribbling and scoring.
 
-[![Actual learned receiver shot in Webots](media/learned-decisions-self-play-preview.jpg)](media/learned-decisions-self-play-demo.mp4)
+[![Learned passing, reception, dribbling and scoring in Webots](media/learned-pass-score-preview.gif)](media/learned-decisions-self-play-demo.mp4)
+
+*Selected pass-and-score sequence, 0:06.84–0:18.60 at normal speed. Click for all nine consecutive games, including defensive stops.*
 
 Initialization used imitation/DAgger and supervised defensive coaching. Self-play
 updates decision readouts and opponents while preserving learned coordinate

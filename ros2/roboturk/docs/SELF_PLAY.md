@@ -424,3 +424,22 @@ that the larger panel missed. Keep the last completed generation as predeclared;
 freeze it before untouched qualification, retain all failures and do not tune on
 reserved cases. The original-defense100-case challenge also remains failed.
 No claim of monotonically improving playing strength or isolated PPO benefit is made.
+
+
+## Reserved current-pair result
+
+The generation-five freeze was published at GitHuba143963da3e7cc7d2061276e4c1b500d0e3b5d8c
+before qualification began. All583compared runtime/model/evidence files matched the
+remote tree. The untouched200-case current-pair panel PASSED its predeclared gate:
+194clean outcomes(97%):78goals,100interceptions and16keeper saves. Six failures:
+2defender collisions,1possession loss,1keeper field exit,1invalid pass and1attacker
+field exit. Observed collision rate1%; unforced errors2%. Wilson95%interval for
+clean outcomes:93.61–98.62%; for goals:32.51–45.91%. This is an observed rate on this
+bounded distribution, not a guarantee of future play or full-match reliability.
+
+The audit verified each goal's physical pass/reception/carry/shot/crossing events,
+contact predicates for stops, uninterrupted defensive policy/physics counts, and
+frozen source/model/artifact hashes. Both defensive actors made82189inference calls.
+Maximum longitudinal excursion: defender4.076m,keeper0.670m. Historical qualification
+panels and the fresh eight-case demo remain in progress. No model or runtime changes
+are permitted after this reserved evaluation.

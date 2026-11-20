@@ -1,0 +1,10 @@
+{
+  "freeze_sha256": "250f5867e29e2de3f46ee98e4455d2ea4ccf7d3403da7a0b6b1d960af0d38ae5",
+  "created_at": "2026-11-19T16:45:07.614215-08:00",
+  "commit": "a143963da3e7cc7d2061276e4c1b500d0e3b5d8c",
+  "tree": "66f764c9dda71cdc18bc174825ac8bd7b9346adc",
+  "verified_files": 583,
+  "reserved_started": false,
+  "scope": "receipt at freeze publication, before qualification",
+  "first_reserved_log_created_at_utc": "2026-11-20T00:48:28.122305+00:00"
+}

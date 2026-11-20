@@ -9,6 +9,7 @@ import shutil
 from zoneinfo import ZoneInfo
 from roboturk.continuous_training import digest, descriptor, load
 from roboturk.self_play_training import write
+from roboturk.continuous_selfplay import motion_hash, decision_head_hash
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -39,6 +40,13 @@ def stage(source, release, seed):
         assert sum(update["sampled_modes"].values()) == update["steps"]
         assert update["choices_different_from_teammate_policy"] > 0
         assert update["steps"] == 32768 and update["backend"] == "webots_ideal_body_velocity"
+        assert update["backend_contract"] == "roboturk.webots.closest_kicker.v1"
+        if update["decisions_only"]:
+            previous_model, updated_model = load(history[i - 1]["path"]), load(history[i]["path"])
+            assert motion_hash(previous_model) == motion_hash(updated_model)
+            assert update["motion_before"] == update["motion_after"] == motion_hash(updated_model)
+            assert decision_head_hash(updated_model) == update["decision_head_after"]
+            assert 0 <= update["deterministic_mode_probe_changes"] <= update["mode_probe_rows"]
         base = source / f"seed{seed}" / f"round{i}"
         resets = json.loads((base / "resets.json").read_text())
         rolls = json.loads((base / "rollouts.json").read_text())
@@ -46,6 +54,7 @@ def stage(source, release, seed):
         assert len(resets) == update["reset_count"]
         assert len(rolls) <= len(resets) <= len(rolls) + 1
         assert all(4300000 <= r["seed"] < 4400000 for r in resets)
+        assert {r["learner"] for r in resets} == {"blue0", "blue1", "yellow0", "yellow1"}
         assert all(r["opponent_sha256"] == history[r["opponent_index"]]["sha256"] for r in resets)
         assert [r["seed"] for r in rolls] == [r["seed"] for r in resets[: len(rolls)]]
         assert [r["learner"] for r in rolls] == [r["learner"] for r in resets[: len(rolls)]]

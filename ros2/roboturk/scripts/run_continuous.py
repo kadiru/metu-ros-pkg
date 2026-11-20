@@ -18,7 +18,9 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument("--webots", required=True)
     p.add_argument(
-        "--mode", choices=["pilot", "collect", "fit", "evaluate", "train", "demo"], required=True
+        "--mode",
+        choices=["pilot", "collect", "fit", "evaluate", "train", "demo", "contact-preflight"],
+        required=True,
     )
     p.add_argument("--output", required=True)
     p.add_argument("--checkpoint")
@@ -30,6 +32,7 @@ def main():
     p.add_argument("--steps", type=int, default=32768)
     p.add_argument("--epochs", type=int, default=80)
     p.add_argument("--rounds", type=int, default=2)
+    p.add_argument("--decisions-only", action="store_true")
     p.add_argument("--mix", type=float, default=0)
     p.add_argument("--timeout", type=float, default=3600)
     p.add_argument("--render", action="store_true")
@@ -39,6 +42,13 @@ def main():
     if min(a.episodes, a.duration, a.steps, a.epochs, a.rounds, a.timeout) <= 0:
         p.error("Positive limits required")
     root = Path(__file__).resolve().parents[1]
+    output = Path(a.output)
+    if a.mode in ("evaluate", "demo", "pilot", "collect", "contact-preflight") and (
+        output.exists()
+        or output.with_suffix(".json").exists()
+        or output.with_suffix(".launch.json").exists()
+    ):
+        p.error("Existing experiment output must be retained; choose a new output path")
     if a.seed >= 4500000 and a.mode in ("evaluate", "demo") and not a.freeze:
         p.error("Reserved evaluation requires --freeze")
     if a.freeze:

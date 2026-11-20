@@ -191,6 +191,7 @@ class ContinuousMatch:
         self.reason = "running"
         self.scores = Counter(blue=0, yellow=0)
         self.events = []
+        self.kick_arbitrations = []
         self.trace_rows = []
         self.calls = Counter()
         self.modes = Counter()
@@ -244,6 +245,17 @@ class ContinuousMatch:
         self.steps += 1
         samples = getattr(self.backend, "last_substep_worlds", [self.world])
         kicks = self.backend.last_kick_events
+        for decision in getattr(self.backend, "last_kick_arbitrations", []):
+            self.kick_arbitrations.append(
+                {
+                    "step": self.steps,
+                    "restart": self.restarts,
+                    "physics_time": decision["time"],
+                    "winner": name(decision["winner"]) if decision["winner"] else None,
+                    "candidates": [[name(k), d] for k, d in decision["candidates"]],
+                    "ball": decision["ball"],
+                }
+            )
         self.memory.observe(samples, kicks, self.cfg)
         # A loose interval is physical absence of exclusive mouth control, not
         # merely a velocity transient that resets the stable-acquisition clock.
@@ -258,6 +270,8 @@ class ContinuousMatch:
                 "type": typ,
                 "step": self.steps,
                 "robot": name(k),
+                "physics_time": state.time,
+                "restart": self.restarts,
                 "team": k.team,
                 "speed": speed,
                 "held": possession(state, k, self.cfg),
@@ -436,6 +450,8 @@ class ContinuousMatch:
     def result(self):
         return {
             "metric_version": 2,
+            "backend_contract": getattr(self.backend, "contract", "legacy_ordered_kicks"),
+            "kick_arbitrations": self.kick_arbitrations,
             "seed": self.seed,
             "start": self.start_family,
             "attack_sign": self.sign,

@@ -6,7 +6,7 @@ import traceback
 import torch
 from controller import Supervisor
 from roboturk.model import Config
-from roboturk.webots_backend import WebotsBackend
+from roboturk.continuous_backend import ContinuousWebotsBackend
 from roboturk.continuous_training import collect, evaluate, fit, load, descriptor
 from roboturk.self_play_training import write
 
@@ -14,7 +14,7 @@ from roboturk.self_play_training import write
 def main():
     torch.set_num_threads(1)
     supervisor = Supervisor()
-    backend = WebotsBackend(supervisor, Config())
+    backend = ContinuousWebotsBackend(supervisor, Config())
     env = os.environ
     mode = env["CONTINUOUS_MODE"]
     out = Path(env["CONTINUOUS_OUTPUT"])
@@ -22,7 +22,11 @@ def main():
     duration = float(env["CONTINUOUS_DURATION"])
     try:
         source = env.get("CONTINUOUS_CHECKPOINT")
-        if mode == "pilot":
+        if mode == "contact-preflight":
+            from roboturk.continuous_preflight import contact_preflight
+
+            result = contact_preflight(backend)
+        elif mode == "pilot":
             result = evaluate(backend, None, None, count, seed, duration)
         elif mode == "collect":
             model = load(source) if source else None
@@ -41,6 +45,7 @@ def main():
                 int(env["CONTINUOUS_ROUNDS"]),
                 int(env["CONTINUOUS_STEPS"]),
                 duration,
+                decisions_only=env.get("CONTINUOUS_DECISIONS_ONLY") == "True",
             )
             result = None
         elif mode in ("evaluate", "demo"):

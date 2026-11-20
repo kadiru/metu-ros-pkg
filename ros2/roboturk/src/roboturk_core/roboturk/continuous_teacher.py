@@ -42,9 +42,8 @@ def avoid(w, k, c):
                 vx = math.copysign(limit, v)
             else:
                 vy = math.copysign(limit, v)
-    for p in w.robots:
-        if p.key == k:
-            continue
+    for other_key in ordered(w, k)[1:]:
+        p = w.robot(other_key)
         dx, dy = r.x - p.x, r.y - p.y
         d = max(1e-6, math.hypot(dx, dy))
         if d < 0.6:

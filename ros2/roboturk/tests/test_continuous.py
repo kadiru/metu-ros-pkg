@@ -238,3 +238,39 @@ def test_teacher_does_not_assign_both_teammates_to_cover():
     # Close overlapping robots receive separating training labels, even at rest.
     c = avoid(e.world, KEYS[0], Command())
     assert c.vx > 0 and c.vy < 0
+
+
+def test_teacher_labels_are_team_swap_invariant_in_a_crowd():
+    from roboturk.continuous_teacher import ContinuousTeacher, avoid
+    from types import SimpleNamespace
+
+    w = World(
+        0,
+        (
+            Robot(KEYS[0], 0, 0),
+            Robot(KEYS[1], 0.2, 0),
+            Robot(KEYS[2], 0, 0.2),
+            Robot(KEYS[3], -0.15, 0.15),
+        ),
+        Ball(1, 0),
+        Referee.RUNNING,
+    )
+    mapping = {KEYS[0]: KEYS[2], KEYS[1]: KEYS[3], KEYS[2]: KEYS[0], KEYS[3]: KEYS[1]}
+    swapped = replace(
+        w,
+        attack_sign=-1,
+        robots=tuple(
+            sorted((replace(r, key=mapping[r.key]) for r in w.robots), key=lambda r: r.key)
+        ),
+    )
+    assert avoid(w, KEYS[0], Command(0.5, 0.4)) == avoid(swapped, KEYS[2], Command(0.5, 0.4))
+    memories = [Memory(), Memory()]
+    labels = []
+    for state, key, memory in zip((w, swapped), (KEYS[0], KEYS[2]), memories, strict=True):
+        memory.reset(state)
+        labels.append(
+            ContinuousTeacher().action(
+                SimpleNamespace(world=state, memory=memory, cfg=Config()), key
+            )
+        )
+    np.testing.assert_allclose(labels[0], labels[1], atol=1e-7)

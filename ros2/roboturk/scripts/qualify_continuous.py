@@ -44,7 +44,13 @@ def qualify(release):
             for field in ("sha256", "metadata_sha256", "actor_sha256", "contract"):
                 assert raw["models"][color][field] == expected[field], (panel["name"], color, field)
         assert raw["duration"] == protocol["duration"]
+        assert raw["backend_contract"] == "roboturk.webots.closest_kicker.v1"
+        assert all(m["backend_contract"] == raw["backend_contract"] for m in raw["matches"])
         assert "unfinished" in raw["summary"]
+        assert all(
+            m["neural_inference_batches"] == {"blue": m["steps"], "yellow": m["steps"]}
+            for m in raw["matches"]
+        )
         audited = AUDIT(path, panel["seed"], panel["count"])
         panels[panel["name"]] = audited
         grouped[panel["training_seed"]].extend(raw["matches"])

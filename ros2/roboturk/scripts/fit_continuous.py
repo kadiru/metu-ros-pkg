@@ -18,7 +18,10 @@ def main():
     p.add_argument("--source", type=Path)
     p.add_argument("--seed", type=int, required=True)
     p.add_argument("--epochs", type=int, default=320)
+    p.add_argument("--learning-rate", type=float, default=3e-4)
     args = p.parse_args()
+    if args.learning_rate <= 0 or args.epochs <= 0:
+        p.error("Positive learning rate and epoch count required")
     if args.output.exists():
         p.error("Preserve prior stages: output must be new")
     torch.set_num_threads(1)
@@ -64,7 +67,13 @@ def main():
             "data_sha256": digest(args.output / "data.npz"),
         },
     )
-    fit(args.output, args.seed, args.epochs, str(args.source) if args.source else None)
+    fit(
+        args.output,
+        args.seed,
+        args.epochs,
+        str(args.source) if args.source else None,
+        args.learning_rate,
+    )
 
 
 if __name__ == "__main__":

@@ -68,6 +68,7 @@ def evaluate(backend, blue, yellow, count, seed, duration, recorder=None, trace=
     teacher = ContinuousTeacher() if blue is None else None
     for i in range(count):
         match.reset(seed + i)
+        inference_batches = {"blue": 0, "yellow": 0}
         if recorder:
             recorder.begin(i, match)
         while not match.finished:
@@ -79,15 +80,18 @@ def evaluate(backend, blue, yellow, count, seed, duration, recorder=None, trace=
                 if blue is None or yellow is None:
                     raise ValueError("No mixed analytic deployment")
                 a = blue.predict(obs[:2], deterministic=True)[0]
+                inference_batches["blue"] += 1
                 b = yellow.predict(obs[2:], deterministic=True)[0]
+                inference_batches["yellow"] += 1
                 actions = np.concatenate([a, b])
             match.step(actions)
             if recorder:
                 recorder.step(match)
-        records.append(match.result())
+        records.append({**match.result(), "neural_inference_batches": inference_batches})
         print("Continuous evaluation", i + 1, count, summary(records), flush=True)
     return {
         "backend": backend.name,
+        "backend_contract": getattr(backend, "contract", "legacy_ordered_kicks"),
         "control": "training_teacher" if blue is None else "neural",
         "contract": CONTRACT,
         "duration": duration,
@@ -133,6 +137,7 @@ def collect(backend, output, count, seed, duration, model=None, mix=0):
         out / "collection.json",
         {
             "backend": backend.name,
+            "backend_contract": getattr(backend, "contract", "legacy_ordered_kicks"),
             "control": (
                 "training_teacher"
                 if not mix
@@ -159,7 +164,7 @@ class ShapeEnv(gym.Env):
     action_space = gym.spaces.Box(-1, 1, (ACTIONS,), dtype=np.float32)
 
 
-def fit(output, seed, epochs, source=None):
+def fit(output, seed, epochs, source=None, learning_rate=3e-4):
     out = Path(output)
     data = np.load(out / "data.npz")
     x, y = data["observations"], data["actions"]
@@ -219,7 +224,7 @@ def fit(output, seed, epochs, source=None):
     ]
     sampling = {name: len(ids) for name, ids in zip(group_names, groups, strict=True)}
     groups = [g for g in groups if len(g)]
-    opt = torch.optim.Adam(model.actor_parameters(), lr=3e-4)
+    opt = torch.optim.Adam(model.actor_parameters(), lr=learning_rate)
     weights = torch.zeros_like(yt)
     weights[:, :7] = 1
     for mode in range(7):
@@ -248,6 +253,7 @@ def fit(output, seed, epochs, source=None):
             "stage": "supervised_initialization",
             "seed": seed,
             "epochs": epochs,
+            "supervised_learning_rate": learning_rate,
             "observations": len(x),
             "data_sha256": digest(out / "data.npz"),
             "source": source,

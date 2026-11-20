@@ -1,54 +1,102 @@
-# Continuous 2v2 — experiment in progress
+# Continuous 2v2 — training in progress
 
-This release is **not qualified** and has no new reliable neural demo yet.
-The previous qualified decision_self_play_v2 release remains intact.
+**This experiment is not qualified. There is no new reliable neural match demo yet.**
+The previous qualified [learned-decision release](../decision_self_play_v2/README.md)
+and all 89 files in its frozen runtime remain unchanged.
 
-Seven learned choices select separate neural motion heads: recovery, dribble, pass,
-shoot, press, cover and support. Both teams use the same 122-input/35-output v4 contract.
-Interceptions and missed shots continue; goals and ball-outs cause logged referee
-restarts. Native Webots, ground-truth state and approximate dynamics; no hardware claim.
+The new policy controls both teams through 45-second matches. Interceptions, loose
+balls and missed shots continue play. Goals and ball-outs cause explicit, logged
+referee restarts. Seven learned behavior scores select distinct neural motion
+heads: recover, dribble, pass, shoot, press, cover and support. The current v4
+contract has 122 observations and 35 outputs, including measured local geometry,
+ball-distance comparisons, score and clock. Deployment has no teacher, tactical
+planner or collision-avoidance override.
 
-Thirty 45-second analytic demonstration matches completed:29goals,80passes,
-zero contacts/fieldexits. Older reception totals are provisional:metric version2
-now invalidates a pass on interception/expiry, counts same-robot recovery and
-separates support from coverage distance. These amendments do not change observations.
-The original collection and launch-source hashes remain intact.
+This uses native Webots with ground-truth state and approximate dynamics. It does
+not establish hardware performance, official SSL match compliance or a complete
+live ROS graph.
 
-Independent initializations611/622 each fitted80epochs to135224 native robot
-observations. Both failed all six initial neural-only development matches with
-field exits and frequent contacts; zero goals. These failures and both checkpoints
-are retained. The extended fits add320epochs each using the same data; they are
-being tested before corrective DAgger and historical self-play.
+## Independent training and retained failures
 
-Primary seed611 was chosen before testing;622 is an independent replication.
-Reserved seeds4500000+ and fresh demo4600000–2 remain unused.
-Protocol:[CONTINUOUS_PLAY.md](../../docs/CONTINUOUS_PLAY.md).
+Seeds **611 and 622** have separate initializations and corrective datasets. Seed
+611 was selected as the primary release before evaluation. Shared initial teacher
+collection: 30 native matches, 135,224 robot observations, 29 goals, 80 passes, no
+contacts or field exits. These are analytic demonstrations, not neural results.
 
-Both firstDAgger fits completed6/6games but stillfailed spacing:611had2goals,
-3receptions,30.47%contacttime/4fieldexitmatches;622had2goals,2receptions,20.20%
-contacttime/4fieldexitmatches. These are failures. Newv3 adds29measured local
-geometry features (relativevelocity/direction/clearance,fieldmargins,goal/teammate
-bearings at finer scales). No planner or movement override. V2inputweights are
-retained and newweights startzero before eachindependent320epochrefit.
+| Neural preparation | Seed 611: completion / goals / contact time / field-exit matches | Seed 622 |
+| --- | --- | --- |
+| Initial 80 epochs | 0/6 · 0 · 52.75% · 6 | 0/6 · 0 · 30.24% · 6 |
+| Additional 320 epochs | 6/6 · 1 · 17.96% · 5 | 5/6 · 0 · 18.77% · 6 |
+| First mixed DAgger, 320 epochs | 6/6 · 2 · 30.47% · 4 | 6/6 · 2 · 20.20% · 4 |
+| V3 local geometry, 320 epochs | 4/6 · 0 · 18.82% · 4 | 6/6 · 3 · 10.82% · 6 |
+| Corrected roles and restored spacing, 320 epochs | 5/6 · 2 · 5.81% · 5 | 5/6 · 1 · 7.05% · 5 |
+| Full neural DAgger, 3-game diagnostics | 3/3 · 2 · 6.41% · 0 | 3/3 · 1 · 3.76% · 0 |
+| Canonical labels and precision fit | 6/6 · 7 · 2.79% · 0 | 6/6 · 7 · 2.24% · 1 |
 
-Six reserved20-match panels and numerical gates are now predeclared in
-[protocol.json](protocol.json). No reservedcase hasrun. One developmentmovie
-preflight exposedclippedfieldedges; a wider fixedcamera is beingtested.
+All checkpoints, metadata and raw development outcomes are retained under
+`preparation/` and `development/`. The intermediate 0.30 m spacing experiment also
+remains: it stalled capture, so its clean contact count is not a success claim.
 
-A teacher role-assignment defect was found from native traces:bothteammates
-couldselectcover andconverge. It iscorrected toone nearestchaser, withfiveextra
-ball-distancefeatures fortheactor. Originalnative observations were reconstructed
-andrelabeled withthecorrectedtrainingteacher; no newphysicsrollouts or synthetic
-transitions are claimed. Exactsource snapshots, label hashes andallpriorlabels
-are retained. A simultaneous0.30mspacingrevision failed:a3matchteacherpilot scored
-no goals, andseed611'snewneuralfit completed6/6withnocontacts butno passes/goals.
-Opposingchasers couldstopoutsideballcapturerange. Spacingisrestoredto0.23m while
-keeping the rolefix andseparating traininglabels foroverlap. Retrainingcontinues.
+The training teacher's original local hysteresis could assign both teammates to
+cover. Native traces exposed their convergence on the same point. The teacher
+now assigns one nearest chaser; the neural observation includes ball-distance
+comparisons. In seed 611's sampled trace, cover/cover contact frames fell from 288
+to zero. Other contacts and field-edge failures remain.
 
-Restored-spacing teacher pilot3/3completed:4goals,8passes,6receptions,0contacts/exits.
-Pure-neural611retest5/6completed,2goals,3receptions,5.81%contacttime,5fieldexitcases.
-The double-covercontactfailure disappeared from its sampled trace (288before/0after);
-othercontacts andfield-edgeerrors remain. FreshDAgger2uses100%neural actions with
-training-onlyteacherlabels,30matchesperindependentseed. Refits will balance boundary,
-near-robot and close role-selection states explicitly. No nativePPO or reserved
-qualification has started. All89files ofthepreviousqualifiedruntime stillmatch.
+Recorded native training observations were reconstructed and relabeled with the
+corrected teacher. This produces new training labels, not new physics transitions.
+Original datasets and labels remain intact, with source snapshots and hash receipts.
+A wider 0.30 m separation target prevented opposing chasers from reaching a loose
+ball. Restoring 0.23 m while retaining the role correction produced a paired teacher
+pilot of 3/3 complete matches, four goals, eight passes and six receptions, without
+contacts or field exits.
+
+The second DAgger stage used **100% neural actions**, with the teacher supplying labels
+only, on 30 fresh training matches per seed. Refitting balanced field margins, nearby
+robots and close ball-distance comparisons. Both initial full-motion PPO leagues
+completed two generations: 131,072 native steps and 128 accepted updates in total.
+Their final development contact rates exceeded the 2% gate; both attempts are retained.
+Fresh isolated leagues now train only behavior-score readouts while freezing all
+neural motion functions. These use the symmetric kick-arbitration fix described
+below. Reserved qualification has not started.
+
+## Evaluation contract
+
+[The predeclared protocol](protocol.json) fixes six 20-match reserved panels: self,
+historical and independent-seed opponents. Each training seed must pass all gates
+across 60 games. The fresh demo retains three consecutive 45-second matches with
+611 against 622. Reserved and demo seeds remain unused.
+
+Metric version 2 requires exclusive stable acquisition. Receptions must follow an
+actual teammate pass within five seconds and at least 0.5 m displacement, with no
+intervening opponent control. Loose-ball recovery, support and cover movement are
+reported separately. Earlier raw results retain their original metrics. Unfinished
+matches receive no win or draw credit in current reports.
+
+The independent auditor checks whole-ball goals, reception provenance, restart
+records, continuous commands and controlled counterattacks. Runtime/model hashes
+must be published and verified before reserved evaluation. Native camera preflight
+now shows the entire field and all four robots; its videos are development checks,
+not a reliable-policy demonstration.
+
+[Runtime, training protocol and history](../../docs/CONTINUOUS_PLAY.md).
+
+The avoidance teacher also used color-dependent iteration order in crowded states.
+It now processes teammate, opponent 0 and opponent 1 consistently with the actor's
+canonical observations. Relabeled native DAgger states and a lower-rate precision
+fit retain their exact source and data hashes. No new synthetic transitions are
+claimed. Self-play penalizes both new contact events and sustained contact time;
+scoring receives more reward than simply holding possession. Learner roles rotate
+through shuffled cycles of all four robot/color assignments.
+
+## Continuous-only kicker correction
+
+A read-only audit of 142 development matches found five pairs of kicks applied at
+the same physics instant. The legacy backend allowed the last robot in iteration
+order to overwrite the ball velocity. A separate continuous backend now applies
+at most one kick per 5 ms sample: the eligible dribbler mouth closest to the ball
+wins; exact distance ties defer the kick. Native mirrored/color-swapped contact
+preflights passed all eight cases. Subsequent ODE contacts can still break perfect
+ties numerically. Kick times and arbitration decisions are logged and independently
+audited. Previous frozen backends and results remain unchanged. This is still an
+approximate velocity-kick model.

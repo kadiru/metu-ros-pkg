@@ -67,6 +67,22 @@ def audit_match(match, native=True):
     )
     events = match["events"]
     assert [e["step"] for e in events] == sorted(e["step"] for e in events)
+    if match.get("backend_contract") == "roboturk.webots.closest_kicker.v1":
+        kicks = [e for e in events if e["type"] in ("pass", "shot")]
+        instants = [(e["restart"], round(e["physics_time"], 8)) for e in kicks]
+        assert len(set(instants)) == len(instants), "Multiple kicks at one physics instant"
+        for choice in match["kick_arbitrations"]:
+            candidates = sorted(choice["candidates"], key=lambda c: c[1])
+            assert len(candidates) >= 2 and len({c[0] for c in candidates}) == len(candidates)
+            expected = None if candidates[1][1] - candidates[0][1] <= 1e-12 else candidates[0][0]
+            assert choice["winner"] == expected
+            actual = [
+                e
+                for e in kicks
+                if e["restart"] == choice["restart"]
+                and math.isclose(e["physics_time"], choice["physics_time"], abs_tol=1e-8, rel_tol=0)
+            ]
+            assert [e["robot"] for e in actual] == ([] if expected is None else [expected])
     goals, restarts, passes, shots, receptions, acquisitions, turnovers, recoveries = (
         Counter() for _ in range(8)
     )

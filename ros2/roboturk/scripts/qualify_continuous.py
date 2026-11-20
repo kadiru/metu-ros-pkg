@@ -85,6 +85,21 @@ def qualify(release):
                 for t in ("blue", "yellow")
             ),
             "all_event_and_hash_audits_pass": True,
+            "safety_intervention_tick_fraction": sum(
+                len(m.get("safety_interventions", [])) for m in matches
+            )
+            / sum(m["steps"] for m in matches),
+            "safety_intervention_robot_tick_fraction": sum(
+                sum(c > 1e-8 for c in r["corrections"])
+                for m in matches
+                for r in m.get("safety_interventions", [])
+            )
+            / (4 * sum(m["steps"] for m in matches)),
+            "mean_safety_velocity_correction_m_per_s": sum(
+                sum(m.get("safety_correction", {}).values()) for m in matches
+            )
+            / (4 * sum(m["steps"] for m in matches)),
+            "mean_contested_seconds": sum(m["contested_seconds"] for m in matches) / len(matches),
         }
         decisions = {}
         for key, limit in gates.items():

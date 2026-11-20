@@ -1,4 +1,4 @@
-# Continuous 2v2 with explicit velocity safety — development
+# Continuous 2v2 with explicit velocity safety — frozen candidate
 
 **Not qualified. No reliable continuous-match demo has been released yet.**
 
@@ -24,8 +24,13 @@ consecutive 45-second matches. All outcomes and interventions will be reported.
 Training preparation expands every recorded state with training-only motor labels
 for all seven skills. These are counterfactual commands on real native states,
 not new simulator transitions. The original selected teacher command is preserved.
-Categorical PPO will optimize behavior-choice probabilities while keeping the
-neural motor functions fixed. Native testing and self-play are still in progress.
+Categorical PPO optimized behavior-choice probabilities while keeping the
+neural motor functions fixed. Both independent historical leagues completed
+65,536 native steps and 64 accepted updates each, across two generations.
+Saved-checkpoint audits found 109/132 changed deterministic choices for seed611
+and 158/269 for seed622 on 45,056 recorded probes per generation. Motor outputs
+were identical. These counts are per-generation comparisons, not unique states
+across generations; no isolated PPO performance benefit is established.
 
 Scope: approximate native Webots ODE contacts, ground-truth state, ideal body
 velocity, spring dribbler and velocity kicks. No calibrated hardware, official
@@ -53,6 +58,24 @@ at3e-5 balance counterfactual pass/shot releases and mouth-contact states. Origi
 
 Release-balanced development completed6/6games per seed, with zero contacts or
 field exits:611 scored5goals with9receptions;622 scored1goal with9receptions.
-Both still need broad validation. Categorical historical self-play is now running
-in new isolated league directories, with frozen neural motor weights and logged
-safety interventions. No reserved cases have been run.
+These small panels preceded the two completed categorical historical leagues.
+All earlier preparations and failed unfiltered attempts remain available.
+
+The selected final generations then passed all fresh development gates across
+60 unselected native matches, without using the other seed as an opponent:
+
+| Seed | Completed | Goals | Receptions | Counterattack matches | Contacts / field exits | Ticks with safety changes |
+| --- | ---: | ---: | ---: | ---: | --- | ---: |
+|611|30/30|35|29|20|0 /0|18.84%|
+|622|30/30|13|35|16|0 /0|16.45%|
+
+Every loose-ball start was acquired. All four event/intervention audits passed.
+These are development results, not reserved qualification. The last generation
+was selected for each seed; primary seed611 was specified before qualification.
+Training lineages, exact launch source snapshots, independent decision audit and
+all 60 development records are included in the freeze. Large JSON copies remove
+formatting whitespace only; original hashes and byte-level verification are in
+[json-packaging.json](json-packaging.json).
+
+Next: publish and remotely verify the freeze, run all 120 untouched reserved
+matches, then retain all three fresh consecutive demo matches if the gates pass.

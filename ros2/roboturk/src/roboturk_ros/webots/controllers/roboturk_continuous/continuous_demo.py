@@ -34,9 +34,9 @@ class Recorder:
             match.backend.nodes[k].getField("color").setSFColor(color)
         self.label(
             7,
-            "Native Webots | neural behavior + motion | simplified referee restarts | approximate physics",
+            "Webots | learned policies | simplified restarts | approximate physics",
             0.95,
-            0.032,
+            0.027,
         )
         self.step(match)
 
@@ -66,6 +66,18 @@ class Recorder:
         self.label(
             5, self.event_text if match.steps < self.event_until else "", 0.22, 0.044, 0xA4FFAB
         )
+        if getattr(match.backend, "safety_contract", None):
+            corrections = match.safety_interventions
+            active = bool(corrections and corrections[-1]["step"] == match.steps)
+            self.label(
+                6,
+                f"Geometric velocity safety ON | corrected {len(corrections) / max(1, match.steps):.1%} of ticks",
+                0.28,
+                0.031,
+                0xFFD573 if active else 0xD0D0D0,
+            )
+        else:
+            self.label(6, "Velocity safety OFF | unfiltered neural commands", 0.28, 0.031)
 
 
 def record(supervisor, backend, blue, yellow, output, count, seed, duration):

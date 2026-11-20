@@ -89,6 +89,7 @@ def freeze(release, protocol):
     selections = [json.loads((release / f"seed{s}/selection.json").read_text()) for s in (611, 622)]
     if gates.get("runtime_action_projection"):
         for selection in selections:
+            changed_choices = 0
             for generation in (1, 2):
                 update = json.loads(
                     (
@@ -101,6 +102,10 @@ def freeze(release, protocol):
                 )
                 assert update["safety_contract"] == gates["safety_contract"]
                 assert update["categorical_decisions"] and update["decisions_only"]
+                changed_choices += update["deterministic_mode_probe_changes"]
+            assert changed_choices > 0, (
+                "Selected league must change actual deterministic behavior choices"
+            )
     assert len({r["snapshots"][0]["actor_sha256"] for r in selections}) == 2
     assert sum(r["ppo_steps"] for r in selections) == 131072
     files = [p for p in ROOT.glob("src/**/*") if p.suffix in (".py", ".proto", ".wbt", ".ini")]
@@ -110,7 +115,9 @@ def freeze(release, protocol):
         ROOT / "docs/runtime-manifest.json",
     ]
     artifact_files = [
-        p for p in release.rglob("*") if p.is_file() and p.suffix in (".zip", ".json")
+        p
+        for p in release.rglob("*")
+        if p.is_file() and p.suffix in (".zip", ".json", ".py", ".wbt", ".proto", ".ini")
     ]
     result = {
         "created_at": datetime.now(ZoneInfo("America/Los_Angeles")).isoformat(),

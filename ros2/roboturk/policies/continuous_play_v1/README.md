@@ -44,3 +44,11 @@ are retained. A simultaneous0.30mspacingrevision failed:a3matchteacherpilot scor
 no goals, andseed611'snewneuralfit completed6/6withnocontacts butno passes/goals.
 Opposingchasers couldstopoutsideballcapturerange. Spacingisrestoredto0.23m while
 keeping the rolefix andseparating traininglabels foroverlap. Retrainingcontinues.
+
+Restored-spacing teacher pilot3/3completed:4goals,8passes,6receptions,0contacts/exits.
+Pure-neural611retest5/6completed,2goals,3receptions,5.81%contacttime,5fieldexitcases.
+The double-covercontactfailure disappeared from its sampled trace (288before/0after);
+othercontacts andfield-edgeerrors remain. FreshDAgger2uses100%neural actions with
+training-onlyteacherlabels,30matchesperindependentseed. Refits will balance boundary,
+near-robot and close role-selection states explicitly. No nativePPO or reserved
+qualification has started. All89files ofthepreviousqualifiedruntime stillmatch.

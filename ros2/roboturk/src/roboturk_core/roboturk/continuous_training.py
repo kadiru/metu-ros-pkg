@@ -133,7 +133,15 @@ def collect(backend, output, count, seed, duration, model=None, mix=0):
         out / "collection.json",
         {
             "backend": backend.name,
-            "control": "training_teacher" if not mix else f"mixed_neural_{mix}",
+            "control": (
+                "training_teacher"
+                if not mix
+                else "neural_rollouts_teacher_labels"
+                if mix == 1
+                else f"mixed_neural_{mix}"
+            ),
+            "label_teacher_sha256": digest(Path(__file__).with_name("continuous_teacher.py")),
+            "model_actor_sha256": actor_hash(model) if model is not None else None,
             "count": count,
             "seed": seed,
             "mix": mix,
@@ -198,8 +206,18 @@ def fit(output, seed, epochs, source=None):
     xt, yt = torch.as_tensor(x), torch.as_tensor(y)
     modes = np.argmax(y[:, :7], axis=1)
     groups = [np.flatnonzero(modes == i) for i in range(7)] + [
-        np.flatnonzero(y[np.arange(len(y)), 10 + 4 * modes] > 0)
+        np.flatnonzero(y[np.arange(len(y)), 10 + 4 * modes] > 0),
+        np.flatnonzero((np.abs(x[:, 0]) * 4.5 > 3.8) | (np.abs(x[:, 1]) * 3 > 2.3)),
+        np.flatnonzero(np.min(x[:, [54, 58, 62]], axis=1) * 5 < 0.5),
+        np.flatnonzero(np.abs(x[:, 121]) < 0.5),
     ]
+    group_names = [f"mode_{i}" for i in range(7)] + [
+        "release",
+        "field_margin",
+        "near_robot",
+        "similar_ball_distance",
+    ]
+    sampling = {name: len(ids) for name, ids in zip(group_names, groups, strict=True)}
     groups = [g for g in groups if len(g)]
     opt = torch.optim.Adam(model.actor_parameters(), lr=3e-4)
     weights = torch.zeros_like(yt)
@@ -235,6 +253,7 @@ def fit(output, seed, epochs, source=None):
             "source": source,
             "source_sha256": digest(source) if source else None,
             "losses": history,
+            "balanced_sampling_group_sizes": sampling,
         },
     )
     write(out / f"seed{seed}" / "fit.json", result)

@@ -31,3 +31,5 @@ all coordinates and the75-input observation meaning. An explicit v3 migration,
 label conversion and120epoch refit are underway; no new PPO or reserved tests yet.
 Future PPO freezes the geometry regressor while learning flank/behavior/owner/corner/
 update decisions. All earlier v2 candidates and results remain.
+
+Factored-flank development:60/60clean (28goals,32stops), broader119/120clean (51goals,68stops,one ball-out), zero collisions/field exits. Broader midfield6goals/40,nine stable receptions. This is development only. Two fresh native PPO generations now run with seed487; qualification/demo remain untouched.

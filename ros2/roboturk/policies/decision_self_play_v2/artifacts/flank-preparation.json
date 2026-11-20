@@ -1,0 +1,44 @@
+{
+  "epochs": 120,
+  "seed": 477,
+  "samples": 176011,
+  "mode_counts": {
+    "0": 53369,
+    "1": 108734,
+    "2": 13908
+  },
+  "last_mean_loss": 0.0123750168713741,
+  "reset_samples": 750,
+  "switch_samples": 6096,
+  "parent_models": {
+    "transfer": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/spacing-prepared/transfer.zip",
+      "sha256": "fc0a2b7e1a11dafbcb1b6055f799383ea014aefc00749721895f35b2332fd3ca",
+      "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+    },
+    "finish": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/spacing-prepared/finish.zip",
+      "sha256": "2c0d0889d762afa598b9e39b0f9418b5f92c8006615d4b5bab169e7af93fcf38",
+      "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+    },
+    "defender": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/spacing-prepared/defender.zip",
+      "sha256": "4cf66ba37e9007b4bdd57984bdc528e80adcf902888c4857e33e9bd794d4d688",
+      "actor_sha256": "b7b7c35a9c944c25a87da3e30759cbc17d0fd2385e4646f271df11cc9ab4f175"
+    },
+    "keeper": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/spacing-prepared/keeper.zip",
+      "sha256": "38d7eb95112006d31f0f47c7193c29bbba087ae988aff59f93f2fb84d59f462c",
+      "actor_sha256": "969bc8dfeaef939b6bf12d0063d3b34399765deb80bcb400af4d9bfd441100c6"
+    },
+    "manager": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/spacing-prepared/manager.zip",
+      "sha256": "34553e11f8e0efd5112cecd5dfc01c8f7786f7b9d057ec6a8a269cece3ae13fc",
+      "actor_sha256": "a2e60c47dc377cd218d0206fde0d326b5b2c4bbde69660d7e2d21021d0b7ede8"
+    }
+  },
+  "actor_before": "3a006e9798e8f60104d50b44f29ec9dda2ee31d84b10809ff1c32edf1da91774",
+  "actor_after": "e8a7e04158197b06c366e6a848a26ae92ddd5eb6522114d198372067a5faab73",
+  "source_data_sha256": "4135973934c9dc6a6981b8b70f8bb1b01602efe3e4e36c2af39402cdc181bda2",
+  "conversion": "75 inputs unchanged; action6 absolute lateral magnitude, new action11 learned flank score. Signed executed coordinate remains in observation memory."
+}

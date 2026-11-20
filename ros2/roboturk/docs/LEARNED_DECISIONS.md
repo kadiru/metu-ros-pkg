@@ -109,10 +109,12 @@ are ordered by their initial possession roles; IDs and attacking direction vary.
 | --- | --- |
 |0–2|Learned pass/receive, dribble and shoot scores; argmax chooses the behavior|
 |3–4|Learned acting-robot scores; argmax chooses the blue robot|
-|5–6|Receiving point in normalized attack-frame field coordinates|
+|5|Learned longitudinal receiving coordinate in the attack frame|
+|6|Learned absolute lateral receiving magnitude; output11 chooses its sign|
 |7–8|Dribble setup point in the same frame|
 |9|Learned left/right corner score; its sign selects a geometric goal-mouth corner|
-|10|Learned receiving-point update/retain score; positive commits outputs5–6, otherwise retains the previous neural point|
+|10|Learned receiving-point update/retain score; positive commits the factored receiving point, otherwise retains the previous neural point|
+|11|Learned receiving-flank score; its sign chooses the lateral side|
 
 All target coordinates come from network outputs (including the retained last neural
 receiving point). Coordinate decoding imposes only
@@ -140,12 +142,12 @@ teacher control. Unit checks make old target/phase planners raise if called from
 referee/visibility stopping. Event-audit tampering tests use retained native baseline
 records; these are software checks, not additional performance trials.
 
-Once a frozen bundle is available, replay from the repository root with the pinned
+Once a frozen v2 bundle is available, replay from the repository root with the pinned
 Python environment and native Webots installation:
 
 ```sh
 python scripts/run_webots.py --webots /path/to/webots \
-  --mode decision-demo --checkpoint policies/decision_self_play_v1/final-bundle.json \
+  --mode decision-demo --checkpoint policies/decision_self_play_v2/final-bundle.json \
   --episodes 9 --seed 3400000 --output runs/decision-replay --timeout 1800 --render
 ```
 

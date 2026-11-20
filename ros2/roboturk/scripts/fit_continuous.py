@@ -31,9 +31,9 @@ def main():
         assert digest(path) == receipt["data_sha256"]
         d = np.load(path)
         x = d["observations"]
-        if x.shape[1] == 88:
-            x = augment(x)
-        if x.shape[1] != 117:
+        if x.shape[1] in (88, 117):
+            x = augment(x[:, :88])
+        if x.shape[1] != 122:
             raise ValueError("Unexpected input contract")
         arrays.append((x, d["actions"]))
         provenance.append(

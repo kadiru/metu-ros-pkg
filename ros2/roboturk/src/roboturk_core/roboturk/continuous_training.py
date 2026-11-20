@@ -172,7 +172,8 @@ def fit(output, seed, epochs, source=None):
         meta = json.loads(Path(source).with_suffix(".json").read_text())
         parent = PPO.load(source, device="cpu")
         if (
-            meta["contract"] not in (CONTRACT, "roboturk.continuous_robot.v2")
+            meta["contract"]
+            not in (CONTRACT, "roboturk.continuous_robot.v2", "roboturk.continuous_robot.v3")
             or meta["actor_sha256"] != actor_hash(parent)
             or meta["config"] != asdict(Config())
             or parent.action_space.shape != (ACTIONS,)
@@ -185,10 +186,10 @@ def fit(output, seed, epochs, source=None):
                 if key not in (
                     "mlp_extractor.policy_net.0.weight",
                     "mlp_extractor.value_net.0.weight",
-                ) or value.shape != (256, 88):
+                ) or value.shape not in ((256, 88), (256, 117)):
                     raise ValueError("Unsupported architecture migration")
                 target[key].zero_()
-                target[key][:, :88] = value
+                target[key][:, : value.shape[1]] = value
             else:
                 target[key] = value
         model.policy.load_state_dict(target)

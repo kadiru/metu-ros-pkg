@@ -23,9 +23,9 @@ from .model import (
 from .capture_contract import capture_observation
 from .continuous_features import augment
 
-CONTRACT = "roboturk.continuous_robot.v3"
+CONTRACT = "roboturk.continuous_robot.v4"
 MODES = ("recover", "dribble", "pass", "shoot", "press", "cover", "support")
-OBSERVATIONS, ACTIONS = 117, 35
+OBSERVATIONS, ACTIONS = 122, 35
 SPEED, OMEGA = 1.2, 4.0
 KEYS = tuple(RobotKey(t, i) for t in ("blue", "yellow") for i in range(2))
 

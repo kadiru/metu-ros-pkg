@@ -4,7 +4,7 @@ This release is **not qualified** and has no new reliable neural demo yet.
 The previous qualified decision_self_play_v2 release remains intact.
 
 Seven learned choices select separate neural motion heads: recovery, dribble, pass,
-shoot, press, cover and support. Both teams use the same 117-input/35-output v3 contract.
+shoot, press, cover and support. Both teams use the same 122-input/35-output v4 contract.
 Interceptions and missed shots continue; goals and ball-outs cause logged referee
 restarts. Native Webots, ground-truth state and approximate dynamics; no hardware claim.
 
@@ -34,3 +34,13 @@ retained and newweights startzero before eachindependent320epochrefit.
 Six reserved20-match panels and numerical gates are now predeclared in
 [protocol.json](protocol.json). No reservedcase hasrun. One developmentmovie
 preflight exposedclippedfieldedges; a wider fixedcamera is beingtested.
+
+A teacher role-assignment defect was found from native traces:bothteammates
+couldselectcover andconverge. It iscorrected toone nearestchaser, withfiveextra
+ball-distancefeatures fortheactor. Originalnative observations were reconstructed
+andrelabeled withthecorrectedtrainingteacher; no newphysicsrollouts or synthetic
+transitions are claimed. Exactsource snapshots, label hashes andallpriorlabels
+are retained. A simultaneous0.30mspacingrevision failed:a3matchteacherpilot scored
+no goals, andseed611'snewneuralfit completed6/6withnocontacts butno passes/goals.
+Opposingchasers couldstopoutsideballcapturerange. Spacingisrestoredto0.23m while
+keeping the rolefix andseparating traininglabels foroverlap. Retrainingcontinues.

@@ -79,10 +79,8 @@ def freeze(release, protocol):
     assert len({r["snapshots"][0]["actor_sha256"] for r in selections}) == 2
     assert sum(r["ppo_steps"] for r in selections) == 131072
     files = [p for p in ROOT.glob("src/**/*") if p.suffix in (".py", ".proto", ".wbt", ".ini")]
+    files += list((ROOT / "scripts").glob("*continuous*.py"))
     files += [
-        ROOT / "scripts/run_continuous.py",
-        ROOT / "scripts/audit_continuous_release.py",
-        Path(__file__).resolve(),
         ROOT / "requirements-macos-validation.txt",
         ROOT / "docs/runtime-manifest.json",
     ]

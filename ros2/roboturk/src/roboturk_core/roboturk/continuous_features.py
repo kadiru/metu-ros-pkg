@@ -4,7 +4,7 @@ import numpy as np
 
 
 def augment(base):
-    """Append29 deterministic features to the original88-observation contract.
+    """Append34 deterministic features to the original88-observation contract.
 
     Both scalar observations and recorded batches use exactly the same transform.
     Relative velocities, distances, bearings and fixed field/goal geometry are
@@ -32,4 +32,10 @@ def augment(base):
     px, py = 4.5 * x[..., 0], 3 * x[..., 1]
     fields += [np.clip(v / 0.4, -2, 2) for v in (4.2 - px, 4.2 + px, 2.65 - py, 2.65 + py)]
     fields += [np.clip(x[..., i] * np.pi * 10, -2, 2) for i in (55, 67, 71, 75)]
+    ranges = [
+        np.hypot(4.5 * (x[..., 36] - x[..., 9 * i]), 3 * (x[..., 37] - x[..., 9 * i + 1]))
+        for i in range(4)
+    ]
+    fields += [d / 5 for d in ranges]
+    fields += [np.clip((ranges[0] - ranges[1]) / 0.2, -2, 2)]
     return np.concatenate([x, np.stack(fields, axis=-1)], axis=-1).astype(np.float32)

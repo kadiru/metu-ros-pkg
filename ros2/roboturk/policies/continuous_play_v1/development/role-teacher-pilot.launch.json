@@ -1,0 +1,31 @@
+{
+  "started_at": "2026-11-20T02:01:32.429431-08:00",
+  "arguments": {
+    "webots": "../runtime/Webots-nightly.app/Contents/MacOS/webots",
+    "mode": "pilot",
+    "output": "runs/continuous-v1/role-teacher-pilot",
+    "checkpoint": null,
+    "opponent": null,
+    "freeze": null,
+    "seed": 4100010,
+    "episodes": 3,
+    "duration": 45.0,
+    "steps": 32768,
+    "epochs": 80,
+    "rounds": 2,
+    "mix": 0,
+    "timeout": 900.0,
+    "render": false
+  },
+  "runtime_sha256": {
+    "src/roboturk_core/roboturk/continuous_features.py": "d4267acad3ce0e4ca6964debc6267a8ed44838890e506f025d1c96f5f30fa2c9",
+    "src/roboturk_core/roboturk/continuous_training.py": "e713f165f07f37e4174f2724287439a47b7510e341b52fe0aced7e89ca20772d",
+    "src/roboturk_core/roboturk/continuous_selfplay.py": "ecdfd96ab03014a90457a77c700f11fc3b095b89686c01e07e4081cd2c44df6e",
+    "src/roboturk_core/roboturk/continuous.py": "1f147cc1435f79409fe45489a4ee8c6b68e1e295874da331d349386d25d33c27",
+    "src/roboturk_core/roboturk/continuous_teacher.py": "ed66eb4d8e47a2d0b5d2220ac8c75360aa815228c344461d580afddee5f6d86e",
+    "src/roboturk_ros/webots/controllers/roboturk_continuous/roboturk_continuous.py": "ab103ad31b2159a709ccd1edf6989e4933119dbaebc7f9a5a546fe63d0e3f98d",
+    "src/roboturk_ros/webots/controllers/roboturk_continuous/continuous_demo.py": "fb5b5c0c05ea68276b2858d376cb30482150c9a3862c637ac4594e707793158d",
+    "scripts/run_continuous.py": "b92fd18381f45f3e8163a92eab613747747884a202149fbd4c1d3ace68d245ed",
+    "src/roboturk_ros/webots/worlds/ssl_continuous.wbt": "77692148fb5d55fa6ed780b1e5051a8eec7bad3e433b53adc0d9ba883a174b40"
+  }
+}

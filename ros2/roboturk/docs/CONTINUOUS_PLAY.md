@@ -5,8 +5,8 @@ The qualified tactical-decision release and its frozen runtime remain unchanged.
 
 ## Runtime contract
 
-Both teams have two robots and opposite goals. The v3 shared policy uses117 robot-centered, attack-normalized observations
-(including match clock, score and29additional localgeometry measurements) and35 outputs: seven behavior scores and seven
+Both teams have two robots and opposite goals. The v4 shared policy uses122 robot-centered, attack-normalized observations
+(including match clock, score and34additional localgeometry measurements) and35 outputs: seven behavior scores and seven
 separate four-output neural motion heads. Argmax selects the executed motion head,
 so behavior choice changes the physical command. The selected head supplies body
 velocity, rotation and release. It can execute recovery, dribbling, passing, shooting,
@@ -130,3 +130,13 @@ measure functional continuous play and report actual W/D/L; they do not promise
 winning against another competent policy. All failures remain, and gates will not
 be weakened after reserved results. The fresh uncut demo uses611against622 for the
 three preselected consecutive45s matches4600000–2, retaining all outcomes.
+
+## Role-allocation diagnosis
+
+Most V3contactframescamefromtwoteammatesbothcovering. Thetrainingteacher'slocal
+hysteresis couldassignneitherrobottochase;mixedDAggerthenreinforcedthebadstate.
+It nowassignsexactlyonenearestteammate. V4addsallfourrobot-to-ballrangesandthe
+own/teammate difference. Runtimebehaviorandmotionremainneural. Recordednative
+trainingstatesarere-labeledoffline withtraining-onlyteachers;theoriginaldatasets
+andresultsremain. The0.30mseparation experimentstalledcaptureandisretainedas
+afailure;traininglabelsreturnto0.23m withpositive separationwhenrobots overlap.

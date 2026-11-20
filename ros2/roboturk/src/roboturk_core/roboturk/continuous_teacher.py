@@ -50,7 +50,7 @@ def avoid(w, k, c):
         if d < 0.6:
             ux, uy = dx / d, dy / d
             radial = vx * ux + vy * uy
-            minimum = p.vx * ux + p.vy * uy - 3 * max(0, d - 0.23)
+            minimum = p.vx * ux + p.vy * uy - 3 * (d - 0.23)
             if radial < minimum:
                 vx += (minimum - radial) * ux
                 vy += (minimum - radial) * uy
@@ -84,8 +84,10 @@ class ContinuousTeacher:
         enemy = next((p for p in opps if possession(w, p.key, cfg)), None)
         ownrange = math.hypot(b.x - r.x, b.y - r.y)
         materange = math.hypot(b.x - mate.x, b.y - mate.y)
-        chaser = ownrange < materange - 0.1 or (ownrange < materange + 0.1 and m.mode[k] in (0, 4))
-        if abs(ownrange - materange) < 0.01:
+        # A local hysteresis test admitted two simultaneous cover assignments.
+        # The training teacher assigns exactly one nearest teammate to chase.
+        chaser = ownrange < materange
+        if abs(ownrange - materange) < 1e-9:
             chaser = k.id == 0
         closest = min(opps, key=lambda p: math.hypot(p.x - r.x, p.y - r.y))
         pressure = math.hypot(closest.x - r.x, closest.y - r.y)

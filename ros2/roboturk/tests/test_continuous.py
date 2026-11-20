@@ -206,8 +206,35 @@ def test_local_features_expose_body_closing_speed_and_wall_margin():
     m = Memory()
     m.reset(w)
     x = observation(w, KEYS[0], m)
-    assert len(x) == 117
+    assert len(x) == 122
     assert x[92] == pytest.approx(-0.5)
     assert x[93] == pytest.approx(0, abs=1e-6)
     assert x[109] == pytest.approx(0.25, abs=1e-5)
     np.testing.assert_array_equal(augment(np.stack([x[:88], x[:88]])), np.stack([x, x]))
+
+
+def test_teacher_does_not_assign_both_teammates_to_cover():
+    from roboturk.continuous_teacher import ContinuousTeacher, avoid
+
+    b = Replay()
+    e = ContinuousMatch(b)
+    e.reset(1)
+    e.world = World(
+        0,
+        (
+            Robot(KEYS[0], -1, 0),
+            Robot(KEYS[1], -1.05, 0.1),
+            Robot(KEYS[2], 2, 0),
+            Robot(KEYS[3], 3, 1),
+        ),
+        Ball(0, 0),
+        Referee.RUNNING,
+    )
+    e.memory.reset(e.world)
+    e.memory.mode.update({KEYS[0]: 5, KEYS[1]: 5})
+    actions = ContinuousTeacher().actions(e)
+    assert np.argmax(actions[0, :7]) == 0
+    assert np.argmax(actions[1, :7]) == 5
+    # Close overlapping robots receive separating training labels, even at rest.
+    c = avoid(e.world, KEYS[0], Command())
+    assert c.vx > 0 and c.vy < 0

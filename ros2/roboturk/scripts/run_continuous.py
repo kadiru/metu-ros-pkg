@@ -33,6 +33,8 @@ def main():
     p.add_argument("--timeout", type=float, default=3600)
     p.add_argument("--render", action="store_true")
     a = p.parse_args()
+    if a.mode == "demo" and not a.render:
+        p.error("Native movie recording requires --render")
     if min(a.episodes, a.duration, a.steps, a.epochs, a.rounds, a.timeout) <= 0:
         p.error("Positive limits required")
     root = Path(__file__).resolve().parents[1]

@@ -1,6 +1,8 @@
 """Historical self-play; one randomized robot learns while teammates/opponents are frozen."""
 
 from pathlib import Path
+from collections import Counter
+import hashlib
 import time
 import json
 import numpy as np
@@ -25,6 +27,8 @@ class RobotMatchEnv(gym.Env):
         self.rng = np.random.default_rng(seed)
         self.records = []
         self.resets = []
+        self.sampled_modes = Counter()
+        self.changed_choices = 0
 
     def reset(self, *, seed=None, options=None):
         super().reset(seed=seed)
@@ -56,7 +60,11 @@ class RobotMatchEnv(gym.Env):
             ids = [i for i, k in enumerate(KEYS) if k.team == team]
             model = self.teammate if team == self.key.team else self.opponents[self.pool_index]
             actions[ids] = model.predict(obs[ids], deterministic=True)[0]
-        actions[KEYS.index(self.key)] = action
+        learner_index = KEYS.index(self.key)
+        choice = int(np.argmax(action[:7]))
+        self.sampled_modes[choice] += 1
+        self.changed_choices += int(choice != int(np.argmax(actions[learner_index, :7])))
+        actions[learner_index] = action
         m.step(actions)
         team = self.key.team
         enemy = "yellow" if team == "blue" else "blue"
@@ -134,6 +142,7 @@ def train(backend, output, seed, rounds=2, steps=32768, duration=45):
             model.policy.log_std[:7].fill_(-0.8)
             model.policy.log_std[10::4].fill_(-1.5)
         before = actor_hash(model)
+        decision_before = decision_head_hash(model)
         started = time.monotonic()
 
         class Progress(BaseCallback):
@@ -159,6 +168,10 @@ def train(backend, output, seed, rounds=2, steps=32768, duration=45):
             "backend": backend.name,
             "actor_before": before,
             "actor_after": actor_hash(model),
+            "decision_head_before": decision_before,
+            "decision_head_after": decision_head_hash(model),
+            "sampled_modes": dict(env.sampled_modes),
+            "choices_different_from_teammate_policy": env.changed_choices,
             "opponent_pool": history.copy(),
             "teammate": history[-1],
             "accepted_updates": model.anchor_updates - model.anchor_rejections,
@@ -187,3 +200,10 @@ def train(backend, output, seed, rounds=2, steps=32768, duration=45):
         result["models"] = {"blue": saved, "yellow": saved}
         write(stage / "development.json", result)
     return history
+
+
+def decision_head_hash(model):
+    h = hashlib.sha256()
+    for tensor in (model.policy.action_net.weight[:7], model.policy.action_net.bias[:7]):
+        h.update(tensor.detach().cpu().contiguous().numpy().tobytes())
+    return h.hexdigest()

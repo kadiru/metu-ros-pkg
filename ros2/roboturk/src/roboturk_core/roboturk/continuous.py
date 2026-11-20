@@ -473,12 +473,17 @@ def summary(records):
     return {
         "matches": n,
         "completed": sum(r["reason"] == "time" for r in records),
+        "unfinished": sum(r["reason"] != "time" for r in records),
         "goals": {t: sum(r["score"].get(t, 0) for r in records) for t in ("blue", "yellow")},
         "wins": {
-            t: sum(r["score"][t] > r["score"][other_team(t)] for r in records)
+            t: sum(
+                r["reason"] == "time" and r["score"][t] > r["score"][other_team(t)] for r in records
+            )
             for t in ("blue", "yellow")
         },
-        "draws": sum(r["score"]["blue"] == r["score"]["yellow"] for r in records),
+        "draws": sum(
+            r["reason"] == "time" and r["score"]["blue"] == r["score"]["yellow"] for r in records
+        ),
         "goal_matches": sum(sum(r["score"].values()) > 0 for r in records),
         "turnover_matches": sum(sum(r["turnovers"].values()) > 0 for r in records),
         "acquisition_matches": sum(sum(r["acquisitions"].values()) > 0 for r in records),

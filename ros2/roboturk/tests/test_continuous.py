@@ -177,3 +177,17 @@ def test_same_robot_recovery_is_counted_after_a_loose_interval():
     set_holder(e, b, KEYS[0])
     assert e.acquisitions["blue"] == 2
     assert b.resets == 1
+
+
+def test_unfinished_matches_are_not_awarded_wins_or_draws():
+    from roboturk.continuous import summary
+
+    e = ContinuousMatch(Replay())
+    e.reset(1)
+    e.reason = "physics_failure"
+    unfinished = e.result()
+    e.reason = "time"
+    finished = e.result()
+    s = summary([unfinished, finished])
+    assert s["unfinished"] == 1 and s["completed"] == 1 and s["draws"] == 1
+    assert sum(s["wins"].values()) == 0

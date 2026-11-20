@@ -92,3 +92,28 @@ The v2 factored-head/angle-compensated pilot completed6x45s:four goals (blue1/ye
 21passes,six stable receptions,four matches with turnovers,zero robot contacts or
 fieldexits. Three games had goals, including one1–1draw. Teacher collection now uses
 30fresh matches4200000–4200029. These are analytic demonstrations, not neural results.
+
+## Preparation results and metric amendment
+
+Native demonstration collection completed30/30matches:29goals and80passes,
+zero contacts or fieldexits. Dataset135224observations (see exact count in the
+collection receipt). Initial80epoch neural fits failed all6development cases for
+both seeds, with zero goals. Extending each fit by320epochs gave611:6/6completed,
+1goal,3receptions,17.96%mean contact time,5fieldexitmatches;622:5/6completed,
+0goals,1reception,18.77%contacttime,6fieldexitmatches. These are retained failures,
+not reliable releases. Corrective native mixedDAgger is now collecting20matches
+perseed with50%neural action selection independently for eachrobot/controltick.
+
+Metric version2 invalidates old passes after an opponent acquisition, after5s,
+or after the passer recovers its own kick. Stable reacquisition after at least
+0.2s without exclusive mouth control is counted as recovery, including own fumbles
+and successful pass receptions. Initial acquisition is reported separately. Raw
+exclusive mouth occupancy remains the definition of possession seconds; it is
+not the stable0.3s acquisition count. Cover and support distances are separated.
+Old raw results retain their original metrics. No policy input changes.
+
+The independent auditor counts a counterattack when exclusive stable control
+after a turnover advances the ball at least0.75m toward goal within10s, before
+the next opposing acquisition or referee restart. It verifies recorded whole-ball
+crossings, pass-to-reception provenance, all four policy-call counts and explicit
+restart ledgers. Contact is never relabeled as a win or a successful match outcome.

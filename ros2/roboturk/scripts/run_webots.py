@@ -23,6 +23,8 @@ def main():
             "decision-commitment",
             "decision-panel",
             "decision-train",
+            "decision-train-precision",
+            "decision-repair",
             "decision-evaluate",
             "decision-demo",
             "selfplay-probe",

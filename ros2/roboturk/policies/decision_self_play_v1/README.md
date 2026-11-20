@@ -46,3 +46,13 @@ migration/refitting and fresh DAgger are running. No PPO or reserved result yet.
 V3 completed: prepared29goals/56clean; DAgger26goals/56clean, with one collision, one ball-out and two keeper field exits in60development games. Goals by family3/7/16; eight stable receptions. This remains unqualified. Alternating native PPO now starts from the final v3 DAgger model; transfer/finishing actors stay frozen.
 
 Initialization used750native collection episodes (300teacher plus three150-game mixedDAgger stages),176,011stored manager observations, and six supervised fits totaling660epochs. V2/v3 label/contract conversions are explicit. PPO then updates manager/defender/keeper against retained opponents; isolated PPO benefit is not assumed.
+
+
+## Failed self-play experiment retained
+
+Three generations /294,912nativePPOsteps /288accepted actor updates completed.
+G1:26goals/55clean, G2:25goals/53clean, G3:25goals/54clean, all out of60.
+G3 had two ball-outs, two keeper field exits and two collisions; midfield only1goal.
+This experiment did not qualify. No reserved tests or demonstration were run.
+The next candidate is decision_self_play_v2, with explicit keeper coaching and
+coordinate-preserving tactical updates. These failed checkpoints remain available.

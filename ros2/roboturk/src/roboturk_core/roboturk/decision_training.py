@@ -252,7 +252,7 @@ def bootstrap(backend, cfg, output, sources, seed=417):
 
 
 class DecisionMatch(gym.Env):
-    def __init__(self, backend, cfg, role, current, pool, seed):
+    def __init__(self, backend, cfg, role, current, pool, seed, precision=False):
         self.backend, self.cfg, self.role, self.current, self.pool = (
             backend,
             cfg,
@@ -272,6 +272,7 @@ class DecisionMatch(gym.Env):
         self.resets = []
         self.sampled_choices = Counter()
         self.choice_disagreements = 0
+        self.precision = precision
 
     def reset(self, *, seed=None, options=None):
         super().reset(seed=seed)
@@ -313,7 +314,20 @@ class DecisionMatch(gym.Env):
                 self.env.play.observation(self.env.world), deterministic=True
             )[0]
         old = self.env.world
+        previous_receptions = len(self.env.receptions)
         _, reward, done, _, info = self.env.step(action)
+        if self.role == "manager" and self.precision:
+            reward += 3 * (len(self.env.receptions) - previous_receptions)
+            if done:
+                reward = (
+                    35
+                    if info["reason"] == "goal"
+                    else -40
+                    if "collision" in info["reason"]
+                    else -8
+                    if info["reason"] in ("keeper_save", "defender_interception")
+                    else -30
+                )
         if self.role != "manager":
             c = getattr(self.env, self.role)
             a, b = old.robot(c.key), self.env.world.robot(c.key)
@@ -362,7 +376,7 @@ class DecisionMatch(gym.Env):
         pass
 
 
-def train(backend, cfg, output, rounds=3, steps=32768, seed=427):
+def train(backend, cfg, output, rounds=3, steps=32768, seed=427, precision=False):
     output = Path(output)
     league_path = output / "league.json"
     league = (
@@ -385,7 +399,11 @@ def train(backend, cfg, output, rounds=3, steps=32768, seed=427):
                     raise ValueError("Failed unchanged-actor run needs explicit new experiment")
                 b = json.loads((base / "bundle.json").read_text())
                 current = load(b, cfg)
-                if saved["steps"] != steps or saved["generation"] != generation:
+                if (
+                    saved["steps"] != steps
+                    or saved["generation"] != generation
+                    or saved.get("precision", False) != precision
+                ):
                     raise ValueError("Resume parameters changed")
                 if saved not in league["updates"]:
                     league["updates"].append(saved)
@@ -398,9 +416,15 @@ def train(backend, cfg, output, rounds=3, steps=32768, seed=427):
             )
             pool = history + ([load(before, cfg)] if role == "manager" else [])
             env = DecisionMatch(
-                backend, cfg, role, current, pool, seed + generation * 31 + TRAIN_ROLES.index(role)
+                backend,
+                cfg,
+                role,
+                current,
+                pool,
+                seed + generation * 31 + TRAIN_ROLES.index(role),
+                precision=precision,
             )
-            settings = training_settings(role)
+            settings = training_settings(role, precision)
             role_seed = seed + generation * 31 + TRAIN_ROLES.index(role)
             m = SelfPlayPPO.load(
                 before[role]["path"],
@@ -414,9 +438,17 @@ def train(backend, cfg, output, rounds=3, steps=32768, seed=427):
                     m.policy.log_std.fill_(settings["target_log_std"])
                     m.policy.log_std[:5].fill_(settings["choice_log_std"])
                     m.policy.log_std[10].fill_(settings["choice_log_std"])
+                    if precision:
+                        m.policy.log_std[9].fill_(settings["choice_log_std"])
+                        m.policy.log_std[10].fill_(settings["gate_log_std"])
                 else:
                     m.policy.log_std.fill_(settings["motion_log_std"])
             initial_log_std = m.policy.log_std.detach().tolist()
+            coordinate_before = None
+            if precision and role == "manager":
+                from .decision_precision import preserve_coordinates, coordinate_hash
+
+                coordinate_before = preserve_coordinates(m)
             data = np.load(output / (role + "-data.npz"))
             x = data["observations"]
             rng = np.random.default_rng(seed + generation)
@@ -461,6 +493,9 @@ def train(backend, cfg, output, rounds=3, steps=32768, seed=427):
                 "reset_count": len(env.resets),
                 "seed": role_seed,
                 "settings": settings,
+                "precision": precision,
+                "coordinate_function_before": coordinate_before,
+                "coordinate_function_after": coordinate_hash(m) if coordinate_before else None,
                 "initial_log_std": initial_log_std,
                 "final_log_std": m.policy.log_std.detach().tolist(),
                 "sampled_manager_choices": dict(env.sampled_choices),
@@ -473,6 +508,8 @@ def train(backend, cfg, output, rounds=3, steps=32768, seed=427):
             write(receipt, row)
             if old_hash == row["actor_after"]:
                 raise RuntimeError("No accepted actor change; retained failed run")
+            if coordinate_before and coordinate_before != row["coordinate_function_after"]:
+                raise RuntimeError("Coordinate function changed; retained failed run")
             league["updates"].append(row)
             print(f"Generation{generation} {role}: {row['accepted_updates']} accepted", flush=True)
         bundle = save(

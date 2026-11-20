@@ -31,6 +31,7 @@ def write(path, data):
 
 
 def stage(source, release):
+    source, release = Path(source).resolve(), Path(release).resolve()
     if (release / "freeze.json").exists():
         raise ValueError("Refusing to restage frozen release")
     league = json.loads((source / "league.json").read_text())

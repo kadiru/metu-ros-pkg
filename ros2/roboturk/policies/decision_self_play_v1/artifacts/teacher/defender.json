@@ -1,0 +1,29 @@
+{
+  "stage": "teacher",
+  "seed": 417,
+  "sources": {
+    "transfer": "f55cc19989397f6c7965f9a2612b7aea300f648f616b20b9dcae3eb5b5bad42a",
+    "finish": "3310235fa2a121234ae51264c72510184feb136c8e6c6e8c87708bdb504f0534",
+    "defender": "ef0e9a73f29488d37b4302c3e3f2342f39c0a8e225732b990098c6e7e5202abc",
+    "keeper": "87e14001b27755ecef88ad8d554f90f34a806fcd8e47caef0dd85be3a7098ddd"
+  },
+  "contract": "roboturk.mobile_opponent.v1",
+  "role": "defender",
+  "config": {
+    "length": 9.0,
+    "width": 6.0,
+    "goal_width": 1.0,
+    "robot_radius": 0.09,
+    "ball_radius": 0.0215,
+    "ball_mass": 0.046,
+    "max_speed": 2.0,
+    "max_omega": 8.0,
+    "max_kick": 5.0,
+    "dt": 0.02,
+    "max_steps": 500,
+    "neighbors": 5,
+    "possession_x": 0.115
+  },
+  "actor_sha256": "59b9598a05993578be7b300a5f0c9f242561f4b6b4be44a32ead1edcfdb85d36",
+  "validated_for_hardware": false
+}

@@ -1,0 +1,23 @@
+{
+  "stage": "manager_random_initialization",
+  "seed": 417,
+  "contract": "roboturk.tactical_decision.v1",
+  "role": "manager",
+  "config": {
+    "length": 9.0,
+    "width": 6.0,
+    "goal_width": 1.0,
+    "robot_radius": 0.09,
+    "ball_radius": 0.0215,
+    "ball_mass": 0.046,
+    "max_speed": 2.0,
+    "max_omega": 8.0,
+    "max_kick": 5.0,
+    "dt": 0.02,
+    "max_steps": 500,
+    "neighbors": 5,
+    "possession_x": 0.115
+  },
+  "actor_sha256": "6c07ec733d4e1939aa841a5840f64b19891fadd4990389be81c20d04d0323126",
+  "validated_for_hardware": false
+}

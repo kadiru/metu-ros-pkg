@@ -33,7 +33,11 @@ def run(supervisor, backend, cfg, mode):
         from roboturk.decision_panel import cross_play
 
         cross_play(backend, cfg, output, count, seed)
-    elif mode == "decision-train":
+    elif mode == "decision-repair":
+        from roboturk.decision_precision import prepare
+
+        prepare(backend, cfg, output, Path(os.environ["ROBOTURK_CHECKPOINT"]), seed)
+    elif mode in ("decision-train", "decision-train-precision"):
         train(
             backend,
             cfg,
@@ -41,6 +45,7 @@ def run(supervisor, backend, cfg, mode):
             rounds=int(os.environ.get("ROBOTURK_ROUNDS", "3")),
             steps=int(os.environ["ROBOTURK_STEPS"]),
             seed=seed,
+            precision=mode == "decision-train-precision",
         )
     else:
         bundle_path = os.environ.get("ROBOTURK_CHECKPOINT")

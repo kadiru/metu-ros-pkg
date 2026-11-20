@@ -1,0 +1,9 @@
+{
+  "generations": 3,
+  "role_jobs": 9,
+  "ppo_steps": 294912,
+  "accepted_updates": 288,
+  "reserved_training_resets": 0,
+  "historical_hashes_verified": true,
+  "frozen_motion_actor_hashes_verified": true
+}

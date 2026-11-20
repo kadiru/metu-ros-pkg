@@ -1,0 +1,40 @@
+{
+  "scope": "Static sampled training-observation diagnostic, not native performance",
+  "sample_seed": 900,
+  "samples": 30000,
+  "models": {
+    "dagger-v3/manager.zip": "4c521d8ba6956bc2da5d025567311e295b19dd3601a1ac6c7be45a4a22d2751f",
+    "round1/snapshot/manager.zip": "8e2045216eaa7296934038b5ec68c44e6ac224926d4c874795e1859f402b0242",
+    "round2/snapshot/manager.zip": "ae9c45beedca8abfb7036b38d07c0bde4348441b37893e9e4d6446769720af20"
+  },
+  "changes": [
+    {
+      "generation": 1,
+      "mean_receiving_coordinate_delta_m": [
+        0.005876579320044845,
+        0.007874226561975636
+      ],
+      "max_receiving_coordinate_delta_m": [
+        0.029223322868347168,
+        0.07203473970293998
+      ],
+      "option_changes": 3,
+      "owner_changes": 0,
+      "gate_changes": 3
+    },
+    {
+      "generation": 2,
+      "mean_receiving_coordinate_delta_m": [
+        0.008095729881456735,
+        0.013881368063865316
+      ],
+      "max_receiving_coordinate_delta_m": [
+        0.034120350331068035,
+        0.0985007107257843
+      ],
+      "option_changes": 3,
+      "owner_changes": 3,
+      "gate_changes": 8
+    }
+  ]
+}

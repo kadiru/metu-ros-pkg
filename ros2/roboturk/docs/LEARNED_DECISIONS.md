@@ -210,3 +210,34 @@ Defensive reward includes a smooth training-only field-margin cost; collision or
 field exit costs40, goal/other unforced ending costs25, valid defensive stop earns25.
 No runtime boundary projection is added. Every reset, including the unfinished last
 rollout, is logged alongside sampled decisions, actor updates and historical pools.
+
+
+## Development amendment: preserve geometry and recover keeper boundaries
+
+The first three-generation league failed development (55/60,53/60,54/60clean).
+All294,912PPOsteps and288accepted updates are retained in decision_self_play_v1.
+On30,000sampled training observations, G2 changed receiving outputs by up to9.85cm,
+while changing only3mode and3owner selections. This diagnostic is not a performance
+result. Both keeper field exits persisted. No reserved seed has been used.
+
+The next candidate, decision_self_play_v2, starts with the final v1 defenders and
+restores the pre-PPO v3 manager. Keeper coaching uses its own predictions on176,011
+native observations, correcting only planar labels that would approach a field
+boundary too quickly: margin0.20m, inward velocity gain3/s,100epochs,Adam1e-4.
+This is supervised derived labeling, not reinforcement learning or a runtime clamp.
+The coaching receipt preserves parents, data hashes, changed-label counts and actor
+hashes; stale PPO optimizer momentum is cleared. Evaluate60narrow and120broader
+native games before continuing. Keep both evaluations, including every failure.
+
+Plan two fresh self-play generations,32768steps/role/generation. Tactical PPO freezes
+the policy trunk and coordinate head rows5–8; only behavior,robot,corner and update
+rows learn. Clear frozen-row Adam moments and mask their gradients; hash the exact
+coordinate function before/after each job. Manager rate1e-4, choice logstd−1.2,
+target logstd−8, update-gate logstd−1.5; original actor trust limits apply. Defensive
+rates3e-6, MSE3e-5/max0.06 protect the coached margin. A stable reception earns3;
+manager terminal rewards are goal35, valid defensive stop−8, unforced error−30,
+collision−40. This distinguishes ordinary competitive losses from execution errors.
+All coefficients are training-only. The deployed contract and physical monitors
+remain unchanged. Reassess on development; do not lower reserved gates.
+Full matched cross-play is required for the candidate league; failed earlier leagues
+retain all generation evaluations and training records without a qualification claim.

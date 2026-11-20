@@ -5,5 +5,19 @@
   "asset_url": "https://github.com/cyberbotics/webots/releases/download/nightly_17_11_2026/webots-R2025a.dmg",
   "published_at": "2026-11-17T23:14:27Z",
   "reason": "Original stable binary fails macOS 27 port detection; nightly includes upstream PR #7032",
-  "baseline_linux": "Webots R2025a / ROS 2 Jazzy / Ubuntu 24.04 (ROS build pending)"
+  "baseline_linux": "ROS2 Jazzy / Ubuntu24.04 generated-interface build and tests pass in CI; full live ROS/Webots play integration remains separate",
+  "native_files_sha256": {
+    "runtime/Webots-nightly.app/Contents/MacOS/webots": "035a91bad1d12e4f34108ec48c8cadcb2dab4dc3278e4f03c9e969bb82d6babe",
+    "runtime/Webots-nightly.app/Contents/lib/webots/libode.dylib": "d23cac3ef4311cd0674a68c8bc52c34d8d1483bd5a865a90b71f733dfae2cc1f",
+    "runtime/Webots-nightly.app/Contents/lib/controller/libController.dylib": "56808a7ac0a9f99cf6048f8fab7abb13fff27c17b27edd690eeaa9b50bafbf5c"
+  },
+  "native_hash_observed_at": "2026-11-19T16:42:20.220075-08:00",
+  "native_hash_scope": "Installed executable, ODE and controller library observed before self-play freeze; paths relative to project root",
+  "python_version": "3.12.13",
+  "python_packages": {
+    "torch": "2.15.0",
+    "numpy": "2.5.5",
+    "gymnasium": "1.4.0",
+    "stable-baselines3": "2.9.2"
+  }
 }

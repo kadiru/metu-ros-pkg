@@ -1,0 +1,522 @@
+[
+  {
+    "path": "docs/SELF_PLAY.md",
+    "size": 16105,
+    "sha": "d0408f67596ce18d4786a71aa856e5ee57a2ad6e"
+  },
+  {
+    "path": "policies/self_play_v1/README.md",
+    "size": 5146,
+    "sha": "065c8fc219a3d16d5912048dffdb65da6f6cf475"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/cross-play/attack0-defense0.json",
+    "size": 80518,
+    "sha": "83e892b85e8a5abb123c201835ea0ac8a2041050"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/cross-play/attack0-defense1.json",
+    "size": 80571,
+    "sha": "acb62e4f85fb20fc33c7b89f7ed0368b8f5834dd"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/cross-play/attack0-defense2.json",
+    "size": 80549,
+    "sha": "b6e6ef2747680377963a7881b9a91c72ab412ca9"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/cross-play/attack0-defense3.json",
+    "size": 80504,
+    "sha": "5a63ca3097b8918ad93186584bd1cf5e840e07fc"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/cross-play/attack1-defense0.json",
+    "size": 82938,
+    "sha": "5aa4080704bcd420bf071e337986bb119078b3bb"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/cross-play/attack1-defense1.json",
+    "size": 82952,
+    "sha": "8400f289ed5b7a16ee7371391ad46229985d047a"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/cross-play/attack1-defense2.json",
+    "size": 80550,
+    "sha": "71e4eb31be3e68f3424a11a112d7ca89b8cad5eb"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/cross-play/attack1-defense3.json",
+    "size": 82982,
+    "sha": "7a302efb94adfddf1a3762dad06e4c0d8b2dba07"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/cross-play/attack2-defense0.json",
+    "size": 85340,
+    "sha": "db9d6765050ecedd5d7ed2af4ea30efe1ffa5ecf"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/cross-play/attack2-defense1.json",
+    "size": 85371,
+    "sha": "a53097d5ffd7821a538dac0273632bb1e0592003"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/cross-play/attack2-defense2.json",
+    "size": 85384,
+    "sha": "6e1996e82e337d33804b1a1a23839b3c57ee89ed"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/cross-play/attack2-defense3.json",
+    "size": 80558,
+    "sha": "6e879f9487b3a4add1d9e4e4b42dd27d48e148f6"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/cross-play/attack3-defense0.json",
+    "size": 80525,
+    "sha": "3a33538ad4136db443aaf3a029335686bf51c400"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/cross-play/attack3-defense1.json",
+    "size": 80562,
+    "sha": "ebc3654b7012b2a1b29d24828954c7b8d9893481"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/cross-play/attack3-defense2.json",
+    "size": 80567,
+    "sha": "333fc7a15ef97f6daec3bd723eff1107a614e55a"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/cross-play/attack3-defense3.json",
+    "size": 80526,
+    "sha": "bddca2c954142024bce81ad00486b795ac12b2ba"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/cross-play-generation3-matrix.json",
+    "size": 7603,
+    "sha": "ba9d37088db19ef2110da9faec3b6eda46ee5c5e"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/cross-play-initial-matrix.json",
+    "size": 4306,
+    "sha": "9fc2b7825250e983867ac65ba7e2745c116bd726"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/cross-play-matrix.json",
+    "size": 7603,
+    "sha": "ba9d37088db19ef2110da9faec3b6eda46ee5c5e"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/generation3-runtime.json",
+    "size": 464,
+    "sha": "19bf787b4a6fe5a3b4f89a785d0e868502570475"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/league.json",
+    "size": 57691,
+    "sha": "fb9660129afe4e1b70e4d0b3b695d1486c648932"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-defender/bundle.json",
+    "size": 1215,
+    "sha": "4917ccc9246288fb01e8183d26e167434f8182fb"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-defender/defender.json",
+    "size": 555,
+    "sha": "7c37d60657519b87e65942c45be5ed32e97a0bf7"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-defender/defender.zip",
+    "size": 1145027,
+    "sha": "6b34098bdb02ddb3fc2aaa2f72d0d1bbb7d4bfb3"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-defender/finish.json",
+    "size": 551,
+    "sha": "71716871840ea1ea0153c76add01edb50e82bf8a"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-defender/finish.zip",
+    "size": 551489,
+    "sha": "c0b1637a49efbf52b5e1d4036d2b751e2afbb056"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-defender/keeper.json",
+    "size": 553,
+    "sha": "3f85442416d00d90ad9e83e5722085d9b9d4fb6e"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-defender/keeper.zip",
+    "size": 1144619,
+    "sha": "db17f52d707aa910be759d07a2fdbdbf68916508"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-defender/transfer.json",
+    "size": 555,
+    "sha": "802d5fe87b0236e2fc7b005e5e51d3c1d7133f0d"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-defender/transfer.zip",
+    "size": 1270900,
+    "sha": "a8232044054a0fc59a8da85c77d46f1cfc24501d"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-finish/bundle.json",
+    "size": 1207,
+    "sha": "c6e9271f37944cd102d5fa70dd41beae0522954a"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-finish/defender.json",
+    "size": 555,
+    "sha": "794b2664d13cc5333dae781bdacedcf1e7acde73"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-finish/defender.zip",
+    "size": 1144517,
+    "sha": "d692dd4eef7c45a561745677bbf67a604d8d2d6d"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-finish/finish.json",
+    "size": 551,
+    "sha": "71716871840ea1ea0153c76add01edb50e82bf8a"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-finish/finish.zip",
+    "size": 551489,
+    "sha": "5682d1e05628d06aa0b4440624923a424bd0b156"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-finish/keeper.json",
+    "size": 553,
+    "sha": "aa18a356339254613997f4c3d2dd1f9aae6dc1fe"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-finish/keeper.zip",
+    "size": 1144437,
+    "sha": "2dd9be53997b6bf7ba79a9afa4036b37f40fabb4"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-finish/transfer.json",
+    "size": 555,
+    "sha": "220ec553d63c2916418eab4123f2acdddcad81a5"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-finish/transfer.zip",
+    "size": 1270961,
+    "sha": "d584bdad64463630256af2a39963b4bf1ed1cb1b"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-keeper/bundle.json",
+    "size": 1207,
+    "sha": "562385a66a7a3184ae42f6c400c8cec5662aadea"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-keeper/defender.json",
+    "size": 555,
+    "sha": "794b2664d13cc5333dae781bdacedcf1e7acde73"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-keeper/defender.zip",
+    "size": 1144517,
+    "sha": "cb879b431b5a4118e78bb5314402be969aa1408b"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-keeper/finish.json",
+    "size": 551,
+    "sha": "71716871840ea1ea0153c76add01edb50e82bf8a"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-keeper/finish.zip",
+    "size": 551489,
+    "sha": "48f1cbc718b5af77ebf1b6f43e6d4b8c8ff3245c"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-keeper/keeper.json",
+    "size": 553,
+    "sha": "3f85442416d00d90ad9e83e5722085d9b9d4fb6e"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-keeper/keeper.zip",
+    "size": 1144619,
+    "sha": "8037f8c72133082a85e1eeef149eede60af911b7"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-keeper/transfer.json",
+    "size": 555,
+    "sha": "802d5fe87b0236e2fc7b005e5e51d3c1d7133f0d"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-keeper/transfer.zip",
+    "size": 1270900,
+    "sha": "ed282115b791405222180f763dcb1191dcca339b"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-transfer/bundle.json",
+    "size": 1215,
+    "sha": "14d579b3dbb65f2294bf90389db2b6eb782e76a6"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-transfer/defender.json",
+    "size": 555,
+    "sha": "794b2664d13cc5333dae781bdacedcf1e7acde73"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-transfer/defender.zip",
+    "size": 1144517,
+    "sha": "b2aea7d5d6afe209d252d3e84aa9cf4e2a6ceaea"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-transfer/finish.json",
+    "size": 551,
+    "sha": "71716871840ea1ea0153c76add01edb50e82bf8a"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-transfer/finish.zip",
+    "size": 551489,
+    "sha": "a561481d40b386f00d91e19c6fad212f3b3a5c20"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-transfer/keeper.json",
+    "size": 553,
+    "sha": "aa18a356339254613997f4c3d2dd1f9aae6dc1fe"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-transfer/keeper.zip",
+    "size": 1144437,
+    "sha": "e182f2e6c2d49fb4d1324301747bd76cc9fca5d7"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-transfer/transfer.json",
+    "size": 555,
+    "sha": "802d5fe87b0236e2fc7b005e5e51d3c1d7133f0d"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/before-transfer/transfer.zip",
+    "size": 1270900,
+    "sha": "2671402b8bdd2951b93618d9ff579698f06849c5"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/defender-rollouts.json",
+    "size": 337523,
+    "sha": "17bba64db89613712fa8fc8d7d45e635b685adba"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/defender-updates.json",
+    "size": 3952,
+    "sha": "6aa984fbecb0946b27786503e8cdfe89df2834ce"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/defender.json",
+    "size": 4724,
+    "sha": "1b3344e2c104bea12cd798a8dcded940fdca94df"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/defender.zip",
+    "size": 1144517,
+    "sha": "cb879b431b5a4118e78bb5314402be969aa1408b"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/development.json",
+    "size": 248374,
+    "sha": "3db5b46e8bca479b2b7c72e9ab2a4bc49f48921b"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/finish-rollouts.json",
+    "size": 744268,
+    "sha": "c6a890d322f44dacef617033c18826f4b387de3a"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/finish-updates.json",
+    "size": 3983,
+    "sha": "5fc92701ea1c0ed5bf11934410ac7c096104d186"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/finish.json",
+    "size": 6013,
+    "sha": "42aa1077fad2e0d04cc0c028867206685be39152"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/finish.zip",
+    "size": 551506,
+    "sha": "e556b254e83315ff2dbba86dad295ec9d2aeeb86"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/keeper-rollouts.json",
+    "size": 323927,
+    "sha": "311db33d4a0c219f424ab569ccfd503cc5ca2c9d"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/keeper-updates.json",
+    "size": 3947,
+    "sha": "7b5b644f15b9e52dd1e81bc095e53092874d42af"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/keeper.json",
+    "size": 4722,
+    "sha": "e05cf8eb4e23e34b81dd21d3792c5019b78bcd51"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/keeper.zip",
+    "size": 1144437,
+    "sha": "e182f2e6c2d49fb4d1324301747bd76cc9fca5d7"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/snapshot/bundle.json",
+    "size": 1187,
+    "sha": "dc50702a32a68d9a81890f2942561d2ff5d2d161"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/snapshot/defender.json",
+    "size": 563,
+    "sha": "50a4e4092349c4da8b3d3e63d715784b8767f72a"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/snapshot/defender.zip",
+    "size": 1144517,
+    "sha": "42f0f9ddd190bdda1f994e45e83dfd06caeeda56"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/snapshot/finish.json",
+    "size": 559,
+    "sha": "ca8284e7ad745090f8ff9c6a88e6a88562bdee7d"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/snapshot/finish.zip",
+    "size": 551506,
+    "sha": "e556b254e83315ff2dbba86dad295ec9d2aeeb86"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/snapshot/keeper.json",
+    "size": 561,
+    "sha": "a8c8f925883b8d333df8fa385c6fbc40d34d585a"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/snapshot/keeper.zip",
+    "size": 1144437,
+    "sha": "e48653efa1314733f696c5e1ef590f331b8a4ede"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/snapshot/transfer.json",
+    "size": 563,
+    "sha": "ccba344fd56af446ae0540cf8b522f39df436d46"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/snapshot/transfer.zip",
+    "size": 1270961,
+    "sha": "35cb06bb144417b86a0a9efa6975d62f4e9de1f6"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/transfer-rollouts.json",
+    "size": 740110,
+    "sha": "9d0dfebb336cb1a0e951f2d70a2b014c19177f46"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/transfer-updates.json",
+    "size": 3986,
+    "sha": "f09868422ac9d6b6f635596c8864f1b5f4414bd7"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/transfer.json",
+    "size": 6025,
+    "sha": "f5baa1252e6d0e6bfe73aacde895123648691252"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round3/transfer.zip",
+    "size": 1270961,
+    "sha": "d584bdad64463630256af2a39963b4bf1ed1cb1b"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/spacing-repair/bundle.json",
+    "size": 1183,
+    "sha": "93b6faedd017d0ef21289e6ddafd502215ab2ece"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/spacing-repair/defender.json",
+    "size": 551,
+    "sha": "3c5120e566b0576188b806a353e5a52db9df1522"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/spacing-repair/defender.zip",
+    "size": 1144513,
+    "sha": "8ac48759d4fa5837dd0badb3010db93b9bcbde85"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/spacing-repair/finish.json",
+    "size": 547,
+    "sha": "bdb0a79f61b62391f0446092e612e5d69103144a"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/spacing-repair/finish.zip",
+    "size": 551506,
+    "sha": "081bae12682153315f8e1499e5fba18bd2a01399"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/spacing-repair/keeper.json",
+    "size": 549,
+    "sha": "6f7bd4d8c777a1dd33f84dbe40466ff266946749"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/spacing-repair/keeper.zip",
+    "size": 1144433,
+    "sha": "e12457f02f782dd4c7ae41060d2d50a8e5db2b5b"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/spacing-repair/training.json",
+    "size": 8950,
+    "sha": "93dd8aba9e087f50c56efdadd76289d0fd0c36dd"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/spacing-repair/transfer.json",
+    "size": 551,
+    "sha": "ec1dc90d30f58963045ac97e5eb163e579008e32"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/spacing-repair/transfer.zip",
+    "size": 1270961,
+    "sha": "53e7e36348a03b5d0af8477bdb48da216f890d05"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/spacing-repair-development.json",
+    "size": 283190,
+    "sha": "c6d0f61ad2abce452b3271f90beb257eab2bad4a"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/training-progress.json",
+    "size": 56415,
+    "sha": "101838addf314838fd200eb6b1a3f26881d76b25"
+  },
+  {
+    "path": "scripts/stage_self_play.py",
+    "size": 7324,
+    "sha": "4d24d98194024f4ca75b20c8f5a059f5aa2fe822"
+  },
+  {
+    "path": "src/roboturk_core/roboturk/self_play_match.py",
+    "size": 7787,
+    "sha": "a8aa4523082ab09c98c999358c287d46811e9853"
+  },
+  {
+    "path": "src/roboturk_core/roboturk/self_play_repair.py",
+    "size": 5876,
+    "sha": "36c91a29700da218fefac2e75a99e02824c21fa2"
+  },
+  {
+    "path": "src/roboturk_core/roboturk/self_play_training.py",
+    "size": 24390,
+    "sha": "71cc4bc84c021b2f4752885b7d4c472e31c1584d"
+  },
+  {
+    "path": "src/roboturk_ros/webots/controllers/roboturk_supervisor/self_play_demo.py",
+    "size": 3761,
+    "sha": "b77c3168574b765953be423796ab79267f9f38a8"
+  },
+  {
+    "path": "src/roboturk_ros/webots/controllers/roboturk_supervisor/self_play_runner.py",
+    "size": 3151,
+    "sha": "ea898c05d7b03b3ea9af3171e70247930143c0fa"
+  },
+  {
+    "path": "tests/test_self_play_training.py",
+    "size": 2162,
+    "sha": "cd5e46699a848a2ad46e76c774c8f18dbce2849c"
+  }
+]

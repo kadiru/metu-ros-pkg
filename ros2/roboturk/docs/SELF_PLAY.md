@@ -364,3 +364,63 @@ actual interception/dribble/goal-crossing/display frames were inspected. The nat
 encoder reported a target-bitrate convergence warning, but completed successfully;
 full decoding found no errors. This clip is recorder validation, not the fresh demo.
 Full6×6×20cross-play is underway; all reserved tests/demo remain untouched.
+
+## Replaying the frozen policies
+
+After the release is staged, activate the pinned Python environment and run from
+`ros2/roboturk`. The four `final` checkpoint paths are portable; absolute paths in
+historical training records preserve the original run's provenance.
+
+```sh
+python scripts/run_webots.py --webots /path/to/webots \
+  --mode selfplay-demo --episodes 8 --seed 2400000 --render \
+  --checkpoint policies/self_play_v1/final/transfer/policy.zip \
+  --shoot-checkpoint policies/self_play_v1/final/finish/policy.zip \
+  --defender-checkpoint policies/self_play_v1/final/defender/policy.zip \
+  --keeper-checkpoint policies/self_play_v1/final/keeper/policy.zip \
+  --output runs/selfplay-replay --timeout 1800
+```
+
+This replays the declared demo scenarios; it is not a new independent evaluation.
+For the frozen current-pair panel, use `selfplay-evaluate`,200episodes and seed2300000.
+The historical-attack panel uses100episodes/2310000 and the two `bootstrap` defensive
+paths; the historical-defense panel uses100episodes/2320000 and the two `bootstrap`
+attacking paths. Retain every result. Audit each result with:
+
+```sh
+python scripts/audit_self_play.py audit --release policies/self_play_v1 \
+  --result /path/to/result.json --split final --output /path/to/audit.json
+```
+
+Use the corresponding `attack`, `defense` or `demo` split. A failed gate returns1
+while retaining its audit report. Changed models or runtime require a new freeze
+and fresh reserved scenarios; do not reuse these seeds to qualify a tuned candidate.
+The installed executable, ODE library and controller library hashes are recorded in
+`docs/runtime-manifest.json` before the release freeze. Earlier training-runtime
+receipts retain their original source hashes rather than claiming this later binary
+hash observation occurred before those runs.
+
+
+## Complete matched-runtime cross-play
+
+All36matchups ran20shared development scenarios (720games), runtime SHA256
+`29b2d6bf0e96b068a502b57cb052089859e4f3164c4051d6c0f9a33a5f0eecca`. Rows are attacking snapshots; columns are defensive
+snapshots. B is the initial neural bootstrap, G1–G5 are completed self-play generations.
+Each cell is **goals / clean outcomes**, both out of20.
+
+| Attack \ Defense | B | G1 | G2 | G3 | G4 | G5 |
+| --- | --- | --- | --- | --- | --- | --- |
+| B | 2 / 19 | 2 / 19 | 2 / 19 | 4 / 20 | 6 / 19 | 6 / 18 |
+| G1 | 3 / 19 | 3 / 18 | 3 / 19 | 4 / 20 | 7 / 20 | 7 / 19 |
+| G2 | 4 / 19 | 4 / 19 | 4 / 19 | 4 / 20 | 6 / 20 | 9 / 20 |
+| G3 | 3 / 19 | 3 / 19 | 2 / 19 | 3 / 19 | 7 / 20 | 8 / 19 |
+| G4 | 2 / 18 | 2 / 18 | 2 / 18 | 2 / 18 | 6 / 19 | 7 / 18 |
+| G5 | 3 / 19 | 1 / 18 | 2 / 19 | 3 / 19 | 5 / 19 | 7 / 18 |
+
+The final/final cell has7goals,11defensive stops,one premature pass andone possession
+loss:18/20clean,zero collisions. Together with its separate60/60and99/100development
+panels, this is mixed development evidence; the small shared set exposes failures
+that the larger panel missed. Keep the last completed generation as predeclared;
+freeze it before untouched qualification, retain all failures and do not tune on
+reserved cases. The original-defense100-case challenge also remains failed.
+No claim of monotonically improving playing strength or isolated PPO benefit is made.

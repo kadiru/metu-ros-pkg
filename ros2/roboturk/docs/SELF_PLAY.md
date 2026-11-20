@@ -329,3 +329,14 @@ prepared bundle and all five historical snapshots. The preparation and tactical
 correction are separate from the forthcoming PPO result; do not attribute their
 gain to PPO. Complete cross-play under the new runtime and broader development
 before freezing the last completed generation. Reserved splits/gates unchanged.
+
+
+Generation five completed all four32768-step role jobs. Accepted updates: defender32,
+keeper29,transfer32,finisher32; three keeper updates were rejected by the trust-region
+check. All four actor hashes changed. Total655360PPOsteps and637accepted/640attempted
+updates across20role jobs. Saved-snapshot development60/60clean:21goals,34interceptions,
+5keeper saves, no collisions or unforced errors. The training audit verifies retained
+checkpoint bytes, initialization/update links and all recorded training seeds.
+Broader300-case development and the complete6×6×20matrix run under the revised
+runtime. A two-case development movie checks the recorder before the final freeze;
+it is not the reserved eight-case demo. All reserved cases remain untouched.

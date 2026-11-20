@@ -112,3 +112,10 @@ or unforced errors. This uses the original generation-four attackers and supervi
 refitting of the two defenders; the tactical correction is explicit. Generation five
 is now training all four actors against historical opponents. No reserved result or
 new demo is claimed yet. Full history and exact amendments are in SELF_PLAY.md.
+
+
+Generation five completed655360cumulative PPOsteps and637accepted updates. Its60-case
+saved-snapshot development panel was60/60clean:21goals,34interceptions,5keeper saves.
+All20role jobs, checkpoint transitions and recorded training seeds passed the audit.
+Broader development/cross-play are running; reserved qualification and the fresh demo
+are still pending. This remains an unqualified development release.

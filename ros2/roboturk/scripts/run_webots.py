@@ -17,6 +17,11 @@ def main():
     parser.add_argument(
         "--mode",
         choices=[
+            "decision-probe",
+            "decision-bootstrap",
+            "decision-train",
+            "decision-evaluate",
+            "decision-demo",
             "selfplay-probe",
             "selfplay-bootstrap",
             "selfplay-train",

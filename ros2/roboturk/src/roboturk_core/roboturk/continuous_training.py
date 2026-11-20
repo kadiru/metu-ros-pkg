@@ -96,7 +96,8 @@ def evaluate(backend, blue, yellow, count, seed, duration, recorder=None, trace=
         "contract": CONTRACT,
         "duration": duration,
         "contact_terminates": False,
-        "runtime_action_projection": False,
+        "runtime_action_projection": bool(getattr(backend, "command_filter", None)),
+        "safety_contract": getattr(backend, "safety_contract", None),
         "matches": records,
         "summary": summary(records),
     }
@@ -138,6 +139,7 @@ def collect(backend, output, count, seed, duration, model=None, mix=0):
         {
             "backend": backend.name,
             "backend_contract": getattr(backend, "contract", "legacy_ordered_kicks"),
+            "safety_contract": getattr(backend, "safety_contract", None),
             "control": (
                 "training_teacher"
                 if not mix
@@ -164,7 +166,7 @@ class ShapeEnv(gym.Env):
     action_space = gym.spaces.Box(-1, 1, (ACTIONS,), dtype=np.float32)
 
 
-def fit(output, seed, epochs, source=None, learning_rate=3e-4):
+def fit(output, seed, epochs, source=None, learning_rate=3e-4, all_heads=False):
     out = Path(output)
     data = np.load(out / "data.npz")
     x, y = data["observations"], data["actions"]
@@ -222,14 +224,28 @@ def fit(output, seed, epochs, source=None, learning_rate=3e-4):
         "near_robot",
         "similar_ball_distance",
     ]
+    if all_heads:
+        # Counterfactual releases are rare and may belong to a behavior other
+        # than the teacher's selected one. Balance them explicitly so a newly
+        # explored pass/shot can actually release the ball.
+        groups += [
+            np.flatnonzero(y[:, 18] > 0),
+            np.flatnonzero(y[:, 22] > 0),
+            np.flatnonzero(x[:, 7] > 0.5),
+        ]
+        group_names += ["all_head_pass_release", "all_head_shot_release", "own_mouth_contact"]
     sampling = {name: len(ids) for name, ids in zip(group_names, groups, strict=True)}
     groups = [g for g in groups if len(g)]
     opt = torch.optim.Adam(model.actor_parameters(), lr=learning_rate)
     weights = torch.zeros_like(yt)
     weights[:, :7] = 1
-    for mode in range(7):
-        ids = np.flatnonzero(modes == mode)
-        weights[ids, 7 + 4 * mode : 11 + 4 * mode] = torch.tensor([15.0, 15.0, 5.0, 3.0])
+    if all_heads:
+        weights[:, :7] = 5
+        weights[:, 7:] = torch.tensor([15.0, 15.0, 5.0, 3.0] * 7)
+    else:
+        for mode in range(7):
+            ids = np.flatnonzero(modes == mode)
+            weights[ids, 7 + 4 * mode : 11 + 4 * mode] = torch.tensor([15.0, 15.0, 5.0, 3.0])
     history = []
     for e in range(epochs):
         ids = np.concatenate([rng.choice(g, 2048) for g in groups])
@@ -237,7 +253,9 @@ def fit(output, seed, epochs, source=None, learning_rate=3e-4):
         losses = []
         for batch in np.array_split(ids, max(1, len(ids) // 512)):
             pred = model.policy.get_distribution(xt[batch]).distribution.mean
-            loss = ((pred - yt[batch]).square() * weights[batch]).sum(1).mean() / 11
+            loss = ((pred - yt[batch]).square() * weights[batch]).sum(1).mean() / (
+                73 if all_heads else 11
+            )
             opt.zero_grad()
             loss.backward()
             opt.step()
@@ -254,6 +272,7 @@ def fit(output, seed, epochs, source=None, learning_rate=3e-4):
             "seed": seed,
             "epochs": epochs,
             "supervised_learning_rate": learning_rate,
+            "all_heads_supervised": all_heads,
             "observations": len(x),
             "data_sha256": digest(out / "data.npz"),
             "source": source,

@@ -53,6 +53,8 @@ def main():
             "--timeout",
             "1800",
         ]
+        if frozen["protocol"].get("runtime_action_projection"):
+            command.append("--velocity-safety")
         with destination.with_suffix(".log").open("x") as log:
             subprocess.run(command, stdout=log, stderr=subprocess.STDOUT, check=True)
         result = json.loads(destination.with_suffix(".json").read_text())

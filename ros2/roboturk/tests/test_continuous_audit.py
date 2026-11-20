@@ -124,3 +124,42 @@ def test_reception_audit_rejects_intervening_opponent_control():
     r["receptions"] = {"blue": 1}
     with pytest.raises(AssertionError):
         AUDIT["audit_match"](r)
+
+
+def test_kick_audit_rejects_ordered_overwrite_and_wrong_arbitration():
+    r = evidence()
+    r.update(
+        backend_contract="roboturk.webots.closest_kicker.v1",
+        passes={"blue": 1},
+        kick_arbitrations=[
+            {
+                "step": 1,
+                "restart": 0,
+                "physics_time": 0.0,
+                "winner": "blue0",
+                "candidates": [["blue0", 0.0], ["yellow0", 0.001]],
+            }
+        ],
+    )
+    kick = {
+        "type": "pass",
+        "step": 1,
+        "restart": 0,
+        "physics_time": 0.0,
+        "team": "blue",
+        "robot": "blue0",
+        "held": True,
+        "mode": "pass",
+        "speed": 2.2,
+        "ball": [0, 0],
+    }
+    r["events"] = [kick]
+    AUDIT["audit_match"](r)
+    bad = copy.deepcopy(r)
+    bad["events"].append({**kick, "robot": "yellow0", "team": "yellow"})
+    with pytest.raises(AssertionError, match="Multiple kicks"):
+        AUDIT["audit_match"](bad)
+    bad = copy.deepcopy(r)
+    bad["kick_arbitrations"][0]["candidates"][1][1] = 0
+    with pytest.raises(AssertionError):
+        AUDIT["audit_match"](bad)

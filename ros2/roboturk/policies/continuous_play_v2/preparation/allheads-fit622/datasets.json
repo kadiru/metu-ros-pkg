@@ -1,0 +1,29 @@
+{
+  "inputs": [
+    {
+      "path": "runs/continuous-v1/allheads-teacher-data",
+      "data_sha256": "19661e9c8dafb08503efc071eac414bcdef900f958cc2c71e1a28af0a75c3130",
+      "collection_sha256": "3bf182f9dca6231b0fbee3a1f2bd00e63fbf125b9433e39697dad3ca607ebcde",
+      "observations": 135224,
+      "seed": 4200000,
+      "count": 30,
+      "control": "training_teacher",
+      "base_observations": 122,
+      "training_observations": 122
+    },
+    {
+      "path": "runs/continuous-v1/allheads-dagger2-622",
+      "data_sha256": "9dc8e314c70ba040e205e2c06cabc0d3b7751267369ba292e65596d680762d67",
+      "collection_sha256": "738d5dc6fbd7ed39623f46f95b6cecd9e454b5361812184d789c5fa3a62959b6",
+      "observations": 120020,
+      "seed": 4210300,
+      "count": 30,
+      "control": "neural_rollouts_teacher_labels",
+      "base_observations": 122,
+      "training_observations": 122
+    }
+  ],
+  "source": "runs/continuous-v1/precision-fit622/seed622/bootstrap.zip",
+  "source_sha256": "62b04f99fdade09f01d4410d396b6921c874a60704c2e059b54f198c19497b82",
+  "data_sha256": "3b68fba6a728a0456cc48f737fd987db62f0a2ab2bbb064ed143847ccb456795"
+}

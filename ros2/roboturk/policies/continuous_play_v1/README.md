@@ -1,6 +1,9 @@
 # Continuous 2v2 — training in progress
 
-**This experiment is not qualified. There is no new reliable neural match demo yet.**
+**This unfiltered experiment is not qualified. There is no new reliable continuous-match demo yet.**
+The separate [v2 experiment](../continuous_play_v2/README.md) adds explicit translation
+safety and retains an independent protocol; its results cannot establish entirely
+neural collision avoidance.
 The previous qualified [learned-decision release](../decision_self_play_v2/README.md)
 and all 89 files in its frozen runtime remain unchanged.
 
@@ -100,3 +103,11 @@ preflights passed all eight cases. Subsequent ODE contacts can still break perfe
 ties numerically. Kick times and arbitration decisions are logged and independently
 audited. Previous frozen backends and results remain unchanged. This is still an
 approximate velocity-kick model.
+
+Both Gaussian decision-only leagues also completed 131,072 native steps and 128
+accepted updates in total. Final development: 611 completed6/6 with4goals,
+6receptions,4.25%contact time and1field-exit match;622 completed6/6 with5goals,
+6receptions,2.90%contact time and1exit. Motor functions stayed byte-identical.
+Only one deterministic mode choice changed across the two611round probe sets;
+none changed for622. These are retained failures, not an RL improvement claim.
+Together with the earlier full-motion attempt, this is262,144 native PPO steps.

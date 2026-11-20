@@ -16,6 +16,11 @@ def main():
     supervisor = Supervisor()
     backend = ContinuousWebotsBackend(supervisor, Config())
     env = os.environ
+    if env.get("CONTINUOUS_VELOCITY_SAFETY") == "True":
+        from roboturk.continuous_safety import filter_commands, CONTRACT
+
+        backend.command_filter = filter_commands
+        backend.safety_contract = CONTRACT
     mode = env["CONTINUOUS_MODE"]
     out = Path(env["CONTINUOUS_OUTPUT"])
     seed, count = int(env["CONTINUOUS_SEED"]), int(env["CONTINUOUS_EPISODES"])
@@ -46,6 +51,7 @@ def main():
                 int(env["CONTINUOUS_STEPS"]),
                 duration,
                 decisions_only=env.get("CONTINUOUS_DECISIONS_ONLY") == "True",
+                categorical_decisions=env.get("CONTINUOUS_CATEGORICAL_DECISIONS") == "True",
             )
             result = None
         elif mode in ("evaluate", "demo"):

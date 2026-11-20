@@ -48,6 +48,10 @@ class ContinuousWebotsBackend(WebotsBackend):
                         "time": current.time,
                         "winner": winner,
                         "candidates": candidates,
+                        "poses": [
+                            (k, current.robot(k).x, current.robot(k).y, current.robot(k).yaw)
+                            for k, _ in candidates
+                        ],
                         "ball": [current.ball.x, current.ball.y],
                     }
                 )

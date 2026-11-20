@@ -61,6 +61,34 @@ def audit_match(match, native=True):
         match["contact_fraction"], match["contact_checks"] / max(1, match["physics_checks"])
     )
     assert match["backend_resets"] == 1 + match["referee_restarts"]
+    if match.get("safety_contract"):
+        assert match["safety_contract"] == "roboturk.velocity_safety.v1"
+        corrections = Counter()
+        interventions = match["safety_interventions"]
+        assert [r["step"] for r in interventions] == sorted({r["step"] for r in interventions})
+        for record in interventions:
+            assert 1 <= record["step"] <= steps
+            assert record["robots"] == ["blue0", "blue1", "yellow0", "yellow1"]
+            poses, raw, applied = record["poses"], record["requested"], record["applied"]
+            assert len(poses) == len(raw) == len(applied) == 4
+            for i, (p, v) in enumerate(zip(poses, applied, strict=True)):
+                assert all(math.isfinite(x) for x in [*p, *v, *raw[i]])
+                assert math.hypot(*v) <= 1.2 + 1e-7
+                for axis, bound in enumerate((4.35, 2.85)):
+                    for sign in (-1, 1):
+                        assert sign * v[axis] <= 4 * (bound - sign * p[axis]) + 1e-7
+                for j in range(i):
+                    dx, dy = p[0] - poses[j][0], p[1] - poses[j][1]
+                    distance = math.hypot(dx, dy)
+                    radial = ((v[0] - applied[j][0]) * dx + (v[1] - applied[j][1]) * dy) / distance
+                    assert radial >= -4 * (distance**2 - 0.205**2) / (2 * distance) - 1e-7
+                correction = math.dist(raw[i], v)
+                assert math.isclose(correction, record["corrections"][i], abs_tol=1e-9)
+                corrections[record["robots"][i]] += correction
+        assert all(
+            math.isclose(match["safety_correction"].get(k, 0), corrections[k], abs_tol=1e-8)
+            for k in match["calls"]
+        )
     assert (
         sum(match["possession_seconds"].values()) + match["contested_seconds"]
         <= match["duration"] + 1e-6
@@ -71,9 +99,21 @@ def audit_match(match, native=True):
         kicks = [e for e in events if e["type"] in ("pass", "shot")]
         instants = [(e["restart"], round(e["physics_time"], 8)) for e in kicks]
         assert len(set(instants)) == len(instants), "Multiple kicks at one physics instant"
+        for e in kicks:
+            assert (e["step"] - 1) * 0.02 - 1e-7 <= e["physics_time"] < e["step"] * 0.02 + 1e-7
         for choice in match["kick_arbitrations"]:
             candidates = sorted(choice["candidates"], key=lambda c: c[1])
             assert len(candidates) >= 2 and len({c[0] for c in candidates}) == len(candidates)
+            assert all(math.isfinite(d) and d >= 0 for _, d in candidates)
+            if "poses" in choice:
+                poses = {k: (x, y, yaw) for k, x, y, yaw in choice["poses"]}
+                for k, d in candidates:
+                    x, y, yaw = poses[k]
+                    bx, by = choice["ball"]
+                    measured = (bx - x - 0.115 * math.cos(yaw)) ** 2 + (
+                        by - y - 0.115 * math.sin(yaw)
+                    ) ** 2
+                    assert math.isclose(measured, d, abs_tol=1e-12)
             expected = None if candidates[1][1] - candidates[0][1] <= 1e-12 else candidates[0][0]
             assert choice["winner"] == expected
             actual = [
@@ -159,10 +199,12 @@ def audit_match(match, native=True):
     return counterattacks(match)
 
 
-def audit_file(path, expected_seed=None, expected_count=None):
+def audit_file(path, expected_seed=None, expected_count=None, expected_safety=False):
     result = json.loads(Path(path).read_text())
     assert result["backend"] == "webots_ideal_body_velocity" and result["control"] == "neural"
-    assert result["contact_terminates"] is False and result["runtime_action_projection"] is False
+    assert result["contact_terminates"] is False
+    assert result["runtime_action_projection"] is expected_safety
+    assert bool(result.get("safety_contract")) is expected_safety
     matches = result["matches"]
     if expected_count is not None:
         assert len(matches) == expected_count
@@ -201,8 +243,9 @@ def main():
     p.add_argument("--seed", type=int)
     p.add_argument("--count", type=int)
     p.add_argument("--output", type=Path)
+    p.add_argument("--velocity-safety", action="store_true")
     args = p.parse_args()
-    result = audit_file(args.result, args.seed, args.count)
+    result = audit_file(args.result, args.seed, args.count, args.velocity_safety)
     if args.output:
         args.output.write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps(result, indent=2))

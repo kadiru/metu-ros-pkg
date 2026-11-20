@@ -192,6 +192,8 @@ class ContinuousMatch:
         self.scores = Counter(blue=0, yellow=0)
         self.events = []
         self.kick_arbitrations = []
+        self.safety_interventions = []
+        self.safety_correction = Counter()
         self.trace_rows = []
         self.calls = Counter()
         self.modes = Counter()
@@ -241,6 +243,14 @@ class ContinuousMatch:
             self.memory.mode[k] = mode
             self.calls[name(k)] += 1
             self.modes[k.team + "/" + MODES[mode]] += 1
+        safety_filter = getattr(self.backend, "command_filter", None)
+        if safety_filter:
+            commands, intervention = safety_filter(previous, commands)
+            if intervention:
+                self.safety_interventions.append({"step": self.steps + 1, **intervention})
+                self.safety_correction.update(
+                    dict(zip(intervention["robots"], intervention["corrections"], strict=True))
+                )
         self.world = self.backend.step(commands)
         self.steps += 1
         samples = getattr(self.backend, "last_substep_worlds", [self.world])
@@ -253,6 +263,7 @@ class ContinuousMatch:
                     "physics_time": decision["time"],
                     "winner": name(decision["winner"]) if decision["winner"] else None,
                     "candidates": [[name(k), d] for k, d in decision["candidates"]],
+                    "poses": [[name(k), x, y, yaw] for k, x, y, yaw in decision["poses"]],
                     "ball": decision["ball"],
                 }
             )
@@ -452,6 +463,9 @@ class ContinuousMatch:
             "metric_version": 2,
             "backend_contract": getattr(self.backend, "contract", "legacy_ordered_kicks"),
             "kick_arbitrations": self.kick_arbitrations,
+            "safety_contract": getattr(self.backend, "safety_contract", None),
+            "safety_interventions": self.safety_interventions,
+            "safety_correction": dict(self.safety_correction),
             "seed": self.seed,
             "start": self.start_family,
             "attack_sign": self.sign,

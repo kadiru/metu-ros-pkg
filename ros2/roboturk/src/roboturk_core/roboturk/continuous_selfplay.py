@@ -24,6 +24,7 @@ REWARD = {
     "outside_physics_sample": 0.1,
     "stable_possession_control_tick": 0.002,
     "loose_ball_progress_meter": 0.1,
+    "learner_safety_correction_meter_per_second": 0.01,
 }
 
 
@@ -108,6 +109,10 @@ class RobotMatchEnv(gym.Env):
         reward -= REWARD["outside_physics_sample"] * (
             after["outside_checks"] - before["outside_checks"]
         )
+        reward -= REWARD["learner_safety_correction_meter_per_second"] * (
+            after["safety_correction"].get(name(self.key), 0)
+            - before["safety_correction"].get(name(self.key), 0)
+        )
         if m.current_owner:
             reward += REWARD["stable_possession_control_tick"] * (
                 1 if m.current_owner.team == team else -1
@@ -129,7 +134,18 @@ class RobotMatchEnv(gym.Env):
         return observation(m.world, self.key, m.memory), float(reward), done, False, {}
 
 
-def train(backend, output, seed, rounds=2, steps=32768, duration=45, decisions_only=False):
+def train(
+    backend,
+    output,
+    seed,
+    rounds=2,
+    steps=32768,
+    duration=45,
+    decisions_only=False,
+    categorical_decisions=False,
+):
+    if categorical_decisions and not decisions_only:
+        raise ValueError("Categorical decisions require frozen motor functions")
     out = Path(output)
     league_dir = out / f"seed{seed}"
     progress = league_dir / "league.json"
@@ -162,16 +178,27 @@ def train(backend, output, seed, rounds=2, steps=32768, duration=45, decisions_o
         stage.mkdir()
         training_seed = seed + generation * 101
         env = RobotMatchEnv(backend, history, history[-1], training_seed, duration)
+        options = {}
+        if categorical_decisions:
+            from .continuous_distribution import ContinuousDecisionPolicy
+
+            options["custom_objects"] = {"policy_class": ContinuousDecisionPolicy}
+        learning_rate = 1e-4 if categorical_decisions else 3e-6
         model = SelfPlayPPO.load(
-            history[-1]["path"], env=Monitor(env), device="cpu", learning_rate=3e-6, gamma=0.999
+            history[-1]["path"],
+            env=Monitor(env),
+            device="cpu",
+            learning_rate=learning_rate,
+            gamma=0.999,
+            **options,
         )
         model.set_random_seed(training_seed)
         if decisions_only:
             freeze_motion(model)
         model.prepare_anchor(x, training_seed, groups)
         model.anchor_optimizer = torch.optim.Adam(model.actor_parameters(), lr=3e-6)
-        model.actor_mse_limit = 3e-4
-        model.actor_delta_limit = 0.15
+        model.actor_mse_limit = 0.01 if categorical_decisions else 3e-4
+        model.actor_delta_limit = 0.8 if categorical_decisions else 0.15
         with torch.no_grad():
             model.policy.log_std.fill_(-5)
             model.policy.log_std[:7].fill_(-0.8)
@@ -225,9 +252,9 @@ def train(backend, output, seed, rounds=2, steps=32768, duration=45, decisions_o
             "teammate": history[-1],
             "accepted_updates": model.anchor_updates - model.anchor_rejections,
             "attempted_updates": model.anchor_updates,
-            "learning_rate": 3e-6,
-            "anchor_mse_limit": 3e-4,
-            "anchor_max_delta": 0.15,
+            "learning_rate": learning_rate,
+            "anchor_mse_limit": model.actor_mse_limit,
+            "anchor_max_delta": model.actor_delta_limit,
             "duration": duration,
             "training_seconds": time.monotonic() - started,
             "training_seed_range": [4300000, 4399999],
@@ -238,11 +265,14 @@ def train(backend, output, seed, rounds=2, steps=32768, duration=45, decisions_o
             "role_sampling": "shuffled cycles of all four robot/color assignments",
             "anchor_group_sizes": [len(g) for g in groups],
             "decisions_only": decisions_only,
+            "categorical_decisions": categorical_decisions,
+            "behavior_logit_scale": 3.0 if categorical_decisions else None,
             "motion_before": motion_before,
             "motion_after": motion_hash(model),
             "deterministic_mode_probe_changes": mode_changes,
             "mode_probe_rows": len(model.anchor_probe),
             "backend_contract": getattr(backend, "contract", "legacy_ordered_kicks"),
+            "safety_contract": getattr(backend, "safety_contract", None),
         }
         saved = save(model, stage / "policy.zip", metadata)
         write(stage / "training.json", metadata)

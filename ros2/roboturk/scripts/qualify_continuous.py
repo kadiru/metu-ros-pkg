@@ -51,7 +51,12 @@ def qualify(release):
             m["neural_inference_batches"] == {"blue": m["steps"], "yellow": m["steps"]}
             for m in raw["matches"]
         )
-        audited = AUDIT(path, panel["seed"], panel["count"])
+        expected_safety = protocol.get("runtime_action_projection", False)
+        assert raw.get("safety_contract") == protocol.get("safety_contract")
+        assert all(
+            m.get("safety_contract") == protocol.get("safety_contract") for m in raw["matches"]
+        )
+        audited = AUDIT(path, panel["seed"], panel["count"], expected_safety)
         panels[panel["name"]] = audited
         grouped[panel["training_seed"]].extend(raw["matches"])
         attacks[panel["training_seed"]].update(e["seed"] for e in audited["counterattacks"])

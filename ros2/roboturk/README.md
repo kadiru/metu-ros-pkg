@@ -5,9 +5,10 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 This is an initial implementation, not a competition-ready team. It provides six skill environments, interchangeable analytic/learned policies, a stateful team-play layer, ROS 2 messages/nodes and a Webots Supervisor backend. See [validation](docs/VALIDATION.md) for exactly what has run.
 
 **In progress:** continuous symmetric 2v2 with recovery, support, counterattacks
-and independent training seeds. [Current experiments and retained failures](policies/continuous_play_v1/README.md)
-include working native match infrastructure and policies still undergoing corrective
-training. This new milestone is not yet qualified. The latest qualified release follows.
+and independent training seeds. The [current hybrid experiment](policies/continuous_play_v2/README.md)
+combines neural behavior/motion policies with an explicit translation safety layer;
+all interventions are logged. [Unfiltered attempts and failures](policies/continuous_play_v1/README.md)
+remain available. This milestone is not yet qualified. The latest qualified release follows.
 
 The latest release replaces scripted tactical targets and handoffs with a **neural
 manager** that chooses when to pass, dribble or shoot, which robot acts, and where

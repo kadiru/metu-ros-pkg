@@ -1,0 +1,34 @@
+{
+  "started_at": "2026-11-20T02:49:22.127286-08:00",
+  "arguments": {
+    "webots": "../runtime/Webots-nightly.app/Contents/MacOS/webots",
+    "mode": "train",
+    "output": "runs/continuous-v1/league611-decisions-v2",
+    "checkpoint": null,
+    "opponent": null,
+    "freeze": null,
+    "seed": 611,
+    "episodes": 12,
+    "duration": 45.0,
+    "steps": 32768,
+    "epochs": 80,
+    "rounds": 2,
+    "decisions_only": true,
+    "mix": 0,
+    "timeout": 3600.0,
+    "render": false
+  },
+  "runtime_sha256": {
+    "src/roboturk_core/roboturk/continuous_features.py": "d4267acad3ce0e4ca6964debc6267a8ed44838890e506f025d1c96f5f30fa2c9",
+    "src/roboturk_core/roboturk/continuous_preflight.py": "03c5205750f505223c75e786a01f8d01b686fcd1691bb9ee8c0b4929dca0b421",
+    "src/roboturk_core/roboturk/continuous_training.py": "791141bb99fe04c4315855d48ec12ee359ef219274dcd10600ad4c885c6a3aef",
+    "src/roboturk_core/roboturk/continuous_selfplay.py": "b400aaba5c586f95c551e244a7a9cd5427a313e69a44a53d24c9170cbc6e7091",
+    "src/roboturk_core/roboturk/continuous.py": "779c4b3e4091c6a5381e67b3c269e40aa879c1c0729c4dfed72b8adf0de77970",
+    "src/roboturk_core/roboturk/continuous_teacher.py": "4b8fad6f917e4616d5bc852deeb3d12677a4aa5f2b1345bfeb12797ea0b75669",
+    "src/roboturk_core/roboturk/continuous_backend.py": "88cf8d54a9df97d493e42f7bef541b88c327bf6e21a8598e2e905bb5bb0d5b64",
+    "src/roboturk_ros/webots/controllers/roboturk_continuous/roboturk_continuous.py": "5c8a7f8cfbc4d40251a472e73ecc06fa03beca251b1abf23fdba8524e14a43a0",
+    "src/roboturk_ros/webots/controllers/roboturk_continuous/continuous_demo.py": "fb5b5c0c05ea68276b2858d376cb30482150c9a3862c637ac4594e707793158d",
+    "scripts/run_continuous.py": "c8b1e75300fa6369facc74663253ec497e29812726ce3f3fcacdf0c46ec7d26c",
+    "src/roboturk_ros/webots/worlds/ssl_continuous.wbt": "77692148fb5d55fa6ed780b1e5051a8eec7bad3e433b53adc0d9ba883a174b40"
+  }
+}

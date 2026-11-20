@@ -41,6 +41,8 @@ def stage(source, release, seed):
         assert update["choices_different_from_teammate_policy"] > 0
         assert update["steps"] == 32768 and update["backend"] == "webots_ideal_body_velocity"
         assert update["backend_contract"] == "roboturk.webots.closest_kicker.v1"
+        if update.get("categorical_decisions"):
+            assert update["decisions_only"] and update["behavior_logit_scale"] == 3
         if update["decisions_only"]:
             previous_model, updated_model = load(history[i - 1]["path"]), load(history[i]["path"])
             assert motion_hash(previous_model) == motion_hash(updated_model)
@@ -85,6 +87,20 @@ def freeze(release, protocol):
     gates = json.loads(protocol.read_text())
     assert gates["primary_seed"] == 611 and gates["training_seeds"] == [611, 622]
     selections = [json.loads((release / f"seed{s}/selection.json").read_text()) for s in (611, 622)]
+    if gates.get("runtime_action_projection"):
+        for selection in selections:
+            for generation in (1, 2):
+                update = json.loads(
+                    (
+                        release
+                        / "training"
+                        / f"seed{selection['seed']}"
+                        / f"round{generation}"
+                        / "training.json"
+                    ).read_text()
+                )
+                assert update["safety_contract"] == gates["safety_contract"]
+                assert update["categorical_decisions"] and update["decisions_only"]
     assert len({r["snapshots"][0]["actor_sha256"] for r in selections}) == 2
     assert sum(r["ppo_steps"] for r in selections) == 131072
     files = [p for p in ROOT.glob("src/**/*") if p.suffix in (".py", ".proto", ".wbt", ".ini")]

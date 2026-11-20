@@ -33,10 +33,14 @@ def main():
     p.add_argument("--epochs", type=int, default=80)
     p.add_argument("--rounds", type=int, default=2)
     p.add_argument("--decisions-only", action="store_true")
+    p.add_argument("--categorical-decisions", action="store_true")
+    p.add_argument("--velocity-safety", action="store_true")
     p.add_argument("--mix", type=float, default=0)
     p.add_argument("--timeout", type=float, default=3600)
     p.add_argument("--render", action="store_true")
     a = p.parse_args()
+    if a.categorical_decisions and not a.decisions_only:
+        p.error("Categorical decisions require --decisions-only")
     if a.mode == "demo" and not a.render:
         p.error("Native movie recording requires --render")
     if min(a.episodes, a.duration, a.steps, a.epochs, a.rounds, a.timeout) <= 0:
@@ -54,6 +58,8 @@ def main():
     if a.freeze:
         frozen_path = Path(a.freeze).resolve()
         frozen = json.loads(frozen_path.read_text())
+        if bool(frozen["protocol"].get("runtime_action_projection", False)) != a.velocity_safety:
+            p.error("Safety-layer setting differs from the frozen evaluation protocol")
         publication = json.loads((frozen_path.parent / "freeze-publication.json").read_text())
         if publication["freeze_sha256"] != hashlib.sha256(frozen_path.read_bytes()).hexdigest():
             p.error("Published freeze digest differs")

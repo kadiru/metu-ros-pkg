@@ -19,6 +19,7 @@ def main():
     p.add_argument("--seed", type=int, required=True)
     p.add_argument("--epochs", type=int, default=320)
     p.add_argument("--learning-rate", type=float, default=3e-4)
+    p.add_argument("--all-heads", action="store_true")
     args = p.parse_args()
     if args.learning_rate <= 0 or args.epochs <= 0:
         p.error("Positive learning rate and epoch count required")
@@ -28,6 +29,8 @@ def main():
     arrays, provenance = [], []
     for directory in args.dataset:
         receipt = json.loads((directory / "collection.json").read_text())
+        if args.all_heads:
+            assert receipt["motor_labels"] == "all_seven_counterfactual_skills"
         assert receipt["backend"] == "webots_ideal_body_velocity"
         assert all(4200000 <= m["seed"] < 4220000 for m in receipt["matches"])
         path = directory / "data.npz"
@@ -73,6 +76,7 @@ def main():
         args.epochs,
         str(args.source) if args.source else None,
         args.learning_rate,
+        args.all_heads,
     )
 
 

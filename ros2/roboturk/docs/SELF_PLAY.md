@@ -319,3 +319,13 @@ other tactics retain0.07m/0.05rad. Neural precise aim and kick decisions are unc
 This is a scripted-context correction, not a learned policy improvement. Terminal
 parking error, aim error and speed are now included in native evidence. Rerun the
 same100development cases with identical spacing-v2 actor parameters before PPO.
+
+
+With the corrected mobile setup transition, the unchanged spacing-v2 bundle
+completed100/100clean development games:47goals,44interceptions and9keeper saves,
+zero collisions or unforced errors. Both preceding100-case failure panels remain
+retained. Continue generation five with32768PPOsteps per role, the spacing-v2
+prepared bundle and all five historical snapshots. The preparation and tactical
+correction are separate from the forthcoming PPO result; do not attribute their
+gain to PPO. Complete cross-play under the new runtime and broader development
+before freezing the last completed generation. Reserved splits/gates unchanged.

@@ -104,3 +104,11 @@ Two timing preparations also failed: whole-actor refit8/10clean; frozen-motion
 kick-readout refit12/20clean(3goals,9stops,5invalid shots,2invalid passes,1loss).
 These are development failures, not qualified releases. Further training is in
 progress; reserved qualification and demo scenarios remain untouched.
+
+
+The wider-clearance preparation plus corrected mobile setup transition subsequently
+passed100/100development games:47goals,44interceptions,9keeper saves, zero collisions
+or unforced errors. This uses the original generation-four attackers and supervised
+refitting of the two defenders; the tactical correction is explicit. Generation five
+is now training all four actors against historical opponents. No reserved result or
+new demo is claimed yet. Full history and exact amendments are in SELF_PLAY.md.

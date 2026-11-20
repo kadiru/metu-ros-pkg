@@ -1,0 +1,202 @@
+{
+  "generation": 2,
+  "role": "manager",
+  "steps": 32768,
+  "actor_before": "e86edb4152a90eb7ac956eee3adba0aecdc58dc66aac6d0a7a536ab2cdc4a487",
+  "actor_after": "9a7d1c2e2dbc519e55cff407cb3753d2bf3f31cbf31ac984bbc249eb124ffd09",
+  "accepted_updates": 32,
+  "rejected_updates": 0,
+  "before": {
+    "transfer": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/round2/manager/before/transfer.zip",
+      "sha256": "63b4e41b56cdf7f5be89cace5ea9a8676fe0a54636b70a095295bf52569810c8",
+      "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+    },
+    "finish": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/round2/manager/before/finish.zip",
+      "sha256": "5a6f6c994c911ec7898ed7813ecf656709db9650971d48a970a43119de36fa72",
+      "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+    },
+    "defender": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/round2/manager/before/defender.zip",
+      "sha256": "d2689a31bc2b4562caaae1899d2486cd3f502b4fea235b59a806cb98001622dc",
+      "actor_sha256": "cae99185c28c49f4979e8b693bd94fcd9bfe64eea6acc3ee373bc3e86afe8d5b"
+    },
+    "keeper": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/round2/manager/before/keeper.zip",
+      "sha256": "035563621b554485e02294f029f442fc11ead502618d843eb5ec584355337769",
+      "actor_sha256": "c9e6bd5388b93a0932e0d983a509effde1528e4082167f98ad0b90355cf99319"
+    },
+    "manager": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/round2/manager/before/manager.zip",
+      "sha256": "5312e89a6464adfb8b5d32d7ecab4765d9ddc7ef6c914afad58ae53f64b11b04",
+      "actor_sha256": "e86edb4152a90eb7ac956eee3adba0aecdc58dc66aac6d0a7a536ab2cdc4a487"
+    }
+  },
+  "after": {
+    "transfer": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/round2/manager/transfer.zip",
+      "sha256": "18b66d774e38cd544f8206b408517f36ded9699feadead24f0feec723c4a7701",
+      "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+    },
+    "finish": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/round2/manager/finish.zip",
+      "sha256": "674a5e141b228ac12c68daffdcb535a102b01cdbdf81d1afabf10782e4d4a971",
+      "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+    },
+    "defender": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/round2/manager/defender.zip",
+      "sha256": "9f275c10a0f3b331a55e5a0137e7212bc6477f81b5ac063ad46491eeef150938",
+      "actor_sha256": "cae99185c28c49f4979e8b693bd94fcd9bfe64eea6acc3ee373bc3e86afe8d5b"
+    },
+    "keeper": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/round2/manager/keeper.zip",
+      "sha256": "f553b39637f7aa5c3ac6d5632ca027cde883c663bb840576f174fbc5c4b1d9bc",
+      "actor_sha256": "c9e6bd5388b93a0932e0d983a509effde1528e4082167f98ad0b90355cf99319"
+    },
+    "manager": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/round2/manager/manager.zip",
+      "sha256": "3ecba688dc88efecc7312eed2e3906f68b89758a8f00be7bb2b421261d7afe3a",
+      "actor_sha256": "9a7d1c2e2dbc519e55cff407cb3753d2bf3f31cbf31ac984bbc249eb124ffd09"
+    }
+  },
+  "historical_pool": [
+    {
+      "transfer": {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/flank-prepared/transfer.zip",
+        "sha256": "2ae4b6907bd23dcf2e158a44930232c145fde928f183d0f3a4fae21d771cd2cd",
+        "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+      },
+      "finish": {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/flank-prepared/finish.zip",
+        "sha256": "7a393fb9f7ceda3ded0f893ba1b0fdfb53041ffef6bae8fb300e5230c3c4f599",
+        "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+      },
+      "defender": {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/flank-prepared/defender.zip",
+        "sha256": "074bd7e20cb6dda47ffffd69a7ae5a80678e8055ee910ae0b66b086b62309eec",
+        "actor_sha256": "b7b7c35a9c944c25a87da3e30759cbc17d0fd2385e4646f271df11cc9ab4f175"
+      },
+      "keeper": {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/flank-prepared/keeper.zip",
+        "sha256": "6dcc16c454e00f30b3bb7268c6dd8bb444211b1e5656c3b7eb33c20a83dc9554",
+        "actor_sha256": "969bc8dfeaef939b6bf12d0063d3b34399765deb80bcb400af4d9bfd441100c6"
+      },
+      "manager": {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/flank-prepared/manager.zip",
+        "sha256": "d5c7e68ab5f43ce45144cd3cccba94e54b1e023620aa4e4702ee1a84acba1b54",
+        "actor_sha256": "e8a7e04158197b06c366e6a848a26ae92ddd5eb6522114d198372067a5faab73"
+      }
+    },
+    {
+      "transfer": {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/round1/snapshot/transfer.zip",
+        "sha256": "0f46915abda5c1bcd7d012c1eac91a37c03e8bcaa0d98cbf97367cc2cda5565a",
+        "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+      },
+      "finish": {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/round1/snapshot/finish.zip",
+        "sha256": "652667a44fcf1be069f0cdd178e32df594ea0eb080435695f521288a9276da24",
+        "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+      },
+      "defender": {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/round1/snapshot/defender.zip",
+        "sha256": "d19a48f1e785fbfb5704a3c481d84cd63d9ffb15777070d3bb8a98125c8205c2",
+        "actor_sha256": "661550711505b8c422376b4fa30637c07ca5c3d016b3ab5852488ea2bf04e603"
+      },
+      "keeper": {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/round1/snapshot/keeper.zip",
+        "sha256": "b6c6dbd6c07d90161554757f45dcb70e688f2b603626dfeb3ae9188c0f12c26d",
+        "actor_sha256": "2d27ed53556c6e2b1fb98ca9fe1e834a8d09cd02de474a6bde7a68beaaa84556"
+      },
+      "manager": {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v2/round1/snapshot/manager.zip",
+        "sha256": "89eaa2d3641a13c71d1f2e789f6ba7bbb8a7225f5bda94c7a5e61ab13693c7c6",
+        "actor_sha256": "e86edb4152a90eb7ac956eee3adba0aecdc58dc66aac6d0a7a536ab2cdc4a487"
+      }
+    }
+  ],
+  "complete_rollouts": 113,
+  "reset_count": 114,
+  "seed": 551,
+  "settings": {
+    "learning_rate": 0.0001,
+    "mse_limit": 0.02,
+    "delta_limit": 2.0,
+    "choice_log_std": -1.2,
+    "target_log_std": -8.0,
+    "gate_log_std": -1.5,
+    "preserve_geometry_regressor": true
+  },
+  "precision": true,
+  "geometry_regressor_before": "7e65d2f9c9855763a0b4bf7b7d6b480e1805c59a7606c18c8f400a3dc05ffe61",
+  "geometry_regressor_after": "7e65d2f9c9855763a0b4bf7b7d6b480e1805c59a7606c18c8f400a3dc05ffe61",
+  "initial_log_std": [
+    -1.2000000476837158,
+    -1.2000000476837158,
+    -1.2000000476837158,
+    -1.2000000476837158,
+    -1.2000000476837158,
+    -8.0,
+    -8.0,
+    -8.0,
+    -8.0,
+    -1.2000000476837158,
+    -1.5,
+    -1.2000000476837158
+  ],
+  "final_log_std": [
+    -1.2012401819229126,
+    -1.2005665302276611,
+    -1.2088149785995483,
+    -1.1955536603927612,
+    -1.2021147012710571,
+    -8.0,
+    -8.0,
+    -8.0,
+    -8.0,
+    -1.2001352310180664,
+    -1.50273597240448,
+    -1.1997928619384766
+  ],
+  "sampled_manager_choices": {
+    "(0, 0, True, True, True)": 217,
+    "(0, 0, False, True, True)": 2942,
+    "(0, 0, False, True, False)": 1870,
+    "(0, 0, True, True, False)": 76,
+    "(0, 0, False, False, False)": 5533,
+    "(1, 1, False, False, False)": 3375,
+    "(1, 0, False, False, False)": 5704,
+    "(1, 0, False, False, True)": 256,
+    "(0, 0, True, False, False)": 68,
+    "(0, 0, False, False, True)": 1995,
+    "(0, 0, True, False, True)": 77,
+    "(1, 1, False, False, True)": 79,
+    "(2, 1, False, True, False)": 223,
+    "(2, 1, False, False, False)": 86,
+    "(2, 1, False, False, True)": 103,
+    "(1, 0, True, True, False)": 8,
+    "(1, 0, False, True, False)": 142,
+    "(2, 0, False, True, False)": 602,
+    "(1, 0, True, False, True)": 10,
+    "(2, 0, False, False, True)": 583,
+    "(1, 0, True, False, False)": 27,
+    "(2, 0, False, False, False)": 378,
+    "(1, 0, True, True, True)": 25,
+    "(1, 0, False, True, True)": 5492,
+    "(2, 0, False, True, True)": 346,
+    "(0, 1, False, False, True)": 3,
+    "(0, 1, False, True, True)": 3,
+    "(1, 1, False, True, True)": 2396,
+    "(1, 1, False, True, False)": 53,
+    "(2, 1, False, True, True)": 61,
+    "(0, 1, False, True, False)": 1,
+    "(1, 1, True, True, False)": 2,
+    "(2, 0, True, False, False)": 4,
+    "(0, 1, False, False, False)": 24,
+    "(2, 0, True, True, False)": 1,
+    "(2, 0, True, True, True)": 3
+  },
+  "choices_different_from_starting_manager": 1149,
+  "seconds": 130.46988958399743
+}

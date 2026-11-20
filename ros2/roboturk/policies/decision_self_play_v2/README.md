@@ -1,35 +1,46 @@
-# Learned tactical decisions and self-play v2 — development
+# Learned tactical decisions and self-play v2 — evaluation in progress
 
-The v1 three-generation experiment failed development: G1 55/60clean, G2 53/60,
-G3 54/60. All 294,912native PPO steps, 288accepted updates, checkpoints and failures
-remain in decision_self_play_v1. No reserved cases were used.
+A neural manager chooses pass/receive, dribble or shoot, the acting robot,
+receiving and dribble targets, receiving flank, goal corner and when to retain or
+update a receiving point. The75-input/12-output v4 contract runs throughout the
+play. Frozen learned motion policies execute its decisions; no scripted tactical
+planner or reception-triggered handoff runs at inference. Both opponents retain
+full planar neural control.
 
-V2 keeps the same75-input/11-output neural inference contract. It starts from the
-v1 final defenders and restores the pre-PPO v3 manager after target-coordinate drift.
-The keeper receives supervised boundary-recovery labels derived from native
-observations; this coaching is explicit, with no runtime action projection.
-A60-game and120-game native development evaluation precede further self-play.
+The candidate completed two alternating self-play generations:196,608native Webots
+PPO steps and192accepted updates across manager, defender and keeper. The selected
+candidate is the last completed generation, not a weaker opponent pairing. The
+training audit verifies actor lineage, every reset/opponent-pool record, changed
+actors and exact preservation of the manager's geometry regressor. Discrete
+flank/behavior/owner/corner/update heads remain trainable.
 
-Planned next training: two fresh alternating PPO generations, all three roles,
-32,768steps per role. Manager PPO freezes its learned coordinate function while
-updating option, robot, corner and target-update head rows. All runtime choices
-and targets remain neural. No reliability or demo claim yet. The original unused
-reserved seed ranges and release gates remain in docs/LEARNED_DECISIONS.md.
+| Development panel | Goals | Defensive stops | Clean |
+|---|---:|---:|---:|
+| Factored-flank initialization,60games |28|32|60/60|
+| Initialization,120broader games |51|68|119/120|
+| Generation1,60games |30|29|59/60|
+| Generation2,60games |32|27|59/60|
+| Generation2,120broader games |47|70|117/120|
 
+The final broader panel has two ball-outs and one collision; ten stable receptions.
+The240-game extended panel, all retained candidate matchups and recording preflight
+are in progress. **No reserved qualification or new demonstration is claimed yet.**
+[Protocol and unchanged release gates](../../docs/LEARNED_DECISIONS.md),
+[training audit](training-audit.json), [generation2 outcomes](artifacts/round2/development.json).
 
-Boundary-coached baseline completed:56/60clean and110/120broader, no field exits.
-The broader run had41goals,69stops,six defender collisions,two timeouts,one loss and
-one ball-out. All records remain. Defender spacing coaching now runs before PPO,
-using derived relative closing-speed labels on native observations; no runtime
-avoidance override. The60/120development panels will be repeated and retained.
+Initialization is explicit:750native teacher/mixedDAgger collection episodes,
+176,011manager observations and780supervised manager epochs, including label/contract
+conversions. Keeper boundary coaching and defender relative-speed coaching used
+100supervised epochs each on native observations with derived labels. These are
+training contributions, with no runtime action projection. V1's failed three-generation
+league (294,912PPOsteps) is retained in [decision_self_play_v1](../decision_self_play_v1/README.md).
+Its defensive ancestors were retained and coached; its manager PPO updates were
+replaced by the earlier manager before v4 refitting. No isolated PPO improvement is
+claimed. All failed preparation panels, checkpoints and data provenance remain.
 
-
-Spacing preparation:53/60clean (zero collisions) and113/120clean (two collisions).
-Failed pass traces showed central receiving points during flank switches. Contractv4
-now factors receiving flank (new output11) from lateral magnitude (output6), preserving
-all coordinates and the75-input observation meaning. An explicit v3 migration,
-label conversion and120epoch refit are underway; no new PPO or reserved tests yet.
-Future PPO freezes the geometry regressor while learning flank/behavior/owner/corner/
-update decisions. All earlier v2 candidates and results remain.
-
-Factored-flank development:60/60clean (28goals,32stops), broader119/120clean (51goals,68stops,one ball-out), zero collisions/field exits. Broader midfield6goals/40,nine stable receptions. This is development only. Two fresh native PPO generations now run with seed487; qualification/demo remain untouched.
+Scope: an initial-possession two-attacker versus defender/keeper drill, both goal
+directions and blue IDs, three starting families. Native ground-truth Webots state,
+approximate body velocities, spring dribbler, velocity kicks and contact-stop
+predicates remain explicit. This is not full-match, calibrated hardware or a live
+ROS/Webots-graph qualification. ROS/core build checks are separate. Prior qualified
+micro skills and paper provenance remain in the repository.

@@ -59,6 +59,12 @@ def run(supervisor, backend, cfg, mode):
         bundle_path = os.environ.get("ROBOTURK_CHECKPOINT")
         if bundle_path:
             bundle = json.loads(Path(bundle_path).read_text())
+            # Webots may start controllers in their own directory. Published
+            # bundles deliberately use paths relative to the modern repo root.
+            bundle = {
+                role: {**entry, "path": str((root / entry["path"]).resolve())}
+                for role, entry in bundle.items()
+            }
             models = load(bundle, cfg)
         else:
             models = {r: load_model(p, r, cfg) for r, p in sources.items()}

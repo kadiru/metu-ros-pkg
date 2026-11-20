@@ -282,3 +282,11 @@ rows5–8), not the complete coordinate selection. Learned flank, update-gate an
 other tactical head rows may change, including choosing the opposite receiving side.
 Record and independently verify geometry-regressor hashes. The two-generation plan,
 training-only rewards, other settings and all reserved release gates remain unchanged.
+
+
+Before freeze, add a240-game extended development panel3203000–3203239 alongside
+the existing120-game broader panel and complete candidate cross-play matrix. This
+checks passing/reception coverage and error rates on more development cases before
+spending the reserved seeds. It does not replace the original reserved240/120/120
+panels or relax their gates. A three-case development movie at3202000–3202002 checks
+recorder layout/encoding before freezing; it is not the reserved demonstration.

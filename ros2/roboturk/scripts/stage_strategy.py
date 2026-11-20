@@ -26,7 +26,16 @@ def package(source):
     if receipt.exists():
         raise ValueError("Retain previous packaged attempt")
     files = list(source.rglob("*")) if source.is_dir() else []
-    for suffix in (".json", ".error.json", ".launch.json", ".log", ".mp4", ".movie.json"):
+    for suffix in (
+        ".json",
+        ".error.json",
+        ".launch.json",
+        ".log",
+        ".mp4",
+        ".movie.json",
+        ".audit.json",
+        ".inference.json",
+    ):
         p = source.with_suffix(suffix)
         if p.exists():
             files.append(p)

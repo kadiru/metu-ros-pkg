@@ -156,7 +156,18 @@ def train(backend, bank, out, initial, seed, rounds, steps, duration):
     out.mkdir(parents=True)
     initial = Path(initial)
     meta = json.loads(initial.with_suffix(".json").read_text())
-    dataset_paths = [Path(d["path"]) for d in meta["datasets"]]
+    dataset_paths = []
+    root = Path(__file__).resolve().parents[3]
+    for receipt in meta["datasets"]:
+        path = Path(receipt["path"])
+        if not path.is_file() and "/runs/strategy-v1/" in str(path):
+            path = (
+                root
+                / "policies/strategy_self_play_v1/preparation"
+                / str(path).split("/runs/strategy-v1/", 1)[1]
+            )
+        assert digest(path) == receipt["sha256"], "Training data changed"
+        dataset_paths.append(path)
     arrays = [np.load(p) for p in dataset_paths]
     x = np.concatenate([a["observations"] for a in arrays])
     y = np.concatenate([a["actions"] for a in arrays])

@@ -3,11 +3,13 @@
 
 import argparse
 from collections import Counter
+import hashlib
 import json
 from pathlib import Path
 import subprocess
 import sys
 from audit_strategy import audit
+from replay_strategy import replay
 
 ROOT = Path(__file__).resolve().parents[1]
 RELEASE = ROOT / "policies/strategy_self_play_v1"
@@ -101,10 +103,32 @@ def main():
         with output.with_suffix(".log").open("w") as log:
             subprocess.run(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, check=True)
         data = json.loads(output.with_suffix(".json").read_text())
+        assert (
+            data["control"] == "neural" and data["duration"] == protocol["native_duration_seconds"]
+        )
+        for receipt, path in zip(
+            data["selectors"], [model_map[panel["blue"]], model_map[panel["yellow"]]], strict=True
+        ):
+            assert receipt["sha256"] == hashlib.sha256(path.read_bytes()).hexdigest()
+            assert (
+                receipt["metadata_sha256"]
+                == hashlib.sha256(path.with_suffix(".json").read_bytes()).hexdigest()
+            )
+        assert all(
+            m["reason"] != "time" or m["steps"] == round(data["duration"] / 0.02)
+            for m in data["matches"]
+        )
         assert [m["seed"] for m in data["matches"]] == list(
             range(panel["seed"], panel["seed"] + panel["count"])
         )
         result = audit(output.with_suffix(".json"))
+        inference = replay(
+            output.with_suffix(".json"), model_map[panel["blue"]], model_map[panel["yellow"]]
+        )
+        output.with_suffix(".inference.json").write_text(json.dumps(inference, indent=2) + "\n")
+        assert data["motors"] == inference["motors"]
+        result["neural_inference_replay_passed"] = inference["passed"]
+        result["passed"] = result["passed"] and inference["passed"]
         output.with_suffix(".audit.json").write_text(json.dumps(result, indent=2) + "\n")
         records[panel["name"]] = data["matches"]
         audits[panel["name"]] = result

@@ -56,6 +56,9 @@ def main():
         )
         for rel, h in f["files"].items():
             assert hashlib.sha256((ROOT / rel).read_bytes()).hexdigest() == h, rel
+        assert (
+            hashlib.sha256(Path(a.webots).read_bytes()).hexdigest() == f["webots_executable_sha256"]
+        )
     env = dict(os.environ)
     env["PATH"] = str(Path(sys.executable).parent) + os.pathsep + env["PATH"]
     env["PYTHONPATH"] = str(ROOT / "src/roboturk_core") + os.pathsep + env.get("PYTHONPATH", "")

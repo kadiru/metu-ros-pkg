@@ -15,7 +15,7 @@ from .self_play import digest
 from .self_play_training import actor_hash, write
 
 
-def coordinate_hash(model):
+def geometry_regressor_hash(model):
     h = hashlib.sha256()
     for p in model.policy.mlp_extractor.policy_net.parameters():
         h.update(p.detach().cpu().numpy().tobytes())
@@ -24,7 +24,7 @@ def coordinate_hash(model):
     return h.hexdigest()
 
 
-def preserve_coordinates(model):
+def preserve_geometry_regressor(model):
     """Only option, owner, corner and target-update head rows may learn."""
     model.policy.mlp_extractor.policy_net.requires_grad_(False)
     for p in (model.policy.action_net.weight, model.policy.action_net.bias, model.policy.log_std):
@@ -34,7 +34,7 @@ def preserve_coordinates(model):
         for value in model.policy.optimizer.state.get(p, {}).values():
             if isinstance(value, torch.Tensor) and value.shape == p.shape:
                 value[5:9].zero_()
-    return coordinate_hash(model)
+    return geometry_regressor_hash(model)
 
 
 def boundary_labels(observations, actions, cfg, margin=0.20):

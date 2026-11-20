@@ -185,3 +185,17 @@ def test_empty_retrigger_is_counted_without_overriding_actions(monkeypatch, alre
     assert info["empty_shot_retriggers"] == int(already_shot)
     assert (info["reason"] == "invalid_kick") == (not already_shot)
     assert done == (not already_shot)
+
+
+def test_flank_choice_does_not_average_receiving_targets():
+    e, _ = env()
+    a = encode(Decision(0, 0, (0.5, 2.1), (3, 0), (4.5, 0.43)), e.world, e.cfg)
+    a[6] = 0.75
+    for side in (-0.01, 0.01):
+        a[11] = side
+        e.play.commands(e.world, a)
+        assert e.play.decision.receive[1] == pytest.approx(
+            e.world.attack_sign * np.sign(side) * 2.1
+        )
+        assert e.play.previous[6] == pytest.approx(np.sign(side) * 0.75)
+        assert e.play.observation(e.world).shape == (75,)

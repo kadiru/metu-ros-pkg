@@ -33,6 +33,10 @@ def run(supervisor, backend, cfg, mode):
         from roboturk.decision_panel import cross_play
 
         cross_play(backend, cfg, output, count, seed)
+    elif mode == "decision-flank":
+        from roboturk.decision_flank import prepare
+
+        prepare(backend, cfg, output, seed)
     elif mode == "decision-spacing":
         from roboturk.decision_precision import prepare_spacing
 

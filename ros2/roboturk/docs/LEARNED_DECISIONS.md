@@ -255,3 +255,28 @@ Because exact coordinate weights are now frozen, tactical PPO may use a wider
 choice-head trust region (MSE0.02,maximumdelta2.0), allowing discrete behavior/corner
 changes without centimeter-scale target drift. This replaces only the precision-mode
 manager trust limits; all other new-run settings and reserved gates remain unchanged.
+
+
+## Development amendment: learned flank and magnitude, contract v4
+
+Spacing coaching reduced broad collisions6→2, but produced53/60and113/120clean.
+Failed passing traces repeatedly committed receiving points near the center during
+a flank switch (examples3200028:y0.02m,3200025:y0.29m,3200049:y−0.17m). These are
+retained failures, not evidence of reliability. Separate the bimodal side choice
+from the continuous distance: v4 has75inputs/12outputs. Output6 is absolute lateral
+magnitude; newoutput11 is a learned flank score. Its sign selects the side. All field
+coordinates remain representable; no analytic flank choice, corridor restriction
+or scripted handoff is introduced. Observation memory keeps the signed executed
+ycoordinate, so the75-input meaning is unchanged.
+
+The v3 manager migrates exactly before fitting: old rows0–10 are copied; newrow11
+copies oldrow6, initially reproducing identical targets. Convert existing action
+labels to magnitude plus flank, preserve original dataset bytes, then refit120epochs
+with explicit flank-switch sampling. Evaluate60/120development before PPO. This
+is supervised preparation, separate from self-play; no reserved case is used.
+
+In subsequent precision PPO, the frozen object is the geometry regressor (trunk and
+rows5–8), not the complete coordinate selection. Learned flank, update-gate and
+other tactical head rows may change, including choosing the opposite receiving side.
+Record and independently verify geometry-regressor hashes. The two-generation plan,
+training-only rewards, other settings and all reserved release gates remain unchanged.

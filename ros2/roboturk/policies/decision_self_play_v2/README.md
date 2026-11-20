@@ -22,3 +22,12 @@ The broader run had41goals,69stops,six defender collisions,two timeouts,one loss
 one ball-out. All records remain. Defender spacing coaching now runs before PPO,
 using derived relative closing-speed labels on native observations; no runtime
 avoidance override. The60/120development panels will be repeated and retained.
+
+
+Spacing preparation:53/60clean (zero collisions) and113/120clean (two collisions).
+Failed pass traces showed central receiving points during flank switches. Contractv4
+now factors receiving flank (new output11) from lateral magnitude (output6), preserving
+all coordinates and the75-input observation meaning. An explicit v3 migration,
+label conversion and120epoch refit are underway; no new PPO or reserved tests yet.
+Future PPO freezes the geometry regressor while learning flank/behavior/owner/corner/
+update decisions. All earlier v2 candidates and results remain.

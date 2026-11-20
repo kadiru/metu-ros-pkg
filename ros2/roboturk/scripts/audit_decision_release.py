@@ -81,17 +81,17 @@ def stage(source, release):
             raise ValueError("Manager did not explore decisions")
         if role == "manager" and row.get("precision"):
             from stable_baselines3 import PPO
-            from roboturk.decision_precision import coordinate_hash
+            from roboturk.decision_precision import geometry_regressor_hash
 
             hashes = [
-                coordinate_hash(PPO.load(row[k][role]["path"], device="cpu"))
+                geometry_regressor_hash(PPO.load(row[k][role]["path"], device="cpu"))
                 for k in ("before", "after")
             ]
             if hashes[0] != hashes[1] or hashes != [
-                row["coordinate_function_before"],
-                row["coordinate_function_after"],
+                row["geometry_regressor_before"],
+                row["geometry_regressor_after"],
             ]:
-                raise ValueError("Learned coordinate function changed during tactical PPO")
+                raise ValueError("Learned geometry regressor changed during tactical PPO")
         if (
             row["steps"] != 32768
             or len(events) != 32

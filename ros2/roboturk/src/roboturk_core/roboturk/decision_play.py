@@ -26,9 +26,9 @@ from .self_play import (
     mobile_transfer_commands,
 )
 
-CONTRACT = "roboturk.tactical_decision.v3"
+CONTRACT = "roboturk.tactical_decision.v4"
 OBSERVATIONS = 75
-ACTIONS = 11
+ACTIONS = 12
 OPTIONS = ("pass", "dribble", "shoot")
 
 
@@ -45,13 +45,13 @@ class Decision:
 def decode(action, world, cfg):
     a = np.asarray(action, np.float32)
     if a.shape != (ACTIONS,) or not np.isfinite(a).all():
-        raise ValueError("Expected eleven finite tactical outputs")
+        raise ValueError("Expected twelve finite tactical outputs")
     a = np.clip(a, -1, 1)
     sx, sy, sign = cfg.length / 2 - 0.2, cfg.width / 2 - 0.2, world.attack_sign
     return Decision(
         int(np.argmax(a[:3])),
         int(np.argmax(a[3:5])),
-        (sign * float(a[5]) * sx, sign * float(a[6]) * sy),
+        (sign * float(a[5]) * sx, sign * (1 if a[11] >= 0 else -1) * abs(float(a[6])) * sy),
         (sign * float(a[7]) * sx, sign * float(a[8]) * sy),
         (sign * cfg.length / 2, sign * (1 if a[9] >= 0 else -1) * (cfg.goal_width / 2 - 0.07)),
         bool(a[10] > 0),
@@ -64,12 +64,13 @@ def encode(decision, world, cfg):
     a[d.option] = a[3 + d.owner] = 0.8
     a[5:9] = [
         sign * d.receive[0] / (cfg.length / 2 - 0.2),
-        sign * d.receive[1] / (cfg.width / 2 - 0.2),
+        abs(d.receive[1]) / (cfg.width / 2 - 0.2),
         sign * d.parking[0] / (cfg.length / 2 - 0.2),
         sign * d.parking[1] / (cfg.width / 2 - 0.2),
     ]
     a[9] = sign * d.aim[1] / (cfg.goal_width / 2 - 0.06)
     a[10] = 0.8 if d.receive_update else -0.8
+    a[11] = 0.8 if sign * d.receive[1] >= 0 else -0.8
     return a
 
 
@@ -180,6 +181,8 @@ class DecisionPlay:
         # Remember the executed option/robot/target, not uncertain raw score margins.
         # This is action encoding; it does not choose a behavior or perform a handoff.
         self.previous = encode(self.decision, world, self.cfg)
+        # Keep the signed executed coordinate in the unchanged observation contract.
+        self.previous[6] = world.attack_sign * self.decision.receive[1] / (self.cfg.width / 2 - 0.2)
         self.calls += 1
         d = self.decision
         key, other = self.keys[d.owner], self.keys[1 - d.owner]

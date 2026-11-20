@@ -7,8 +7,8 @@ torch = pytest.importorskip("torch")
 pytest.importorskip("stable_baselines3")
 
 
-def test_tactical_gradient_updates_preserve_coordinate_function_with_adam_momentum():
-    from roboturk.decision_precision import preserve_coordinates, coordinate_hash
+def test_tactical_gradient_updates_preserve_geometry_regressor_with_adam_momentum():
+    from roboturk.decision_precision import preserve_geometry_regressor, geometry_regressor_hash
     from roboturk.decision_training import new_manager
 
     torch.set_num_threads(1)
@@ -24,11 +24,11 @@ def test_tactical_gradient_updates_preserve_coordinate_function_with_adam_moment
 
     update()  # Populate Adam momentum before applying the safeguard.
     before = model.policy.get_distribution(x).distribution.mean.detach().clone()
-    original = preserve_coordinates(model)
+    original = preserve_geometry_regressor(model)
     for _ in range(3):
         update()
     after = model.policy.get_distribution(x).distribution.mean.detach()
-    assert original == coordinate_hash(model)
+    assert original == geometry_regressor_hash(model)
     assert torch.equal(before[:, 5:9], after[:, 5:9])
     assert not torch.equal(before[:, :5], after[:, :5])
 

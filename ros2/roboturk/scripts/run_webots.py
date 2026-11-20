@@ -26,6 +26,7 @@ def main():
             "decision-train-precision",
             "decision-repair",
             "decision-spacing",
+            "decision-flank",
             "decision-evaluate",
             "decision-demo",
             "selfplay-probe",

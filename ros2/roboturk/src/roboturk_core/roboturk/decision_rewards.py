@@ -19,7 +19,7 @@ def training_settings(role, precision=False):
                 "choice_log_std": -1.2,
                 "target_log_std": -8.0,
                 "gate_log_std": -1.5,
-                "preserve_coordinate_function": True,
+                "preserve_geometry_regressor": True,
             }
         if role in ("defender", "keeper"):
             return {

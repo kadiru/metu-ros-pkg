@@ -187,8 +187,10 @@ def fit(model, x, y, epochs, seed):
         | (np.sign(previous[:, 9]) != np.sign(y[:, 9]))
     )
     groups += [np.flatnonzero(reset), np.flatnonzero(switch)]
-    if ACTIONS == 11:
+    if ACTIONS >= 11:
         groups += [np.flatnonzero(y[:, 10] > 0)]
+    if ACTIONS == 12:
+        groups += [np.flatnonzero(np.sign(previous[:, 6]) != np.sign(y[:, 11]))]
     groups = [g for g in groups if len(g)]
     optimizer = torch.optim.Adam(model.actor_parameters(), lr=3e-4)
     losses = []
@@ -198,7 +200,7 @@ def fit(model, x, y, epochs, seed):
         for batch in np.array_split(ids, len(ids) // 512):
             pred = model.policy.get_distribution(inputs[batch]).distribution.mean
             # Targets need centimeter-scale accuracy; discrete logits use wide margins.
-            weight = torch.tensor([1, 1, 1, 1, 1, 12, 12, 12, 12, 4, 2], dtype=torch.float32)
+            weight = torch.tensor([1, 1, 1, 1, 1, 12, 12, 12, 12, 4, 2, 2], dtype=torch.float32)
             loss = ((pred - targets[batch]) ** 2 * weight).mean()
             optimizer.zero_grad()
             loss.backward()
@@ -301,12 +303,20 @@ class DecisionMatch(gym.Env):
     def step(self, action):
         if self.role == "manager":
             baseline = self.current["manager"].predict(self.observation(), deterministic=True)[0]
-            choice = (int(np.argmax(action[:3])), int(np.argmax(action[3:5])), bool(action[10] > 0))
+            choice = (
+                int(np.argmax(action[:3])),
+                int(np.argmax(action[3:5])),
+                bool(action[10] > 0),
+                bool(action[9] >= 0),
+                bool(action[11] >= 0),
+            )
             self.sampled_choices[str(choice)] += 1
             self.choice_disagreements += choice != (
                 int(np.argmax(baseline[:3])),
                 int(np.argmax(baseline[3:5])),
                 bool(baseline[10] > 0),
+                bool(baseline[9] >= 0),
+                bool(baseline[11] >= 0),
             )
         if self.role != "manager":
             self.carrier.value = np.asarray(action, np.float32)
@@ -441,14 +451,15 @@ def train(backend, cfg, output, rounds=3, steps=32768, seed=427, precision=False
                     if precision:
                         m.policy.log_std[9].fill_(settings["choice_log_std"])
                         m.policy.log_std[10].fill_(settings["gate_log_std"])
+                        m.policy.log_std[11].fill_(settings["choice_log_std"])
                 else:
                     m.policy.log_std.fill_(settings["motion_log_std"])
             initial_log_std = m.policy.log_std.detach().tolist()
             coordinate_before = None
             if precision and role == "manager":
-                from .decision_precision import preserve_coordinates, coordinate_hash
+                from .decision_precision import preserve_geometry_regressor, geometry_regressor_hash
 
-                coordinate_before = preserve_coordinates(m)
+                coordinate_before = preserve_geometry_regressor(m)
             data = np.load(output / (role + "-data.npz"))
             x = data["observations"]
             rng = np.random.default_rng(seed + generation)
@@ -494,8 +505,10 @@ def train(backend, cfg, output, rounds=3, steps=32768, seed=427, precision=False
                 "seed": role_seed,
                 "settings": settings,
                 "precision": precision,
-                "coordinate_function_before": coordinate_before,
-                "coordinate_function_after": coordinate_hash(m) if coordinate_before else None,
+                "geometry_regressor_before": coordinate_before,
+                "geometry_regressor_after": geometry_regressor_hash(m)
+                if coordinate_before
+                else None,
                 "initial_log_std": initial_log_std,
                 "final_log_std": m.policy.log_std.detach().tolist(),
                 "sampled_manager_choices": dict(env.sampled_choices),
@@ -508,8 +521,8 @@ def train(backend, cfg, output, rounds=3, steps=32768, seed=427, precision=False
             write(receipt, row)
             if old_hash == row["actor_after"]:
                 raise RuntimeError("No accepted actor change; retained failed run")
-            if coordinate_before and coordinate_before != row["coordinate_function_after"]:
-                raise RuntimeError("Coordinate function changed; retained failed run")
+            if coordinate_before and coordinate_before != row["geometry_regressor_after"]:
+                raise RuntimeError("Geometry regressor changed; retained failed run")
             league["updates"].append(row)
             print(f"Generation{generation} {role}: {row['accepted_updates']} accepted", flush=True)
         bundle = save(

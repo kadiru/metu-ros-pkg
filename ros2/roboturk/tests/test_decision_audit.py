@@ -75,3 +75,22 @@ def test_invalid_shots_remain_failures_instead_of_disappearing(evidence):
     e["is_success"] = False
     goal, stop, _, _ = audit.validate_episode(e, cfg, data["models"])
     assert not goal and not stop
+
+
+@pytest.mark.parametrize("tamper", ["missing_gate", "unrequested_target_change"])
+def test_learned_target_memory_evidence_rejects_tampering(evidence, tamper):
+    audit, data, cfg = evidence
+    root = Path(__file__).resolve().parents[1]
+    raw = json.loads(
+        (root / "policies/decision_self_play_v1/artifacts/prepared-v3-development.json").read_text()
+    )
+    e = deepcopy(raw["episodes"][0])
+    models = {r: {"sha256": e[r + "_checkpoint_sha256"]} for r in ("defender", "keeper")}
+    audit.validate_episode(e, cfg, models, require_gate=True)
+    if tamper == "missing_gate":
+        del e["decisions"][0]["receive_update"]
+    else:
+        t = next(t for t in e["decisions"][1:] if not t["receive_update"])
+        t["receive"][0] += 0.1
+    with pytest.raises(ValueError, match="target update|without learned update"):
+        audit.validate_episode(e, cfg, models, require_gate=True)

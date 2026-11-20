@@ -1,5 +1,57 @@
 # Validation — November 19, 2026 (America/Los_Angeles)
 
+## Qualified learned tactical decisions and self-play
+
+Scripted tactical targets and reception-triggered handoffs are replaced by a
+75-input/12-output neural manager. Imitation/DAgger supplies initialization and
+learned coordinate regression. Two self-play generations update its decision
+readouts and both planar neural opponents: 196,608 native PPO steps, 192 accepted
+updates. Low-level motion actors and the coordinate regressor remain frozen during
+this PPO stage. No isolated PPO benefit is claimed.
+
+| Reserved panel | Goals | Defensive stops | Clean | Collisions | Unforced |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Final attackers / final defense | 107 | 126 | **233/240** | 2 | 5 |
+| Final attackers / initial defense | 65 | 53 | **118/120** | 0 | 2 |
+| Initial attackers / final defense | 60 | 57 | **117/120** | 1 | 2 |
+
+All gates passed after models/runtime were published at
+[6906019](https://github.com/kadiru/metu-ros-pkg/commit/690601957abde5cd40980290288a4806c198db26).
+The final pair's seven failures are two collisions, four ball-outs and one possession
+loss. Clean outcomes include 41 interceptions and 85 keeper saves. Final clean
+Wilson 95% interval: 94.10–98.58%; goal interval: 38.43–50.91%. Gates use point estimates.
+Every outcome is retained; there was no reserved-case tuning.
+
+The final panel contains 80 actual passes, 35 stable receptions, 114 controlled-carry
+episodes, 192 shots and 91 goals without a prior pass. Each family passed its
+clean/goal gates. All 62,767 manager decisions and both opponents' continuous
+calls/physics checks were audited, along with physical kick/reception, whole-ball
+goals, target-update gates and immutable hashes. The manager changed acting robots
+in 37 episodes. No teacher planner or scripted handoff runs in deployed inference.
+
+Fresh demo: **9/9 clean**, five goals, two interceptions and two saves. The
+[45.6-second native Webots movie](../media/learned-decisions-self-play-demo.mp4)
+retains all 1,140 frames at 1280×720/25 fps. Episode 3 (6.84–18.64 s) includes the
+complete learned pass/receive/handoff/dribble/shot sequence. Both video decodes,
+timing/frame counts and all terminal frames passed QA; native edge-encoding warnings
+are retained in provenance. No episodes or timing were edited.
+
+All 270 development cross-play games are retained, plus narrower/broader failures
+and the failed three-generation v1 league. Final broader development was 117/120;
+extended development 235/240. Passing reserved gates does not erase these failures.
+
+Local checks: 148 tests passed, one ROS-only module skipped, Ruff clean. Core and
+ROS CI passed for the exact frozen head in both PR and push workflows. This uses
+the native Supervisor, not a complete live ROS graph. Scope remains approximate
+ground-truth initial-possession 2v2 with contact-based stops, fixed kick speeds,
+three starting families and frozen motion skills; full-match/hardware behavior is
+not established.
+
+[Model card and all raw audits](../policies/decision_self_play_v2/README.md) ·
+[Video provenance](../policies/decision_self_play_v2/demo-video.json) ·
+[Protocol and replay](LEARNED_DECISIONS.md).
+
+
 ## Qualified mobile defense and alternating self-play
 
 Five generations completed 655,360 native PPO steps across four roles, with

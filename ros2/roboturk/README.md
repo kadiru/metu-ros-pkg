@@ -4,7 +4,32 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 This is an initial implementation, not a competition-ready team. It provides six skill environments, interchangeable analytic/learned policies, a stateful team-play layer, ROS 2 messages/nodes and a Webots Supervisor backend. See [validation](docs/VALIDATION.md) for exactly what has run.
 
-The latest release gives the neural defender and keeper wider planar movement and
+The latest release replaces scripted tactical targets and handoffs with a **neural
+manager** that chooses when to pass, dribble or shoot, which robot acts, and where
+to receive/dribble/aim. Two alternating self-play generations trained the manager,
+defender and keeper for 196,608 native PPO steps; learned motion skills stay frozen.
+
+All reserved panels passed: **233/240**, **118/120** and **117/120** clean outcomes.
+The final pair produced **107 goals, 126 defensive stops and seven failures**.
+Clean includes legitimate defensive stops, not only attacker wins.
+[Model card, checkpoints and every outcome](policies/decision_self_play_v2/README.md) ·
+[Architecture, training and replay](docs/LEARNED_DECISIONS.md).
+
+The [fresh 45.6-second Webots demo](media/learned-decisions-self-play-demo.mp4) retains
+all nine consecutive games: five goals, two interceptions and two saves. Episode 3
+(starting 6.84 s) shows learned passing, receiver handoff, dribbling and scoring.
+
+[![Actual learned receiver shot in Webots](media/learned-decisions-self-play-preview.jpg)](media/learned-decisions-self-play-demo.mp4)
+
+Initialization used imitation/DAgger and supervised defensive coaching. Self-play
+updates decision readouts and opponents while preserving learned coordinate
+regression and motion skills; no isolated PPO gain is established. This remains an
+approximate ground-truth, initial-possession 2v2 drill, with live ROS graph and
+hardware qualification still separate.
+
+## Previous mobile self-play release
+
+The previous release gives the neural defender and keeper wider planar movement and
 trains both sides through **five generations of alternating self-play** (655,360
 PPO steps). The final pair produced **194/200 clean reserved outcomes**: 78 goals,
 100 defender interceptions and 16 keeper saves. Six failures remain documented.

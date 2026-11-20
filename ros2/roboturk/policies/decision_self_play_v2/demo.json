@@ -1,0 +1,5180 @@
+{
+  "episodes": [
+    {
+      "seed": 3400000,
+      "family": "advanced",
+      "attack_sign": -1,
+      "initial_holder_id": 1,
+      "steps": 257,
+      "elapsed_seconds": 5.14,
+      "reason": "keeper_save",
+      "is_success": false,
+      "manager_calls": 257,
+      "option_counts": {
+        "dribble": 242,
+        "shoot": 15
+      },
+      "option_changes": 7,
+      "owner_changes": 0,
+      "controlled_carry": [
+        1.9421686904366515,
+        0.0
+      ],
+      "stable_receptions": 0,
+      "reception_events": [],
+      "possession_checks": 996,
+      "lost_possession_checks": 0,
+      "empty_shot_retriggers": 0,
+      "events": [
+        {
+          "type": "shoot",
+          "owner": 0,
+          "step": 250,
+          "time": 4.98,
+          "ball": [
+            -3.1176378040578614,
+            0.0262746420547808
+          ],
+          "speed": 3.5,
+          "goal_distance": 1.382611875250997,
+          "held": true,
+          "decision_owner": 0
+        }
+      ],
+      "decisions": [
+        {
+          "step": 0,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.153307259082794,
+            -0.00043918261071667074
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": true
+        },
+        {
+          "step": 10,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.1545449316501615,
+            -0.0006634721416048705
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 20,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.154356551170349,
+            -0.0007015156792476773
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 30,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.1541868805885316,
+            -0.0007250707363709807
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 40,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.1557395458221436,
+            -0.0007045461563393473
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 50,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.1558769226074217,
+            -0.0006360661587677895
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 60,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.155774402618408,
+            -0.0006123099417891353
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 70,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.155986362695694,
+            -0.0006235064414795488
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 80,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.1560988783836366,
+            -0.0006175092130433768
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 90,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.15582412481308,
+            -0.0006149638502392918
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 100,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.1550788044929505,
+            -0.000610109936678782
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 110,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.154068982601166,
+            -0.0006002385169267654
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 120,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.153307259082794,
+            -0.0005982907256111502
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 130,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.152309226989746,
+            -0.0005987982905935495
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 140,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.1508360147476195,
+            -0.0005955668981187045
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 150,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.1493856132030484,
+            -0.000598288036417216
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 160,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.148379635810852,
+            -0.0006181619130074977
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 170,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.147270882129669,
+            -0.0006448081578128039
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 180,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.145372724533081,
+            -0.0006730417197104543
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 190,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.1431875109672545,
+            -0.0007129729492589831
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 200,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.143129330873489,
+            -0.0007614591158926487
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 210,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.1453178763389587,
+            -0.0008192484267055988
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 220,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.142749238014221,
+            -0.0008920836960896849
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 230,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.139303284883499,
+            -0.000980923417955637
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 238,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.1377975225448607,
+            -0.0008514478569850325
+          ],
+          "aim": [
+            -4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 239,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.1488455891609193,
+            -0.0009862023871392012
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 240,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.1600487172603606,
+            -0.0011182644637301564
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 241,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.1595420122146605,
+            -0.0011127019068226218
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 244,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.1490406334400176,
+            -0.0008875873638316988
+          ],
+          "aim": [
+            -4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 245,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.1514075636863708,
+            -0.0009912336245179176
+          ],
+          "aim": [
+            -4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 246,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.147756314277649,
+            -0.0009610696695744991
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 247,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.160160720348358,
+            -0.0010184381622821092
+          ],
+          "aim": [
+            -4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 250,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            0.002985530253499746,
+            2.3492405176162716
+          ],
+          "parking": [
+            -3.1453691363334655,
+            -0.0011595779797062278
+          ],
+          "aim": [
+            -4.5,
+            -0.43
+          ],
+          "receive_update": false
+        }
+      ],
+      "goal_crossing_y": null,
+      "goal_crossing_segment": null,
+      "ball_final": [
+        -3.6386228243282943,
+        0.02898115313393068
+      ],
+      "robots_final": {
+        "blue1": [
+          -3.025295350339914,
+          0.03485642344573896
+        ],
+        "blue0": [
+          0.01364915432654068,
+          -0.9
+        ],
+        "yellow0": [
+          -2.9734675308973193,
+          0.3919088407706098
+        ],
+        "yellow1": [
+          -3.757430926633389,
+          0.08814567730340171
+        ]
+      },
+      "opponent": "mobile_learned_defender_v1",
+      "defender_speed_limit": 0.7768783563539935,
+      "defender_ball_contacts": 0,
+      "defender_robot_contacts": 0,
+      "defender_physics_checks": 1028,
+      "minimum_ball_defender_distance": 0.40865704421706694,
+      "minimum_robot_defender_distance": 0.3487996845693837,
+      "defender_distance_moved": 3.0387455404599173,
+      "pass_lane_clearance": 0.39598253463560623,
+      "defender_checkpoint_sha256": "9f275c10a0f3b331a55e5a0137e7212bc6477f81b5ac063ad46491eeef150938",
+      "defender_policy_calls": 257,
+      "defender_x_excursion": 2.6507444161141853,
+      "defender_y_excursion": 1.107513806282665,
+      "defender_outside_checks": 0,
+      "keeper": "mobile_learned_keeper_v1",
+      "keeper_style": "mobile",
+      "keeper_speed_limit": 1.0876283814187668,
+      "keeper_acceleration": 2.6106230099037844,
+      "keeper_reaction_seconds": 0.1,
+      "keeper_ball_contacts": 2,
+      "keeper_robot_contacts": 0,
+      "keeper_physics_checks": 1028,
+      "minimum_ball_keeper_distance": 0.13272454970177053,
+      "keeper_distance_moved": 1.0933654340094288,
+      "keeper_checkpoint_sha256": "f553b39637f7aa5c3ac6d5632ca027cde883c663bb840576f174fbc5c4b1d9bc",
+      "keeper_policy_calls": 257,
+      "keeper_x_excursion": 0.5625690733666113,
+      "keeper_y_excursion": 0.3900735910311025,
+      "keeper_outside_checks": 0
+    },
+    {
+      "seed": 3400001,
+      "family": "close",
+      "attack_sign": 1,
+      "initial_holder_id": 1,
+      "steps": 25,
+      "elapsed_seconds": 0.5,
+      "reason": "goal",
+      "is_success": true,
+      "manager_calls": 25,
+      "option_counts": {
+        "shoot": 25
+      },
+      "option_changes": 0,
+      "owner_changes": 0,
+      "controlled_carry": [
+        0.0,
+        0.0
+      ],
+      "stable_receptions": 0,
+      "reception_events": [],
+      "possession_checks": 4,
+      "lost_possession_checks": 0,
+      "empty_shot_retriggers": 0,
+      "events": [
+        {
+          "type": "shoot",
+          "owner": 0,
+          "step": 2,
+          "time": 0.020000000000000462,
+          "ball": [
+            3.24636748569077,
+            0.07459685115889045
+          ],
+          "speed": 3.5,
+          "goal_distance": 1.2558499795501465,
+          "held": true,
+          "decision_owner": 0
+        }
+      ],
+      "decisions": [
+        {
+          "step": 0,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            1.516832959651947,
+            -2.154159283638
+          ],
+          "parking": [
+            3.147472846508026,
+            0.0006416455027647316
+          ],
+          "aim": [
+            4.5,
+            0.43
+          ],
+          "receive_update": true
+        },
+        {
+          "step": 10,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            1.516832959651947,
+            -2.154159283638
+          ],
+          "parking": [
+            3.1456423521041867,
+            0.0010533072287216782
+          ],
+          "aim": [
+            4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 20,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            1.516832959651947,
+            -2.154159283638
+          ],
+          "parking": [
+            3.1419462502002715,
+            0.0007945187622681259
+          ],
+          "aim": [
+            4.5,
+            0.43
+          ],
+          "receive_update": false
+        }
+      ],
+      "goal_crossing_y": 0.36677047612231894,
+      "goal_crossing_segment": [
+        [
+          4.515932664182763,
+          0.3653754092566242
+        ],
+        [
+          4.527964914083418,
+          0.36839045877172505
+        ]
+      ],
+      "ball_final": [
+        4.564056773981824,
+        0.3774307175134723
+      ],
+      "robots_final": {
+        "blue1": [
+          3.1341180119184755,
+          0.04124938030013159
+        ],
+        "blue0": [
+          1.5000000709856658,
+          1.800000126553154
+        ],
+        "yellow0": [
+          2.2640523209529655,
+          0.675279478305799
+        ],
+        "yellow1": [
+          4.150181836344753,
+          0.07503143498002839
+        ]
+      },
+      "opponent": "mobile_learned_defender_v1",
+      "defender_speed_limit": 0.671359880385136,
+      "defender_ball_contacts": 0,
+      "defender_robot_contacts": 0,
+      "defender_physics_checks": 100,
+      "minimum_ball_defender_distance": 1.3627087398022828,
+      "minimum_robot_defender_distance": 1.07657255759766,
+      "defender_distance_moved": 0.23082370018765455,
+      "pass_lane_clearance": 0.4062118163981522,
+      "defender_checkpoint_sha256": "9f275c10a0f3b331a55e5a0137e7212bc6477f81b5ac063ad46491eeef150938",
+      "defender_policy_calls": 25,
+      "defender_x_excursion": 0.22927476477061592,
+      "defender_y_excursion": 0.024720521694200914,
+      "defender_outside_checks": 0,
+      "keeper": "mobile_learned_keeper_v1",
+      "keeper_style": "mobile",
+      "keeper_speed_limit": 0.8340232653151111,
+      "keeper_acceleration": 2.7285927591512884,
+      "keeper_reaction_seconds": 0.04,
+      "keeper_ball_contacts": 0,
+      "keeper_robot_contacts": 0,
+      "keeper_physics_checks": 100,
+      "minimum_ball_keeper_distance": 0.3106435026138004,
+      "keeper_distance_moved": 0.26135985841539316,
+      "keeper_checkpoint_sha256": "f553b39637f7aa5c3ac6d5632ca027cde883c663bb840576f174fbc5c4b1d9bc",
+      "keeper_policy_calls": 25,
+      "keeper_x_excursion": 0.16981816365524693,
+      "keeper_y_excursion": 0.19677411116676355,
+      "keeper_outside_checks": 0
+    },
+    {
+      "seed": 3400002,
+      "family": "midfield",
+      "attack_sign": 1,
+      "initial_holder_id": 0,
+      "steps": 560,
+      "elapsed_seconds": 11.2,
+      "reason": "goal",
+      "is_success": true,
+      "manager_calls": 560,
+      "option_counts": {
+        "pass": 189,
+        "dribble": 350,
+        "shoot": 21
+      },
+      "option_changes": 11,
+      "owner_changes": 3,
+      "controlled_carry": [
+        0.003982223510230032,
+        2.6067191926944853
+      ],
+      "stable_receptions": 1,
+      "reception_events": [
+        {
+          "owner": 1,
+          "step": 190,
+          "dwell": 20,
+          "ball": [
+            0.6535146737760221,
+            -2.205880079259864
+          ],
+          "pass_displacement": 2.799118217064508
+        }
+      ],
+      "possession_checks": 1644,
+      "lost_possession_checks": 0,
+      "empty_shot_retriggers": 0,
+      "events": [
+        {
+          "type": "pass",
+          "owner": 0,
+          "step": 69,
+          "time": 1.3599999999999994,
+          "ball": [
+            -1.5333096442839662,
+            -0.4586359077017333
+          ],
+          "speed": 2.5,
+          "goal_distance": 6.0507166649615405,
+          "held": true,
+          "decision_owner": 0
+        },
+        {
+          "type": "shoot",
+          "owner": 1,
+          "step": 534,
+          "time": 10.66,
+          "ball": [
+            3.119529255660499,
+            -0.060860836552089896
+          ],
+          "speed": 3.5,
+          "goal_distance": 1.3818116794277997,
+          "held": true,
+          "decision_owner": 1
+        }
+      ],
+      "decisions": [
+        {
+          "step": 0,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1602855384349824,
+            0.000350488064577803
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": true
+        },
+        {
+          "step": 10,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1477814316749573,
+            0.0008860202971845865
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 20,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1487897157669065,
+            0.0008912321180105209
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 30,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.150412094593048,
+            0.0009190584300085902
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 40,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.152840280532837,
+            0.0009680803166702389
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 50,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1537065744400024,
+            0.0009779302636161447
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 60,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.153032249212265,
+            0.0009395720902830362
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 70,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1502149999141693,
+            0.0008962204912677407
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 80,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1516436159610746,
+            0.0009018611162900924
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 90,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1511420369148255,
+            0.0008853189880028366
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 100,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.149880528450012,
+            0.0008602526038885116
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 110,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.149771600961685,
+            0.0008222422329708934
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 120,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1514055132865906,
+            0.0008302827598527073
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 130,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.151754593849182,
+            0.000904482346959412
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 140,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.151039516925812,
+            0.001019307179376483
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 150,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1509123921394346,
+            0.0009051319910213351
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 160,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.150145798921585,
+            0.0010164950974285603
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 167,
+          "option": "pass",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1484785676002502,
+            0.0008036928251385689
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 168,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.147421842813492,
+            0.0009714884217828511
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 170,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.150893938541412,
+            0.0009977352805435656
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 180,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1507498979568482,
+            0.001041029836051166
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 189,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1483458042144776,
+            0.0007772133918479084
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 190,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.151736652851105,
+            0.0001702793117146939
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 200,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1520959854125974,
+            0.00013821980101056395
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 210,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.152407133579254,
+            0.00010944990790449082
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 220,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1522323369979857,
+            0.000119497551349923
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 230,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1521467328071595,
+            0.00012679806095547975
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 240,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.152175438404083,
+            0.00013595452182926237
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 250,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1524727463722226,
+            0.00014444715925492345
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 260,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.152603459358215,
+            0.00016016908339224755
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 270,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.152774155139923,
+            0.00017323220963589845
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 280,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1531514286994935,
+            0.00018395858933217824
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 290,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.153263175487518,
+            0.00018273305031470954
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 300,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.15335134267807,
+            0.00018174301949329673
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 310,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.153428745269775,
+            0.00017642045277170836
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 320,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1534802615642548,
+            0.0001741164654958993
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 330,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1535804748535154,
+            0.0001718960062135011
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 340,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1536668479442596,
+            0.0001682730100583285
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 350,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1536888897418973,
+            0.00016429414390586316
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 360,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1537219524383544,
+            0.0001593318476807326
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 370,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1537352800369263,
+            0.0001531268178950995
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 380,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.153725028038025,
+            0.00014725508517585693
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 390,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1536960661411286,
+            0.0001427717099431902
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 400,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1536058485507965,
+            0.00014092028141021729
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 410,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1534702658653258,
+            0.0001417929248418659
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 420,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.153341090679169,
+            0.00014286126825027167
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 430,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1532006382942197,
+            0.0001439036161173135
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 440,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1530304551124573,
+            0.00014550458290614186
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 450,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1528284907341004,
+            0.0001467850466724485
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 460,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.152586030960083,
+            0.00014872803003527222
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 470,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.152234387397766,
+            0.00015274519682861865
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 480,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1518566012382507,
+            0.00018160350737161934
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 490,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1520636916160583,
+            0.00028626563143916426
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 500,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.152399957180023,
+            0.00032032736926339566
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 510,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1526716351509094,
+            0.0003499678277876228
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 520,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.154996532201767,
+            0.00027420557453297075
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 521,
+          "option": "shoot",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.155323827266693,
+            0.00021908993367105722
+          ],
+          "aim": [
+            4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 530,
+          "option": "shoot",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1518483996391295,
+            0.00012398375838529319
+          ],
+          "aim": [
+            4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 535,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1499346077442167,
+            0.0003950578684452921
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 540,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1478526830673217,
+            0.0010642043314874172
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 543,
+          "option": "shoot",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1456177473068236,
+            0.000925339083187282
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 547,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1473652005195616,
+            4.850918776355684e-05
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 548,
+          "option": "shoot",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1482514858245847,
+            0.0004972891241777688
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 549,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.148763060569763,
+            -0.000232706218957901
+          ],
+          "aim": [
+            4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 550,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.153249335289001,
+            0.000394121662247926
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 554,
+          "option": "shoot",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.148654133081436,
+            0.00036887021269649267
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 555,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.1496672868728637,
+            -0.0004179570882115513
+          ],
+          "aim": [
+            4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 557,
+          "option": "shoot",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.148659771680832,
+            0.0002778499416308477
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 558,
+          "option": "dribble",
+          "owner": 1,
+          "receive": [
+            0.49705294892191887,
+            -2.436593151092529
+          ],
+          "parking": [
+            3.149421238899231,
+            -0.0003872641362249851
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        }
+      ],
+      "goal_crossing_y": 0.35230980217282454,
+      "goal_crossing_segment": [
+        [
+          4.517844263018829,
+          0.35115383302738873
+        ],
+        [
+          4.529655553449706,
+          0.3548886441957521
+        ]
+      ],
+      "ball_final": [
+        4.55327568940968,
+        0.36235582163070135
+      ],
+      "robots_final": {
+        "blue0": [
+          -1.6154550541234953,
+          -0.40653040448411554
+        ],
+        "blue1": [
+          3.1037996826787686,
+          -0.047347386378988596
+        ],
+        "yellow0": [
+          2.135930105924991,
+          -0.4737467369509796
+        ],
+        "yellow1": [
+          3.6814987414587517,
+          0.21768296690047975
+        ]
+      },
+      "opponent": "mobile_learned_defender_v1",
+      "defender_speed_limit": 0.6125828115736875,
+      "defender_ball_contacts": 0,
+      "defender_robot_contacts": 0,
+      "defender_physics_checks": 2240,
+      "minimum_ball_defender_distance": 0.12275992687675674,
+      "minimum_robot_defender_distance": 0.9625708892429385,
+      "defender_distance_moved": 5.359775810559762,
+      "pass_lane_clearance": 0.4479926611429023,
+      "defender_checkpoint_sha256": "9f275c10a0f3b331a55e5a0137e7212bc6477f81b5ac063ad46491eeef150938",
+      "defender_policy_calls": 560,
+      "defender_x_excursion": 2.5930662245403537,
+      "defender_y_excursion": 1.3611410852912158,
+      "defender_outside_checks": 0,
+      "keeper": "mobile_learned_keeper_v1",
+      "keeper_style": "mobile",
+      "keeper_speed_limit": 1.0171040434962741,
+      "keeper_acceleration": 2.053185169784193,
+      "keeper_reaction_seconds": 0.04,
+      "keeper_ball_contacts": 0,
+      "keeper_robot_contacts": 0,
+      "keeper_physics_checks": 2240,
+      "minimum_ball_keeper_distance": 0.1368407519118667,
+      "keeper_distance_moved": 1.2401981963212168,
+      "keeper_checkpoint_sha256": "f553b39637f7aa5c3ac6d5632ca027cde883c663bb840576f174fbc5c4b1d9bc",
+      "keeper_policy_calls": 560,
+      "keeper_x_excursion": 0.6385012585412486,
+      "keeper_y_excursion": 0.2828064568211805,
+      "keeper_outside_checks": 0
+    },
+    {
+      "seed": 3400003,
+      "family": "advanced",
+      "attack_sign": -1,
+      "initial_holder_id": 0,
+      "steps": 349,
+      "elapsed_seconds": 6.98,
+      "reason": "keeper_save",
+      "is_success": false,
+      "manager_calls": 349,
+      "option_counts": {
+        "dribble": 326,
+        "shoot": 23
+      },
+      "option_changes": 1,
+      "owner_changes": 0,
+      "controlled_carry": [
+        2.54834688992895,
+        0.0
+      ],
+      "stable_receptions": 0,
+      "reception_events": [],
+      "possession_checks": 1356,
+      "lost_possession_checks": 0,
+      "empty_shot_retriggers": 0,
+      "events": [
+        {
+          "type": "shoot",
+          "owner": 0,
+          "step": 340,
+          "time": 6.780000000000001,
+          "ball": [
+            -3.099221154058787,
+            0.037732921705832596
+          ],
+          "speed": 3.5,
+          "goal_distance": 1.4012869615524348,
+          "held": true,
+          "decision_owner": 0
+        }
+      ],
+      "decisions": [
+        {
+          "step": 0,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.154671800136566,
+            -0.000363205507164821
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": true
+        },
+        {
+          "step": 10,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.1538583040237427,
+            -0.0005458272004034369
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 20,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.1538408756256104,
+            -0.0005611042259261012
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 30,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.153944933414459,
+            -0.0005472675489727407
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 40,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.154343736171722,
+            -0.000497238925890997
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 50,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.154011058807373,
+            -0.0005018664989620447
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 60,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.15368914604187,
+            -0.0005227467452641576
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 70,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.1539321184158324,
+            -0.0005225208937190473
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 80,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.151797395944595,
+            -0.0007281224010512233
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 90,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.1537396371364594,
+            -0.0007746670511551201
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 100,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.1548976004123688,
+            -0.0007432237733155489
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 110,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.155489909648895,
+            -0.000706164725124836
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 120,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.1560173749923703,
+            -0.0006832503073383122
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 130,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.1564951181411742,
+            -0.0006818797148298472
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 140,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.156634545326233,
+            -0.000675011146813631
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 150,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.156627881526947,
+            -0.000665837776614353
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 160,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.156477177143097,
+            -0.0006583979178685695
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 170,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.1563331365585325,
+            -0.0006590488657820969
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 180,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.156027114391327,
+            -0.0006599613174330443
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 190,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.1555196404457093,
+            -0.0006588627002201974
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 200,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.154843521118164,
+            -0.0006593759695533662
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 210,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.154013621807098,
+            -0.0006628865085076541
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 220,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.153037631511688,
+            -0.0006699998339172453
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 230,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.1518704414367673,
+            -0.0006813516549300402
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 240,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.150554597377777,
+            -0.0006980360252782702
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 250,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.1488850593566893,
+            -0.0007154417922720312
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 260,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.1465660572052,
+            -0.0007310210261493921
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 270,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.1441845178604124,
+            -0.0007446368224918842
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 280,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.141643559932709,
+            -0.0007418625522404909
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 290,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.13824348449707,
+            -0.0007263809442520141
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 300,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.133489376306534,
+            -0.0007155503379181027
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 310,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.127426344156265,
+            -0.0007315472932532429
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 320,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.119018679857254,
+            -0.0008005555951967835
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 326,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.1163047194480895,
+            -0.0007441914756782352
+          ],
+          "aim": [
+            -4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 330,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.149648833274841,
+            -0.0008027087431401014
+          ],
+          "aim": [
+            -4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 340,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            0.4748990841209888,
+            2.346852612495422
+          ],
+          "parking": [
+            -3.147496426105499,
+            -0.0011564528103917837
+          ],
+          "aim": [
+            -4.5,
+            -0.43
+          ],
+          "receive_update": false
+        }
+      ],
+      "goal_crossing_y": null,
+      "goal_crossing_segment": null,
+      "ball_final": [
+        -3.670152631993815,
+        -0.14754967409259315
+      ],
+      "robots_final": {
+        "blue0": [
+          -2.9952915149512185,
+          0.06543840657724279
+        ],
+        "blue1": [
+          0.4954470254803448,
+          -0.9000007894682093
+        ],
+        "yellow0": [
+          -2.9576052492615594,
+          0.48098125487758114
+        ],
+        "yellow1": [
+          -3.739589761351795,
+          -0.042397975062309246
+        ]
+      },
+      "opponent": "mobile_learned_defender_v1",
+      "defender_speed_limit": 0.7648243258918774,
+      "defender_ball_contacts": 0,
+      "defender_robot_contacts": 0,
+      "defender_physics_checks": 1396,
+      "minimum_ball_defender_distance": 0.5113997425160862,
+      "minimum_robot_defender_distance": 0.41724826350170663,
+      "defender_distance_moved": 4.1038368968431005,
+      "pass_lane_clearance": 0.4990153735596321,
+      "defender_checkpoint_sha256": "9f275c10a0f3b331a55e5a0137e7212bc6477f81b5ac063ad46491eeef150938",
+      "defender_policy_calls": 349,
+      "defender_x_excursion": 3.1841864330527185,
+      "defender_y_excursion": 1.2448897143012518,
+      "defender_outside_checks": 0,
+      "keeper": "mobile_learned_keeper_v1",
+      "keeper_style": "mobile",
+      "keeper_speed_limit": 0.873256583027412,
+      "keeper_acceleration": 3.114087849548617,
+      "keeper_reaction_seconds": 0.1,
+      "keeper_ball_contacts": 1,
+      "keeper_robot_contacts": 0,
+      "keeper_physics_checks": 1396,
+      "minimum_ball_keeper_distance": 0.10913411229364328,
+      "keeper_distance_moved": 1.7157391387720744,
+      "keeper_checkpoint_sha256": "f553b39637f7aa5c3ac6d5632ca027cde883c663bb840576f174fbc5c4b1d9bc",
+      "keeper_policy_calls": 349,
+      "keeper_x_excursion": 0.5804102386482053,
+      "keeper_y_excursion": 0.6813923391230535,
+      "keeper_outside_checks": 0
+    },
+    {
+      "seed": 3400004,
+      "family": "close",
+      "attack_sign": 1,
+      "initial_holder_id": 1,
+      "steps": 57,
+      "elapsed_seconds": 1.14,
+      "reason": "goal",
+      "is_success": true,
+      "manager_calls": 57,
+      "option_counts": {
+        "dribble": 25,
+        "shoot": 32
+      },
+      "option_changes": 1,
+      "owner_changes": 0,
+      "controlled_carry": [
+        0.06553379772948764,
+        0.0
+      ],
+      "stable_receptions": 0,
+      "reception_events": [],
+      "possession_checks": 128,
+      "lost_possession_checks": 0,
+      "empty_shot_retriggers": 0,
+      "events": [
+        {
+          "type": "shoot",
+          "owner": 0,
+          "step": 33,
+          "time": 0.6400000000000006,
+          "ball": [
+            3.1976301933583327,
+            0.02036821767143517
+          ],
+          "speed": 3.5,
+          "goal_distance": 1.3025290697496794,
+          "held": true,
+          "decision_owner": 0
+        }
+      ],
+      "decisions": [
+        {
+          "step": 0,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            1.484727543592453,
+            -2.245267844200134
+          ],
+          "parking": [
+            3.154193031787872,
+            0.0008783054072409867
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": true
+        },
+        {
+          "step": 10,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            1.484727543592453,
+            -2.245267844200134
+          ],
+          "parking": [
+            3.153987991809845,
+            0.0010376119520515202
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 20,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            1.484727543592453,
+            -2.245267844200134
+          ],
+          "parking": [
+            3.1530071318149564,
+            0.0008727185660973191
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 25,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            1.484727543592453,
+            -2.245267844200134
+          ],
+          "parking": [
+            3.1507524609565736,
+            0.0007424900308251381
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 30,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            1.484727543592453,
+            -2.245267844200134
+          ],
+          "parking": [
+            3.1550862371921538,
+            0.00046528021921403705
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 40,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            1.484727543592453,
+            -2.245267844200134
+          ],
+          "parking": [
+            3.155256676673889,
+            0.0008895503124222158
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 50,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            1.484727543592453,
+            -2.245267844200134
+          ],
+          "parking": [
+            3.149924612045288,
+            0.0009106624405831098
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        }
+      ],
+      "goal_crossing_y": -0.36857264097847725,
+      "goal_crossing_segment": [
+        [
+          4.513084329554944,
+          -0.3659056321804308
+        ],
+        [
+          4.524900045017449,
+          -0.36965014871057
+        ]
+      ],
+      "ball_final": [
+        4.536714945512695,
+        -0.37339385027345
+      ],
+      "robots_final": {
+        "blue1": [
+          3.0869506335500363,
+          0.04032076450582495
+        ],
+        "blue0": [
+          1.5000001939801484,
+          1.8000000754173455
+        ],
+        "yellow0": [
+          2.4787586796164383,
+          0.536169794344674
+        ],
+        "yellow1": [
+          3.8888827921858886,
+          -0.18575962871838514
+        ]
+      },
+      "opponent": "mobile_learned_defender_v1",
+      "defender_speed_limit": 0.6121430357610428,
+      "defender_ball_contacts": 0,
+      "defender_robot_contacts": 0,
+      "defender_physics_checks": 228,
+      "minimum_ball_defender_distance": 1.135288603870966,
+      "minimum_robot_defender_distance": 0.7847061317599702,
+      "defender_distance_moved": 0.5917078523222932,
+      "pass_lane_clearance": 0.36524418621211985,
+      "defender_checkpoint_sha256": "9f275c10a0f3b331a55e5a0137e7212bc6477f81b5ac063ad46491eeef150938",
+      "defender_policy_calls": 57,
+      "defender_x_excursion": 0.5466712703169887,
+      "defender_y_excursion": 0.16912896847084657,
+      "defender_outside_checks": 0,
+      "keeper": "mobile_learned_keeper_v1",
+      "keeper_style": "mobile",
+      "keeper_speed_limit": 0.8817318523866012,
+      "keeper_acceleration": 2.6696023881043582,
+      "keeper_reaction_seconds": 0.04,
+      "keeper_ball_contacts": 0,
+      "keeper_robot_contacts": 0,
+      "keeper_physics_checks": 228,
+      "minimum_ball_keeper_distance": 0.1727108888362797,
+      "keeper_distance_moved": 0.5893496412444402,
+      "keeper_checkpoint_sha256": "f553b39637f7aa5c3ac6d5632ca027cde883c663bb840576f174fbc5c4b1d9bc",
+      "keeper_policy_calls": 57,
+      "keeper_x_excursion": 0.43111720781411167,
+      "keeper_y_excursion": 0.12095181396173554,
+      "keeper_outside_checks": 0
+    },
+    {
+      "seed": 3400005,
+      "family": "midfield",
+      "attack_sign": 1,
+      "initial_holder_id": 1,
+      "steps": 103,
+      "elapsed_seconds": 2.06,
+      "reason": "defender_interception",
+      "is_success": false,
+      "manager_calls": 103,
+      "option_counts": {
+        "pass": 103
+      },
+      "option_changes": 0,
+      "owner_changes": 0,
+      "controlled_carry": [
+        0.004482426202445433,
+        0.0
+      ],
+      "stable_receptions": 0,
+      "reception_events": [],
+      "possession_checks": 288,
+      "lost_possession_checks": 0,
+      "empty_shot_retriggers": 0,
+      "events": [
+        {
+          "type": "pass",
+          "owner": 0,
+          "step": 73,
+          "time": 1.4399999999999977,
+          "ball": [
+            -1.7183851952539295,
+            -0.07813173215665165
+          ],
+          "speed": 2.5,
+          "goal_distance": 6.218876024180178,
+          "held": true,
+          "decision_owner": 0
+        }
+      ],
+      "decisions": [
+        {
+          "step": 0,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.4006012462079525,
+            2.127896165847778
+          ],
+          "parking": [
+            3.14909650683403,
+            0.00035476624616421755
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": true
+        },
+        {
+          "step": 10,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.4006012462079525,
+            2.127896165847778
+          ],
+          "parking": [
+            3.1457246243953705,
+            0.0008772968780249357
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 20,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.4006012462079525,
+            2.127896165847778
+          ],
+          "parking": [
+            3.1468818187713623,
+            0.0008778611198067665
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 30,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.4006012462079525,
+            2.127896165847778
+          ],
+          "parking": [
+            3.1464563608169556,
+            0.0008317528525367379
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 40,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.4006012462079525,
+            2.127896165847778
+          ],
+          "parking": [
+            3.145710015296936,
+            0.0007846287218853831
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 50,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.4006012462079525,
+            2.127896165847778
+          ],
+          "parking": [
+            3.14577921628952,
+            0.0007847093977034091
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 60,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.4006012462079525,
+            2.127896165847778
+          ],
+          "parking": [
+            3.1469576835632322,
+            0.0007873122114688157
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 70,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.4006012462079525,
+            2.127896165847778
+          ],
+          "parking": [
+            3.146758794784546,
+            0.0007746583316475152
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 80,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.4006012462079525,
+            2.127896165847778
+          ],
+          "parking": [
+            3.146160590648651,
+            0.0010087270755320787
+          ],
+          "aim": [
+            4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 90,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.4006012462079525,
+            2.127896165847778
+          ],
+          "parking": [
+            3.147105312347412,
+            0.0009402367286384105
+          ],
+          "aim": [
+            4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 100,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            0.4006012462079525,
+            2.127896165847778
+          ],
+          "parking": [
+            3.146463280916214,
+            0.0008835193468257784
+          ],
+          "aim": [
+            4.5,
+            0.43
+          ],
+          "receive_update": false
+        }
+      ],
+      "goal_crossing_y": null,
+      "goal_crossing_segment": null,
+      "ball_final": [
+        -0.8837652539573668,
+        0.7248682224330899
+      ],
+      "robots_final": {
+        "blue1": [
+          -1.8009887364787427,
+          -0.15833954533200886
+        ],
+        "blue0": [
+          0.44639339003388573,
+          2.0454017820288555
+        ],
+        "yellow0": [
+          -0.7657659117470929,
+          0.7823840293482516
+        ],
+        "yellow1": [
+          4.163227584318087,
+          -0.04320854176922921
+        ]
+      },
+      "opponent": "mobile_learned_defender_v1",
+      "defender_speed_limit": 0.6289990640281803,
+      "defender_ball_contacts": 3,
+      "defender_robot_contacts": 0,
+      "defender_physics_checks": 412,
+      "minimum_ball_defender_distance": 0.13127038054016413,
+      "minimum_robot_defender_distance": 0.980015149243914,
+      "defender_distance_moved": 1.1537271779923515,
+      "pass_lane_clearance": 0.34727866916572503,
+      "defender_checkpoint_sha256": "9f275c10a0f3b331a55e5a0137e7212bc6477f81b5ac063ad46491eeef150938",
+      "defender_policy_calls": 103,
+      "defender_x_excursion": 0.16044776794266713,
+      "defender_y_excursion": 1.0144288899818459,
+      "defender_outside_checks": 0,
+      "keeper": "mobile_learned_keeper_v1",
+      "keeper_style": "mobile",
+      "keeper_speed_limit": 1.1140369674952633,
+      "keeper_acceleration": 2.1223003446763107,
+      "keeper_reaction_seconds": 0.08,
+      "keeper_ball_contacts": 0,
+      "keeper_robot_contacts": 0,
+      "keeper_physics_checks": 412,
+      "minimum_ball_keeper_distance": 5.105103194384148,
+      "keeper_distance_moved": 0.1778231158674946,
+      "keeper_checkpoint_sha256": "f553b39637f7aa5c3ac6d5632ca027cde883c663bb840576f174fbc5c4b1d9bc",
+      "keeper_policy_calls": 103,
+      "keeper_x_excursion": 0.15677241568191302,
+      "keeper_y_excursion": 0.06092919961229987,
+      "keeper_outside_checks": 0
+    },
+    {
+      "seed": 3400006,
+      "family": "advanced",
+      "attack_sign": 1,
+      "initial_holder_id": 1,
+      "steps": 374,
+      "elapsed_seconds": 7.48,
+      "reason": "goal",
+      "is_success": true,
+      "manager_calls": 374,
+      "option_counts": {
+        "dribble": 333,
+        "shoot": 41
+      },
+      "option_changes": 3,
+      "owner_changes": 0,
+      "controlled_carry": [
+        2.363200867895446,
+        0.0
+      ],
+      "stable_receptions": 0,
+      "reception_events": [],
+      "possession_checks": 1388,
+      "lost_possession_checks": 0,
+      "empty_shot_retriggers": 0,
+      "events": [
+        {
+          "type": "shoot",
+          "owner": 0,
+          "step": 348,
+          "time": 6.939999999999998,
+          "ball": [
+            3.1280808951263825,
+            -0.056297423585124254
+          ],
+          "speed": 3.5,
+          "goal_distance": 1.3730737162365139,
+          "held": true,
+          "decision_owner": 0
+        }
+      ],
+      "decisions": [
+        {
+          "step": 0,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1524717211723328,
+            0.00048120069550350303
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": true
+        },
+        {
+          "step": 10,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1528131127357484,
+            0.0006173443573061376
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 20,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1526131987571717,
+            0.0006455082853790372
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 30,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1529999554157255,
+            0.0006621042382903397
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 40,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.152934086322784,
+            0.0006742335215676575
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 50,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.153740406036377,
+            0.0006200173753313719
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 60,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.153869068622589,
+            0.0005304253718350083
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 70,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1533697962760923,
+            0.0006000996567308903
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 80,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.153207045793533,
+            0.0006085999135393648
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 90,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.153285217285156,
+            0.0006346273585222661
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 100,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.150383901596069,
+            0.0008285331539809703
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 110,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1508298635482785,
+            0.0008784827310591935
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 120,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1512501955032346,
+            0.0008743082871660589
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 130,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1514014124870298,
+            0.0008758642710745334
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 140,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.151738703250885,
+            0.0008703545201569795
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 150,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1522513031959534,
+            0.0008531733416020869
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 160,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.152574497461319,
+            0.0008493894012644886
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 170,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1529125571250916,
+            0.000840031006373465
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 180,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1532713770866394,
+            0.0008288961136713623
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 190,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.153543311357498,
+            0.0008352308766916394
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 200,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1537445068359373,
+            0.000841774744912982
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 210,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.153938782215118,
+            0.0008481518831104039
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 220,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1540812849998474,
+            0.0008558488450944423
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 230,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1541730403900146,
+            0.0008678824175149201
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 240,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1543319463729858,
+            0.000885743391700089
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 250,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1545746624469757,
+            0.0009061278076842427
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 260,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1547650933265685,
+            0.0009246405446901917
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 270,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.15477739572525,
+            0.0009407390374690294
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 280,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1546318173408507,
+            0.00095710433088243
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 290,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1550918757915496,
+            0.000983077543787658
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 300,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1566583812236786,
+            0.0010078728897497057
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 310,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1572691440582275,
+            0.0009451261721551417
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 320,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.157533901929855,
+            0.0008537542074918747
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 330,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1594125807285307,
+            0.0007480115164071321
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 332,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1603042483329773,
+            0.0006639690313022584
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 333,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1654727935791014,
+            0.0006627646391279995
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 334,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.160878360271454,
+            0.0005734793259762227
+          ],
+          "aim": [
+            4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 340,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1533193051815034,
+            0.0006455110560636967
+          ],
+          "aim": [
+            4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 350,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1568129301071166,
+            0.0010937725892290473
+          ],
+          "aim": [
+            4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 360,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1400452733039854,
+            0.0010455097071826458
+          ],
+          "aim": [
+            4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 370,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            -0.38028896078467367,
+            -2.3890952348709105
+          ],
+          "parking": [
+            3.1475574254989622,
+            0.000555874640122056
+          ],
+          "aim": [
+            4.5,
+            0.43
+          ],
+          "receive_update": false
+        }
+      ],
+      "goal_crossing_y": 0.3536392835296341,
+      "goal_crossing_segment": [
+        [
+          4.51475873336414,
+          0.3515099676936864
+        ],
+        [
+          4.526572183243538,
+          0.35524139789280784
+        ]
+      ],
+      "ball_final": [
+        4.56200764307818,
+        0.36643079868661704
+      ],
+      "robots_final": {
+        "blue1": [
+          3.0243414554036168,
+          -0.08108802982903693
+        ],
+        "blue0": [
+          -0.2384958386492774,
+          0.8999948335668629
+        ],
+        "yellow0": [
+          2.6800706276834525,
+          -0.5877144245672206
+        ],
+        "yellow1": [
+          3.667177570627837,
+          0.21911123723132434
+        ]
+      },
+      "opponent": "mobile_learned_defender_v1",
+      "defender_speed_limit": 0.5694177019453684,
+      "defender_ball_contacts": 0,
+      "defender_robot_contacts": 0,
+      "defender_physics_checks": 1496,
+      "minimum_ball_defender_distance": 0.9185536704242754,
+      "minimum_robot_defender_distance": 0.6125297598195021,
+      "defender_distance_moved": 3.6133202422562674,
+      "pass_lane_clearance": 0.7882867560482687,
+      "defender_checkpoint_sha256": "9f275c10a0f3b331a55e5a0137e7212bc6477f81b5ac063ad46491eeef150938",
+      "defender_policy_calls": 374,
+      "defender_x_excursion": 2.7134160871020003,
+      "defender_y_excursion": 1.1887903065037588,
+      "defender_outside_checks": 0,
+      "keeper": "mobile_learned_keeper_v1",
+      "keeper_style": "mobile",
+      "keeper_speed_limit": 1.1410831737676457,
+      "keeper_acceleration": 2.588647309243052,
+      "keeper_reaction_seconds": 0.08,
+      "keeper_ball_contacts": 0,
+      "keeper_robot_contacts": 0,
+      "keeper_physics_checks": 1496,
+      "minimum_ball_keeper_distance": 0.11498003244344107,
+      "keeper_distance_moved": 2.0056680005316956,
+      "keeper_checkpoint_sha256": "f553b39637f7aa5c3ac6d5632ca027cde883c663bb840576f174fbc5c4b1d9bc",
+      "keeper_policy_calls": 374,
+      "keeper_x_excursion": 0.6528224293721632,
+      "keeper_y_excursion": 0.6144123682768593,
+      "keeper_outside_checks": 0
+    },
+    {
+      "seed": 3400007,
+      "family": "close",
+      "attack_sign": 1,
+      "initial_holder_id": 0,
+      "steps": 55,
+      "elapsed_seconds": 1.1,
+      "reason": "goal",
+      "is_success": true,
+      "manager_calls": 55,
+      "option_counts": {
+        "dribble": 24,
+        "shoot": 31
+      },
+      "option_changes": 1,
+      "owner_changes": 0,
+      "controlled_carry": [
+        0.040815997835546014,
+        0.0
+      ],
+      "stable_receptions": 0,
+      "reception_events": [],
+      "possession_checks": 120,
+      "lost_possession_checks": 0,
+      "empty_shot_retriggers": 0,
+      "events": [
+        {
+          "type": "shoot",
+          "owner": 0,
+          "step": 31,
+          "time": 0.6000000000000014,
+          "ball": [
+            3.2183926209622578,
+            0.02674445439531758
+          ],
+          "speed": 3.5,
+          "goal_distance": 1.281886398962441,
+          "held": true,
+          "decision_owner": 0
+        }
+      ],
+      "decisions": [
+        {
+          "step": 0,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            1.489623001217842,
+            -2.2439156770706177
+          ],
+          "parking": [
+            3.1512553215026853,
+            0.0006138294178526848
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": true
+        },
+        {
+          "step": 10,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            1.489623001217842,
+            -2.2439156770706177
+          ],
+          "parking": [
+            3.1500202119350433,
+            0.0010692883748561143
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 20,
+          "option": "dribble",
+          "owner": 0,
+          "receive": [
+            1.489623001217842,
+            -2.2439156770706177
+          ],
+          "parking": [
+            3.148342216014862,
+            0.0011292241513729095
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 24,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            1.489623001217842,
+            -2.2439156770706177
+          ],
+          "parking": [
+            3.148953491449356,
+            0.0010082821361720562
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 30,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            1.489623001217842,
+            -2.2439156770706177
+          ],
+          "parking": [
+            3.156432068347931,
+            0.0009925021091476082
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 40,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            1.489623001217842,
+            -2.2439156770706177
+          ],
+          "parking": [
+            3.151882231235504,
+            0.001191509631462395
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 50,
+          "option": "shoot",
+          "owner": 0,
+          "receive": [
+            1.489623001217842,
+            -2.2439156770706177
+          ],
+          "parking": [
+            3.152676248550415,
+            0.0011992840096354484
+          ],
+          "aim": [
+            4.5,
+            -0.43
+          ],
+          "receive_update": false
+        }
+      ],
+      "goal_crossing_y": -0.35932284196720665,
+      "goal_crossing_segment": [
+        [
+          4.52078228481405,
+          -0.3590932532207562
+        ],
+        [
+          4.532588669217839,
+          -0.36286997837363466
+        ]
+      ],
+      "ball_final": [
+        4.5561989931236395,
+        -0.37042098377761407
+      ],
+      "robots_final": {
+        "blue0": [
+          3.1120689114531364,
+          0.04705740787047075
+        ],
+        "blue1": [
+          1.4999997368715425,
+          1.8000003142707799
+        ],
+        "yellow0": [
+          2.475005126974407,
+          0.5448677889962085
+        ],
+        "yellow1": [
+          3.846913712516123,
+          -0.08421100858297985
+        ]
+      },
+      "opponent": "mobile_learned_defender_v1",
+      "defender_speed_limit": 0.6026912031083846,
+      "defender_ball_contacts": 0,
+      "defender_robot_contacts": 0,
+      "defender_physics_checks": 220,
+      "minimum_ball_defender_distance": 1.1465553663267622,
+      "minimum_robot_defender_distance": 0.8084957891361669,
+      "defender_distance_moved": 0.5418015780442922,
+      "pass_lane_clearance": 0.3611432221383515,
+      "defender_checkpoint_sha256": "9f275c10a0f3b331a55e5a0137e7212bc6477f81b5ac063ad46491eeef150938",
+      "defender_policy_calls": 55,
+      "defender_x_excursion": 0.495308082162798,
+      "defender_y_excursion": 0.1635454530170849,
+      "defender_outside_checks": 0,
+      "keeper": "mobile_learned_keeper_v1",
+      "keeper_style": "mobile",
+      "keeper_speed_limit": 1.0620005716105234,
+      "keeper_acceleration": 3.1638605110155433,
+      "keeper_reaction_seconds": 0.1,
+      "keeper_ball_contacts": 0,
+      "keeper_robot_contacts": 0,
+      "keeper_physics_checks": 220,
+      "minimum_ball_keeper_distance": 0.23262931794140237,
+      "keeper_distance_moved": 0.5806372039394314,
+      "keeper_checkpoint_sha256": "f553b39637f7aa5c3ac6d5632ca027cde883c663bb840576f174fbc5c4b1d9bc",
+      "keeper_policy_calls": 55,
+      "keeper_x_excursion": 0.4730862874838775,
+      "keeper_y_excursion": 0.16758759635994486,
+      "keeper_outside_checks": 0
+    },
+    {
+      "seed": 3400008,
+      "family": "midfield",
+      "attack_sign": -1,
+      "initial_holder_id": 0,
+      "steps": 231,
+      "elapsed_seconds": 4.62,
+      "reason": "defender_interception",
+      "is_success": false,
+      "manager_calls": 231,
+      "option_counts": {
+        "pass": 231
+      },
+      "option_changes": 0,
+      "owner_changes": 0,
+      "controlled_carry": [
+        0.004008798624900445,
+        0.0
+      ],
+      "stable_receptions": 0,
+      "reception_events": [],
+      "possession_checks": 804,
+      "lost_possession_checks": 0,
+      "empty_shot_retriggers": 0,
+      "events": [
+        {
+          "type": "pass",
+          "owner": 0,
+          "step": 202,
+          "time": 4.020000000000003,
+          "ball": [
+            1.557304622692675,
+            0.43499265501361967
+          ],
+          "speed": 2.5,
+          "goal_distance": 6.072903580826049,
+          "held": true,
+          "decision_owner": 0
+        }
+      ],
+      "decisions": [
+        {
+          "step": 0,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.5511569440364837,
+            -1.7834760665893554
+          ],
+          "parking": [
+            -3.151430630683899,
+            -0.0004639036778826266
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": true
+        },
+        {
+          "step": 10,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.5511569440364837,
+            -1.7834760665893554
+          ],
+          "parking": [
+            -3.142313528060913,
+            -0.0010839079739525914
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 20,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.5511569440364837,
+            -1.7834760665893554
+          ],
+          "parking": [
+            -3.1420456945896147,
+            -0.0010832624044269322
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 30,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.5511569440364837,
+            -1.7834760665893554
+          ],
+          "parking": [
+            -3.144850385189056,
+            -0.0007959875511005521
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 40,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.5511569440364837,
+            -1.7834760665893554
+          ],
+          "parking": [
+            -3.1443736672401426,
+            -0.000822167913429439
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 50,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.5511569440364837,
+            -1.7834760665893554
+          ],
+          "parking": [
+            -3.1445207834243774,
+            -0.0008758052717894315
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 60,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.5511569440364837,
+            -1.7834760665893554
+          ],
+          "parking": [
+            -3.144993656873703,
+            -0.0009091181913390755
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 70,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.5511569440364837,
+            -1.7834760665893554
+          ],
+          "parking": [
+            -3.143727535009384,
+            -0.0008785906247794627
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 80,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.5511569440364837,
+            -1.7834760665893554
+          ],
+          "parking": [
+            -3.1480310678482053,
+            -0.0008074482437223196
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 90,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.5511569440364837,
+            -1.7834760665893554
+          ],
+          "parking": [
+            -3.1480297863483426,
+            -0.0007408946054056286
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 93,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.7244366779923439,
+            2.2838878870010375
+          ],
+          "parking": [
+            -3.1487576782703397,
+            -0.0007570328656584024
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": true
+        },
+        {
+          "step": 100,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.7244366779923439,
+            2.2838878870010375
+          ],
+          "parking": [
+            -3.1515162348747254,
+            -0.001087760692462325
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 110,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.7244366779923439,
+            2.2838878870010375
+          ],
+          "parking": [
+            -3.152330756187439,
+            -0.0010619783308356999
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 120,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.7244366779923439,
+            2.2838878870010375
+          ],
+          "parking": [
+            -3.1523123025894164,
+            -0.0010490923654288052
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 130,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.7244366779923439,
+            2.2838878870010375
+          ],
+          "parking": [
+            -3.1520185828208924,
+            -0.0010219029849395155
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 140,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.7244366779923439,
+            2.2838878870010375
+          ],
+          "parking": [
+            -3.1517989337444305,
+            -0.0009924998274073004
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 150,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.7244366779923439,
+            2.2838878870010375
+          ],
+          "parking": [
+            -3.1517738163471223,
+            -0.0009667073609307407
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 160,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.7244366779923439,
+            2.2838878870010375
+          ],
+          "parking": [
+            -3.150269591808319,
+            -0.0009426843840628862
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 170,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.7244366779923439,
+            2.2838878870010375
+          ],
+          "parking": [
+            -3.150974929332733,
+            -0.0009351445361971855
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 180,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.7244366779923439,
+            2.2838878870010375
+          ],
+          "parking": [
+            -3.1517720222473145,
+            -0.0009405773598700761
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 190,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.7244366779923439,
+            2.2838878870010375
+          ],
+          "parking": [
+            -3.152189791202545,
+            -0.0009472700301557779
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 200,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.7244366779923439,
+            2.2838878870010375
+          ],
+          "parking": [
+            -3.152483510971069,
+            -0.0007824776927009224
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 210,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.7244366779923439,
+            2.2838878870010375
+          ],
+          "parking": [
+            -3.1499392211437223,
+            -0.0009035874158143997
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 220,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.7244366779923439,
+            2.2838878870010375
+          ],
+          "parking": [
+            -3.150150668621063,
+            -0.000880746217444539
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        },
+        {
+          "step": 230,
+          "option": "pass",
+          "owner": 0,
+          "receive": [
+            -0.7244366779923439,
+            2.2838878870010375
+          ],
+          "parking": [
+            -3.1494909524917603,
+            -0.0008653276832774281
+          ],
+          "aim": [
+            -4.5,
+            0.43
+          ],
+          "receive_update": false
+        }
+      ],
+      "goal_crossing_y": null,
+      "goal_crossing_segment": null,
+      "ball_final": [
+        0.6604276001529883,
+        1.1133126955222967
+      ],
+      "robots_final": {
+        "blue0": [
+          1.6478658651647369,
+          0.36465192929396495
+        ],
+        "blue1": [
+          -0.7153091406603256,
+          2.2113156972303285
+        ],
+        "yellow0": [
+          0.5280411537204338,
+          1.1229912892272735
+        ],
+        "yellow1": [
+          -4.171247061851429,
+          0.04619807621015899
+        ]
+      },
+      "opponent": "mobile_learned_defender_v1",
+      "defender_speed_limit": 0.7030475189048506,
+      "defender_ball_contacts": 3,
+      "defender_robot_contacts": 0,
+      "defender_physics_checks": 924,
+      "minimum_ball_defender_distance": 0.13273976938033918,
+      "minimum_robot_defender_distance": 0.880442197376581,
+      "defender_distance_moved": 2.5656279365713774,
+      "pass_lane_clearance": 0.44303565364807207,
+      "defender_checkpoint_sha256": "9f275c10a0f3b331a55e5a0137e7212bc6477f81b5ac063ad46491eeef150938",
+      "defender_policy_calls": 231,
+      "defender_x_excursion": 0.19640470488138495,
+      "defender_y_excursion": 0.9592495703835995,
+      "defender_outside_checks": 0,
+      "keeper": "mobile_learned_keeper_v1",
+      "keeper_style": "mobile",
+      "keeper_speed_limit": 1.0882260977130227,
+      "keeper_acceleration": 2.3285923252030893,
+      "keeper_reaction_seconds": 0.06,
+      "keeper_ball_contacts": 0,
+      "keeper_robot_contacts": 0,
+      "keeper_physics_checks": 924,
+      "minimum_ball_keeper_distance": 4.948112129914316,
+      "keeper_distance_moved": 0.28705677614065206,
+      "keeper_checkpoint_sha256": "f553b39637f7aa5c3ac6d5632ca027cde883c663bb840576f174fbc5c4b1d9bc",
+      "keeper_policy_calls": 231,
+      "keeper_x_excursion": 0.1506534563388966,
+      "keeper_y_excursion": 0.17960571084132226,
+      "keeper_outside_checks": 0
+    }
+  ],
+  "summary": {
+    "count": 9,
+    "goals": 5,
+    "stops": 4,
+    "clean": 9,
+    "collisions": 0,
+    "reasons": {
+      "keeper_save": 2,
+      "goal": 5,
+      "defender_interception": 2
+    },
+    "passes": 3,
+    "shots": 7,
+    "receptions": 1,
+    "carry_episodes": 4,
+    "direct_goals": 4
+  },
+  "manager_target_fallback": false,
+  "scripted_handoff": false,
+  "backend": "webots_ideal_body_velocity+learned_lane_v1+learned_keeper_v1",
+  "source": "actual Webots movie recorder",
+  "scripted_target_selection": false,
+  "scripted_role_handoff": false,
+  "opponent_policy_fallback": false,
+  "outcome_display_seconds": 0.6,
+  "post_terminal_control": "referee HALT; excluded from scoring",
+  "possession_sample_seconds": 0.005,
+  "models": {
+    "transfer": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/policies/decision_self_play_v2/final/transfer/policy.zip",
+      "sha256": "18b66d774e38cd544f8206b408517f36ded9699feadead24f0feec723c4a7701",
+      "manifest_sha256": "5142fd00dc546a856bf57ed8dfc238b7cbed3c2538375a583d2408f175252396",
+      "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+    },
+    "finish": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/policies/decision_self_play_v2/final/finish/policy.zip",
+      "sha256": "674a5e141b228ac12c68daffdcb535a102b01cdbdf81d1afabf10782e4d4a971",
+      "manifest_sha256": "db01ff029023f632b7dfac7490d74010db85580146673553eaac6835a55c96b8",
+      "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+    },
+    "defender": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/policies/decision_self_play_v2/final/defender/policy.zip",
+      "sha256": "9f275c10a0f3b331a55e5a0137e7212bc6477f81b5ac063ad46491eeef150938",
+      "manifest_sha256": "81b163090d9e1ab45e91f22240ebc2c0b19511d3f249bb3d0253c80fe8cd03f8",
+      "actor_sha256": "cae99185c28c49f4979e8b693bd94fcd9bfe64eea6acc3ee373bc3e86afe8d5b"
+    },
+    "keeper": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/policies/decision_self_play_v2/final/keeper/policy.zip",
+      "sha256": "f553b39637f7aa5c3ac6d5632ca027cde883c663bb840576f174fbc5c4b1d9bc",
+      "manifest_sha256": "ed1bce1df440e61bbc6bb396b58d3a436eba68f89ea1ed72958fd0592d4b79d4",
+      "actor_sha256": "c9e6bd5388b93a0932e0d983a509effde1528e4082167f98ad0b90355cf99319"
+    },
+    "manager": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/policies/decision_self_play_v2/final/manager/policy.zip",
+      "sha256": "3ecba688dc88efecc7312eed2e3906f68b89758a8f00be7bb2b421261d7afe3a",
+      "manifest_sha256": "367e39935977c578c582a70d1c2e04bfc5e5f6dc8f727b09395894881749ac1f",
+      "actor_sha256": "9a7d1c2e2dbc519e55cff407cb3753d2bf3f31cbf31ac984bbc249eb124ffd09"
+    }
+  }
+}

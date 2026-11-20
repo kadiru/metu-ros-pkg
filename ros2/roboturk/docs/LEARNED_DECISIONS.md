@@ -1,5 +1,13 @@
 # Learned tactical decisions and self-play
 
+Current result: v2 passed all reserved panels (233/240, 118/120, 117/120 clean) and
+all nine fresh demo cases. The final pair scored 107 goals and made 126 defensive
+stops; seven failures remain. The 45.6-second video includes learned passing,
+receiver handoff, dribbling and scoring in episode 3, starting 6.84 s.
+[Current model card, limits and evidence](../policies/decision_self_play_v2/README.md).
+The sections below preserve the protocol and chronological amendments; statements
+about tests not yet run describe their historical stage.
+
 Started November19,2026 America/Los_Angeles. This is a new experiment; the previous
 mobile-self-play release remains available at commit76679c00 and is not evidence
 for learned target/option selection. Do not modify its policy artifacts.

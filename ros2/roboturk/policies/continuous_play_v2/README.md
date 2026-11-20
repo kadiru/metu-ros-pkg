@@ -50,3 +50,9 @@ Alternative shot releases had only about12%recall on recorded training labels,
 although originally selected shot releases had100%recall. An additional160epochs
 at3e-5 balance counterfactual pass/shot releases and mouth-contact states. Original
 320epoch all-head fits, label receipts and all subsequent stages are retained.
+
+Release-balanced development completed6/6games per seed, with zero contacts or
+field exits:611 scored5goals with9receptions;622 scored1goal with9receptions.
+Both still need broad validation. Categorical historical self-play is now running
+in new isolated league directories, with frozen neural motor weights and logged
+safety interventions. No reserved cases have been run.

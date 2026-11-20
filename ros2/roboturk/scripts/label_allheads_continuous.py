@@ -14,10 +14,7 @@ import numpy as np
 from roboturk.capture import CaptureTeacher
 from roboturk.continuous import encode, ordered
 from roboturk.continuous_teacher import ContinuousTeacher, avoid
-from roboturk.continuous_training import digest
 from roboturk.model import Command, Intent, Skill, body_vector, possession, wrap
-from roboturk.self_play_training import write
-from relabel_continuous import reconstruct
 
 
 def all_heads(match, key):
@@ -80,6 +77,10 @@ def all_heads(match, key):
 
 
 def main():
+    from roboturk.continuous_training import digest
+    from roboturk.self_play_training import write
+    from relabel_continuous import reconstruct
+
     p = argparse.ArgumentParser()
     p.add_argument("--source", type=Path, required=True)
     p.add_argument("--output", type=Path, required=True)

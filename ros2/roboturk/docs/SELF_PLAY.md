@@ -340,3 +340,27 @@ checkpoint bytes, initialization/update links and all recorded training seeds.
 Broader300-case development and the complete6×6×20matrix run under the revised
 runtime. A two-case development movie checks the recorder before the final freeze;
 it is not the reserved eight-case demo. All reserved cases remain untouched.
+
+
+## Generation-five broader development
+
+| Pair | Goals | Defensive stops | Clean | Collisions | Unforced errors | Gate |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| Current/current | 38 | 61 | 99/100 | 1 | 0 | Pass |
+| Current attack/bootstrap defense | 34 | 60 | 94/100 | 6 | 0 | Fail |
+| Bootstrap attack/current defense | 32 | 64 | 96/100 | 1 | 3 | Pass |
+
+The historical-defense panel remains a failed robustness challenge. Five of its
+six collisions occur after an applied shot; two involve the original defensive
+teammates colliding with one another. These outcomes remain failures under the
+unchanged monitor and gates. The current-pair result supports only that pairing's
+development reliability, not a claim that all historical matchups are qualified.
+Do not infer an isolated PPO benefit from these sequential, differently prepared
+candidates. All raw outcomes are retained in artifacts/broader-generation5.
+
+The two-case native recorder smoke test used only existing development seeds:
+one interception and one goal,14.36s,359frames,1280×720 at25fps. Full decode and
+actual interception/dribble/goal-crossing/display frames were inspected. The native
+encoder reported a target-bitrate convergence warning, but completed successfully;
+full decoding found no errors. This clip is recorder validation, not the fresh demo.
+Full6×6×20cross-play is underway; all reserved tests/demo remain untouched.

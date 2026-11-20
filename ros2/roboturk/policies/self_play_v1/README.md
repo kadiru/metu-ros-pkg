@@ -119,3 +119,11 @@ saved-snapshot development panel was60/60clean:21goals,34interceptions,5keeper s
 All20role jobs, checkpoint transitions and recorded training seeds passed the audit.
 Broader development/cross-play are running; reserved qualification and the fresh demo
 are still pending. This remains an unqualified development release.
+
+
+Generation-five broader development: current/current99/100clean(38goals,61stops,
+1collision); currentattack/bootstrapdefense94/100(34goals,60stops,6collisions)—fails;
+bootstrapattack/currentdefense96/100(32goals,64stops,1collision,3unforced)—passes.
+The historical-defense failure prevents a full-protocol reliability claim. Reserved
+qualification has not run. All results and the successful native recorder smoke-test
+receipt are retained; the complete6×6cross-play matrix is running.

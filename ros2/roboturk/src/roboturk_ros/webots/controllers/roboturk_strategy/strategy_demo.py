@@ -1,6 +1,7 @@
 """Uncut native continuous matches; every seed, frame and outcome is retained."""
 
 from pathlib import Path
+import math
 import time
 from roboturk.continuous import KEYS, name
 from roboturk.strategy_options import MODES
@@ -11,6 +12,21 @@ class Recorder:
     def __init__(self, supervisor, count):
         self.supervisor, self.count = supervisor, count
         self.event_index, self.option_index, self.event_until, self.event_text = 0, 0, 0, ""
+        # A non-collidable line ring makes the real 43 mm ball visible in a GIF.
+        # This Pose has no Solid, boundingObject or Physics and never enters observations.
+        points = ", ".join(
+            f"{0.08 * math.cos(i * math.tau / 32)} {0.08 * math.sin(i * math.tau / 32)} 0"
+            for i in range(32)
+        )
+        indices = ", ".join(map(str, [*range(32), 0, -1]))
+        supervisor.getRoot().getField("children").importMFNodeFromString(
+            -1,
+            "DEF STRATEGY_BALL_HALO Pose { translation 0 0 0.045 children [ Shape { "
+            "appearance Appearance { material Material { emissiveColor 1 0.85 0 } } "
+            "geometry IndexedLineSet { coord Coordinate { point [ " + points + " ] } "
+            "coordIndex [ " + indices + " ] } } ] }",
+        )
+        self.halo = supervisor.getFromDef("STRATEGY_BALL_HALO").getField("translation")
 
     def label(self, index, text, y, size=0.045, color=0xFFFFFF):
         self.supervisor.setLabel(index, text, 0.025, y, size * 1.3, color, 0, "Arial")
@@ -35,13 +51,14 @@ class Recorder:
             match.backend.nodes[k].getField("color").setSFColor(color)
         self.label(
             7,
-            "Native Webots | neural strategy + frozen motor skills | approximate physics",
+            "Native Webots | neural strategy + frozen motor skills | approximate physics | ball ring: visual aid",
             0.95,
             0.027,
         )
         self.step(match)
 
     def step(self, match):
+        self.halo.setSFVec3f([match.world.ball.x, match.world.ball.y, 0.045])
         remaining = max(0, match.duration - match.steps * match.cfg.dt)
         self.label(
             2,
@@ -113,5 +130,6 @@ def record(supervisor, backend, bank, models, output, count, seed, duration):
         reset_settling_seconds=0.005,
         fixed_whole_field_camera=True,
         post_match_display_seconds=0,
+        ball_marker="non-collidable 0.08 m line ring; physical ball unchanged",
     )
     return result

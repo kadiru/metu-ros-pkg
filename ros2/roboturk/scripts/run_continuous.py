@@ -23,6 +23,7 @@ def main():
     p.add_argument("--output", required=True)
     p.add_argument("--checkpoint")
     p.add_argument("--opponent")
+    p.add_argument("--freeze", help="Verify a published runtime/model freeze before a reserved run")
     p.add_argument("--seed", type=int, default=4100000)
     p.add_argument("--episodes", type=int, default=12)
     p.add_argument("--duration", type=float, default=45)
@@ -38,6 +39,26 @@ def main():
     if min(a.episodes, a.duration, a.steps, a.epochs, a.rounds, a.timeout) <= 0:
         p.error("Positive limits required")
     root = Path(__file__).resolve().parents[1]
+    if a.seed >= 4500000 and a.mode in ("evaluate", "demo") and not a.freeze:
+        p.error("Reserved evaluation requires --freeze")
+    if a.freeze:
+        frozen_path = Path(a.freeze).resolve()
+        frozen = json.loads(frozen_path.read_text())
+        publication = json.loads((frozen_path.parent / "freeze-publication.json").read_text())
+        if publication["freeze_sha256"] != hashlib.sha256(frozen_path.read_bytes()).hexdigest():
+            p.error("Published freeze digest differs")
+        if not publication.get("remote_hashes_verified") or not publication.get("commit"):
+            p.error("Freeze has not been verified on GitHub")
+        for relative, expected in frozen["runtime_sha256"].items():
+            if hashlib.sha256((root / relative).read_bytes()).hexdigest() != expected:
+                p.error("Frozen runtime changed: " + relative)
+        for relative, expected in frozen["artifact_sha256"].items():
+            if hashlib.sha256((frozen_path.parent / relative).read_bytes()).hexdigest() != expected:
+                p.error("Frozen artifact changed: " + relative)
+        for checkpoint in (a.checkpoint, a.opponent or a.checkpoint):
+            relative = str(Path(checkpoint).resolve().relative_to(frozen_path.parent))
+            if relative not in frozen["artifact_sha256"]:
+                p.error("Checkpoint outside published selection")
     env = dict(os.environ)
     env["PATH"] = str(Path(sys.executable).parent) + os.pathsep + env["PATH"]
     env["PYTHONPATH"] = os.pathsep.join(
@@ -46,7 +67,9 @@ def main():
     for k, v in vars(a).items():
         if v is not None:
             env["CONTINUOUS_" + k.upper()] = (
-                str(Path(v).resolve()) if k in ("output", "checkpoint", "opponent") else str(v)
+                str(Path(v).resolve())
+                if k in ("output", "checkpoint", "opponent", "freeze")
+                else str(v)
             )
     cmd = [a.webots, "--batch", "--stdout", "--stderr", "--mode=fast"]
     if not a.render:

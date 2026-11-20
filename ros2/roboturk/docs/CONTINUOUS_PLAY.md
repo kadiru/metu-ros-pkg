@@ -5,8 +5,8 @@ The qualified tactical-decision release and its frozen runtime remain unchanged.
 
 ## Runtime contract
 
-Both teams have two robots and opposite goals. The v2 shared policy uses88 robot-centered, attack-normalized observations
-(including match clock and score) and35 outputs: seven behavior scores and seven
+Both teams have two robots and opposite goals. The v3 shared policy uses117 robot-centered, attack-normalized observations
+(including match clock, score and29additional localgeometry measurements) and35 outputs: seven behavior scores and seven
 separate four-output neural motion heads. Argmax selects the executed motion head,
 so behavior choice changes the physical command. The selected head supplies body
 velocity, rotation and release. It can execute recovery, dribbling, passing, shooting,
@@ -117,3 +117,16 @@ after a turnover advances the ball at least0.75m toward goal within10s, before
 the next opposing acquisition or referee restart. It verifies recorded whole-ball
 crossings, pass-to-reception provenance, all four policy-call counts and explicit
 restart ledgers. Contact is never relabeled as a win or a successful match outcome.
+
+## Predeclared release checks
+
+Before any reserved evaluation, `policies/continuous_play_v1/protocol.json` fixes
+six20-match panels: self-play, own historical opponent and the independently trained
+other seed, separately for611and622. Each training seed is assessed across60games.
+Required:>=95%completion,<=2%mean contact time,<=5%fieldexitmatches,>=90%loose-start
+acquisition,20goals (>=5percolor),20passes,15receptions,20shots,10counterattackmatches
+and>=1mmean support movement percolor. Every event/hash audit must pass. These
+measure functional continuous play and report actual W/D/L; they do not promise
+winning against another competent policy. All failures remain, and gates will not
+be weakened after reserved results. The fresh uncut demo uses611against622 for the
+three preselected consecutive45s matches4600000–2, retaining all outcomes.

@@ -169,7 +169,29 @@ def fit(output, seed, epochs, source=None):
         policy_kwargs={"net_arch": [256, 256], "log_std_init": -4.5},
     )
     if source:
-        model.policy.load_state_dict(load(source).policy.state_dict())
+        meta = json.loads(Path(source).with_suffix(".json").read_text())
+        parent = PPO.load(source, device="cpu")
+        if (
+            meta["contract"] not in (CONTRACT, "roboturk.continuous_robot.v2")
+            or meta["actor_sha256"] != actor_hash(parent)
+            or meta["config"] != asdict(Config())
+            or parent.action_space.shape != (ACTIONS,)
+        ):
+            raise ValueError("Invalid training parent")
+        state = parent.policy.state_dict()
+        target = model.policy.state_dict()
+        for key, value in state.items():
+            if value.shape != target[key].shape:
+                if key not in (
+                    "mlp_extractor.policy_net.0.weight",
+                    "mlp_extractor.value_net.0.weight",
+                ) or value.shape != (256, 88):
+                    raise ValueError("Unsupported architecture migration")
+                target[key].zero_()
+                target[key][:, :88] = value
+            else:
+                target[key] = value
+        model.policy.load_state_dict(target)
     rng = np.random.default_rng(seed)
     torch.manual_seed(seed)
     xt, yt = torch.as_tensor(x), torch.as_tensor(y)
@@ -210,6 +232,7 @@ def fit(output, seed, epochs, source=None):
             "observations": len(x),
             "data_sha256": digest(out / "data.npz"),
             "source": source,
+            "source_sha256": digest(source) if source else None,
             "losses": history,
         },
     )

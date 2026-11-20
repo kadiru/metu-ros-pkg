@@ -1,0 +1,29 @@
+{
+  "inputs": [
+    {
+      "path": "runs/continuous-v1/teacher-data",
+      "data_sha256": "08b67921d1fec9511859cc8bd924cf0fefd1b42a7be235fbe75e42fd6d5f9c90",
+      "collection_sha256": "b6abc581efba98d84651ae434ac3897a476b294f5121c1a208ca77a15f9485d2",
+      "observations": 135224,
+      "seed": 4200000,
+      "count": 30,
+      "control": "training_teacher",
+      "base_observations": 88,
+      "training_observations": 117
+    },
+    {
+      "path": "runs/continuous-v1/dagger1-622",
+      "data_sha256": "322f8e3d15553b79f7bcdad0a508fb0a7ab62b276f1e92b8dafc3e25b5c3edc0",
+      "collection_sha256": "21b3414021c5a0953a57995f863fb735172b0b798a124837a57a81c763f5a1f8",
+      "observations": 90160,
+      "seed": 4210100,
+      "count": 20,
+      "control": "mixed_neural_0.5",
+      "base_observations": 88,
+      "training_observations": 117
+    }
+  ],
+  "source": "runs/continuous-v1/dagger1-fit622/seed622/bootstrap.zip",
+  "source_sha256": "f3a819f4047c85854a494a7a5d0c1c6e2d064e6fe920506f1ac94028895df432",
+  "data_sha256": "83d0c03a79bd6e12c24d3cf08c7d94d685cde66aa7ebd758d1e6cd3710017513"
+}

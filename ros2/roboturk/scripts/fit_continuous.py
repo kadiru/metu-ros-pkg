@@ -7,6 +7,7 @@ import json
 import numpy as np
 import torch
 from roboturk.continuous_training import digest, fit
+from roboturk.continuous_features import augment
 from roboturk.self_play_training import write
 
 
@@ -29,7 +30,12 @@ def main():
         path = directory / "data.npz"
         assert digest(path) == receipt["data_sha256"]
         d = np.load(path)
-        arrays.append((d["observations"], d["actions"]))
+        x = d["observations"]
+        if x.shape[1] == 88:
+            x = augment(x)
+        if x.shape[1] != 117:
+            raise ValueError("Unexpected input contract")
+        arrays.append((x, d["actions"]))
         provenance.append(
             {
                 "path": str(directory),
@@ -39,6 +45,8 @@ def main():
                 "seed": receipt["seed"],
                 "count": receipt["count"],
                 "control": receipt["control"],
+                "base_observations": d["observations"].shape[1],
+                "training_observations": x.shape[1],
             }
         )
     args.output.mkdir(parents=True)

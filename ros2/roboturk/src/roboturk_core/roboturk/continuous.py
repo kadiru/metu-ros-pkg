@@ -21,10 +21,11 @@ from .model import (
     bounded,
 )
 from .capture_contract import capture_observation
+from .continuous_features import augment
 
-CONTRACT = "roboturk.continuous_robot.v2"
+CONTRACT = "roboturk.continuous_robot.v3"
 MODES = ("recover", "dribble", "pass", "shoot", "press", "cover", "support")
-OBSERVATIONS, ACTIONS = 88, 35
+OBSERVATIONS, ACTIONS = 117, 35
 SPEED, OMEGA = 1.2, 4.0
 KEYS = tuple(RobotKey(t, i) for t in ("blue", "yellow") for i in range(2))
 
@@ -103,7 +104,7 @@ def observation(w, k, memory, cfg=Config()):
         max(0, memory.duration - w.time) / 45,
         (memory.scores[k.team] - memory.scores[other_team(k.team)]) / 5,
     ]
-    result = np.asarray(values, np.float32)
+    result = augment(np.asarray(values, np.float32))
     if result.shape != (OBSERVATIONS,) or not np.isfinite(result).all():
         raise ValueError(f"Invalid continuous observation {result.shape}")
     return result

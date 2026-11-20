@@ -10,6 +10,7 @@ pytest.importorskip("stable_baselines3")
 def test_self_play_updates_only_learner_and_logs_training_resets(tmp_path):
     from roboturk.backend import ReferenceBackend
     from roboturk.continuous_training import ShapeEnv, save, digest
+    from roboturk.continuous import OBSERVATIONS
     from roboturk.continuous_selfplay import RobotMatchEnv
     from roboturk.self_play_training import SelfPlayPPO, actor_hash
 
@@ -27,7 +28,7 @@ def test_self_play_updates_only_learner_and_logs_training_resets(tmp_path):
     snapshot = save(source, tmp_path / "initial.zip", {"stage": "synthetic_test"})
     env = RobotMatchEnv(ReferenceBackend(), [snapshot], snapshot, 611, duration=0.04)
     model = SelfPlayPPO.load(snapshot["path"], env=env, device="cpu", learning_rate=1e-4)
-    x = np.random.default_rng(7).normal(0, 0.1, (64, 88)).astype(np.float32)
+    x = np.random.default_rng(7).normal(0, 0.1, (64, OBSERVATIONS)).astype(np.float32)
     model.prepare_anchor(x, 611, [np.arange(len(x))])
     model.actor_mse_limit = 1
     model.actor_delta_limit = 2

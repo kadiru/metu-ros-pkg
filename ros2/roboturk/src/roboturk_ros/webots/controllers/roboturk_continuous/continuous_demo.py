@@ -12,13 +12,13 @@ class Recorder:
         self.event_index, self.event_until, self.event_text = 0, 0, ""
 
     def label(self, index, text, y, size=0.045, color=0xFFFFFF):
-        self.supervisor.setLabel(index, text, 0.025, y, size, color, 0, "Arial")
+        self.supervisor.setLabel(index, text, 0.025, y, size * 1.3, color, 0, "Arial")
 
     def begin(self, index, match):
         self.event_index, self.event_until, self.event_text = 0, 0, ""
         camera = self.supervisor.getFromDef("CAMERA")
         # Fixed whole-field view. Both teammates and both opponents stay in frame.
-        camera.getField("position").setSFVec3f([0, 0, 11.5])
+        camera.getField("position").setSFVec3f([0, 0, 16.5])
         camera.getField("orientation").setSFRotation(
             [-0.577350269, 0.577350269, 0.577350269, 2.094395102]
         )

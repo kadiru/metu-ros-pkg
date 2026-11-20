@@ -191,3 +191,23 @@ def test_unfinished_matches_are_not_awarded_wins_or_draws():
     s = summary([unfinished, finished])
     assert s["unfinished"] == 1 and s["completed"] == 1 and s["draws"] == 1
     assert sum(s["wins"].values()) == 0
+
+
+def test_local_features_expose_body_closing_speed_and_wall_margin():
+    from roboturk.continuous_features import augment
+
+    w = world(Ball(1, 1))
+    w = replace(
+        w,
+        robots=tuple(
+            replace(r, x=4.1, yaw=math.pi / 2, vy=1.0) if r.key == KEYS[0] else r for r in w.robots
+        ),
+    )
+    m = Memory()
+    m.reset(w)
+    x = observation(w, KEYS[0], m)
+    assert len(x) == 117
+    assert x[92] == pytest.approx(-0.5)
+    assert x[93] == pytest.approx(0, abs=1e-6)
+    assert x[109] == pytest.approx(0.25, abs=1e-5)
+    np.testing.assert_array_equal(augment(np.stack([x[:88], x[:88]])), np.stack([x, x]))

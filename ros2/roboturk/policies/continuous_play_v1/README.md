@@ -4,7 +4,7 @@ This release is **not qualified** and has no new reliable neural demo yet.
 The previous qualified decision_self_play_v2 release remains intact.
 
 Seven learned choices select separate neural motion heads: recovery, dribble, pass,
-shoot, press, cover and support. Both teams use the same 88-input/35-output contract.
+shoot, press, cover and support. Both teams use the same 117-input/35-output v3 contract.
 Interceptions and missed shots continue; goals and ball-outs cause logged referee
 restarts. Native Webots, ground-truth state and approximate dynamics; no hardware claim.
 
@@ -23,3 +23,14 @@ being tested before corrective DAgger and historical self-play.
 Primary seed611 was chosen before testing;622 is an independent replication.
 Reserved seeds4500000+ and fresh demo4600000–2 remain unused.
 Protocol:[CONTINUOUS_PLAY.md](../../docs/CONTINUOUS_PLAY.md).
+
+Both firstDAgger fits completed6/6games but stillfailed spacing:611had2goals,
+3receptions,30.47%contacttime/4fieldexitmatches;622had2goals,2receptions,20.20%
+contacttime/4fieldexitmatches. These are failures. Newv3 adds29measured local
+geometry features (relativevelocity/direction/clearance,fieldmargins,goal/teammate
+bearings at finer scales). No planner or movement override. V2inputweights are
+retained and newweights startzero before eachindependent320epochrefit.
+
+Six reserved20-match panels and numerical gates are now predeclared in
+[protocol.json](protocol.json). No reservedcase hasrun. One developmentmovie
+preflight exposedclippedfieldedges; a wider fixedcamera is beingtested.

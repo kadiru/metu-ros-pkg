@@ -1,4 +1,40 @@
-# Validation — November 19, 2026 (America/Los_Angeles)
+# Validation — November 20, 2026 (America/Los_Angeles)
+
+## Qualified continuous 2v2 with explicit velocity safety
+
+Two independent training seeds passed every predeclared gate across120reserved
+native45-second matches:120/120complete,73goals,305passes,146stable receptions,
+140shots,74counterattack matches, zero detected contacts or field exits and100%
+loose-start acquisition. There were61draws. Counts include both teams and test
+functional play, not a guaranteed win/scoring rate. Each seed faced self,
+historical and other-seed opponents; no case was selected, dropped or rerun.
+
+Seven learned per-robot behavior choices select neural recovery, dribble, pass,
+shoot, press, cover and support heads. Interceptions, misses and possession losses
+continue play. An explicit analytic translation projection enforces geometric
+separation/field/speed constraints; it changed20.26%of ticks for seed611 and16.44%
+for622. Every event, intervention, inference count and frozen hash passed audit.
+
+Two categorical self-play generations per seed completed131072native PPO steps/
+128accepted updates total. Only behavior readouts train at this stage; neural
+motor functions stay fixed after imitation/DAgger preparation. Saved-weight/data
+probes independently confirm changed choices and zero motor-output change.
+Earlier262144steps of failed Gaussian PPO remain published. No isolated PPO gain.
+
+Freeze196ac809 was published and all247manifest blobs verified before evaluation.
+Fresh consecutive demo4610000–4610002:0–0,1–0,0–0; seven passes, three receptions,
+one goal, no contacts/exits. Native134.96s/3374frames,1280×720/25fps,H.264; delivery
+byte-identical, every frame retained and full decode passed. Approximate native
+physics, ground-truth state and simplified restarts remain explicit. Live ROS
+integration, official SSL compliance and hardware qualification are separate.
+
+[Model card and all panels](../policies/continuous_play_v2/README.md) ·
+[Uncut video](../media/continuous-self-play-demo.mp4) ·
+[Architecture](CONTINUOUS_PLAY.md).
+
+Local verification:174tests passed, one ROS module skipped locally; Ruff/format
+passed. Core and ROS CI passed on the frozen publication. Previous89frozen runtime
+files are unchanged. Final release CI is tracked in the PR and project status.
 
 ## Qualified learned tactical decisions and self-play
 
@@ -239,4 +275,4 @@ The reloaded policy achieved **0/10 successes** on held-out seeds 3000–3009 (o
 
 ## Remaining qualification work
 
-Full Webots/ROS live graph on Linux; motor/roller/dribbler/kicker calibration; official vision/referee adapters and full rule enforcement; guarded goals, obstructed/adversarial scenarios; multiple training seeds and ablations; passes to moving teammates, coordinated acquisition and variable kick power; full team match evaluation; recurrent policies; multi-agent training and self-play; physical transfer. No GPU training has been launched.
+Full Webots/ROS live graph on Linux; motor/roller/dribbler/kicker calibration; official vision/referee adapters and full rule enforcement; perception/radio latency and noise; stronger/larger opponent pools and controlled training ablations; variable kick power; larger-team match evaluation and longer-horizon recurrent strategy; physical transfer. Existing guarded-goal, self-play and two-seed continuous results remain bounded simulation curricula. No GPU training has been launched.

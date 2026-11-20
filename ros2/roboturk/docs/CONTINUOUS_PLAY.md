@@ -1,7 +1,8 @@
 # Continuous 2v2: learned behavior and explicit velocity safety
 
-Active development started November 20, 2026, America/Los_Angeles. This milestone
-is not qualified yet. The earlier qualified initial-possession drills and their
+Qualified November20,2026, America/Los_Angeles: both independent seeds passed all
+120reserved matches and all predeclared gates. The fresh uncut demo retains three
+matches, scores0–0,1–0,0–0. The earlier qualified initial-possession drills and their
 frozen runtimes remain intact. See [v1 retained attempts](../policies/continuous_play_v1/README.md)
 and the [current v2 model card](../policies/continuous_play_v2/README.md).
 
@@ -18,7 +19,9 @@ The behaviors are recover, dribble, pass, shoot, press, cover and support. The
 same interface serves either color and robot ID. There is no permanent goalkeeper,
 runtime teacher, scripted tactical target selection or reception-triggered handoff.
 Pass and shot power remain fixed at 2.2 and 3.5 m/s; translation is capped at 1.2 m/s
-and rotation at 4 rad/s. These actuator limits are not learned.
+and rotation at 4 rad/s. The dribbler stays enabled except while firing; its
+enable is coupled to the learned release, not an independent learned output.
+These actuator rules and limits are not learned.
 
 Interception, loss of possession, missed shots and robot contacts continue play.
 Whole-ball goals and ball-outs cause explicit logged referee restarts. These are
@@ -85,8 +88,8 @@ sampled from retained historical snapshots. Only the learner receives PPO action
 Goal difference is rewarded; contacts, field excursions and the learner's safety
 corrections are penalized. Acquisition, reception, possession and progress provide
 smaller shaping terms. Every reset, opponent hash, update decision and changed
-actor/decision hash is retained. Each selected league is planned for two 32,768-step
-generations per seed. The final cross-seed opponent is excluded from gradient training.
+actor/decision hash is retained. Each selected league completed two32,768-step
+generations per seed (131,072native steps/128accepted updates total). The final cross-seed opponent is excluded from gradient training.
 
 ## Evidence and reserved evaluation
 
@@ -117,6 +120,14 @@ models on reserved results. The fresh demo is three consecutive uncut 45 s match
 seeds 4610000–4610002, 611 final against 622 final. Native video timing, every frame,
 model hashes and match records must be verified. Previous camera preflights and
 failed development clips are not qualified demos.
+
+The reserved result contains73goals,305passes,146receptions,140shots and74counterattack
+matches, with zero detected contacts or field exits. Every loose-ball start was
+acquired. Safety adjusted translation on20.26%of ticks for seed611 and16.44%for622.
+The [complete audit](../policies/continuous_play_v2/qualification-audit.json) and
+[uncut native video](../media/continuous-self-play-demo.mp4) retain every outcome.
+There were61reserved draws; these results do not establish a guaranteed scoring
+rate or isolated PPO improvement.
 
 ## Scope still outstanding
 

@@ -1,0 +1,104 @@
+{
+  "source": "actual Webots movie recorder",
+  "native_path": "runs/continuous-v2/demo-v1.mp4",
+  "delivery_path": "media/continuous-self-play-demo.mp4",
+  "native_sha256": "1765d0373c27838cbec1880c45f4a94ed8201e185af667e897c846a264f2a114",
+  "delivery_sha256": "1765d0373c27838cbec1880c45f4a94ed8201e185af667e897c846a264f2a114",
+  "byte_identical_delivery": true,
+  "reencoded": false,
+  "cuts": 0,
+  "outcome_selection": false,
+  "speed": 1,
+  "matches": 3,
+  "simulation_seconds": 135,
+  "video": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1280,
+        "height": 720,
+        "pix_fmt": "yuvj420p",
+        "r_frame_rate": "25/1",
+        "duration": "134.960000",
+        "nb_read_frames": "3374"
+      }
+    ],
+    "format": {
+      "duration": "134.960000",
+      "size": "12479486"
+    }
+  },
+  "source_full_decode_passed": true,
+  "source_full_decode_stderr_bytes": 0,
+  "native_encoder_warning": "2pass bitrate curve failed to converge; completed native H264 decoded all3374frames without error",
+  "native_frame_timing_note": "134.96s native capture for135s controller play; delivery retains every native frame, no trimming",
+  "reviewed_frame_seconds": [
+    0.04,
+    18.8,
+    20.1,
+    44.9,
+    45.1,
+    74.5,
+    75.2,
+    89.9,
+    90.1,
+    97.9,
+    134.9
+  ],
+  "visual_review": "Full field, both goals, allfourrobots, clock, modes and safety overlay visible; match boundaries, reception, shot/goal restart and final frame inspected",
+  "scores": [
+    {
+      "blue": 0,
+      "yellow": 0
+    },
+    {
+      "blue": 1,
+      "yellow": 0
+    },
+    {
+      "blue": 0,
+      "yellow": 0
+    }
+  ],
+  "summary": {
+    "matches": 3,
+    "completed": 3,
+    "unfinished": 0,
+    "goals": {
+      "blue": 1,
+      "yellow": 0
+    },
+    "wins": {
+      "blue": 1,
+      "yellow": 0
+    },
+    "draws": 2,
+    "goal_matches": 1,
+    "turnover_matches": 2,
+    "acquisition_matches": 3,
+    "recovery_matches": 3,
+    "passes": 7,
+    "receptions": 3,
+    "mean_contact_fraction": 0.0,
+    "field_exit_matches": 0,
+    "mean_possession_seconds": {
+      "blue": 15.983333333334139,
+      "yellow": 17.16333333333392
+    }
+  },
+  "safety_tick_fraction": 0.17585185185185184,
+  "freeze_sha256": "bd3e54eeba3c0ac3afc00d17f51651725ea7c3c8c2245954e38d987a4271e135",
+  "runtime_model_and_inference_audit_passed": true,
+  "demo_json_packaging": {
+    "original_sha256": "4b33f0f3ed02ee120d854ae1a703ed7c10f3301f2c3876a4b2340856d3e3f66f",
+    "published_sha256": "6342f6f5019834a9b41134da2497180bb11db18d4788dc1ed2432a239536ec5e",
+    "original_bytes_reconstructable_with_json_indent_2": true
+  },
+  "approximate_video_highlights": {
+    "pass_receive": "00:18-00:20 and00:30-00:32",
+    "goal": "01:15",
+    "third_match_reception": "01:38"
+  }
+}

@@ -4,13 +4,20 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 This is an initial implementation, not a competition-ready team. It provides six skill environments, interchangeable analytic/learned policies, a stateful team-play layer, ROS 2 messages/nodes and a Webots Supervisor backend. See [validation](docs/VALIDATION.md) for exactly what has run.
 
-**In progress:** continuous symmetric 2v2 with recovery, support, counterattacks
-and independent training seeds. The [current hybrid experiment](policies/continuous_play_v2/README.md)
-combines neural behavior/motion policies with an explicit translation safety layer;
-all interventions are logged. [Unfiltered attempts and failures](policies/continuous_play_v1/README.md)
-remain available. This milestone is not yet qualified. The latest qualified release follows.
+The latest [continuous 2v2 release](policies/continuous_play_v2/README.md) adds learned
+recovery, support, pressing, coverage and counterattacks through two independent
+historical self-play leagues. Both seeds passed all reserved gates:120/120matches
+completed,73goals,146stable receptions and74counterattack matches, with zero
+detected contacts or field exits. An explicit geometric safety layer changed
+translation on16–20%of ticks. All interventions and failures are retained.
 
-The latest release replaces scripted tactical targets and handoffs with a **neural
+[Uncut native Webots demo](media/continuous-self-play-demo.mp4): three fresh45-second
+matches, scores0–0,1–0,0–0. [Architecture and limits](docs/CONTINUOUS_PLAY.md).
+The [unfiltered attempts](policies/continuous_play_v1/README.md) remain available.
+This is approximate ground-truth simulation with simplified restarts; official
+SSL match, hardware and complete live ROS graph qualification remain outstanding.
+
+The previous qualified drill replaces scripted tactical targets and handoffs with a **neural
 manager** that chooses when to pass, dribble or shoot, which robot acts, and where
 to receive/dribble/aim. Two alternating self-play generations trained the manager,
 defender and keeper for 196,608 native PPO steps; learned motion skills stay frozen.
@@ -227,7 +234,7 @@ In Python, register `CheckpointPolicy(path, skill, cfg)` with `BehaviorLibrary.r
 1. Validate the complete Webots/ROS live graph on Ubuntu. CI already builds all three ROS packages and passes the two bridge/interface tests; full simulator integration remains separate.
 2. Confirm which physical robot revision to reproduce: the archive contains both three- and four-wheel references. Add real motor/roller geometry and measure step response, slip, braking, dribbler capture and kick speed.
 3. Improve obstacle avoidance and skill termination, add randomized opponents, latency, observation noise and dynamics; evaluate held-out configurations.
-4. Extend the qualified play to free-ranging defenders and keepers, moving receivers and broader defensive training. Maintain analytic and random-policy comparisons, success rates, collision rates and uncertainty across training seeds.
-5. Add official SSL vision/game-controller adapters and rule enforcement, then multi-agent rollouts, centralized-critic training and self-play. Generic skill tasks control one robot; the passing play uses a centralized two-robot transfer policy, a learned finisher and two bounded learned opponents.
+4. Extend continuous2v2 to larger teams, stronger opponent pools, recurrent policies and broader held-out starts. Measure win/draw/loss, possession, pass completion, intervention rates and uncertainty; preserve independent training seeds and controlled ablations.
+5. Add official SSL vision/game-controller adapters, set pieces and rule enforcement. Compare the current shared per-robot behavior policies with centralized-critic training and longer-horizon team strategy learning.
 
 New code has no release license selected yet (`LicenseRef-Unlicensed` metadata). The historical repository's file-specific licenses and authorship remain intact. No archive implementation was copied into the modern Python stack.

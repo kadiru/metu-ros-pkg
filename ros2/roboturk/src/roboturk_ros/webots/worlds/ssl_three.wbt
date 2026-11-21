@@ -4,7 +4,7 @@ EXTERNPROTO "../protos/SslBall.proto"
 
 WorldInfo {
   info [ "RoboTurk behavior prototype: ideal body velocity, ODE contacts, spring dribbler." ]
-  basicTimeStep 5
+  basicTimeStep 10
   coordinateSystem "ENU"
   randomSeed 0
   contactProperties [

@@ -9,10 +9,10 @@ import numpy as np
 import torch
 
 from .continuous import SPEED, OMEGA
-from .continuous_safety import filter_commands
+from .model import body_vector, world_vector
 from .model import Ball, Command, Config, Referee, Robot, RobotKey, World, possession, wrap
 from .strategy_pass import observation
-from .three_recipient import choose, distance, move
+from .three_recipient import candidates, choose, distance, features, move
 
 KEYS = tuple(RobotKey(team, i) for team in ("blue", "yellow") for i in range(3))
 DT = 0.04
@@ -57,6 +57,50 @@ def layout(rng, team, sign):
         Referee.RUNNING,
         sign,
     )
+
+
+def filter_commands(world, commands):
+    """Limit inward velocity along robot pairs and field edges over one control step."""
+    velocities = {}
+    for r in world.robots:
+        c = commands[r.key]
+        velocities[r.key] = list(world_vector(c.vx, c.vy, r.yaw))
+    raw = {key: vector.copy() for key, vector in velocities.items()}
+    pairs = []
+    for i, a in enumerate(world.robots):
+        for b in world.robots[:i]:
+            gap = distance(a, b)
+            if gap > 0.33:
+                continue
+            ux, uy = (a.x - b.x) / max(gap, 1e-9), (a.y - b.y) / max(gap, 1e-9)
+            budget = max(0, (gap - 0.195) * 0.8 / DT)
+            va, vb = velocities[a.key], velocities[b.key]
+            closing = (vb[0] - va[0]) * ux + (vb[1] - va[1]) * uy
+            correction = 0.5 * max(0, closing - budget)
+            va[0] += correction * ux
+            va[1] += correction * uy
+            vb[0] -= correction * ux
+            vb[1] -= correction * uy
+            pairs.append((va, vb, ux, uy, budget))
+    scale = 1.0
+    for r in world.robots:
+        v = velocities[r.key]
+        for j, (pos, bound) in enumerate([(r.x, 4.35), (r.y, 2.85)]):
+            v[j] = max(min(0, (-bound - pos) / DT), min(max(0, (bound - pos) / DT), v[j]))
+        scale = min(scale, 1.2 / max(1.2, math.hypot(*v)))
+    for va, vb, ux, uy, budget in pairs:
+        closing = (vb[0] - va[0]) * ux + (vb[1] - va[1]) * uy
+        if closing > budget + 1e-8:
+            scale = min(scale, budget / closing)
+    changed = False
+    applied = {}
+    for r in world.robots:
+        x, y = velocities[r.key]
+        x, y = x * scale, y * scale
+        changed |= math.hypot(x - raw[r.key][0], y - raw[r.key][1]) > 1e-7
+        vx, vy = body_vector(x, y, r.yaw)
+        applied[r.key] = replace(commands[r.key], vx=vx, vy=vy)
+    return applied, True if changed else None
 
 
 def snapshot(world):
@@ -127,8 +171,10 @@ class Game:
             team = carrier.key.team
             if team != self.possession_team:
                 self.clock_start, self.possession_team = self.tick, team
-            shoot = carrier.x * w.direction(team) > 2.25
-            if not shoot and self.choice is None:
+            shoot = carrier.x * w.direction(team) > 1.2
+            lanes = [features(w, carrier, m) for m in candidates(w, carrier)]
+            can_pass = max(row[0] for row in lanes) >= 0.30 and min(row[3] for row in lanes) >= 0.20
+            if not shoot and can_pass and self.choice is None:
                 self.choice = choose(
                     w, carrier, self.weights[team], self.choice_rng if team in self.sample else None
                 )
@@ -147,6 +193,10 @@ class Game:
                         commands[r.key] = Command(
                             0, -0.115 * omega, omega, 1, 4 if abs(error) < 0.05 else 0
                         )
+                    elif self.choice is None:
+                        error = wrap(math.atan2(-ball.y, 4.5 * direction - ball.x) - r.yaw)
+                        omega = np.clip(error * 2, -1, 1)
+                        commands[r.key] = Command(0.32, -0.115 * omega, omega, 1)
                     else:
                         mate = w.robot(RobotKey(team, self.choice.receiver))
                         commands[r.key] = self.motor_command(carrier, mate)
@@ -162,7 +212,7 @@ class Game:
                     else:
                         x, y = ball.x - 0.115 * math.cos(angle), ball.y - 0.115 * math.sin(angle)
                 elif carrier and team == carrier.key.team:
-                    if r.key.id == self.choice.receiver if self.choice is not None else False:
+                    if self.choice is not None and r.key.id == self.choice.receiver:
                         x, y = r.x, r.y
                     else:
                         x = np.clip(carrier.x + direction * 1.65, -3.8, 3.8)
@@ -181,7 +231,7 @@ class Game:
                     if flight and team == flight["team"]:
                         x, y = r.x + direction * 0.12, r.y
                     else:
-                        x = np.clip(ball.x - direction * (1.5 + 0.5 * r.key.id), -3.95, 3.95)
+                        x = np.clip(ball.x - direction * (3.2 + 0.3 * r.key.id), -3.95, 3.95)
                         y = np.clip(0.4 * ball.y + (r.key.id - 1) * 0.9, -2.6, 2.6)
                 commands[r.key] = move(r, x, y, angle)
         return commands
@@ -227,12 +277,16 @@ class Game:
                     self.flight_hold = (
                         self.flight_hold + 1 if mouths == [intended] and travel >= 0.55 else 0
                     )
-                    if other or self.tick - f["tick"] >= 4 / DT or self.flight_hold >= 40:
+                    if (
+                        other
+                        or self.tick - f["tick"] >= 4 / DT
+                        or self.flight_hold * self.backend.basic_ms >= 200
+                    ):
                         self.finish_pass(
                             "intercepted"
                             if other
                             else "complete"
-                            if self.flight_hold >= 40
+                            if self.flight_hold * self.backend.basic_ms >= 200
                             else "timeout"
                         )
             b = self.world.ball

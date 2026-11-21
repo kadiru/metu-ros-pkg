@@ -1,0 +1,4 @@
+{
+  "excluded_from_release": true,
+  "reason": "Exploratory motor fit included previously inspected development states. Retained, but discarded from candidate pipeline; fresh v5 uses only training-range native pilot states."
+}

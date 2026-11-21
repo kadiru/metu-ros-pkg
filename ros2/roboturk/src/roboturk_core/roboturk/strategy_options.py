@@ -162,7 +162,7 @@ def snapshot(world):
 
 
 class MotorBank:
-    def __init__(self, root):
+    def __init__(self, root, pass_source=None):
         from .continuous_training import load as load_base, descriptor
         from .tdp_training import load as load_skill, descriptor as skill_descriptor
 
@@ -170,6 +170,12 @@ class MotorBank:
         source = self.root / "policies/continuous_play_v2/seed611/generation2/policy.zip"
         self.base = load_base(source)
         self.descriptors = {"continuous": descriptor(source, self.base)}
+        self.pass_motor = None
+        if pass_source is not None:
+            from .strategy_pass import LearnedPass
+
+            self.pass_motor = LearnedPass(pass_source)
+            self.descriptors["pass_override"] = self.pass_motor.descriptor
         self.skills = {}
         for kind in KINDS:
             source = self.root / f"policies/tdp_skills_v1/{kind}/policy.zip"
@@ -177,9 +183,12 @@ class MotorBank:
             self.descriptors[kind] = skill_descriptor(source, self.skills[kind])
 
     def base_actions(self, match):
-        return self.base.predict(
+        result = self.base.predict(
             np.stack([observation(match.world, k, match.memory) for k in KEYS]), deterministic=True
         )[0]
+        if self.pass_motor is not None:
+            result[:, 15:19] = self.pass_motor.predict(match)
+        return result
 
 
 class StrategyMatch(ContinuousMatch):

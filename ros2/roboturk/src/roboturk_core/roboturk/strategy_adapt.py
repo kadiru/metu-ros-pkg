@@ -17,7 +17,9 @@ def fit_heads(paths, parent, output, seed, epochs=250):
     setting = (modes >= 7) & ((x[:, 122:132].argmax(1) != modes) | (y[:, 16] > 0))
     groups = [g for i in range(10) if len(g := np.flatnonzero(modes == i))]
     groups += [g for i in range(7, 10) if len(g := np.flatnonzero(setting & (modes == i)))]
-    model = expand(parent, seed)
+    previous = load(parent)
+    model = expand(parent, seed) if previous.policy.action_net.out_features == 17 else previous
+    model.set_random_seed(seed)
     before = model.predict(x[:128], deterministic=True)[0]
     old = load(parent).predict(x[:128], deterministic=True)[0]
     assert np.array_equal(before[:, :10], old[:, :10])

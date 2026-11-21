@@ -77,3 +77,26 @@ policies, then refits each seed with supervision applied only to the selected
 skill head. A new categorical choice therefore selects its own learned intent.
 This is a new preparation experiment, not an isolated causal attribution of the
 previous results to either architecture or PPO. All old candidates are retained.
+
+### Resumed diagnosis and pass-motor preparation
+
+The separate-head adaptation scored only one goal across 32 development matches;
+those failed candidates and all native records remain in `preparation/adapt-v3`.
+The initial coach also supplied very few shooting labels and copied ordinary
+choices from the previous neural selector. The revised training-only coach uses
+explicit continuous-play labels while deployment remains fully neural.
+
+Recorded backpass states exposed unwanted lateral motion and delayed release in
+the old pass head. A diagnostic using analytic pass commands scored three goals
+in eight native matches, including both redirect opportunities, with zero robot
+contacts or field exits. This is a diagnostic, not a learned-controller result
+or a controlled estimate of improvement over the other seed panels.
+
+A small learned pass motor now uses 16 robot-relative geometry/contact features
+and predicts four motor outputs. Its v5 preparation uses only recorded native
+states from training-range seeds, with explicit coaching labels. The exploratory
+v4 fit included previously inspected development states and is excluded from the
+candidate pipeline; it is retained with that limitation. All other motor actors
+remain unchanged. The pass replacement is opt-in through `--pass-motor` and must
+be frozen alongside the eventual strategy before reserved evaluation. No new
+reliable integrated release or final demo is claimed at this stage.

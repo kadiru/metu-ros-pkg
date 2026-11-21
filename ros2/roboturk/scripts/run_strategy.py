@@ -25,6 +25,8 @@ def main():
         required=True,
     )
     p.add_argument("--opponent")
+    p.add_argument("--pass-motor")
+    p.add_argument("--diagnostic-pass", action="store_true")
     p.add_argument("--duration", type=float, default=20)
     p.add_argument("--mix", type=float, default=0)
     p.add_argument("--rounds", type=int, default=2)
@@ -38,6 +40,8 @@ def main():
     p.add_argument("--render", action="store_true")
     p.add_argument("--freeze")
     a = p.parse_args()
+    if a.diagnostic_pass and a.mode not in ("pilot", "collect"):
+        p.error("Analytic pass diagnostic is limited to explicitly labeled pilot/collection")
     output = Path(a.output).resolve()
     receipt = output.with_suffix(".launch.json")
     if output.exists() or output.with_suffix(".json").exists() or receipt.exists():
@@ -66,7 +70,7 @@ def main():
         if v is not None:
             env["STRATEGY_" + k.upper()] = (
                 str(Path(v).resolve())
-                if k in ("output", "checkpoint", "opponent", "freeze")
+                if k in ("output", "checkpoint", "opponent", "freeze", "pass_motor")
                 else str(v)
             )
     sources = list((ROOT / "src/roboturk_core/roboturk").glob("*.py"))

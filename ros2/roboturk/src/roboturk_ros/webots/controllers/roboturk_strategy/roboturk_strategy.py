@@ -19,9 +19,14 @@ def main():
     backend.safety_contract = SAFETY
     args = os.environ
     root = Path(__file__).resolve().parents[5]
-    bank = MotorBank(root)
+    bank = MotorBank(root, args.get("STRATEGY_PASS_MOTOR"))
     out = Path(args["STRATEGY_OUTPUT"])
     mode = args["STRATEGY_MODE"]
+    if args.get("STRATEGY_DIAGNOSTIC_PASS") == "True":
+        assert mode in ("pilot", "collect")
+        from roboturk.strategy_pass import DiagnosticPassBank
+
+        bank = DiagnosticPassBank(bank)
     count, seed = int(args["STRATEGY_EPISODES"]), int(args["STRATEGY_SEED"])
     duration = float(args["STRATEGY_DURATION"])
     try:

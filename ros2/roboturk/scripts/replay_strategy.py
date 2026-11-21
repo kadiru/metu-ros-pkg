@@ -75,7 +75,19 @@ def replay(path, blue, yellow):
     data = read(path)
     assert data["control"] == "neural"
     models = [load(blue), load(yellow)]
-    bank = MotorBank(ROOT)
+    override = data["motors"].get("pass_override")
+    source = None
+    if override:
+        assert isinstance(override, dict) and override["control"] == "learned frozen pass motor"
+        source = Path(override["path"])
+        if not source.exists() and "/runs/strategy-v1/" in str(source):
+            source = (
+                ROOT
+                / "policies/strategy_self_play_v1/preparation"
+                / str(source).split("/runs/strategy-v1/", 1)[1]
+            )
+        assert hashlib.sha256(source.read_bytes()).hexdigest() == override["sha256"]
+    bank = MotorBank(ROOT, source)
     records = []
     for native in data["matches"]:
         backend = RecordedStates(native)

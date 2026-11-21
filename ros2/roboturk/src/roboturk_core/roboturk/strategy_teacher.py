@@ -3,14 +3,16 @@
 import math
 import numpy as np
 from .model import RobotKey, possession, wrap
-from .continuous_teacher import clearance
+from .continuous_teacher import ContinuousTeacher, clearance
 from .continuous import KEYS
 from .tdp_options import BallIntent
 from .strategy_options import MODES, ACTIONS, intent_values
 
 
 def actions(match):
-    old = match.bank.base_actions(match)
+    # Teach decisions from the explicit coach, not the previous selector's
+    # mistakes. The motor commands still come from the frozen neural bank.
+    old = ContinuousTeacher().actions(match)
     result = np.zeros((4, ACTIONS), np.float32)
     w, cfg = match.world, match.cfg
     for i, k in enumerate(KEYS):

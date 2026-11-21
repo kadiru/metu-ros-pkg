@@ -1,0 +1,128 @@
+[
+  {
+    "contested_seconds": 84.43,
+    "contests": [
+      {
+        "start": 557,
+        "last": 8999,
+        "contestants": [
+          2,
+          5
+        ]
+      }
+    ],
+    "recoveries": 0,
+    "chains": 0,
+    "late": 0,
+    "passes": 1,
+    "completions": 0
+  },
+  {
+    "contested_seconds": 0.0,
+    "contests": [],
+    "recoveries": 0,
+    "chains": 0,
+    "late": 0,
+    "passes": 10,
+    "completions": 5
+  },
+  {
+    "contested_seconds": 81.33,
+    "contests": [
+      {
+        "start": 867,
+        "last": 8999,
+        "contestants": [
+          1,
+          4
+        ]
+      }
+    ],
+    "recoveries": 0,
+    "chains": 0,
+    "late": 0,
+    "passes": 2,
+    "completions": 1
+  },
+  {
+    "contested_seconds": 15.64,
+    "contests": [
+      {
+        "start": 7436,
+        "last": 8999,
+        "contestants": [
+          1,
+          4
+        ]
+      }
+    ],
+    "recoveries": 0,
+    "chains": 0,
+    "late": 2,
+    "passes": 14,
+    "completions": 9
+  },
+  {
+    "contested_seconds": 36.050000000000004,
+    "contests": [
+      {
+        "start": 5396,
+        "last": 8999,
+        "contestants": [
+          2,
+          5
+        ]
+      }
+    ],
+    "recoveries": 0,
+    "chains": 0,
+    "late": 0,
+    "passes": 13,
+    "completions": 8
+  },
+  {
+    "contested_seconds": 76.84,
+    "contests": [
+      {
+        "start": 1316,
+        "last": 8999,
+        "contestants": [
+          1,
+          5
+        ]
+      }
+    ],
+    "recoveries": 0,
+    "chains": 0,
+    "late": 0,
+    "passes": 3,
+    "completions": 1
+  },
+  {
+    "contested_seconds": 0.0,
+    "contests": [],
+    "recoveries": 0,
+    "chains": 0,
+    "late": 5,
+    "passes": 14,
+    "completions": 9
+  },
+  {
+    "contested_seconds": 63.77,
+    "contests": [
+      {
+        "start": 2623,
+        "last": 8999,
+        "contestants": [
+          2,
+          3
+        ]
+      }
+    ],
+    "recoveries": 0,
+    "chains": 0,
+    "late": 0,
+    "passes": 5,
+    "completions": 3
+  }
+]

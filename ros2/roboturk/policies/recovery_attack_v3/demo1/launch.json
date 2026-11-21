@@ -1,0 +1,21 @@
+{
+  "root": "/Users/kadir/linkedin/projects/roboturk/modern",
+  "mode": "demo",
+  "first": 11500000,
+  "cases": 3,
+  "seconds": 35,
+  "record": true,
+  "candidates": [
+    {
+      "tracking": 0.66,
+      "centering": 14.0,
+      "turn": 3.5,
+      "escape": 0.95,
+      "speed": 0.95,
+      "pass_bias": 0.26,
+      "carry_bias": 1.34,
+      "shot_bias": 0.67
+    }
+  ],
+  "webots_sha256": "035a91bad1d12e4f34108ec48c8cadcb2dab4dc3278e4f03c9e969bb82d6babe"
+}

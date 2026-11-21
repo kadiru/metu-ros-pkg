@@ -1,0 +1,52 @@
+{
+  "seed": 822,
+  "source": "runs/strategy-v1/league822-v3",
+  "passed": true,
+  "generations": [
+    {
+      "generation": 1,
+      "steps": 32768,
+      "accepted_updates": 26,
+      "attempted_updates": 32,
+      "roles": {
+        "blue1": 8,
+        "yellow1": 9,
+        "yellow0": 8,
+        "blue0": 8
+      },
+      "opponent_samples": {
+        "0": 33
+      },
+      "actor_before": "c4fbc716c383351cd39711dac35ad61e688bbc118e4a5e7ce7a9860cea231177",
+      "actor_after": "3c33e7d827c108c0789fc290373470e6699dd761e3501fdc58b3c97dbb9dadc9",
+      "target_function_sha256": "36ceb6839b0c6f2a28023860dc701f9a3d147e5757515447e77f4670900bc259",
+      "deterministic_probe_choice_changes": 52,
+      "exploratory_choice_changes": 104,
+      "checkpoint_sha256": "8eb73943b3f65e2e3339ee9b5c9cb47c836dd500e09a6e08dc87cd76f3833ceb",
+      "passed": true
+    },
+    {
+      "generation": 2,
+      "steps": 32768,
+      "accepted_updates": 29,
+      "attempted_updates": 32,
+      "roles": {
+        "blue0": 9,
+        "yellow0": 8,
+        "blue1": 8,
+        "yellow1": 8
+      },
+      "opponent_samples": {
+        "0": 19,
+        "1": 14
+      },
+      "actor_before": "3c33e7d827c108c0789fc290373470e6699dd761e3501fdc58b3c97dbb9dadc9",
+      "actor_after": "11248a8bdb75da0d60aaec0cdefa6a59def19bc6605c7eef4b9c092b88c8142f",
+      "target_function_sha256": "36ceb6839b0c6f2a28023860dc701f9a3d147e5757515447e77f4670900bc259",
+      "deterministic_probe_choice_changes": 96,
+      "exploratory_choice_changes": 143,
+      "checkpoint_sha256": "e5bfbb56719ad2ea74fc4adacf8b5ef9d68cba3899407d88769f440b13b9a9a1",
+      "passed": true
+    }
+  ]
+}

@@ -15,7 +15,16 @@ All 58 games ran in independent native Webots processes. Each contested start us
 
 Two qualification targets were missed. The new team scored from the opening recovery in 11 of 20 contested games against a target of 12. In head-to-head games it scored twice from the opening contest against a target of three. Across all recoveries it scored seven times against the previous team's one. In new-team self-play, both colors scored eight recovery goals. No recorded robot pair came within 0.18 m and no robot left the field in this test. [Every game and physical audit](qualification/audit.json) · [Predeclared thresholds](protocol.json)
 
-The independent replication doubled the sample size with the same teams, durations and proportional thresholds. Its protocol was published before the new games. [Replication plan](replication-plan.json)
+The independent replication doubled the sample size with the same teams, durations and proportional thresholds. Its protocol was published before the new games. It missed the opening and head-to-head targets again. The carried column only credits explicit dribble choices, which the previous outlet team does not log.
+
+| Replication | Opening goals / games | Recovery goals / recoveries | With a pass | With a carry |
+| --- | ---: | ---: | ---: | ---: |
+| Previous team, contested | 4/40 | 7/84 | 7 | 0 |
+| New team, contested | 17/40 | 25/63 | 3 | 11 |
+| Head-to-head, contested | 4/24 | 10/53 | 4 | 3 |
+| New team, ordinary open play | 3/12 | 5/9 | 0 | 3 |
+
+The new side scored 3/24 opening goals in head-to-head games against a target of six. Across both evaluations, the new teams converted 28/60 opening contests, compared with 6/60 for the previous teams. In ordinary play the new teams scored from 8/14 recoveries across 18 one-minute games. Across all 174 games, the audits found zero robot field exits and zero samples with center separation below 0.18 m. [Replication protocol](replication-plan.json) · [All 116 game audits](replication/audit.json)
 
 ## What the policy observes
 

@@ -1,0 +1,9 @@
+{
+  "mode": "released",
+  "cases": 40,
+  "first": 9900000,
+  "seconds": 24,
+  "root": "/Users/kadir/linkedin/projects/roboturk/modern",
+  "model": "/Users/kadir/linkedin/projects/roboturk/modern/policies/recovery_attack_v1/policy.json",
+  "webots_sha256": "035a91bad1d12e4f34108ec48c8cadcb2dab4dc3278e4f03c9e969bb82d6babe"
+}

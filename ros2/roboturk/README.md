@@ -12,7 +12,7 @@ Yellow 0 wins a contested ball in open play, dribbles 0.25 m and passes to Yello
 
 *Yellow 0 gains sole control at 10.19 seconds, passes at 11.48 and Yellow 1 completes the reception at 12.96. The shot crosses the goal line at 15.39. The inset enlarges the same Webots frames. The rendered rerun reproduced every recorded state in the original 60-second match.* [Full open-play match](media/recovery-pass-finish.mp4) · [Three fresh uncut demo matches](media/recovery-to-goal.mp4) · [Full demo GIF](media/recovery-to-goal.gif)
 
-In the first matched Webots evaluation the new team scored from the opening contest in **11/20 games**, compared with **2/20** for the previous team. It missed its 12/20 target. Across all recoveries, it scored 16 times in 30 opportunities, including nine goals following a controlled dribble. [Model, training and both evaluation protocols](policies/recovery_attack_v1/README.md)
+Across two independent matched Webots evaluations, the new team scored from **28/60 opening contests**, compared with **6/60** for the previous team. It improved on the previous team in both evaluations and missed the 60% opening-conversion target in both. In 18 ordinary one-minute games it scored from **8/14 spontaneous recoveries**. [Model, training and both evaluation protocols](policies/recovery_attack_v1/README.md)
 
 ## 3v3 contested recovery and outlet passing
 

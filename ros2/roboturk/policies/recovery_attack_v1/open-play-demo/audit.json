@@ -1,0 +1,49 @@
+{
+  "totals": {
+    "first": 1,
+    "recoveries": 1,
+    "chains": 1,
+    "mixed_first": 0,
+    "assisted": 1,
+    "carried": 1,
+    "blue": 0,
+    "yellow": 1,
+    "goals": 2,
+    "contacts": 0,
+    "exits": 0,
+    "samples": 6000,
+    "choices": {
+      "dribble": 1,
+      "pass": 1,
+      "shoot": 2
+    }
+  },
+  "games": [
+    {
+      "seed": 9700004,
+      "first": 1,
+      "recoveries": 1,
+      "chains": 1,
+      "mixed_first": 0,
+      "assisted": 1,
+      "carried": 1,
+      "blue": 0,
+      "yellow": 1,
+      "goals": 2,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 6000,
+      "choices": {
+        "dribble": 1,
+        "pass": 1,
+        "shoot": 2
+      }
+    }
+  ],
+  "passed": true,
+  "source_panel_passed": false,
+  "seed": 9700004,
+  "max_trace_delta": 0.0,
+  "identical_events": true,
+  "identical_conversions": true
+}

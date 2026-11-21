@@ -39,6 +39,12 @@ The audit reads the ball and six robot poses at 100 Hz. It checks that the winne
 
 Training, development, qualification and demo seeds use distinct ranges. The main comparison uses matched contested fixtures. Qualification also measures spontaneous recoveries in ordinary 3v3 open play. The Webots world uses ground-truth poses, ideal body velocity, a spring dribbler and fixed kick power. [Evaluation plan](protocol.json)
 
+## Watch the matches
+
+In the open-play clip, Yellow 0 contests the ball at 9.44 s, establishes possession at 10.19, carries it 0.254 m and passes at 11.48. Yellow 1 receives at 12.96, shoots at 14.28 and scores at 15.39. The selected ordinary match was rerun in Webots with rendering enabled. All 6,000 recorded states, referee events and conversions matched its original qualification game. [Normal-speed GIF](../../media/recovery-pass-finish.gif) · [Full 60-second MP4](../../media/recovery-pass-finish.mp4) · [Trace comparison](open-play-demo/audit.json)
+
+Three additional 35-second demo games ran on the prespecified seeds. The two contested starts produced one and two recovery goals. The ordinary third game finished scoreless. All three games appear in the native recording in order. [105-second native video](../../media/recovery-to-goal.mp4) · [Full GIF](../../media/recovery-to-goal.gif) · [Second game's pass and goal](../../media/recovery-goal-play.gif) · [Demo audit](demo/audit.json)
+
 ## Reproduce the experiment
 
 Run these commands from the modern project with its Python environment active. The launcher accepts `--webots /path/to/webots`. The reported matches used the native Webots R2025a nightly from November 17, 2026.
@@ -51,6 +57,9 @@ python scripts/audit_recovery_attack.py runs/new-attack-qualification
 python scripts/run_recovery_attack.py demo runs/new-attack-demo
 python scripts/audit_recovery_attack.py runs/new-attack-demo --demo
 python scripts/build_recovery_goal_demo.py runs/new-attack-demo --media runs/new-attack-media
+python scripts/record_open_play_goal.py runs/new-attack-qualification runs/new-open-play-demo
+python scripts/check_recovery_showcase.py runs/new-open-play-demo runs/new-attack-qualification --media runs/new-attack-media
+python scripts/replicate_recovery_attack.py runs/new-attack-replication
 ```
 
 The four compressed training archives are JSON documents containing the native episode records, launch settings, checkpoint data and fitted policy. The replay command checks the learned parameters against those records. Primary seeds start at 9200000 for the initial league, 9220000 for the second league, 9240000 for the first opening study and 9245000 for the lead-pass study. Only development and training data were used to select the controller. [Initial training](initial.json.gz) · [Refined training](refined.json.gz) · [Opening trials](branches.json.gz) · [Lead-pass trials](lead.json.gz) · [Development audit](development.json) · [Source and policy hashes](freeze.json)

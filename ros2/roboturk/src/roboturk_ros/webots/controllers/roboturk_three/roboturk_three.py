@@ -135,7 +135,7 @@ def run(supervisor, folder):
         result = game.run()
         if game.trace:
             np.savez_compressed(
-                folder / f"trace-{i:02}.npz", states=np.asarray(game.samples, dtype=np.float32)
+                folder / f"trace-{i:02}.npz", states=np.asarray(game.samples, dtype=np.float64)
             )
         if mode == "train":
             rows = [p for p in game.passes if p["team"] == learner]

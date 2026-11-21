@@ -56,6 +56,30 @@ def sources():
     ]
 
 
+def run_matches(d, cfg, binary, world, isolated):
+    count = cfg["cases"]
+    env = dict(
+        os.environ,
+        ATTACK_RUN=str(d),
+        PYTHONPATH=str(ROOT / "src/roboturk_core"),
+        PATH=str(Path(sys.executable).parent) + os.pathsep + os.environ["PATH"],
+    )
+    cmd = [str(binary), "--batch", "--stdout", "--stderr", "--mode=fast"]
+    if not cfg["record"]:
+        cmd += ["--no-rendering", "--minimize"]
+    for i in range(count if isolated else 1):
+        if isolated:
+            env["RECOVERY_CASE"] = str(i)
+        with (d / "webots.log").open("a") as f:
+            subprocess.run(
+                [*cmd, str(world)], env=env, stdout=f, stderr=subprocess.STDOUT, check=True
+            )
+        assert (
+            not (d / "error.txt").exists()
+            and (d / f"game-{i if isolated else count - 1:03}.json").exists()
+        ), d
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("mode", choices=["search", "develop", "qualify", "demo", "branches"])
@@ -112,27 +136,7 @@ def main():
         webots_sha256=digest(a.webots),
     )
     save(d / "launch.json", cfg)
-    env = dict(
-        os.environ,
-        ATTACK_RUN=str(d),
-        PYTHONPATH=str(ROOT / "src/roboturk_core"),
-        PATH=str(Path(sys.executable).parent) + os.pathsep + os.environ["PATH"],
-    )
-    cmd = [str(a.webots), "--batch", "--stdout", "--stderr", "--mode=fast"]
-    if not cfg["record"]:
-        cmd += ["--no-rendering", "--minimize"]
-    isolated = a.mode in ("qualify", "develop")
-    for i in range(count if isolated else 1):
-        if isolated:
-            env["RECOVERY_CASE"] = str(i)
-        with (d / "webots.log").open("a") as f:
-            subprocess.run(
-                [*cmd, str(WORLD)], env=env, stdout=f, stderr=subprocess.STDOUT, check=True
-            )
-        assert (
-            not (d / "error.txt").exists()
-            and (d / f"game-{i if isolated else count - 1:03}.json").exists()
-        ), d
+    run_matches(d, cfg, a.webots, WORLD, a.mode in ("qualify", "develop"))
     if a.mode in ("search", "branches"):
         games = [read(f) for f in sorted(d.glob("game-*.json"))]
         stats = []
@@ -166,6 +170,12 @@ def main():
         print(stats)
     else:
         evidence = panel(d)
+        if a.mode == "qualify":
+            for i, row in enumerate(evidence["games"]):
+                contests = read(d / f"game-{i:03}.json")["conversions"]
+                assert row["first"] == int(
+                    bool(contests and contests[0]["start"] == 0 and "goal" in contests[0])
+                )
         evidence["passed"] = (
             evidence["totals"]["first"] >= plan["target"]
             if a.mode == "qualify"

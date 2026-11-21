@@ -1,0 +1,44 @@
+[
+  {
+    "index": 0,
+    "games": 48,
+    "goals": 37,
+    "passes": 0,
+    "carries": 18
+  },
+  {
+    "index": 1,
+    "games": 48,
+    "goals": 30,
+    "passes": 0,
+    "carries": 10
+  },
+  {
+    "index": 2,
+    "games": 48,
+    "goals": 37,
+    "passes": 0,
+    "carries": 17
+  },
+  {
+    "index": 3,
+    "games": 48,
+    "goals": 32,
+    "passes": 0,
+    "carries": 8
+  },
+  {
+    "index": 4,
+    "games": 48,
+    "goals": 37,
+    "passes": 0,
+    "carries": 23
+  },
+  {
+    "index": 5,
+    "games": 48,
+    "goals": 32,
+    "passes": 0,
+    "carries": 14
+  }
+]

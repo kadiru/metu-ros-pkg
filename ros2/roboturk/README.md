@@ -2,7 +2,15 @@
 
 A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk stack](https://github.com/kadiru/metu-ros-pkg/tree/master/stacks/robocup_ssl). The historical checkout is preserved at `../upstream`; no archival sources were overwritten.
 
-A research prototype with learned soccer skills, continuous 2v2 strategy, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
+A research prototype with learned soccer skills, continuous 2v2 and 3v3 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
+
+## 3v3 contested recovery and outlet passing
+
+Two opponents reach the ball together. One learns how to free it with its dribbler while a teammate moves into a receiving position. On 12 matched 90-second Webots starts, the new team reduced time spent holding the ball jointly from **318.80 to 16.58 seconds**. It completed **10 recovery-to-pass sequences in seven games** when both sides used the new policies. In head-to-head games, the trained side completed all six such sequences.
+
+[![Yellow 2 wins the contested ball and passes to Yellow 0](media/contest-outlet-pass.gif)](media/contest-outlet-self-play.mp4)
+
+*At 84.26 seconds, Blue 2 and Yellow 2 contest the ball in open play. Yellow 2 establishes sole control at 85.64, kicks at 88.20, and Yellow 0 completes the reception at 89.20. The inset enlarges the same Webots frames. The full recording includes both fresh 90-second matches.* [Full three-minute GIF](media/contest-outlet-self-play.gif) · [Native MP4](media/contest-outlet-self-play.mp4) · [Policies, training and match results](policies/contest_outlet_v2/README.md).
 
 ## 3v3 self-play with two possible pass recipients
 

@@ -12,6 +12,14 @@ RoboTurk learns how to keep the ball in its own dribbler while pulling or rollin
 
 The new policies cut time in double possession by **94.8%**. Five of the ten transfers in trained self-play reached the teammate designated as the outlet during the contest. In the other five, the recipient selector chose the other teammate after recovery. In mixed games the trained side completed all six sequences, including two to the designated outlet. A late reception means a completed pass in the final 30 seconds. Across 324,000 physics samples the audit observed zero robot field exits or inter-robot separations below 0.18 m. [Game-by-game results and checks](qualification/audit.json) · [Physical traces](qualification) · [Development outcomes](development.json)
 
+## Watch the outlet pass
+
+[![Yellow 2 frees the ball and passes to Yellow 0 at the end of match one](../../media/contest-outlet-pass.gif)](../../media/contest-outlet-self-play.mp4)
+
+At 84.26 seconds in the first match, Blue 2 and Yellow 2 reach the ball together in open play. Yellow 2 gains sole control at 85.64 seconds, kicks at 88.20 and finds Yellow 0 at 89.20. The normal-speed excerpt has an enlarged view of the same frames.
+
+The uncut recording is 180 seconds. The first game started with a midfield contest, then continued for the full 90 seconds. It included two verified outlet passes by Yellow and ended 2–0 to Blue. The second game started in ordinary open play and ended 0–0 with eight completed passes and no sustained contest. Across the two games, 14 of 24 intended passes arrived. [Full three-minute GIF](../../media/contest-outlet-self-play.gif) · [Original 1280 × 720 MP4](../../media/contest-outlet-self-play.mp4) · [Demo audit](demo/audit.json) · [Frame counts and hashes](../../media/contest-outlet-self-play.json)
+
 ## What changed on the field
 
 The first version reduced time spent stuck but often freed the ball for the other team. The new motor policy observes where the ball sits inside **both** robot mouths. It uses those offsets, the robots' relative heading and the time spent contesting the ball to score twelve short movements. The available actions include pivoting about the dribbler and pulling the ball toward the nearer edge of the opposing mouth. Each robot samples its action from the trained scores using the match seed. Independent choices help two identical policies escape a repeated mirrored movement. The outlet policy scores seven receiving locations using field position, defender geometry and the teammate's travel distance. The timing trigger, bounded maneuvers and remaining 3v3 tactics are explicit controllers.

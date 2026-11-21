@@ -1,0 +1,41 @@
+{
+  "native_seconds": 180.0,
+  "native_frames": 4500,
+  "native_sha256": "25931ce4b081dbd132c3cf466fd4107726acc72d12b9b252b8e9671dc2522d4c",
+  "speed": 1,
+  "cuts_in_full_movie": 0,
+  "full_decodes": true,
+  "full": {
+    "file": "contest-outlet-self-play.gif",
+    "frames": 1800,
+    "seconds": 180.0,
+    "fps": 10,
+    "sha256": "166362540650dacb5acf13c5cb540efb580dbc5056b5146ece6451da738b7fb1"
+  },
+  "excerpt": {
+    "file": "contest-outlet-pass.gif",
+    "frames": 91,
+    "seconds": 7.28,
+    "fps": 12.5,
+    "sha256": "00568d09dc93a29ba0fac182f4989af2b4ba0b49e31cedd4a58cea8f87f5aca2",
+    "match": 1,
+    "seed": 8960000,
+    "team": "yellow",
+    "passer": 2,
+    "receiver": 0,
+    "designated": true,
+    "contest": 84.26,
+    "sole": 85.64,
+    "kick": 88.2,
+    "reception": 89.2,
+    "source_start": 82.76,
+    "source_end": 90,
+    "native_zoom_crop_and_overlay_x": [
+      740,
+      202,
+      378,
+      228,
+      18
+    ]
+  }
+}

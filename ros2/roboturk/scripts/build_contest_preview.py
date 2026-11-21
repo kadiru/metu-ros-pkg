@@ -9,6 +9,8 @@ import shutil
 import subprocess
 import tempfile
 
+import numpy as np
+
 from build_three_preview import probe
 
 
@@ -18,12 +20,28 @@ def ffmpeg(*args):
     )
 
 
-def make_gif(movie, dest, start, length, fps):
-    filters = f"fps={fps},scale=960:-1:flags=lanczos"
+def make_gif(movie, dest, start, length, fps, inset=None):
+    filters = f"[0:v]fps={fps},scale=960:-1:flags=lanczos"
+    if inset:
+        x, y, w, h, overlay_x = inset
+        filters = (
+            f"[0:v]fps={fps},split[base][detail];[base]scale=960:-1:flags=lanczos[wide];"
+            f"[detail]crop={w}:{h}:{x}:{y},scale=450:-1:flags=lanczos,pad=iw+4:ih+4:2:2:color=0xE5D992[zoom];"
+            f"[wide][zoom]overlay={overlay_x}:100"
+        )
     with tempfile.TemporaryDirectory() as tmp:
         palette = Path(tmp) / "palette.png"
         inputs = ["-ss", str(start), "-t", str(length), "-i", movie]
-        ffmpeg(*inputs, "-vf", filters + ",palettegen=stats_mode=diff", "-frames:v", "1", palette)
+        ffmpeg(
+            *inputs,
+            "-filter_complex_threads",
+            "1",
+            "-filter_complex",
+            filters + ",palettegen=stats_mode=diff",
+            "-frames:v",
+            "1",
+            palette,
+        )
         ffmpeg(
             *inputs,
             "-i",
@@ -31,7 +49,7 @@ def make_gif(movie, dest, start, length, fps):
             "-filter_complex_threads",
             "1",
             "-filter_complex",
-            f"[0:v]{filters}[a];[a][1:v]paletteuse=dither=bayer:diff_mode=rectangle",
+            f"{filters}[a];[a][1:v]paletteuse=dither=bayer:diff_mode=rectangle",
             "-loop",
             "0",
             dest,
@@ -47,6 +65,21 @@ def make_gif(movie, dest, start, length, fps):
         fps=fps,
         sha256=digest(dest),
     )
+
+
+def action_inset(trace, start, end, actor, receiver):
+    frames = np.load(trace)["states"][int(start * 100) : int(end * 100)]
+    poses = frames[:, 4:].reshape(-1, 6, 3)
+    xy = np.concatenate((frames[:, :2], poses[:, actor, :2], poses[:, receiver, :2]))
+    pixels = (xy * np.array([0.073, -0.130]) + np.array([0.5, 0.5])) * np.array([1280, 720])
+    center = (pixels.min(0) + pixels.max(0)) / 2
+    width = int(max(270, np.ptp(pixels, axis=0)[0] + 76, (np.ptp(pixels, axis=0)[1] + 60) * 1.65))
+    width = min(740, width // 2 * 2)
+    height = int(width / 1.65) // 2 * 2
+    x, y = np.clip(center - [width / 2, height / 2], [0, 0], [1280 - width, 720 - height]).astype(
+        int
+    )
+    return [int(x) // 2 * 2, int(y) // 2 * 2, width, height, 18 if center[0] > 640 else 488]
 
 
 def digest(path):
@@ -80,7 +113,8 @@ def main():
                 and e["start"] <= 4 * v["tick"] <= e["recovery"]
             ]
             designated = bool(support and support[-1]["mate"] == e["receiver"] % 3)
-            choices.append(((designated, i, -e["start"]), i, e, g, team))
+            natural = i > 0 or e["start"] > 0
+            choices.append(((designated, natural, i, -e["start"]), i, e, g, team))
     rank, i, e, game, team = max(choices, key=lambda x: x[0])
     # Include play leading into the tie and the intended player's controlled reception.
     start = max(0, e["start"] / 100 - 1.5)
@@ -92,9 +126,11 @@ def main():
     assert digest(movie) == digest(source)
     ffmpeg("-i", movie, "-f", "null", "-")
     full = make_gif(movie, movie.with_suffix(".gif"), 0, seconds, 10)
+    inset = action_inset(a.recording / f"trace-{i:03}.npz", start, end, e["winner"], e["receiver"])
     excerpt = make_gif(
-        movie, a.media / "contest-outlet-pass.gif", start + offset, end - start, 12.5
+        movie, a.media / "contest-outlet-pass.gif", start + offset, end - start, 12.5, inset
     )
+    excerpt["native_zoom_crop_and_overlay_x"] = inset
     excerpt.update(
         match=i + 1,
         seed=game["seed"],

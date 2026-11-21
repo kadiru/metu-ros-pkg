@@ -41,6 +41,15 @@ def replay(folder, checkpoint):
             slots[choice.slot] += 1
             scorers[team] += 1
         direction = w.direction(team)
+        other = next(r for r in robots if r.key.team == team and r.key not in (mate.key, actor.key))
+        rivals = [(r.x, r.y) for r in robots if r.key.team != team]
+        _, other_lane, other_space = geometry(
+            (w.ball.x, w.ball.y), direction, (other.x, other.y), rivals
+        )
+        other_open = (
+            other_lane >= cfg["protocol"]["minimum_pass_lane_gap_m"]
+            and other_space >= cfg["protocol"]["minimum_receiver_space_m"]
+        )
         moved = []
         comparison = []
         for r in robots:
@@ -59,6 +68,8 @@ def replay(folder, checkpoint):
                 qualified=row["qualified"],
                 receiver=mate.key.id,
                 slot=choice.slot,
+                other_receiver=other.key.id,
+                other_open=other_open,
                 moved_defenders=moved,
                 observed=action,
                 cleared_lane=alternative,
@@ -70,6 +81,7 @@ def replay(folder, checkpoint):
         outcomes=dict(counts),
         qualifying_slots=dict(slots),
         qualifying_sides=dict(scorers),
+        unique_open_receiver_goals=sum(r["qualified"] and not r["other_open"] for r in rows),
         replayed_passes=len(rows),
         cleared_frames=len(measured),
         switched_from_pass=sum(r["cleared_lane"] != "pass" for r in measured),

@@ -1,0 +1,15 @@
+{
+  "league": "league5",
+  "method": "Mirrored self-play on 30 training layouts per candidate. Highest number of qualifying goals, ties resolved by completed intended receptions.",
+  "selected": 1,
+  "training_passing_goals": 22,
+  "training_openings": 30,
+  "qualifying_seeds": [
+    12300000,
+    12300039
+  ],
+  "fresh_demo": [
+    12400000,
+    12400002
+  ]
+}

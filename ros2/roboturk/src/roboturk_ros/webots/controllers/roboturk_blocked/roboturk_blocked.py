@@ -21,6 +21,37 @@ def read(path):
     return json.loads(path.read_text())
 
 
+def match_camera(sim, folder):
+    draw = movie_camera(sim, folder)
+
+    def render(game):
+        draw(game)
+        sim.setLabel(
+            0,
+            f"RoboTurk   |   3v3 blocked-lane opening   |   {game.tick * CFG.dt:04.1f} s",
+            0.02,
+            0.02,
+            0.049,
+            0xFFFFFF,
+            0,
+            "Arial",
+        )
+        option = game.option
+        if option and option["action"] == "pass":
+            sim.setLabel(
+                10,
+                f"{option['team'].upper()} {option['actor']}   |   PASS TO {option['receiver']}",
+                0.02,
+                0.91,
+                0.047,
+                0x83EEDD,
+                0,
+                "Arial",
+            )
+
+    return render
+
+
 def run(sim, folder):
     cfg = read(folder / "launch.json")
     root = Path(cfg["root"])
@@ -38,7 +69,7 @@ def run(sim, folder):
     }
     weights = {t: np.array(selectors[str(901 + i)]) for i, t in enumerate(sides)}
     backend = ContinuousWebotsBackend(sim, CFG)
-    render = movie_camera(sim, folder) if cfg["record"] else None
+    render = match_camera(sim, folder) if cfg["record"] else None
     case = os.environ.get("RECOVERY_CASE")
     for i in [int(case)] if case is not None else range(cfg["cases"]):
         seed, blue, yellow = cfg["schedule"][i]

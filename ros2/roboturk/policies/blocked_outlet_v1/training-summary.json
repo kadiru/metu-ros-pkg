@@ -159,5 +159,56 @@
         }
       }
     ]
+  },
+  {
+    "name": "league5",
+    "games": 120,
+    "returns": [
+      {
+        "candidate": 0,
+        "opportunities": 27,
+        "goals": 20,
+        "receives": 23,
+        "outcomes": {
+          "pass goal": 20,
+          "no uninterrupted finish": 3,
+          "no opening pass": 3,
+          "intercepted": 1
+        }
+      },
+      {
+        "candidate": 1,
+        "opportunities": 27,
+        "goals": 22,
+        "receives": 22,
+        "outcomes": {
+          "pass goal": 22,
+          "no opening pass": 1,
+          "intercepted": 4
+        }
+      },
+      {
+        "candidate": 2,
+        "opportunities": 26,
+        "goals": 18,
+        "receives": 22,
+        "outcomes": {
+          "pass goal": 18,
+          "intercepted": 2,
+          "no uninterrupted finish": 4,
+          "no opening pass": 2
+        }
+      },
+      {
+        "candidate": 3,
+        "opportunities": 26,
+        "goals": 21,
+        "receives": 21,
+        "outcomes": {
+          "pass goal": 21,
+          "intercepted": 5
+        }
+      }
+    ]
   }
 ]

@@ -1,0 +1,745 @@
+{
+  "folds": 5,
+  "rows": [
+    {
+      "neighbors": 8,
+      "pass_neighbors": 4,
+      "pass_success_bonus": 0,
+      "assisted": 21,
+      "carried": 49,
+      "predictions": [
+        110,
+        309,
+        221
+      ],
+      "matched": 199,
+      "converted": 128,
+      "by_action": [
+        21,
+        60,
+        47
+      ],
+      "mean_return": 3.606747738693467
+    },
+    {
+      "neighbors": 8,
+      "pass_neighbors": 4,
+      "pass_success_bonus": 3,
+      "assisted": 27,
+      "carried": 44,
+      "predictions": [
+        163,
+        274,
+        203
+      ],
+      "matched": 204,
+      "converted": 125,
+      "by_action": [
+        27,
+        54,
+        44
+      ],
+      "mean_return": 3.4459137254901964
+    },
+    {
+      "neighbors": 8,
+      "pass_neighbors": 4,
+      "pass_success_bonus": 6,
+      "assisted": 31,
+      "carried": 41,
+      "predictions": [
+        199,
+        254,
+        187
+      ],
+      "matched": 199,
+      "converted": 122,
+      "by_action": [
+        31,
+        50,
+        41
+      ],
+      "mean_return": 3.4983175879396993
+    },
+    {
+      "neighbors": 8,
+      "pass_neighbors": 4,
+      "pass_success_bonus": 9,
+      "assisted": 34,
+      "carried": 38,
+      "predictions": [
+        234,
+        230,
+        176
+      ],
+      "matched": 211,
+      "converted": 121,
+      "by_action": [
+        35,
+        47,
+        39
+      ],
+      "mean_return": 3.232557345971564
+    },
+    {
+      "neighbors": 8,
+      "pass_neighbors": 10,
+      "pass_success_bonus": 0,
+      "assisted": 14,
+      "carried": 51,
+      "predictions": [
+        89,
+        320,
+        231
+      ],
+      "matched": 202,
+      "converted": 128,
+      "by_action": [
+        14,
+        65,
+        49
+      ],
+      "mean_return": 3.462889108910891
+    },
+    {
+      "neighbors": 8,
+      "pass_neighbors": 10,
+      "pass_success_bonus": 3,
+      "assisted": 23,
+      "carried": 47,
+      "predictions": [
+        155,
+        287,
+        198
+      ],
+      "matched": 203,
+      "converted": 124,
+      "by_action": [
+        23,
+        58,
+        43
+      ],
+      "mean_return": 3.405909359605911
+    },
+    {
+      "neighbors": 8,
+      "pass_neighbors": 10,
+      "pass_success_bonus": 6,
+      "assisted": 32,
+      "carried": 43,
+      "predictions": [
+        205,
+        259,
+        176
+      ],
+      "matched": 205,
+      "converted": 121,
+      "by_action": [
+        32,
+        50,
+        39
+      ],
+      "mean_return": 3.3607434146341464
+    },
+    {
+      "neighbors": 8,
+      "pass_neighbors": 10,
+      "pass_success_bonus": 9,
+      "assisted": 39,
+      "carried": 40,
+      "predictions": [
+        258,
+        229,
+        153
+      ],
+      "matched": 206,
+      "converted": 120,
+      "by_action": [
+        39,
+        47,
+        34
+      ],
+      "mean_return": 3.3789825242718443
+    },
+    {
+      "neighbors": 8,
+      "pass_neighbors": 20,
+      "pass_success_bonus": 0,
+      "assisted": 8,
+      "carried": 52,
+      "predictions": [
+        64,
+        337,
+        239
+      ],
+      "matched": 200,
+      "converted": 126,
+      "by_action": [
+        8,
+        67,
+        51
+      ],
+      "mean_return": 3.374572
+    },
+    {
+      "neighbors": 8,
+      "pass_neighbors": 20,
+      "pass_success_bonus": 3,
+      "assisted": 19,
+      "carried": 50,
+      "predictions": [
+        141,
+        295,
+        204
+      ],
+      "matched": 198,
+      "converted": 126,
+      "by_action": [
+        19,
+        62,
+        45
+      ],
+      "mean_return": 3.5484444444444443
+    },
+    {
+      "neighbors": 8,
+      "pass_neighbors": 20,
+      "pass_success_bonus": 6,
+      "assisted": 28,
+      "carried": 44,
+      "predictions": [
+        215,
+        257,
+        168
+      ],
+      "matched": 201,
+      "converted": 116,
+      "by_action": [
+        28,
+        52,
+        36
+      ],
+      "mean_return": 3.2485253731343287
+    },
+    {
+      "neighbors": 8,
+      "pass_neighbors": 20,
+      "pass_success_bonus": 9,
+      "assisted": 35,
+      "carried": 39,
+      "predictions": [
+        292,
+        213,
+        135
+      ],
+      "matched": 205,
+      "converted": 112,
+      "by_action": [
+        35,
+        45,
+        32
+      ],
+      "mean_return": 3.104805853658537
+    },
+    {
+      "neighbors": 18,
+      "pass_neighbors": 4,
+      "pass_success_bonus": 0,
+      "assisted": 25,
+      "carried": 62,
+      "predictions": [
+        111,
+        348,
+        181
+      ],
+      "matched": 210,
+      "converted": 138,
+      "by_action": [
+        23,
+        75,
+        40
+      ],
+      "mean_return": 3.7811999999999997
+    },
+    {
+      "neighbors": 18,
+      "pass_neighbors": 4,
+      "pass_success_bonus": 3,
+      "assisted": 29,
+      "carried": 55,
+      "predictions": [
+        167,
+        312,
+        161
+      ],
+      "matched": 212,
+      "converted": 132,
+      "by_action": [
+        29,
+        65,
+        38
+      ],
+      "mean_return": 3.570156603773585
+    },
+    {
+      "neighbors": 18,
+      "pass_neighbors": 4,
+      "pass_success_bonus": 6,
+      "assisted": 33,
+      "carried": 53,
+      "predictions": [
+        202,
+        293,
+        145
+      ],
+      "matched": 209,
+      "converted": 129,
+      "by_action": [
+        33,
+        62,
+        34
+      ],
+      "mean_return": 3.585544497607656
+    },
+    {
+      "neighbors": 18,
+      "pass_neighbors": 4,
+      "pass_success_bonus": 9,
+      "assisted": 36,
+      "carried": 46,
+      "predictions": [
+        247,
+        264,
+        129
+      ],
+      "matched": 215,
+      "converted": 121,
+      "by_action": [
+        37,
+        55,
+        29
+      ],
+      "mean_return": 3.223237209302326
+    },
+    {
+      "neighbors": 18,
+      "pass_neighbors": 10,
+      "pass_success_bonus": 0,
+      "assisted": 19,
+      "carried": 65,
+      "predictions": [
+        93,
+        366,
+        181
+      ],
+      "matched": 211,
+      "converted": 137,
+      "by_action": [
+        18,
+        78,
+        41
+      ],
+      "mean_return": 3.6753118483412326
+    },
+    {
+      "neighbors": 18,
+      "pass_neighbors": 10,
+      "pass_success_bonus": 3,
+      "assisted": 26,
+      "carried": 62,
+      "predictions": [
+        150,
+        330,
+        160
+      ],
+      "matched": 218,
+      "converted": 135,
+      "by_action": [
+        25,
+        73,
+        37
+      ],
+      "mean_return": 3.532278899082569
+    },
+    {
+      "neighbors": 18,
+      "pass_neighbors": 10,
+      "pass_success_bonus": 6,
+      "assisted": 31,
+      "carried": 54,
+      "predictions": [
+        208,
+        298,
+        134
+      ],
+      "matched": 219,
+      "converted": 126,
+      "by_action": [
+        31,
+        63,
+        32
+      ],
+      "mean_return": 3.2755178082191776
+    },
+    {
+      "neighbors": 18,
+      "pass_neighbors": 10,
+      "pass_success_bonus": 9,
+      "assisted": 39,
+      "carried": 49,
+      "predictions": [
+        273,
+        253,
+        114
+      ],
+      "matched": 212,
+      "converted": 120,
+      "by_action": [
+        39,
+        55,
+        26
+      ],
+      "mean_return": 3.306043396226415
+    },
+    {
+      "neighbors": 18,
+      "pass_neighbors": 20,
+      "pass_success_bonus": 0,
+      "assisted": 14,
+      "carried": 69,
+      "predictions": [
+        55,
+        394,
+        191
+      ],
+      "matched": 216,
+      "converted": 140,
+      "by_action": [
+        12,
+        87,
+        41
+      ],
+      "mean_return": 3.6170574074074073
+    },
+    {
+      "neighbors": 18,
+      "pass_neighbors": 20,
+      "pass_success_bonus": 3,
+      "assisted": 23,
+      "carried": 63,
+      "predictions": [
+        151,
+        333,
+        156
+      ],
+      "matched": 212,
+      "converted": 133,
+      "by_action": [
+        23,
+        74,
+        36
+      ],
+      "mean_return": 3.5765150943396224
+    },
+    {
+      "neighbors": 18,
+      "pass_neighbors": 20,
+      "pass_success_bonus": 6,
+      "assisted": 30,
+      "carried": 60,
+      "predictions": [
+        216,
+        299,
+        125
+      ],
+      "matched": 216,
+      "converted": 128,
+      "by_action": [
+        30,
+        69,
+        29
+      ],
+      "mean_return": 3.4138296296296295
+    },
+    {
+      "neighbors": 18,
+      "pass_neighbors": 20,
+      "pass_success_bonus": 9,
+      "assisted": 32,
+      "carried": 51,
+      "predictions": [
+        285,
+        248,
+        107
+      ],
+      "matched": 218,
+      "converted": 119,
+      "by_action": [
+        33,
+        58,
+        28
+      ],
+      "mean_return": 3.0945926605504583
+    },
+    {
+      "neighbors": 36,
+      "pass_neighbors": 4,
+      "pass_success_bonus": 0,
+      "assisted": 25,
+      "carried": 66,
+      "predictions": [
+        120,
+        367,
+        153
+      ],
+      "matched": 207,
+      "converted": 134,
+      "by_action": [
+        24,
+        78,
+        32
+      ],
+      "mean_return": 3.7552618357487924
+    },
+    {
+      "neighbors": 36,
+      "pass_neighbors": 4,
+      "pass_success_bonus": 3,
+      "assisted": 30,
+      "carried": 60,
+      "predictions": [
+        176,
+        327,
+        137
+      ],
+      "matched": 209,
+      "converted": 131,
+      "by_action": [
+        30,
+        70,
+        31
+      ],
+      "mean_return": 3.6478239234449763
+    },
+    {
+      "neighbors": 36,
+      "pass_neighbors": 4,
+      "pass_success_bonus": 6,
+      "assisted": 33,
+      "carried": 57,
+      "predictions": [
+        210,
+        309,
+        121
+      ],
+      "matched": 206,
+      "converted": 126,
+      "by_action": [
+        33,
+        67,
+        26
+      ],
+      "mean_return": 3.5859126213592236
+    },
+    {
+      "neighbors": 36,
+      "pass_neighbors": 4,
+      "pass_success_bonus": 9,
+      "assisted": 37,
+      "carried": 51,
+      "predictions": [
+        252,
+        276,
+        112
+      ],
+      "matched": 216,
+      "converted": 122,
+      "by_action": [
+        38,
+        60,
+        24
+      ],
+      "mean_return": 3.272953703703704
+    },
+    {
+      "neighbors": 36,
+      "pass_neighbors": 10,
+      "pass_success_bonus": 0,
+      "assisted": 19,
+      "carried": 70,
+      "predictions": [
+        99,
+        383,
+        158
+      ],
+      "matched": 206,
+      "converted": 134,
+      "by_action": [
+        19,
+        82,
+        33
+      ],
+      "mean_return": 3.7311805825242716
+    },
+    {
+      "neighbors": 36,
+      "pass_neighbors": 10,
+      "pass_success_bonus": 3,
+      "assisted": 28,
+      "carried": 65,
+      "predictions": [
+        165,
+        338,
+        137
+      ],
+      "matched": 211,
+      "converted": 132,
+      "by_action": [
+        28,
+        74,
+        30
+      ],
+      "mean_return": 3.639918483412322
+    },
+    {
+      "neighbors": 36,
+      "pass_neighbors": 10,
+      "pass_success_bonus": 6,
+      "assisted": 35,
+      "carried": 59,
+      "predictions": [
+        222,
+        306,
+        112
+      ],
+      "matched": 220,
+      "converted": 127,
+      "by_action": [
+        35,
+        67,
+        25
+      ],
+      "mean_return": 3.3569981818181818
+    },
+    {
+      "neighbors": 36,
+      "pass_neighbors": 10,
+      "pass_success_bonus": 9,
+      "assisted": 36,
+      "carried": 51,
+      "predictions": [
+        269,
+        274,
+        97
+      ],
+      "matched": 211,
+      "converted": 113,
+      "by_action": [
+        36,
+        59,
+        18
+      ],
+      "mean_return": 3.0983033175355454
+    },
+    {
+      "neighbors": 36,
+      "pass_neighbors": 20,
+      "pass_success_bonus": 0,
+      "assisted": 15,
+      "carried": 76,
+      "predictions": [
+        64,
+        408,
+        168
+      ],
+      "matched": 212,
+      "converted": 139,
+      "by_action": [
+        14,
+        91,
+        34
+      ],
+      "mean_return": 3.7307396226415093
+    },
+    {
+      "neighbors": 36,
+      "pass_neighbors": 20,
+      "pass_success_bonus": 3,
+      "assisted": 26,
+      "carried": 67,
+      "predictions": [
+        151,
+        349,
+        140
+      ],
+      "matched": 210,
+      "converted": 133,
+      "by_action": [
+        26,
+        76,
+        31
+      ],
+      "mean_return": 3.6762647619047617
+    },
+    {
+      "neighbors": 36,
+      "pass_neighbors": 20,
+      "pass_success_bonus": 6,
+      "assisted": 31,
+      "carried": 61,
+      "predictions": [
+        230,
+        310,
+        100
+      ],
+      "matched": 213,
+      "converted": 121,
+      "by_action": [
+        31,
+        68,
+        22
+      ],
+      "mean_return": 3.285872300469483
+    },
+    {
+      "neighbors": 36,
+      "pass_neighbors": 20,
+      "pass_success_bonus": 9,
+      "assisted": 35,
+      "carried": 52,
+      "predictions": [
+        308,
+        256,
+        76
+      ],
+      "matched": 212,
+      "converted": 111,
+      "by_action": [
+        36,
+        58,
+        17
+      ],
+      "mean_return": 3.015969811320755
+    }
+  ],
+  "selected": {
+    "neighbors": 18,
+    "pass_neighbors": 4,
+    "pass_success_bonus": 0,
+    "assisted": 25,
+    "carried": 62,
+    "predictions": [
+      111,
+      348,
+      181
+    ],
+    "matched": 210,
+    "converted": 138,
+    "by_action": [
+      23,
+      75,
+      40
+    ],
+    "mean_return": 3.7811999999999997
+  }
+}

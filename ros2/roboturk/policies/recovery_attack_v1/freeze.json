@@ -1,0 +1,23 @@
+{
+  "policies/recovery_attack_v1/policy.json": "4df38a9e98dfce5f28ba8e4930e1e8fa2dbf71d8355f5bd9518c8be71fdce63b",
+  "policies/recovery_attack_v1/selection.json": "d0f10f2cd7c51d06fa931695a73ee8a5b3a277dd899de11b331bab0cc54844b1",
+  "policies/recovery_attack_v1/protocol.json": "5b861f8c754a2c71546bb4e5de8c7f87968a2eec7f325467e9ae620701775634",
+  "policies/recovery_attack_v1/initial.json.gz": "5c72cd46b44fca1b00b814ef2ac0d764b38534e3f97b1218026a08c8a4261181",
+  "policies/recovery_attack_v1/branches.json.gz": "1428745ad19ea93bc77dabf44ac6cb71f0825bad4cc6eb2e7f7afa23706d9850",
+  "policies/recovery_attack_v1/lead.json.gz": "e9e5bcbee8d4dbf52a587daea369441765f75102f0832391780f30565de51584",
+  "scripts/select_recovery_opening.py": "348173952035b8591a55271b8c6449c2e41c5e84bb414ac98eb6492e6edfa395",
+  "policies/recovery_attack_v1/refined.json.gz": "3eb1935e095b148da3fba15ea231642057785106c885207e079d8a8a1b415132",
+  "src/roboturk_ros/webots/worlds/ssl_recovery_attack.wbt": "1d899e594f16e3f79b0c22336248d9b8f007abc6708299049640d11057e9c8a4",
+  "scripts/run_recovery_attack.py": "4be5c974e5e4a2a8c8584a5c382e900217da185f664ffbabe6ddfe9e224857a0",
+  "scripts/audit_recovery_attack.py": "286252473e0e83070d514ca734da12486c5ff6056f8d929d7c591987454fed51",
+  "scripts/freeze_recovery_attack.py": "021183a8738441b8f519e5654c8af0dc7f6cef51f9ced3a73bb4beecf89ca65b",
+  "src/roboturk_ros/webots/controllers/roboturk_recovery_attack/roboturk_recovery_attack.py": "140135bba1293bf45f60d4ddb94ca3c37ded9cc8bd131db101a3787186c254ac",
+  "src/roboturk_core/roboturk/recovery_attack.py": "f181e72d4f69d87a37407052312b2d6bb3f626e37d3d5afce025079ff0665e4d",
+  "src/roboturk_core/roboturk/recovery_conversion.py": "247b1e1400bba6f24fca7a1066e8135bee797739cfea140463eaf9e9731760fb",
+  "src/roboturk_core/roboturk/attack_returns.py": "9f42da8e938db2a09974d6f320484ffb77dc75f5172e9496915d9906ad64bfe3",
+  "src/roboturk_core/roboturk/attack_opening.py": "fb596d1c9904aaf2504b16d4cb55547d2cb6ff2ea74729636a3fc87881dbd64a",
+  "src/roboturk_core/roboturk/recovery_lead.py": "41c910cf60e847bf859a48dc51f3676bd64c1870d3477e538fa6dda02552ba01",
+  "policies/contest_outlet_v1/freeze.json": "120ff18c020b53e015bc19d11a8603dd27b79f347dfbf2ba59be7dd60460e58a",
+  "policies/contest_outlet_v1/isolation-freeze.json": "a60b8b5e8149601431569197e79c7883d06cf7d1a512d7df9ad2d8e26f105c6c",
+  "policies/contest_outlet_v2/freeze.json": "5e09589a5400d89779a4d85aae94a308c6b127e881d66bc386beeaf8b2ed6af2"
+}

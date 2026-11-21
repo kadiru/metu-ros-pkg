@@ -25,7 +25,7 @@ def save(p, data):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("mode", choices=["train", "develop", "qualify", "demo"])
+    p.add_argument("mode", choices=["train", "branches", "develop", "qualify", "demo"])
     p.add_argument("folder", type=Path)
     p.add_argument("--model", type=Path, default=R / "policy.json")
     p.add_argument("--cases", type=int)
@@ -87,9 +87,12 @@ def main():
         )
         first = (
             plan[
-                {"train": "train_first", "develop": "development_first", "demo": "demo_first"}[
-                    a.mode
-                ]
+                {
+                    "train": "train_first",
+                    "branches": "train_first",
+                    "develop": "development_first",
+                    "demo": "demo_first",
+                }[a.mode]
             ]
             + a.offset
         )

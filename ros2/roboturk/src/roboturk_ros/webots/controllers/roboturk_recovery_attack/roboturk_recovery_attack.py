@@ -13,6 +13,7 @@ import torch
 from roboturk.recovery_conversion import conversions
 from roboturk.recovery_attack import AttackGame
 from roboturk.attack_returns import AttackLearner
+from roboturk.attack_opening import fit as fit_opening, training_example
 
 from roboturk.continuous_backend import ContinuousWebotsBackend
 from roboturk.strategy_pass import LearnedPass
@@ -127,6 +128,8 @@ def run(sim, folder):
     fit = AttackLearner(model["q"] if train and refined else None)
     fixed = None if train else np.array(model["q"])
     history = [fit.policy()]
+    examples = []
+    branches = mode == "branches"
     render = movie_camera(sim, folder) if mode == "demo" else None
     idx = os.environ.get("RECOVERY_CASE")
     for i in [int(idx)] if idx is not None else range(cfg["cases"]):
@@ -146,12 +149,15 @@ def run(sim, folder):
             backend,
             motor,
             weights,
-            cfg["first"] + i,
+            cfg["first"] + (i // 3 if branches else i),
             cfg["seconds"],
             set(),
             strategies=strategies,
             refined=refined,
-            early_stop=train and refined,
+            early_stop=(train and refined) or branches,
+            opening=model.get("opening"),
+            opening_action=i % 3 if branches else None,
+            precision=branches or "opening" in model,
             temperature=model.get("temperature", 0.55),
             fixture=mode != "ordinary" and not (mode == "demo" and i == 2),
             epsilon=max(0.22, 0.85 - 0.6 * i / max(1, cfg["cases"] - 1)),
@@ -185,7 +191,11 @@ def run(sim, folder):
                 )
                 o["end_tick"] = min(o["until"], end, reset)
         result["conversions"] = conversions(trace, result)
-        if train:
+        if branches:
+            sample = training_example(result)
+            if sample is not None:
+                examples.append(sample)
+        elif train:
             fit.update(result)
             if (i + 1) % 12 == 0:
                 history.append(fit.policy())
@@ -197,6 +207,8 @@ def run(sim, folder):
             np.savez_compressed(folder / f"trace-{i:03}.npz", states=trace)
         save(folder / f"game-{i:03}.json", result)
         print(i, len(g.options), sum("goal" in c for c in result["conversions"]), flush=True)
+    if branches:
+        save(folder / "policy.json", dict(**model, opening=fit_opening(examples)))
     if train:
         save(
             folder / "policy.json",

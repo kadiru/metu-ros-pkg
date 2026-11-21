@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 import numpy as np
 from roboturk.attack_returns import AttackLearner
+from roboturk.attack_opening import fit, training_example
 from run_recovery_attack import R, ROOT, WORLD, read, save
 
 
@@ -32,6 +33,35 @@ def replay(payload, warm):
     )
 
 
+def replay_branches(payload, warm):
+    cfg = payload["launch"]
+    assert (
+        cfg["mode"] == "branches"
+        and cfg["cases"] == len(payload["games"])
+        and cfg["cases"] % 3 == 0
+    )
+    examples = []
+    for i, g in enumerate(payload["games"]):
+        assert g["seed"] == cfg["first"] + i // 3
+        e = training_example(g)
+        if e:
+            assert e["action"] == i % 3
+            examples.append(e)
+    assert payload["policy"]["opening"] == fit(examples)
+    np.testing.assert_allclose(payload["policy"]["q"], warm, atol=1e-12)
+    return dict(
+        episodes=len(payload["games"]),
+        eligible=len(examples),
+        by_action=[
+            dict(
+                eligible=sum(e["action"] == i for e in examples),
+                converted=sum(e["action"] == i and e["scored"] for e in examples),
+            )
+            for i in range(3)
+        ],
+    )
+
+
 def archive(folder, name):
     payload = dict(
         launch=read(folder / "launch.json"),
@@ -44,7 +74,11 @@ def archive(folder, name):
     warm = None
     if name != "initial":
         warm = json.loads(gzip.decompress((R / "initial.json.gz").read_bytes()))["policy"]["q"]
-    receipt = replay(payload, warm)
+    if name == "branches":
+        warm = json.loads(gzip.decompress((R / "refined.json.gz").read_bytes()))["policy"]["q"]
+        receipt = replay_branches(payload, warm)
+    else:
+        receipt = replay(payload, warm)
     blob = gzip.compress(json.dumps(payload, separators=(",", ":")).encode(), mtime=0)
     (R / f"{name}.json.gz").write_bytes(blob)
     save(R / f"{name}-audit.json", receipt)
@@ -59,6 +93,13 @@ def freeze(candidate):
         for p in [payload["policy"], *payload["checkpoints"].values()]
     )
     assert model["refined"] and "temperature" in model
+    branches = json.loads(gzip.decompress((R / "branches.json.gz").read_bytes()))["policy"][
+        "opening"
+    ]
+    assert (
+        model["opening"]["groups"] == branches["groups"]
+        and 3 <= model["opening"]["neighbors"] <= 100
+    )
     if (R / "freeze.json").exists():
         raise ValueError("Frozen policy already exists")
     save(R / "policy.json", model)
@@ -66,6 +107,7 @@ def freeze(candidate):
         R / "policy.json",
         R / "protocol.json",
         R / "initial.json.gz",
+        R / "branches.json.gz",
         R / "refined.json.gz",
         WORLD,
         ROOT / "scripts/run_recovery_attack.py",
@@ -76,7 +118,7 @@ def freeze(candidate):
     ]
     files.extend(
         ROOT / f"src/roboturk_core/roboturk/{name}.py"
-        for name in ("recovery_attack", "recovery_conversion", "attack_returns")
+        for name in ("recovery_attack", "recovery_conversion", "attack_returns", "attack_opening")
     )
     files.extend(
         ROOT / "policies" / name
@@ -94,14 +136,14 @@ def freeze(candidate):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("stage", choices=["initial", "refined", "freeze", "verify"])
+    p.add_argument("stage", choices=["initial", "refined", "branches", "freeze", "verify"])
     p.add_argument("source", nargs="?", type=Path)
     a = p.parse_args()
     if a.stage == "verify":
         warm = None
-        for name in ("initial", "refined"):
+        for name in ("initial", "refined", "branches"):
             data = json.loads(gzip.decompress((R / f"{name}.json.gz").read_bytes()))
-            print(replay(data, warm))
+            print(replay_branches(data, warm) if name == "branches" else replay(data, warm))
             warm = data["policy"]["q"]
     elif a.stage == "freeze":
         freeze(a.source)

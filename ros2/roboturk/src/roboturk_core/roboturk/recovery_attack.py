@@ -6,8 +6,9 @@ import math
 import numpy as np
 
 from .contest_outlet import duel_layout
+from .attack_opening import observation as opening_observation, values as opening_values
 from .jaw_recovery import JawGame
-from .model import Command, RobotKey, possession, wrap
+from .model import Command, RobotKey, possession, wrap, body_vector
 from .three_match import CFG, face
 from .three_recipient import candidates, choose, distance, features, move
 
@@ -106,6 +107,21 @@ def pivot_pass(w, actor, mate):
     return Command(0, -0.115 * omega, omega, 1, 2.2 if abs(err) < 0.035 else 0)
 
 
+def center_dribbler(w, actor, cmd, age):
+    # Rotate about the observed ball and center it as the spring takes load.
+    bx, by = body_vector(w.ball.x - actor.x, w.ball.y - actor.y, actor.yaw)
+    vx, vy = body_vector(w.ball.vx, w.ball.vy, actor.yaw)
+    correction = min(0.55, max(0, 1 - age / 14))
+    fwd = min(0.48, cmd.vx) * min(1, (age + 3) / 12)
+    return Command(
+        float(fwd + cmd.omega * by + 3.4 * (bx - 0.115) + correction * np.clip(vx, -0.4, 0.4)),
+        float(-cmd.omega * bx + 4 * by + correction * np.clip(vy, -0.4, 0.4)),
+        cmd.omega,
+        cmd.dribbler,
+        cmd.kick,
+    )
+
+
 def carry(w, actor):
     direction = w.direction(actor.key.team)
     goal, gy, _ = shooting_lane(w, actor)
@@ -148,11 +164,17 @@ class AttackGame(JawGame):
         refined=False,
         temperature=0.55,
         early_stop=False,
+        opening=None,
+        opening_action=None,
+        precision=False,
         **kwargs,
     ):
         self.strategies = strategies
         self.fixture = fixture
         self.early_stop = early_stop
+        self.opening = opening
+        self.opening_action = opening_action
+        self.precision = precision
         self.epsilon = epsilon
         self.learner = learner
         self.refined = refined
@@ -255,7 +277,14 @@ class AttackGame(JawGame):
                     x, float(received), min(1, sum(o["action"] == "dribble" for o in earlier) / 2)
                 ]
             q = np.asarray(self.strategies[team]) @ x
-            if team == self.learner and self.attack_rng.random() < self.epsilon:
+            ox = opening_observation(x, actor, w) if self.precision else None
+            first = self.precision and not earlier
+            if first and self.opening_action is not None:
+                a = self.opening_action
+            elif first and self.opening is not None:
+                q = opening_values(self.opening, ox)
+                a = int(np.argmax(q))
+            elif team == self.learner and self.attack_rng.random() < self.epsilon:
                 a = int(self.attack_rng.integers(3))
             elif self.refined and self.temperature > 0:
                 prob = np.exp((q - q.max()) / self.temperature)
@@ -272,6 +301,8 @@ class AttackGame(JawGame):
                 receiver=choice.receiver,
                 until=self.tick + (22 if a == 1 else 88),
             )
+            if self.precision:
+                self.option.update(opening_x=ox.tolist(), values=q.tolist(), opening=bool(first))
             self.options.append(self.option)
             self.target_choice = choice
         action = self.option["action"]
@@ -291,4 +322,8 @@ class AttackGame(JawGame):
             out[actor.key] = Command(0, -0.115 * omega, omega, 1, 4 if abs(err) < 0.025 else 0)
         else:
             out[actor.key] = carry(w, actor)
+        if self.precision:
+            out[actor.key] = center_dribbler(
+                w, actor, out[actor.key], self.tick - self.option["tick"]
+            )
         return out

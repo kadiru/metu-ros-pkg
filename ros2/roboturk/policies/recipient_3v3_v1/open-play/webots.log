@@ -1,0 +1,10 @@
+INFO: roboturk_three: Starting controller: python3 -u roboturk_three.py
+1 {'complete': 7, 'intercepted': 1} {}
+2 {'intercepted': 1} {}
+3 {'complete': 14, 'intercepted': 5} {'blue': 2}
+4 {'complete': 3, 'intercepted': 1} {}
+5 {'intercepted': 1} {}
+6 {'complete': 6, 'intercepted': 1} {}
+7 {'complete': 13, 'intercepted': 3} {'yellow': 1}
+INFO: roboturk_three: Terminating.
+UNSUPPORTED (log once): POSSIBLE ISSUE: unit 1 GLD_TEXTURE_INDEX_2D is unloadable and bound to sampler type (Float) - using zero texture because texture unloadable

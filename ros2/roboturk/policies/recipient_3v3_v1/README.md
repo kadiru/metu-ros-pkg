@@ -29,3 +29,22 @@ seconds. An opponent or the other teammate taking the pass ends the attempt.
 The audit checks the outcome against 10 ms native position samples and checks
 the selected teammate against the policy's recorded candidate scores.
 [Protocol and test cases](protocol.json).
+
+The main qualification is 32 held-out one-minute matches. A separate eight-match
+open-play challenge extends the clock to 90 seconds and removes shot-clock
+restarts. The two consecutive uncut one-minute demo matches use the same open-play
+rules. Goal and ball-out restarts remain active in both formats.
+
+
+To reproduce on the pinned Webots build, run the launcher from the modern project
+root with the isolated environment active. It writes a fresh directory for each
+experiment. Training requires the prior frozen pass motor. Qualification and the
+demo also load the two released recipient selectors and check the frozen files.
+
+```sh
+python scripts/run_three.py --webots /path/to/webots --mode train --seed 901 --output runs/new-league-901
+python scripts/run_three.py --webots /path/to/webots --mode train --seed 902 --output runs/new-league-902
+python scripts/run_three.py --webots /path/to/webots --mode qualify --output runs/replay-3v3
+python scripts/run_three.py --webots /path/to/webots --mode open --output runs/replay-3v3-open
+python scripts/run_three.py --webots /path/to/webots --mode demo --output runs/replay-3v3-demo
+```

@@ -1,0 +1,327 @@
+[
+  {
+    "contested_seconds": 5.23,
+    "contests": [
+      {
+        "start": 557,
+        "last": 668,
+        "contestants": [
+          2,
+          5
+        ],
+        "winner": 5,
+        "recovery": 688
+      },
+      {
+        "start": 693,
+        "last": 725,
+        "contestants": [
+          2,
+          5
+        ],
+        "winner": 5,
+        "recovery": 745
+      },
+      {
+        "start": 748,
+        "last": 820,
+        "contestants": [
+          2,
+          5
+        ],
+        "winner": 5,
+        "recovery": 840
+      },
+      {
+        "start": 846,
+        "last": 877,
+        "contestants": [
+          2,
+          5
+        ],
+        "winner": 5,
+        "recovery": 897
+      },
+      {
+        "start": 901,
+        "last": 933,
+        "contestants": [
+          2,
+          5
+        ],
+        "winner": 5,
+        "recovery": 953
+      },
+      {
+        "start": 958,
+        "last": 989,
+        "contestants": [
+          2,
+          5
+        ],
+        "winner": 5,
+        "recovery": 1009
+      },
+      {
+        "start": 1014,
+        "last": 1045,
+        "contestants": [
+          2,
+          5
+        ],
+        "winner": 5,
+        "recovery": 1065
+      },
+      {
+        "start": 1072,
+        "last": 1107,
+        "contestants": [
+          2,
+          5
+        ],
+        "winner": 5,
+        "recovery": 1127
+      },
+      {
+        "start": 1138,
+        "last": 1171,
+        "contestants": [
+          2,
+          5
+        ],
+        "winner": 5,
+        "recovery": 1191
+      },
+      {
+        "start": 1203,
+        "last": 1234,
+        "contestants": [
+          2,
+          5
+        ],
+        "winner": 5,
+        "recovery": 1254
+      },
+      {
+        "start": 1261,
+        "last": 1334,
+        "contestants": [
+          2,
+          5
+        ],
+        "winner": 5,
+        "recovery": 1354,
+        "pass_tick": 421,
+        "received": 462,
+        "receiver": 4
+      }
+    ],
+    "recoveries": 11,
+    "chains": 1,
+    "late": 4,
+    "passes": 9,
+    "completions": 5
+  },
+  {
+    "contested_seconds": 0.34,
+    "contests": [
+      {
+        "start": 2536,
+        "last": 2569,
+        "contestants": [
+          2,
+          5
+        ],
+        "winner": 2,
+        "recovery": 2589
+      }
+    ],
+    "recoveries": 1,
+    "chains": 0,
+    "late": 2,
+    "passes": 17,
+    "completions": 10
+  },
+  {
+    "contested_seconds": 3.33,
+    "contests": [
+      {
+        "start": 867,
+        "last": 972,
+        "contestants": [
+          1,
+          4
+        ],
+        "winner": 4,
+        "recovery": 992,
+        "pass_tick": 281,
+        "received": 320,
+        "receiver": 5
+      },
+      {
+        "start": 2803,
+        "last": 2913,
+        "contestants": [
+          0,
+          5
+        ],
+        "winner": 5,
+        "recovery": 2933
+      },
+      {
+        "start": 5434,
+        "last": 5549,
+        "contestants": [
+          2,
+          3
+        ],
+        "winner": 3,
+        "recovery": 5569
+      }
+    ],
+    "recoveries": 3,
+    "chains": 1,
+    "late": 2,
+    "passes": 13,
+    "completions": 9
+  },
+  {
+    "contested_seconds": 3.4,
+    "contests": [
+      {
+        "start": 7448,
+        "last": 7551,
+        "contestants": [
+          1,
+          4
+        ],
+        "winner": 1,
+        "recovery": 7571
+      },
+      {
+        "start": 7577,
+        "last": 7605,
+        "contestants": [
+          1,
+          4
+        ],
+        "winner": 1,
+        "recovery": 7625
+      },
+      {
+        "start": 7627,
+        "last": 7652,
+        "contestants": [
+          1,
+          4
+        ],
+        "winner": 1,
+        "recovery": 7672
+      },
+      {
+        "start": 7676,
+        "last": 7707,
+        "contestants": [
+          1,
+          4
+        ],
+        "winner": 1,
+        "recovery": 7727
+      },
+      {
+        "start": 7733,
+        "last": 7762,
+        "contestants": [
+          1,
+          4
+        ],
+        "winner": 1,
+        "recovery": 7782
+      },
+      {
+        "start": 7784,
+        "last": 7868,
+        "contestants": [
+          1,
+          4
+        ],
+        "winner": 1,
+        "recovery": 7888
+      },
+      {
+        "start": 8877,
+        "last": 8913,
+        "contestants": [
+          0,
+          1,
+          4
+        ],
+        "winner": 4,
+        "recovery": 8933
+      }
+    ],
+    "recoveries": 7,
+    "chains": 0,
+    "late": 2,
+    "passes": 14,
+    "completions": 9
+  },
+  {
+    "contested_seconds": 0.7000000000000001,
+    "contests": [
+      {
+        "start": 5416,
+        "last": 5485,
+        "contestants": [
+          2,
+          5
+        ],
+        "winner": 5,
+        "recovery": 5505
+      }
+    ],
+    "recoveries": 1,
+    "chains": 0,
+    "late": 5,
+    "passes": 22,
+    "completions": 14
+  },
+  {
+    "contested_seconds": 0.33,
+    "contests": [
+      {
+        "start": 1316,
+        "last": 1348,
+        "contestants": [
+          1,
+          5
+        ],
+        "winner": 1,
+        "recovery": 1368
+      }
+    ],
+    "recoveries": 1,
+    "chains": 0,
+    "late": 4,
+    "passes": 18,
+    "completions": 12
+  },
+  {
+    "contested_seconds": 0.0,
+    "contests": [],
+    "recoveries": 0,
+    "chains": 0,
+    "late": 2,
+    "passes": 15,
+    "completions": 9
+  },
+  {
+    "contested_seconds": 0.0,
+    "contests": [],
+    "recoveries": 0,
+    "chains": 0,
+    "late": 3,
+    "passes": 16,
+    "completions": 10
+  }
+]

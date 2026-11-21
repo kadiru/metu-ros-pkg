@@ -59,7 +59,7 @@ def fit(leagues, base):
     # action guards against a move that only works in one opponent family.
     robust = critics.mean(0)
     robust[:, 0] = critics[:, :, 0].min(0)
-    policy = dict(motor=robust.tolist(), outlet=base["outlet"])
+    policy = dict(motor=robust.tolist(), outlet=base["outlet"], temperature=0.6)
     audit = dict(
         episodes=counts,
         effective_episodes_per_action=support.tolist(),

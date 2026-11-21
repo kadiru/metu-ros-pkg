@@ -53,7 +53,15 @@ def values(model, x):
         data = model["groups"][a]
         rows = np.asarray(data["x"])
         y = np.asarray(data["y"])
-        dist = np.sum(((rows - x) * SCALE) ** 2, axis=1)
+        scale = SCALE
+        if rows.shape[1] > len(SCALE):
+            extra = (
+                np.array([2.4, 1.0, 1.65, 1.5, 0.65, 1.3])
+                if a == 0
+                else np.array([0.25, 0.2, 0.2, 0.25, 0.1, 0.25])
+            )
+            scale = np.r_[SCALE * (0.6 if a == 0 else 1), extra]
+        dist = np.sum(((rows - x) * scale) ** 2, axis=1)
         n = min(len(y), model["neighbors"])
         nearest = np.argsort(dist)[:n]
         bw = max(0.12, float(dist[nearest[-1]]) * 0.45)

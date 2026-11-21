@@ -74,7 +74,7 @@ def archive(folder, name):
     warm = None
     if name != "initial":
         warm = json.loads(gzip.decompress((R / "initial.json.gz").read_bytes()))["policy"]["q"]
-    if name == "branches":
+    if name in ("branches", "lead"):
         warm = json.loads(gzip.decompress((R / "refined.json.gz").read_bytes()))["policy"]["q"]
         receipt = replay_branches(payload, warm)
     else:
@@ -93,7 +93,8 @@ def freeze(candidate):
         for p in [payload["policy"], *payload["checkpoints"].values()]
     )
     assert model["refined"] and "temperature" in model
-    branches = json.loads(gzip.decompress((R / "branches.json.gz").read_bytes()))["policy"][
+    archive_name = "lead" if model.get("lead") else "branches"
+    branches = json.loads(gzip.decompress((R / f"{archive_name}.json.gz").read_bytes()))["policy"][
         "opening"
     ]
     assert (
@@ -108,6 +109,8 @@ def freeze(candidate):
         R / "protocol.json",
         R / "initial.json.gz",
         R / "branches.json.gz",
+        R / "lead.json.gz",
+        ROOT / "scripts/select_recovery_opening.py",
         R / "refined.json.gz",
         WORLD,
         ROOT / "scripts/run_recovery_attack.py",
@@ -118,7 +121,13 @@ def freeze(candidate):
     ]
     files.extend(
         ROOT / f"src/roboturk_core/roboturk/{name}.py"
-        for name in ("recovery_attack", "recovery_conversion", "attack_returns", "attack_opening")
+        for name in (
+            "recovery_attack",
+            "recovery_conversion",
+            "attack_returns",
+            "attack_opening",
+            "recovery_lead",
+        )
     )
     files.extend(
         ROOT / "policies" / name
@@ -136,14 +145,16 @@ def freeze(candidate):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("stage", choices=["initial", "refined", "branches", "freeze", "verify"])
+    p.add_argument("stage", choices=["initial", "refined", "branches", "lead", "freeze", "verify"])
     p.add_argument("source", nargs="?", type=Path)
     a = p.parse_args()
     if a.stage == "verify":
         warm = None
-        for name in ("initial", "refined", "branches"):
+        for name in ("initial", "refined", "branches", "lead"):
             data = json.loads(gzip.decompress((R / f"{name}.json.gz").read_bytes()))
-            print(replay_branches(data, warm) if name == "branches" else replay(data, warm))
+            print(
+                replay_branches(data, warm) if name in ("branches", "lead") else replay(data, warm)
+            )
             warm = data["policy"]["q"]
     elif a.stage == "freeze":
         freeze(a.source)

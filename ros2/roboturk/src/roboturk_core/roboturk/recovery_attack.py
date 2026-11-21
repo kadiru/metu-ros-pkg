@@ -8,6 +8,7 @@ import numpy as np
 from .contest_outlet import duel_layout
 from .attack_opening import observation as opening_observation, values as opening_values
 from .jaw_recovery import JawGame
+from .recovery_lead import route
 from .model import Command, RobotKey, possession, wrap, body_vector
 from .three_match import CFG, face
 from .three_recipient import candidates, choose, distance, features, move
@@ -167,6 +168,7 @@ class AttackGame(JawGame):
         opening=None,
         opening_action=None,
         precision=False,
+        lead=False,
         **kwargs,
     ):
         self.strategies = strategies
@@ -175,6 +177,7 @@ class AttackGame(JawGame):
         self.opening = opening
         self.opening_action = opening_action
         self.precision = precision
+        self.lead = lead
         self.epsilon = epsilon
         self.learner = learner
         self.refined = refined
@@ -279,6 +282,10 @@ class AttackGame(JawGame):
             q = np.asarray(self.strategies[team]) @ x
             ox = opening_observation(x, actor, w) if self.precision else None
             first = self.precision and not earlier
+            target = None
+            if first and self.lead:
+                lead_choice, target, data = route(w, actor, self.weights[team])
+                ox = np.r_[ox, data]
             if first and self.opening_action is not None:
                 a = self.opening_action
             elif first and self.opening is not None:
@@ -291,6 +298,8 @@ class AttackGame(JawGame):
                 a = int(self.attack_rng.choice(3, p=prob / prob.sum()))
             else:
                 a = int(np.argmax(q))
+            if first and self.lead and a == 0:
+                choice = lead_choice
             self.option = dict(
                 team=team,
                 recovery=recovery,
@@ -303,6 +312,8 @@ class AttackGame(JawGame):
             )
             if self.precision:
                 self.option.update(opening_x=ox.tolist(), values=q.tolist(), opening=bool(first))
+            if first and self.lead and a == 0:
+                self.option["target"] = target
             self.options.append(self.option)
             self.target_choice = choice
         action = self.option["action"]
@@ -311,9 +322,11 @@ class AttackGame(JawGame):
         if action == "pass":
             self.choice = self.target_choice
             mate = w.robot(RobotKey(team, self.choice.receiver))
-            out[mate.key] = move(mate, mate.x, mate.y, face(mate, w.ball))
+            tx, ty = self.option.get("target", (mate.x, mate.y))
+            out[mate.key] = move(mate, tx, ty, face(mate, w.ball))
+            aim = replace(mate, x=tx, y=ty)
             out[actor.key] = (
-                pivot_pass(w, actor, mate) if self.refined else self.motor_command(actor, mate)
+                pivot_pass(w, actor, aim) if self.refined else self.motor_command(actor, mate)
             )
         elif action == "shoot":
             gx, gy, _ = shooting_lane(w, actor)

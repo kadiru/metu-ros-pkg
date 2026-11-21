@@ -158,6 +158,7 @@ def run(sim, folder):
             opening=model.get("opening"),
             opening_action=i % 3 if branches else None,
             precision=branches or "opening" in model,
+            lead=model.get("lead", False),
             temperature=model.get("temperature", 0.55),
             fixture=mode != "ordinary" and not (mode == "demo" and i == 2),
             epsilon=max(0.22, 0.85 - 0.6 * i / max(1, cfg["cases"] - 1)),

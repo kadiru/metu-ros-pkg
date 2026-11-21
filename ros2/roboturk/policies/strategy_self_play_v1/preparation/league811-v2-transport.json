@@ -1,0 +1,666 @@
+[
+  {
+    "source": "runs/strategy-v1/league811-v2.error.json",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.error.json",
+    "payload_sha256": "b959ff91249752f91c65cd205a53cc036cf582cfec4610ede8c7cad8c4450f5b",
+    "sha256": "b959ff91249752f91c65cd205a53cc036cf582cfec4610ede8c7cad8c4450f5b",
+    "original_bytes": 1276,
+    "bytes": 1276
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/scripts/run_strategy.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/scripts/run_strategy.py",
+    "payload_sha256": "c9e1f80d1683239b0b9441ec29a4da47e4508a49c6f1eed459329ee52d6f26c6",
+    "sha256": "c9e1f80d1683239b0b9441ec29a4da47e4508a49c6f1eed459329ee52d6f26c6",
+    "original_bytes": 5163,
+    "bytes": 5163
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/__init__.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/__init__.py",
+    "payload_sha256": "aa9bd1338e4c9e153c688e7852af996da1b05e372b4006d646392d3ee4715271",
+    "sha256": "aa9bd1338e4c9e153c688e7852af996da1b05e372b4006d646392d3ee4715271",
+    "original_bytes": 70,
+    "bytes": 70
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/adversarial_finish.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/adversarial_finish.py",
+    "payload_sha256": "c3ac8354e4e1ccc37d98eda42fadba94ca2477b673aec02c67696c372d146863",
+    "sha256": "c3ac8354e4e1ccc37d98eda42fadba94ca2477b673aec02c67696c372d146863",
+    "original_bytes": 3314,
+    "bytes": 3314
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/adversarial_training.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/adversarial_training.py",
+    "payload_sha256": "99ee62fc020ed7d5c39c2ea909a9487cd374d8368728ce8c21086b82fdfad01b",
+    "sha256": "99ee62fc020ed7d5c39c2ea909a9487cd374d8368728ce8c21086b82fdfad01b",
+    "original_bytes": 6374,
+    "bytes": 6374
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/backend.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/backend.py",
+    "payload_sha256": "1c782eadc7c9bfb767ccadf01406e1df1f840fae8e7f9061033500aa4b3e5eaf",
+    "sha256": "1c782eadc7c9bfb767ccadf01406e1df1f840fae8e7f9061033500aa4b3e5eaf",
+    "original_bytes": 3710,
+    "bytes": 3710
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/behavior.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/behavior.py",
+    "payload_sha256": "fde4a8a03911ac342cc4b68e4af259b2484aa3758b9febeac0d76b862f5249d4",
+    "sha256": "fde4a8a03911ac342cc4b68e4af259b2484aa3758b9febeac0d76b862f5249d4",
+    "original_bytes": 6063,
+    "bytes": 6063
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/capture.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/capture.py",
+    "payload_sha256": "d4c60adcd523f3d8d999a2c8319c24e88450c2b3c37409344df9cf829f1ea45d",
+    "sha256": "d4c60adcd523f3d8d999a2c8319c24e88450c2b3c37409344df9cf829f1ea45d",
+    "original_bytes": 7353,
+    "bytes": 7353
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/capture_contract.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/capture_contract.py",
+    "payload_sha256": "1aa3d0ddb1d5962c5844eecb713192bdd8643312b32177ad5b16928d00750e52",
+    "sha256": "1aa3d0ddb1d5962c5844eecb713192bdd8643312b32177ad5b16928d00750e52",
+    "original_bytes": 1849,
+    "bytes": 1849
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/capture_training.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/capture_training.py",
+    "payload_sha256": "a6302e06bea0a4b7599ea33ac185635df9ba52f9a5ea1da2916175e6e6a3d40d",
+    "sha256": "a6302e06bea0a4b7599ea33ac185635df9ba52f9a5ea1da2916175e6e6a3d40d",
+    "original_bytes": 5907,
+    "bytes": 5907
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/cli.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/cli.py",
+    "payload_sha256": "7e0216cf81b7222774278d59dd93aa5be078a840b5ece4b9029ec61a4472b073",
+    "sha256": "7e0216cf81b7222774278d59dd93aa5be078a840b5ece4b9029ec61a4472b073",
+    "original_bytes": 3671,
+    "bytes": 3671
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/continuous.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/continuous.py",
+    "payload_sha256": "85aec062569d4aec3cfdd6f6dcd0a14877d86a20d1d556fdd5033abf19faf261",
+    "sha256": "85aec062569d4aec3cfdd6f6dcd0a14877d86a20d1d556fdd5033abf19faf261",
+    "original_bytes": 21896,
+    "bytes": 21896
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/continuous_backend.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/continuous_backend.py",
+    "payload_sha256": "4ae894ea2282fe1a7551d6a58001b4310a14d8a65d84d4cca5b44b9c49d60cbf",
+    "sha256": "4ae894ea2282fe1a7551d6a58001b4310a14d8a65d84d4cca5b44b9c49d60cbf",
+    "original_bytes": 4067,
+    "bytes": 4067
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/continuous_distribution.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/continuous_distribution.py",
+    "payload_sha256": "7dd59172ed4938fd740014b63e376c6f299b06d03d551ccdeea3e8e9de330071",
+    "sha256": "7dd59172ed4938fd740014b63e376c6f299b06d03d551ccdeea3e8e9de330071",
+    "original_bytes": 1767,
+    "bytes": 1767
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/continuous_features.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/continuous_features.py",
+    "payload_sha256": "d4267acad3ce0e4ca6964debc6267a8ed44838890e506f025d1c96f5f30fa2c9",
+    "sha256": "d4267acad3ce0e4ca6964debc6267a8ed44838890e506f025d1c96f5f30fa2c9",
+    "original_bytes": 1673,
+    "bytes": 1673
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/continuous_preflight.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/continuous_preflight.py",
+    "payload_sha256": "03c5205750f505223c75e786a01f8d01b686fcd1691bb9ee8c0b4929dca0b421",
+    "sha256": "03c5205750f505223c75e786a01f8d01b686fcd1691bb9ee8c0b4929dca0b421",
+    "original_bytes": 2310,
+    "bytes": 2310
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/continuous_safety.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/continuous_safety.py",
+    "payload_sha256": "e77eafcec8c40878f6c2a494af2380a0f9f79a077bd3f8268914049d6594d16f",
+    "sha256": "e77eafcec8c40878f6c2a494af2380a0f9f79a077bd3f8268914049d6594d16f",
+    "original_bytes": 4062,
+    "bytes": 4062
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/continuous_selfplay.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/continuous_selfplay.py",
+    "payload_sha256": "3c0f9a412a5599dbc520122d697d485062619b90869065f5f995e3f4889fc795",
+    "sha256": "3c0f9a412a5599dbc520122d697d485062619b90869065f5f995e3f4889fc795",
+    "original_bytes": 13229,
+    "bytes": 13229
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/continuous_teacher.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/continuous_teacher.py",
+    "payload_sha256": "4b8fad6f917e4616d5bc852deeb3d12677a4aa5f2b1345bfeb12797ea0b75669",
+    "sha256": "4b8fad6f917e4616d5bc852deeb3d12677a4aa5f2b1345bfeb12797ea0b75669",
+    "original_bytes": 6818,
+    "bytes": 6818
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/continuous_training.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/continuous_training.py",
+    "payload_sha256": "1ac63b6a03e2ce37bb74ccc49d746abd99b0624461b8c1bbd66ffe66d6218e41",
+    "sha256": "1ac63b6a03e2ce37bb74ccc49d746abd99b0624461b8c1bbd66ffe66d6218e41",
+    "original_bytes": 11001,
+    "bytes": 11001
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/contract.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/contract.py",
+    "payload_sha256": "6616096b9e2ceb18fa136902861cde6db010ab288996db4fae14e598c67d3d1c",
+    "sha256": "6616096b9e2ceb18fa136902861cde6db010ab288996db4fae14e598c67d3d1c",
+    "original_bytes": 3398,
+    "bytes": 3398
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/decision_commitment.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/decision_commitment.py",
+    "payload_sha256": "5bdad6ab17ae5219bf9d21b200dbbcd7d279c7b2702fa87e03358d784bbdd340",
+    "sha256": "5bdad6ab17ae5219bf9d21b200dbbcd7d279c7b2702fa87e03358d784bbdd340",
+    "original_bytes": 4537,
+    "bytes": 4537
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/decision_flank.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/decision_flank.py",
+    "payload_sha256": "960321a92c8367e075524c550336cda09f962325956461db4d6e0ddfc288ca5c",
+    "sha256": "960321a92c8367e075524c550336cda09f962325956461db4d6e0ddfc288ca5c",
+    "original_bytes": 3205,
+    "bytes": 3205
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/decision_panel.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/decision_panel.py",
+    "payload_sha256": "93ed1602eefcca46cd32d57fb6f9f72622083a1b005897a30b4edc4f990bb6df",
+    "sha256": "93ed1602eefcca46cd32d57fb6f9f72622083a1b005897a30b4edc4f990bb6df",
+    "original_bytes": 2640,
+    "bytes": 2640
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/decision_play.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/decision_play.py",
+    "payload_sha256": "0e94eb28c5177444ab7897d95c7d37ee81d51e3aa9dbf03fb34a51faa08b8117",
+    "sha256": "0e94eb28c5177444ab7897d95c7d37ee81d51e3aa9dbf03fb34a51faa08b8117",
+    "original_bytes": 23324,
+    "bytes": 23324
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/decision_precision.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/decision_precision.py",
+    "payload_sha256": "a4a6991fca0188c2167c76890175b8f2aa8f87258ab72e4693e98772e4e73953",
+    "sha256": "a4a6991fca0188c2167c76890175b8f2aa8f87258ab72e4693e98772e4e73953",
+    "original_bytes": 8794,
+    "bytes": 8794
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/decision_prepare.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/decision_prepare.py",
+    "payload_sha256": "8d920c49fb45d9b32a121af92119e48c399911e88335f6c93fb54706e5f88bf9",
+    "sha256": "8d920c49fb45d9b32a121af92119e48c399911e88335f6c93fb54706e5f88bf9",
+    "original_bytes": 3119,
+    "bytes": 3119
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/decision_rewards.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/decision_rewards.py",
+    "payload_sha256": "074d0fe4113053cf8ff83df8642865d05b4e87bdbab1154299e0c785c945a56b",
+    "sha256": "074d0fe4113053cf8ff83df8642865d05b4e87bdbab1154299e0c785c945a56b",
+    "original_bytes": 1632,
+    "bytes": 1632
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/decision_training.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/decision_training.py",
+    "payload_sha256": "96bb95e9aa876fe882948cb0f80c7275f5d7bb7214e0048729084d88ed3e21ce",
+    "sha256": "96bb95e9aa876fe882948cb0f80c7275f5d7bb7214e0048729084d88ed3e21ce",
+    "original_bytes": 21404,
+    "bytes": 21404
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/defended.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/defended.py",
+    "payload_sha256": "3d1c58dee5717fe6d42f5142a2ea58d84f3417600e45e66e35665250e5c359b6",
+    "sha256": "3d1c58dee5717fe6d42f5142a2ea58d84f3417600e45e66e35665250e5c359b6",
+    "original_bytes": 17626,
+    "bytes": 17626
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/defended_tactical_training.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/defended_tactical_training.py",
+    "payload_sha256": "566ed57a0c396593e60a1ec89cd436417b0c8ebc0155149ac68c78e709326c28",
+    "sha256": "566ed57a0c396593e60a1ec89cd436417b0c8ebc0155149ac68c78e709326c28",
+    "original_bytes": 5775,
+    "bytes": 5775
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/defended_training.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/defended_training.py",
+    "payload_sha256": "9f5587a6c110cb6047812c00609ac01f2be7d43a3e5fe960b5f623f838a7457a",
+    "sha256": "9f5587a6c110cb6047812c00609ac01f2be7d43a3e5fe960b5f623f838a7457a",
+    "original_bytes": 5881,
+    "bytes": 5881
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/defended_upgrade.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/defended_upgrade.py",
+    "payload_sha256": "31d70e4abaa92a85f7e6e889fa46a0e5dac5807124d583e68724806a96509e39",
+    "sha256": "31d70e4abaa92a85f7e6e889fa46a0e5dac5807124d583e68724806a96509e39",
+    "original_bytes": 5947,
+    "bytes": 5947
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/defense_micro.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/defense_micro.py",
+    "payload_sha256": "26c4bbb354dcf80e48d490df3dda3db6fe38b76b50908205478348eec4fe80e6",
+    "sha256": "26c4bbb354dcf80e48d490df3dda3db6fe38b76b50908205478348eec4fe80e6",
+    "original_bytes": 11575,
+    "bytes": 11575
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/dribble.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/dribble.py",
+    "payload_sha256": "e09a3a302a7fee14eb980ec74fb5fe27068d1fe78e776c5b215f8e03693bd628",
+    "sha256": "e09a3a302a7fee14eb980ec74fb5fe27068d1fe78e776c5b215f8e03693bd628",
+    "original_bytes": 9895,
+    "bytes": 9895
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/dribble_contract.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/dribble_contract.py",
+    "payload_sha256": "7c44826fb910b14bb05ef804c6414ea58a7542d3b00a2cc20a160d8308ae846e",
+    "sha256": "7c44826fb910b14bb05ef804c6414ea58a7542d3b00a2cc20a160d8308ae846e",
+    "original_bytes": 744,
+    "bytes": 744
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/dribble_refinement.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/dribble_refinement.py",
+    "payload_sha256": "0defdc5942dd613f0fafb2bf357daa8c2c0ef33570b3876f723d31b14da8d5e6",
+    "sha256": "0defdc5942dd613f0fafb2bf357daa8c2c0ef33570b3876f723d31b14da8d5e6",
+    "original_bytes": 6477,
+    "bytes": 6477
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/dribble_training.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/dribble_training.py",
+    "payload_sha256": "5fd080b39d49436727acb4acc8bd9aeac9f615b73d491a8e329162aafd947d7e",
+    "sha256": "5fd080b39d49436727acb4acc8bd9aeac9f615b73d491a8e329162aafd947d7e",
+    "original_bytes": 7195,
+    "bytes": 7195
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/env.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/env.py",
+    "payload_sha256": "ffedfd2184096ffd80a95be46d5b372452aea4d281e1d5930844af3814bdc554",
+    "sha256": "ffedfd2184096ffd80a95be46d5b372452aea4d281e1d5930844af3814bdc554",
+    "original_bytes": 7343,
+    "bytes": 7343
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/keeper.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/keeper.py",
+    "payload_sha256": "f0bd9959e61de8754de4d97d328dc5a1e7233b9b4c0081a11a7d2ce67fa12c91",
+    "sha256": "f0bd9959e61de8754de4d97d328dc5a1e7233b9b4c0081a11a7d2ce67fa12c91",
+    "original_bytes": 14246,
+    "bytes": 14246
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/learned_opponents.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/learned_opponents.py",
+    "payload_sha256": "4d23e88e46803275ab6200a4cc223a510cb7bf6dd482972caa360c0f895cf84c",
+    "sha256": "4d23e88e46803275ab6200a4cc223a510cb7bf6dd482972caa360c0f895cf84c",
+    "original_bytes": 7882,
+    "bytes": 7882
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/micro_catalog.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/micro_catalog.py",
+    "payload_sha256": "18d58d38e43b97db90136a35126fe3930e5b65914eb67bd35c1179c16adda1a1",
+    "sha256": "18d58d38e43b97db90136a35126fe3930e5b65914eb67bd35c1179c16adda1a1",
+    "original_bytes": 7408,
+    "bytes": 7408
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/micro_training.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/micro_training.py",
+    "payload_sha256": "1a6991b63ab1f99663795bb728bceb8b259056e16ab568286dfb3f2c87757c95",
+    "sha256": "1a6991b63ab1f99663795bb728bceb8b259056e16ab568286dfb3f2c87757c95",
+    "original_bytes": 10457,
+    "bytes": 10457
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/model.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/model.py",
+    "payload_sha256": "0489022ffecdaa2b269a7b547218d056401749aaa03f050b0cc8393d861cfa10",
+    "sha256": "0489022ffecdaa2b269a7b547218d056401749aaa03f050b0cc8393d861cfa10",
+    "original_bytes": 4675,
+    "bytes": 4675
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/opponent_training.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/opponent_training.py",
+    "payload_sha256": "acf9002321d676486433f95dcfdfa4daa4682e5f1f7252224c4f7ac765f5d3ca",
+    "sha256": "acf9002321d676486433f95dcfdfa4daa4682e5f1f7252224c4f7ac765f5d3ca",
+    "original_bytes": 14118,
+    "bytes": 14118
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/self_play.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/self_play.py",
+    "payload_sha256": "8fddfa367a8ba5f72d8a16b92440df00866dbb5c2765f4024045f46fee565109",
+    "sha256": "8fddfa367a8ba5f72d8a16b92440df00866dbb5c2765f4024045f46fee565109",
+    "original_bytes": 13843,
+    "bytes": 13843
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/self_play_match.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/self_play_match.py",
+    "payload_sha256": "ddf8efefd6caed50727499d6c6654c84f95584500dff80260df249711d64bd1b",
+    "sha256": "ddf8efefd6caed50727499d6c6654c84f95584500dff80260df249711d64bd1b",
+    "original_bytes": 7787,
+    "bytes": 7787
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/self_play_panel.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/self_play_panel.py",
+    "payload_sha256": "03fbe5e0d89b77cac406dc0edf340ae9fb3251a5f04d5607b245acb67374b388",
+    "sha256": "03fbe5e0d89b77cac406dc0edf340ae9fb3251a5f04d5607b245acb67374b388",
+    "original_bytes": 3006,
+    "bytes": 3006
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/self_play_release_head.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/self_play_release_head.py",
+    "payload_sha256": "756cf948bd5d77c33dfd63c58112e4dad58be40c9425480a42b0b79a9831b75a",
+    "sha256": "756cf948bd5d77c33dfd63c58112e4dad58be40c9425480a42b0b79a9831b75a",
+    "original_bytes": 8691,
+    "bytes": 8691
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/self_play_repair.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/self_play_repair.py",
+    "payload_sha256": "97a78fa2233e9142357f661eaec55c15f71a78737a0a020c614844e34e57cb6d",
+    "sha256": "97a78fa2233e9142357f661eaec55c15f71a78737a0a020c614844e34e57cb6d",
+    "original_bytes": 6166,
+    "bytes": 6166
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/self_play_timing.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/self_play_timing.py",
+    "payload_sha256": "11338578ad17946e06bdb906227dc74922fce39295a69ec553c03a29eac9e431",
+    "sha256": "11338578ad17946e06bdb906227dc74922fce39295a69ec553c03a29eac9e431",
+    "original_bytes": 5773,
+    "bytes": 5773
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/self_play_training.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/self_play_training.py",
+    "payload_sha256": "6d29aa25f9c49559dd7767b88e7d3756a20cb738ecde72ba30cc4430cf35240b",
+    "sha256": "6d29aa25f9c49559dd7767b88e7d3756a20cb738ecde72ba30cc4430cf35240b",
+    "original_bytes": 24714,
+    "bytes": 24714
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/shoot.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/shoot.py",
+    "payload_sha256": "fa67fef8c38cd050d79202b6cc575963d51f4e9f29b8cdda641c9c9aa3ff0b9e",
+    "sha256": "fa67fef8c38cd050d79202b6cc575963d51f4e9f29b8cdda641c9c9aa3ff0b9e",
+    "original_bytes": 10191,
+    "bytes": 10191
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/shoot_contract.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/shoot_contract.py",
+    "payload_sha256": "35ac76186912737a47be2a0531809b7f5851cdd9735f37d3412fb7fe302b6218",
+    "sha256": "35ac76186912737a47be2a0531809b7f5851cdd9735f37d3412fb7fe302b6218",
+    "original_bytes": 1611,
+    "bytes": 1611
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/shoot_training.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/shoot_training.py",
+    "payload_sha256": "9cbe3bf77491368ef46efb6120cd0658a6d33527d6b6597ec9ea651b899f2de1",
+    "sha256": "9cbe3bf77491368ef46efb6120cd0658a6d33527d6b6597ec9ea651b899f2de1",
+    "original_bytes": 8082,
+    "bytes": 8082
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/shoot_upgrade.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/shoot_upgrade.py",
+    "payload_sha256": "a856001d16dbcdf9d711b6200923da10ee1cab52706be3c47b5990a31e1a92d3",
+    "sha256": "a856001d16dbcdf9d711b6200923da10ee1cab52706be3c47b5990a31e1a92d3",
+    "original_bytes": 5219,
+    "bytes": 5219
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/strategy.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/strategy.py",
+    "payload_sha256": "ad759e351764824e8255afbb2b691bbc2eb3dd3cacfbcb3bd51e809d26eda5a7",
+    "sha256": "ad759e351764824e8255afbb2b691bbc2eb3dd3cacfbcb3bd51e809d26eda5a7",
+    "original_bytes": 4481,
+    "bytes": 4481
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/strategy_adapt.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/strategy_adapt.py",
+    "payload_sha256": "17e126f3486444cdb55f809d6dd7625ac7d7f78c9eda90113296078c9657ecaa",
+    "sha256": "17e126f3486444cdb55f809d6dd7625ac7d7f78c9eda90113296078c9657ecaa",
+    "original_bytes": 6420,
+    "bytes": 6420
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/strategy_geometry.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/strategy_geometry.py",
+    "payload_sha256": "8f2ff2a26b75f006725acb93899fb4a3625a9d7d069c123235eb52fce44dd613",
+    "sha256": "8f2ff2a26b75f006725acb93899fb4a3625a9d7d069c123235eb52fce44dd613",
+    "original_bytes": 5993,
+    "bytes": 5993
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/strategy_heads.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/strategy_heads.py",
+    "payload_sha256": "765f4ddf128e2458cfb07632f14f75e117fa4fed787d22328efee6ae50058e22",
+    "sha256": "765f4ddf128e2458cfb07632f14f75e117fa4fed787d22328efee6ae50058e22",
+    "original_bytes": 3293,
+    "bytes": 3293
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/strategy_options.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/strategy_options.py",
+    "payload_sha256": "45e82ec07ccf691ddee4ba235a058ff36dc52cb78cbcaf272c79dc2740349e0a",
+    "sha256": "45e82ec07ccf691ddee4ba235a058ff36dc52cb78cbcaf272c79dc2740349e0a",
+    "original_bytes": 21104,
+    "bytes": 21104
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/strategy_pass.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/strategy_pass.py",
+    "payload_sha256": "bd5f2a7daf5f5efe54245dd36f192cec0e779a71c2a16e1838ea9941f2d01665",
+    "sha256": "bd5f2a7daf5f5efe54245dd36f192cec0e779a71c2a16e1838ea9941f2d01665",
+    "original_bytes": 3823,
+    "bytes": 3823
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/strategy_selfplay.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/strategy_selfplay.py",
+    "payload_sha256": "4ef11903a386a7a94ad45d97227d68185f2d87b616867d49ba37a5dbbdad52d1",
+    "sha256": "4ef11903a386a7a94ad45d97227d68185f2d87b616867d49ba37a5dbbdad52d1",
+    "original_bytes": 11170,
+    "bytes": 11170
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/strategy_teacher.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/strategy_teacher.py",
+    "payload_sha256": "b300bf2d7a030338b830c1d4793015b3851d12b4188672dd0903d99f552f9f05",
+    "sha256": "b300bf2d7a030338b830c1d4793015b3851d12b4188672dd0903d99f552f9f05",
+    "original_bytes": 5402,
+    "bytes": 5402
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/strategy_training.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/strategy_training.py",
+    "payload_sha256": "b08d85bb2e6e42c8060ec49330b6947d264836a4b556dcea9f7a9bc36c48b775",
+    "sha256": "b08d85bb2e6e42c8060ec49330b6947d264836a4b556dcea9f7a9bc36c48b775",
+    "original_bytes": 11915,
+    "bytes": 11915
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/tdp_catalog.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/tdp_catalog.py",
+    "payload_sha256": "c4b0fde8bd4d513c70e485fb1b61e0154ab325774a2e095c7778f40290ec54ff",
+    "sha256": "c4b0fde8bd4d513c70e485fb1b61e0154ab325774a2e095c7778f40290ec54ff",
+    "original_bytes": 1301,
+    "bytes": 1301
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/tdp_evaluation.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/tdp_evaluation.py",
+    "payload_sha256": "2aca0916e09ac99b3fddec210a65a9a2fa8c77993adfbd0fcb4993573e135ecf",
+    "sha256": "2aca0916e09ac99b3fddec210a65a9a2fa8c77993adfbd0fcb4993573e135ecf",
+    "original_bytes": 3348,
+    "bytes": 3348
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/tdp_options.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/tdp_options.py",
+    "payload_sha256": "8c1ee5828156bf6e41956aac82b7c1f986cdd2ea991be403040ceb0735d5bed0",
+    "sha256": "8c1ee5828156bf6e41956aac82b7c1f986cdd2ea991be403040ceb0735d5bed0",
+    "original_bytes": 17885,
+    "bytes": 17885
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/tdp_playbook.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/tdp_playbook.py",
+    "payload_sha256": "3b1021b563273ab11b2b07e0f021c732e4b449f8b6cffec00b37a2effb2d45c0",
+    "sha256": "3b1021b563273ab11b2b07e0f021c732e4b449f8b6cffec00b37a2effb2d45c0",
+    "original_bytes": 5834,
+    "bytes": 5834
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/tdp_training.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/tdp_training.py",
+    "payload_sha256": "7a6993237c96021eea3dbb5577622fccb82b0ec0de3a925f6c4917d310ddc8c7",
+    "sha256": "7a6993237c96021eea3dbb5577622fccb82b0ec0de3a925f6c4917d310ddc8c7",
+    "original_bytes": 9637,
+    "bytes": 9637
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/team.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/team.py",
+    "payload_sha256": "e4b9c5558db60d1d5692cc8b830133dc52c07018bf8da4ff7b53020520c14cf3",
+    "sha256": "e4b9c5558db60d1d5692cc8b830133dc52c07018bf8da4ff7b53020520c14cf3",
+    "original_bytes": 17677,
+    "bytes": 17677
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/team_contract.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/team_contract.py",
+    "payload_sha256": "649ad7ddbe435759123fc26eb7ffcaad01102dc320aa1351e3071c6353c99a1d",
+    "sha256": "649ad7ddbe435759123fc26eb7ffcaad01102dc320aa1351e3071c6353c99a1d",
+    "original_bytes": 2912,
+    "bytes": 2912
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/team_play.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/team_play.py",
+    "payload_sha256": "400302d30389d564cf9c8cef701a3acee02836a4a7dfc7bb86112ea27954411e",
+    "sha256": "400302d30389d564cf9c8cef701a3acee02836a4a7dfc7bb86112ea27954411e",
+    "original_bytes": 3668,
+    "bytes": 3668
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/team_training.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/team_training.py",
+    "payload_sha256": "940c0c34cb4da8bf38df0b53b0de786f8b1691be7b739ec707de6e65f0b9693b",
+    "sha256": "940c0c34cb4da8bf38df0b53b0de786f8b1691be7b739ec707de6e65f0b9693b",
+    "original_bytes": 7899,
+    "bytes": 7899
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/team_upgrade.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/team_upgrade.py",
+    "payload_sha256": "6dc6213852a48f0b86c47cd955cd2b24f3b173b36be4c03e7f87699eb5e87a2c",
+    "sha256": "6dc6213852a48f0b86c47cd955cd2b24f3b173b36be4c03e7f87699eb5e87a2c",
+    "original_bytes": 5577,
+    "bytes": 5577
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_core/roboturk/webots_backend.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_core/roboturk/webots_backend.py",
+    "payload_sha256": "1cc82885cb85d158463a94ab39a224d9c734ad8ae8699be40e501b018d3befaf",
+    "sha256": "1cc82885cb85d158463a94ab39a224d9c734ad8ae8699be40e501b018d3befaf",
+    "original_bytes": 6320,
+    "bytes": 6320
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_ros/webots/controllers/roboturk_strategy/roboturk_strategy.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_ros/webots/controllers/roboturk_strategy/roboturk_strategy.py",
+    "payload_sha256": "bb332f6dd536c189938bc2ccda05718eaed7e799cb545604b2ddade20b79f014",
+    "sha256": "bb332f6dd536c189938bc2ccda05718eaed7e799cb545604b2ddade20b79f014",
+    "original_bytes": 3627,
+    "bytes": 3627
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_ros/webots/controllers/roboturk_strategy/strategy_demo.py",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_ros/webots/controllers/roboturk_strategy/strategy_demo.py",
+    "payload_sha256": "a27d9379fefd8eca738eb177ebc03ee2bec9f2cfdaf4411b40ad378ac9a2dd50",
+    "sha256": "a27d9379fefd8eca738eb177ebc03ee2bec9f2cfdaf4411b40ad378ac9a2dd50",
+    "original_bytes": 6140,
+    "bytes": 6140
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_ros/webots/protos/SslBall.proto",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_ros/webots/protos/SslBall.proto",
+    "payload_sha256": "2550c2c6c24163ad793e1e4178da7049d463988d8769a5487a0f8fca070c05c0",
+    "sha256": "2550c2c6c24163ad793e1e4178da7049d463988d8769a5487a0f8fca070c05c0",
+    "original_bytes": 428,
+    "bytes": 428
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_ros/webots/protos/SslRobot.proto",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_ros/webots/protos/SslRobot.proto",
+    "payload_sha256": "10a7d7d461e671529c29e836c05c43ee8107b864115a6fbdabb99cc4fa22e0f5",
+    "sha256": "10a7d7d461e671529c29e836c05c43ee8107b864115a6fbdabb99cc4fa22e0f5",
+    "original_bytes": 1132,
+    "bytes": 1132
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch/runtime/src/roboturk_ros/webots/worlds/ssl_strategy.wbt",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch/runtime/src/roboturk_ros/webots/worlds/ssl_strategy.wbt",
+    "payload_sha256": "491ec418b123dab3d14b357ba0f86833ffbf242553fb21bb323019c17b027f8b",
+    "sha256": "491ec418b123dab3d14b357ba0f86833ffbf242553fb21bb323019c17b027f8b",
+    "original_bytes": 2265,
+    "bytes": 2265
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.launch.json",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.launch.json",
+    "payload_sha256": "779e7a22411013f86f984feec3c94ee94ae401824befa34bd92b4ccb0a7949bf",
+    "sha256": "779e7a22411013f86f984feec3c94ee94ae401824befa34bd92b4ccb0a7949bf",
+    "original_bytes": 10352,
+    "bytes": 10352
+  },
+  {
+    "source": "runs/strategy-v1/league811-v2.log",
+    "path": "policies/strategy_self_play_v1/preparation/league811-v2.log",
+    "payload_sha256": "770dce4d26268e84ba8d19ad8e3d0e7821b64b0233e4c2e3b123acdc0145bc9d",
+    "sha256": "770dce4d26268e84ba8d19ad8e3d0e7821b64b0233e4c2e3b123acdc0145bc9d",
+    "original_bytes": 280,
+    "bytes": 280
+  }
+]

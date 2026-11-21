@@ -2,6 +2,7 @@
 
 from pathlib import Path
 import json
+import gzip
 import numpy as np
 import torch
 from .strategy_heads import expand
@@ -12,7 +13,15 @@ def fit_heads(paths, parent, output, seed, epochs=250, geometry=False):
     torch.set_num_threads(1)
     torch.manual_seed(seed)
     data = [np.load(p) for p in paths]
-    banks = [json.loads(Path(p).with_name("collection.json").read_text())["motors"] for p in paths]
+    banks = []
+    for path in paths:
+        receipt = Path(path).with_name("collection.json")
+        payload = (
+            receipt.read_bytes()
+            if receipt.exists()
+            else gzip.decompress(receipt.with_suffix(".json.gz").read_bytes())
+        )
+        banks.append(json.loads(payload)["motors"])
     signatures = [{k: v["sha256"] for k, v in bank.items()} for bank in banks]
     assert all(s == signatures[0] for s in signatures), "Do not mix different motor-bank datasets"
     x = np.concatenate([d["observations"] for d in data])

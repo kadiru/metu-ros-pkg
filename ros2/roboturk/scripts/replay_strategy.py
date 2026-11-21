@@ -86,6 +86,8 @@ def replay(path, blue, yellow):
                 / "policies/strategy_self_play_v1/preparation"
                 / str(source).split("/runs/strategy-v1/", 1)[1]
             )
+        if not source.exists() and "/policies/" in str(source):
+            source = ROOT / "policies" / str(source).split("/policies/", 1)[1]
         assert hashlib.sha256(source.read_bytes()).hexdigest() == override["sha256"]
     bank = MotorBank(ROOT, source)
     records = []

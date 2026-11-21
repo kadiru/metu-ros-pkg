@@ -140,3 +140,11 @@ stopped receptions, three redirect goals and five clearances; seed822's scored
 two goals with three stopped receptions, one redirect goal and four clearances.
 All matches completed with zero detected contacts or field exits. These mixed
 training results do not qualify either autonomous policy.
+
+The corrected v6 selectors each completed eight fresh native development matches
+with three goals (one blue, two yellow), two stopped receptions, two redirect
+goals and three clearances. Neither had a detected robot contact or field exit.
+Both 32,000-sample geometry audits and complete checkpoint-inference replays
+passed. These are development results; reserved qualification remains untouched.
+The next historical self-play leagues keep these target functions and the entire
+motor bank fixed while updating strategic choices across all four robot roles.

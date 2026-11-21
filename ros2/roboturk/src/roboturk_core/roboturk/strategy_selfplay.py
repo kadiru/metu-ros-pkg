@@ -32,6 +32,20 @@ REWARD = {
 }
 
 
+def training_data_path(root, receipt):
+    path = Path(receipt["path"])
+    if not path.is_absolute():
+        path = root / path
+    if not path.is_file() and "/runs/strategy-v1/" in str(path):
+        path = (
+            root
+            / "policies/strategy_self_play_v1/preparation"
+            / str(path).split("/runs/strategy-v1/", 1)[1]
+        )
+    assert digest(path) == receipt["sha256"], "Training data changed"
+    return path
+
+
 def target_hash(model):
     h = hashlib.sha256()
     tensors = list(model.policy.mlp_extractor.policy_net.state_dict().values())
@@ -163,15 +177,7 @@ def train(backend, bank, out, initial, seed, rounds, steps, duration):
     dataset_paths = []
     root = Path(__file__).resolve().parents[3]
     for receipt in meta["datasets"]:
-        path = Path(receipt["path"])
-        if not path.is_file() and "/runs/strategy-v1/" in str(path):
-            path = (
-                root
-                / "policies/strategy_self_play_v1/preparation"
-                / str(path).split("/runs/strategy-v1/", 1)[1]
-            )
-        assert digest(path) == receipt["sha256"], "Training data changed"
-        dataset_paths.append(path)
+        dataset_paths.append(training_data_path(root, receipt))
     arrays = [np.load(p) for p in dataset_paths]
     x = np.concatenate([a["observations"] for a in arrays])
     y = np.concatenate([a["actions"] for a in arrays])

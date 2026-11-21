@@ -1,0 +1,50 @@
+[
+  {
+    "source": "runs/strategy-v1/heads-v6/complete.json",
+    "path": "policies/strategy_self_play_v1/preparation/heads-v6/complete.json",
+    "payload_sha256": "9a4f6e641ae12ed6869f6fb469eeef8b65465c279f497a76c2a56967b917ecf8",
+    "sha256": "9a4f6e641ae12ed6869f6fb469eeef8b65465c279f497a76c2a56967b917ecf8",
+    "original_bytes": 1989,
+    "bytes": 1989
+  },
+  {
+    "source": "runs/strategy-v1/heads-v6/seed811/initial.json",
+    "path": "policies/strategy_self_play_v1/preparation/heads-v6/seed811/initial.json",
+    "payload_sha256": "48c4cd7bc6c02bccb0e151dfc61ef203da88543d6b0f6398968bab9c0ae5da03",
+    "sha256": "48c4cd7bc6c02bccb0e151dfc61ef203da88543d6b0f6398968bab9c0ae5da03",
+    "original_bytes": 8998,
+    "bytes": 8998
+  },
+  {
+    "source": "runs/strategy-v1/heads-v6/seed811/initial.zip",
+    "path": "policies/strategy_self_play_v1/preparation/heads-v6/seed811/initial.zip",
+    "payload_sha256": "dd56af1cc4c5398c4317d1e7d3c86939b285b0e326b1f027bf1ece7931c78cd4",
+    "sha256": "dd56af1cc4c5398c4317d1e7d3c86939b285b0e326b1f027bf1ece7931c78cd4",
+    "original_bytes": 935679,
+    "bytes": 935679
+  },
+  {
+    "source": "runs/strategy-v1/heads-v6/seed822/initial.json",
+    "path": "policies/strategy_self_play_v1/preparation/heads-v6/seed822/initial.json",
+    "payload_sha256": "51e10f3773192223081509a049a1d6762977ae7a18129e094932b2433517461f",
+    "sha256": "51e10f3773192223081509a049a1d6762977ae7a18129e094932b2433517461f",
+    "original_bytes": 8998,
+    "bytes": 8998
+  },
+  {
+    "source": "runs/strategy-v1/heads-v6/seed822/initial.zip",
+    "path": "policies/strategy_self_play_v1/preparation/heads-v6/seed822/initial.zip",
+    "payload_sha256": "6705041c1db7dcc780128c4243f550dc516f030e746a917231afb18e1b035841",
+    "sha256": "6705041c1db7dcc780128c4243f550dc516f030e746a917231afb18e1b035841",
+    "original_bytes": 935679,
+    "bytes": 935679
+  },
+  {
+    "source": "runs/strategy-v1/heads-v6.log",
+    "path": "policies/strategy_self_play_v1/preparation/heads-v6.log",
+    "payload_sha256": "801e5d072fb254926bf99d55379bf8891d4d1470e5e5f238b1a987d7a029e45b",
+    "sha256": "801e5d072fb254926bf99d55379bf8891d4d1470e5e5f238b1a987d7a029e45b",
+    "original_bytes": 1108,
+    "bytes": 1108
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "src/roboturk_core/roboturk/transition_attack.py": "f67213380e7e5ec4f2336a7c1b8a4ab1690a70cdc4c201fdfe72dbf1c579ca81",
+  "src/roboturk_ros/webots/controllers/roboturk_transition/roboturk_transition.py": "3dde8922c4578fb3c4d769d4875b4dca2c375a7be266ce9cd50e3d51a898376c",
+  "src/roboturk_ros/webots/worlds/ssl_transition.wbt": "cbabce7e35bd16ad0c5cd54f0d0ca67b5efc21bb751b5acb6b9a4ca70d20529f",
+  "scripts/train_recovery_transition.py": "e706a429edb0ddc27e410ba9969df98b8f86a999e196ab4f1b4891cf2fb5ead5",
+  "scripts/audit_recovery_attack.py": "286252473e0e83070d514ca734da12486c5ff6056f8d929d7c591987454fed51",
+  "policies/recovery_attack_v3/protocol.json": "7357ae5f539634cedd4fde13558c375142659ee4b12988d77d5d4cb7543f591a",
+  "policies/recovery_attack_v2/freeze.json": "631b01cb38697619ec877dd865b7342085cae10dfe94861ee92f6a48e1377706",
+  "scripts/select_recovery_transition.py": "6fb61dfa041e827c98f6f4e5d8cdb2afc63d90d843c9bef1d4f7b644b8548e89",
+  "policies/recovery_attack_v3/training-1.json.gz": "74acc1b43138fe325607c0758c9c54783eb831d6aaf849189c2bff20e8f67b17",
+  "policies/recovery_attack_v3/candidate-1.json": "3bb93dfefcf0a971897c5c83f6bfcfd100e56c2afc9ce699adb1afaa31af864f"
+}

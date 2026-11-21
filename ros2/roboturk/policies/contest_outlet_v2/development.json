@@ -1,0 +1,38 @@
+{
+  "ordinary": {
+    "games": 8,
+    "contests": 11,
+    "chains": 5,
+    "chain_games": 5,
+    "challenger_chains": 0,
+    "seconds": 60,
+    "first": 8902300
+  },
+  "develop": {
+    "games": 12,
+    "contests": 14,
+    "chains": 8,
+    "chain_games": 8,
+    "challenger_chains": 0,
+    "seconds": 10,
+    "first": 8902000
+  },
+  "head_to_head": {
+    "games": 8,
+    "contests": 3,
+    "chains": 1,
+    "chain_games": 1,
+    "challenger_chains": 1,
+    "seconds": 45,
+    "first": 8902100
+  },
+  "duel-mixed": {
+    "games": 16,
+    "contests": 17,
+    "chains": 11,
+    "chain_games": 11,
+    "challenger_chains": 4,
+    "seconds": 10,
+    "first": 8902200
+  }
+}

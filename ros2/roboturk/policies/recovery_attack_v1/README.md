@@ -14,8 +14,28 @@ The first native league alternated the learning side between Blue and Yellow. It
 
 The second league starts with the learned values from the first. It fits from both sides' observed possessions against historical policies. In these training trials a restart or opposing touch ends the scoring opportunity early. Evaluation games continue to their full time limit. A completed pass earns a small shaping reward. A physically verified goal earns the main reward, with additional credit for a completed pass or a sustained carry preceding it. Action values use a geometric initial estimate and update from native outcomes.
 
+Two further self-play studies compared the three possible openings on 240 seeded layouts apiece. Each study ran 720 native rollouts. A different opening was tried on each repetition, and the trained continuation policy played out the possession. The value estimator uses the actual recovered state in each rollout. In the final study, the pass option evaluated reachable spots ahead of either teammate, accounting for opponent positions and motion, turning time, receiver travel and the next shooting opportunity. It commands the teammate toward that spot while the carrier pivots.
+
+The final controller estimates each opening's return from similar training observations. Five-fold selection kept all repetitions of a layout in the same fold. Among estimates that produced both pass-assisted and carry-assisted goals in validation, the selected estimate used 18 neighbors for dribbling and shooting and four for passing. The selected additional pass-success bonus was zero. Subsequent choices use the learned continuation values. [First opening study](branches-audit.json) · [Lead-pass study](lead-audit.json) · [Selection results](selection.json) · [Frozen policy](policy.json)
+
 ## What counts as a conversion
 
 The audit reads the ball and six robot poses at 100 Hz. It checks that the winner's team shoots across the opponent's goal line inside the posts, within 18 seconds of recovery and three seconds of the shot. Each intermediate kick must reach the selected teammate, travel at least 0.55 m and end in at least 0.20 seconds of exclusive receiver control. An opposing mouth touch or a referee restart breaks the sequence. A dribble-assisted goal requires at least 0.18 m of simultaneous robot and ball displacement during one uninterrupted controlled carry. The referee score and the recovery-attributed score are reported separately.
 
 Training, development, qualification and demo seeds use distinct ranges. The main comparison uses matched contested fixtures. Qualification also measures spontaneous recoveries in ordinary 3v3 open play. The Webots world uses ground-truth poses, ideal body velocity, a spring dribbler and fixed kick power. [Evaluation plan](protocol.json)
+
+## Reproduce the experiment
+
+Run these commands from the modern project with its Python environment active. The launcher accepts `--webots /path/to/webots`. The reported matches used the native Webots R2025a nightly from November 17, 2026.
+
+```sh
+export PYTHONPATH="$PWD/src/roboturk_core"
+python scripts/freeze_recovery_attack.py verify
+python scripts/run_recovery_attack.py qualify runs/new-attack-qualification
+python scripts/audit_recovery_attack.py runs/new-attack-qualification
+python scripts/run_recovery_attack.py demo runs/new-attack-demo
+python scripts/audit_recovery_attack.py runs/new-attack-demo --demo
+python scripts/build_recovery_goal_demo.py runs/new-attack-demo --media runs/new-attack-media
+```
+
+The four compressed training archives are JSON documents containing the native episode records, launch settings, checkpoint data and fitted policy. The replay command checks the learned parameters against those records. Primary seeds start at 9200000 for the initial league, 9220000 for the second league, 9240000 for the first opening study and 9245000 for the lead-pass study. Only development and training data were used to select the controller. [Initial training](initial.json.gz) · [Refined training](refined.json.gz) · [Opening trials](branches.json.gz) · [Lead-pass trials](lead.json.gz) · [Development audit](development.json) · [Source and policy hashes](freeze.json)

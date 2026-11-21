@@ -119,8 +119,10 @@ def run(sim, folder):
     backend = ContinuousWebotsBackend(sim, CFG)
     mode = cfg["mode"]
     train = mode == "train"
-    fit = AttackLearner()
-    fixed = None if train else np.array(json.loads(Path(cfg["model"]).read_text())["q"])
+    model = json.loads(Path(cfg["model"]).read_text()) if not train or cfg.get("refine") else {}
+    refined = cfg.get("refine", False) if train else model.get("refined", False)
+    fit = AttackLearner(model["q"] if train and refined else None)
+    fixed = None if train else np.array(model["q"])
     history = [fit.policy()]
     render = movie_camera(sim, folder) if mode == "demo" else None
     idx = os.environ.get("RECOVERY_CASE")
@@ -145,6 +147,8 @@ def run(sim, folder):
             cfg["seconds"],
             set(),
             strategies=strategies,
+            refined=refined,
+            temperature=model.get("temperature", 0.55),
             fixture=mode != "ordinary" and not (mode == "demo" and i == 2),
             epsilon=max(0.22, 0.85 - 0.6 * i / max(1, cfg["cases"] - 1)),
             learner=team if train else None,
@@ -162,12 +166,29 @@ def run(sim, folder):
             challenger=team if mode == "mixed" else None,
             opponent=opponent,
         )
+        if refined:
+            for j, o in enumerate(g.options):
+                end = next(
+                    (v["tick"] for v in g.options[j + 1 :] if v["team"] == o["team"]), o["until"]
+                )
+                reset = next(
+                    (
+                        v["tick"] + 1
+                        for v in g.events
+                        if v["event"] not in ("start", "kick") and v["tick"] >= o["tick"]
+                    ),
+                    o["until"],
+                )
+                o["end_tick"] = min(o["until"], end, reset)
         result["conversions"] = conversions(trace, result)
         if train:
             fit.update(result)
             if (i + 1) % 12 == 0:
                 history.append(fit.policy())
-                save(folder / f"checkpoint-{i + 1:03}.json", dict(q=history[-1].tolist()))
+                save(
+                    folder / f"checkpoint-{i + 1:03}.json",
+                    dict(q=history[-1].tolist(), refined=refined, temperature=0.55),
+                )
         else:
             np.savez_compressed(folder / f"trace-{i:03}.npz", states=trace)
         save(folder / f"game-{i:03}.json", result)
@@ -175,7 +196,12 @@ def run(sim, folder):
     if train:
         save(
             folder / "policy.json",
-            dict(q=fit.policy().tolist(), option_updates=fit.counts.tolist()),
+            dict(
+                q=fit.policy().tolist(),
+                option_updates=fit.counts.tolist(),
+                refined=refined,
+                temperature=0.55,
+            ),
         )
     if render:
         sim.movieStopRecording()

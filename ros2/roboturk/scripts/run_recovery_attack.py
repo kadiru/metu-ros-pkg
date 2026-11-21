@@ -35,7 +35,9 @@ def main():
         type=Path,
         default=ROOT.parent / "runtime/Webots-nightly.app/Contents/MacOS/webots",
     )
+    p.add_argument("--refine", action="store_true")
     a = p.parse_args()
+    assert not a.refine or a.mode == "train"
     plan = read(R / "protocol.json")
     folder = a.folder.resolve()
     for path in [
@@ -53,6 +55,7 @@ def main():
     binary = a.webots.resolve()
     meta = dict(
         root=str(ROOT),
+        refine=a.refine,
         model=str(a.model.resolve()),
         webots_sha256=hashlib.sha256(binary.read_bytes()).hexdigest(),
     )

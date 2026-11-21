@@ -9,7 +9,7 @@ from .contest_outlet import duel_layout
 from .jaw_recovery import JawGame
 from .model import Command, RobotKey, possession, wrap
 from .three_match import CFG, face
-from .three_recipient import choose, distance, features, move
+from .three_recipient import candidates, choose, distance, features, move
 
 ACTIONS = ("pass", "dribble", "shoot")
 NFEATURES = 11
@@ -85,6 +85,27 @@ def situation(w, actor, choice):
     )
 
 
+def outlet(w, actor, weights):
+    original = choose(w, actor, weights)
+    mates = candidates(w, actor)
+    rows = np.array(original.features)
+    scores = rows @ weights
+    for i, m in enumerate(mates):
+        _, _, lane = shooting_lane(replace(w, ball=replace(w.ball, x=m.x, y=m.y)), m)
+        scores[i] += 2.4 * rows[i, 2] + 1.5 * min(0.4, lane) - 1.3 * rows[i, 3] + 0.8 * rows[i, 4]
+    j = int(np.argmax(scores))
+    probability = float(1 / (1 + np.exp(np.clip(scores[0] - scores[1], -40, 40))))
+    return replace(original, receiver=mates[j].key.id, slot=j, probability=probability)
+
+
+def pivot_pass(w, actor, mate):
+    # Aim for the mouth that the receiver presents toward the ball.
+    target = face(actor, mate)
+    err = wrap(target - actor.yaw)
+    omega = float(np.clip(5.5 * err, -3.5, 3.5))
+    return Command(0, -0.115 * omega, omega, 1, 2.2 if abs(err) < 0.035 else 0)
+
+
 def carry(w, actor):
     direction = w.direction(actor.key.team)
     goal, gy, _ = shooting_lane(w, actor)
@@ -113,11 +134,23 @@ def carry(w, actor):
 
 
 class AttackGame(JawGame):
-    def __init__(self, *args, strategies, fixture, epsilon=0, learner=None, **kwargs):
+    def __init__(
+        self,
+        *args,
+        strategies,
+        fixture,
+        epsilon=0,
+        learner=None,
+        refined=False,
+        temperature=0.55,
+        **kwargs,
+    ):
         self.strategies = strategies
         self.fixture = fixture
         self.epsilon = epsilon
         self.learner = learner
+        self.refined = refined
+        self.temperature = temperature
         self.options = []
         self.attack_rng = np.random.default_rng([args[3], 5147])
         super().__init__(*args, **kwargs)
@@ -184,11 +217,23 @@ class AttackGame(JawGame):
             or self.option["actor"] != actor.key.id
             or self.tick >= self.option["until"]
         ):
-            choice = choose(w, actor, self.weights[team])
+            choice = (outlet if self.refined else choose)(w, actor, self.weights[team])
             x = situation(w, actor, choice)
+            if self.refined:
+                earlier = [o for o in self.options if (o["team"], o["recovery"]) == self.active]
+                received = any(
+                    p["team"] == team and p["result"] == "complete" and 4 * p["tick"] >= recovery
+                    for p in self.passes
+                )
+                x = np.r_[
+                    x, float(received), min(1, sum(o["action"] == "dribble" for o in earlier) / 2)
+                ]
             q = np.asarray(self.strategies[team]) @ x
             if team == self.learner and self.attack_rng.random() < self.epsilon:
                 a = int(self.attack_rng.integers(3))
+            elif self.refined and self.temperature > 0:
+                prob = np.exp((q - q.max()) / self.temperature)
+                a = int(self.attack_rng.choice(3, p=prob / prob.sum()))
             else:
                 a = int(np.argmax(q))
             self.option = dict(
@@ -210,7 +255,9 @@ class AttackGame(JawGame):
             self.choice = self.target_choice
             mate = w.robot(RobotKey(team, self.choice.receiver))
             out[mate.key] = move(mate, mate.x, mate.y, face(mate, w.ball))
-            out[actor.key] = self.motor_command(actor, mate)
+            out[actor.key] = (
+                pivot_pass(w, actor, mate) if self.refined else self.motor_command(actor, mate)
+            )
         elif action == "shoot":
             gx, gy, _ = shooting_lane(w, actor)
             err = wrap(math.atan2(gy - w.ball.y, gx - w.ball.x) - actor.yaw)

@@ -24,3 +24,42 @@ During the transition from joint to sole possession, the controller tracks ball 
 The policy search tries several combinations of ball tracking, dribble speed, escape velocity and decision weights on the same layouts. Each candidate earns a point only for a physically verified goal from the opening contest. Ties favor successful passes and then controlled carries. Every game in the 40-start qualification gets an independent Webots process, with the same field, contest distribution and scoring audit as the previous team. [Registered protocol](protocol.json)
 
 In the first league, each of six policies played 48 training starts. Their opening-goal counts were 37, 30, 37, 32, 37 and 32. The three policies tied at 37 scored 18, 17 and 23 dribble-assisted goals respectively. The top two advanced alongside four variations that give more weight to an available pass. [First league returns](initial-returns.json) · [Training records](initial-training.json.gz)
+
+## Frozen team on 40 fresh starts
+
+**32/40 opening contests (80%) became a goal for the team that recovered the ball.** The registered target was 24/40. The model and runtime were frozen at commit 696c5c7 before the test. All forty 24-second matches included the same six active players and ran in separate native Webots processes.
+
+| Measure | Result |
+| --- | ---: |
+| Opening contests converted by Blue / Yellow | 13 / 19 |
+| Opening goals following a controlled dribble of at least 0.18 m | 23/32 |
+| Opponent touch before the first kick | 4/40 |
+| Shot went out | 4/40 |
+| All recovery goals / verified recoveries, including later play | 41/52 |
+| Dribble choices / shot choices / pass choices across the full matches | 71 / 50 / 0 |
+| Robot exits / samples with robot centers closer than 0.18 m | 0 / 0 across 96,000 samples |
+
+The selected controller favored carrying and shooting throughout these fixtures. Passing remained an available decision. The earlier passing policies and their evaluations are linked from the project page. A qualifying goal requires an actual 4 m/s shot through the opponent's goal, an uninterrupted recovery and a physical check against the ball trajectory.
+
+The second six-policy league produced 39, 37, 40, 48, 39 and 38 opening goals on 56 layouts each. The selected policy's 48 goals included 35 controlled carries. It then converted 16/24 independent development starts. The qualification used a separate seed range, 11400000–11400039. [Frozen policy](candidate-1.json) · [Source and training hashes](freeze-1.json) · [Second league](training-1.json.gz) · [Development](dev1/audit.json) · [Qualification and individual seeds](qual1/audit.json) · [All eight misses](qual1/losses.json)
+
+## Fresh Webots demo
+
+The prespecified 35-second games produced three recovery goals. Blue scored once in the first game and twice in the second. The ordinary-play third game ended scoreless. The main excerpt shows the second game's recovery at 14.80 s. Blue 2 carries the ball 0.60 m, shoots at 17.24 s and scores at 19.23 s. The full recording plays all three games in order at normal speed. Repeating the entire sequence in a fresh Webots process reproduced all 10,500 physical samples, options, events and recovery attributions. [Native MP4](../../media/recovery-transition/recovery-to-goal.mp4) · [Highlight GIF](../../media/recovery-transition/recovery-goal-play.gif) · [Complete GIF](../../media/recovery-transition/recovery-to-goal.gif) · [Repeatability audit](demo1/repeatability.json)
+
+## Reproduce
+
+Run from the modern project in its training environment. The native launcher accepts `--webots /path/to/webots`. The published run used the project's R2025a nightly, ideal body-velocity drive, fixed kick speeds, spring dribbler and ground-truth poses.
+
+```sh
+python scripts/select_recovery_transition.py verify 1
+python scripts/train_recovery_transition.py qualify runs/new-transition-test --policy policies/recovery_attack_v3/candidate-1.json
+python scripts/recovery_losses.py runs/new-transition-test runs/new-transition-test/losses.json
+python scripts/train_recovery_transition.py demo runs/new-transition-demo --policy policies/recovery_attack_v3/candidate-1.json
+python scripts/build_recovery_goal_demo.py runs/new-transition-demo --media runs/new-transition-media
+python scripts/compare_transition_panel.py runs/new-transition-test runs/new-transition-previous
+python scripts/replay_transition_pair.py runs/new-transition-test runs/new-transition-previous runs/new-transition-pair
+python scripts/encode_transition_pair.py runs/new-transition-pair runs/new-transition-media
+```
+
+The optional plot and paired-video title tools use Pillow. The two self-play leagues can be reproduced with `search --cases 48`, the `refine` command and a second `search --cases 56 --first 11201000 --candidates <refined.json>`. Each archive contains the exact launch parameters, selected actions, kicks, outcomes and policy returns.

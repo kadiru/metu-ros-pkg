@@ -16,12 +16,17 @@ def main():
     a = p.parse_args()
     a.media.mkdir(exist_ok=True, parents=True)
     evidence = json.loads((a.pair / "replay.json").read_text())
-    end = min(24.0, evidence["play"]["goal"] * 0.01 + 1.0)
+    before = evidence["before"]
+    previous_end = before.get("recovery_s", 0) + before.get("elapsed_s", 0)
+    goal_time = evidence["play"]["goal"] * 0.01
+    end = min(24.0, max(previous_end, goal_time) + 1.0)
+
     # Identical crop for both views. Include the entire scored attack and the original turnover.
     pos = []
     for name in ("previous", "trained"):
         with np.load(a.pair / name / "trace-000.npz") as t:
-            pos.extend(t["states"][: round(end * 100), :2])
+            stop = previous_end if name == "previous" and previous_end else goal_time
+            pos.extend(t["states"][: round(stop * 100) + 1, :2])
     pixels = (np.array(pos) * [0.073, -0.130] + [0.5, 0.5]) * [1280, 720]
     lo, hi = pixels.min(0), pixels.max(0)
     width = min(1280, 2 * int(max(470, hi[0] - lo[0] + 145, (hi[1] - lo[1] + 130) * 16 / 9) / 2))
@@ -29,14 +34,20 @@ def main():
     cx, cy = (lo + hi) / 2
     x = int(np.clip(cx - width * 0.5, 0, 1280 - width))
     y = int(np.clip(cy - height * 0.5, 0, 720 - height))
-    banner = Image.new("RGB", (1280, 52), "#162b24")
+    banner = Image.new("RGB", (1280, 74), "#162b24")
     draw = ImageDraw.Draw(banner)
     try:
         font = ImageFont.truetype("DejaVuSans-Bold.ttf", 25)
     except OSError:
         font = ImageFont.load_default(size=25)
-    draw.text((18, 11), "Previous team", font=font, fill="white")
-    draw.text((658, 11), "New self-play policy", font=font, fill="white")
+    draw.text((18, 6), "Previous team", font=font, fill="white")
+    draw.text((658, 6), "New self-play policy", font=font, fill="white")
+    small = ImageFont.load_default(size=22)
+    label = before["outcome"].capitalize()
+    if previous_end:
+        label += f" at {previous_end:.2f} s"
+    draw.text((18, 41), label, font=small, fill="#d5e3d9")
+    draw.text((658, 41), f"Recovery goal at {goal_time:.2f} s", font=small, fill="#d5e3d9")
     with tempfile.TemporaryDirectory() as tmp:
         title = Path(tmp) / "title.png"
         banner.save(title)
@@ -58,7 +69,7 @@ def main():
             "1",
             "-filter_complex",
             ";".join(
-                views + ["[v0][v1]hstack,pad=1280:412:0:52[game]", "[game][2:v]overlay=0:0[v]"]
+                views + ["[v0][v1]hstack,pad=1280:434:0:74[game]", "[game][2:v]overlay=0:0[v]"]
             ),
             "-map",
             "[v]",

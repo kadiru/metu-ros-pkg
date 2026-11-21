@@ -87,6 +87,7 @@ def select(w, actor, p, received=False):
     pass_value = p["bias"] - p["block"] * min(0.75, direct) + p["lane"] * lane + 0.22 * space
     if "open_penalty" in p:
         pass_value -= p["open_penalty"] * max(0, 0.26 - lane)
+        pass_value -= p.get("space_penalty", 0) * max(0, 0.62 - space)
     shot_value = (
         0.3
         + 1.25 * min(0.75, direct)
@@ -210,11 +211,26 @@ class BlockedGame(AttackGame):
         gx, gy, gap = window(w, actor)
         shot = math.atan2(gy - b.y, gx - b.x)
         escape = separation(w, actor, rival, p["escape"])
+        # Near a pressing jaw, preserve the moving first touch and separate before turning.
+        risk = float(np.clip((0.36 - distance(b, rival)) / 0.20, 0, 1)) * p.get("peel", 0.0)
+        pivot = p
+        if risk:
+            ex, ey = unit(b.x - rival.x, b.y - rival.y)
+            escape = (
+                escape[0] + risk * (0.65 * ex + 0.45 * b.vx),
+                escape[1] + risk * (0.65 * ey + 0.45 * b.vy),
+            )
+            # The signed edge of the other roller tells which lateral move frees the ball.
+            left = (-math.sin(rival.yaw), math.cos(rival.yaw))
+            edge = (b.x - rival.x) * left[0] + (b.y - rival.y) * left[1]
+            push = risk * p.get("peel_side", 0.0) * (1 if edge >= 0 else -1)
+            escape = (escape[0] + push * left[0], escape[1] + push * left[1])
+            pivot = p | {"turn": max(1.6, p["turn"] * (1 - 0.66 * risk))}
         if not self.active or self.active[0] != team:
             if actor.key in self.contestants:
                 choice, _, _ = select(w, actor, p)
                 mate = w.robot(RobotKey(team, choice.receiver))
-                out[actor.key] = trap(w, actor, face(b, mate), escape, p)
+                out[actor.key] = trap(w, actor, face(b, mate), escape, pivot)
             return out
         if (
             not self.option
@@ -251,7 +267,7 @@ class BlockedGame(AttackGame):
             aligned = (
                 abs(wrap(angle - actor.yaw)) < 0.025 and abs(wrap(face(mate, b) - mate.yaw)) < 0.22
             )
-            out[actor.key] = trap(w, actor, aim, escape, p, 2.2 if aligned else 0)
+            out[actor.key] = trap(w, actor, aim, escape, pivot, 2.2 if aligned else 0)
         elif action == "shoot":
             aim, velocity, aligned = finish_motion(w, actor, p, escape)
             out[actor.key] = trap(w, actor, aim, velocity, p, 4.0 if aligned else 0)

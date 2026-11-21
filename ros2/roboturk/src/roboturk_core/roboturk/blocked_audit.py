@@ -1,5 +1,6 @@
 """Reconstruct blocked-lane pass goals from Webots samples and physical kick events."""
 
+import numpy as np
 from .blocked_outlet import geometry
 from .recovery_conversion import conversions
 
@@ -23,6 +24,31 @@ def opening_result(states, game, protocol):
         for p in game["passes"]
         if p["team"] == team and p["passer"] == idx % 3 and 4 * p["tick"] >= chain["recovery"]
     ]
+    # Match the *original* recovery to its first pass even if the same robot wins it again.
+    start = chain["recovery"]
+    stop = next(
+        (
+            4 * e["tick"] + 4
+            for e in game["events"]
+            if e["event"] not in ("start", "kick") and 4 * e["tick"] + 3 >= start
+        ),
+        len(states),
+    )
+    stop = min(stop, 4 * passes[0]["tick"] if passes else len(states))
+    if stop > start:
+        segment = states[start:stop]
+        opponents = segment[:, 4:].reshape(-1, 6, 3)[:, 3 * (1 - side) : 3 * (1 - side) + 3]
+        dx = segment[:, None, 0] - opponents[:, :, 0]
+        dy = segment[:, None, 1] - opponents[:, :, 1]
+        co, si = np.cos(opponents[:, :, 2]), np.sin(opponents[:, :, 2])
+        touch = (abs(dx * co + dy * si - 0.115) < 0.035) & (abs(-dx * si + dy * co) < 0.045)
+        if touch.any():
+            return row | {
+                "outcome": "opponent retouch before pass",
+                "loss_sample": start + int(np.flatnonzero(touch.any(1))[0]),
+            }
+        if not passes or stop < 4 * passes[0]["tick"]:
+            return row | {"outcome": "no opening pass"}
     if not opts or not passes:
         return row | {"outcome": "no opening pass"}
     p = passes[0]

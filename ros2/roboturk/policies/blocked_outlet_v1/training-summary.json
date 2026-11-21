@@ -1,0 +1,163 @@
+[
+  {
+    "name": "league1",
+    "games": 64,
+    "returns": [
+      {
+        "candidate": 0,
+        "opportunities": 15,
+        "goals": 7,
+        "receives": 13,
+        "outcomes": {
+          "pass goal": 7,
+          "no uninterrupted finish": 6,
+          "no opening pass": 1,
+          "intercepted": 1
+        }
+      },
+      {
+        "candidate": 1,
+        "opportunities": 14,
+        "goals": 0,
+        "receives": 9,
+        "outcomes": {
+          "no uninterrupted finish": 8,
+          "intercepted": 3,
+          "no opening pass": 2,
+          "receiver covered": 1
+        }
+      },
+      {
+        "candidate": 2,
+        "opportunities": 13,
+        "goals": 9,
+        "receives": 11,
+        "outcomes": {
+          "pass goal": 9,
+          "no uninterrupted finish": 2,
+          "no opening pass": 1,
+          "intercepted": 1
+        }
+      },
+      {
+        "candidate": 3,
+        "opportunities": 16,
+        "goals": 0,
+        "receives": 11,
+        "outcomes": {
+          "no uninterrupted finish": 10,
+          "intercepted": 3,
+          "no opening pass": 2,
+          "receiver covered": 1
+        }
+      }
+    ]
+  },
+  {
+    "name": "league2",
+    "games": 96,
+    "returns": [
+      {
+        "candidate": 0,
+        "opportunities": 19,
+        "goals": 3,
+        "receives": 12,
+        "outcomes": {
+          "no uninterrupted finish": 7,
+          "receiver covered": 5,
+          "intercepted": 4,
+          "pass goal": 3
+        }
+      },
+      {
+        "candidate": 1,
+        "opportunities": 24,
+        "goals": 6,
+        "receives": 12,
+        "outcomes": {
+          "pass goal": 6,
+          "intercepted": 9,
+          "receiver covered": 1,
+          "no uninterrupted finish": 6,
+          "no opening pass": 2
+        }
+      },
+      {
+        "candidate": 2,
+        "opportunities": 25,
+        "goals": 8,
+        "receives": 19,
+        "outcomes": {
+          "no uninterrupted finish": 11,
+          "intercepted": 6,
+          "pass goal": 8
+        }
+      },
+      {
+        "candidate": 3,
+        "opportunities": 27,
+        "goals": 6,
+        "receives": 26,
+        "outcomes": {
+          "no opening pass": 1,
+          "receiver covered": 9,
+          "pass goal": 6,
+          "no uninterrupted finish": 11
+        }
+      }
+    ]
+  },
+  {
+    "name": "league3",
+    "games": 96,
+    "returns": [
+      {
+        "candidate": 0,
+        "opportunities": 22,
+        "goals": 20,
+        "receives": 20,
+        "outcomes": {
+          "pass goal": 20,
+          "intercepted": 1,
+          "no opening pass": 1
+        }
+      },
+      {
+        "candidate": 1,
+        "opportunities": 27,
+        "goals": 16,
+        "receives": 18,
+        "outcomes": {
+          "pass goal": 16,
+          "intercepted": 6,
+          "no opening pass": 3,
+          "no uninterrupted finish": 2
+        }
+      },
+      {
+        "candidate": 2,
+        "opportunities": 21,
+        "goals": 10,
+        "receives": 16,
+        "outcomes": {
+          "pass goal": 10,
+          "intercepted": 2,
+          "receiver covered": 1,
+          "no uninterrupted finish": 6,
+          "no opening pass": 2
+        }
+      },
+      {
+        "candidate": 3,
+        "opportunities": 22,
+        "goals": 15,
+        "receives": 17,
+        "outcomes": {
+          "pass goal": 15,
+          "no uninterrupted finish": 2,
+          "intercepted": 5
+        }
+      }
+    ]
+  }
+]

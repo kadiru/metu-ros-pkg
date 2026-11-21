@@ -68,11 +68,16 @@ def main():
     p.add_argument("--offset", type=int, default=0, help="training/development seed offset")
     p.add_argument("--version", type=int, default=1)
     p.add_argument(
+        "--mirror", action="store_true", help="Train each candidate on both sides of every layout"
+    )
+    p.add_argument(
         "--webots",
         type=Path,
         default=ROOT.parent / "runtime/Webots-nightly.app/Contents/MacOS/webots",
     )
     a = p.parse_args()
+    if a.mirror and a.mode != "train":
+        p.error("Mirror pairing applies to training populations")
     plan = read(R / "protocol.json")
     policy = R / f"policy-{a.version}.json"
     freeze = R / f"freeze-{a.version}.json"
@@ -131,7 +136,9 @@ def main():
     first = plan[key + "_first"] + a.offset + (a.version - 1) * plan["version_stride"]
     n = len(models)
     if a.mode == "train":
-        schedule = [[first + i, j, (j + i) % n] for i in range(a.cases) for j in range(n)]
+        schedule = [
+            [first + i, j, j if a.mirror else (j + i) % n] for i in range(a.cases) for j in range(n)
+        ]
     else:
         count = plan["cases"] if a.mode == "qualify" else 3 if a.mode == "demo" else a.cases
         schedule = [[first + i, 0, 0] for i in range(count)]

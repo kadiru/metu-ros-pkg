@@ -42,6 +42,10 @@ def breed(folder, seed, count):
         child["receiver"] = (
             (weights + rng.normal(0, [0.32, 0.12, 0.18, 0.10, 0.10])).round(5).tolist()
         )
+        child.update(
+            peel=round(float(rng.uniform(0.35, 1.05)), 4),
+            space_penalty=round(float(rng.uniform(1, 4)), 4),
+        )
         children.append(child)
     return children
 

@@ -1,0 +1,12 @@
+{
+  "policies/recovery_attack_v2/protocol.json": "9c985dec52220894ffc0d71fc7ebb4fbc01a92787da1a31c4382c971c0cdd3d6",
+  "policies/recovery_attack_v2/policy.json": "a88d2c2f638a86155e14c4c2f118b99aa8556f3b4a4b90abb339ac5ca77db607",
+  "policies/recovery_attack_v2/training.json.gz": "71700597f752c2dc3d890750f3e4975f48186020f002837fb76cc2a9ad4df319",
+  "policies/recovery_attack_v1/freeze.json": "4cc94e7595659fe0deb6ed1cc7b6b82c7eeab9819435c6077e352c283fe26fd4",
+  "scripts/run_shield_attack.py": "6a6ad79fbb5b7cc2e0075685a7fdc862b861692e8dd80bdd1ba10b69a05b2f39",
+  "scripts/audit_shield_attack.py": "143e2f1361e15d588856ad9e8310be47b2417f347621a5367501d335bd169540",
+  "src/roboturk_ros/webots/worlds/ssl_shield_attack.wbt": "36e26c656ca955a11bee801f6a2ec274d30824f040ea02d246ed5b400148d38b",
+  "src/roboturk_core/roboturk/recovery_shield.py": "df6c9cd1160b364f167ce67de912dd9479deb4606cf6c12e414d8cb796d51c54",
+  "src/roboturk_core/roboturk/recovery_camera.py": "55830ac69e0909b519a712aa0ad9040d13a49dc37d717d1b85eac2f13ac35eba",
+  "src/roboturk_ros/webots/controllers/roboturk_shield_attack/roboturk_shield_attack.py": "1b5969c76874ffb573225a6f25a0158dcfe6699b815b6c33397517f393856be4"
+}

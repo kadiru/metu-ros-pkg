@@ -1,0 +1,8 @@
+{
+  "train_first": 12100000, "development_first": 12200000, "qualification_first": 12300000, "demo_first": 12400000,
+  "version_stride": 1000, "cases": 40, "seconds": 18, "goal_target": 24,
+  "direct_lane_length_m": 1.65, "blocked_center_gap_m": 0.24,
+  "minimum_pass_lane_gap_m": 0.19, "minimum_receiver_space_m": 0.48,
+  "criterion": "From the tick-zero dual-mouth contest, the winner earns 0.20 s sole possession. At the decision to pass a defender is in the direct dribble corridor and the chosen teammate has an open lane and receiving space. The actual 2.2 m/s pass travels at least 0.55 m, the intended teammate controls it alone for 0.20 s, then the team scores in the same uninterrupted recovery. All 40 starts count. No seed selection. New checkpoint attempts use new seed blocks.",
+  "layout": "Symmetric lane-defense opening. Two robots contest a randomized ball at midfield. Each side has a central cover robot and a wide support robot. Identities, directions, distances, initial facing, ball and wings vary. All six move live. Qualification starts a new simulator for each opening."
+}

@@ -1,0 +1,136 @@
+{
+  "seed": 8190160,
+  "seconds": 8,
+  "score": {
+    "yellow": 1
+  },
+  "stats": {
+    "safety_ticks": 10,
+    "physical_samples": 800,
+    "contacts": 0,
+    "exits": 0
+  },
+  "passes": [
+    {
+      "receiver": 2,
+      "slot": 1,
+      "features": [
+        [
+          0.02044462239683346,
+          0.5072214222371808,
+          0.43965891534227974,
+          0.4714900336339865,
+          0.9324882478503947,
+          0.9997829197286665
+        ],
+        [
+          0.4975203882147175,
+          0.7267276414793087,
+          0.44911095772922216,
+          0.49024064614529494,
+          0.9161030633843384,
+          0.9997511282024483
+        ]
+      ],
+      "probability": 0.8587399697465837,
+      "tick": 181,
+      "team": "blue",
+      "passer": 0,
+      "ball": [
+        -1.9879090781739701,
+        0.24847409288944022
+      ],
+      "result": "end",
+      "end": 199,
+      "reward": -1
+    }
+  ],
+  "events": [
+    {
+      "tick": 0,
+      "event": "start",
+      "team": "blue"
+    },
+    {
+      "tick": 129,
+      "event": "kick",
+      "team": "yellow",
+      "robot": 1,
+      "speed": 4
+    },
+    {
+      "tick": 155,
+      "event": "goal",
+      "team": "blue"
+    },
+    {
+      "tick": 181,
+      "event": "kick",
+      "team": "blue",
+      "robot": 0,
+      "speed": 2.2
+    }
+  ],
+  "contest_metrics": {
+    "contested_seconds": 0.41000000000000003,
+    "contests": [
+      {
+        "start": 0,
+        "last": 40,
+        "contestants": [
+          1,
+          4
+        ],
+        "winner": 4,
+        "recovery": 60
+      }
+    ],
+    "recoveries": 1,
+    "chains": 0,
+    "late": 0,
+    "passes": 1,
+    "completions": 0
+  },
+  "learned_actions": [
+    {
+      "team": "blue",
+      "tick": 5,
+      "head": "outlet",
+      "action": 6,
+      "actor": 1,
+      "mate": 2,
+      "target": [
+        -1.4072630544910207,
+        -0.8163388165238503
+      ],
+      "gradient": [
+        0.00014793814034545771,
+        -0.09609555294542771,
+        -0.4383615237078703,
+        0.7064711770285266,
+        -0.29175993493391655,
+        -0.03476029058341684
+      ]
+    },
+    {
+      "team": "blue",
+      "head": "jaw",
+      "actor": 1,
+      "tick": 5,
+      "action": 7,
+      "context": [
+        1.0,
+        0.13032527124608173,
+        0.14897996821645224,
+        0.07483876844284316,
+        -0.0029709314548895865,
+        0.19710418891203388,
+        -0.9803825471280735,
+        0.0
+      ]
+    }
+  ],
+  "challenger": "blue",
+  "reward": -1,
+  "opponent": "released"
+}

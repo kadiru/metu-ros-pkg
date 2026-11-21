@@ -135,6 +135,36 @@ def play_preview(movie, dest, trace, row, start, duration):
                 caption = f"{team} {chain['scorer']} shoots"
             else:
                 caption = f"GOAL   /   {team} {chain['scorer']} finishes the same possession"
+            if row.get("verified_lead") and row["kick"] * 4 <= sample <= row["contact"] + 5:
+                # Reveal only the target actually committed when the native kicker fired.
+                target = screen(row["target"])
+                origin = screen(states[row["kick"] * 4 - 1, :2])
+                for k in range(0, 16, 2):
+                    draw.line(
+                        [
+                            (
+                                origin[0] + (target[0] - origin[0]) * v / 16,
+                                origin[1] + (target[1] - origin[1]) * v / 16,
+                            )
+                            for v in (k, k + 1)
+                        ],
+                        fill=green,
+                        width=2,
+                    )
+                draw.ellipse(
+                    (target[0] - 8, target[1] - 8, target[0] + 8, target[1] + 8),
+                    outline=green,
+                    width=3,
+                )
+                draw.text(
+                    (target[0] + 11, target[1] + 8),
+                    "Lead target",
+                    font=label_font,
+                    fill=green,
+                    stroke_width=2,
+                    stroke_fill=(20, 36, 41),
+                )
+                caption = f"{team} {row['passer']} leads the run   /   {row['lead']:.2f} m ahead at release"
             if chain["recovery"] <= sample < chain["goal"]:
                 for actor in [passer, receiver]:
                     px, py = screen(rs[actor, :2])

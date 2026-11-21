@@ -4,11 +4,11 @@ from dataclasses import replace
 import math
 import numpy as np
 
-from .blocked_outlet import BlockedGame
+from .blocked_outlet import BlockedGame, geometry
 from .model import RobotKey, body_vector, possession, wrap
 from .three_match import CFG
-from .three_recipient import move
-from .transition_attack import unit
+from .three_recipient import candidates, move
+from .transition_attack import unit, trap
 
 
 def margin(ball, target, opponents, p):
@@ -26,6 +26,17 @@ def margin(ball, target, opponents, p):
             continue
         t = min(t, length / speed)
         best = min(best, math.hypot(rx - t * vx, ry - t * vy))
+    reach = p.get("reach", 0)
+    if reach:
+        # After the kick defenders can abandon their current heading and chase the pass.
+        # Check the entire flight and the receiver's first touch at the calibrated roll speed.
+        for j in range(1, 9):
+            t = (j / 8) * length / speed
+            x, y = ball.x + dx * t * speed, ball.y + dy * t * speed
+            for rival in opponents:
+                lag = min(t, 0.10)
+                gap = math.hypot(x - rival.x - lag * rival.vx, y - rival.y - lag * rival.vy)
+                best = min(best, gap - reach * max(0, t - 0.10))
     return best
 
 
@@ -68,6 +79,7 @@ def run_direction(w, mate, p):
             + p["space_weight"] * min(1.2, space)
             - 0.5 * (abs(center[1]) > 2.45)
             + p["cut"] * (-dx * heading[0] - dy * heading[1])
+            - p.get("length_weight", 0) * abs(math.hypot(target[0] - b.x, target[1] - b.y) - 1.0)
         )
         if best is None or score > best[0]:
             best = (score, heading)
@@ -88,7 +100,18 @@ class LeadGame(BlockedGame):
             plan = self.release_plans.get(f["tick"])
             if plan:
                 mate = w.robot(RobotKey(f["team"], f["receiver"]))
-                if not possession(w, mate.key, CFG) and math.hypot(b.vx, b.vy) > 0.24:
+                p = self.teams[mate.key.team]
+                if possession(w, mate.key, CFG) and p.get("receive_escape", 0):
+                    rival = min(
+                        (r for r in w.robots if r.key.team != mate.key.team),
+                        key=lambda r: math.hypot(r.x - b.x, r.y - b.y),
+                    )
+                    ux, uy = unit(b.x - rival.x, b.y - rival.y)
+                    v = p["receive_escape"] * max(
+                        0, 1 - math.hypot(rival.x - b.x, rival.y - b.y) / 0.9
+                    )
+                    out[mate.key] = trap(w, mate, mate.yaw, (v * ux, v * uy), p)
+                elif not possession(w, mate.key, CFG) and math.hypot(b.vx, b.vy) > 0.24:
                     ux, uy = unit(b.vx, b.vy)
                     x, y = plan["target"]
                     along = max(0.02, (x - b.x) * ux + (y - b.y) * uy)
@@ -112,12 +135,49 @@ class LeadGame(BlockedGame):
         if self.run_option is not option:
             self.run_option = option
             self.heading = run_direction(w, mate, p)
+            if p.get("choose_route"):
+                rivals = [r for r in w.robots if r.key.team != team]
+                best = None
+                for slot, runner in enumerate(candidates(w, actor)):
+                    h = run_direction(w, runner, p)
+                    point, _ = rendezvous(w, runner, h, p)
+                    _, lane, space = geometry(
+                        (b.x, b.y),
+                        w.direction(team),
+                        (runner.x, runner.y),
+                        [(r.x, r.y) for r in rivals],
+                    )
+                    value = (
+                        2.8 * min(0.75, margin(b, point, rivals, p))
+                        + 0.65 * min(1.3, space)
+                        - 3.5 * max(0, 0.30 - lane)
+                        - 2 * max(0, 0.60 - space)
+                        - 0.22 * abs(math.hypot(point[0] - b.x, point[1] - b.y) - 1.1)
+                        + 0.17 * (runner.key == mate.key)
+                    )
+                    if best is None or value > best[0]:
+                        best = (value, runner, h, slot)
+                _, mate, self.heading, slot = best
+                self.target_choice = replace(self.choice, receiver=mate.key.id, slot=slot)
+                self.choice = self.target_choice
+                option["receiver"] = mate.key.id
+        if (
+            p.get("replan")
+            and self.tick - option["tick"] > 0
+            and (self.tick - option["tick"]) % 8 == 0
+        ):
+            self.heading = run_direction(w, mate, p)
         target, center = rendezvous(w, mate, self.heading, p)
         dx, dy = unit(target[0] - b.x, target[1] - b.y)
         heading = math.atan2(dy, dx)
         rivals = [r for r in w.robots if r.key.team != team]
         gap = margin(b, target, rivals, p)
         # Make room while the passer turns. Both participants use the same intercept point.
+        prepared = abs(wrap(heading - actor.yaw)) < p.get("sync_angle", math.pi + 0.01)
+        if not prepared or (
+            p.get("stand_off", 0) and math.hypot(target[0] - b.x, target[1] - b.y) < p["stand_off"]
+        ):
+            center = (mate.x, mate.y)
         out[mate.key] = move(mate, *center, math.atan2(-dy, -dx), speed=p["run_speed"])
         original = out[actor.key]
         aim = math.atan2(

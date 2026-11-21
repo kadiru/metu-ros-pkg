@@ -23,7 +23,8 @@ def main():
     chain = row["chain"]
     dest = args.media
     dest.mkdir(parents=True, exist_ok=True)
-    movie = dest / "blocked-outlet.mp4"
+    leading = "lead_distance_m" in cfg["protocol"]
+    movie = dest / ("lead-pass.mp4" if leading else "blocked-outlet.mp4")
     shutil.copyfile(folder / "match.mp4", movie)
     ffmpeg("-i", movie, "-f", "null", "-")
     seconds = float(probe(movie)["format"]["duration"])
@@ -32,7 +33,7 @@ def main():
     full = make_gif(movie, dest / "all-openings.gif", 0, seconds, 10)
     excerpt, crop = play_preview(
         movie,
-        dest / "open-teammate.gif",
+        dest / ("lead-pass.gif" if leading else "open-teammate.gif"),
         folder / f"trace-{i:03}.npz",
         row,
         i * cfg["seconds"],

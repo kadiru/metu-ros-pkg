@@ -1,8 +1,8 @@
-# Learned skill strategy — self-play training in progress
+# Learned skill strategy — frozen for reserved qualification
 
 This experiment integrates receive-stop, one-touch redirect and recover-clear
 into continuous learned 2v2 strategy. The corrected preparation has passed its
-native development checks; historical self-play is underway. **No reserved
+native development checks and completed historical self-play. **No reserved
 qualification or final reliable demonstration is claimed yet.** Prior isolated
 skill success rates do not establish composed strategy performance.
 
@@ -75,5 +75,9 @@ The corrected leagues completed131,072 native PPO steps across both seeds,
 accepting113/128updates (58for811,55for822). Every generation changed strategic
 choices while preserving aiming functions and the motor bank. Final8-case
 development produced3goals for811 and4for822;both had2stopped receptions,
-2redirectgoals,2clearances andzero contacts/exits. A broader64-match fresh
-self/cross-play development sweep is running; reserved qualification remains pending.
+2redirectgoals,2clearances andzero contacts/exits. A broader 64-match fresh
+self/cross-play development sweep completed with 24 goals, 13 receive-stops,
+14 redirect kicks/12 goals, and 18 clearances. All matches completed without
+robot contacts or field exits; all four independent geometry audits passed.
+The final generation per seed is selected and frozen before reserved qualification.
+These development counts are not qualification results.

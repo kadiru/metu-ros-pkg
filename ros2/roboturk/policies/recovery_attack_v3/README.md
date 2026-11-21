@@ -15,6 +15,8 @@ We examined all 40 opening contests from the second recovery team's held-out Web
 
 Six of the eight pre-kick turnovers happened within 0.08 seconds. The four pass interceptions ended near midfield, with median attacking-frame x of 0.09 m. The native trajectories show shots going out both near the goal and over the touchline. [Every opening, outcome and location](predecessor-losses.json) · [Original traces](../recovery_attack_v2/qualification/trained)
 
+An additional check covered every spontaneous recovery in the previous team's twelve one-minute games. Of eleven recoveries, four led to goals and four were lost to an opponent before a kick. One ended with an opponent touch after a pass, one after a shot, and one reached the time limit before a kick. [Ordinary-play loss records](ordinary-losses.json)
+
 ## Self-play
 
 During the transition from joint to sole possession, the controller tracks ball velocity and centers the moving ball in the robot's front mouth. A carrier can rotate to aim while translating. The learned team policy chooses a pass, dribble or shot using the available goal opening, pressure, alignment, distance to goal and the lead-pass route. Teammates clear the shooting lane or move to the intended receiving point. Both colors learn from actual Webots games, with normal opponent commands, kick speeds and contact physics.

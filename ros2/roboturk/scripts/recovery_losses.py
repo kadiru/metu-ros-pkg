@@ -7,8 +7,7 @@ import numpy as np
 from run_recovery_attack import read, save
 
 
-def classify(game, states):
-    e = (game["conversions"] or [{}])[0]
+def classify(game, states, e):
     row = dict(seed=game["seed"])
     if "recovery" not in e:
         return dict(**row, outcome="no exclusive recovery")
@@ -63,11 +62,14 @@ def classify(game, states):
     )
 
 
-def analyze(folder):
+def analyze(folder, all_contests=False):
     games = []
     for f in sorted(folder.glob("game-*.json")):
         with np.load(folder / f.name.replace("game", "trace").replace(".json", ".npz")) as t:
-            games.append(classify(read(f), t["states"]))
+            game = read(f)
+            contests = game["conversions"] if all_contests else (game["conversions"] or [{}])[:1]
+            states = t["states"]
+            games.extend(classify(game, states, e) for e in contests)
     return dict(counts=dict(Counter(g["outcome"] for g in games)), games=games)
 
 
@@ -75,7 +77,8 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser()
     p.add_argument("folder", type=Path)
     p.add_argument("output", type=Path)
+    p.add_argument("--all-contests", action="store_true")
     a = p.parse_args()
-    report = analyze(a.folder)
+    report = analyze(a.folder, a.all_contests)
     save(a.output, report)
     print(report["counts"])

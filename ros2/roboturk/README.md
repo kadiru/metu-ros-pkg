@@ -4,7 +4,30 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2 strategy, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
-The new [learned skill strategy](policies/strategy_self_play_v1/README.md) integrates
+## 3v3 self-play with two possible pass recipients
+
+Six robots now choose between their two teammates in native Webots. Two receiver
+policies trained through 40 one-minute matches against historical opponents.
+All six players completed passes to both teammates in held-out play. The policies
+completed **250/371 intended passes (67.4%)** in 32 one-minute matches and
+**46/61 (75.4%)** in eight 90-second matches without a possession clock.
+
+[![Blue 2 passes to 0, then chooses 1 on its next possession](media/three-recipient-choices.gif)](media/three-recipient-self-play.mp4)
+
+*12-second excerpt from the second fresh demo match. Blue 2 completes its pass
+to 0, receives the ball back, and tries 1. Yellow intercepts the second pass.*
+[Full two-minute GIF](media/three-recipient-self-play.gif) ·
+[Original Webots video](media/three-recipient-self-play.mp4) ·
+[Model card, controls and all outcomes](policies/recipient_3v3_v1/README.md).
+
+The fresh demo retains both scoreless matches and all 14 pass attempts, including
+10 intended receptions. Receiver selection is learned, the pass motor is frozen,
+and the surrounding 3v3 tactics use explicit controllers. Two of the eight
+90-second games had a completion in the final 30 seconds.
+
+## Earlier ten-skill 2v2 strategy
+
+The [learned skill strategy](policies/strategy_self_play_v1/README.md) integrates
 receive-and-stop, one-touch redirect and defensive clearance into ten neural
 behavior choices, trained through two historical self-play leagues.
 **Both seeds passed every reserved gate: 120/120 complete matches, 45 goals,

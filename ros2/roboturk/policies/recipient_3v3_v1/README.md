@@ -1,5 +1,44 @@
 # Choosing a pass recipient in 3v3
 
+Both trained 3v3 policies passed the reserved Webots evaluation. Across the
+one-minute matches, **all six robots completed passes to each of their two
+teammates**. The clock-free 90-second games also contained all 12 directed
+pairings. The trace audit requires the intended receiver to take sole possession
+after the actual kick.
+
+| Native evaluation | Matches with a completed pass | Intended completions / kicks | Goals | Contacts / exits |
+| --- | ---: | ---: | ---: | ---: |
+| 60 s, self-play and cross-play | 32/32 | 250/371 (67.4%) | 16 | 0 / 0 |
+| 90 s, open play | 6/8 | 46/61 (75.4%) | 3 | 0 / 0 |
+| Fresh 60 s open-play demo | 2/2 | 10/14 (71.4%) | 0 | 0 / 0 |
+
+All 32 one-minute evaluation games contained a completed pass in the final
+30 seconds. In 90-second open play, two of eight games had a completion in the
+final 30 seconds and two finished without any completed pass. Sustaining passing
+late in open play remains a limitation. Geometric velocity limits intervened on
+5,116 of 48,000 control ticks in the one-minute panel and 677 of 18,000 in the
+90-second panel. Native physics uses ideal body velocity, spring dribbling,
+fixed kick power and ground-truth state.
+
+[![Blue 2 chooses Blue 0 and Blue 1 on successive possessions](../../media/three-recipient-choices.gif)](../../media/three-recipient-self-play.mp4)
+
+*Match two, first 12 seconds at normal speed. Blue 2 completes the pass to 0.
+After a return pass, Blue 2 selects 1 and Yellow intercepts. Both fresh games
+ended 0–0.* [Full two-minute GIF](../../media/three-recipient-self-play.gif) ·
+[Original native MP4](../../media/three-recipient-self-play.mp4) ·
+[Frame counts and media hashes](../../media/three-recipient-self-play.json).
+
+Both seeds completed 20 one-minute historical self-play matches. Replay verified
+all 40 gradient updates from 199 learning-side kicked passes across both colors.
+In four paired development games, the team under comparison selected the
+clearer lane on 20/21 trained passes versus 15/24 random passes. Each policy
+completed 14 passes. These small paired counts describe the observed games.
+
+[Every panel, pairing and outcome](results.json) · [Training evidence](training) ·
+[Paired control](paired-development.json) · [Qualified runtime freeze](freeze.json).
+
+
+
 Six robots play one-minute Webots matches on a 9 × 6 m field. When the carrier
 has a passing opportunity, a shared linear scoring function evaluates both
 teammates. Each candidate has six features measured relative to the carrier,

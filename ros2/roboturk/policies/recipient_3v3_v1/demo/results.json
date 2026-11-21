@@ -1,0 +1,31 @@
+[
+  {
+    "seed": 7600000,
+    "score": {},
+    "outcomes": {
+      "complete": 3,
+      "intercepted": 1
+    },
+    "stats": {
+      "safety_ticks": 86,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7600001,
+    "score": {},
+    "outcomes": {
+      "complete": 7,
+      "intercepted": 2,
+      "timeout": 1
+    },
+    "stats": {
+      "safety_ticks": 33,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  }
+]

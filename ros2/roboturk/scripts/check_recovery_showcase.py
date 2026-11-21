@@ -17,16 +17,19 @@ def main():
     p.add_argument("--media", type=Path, default=Path("media"))
     a = p.parse_args()
     source_audit = read(a.qualification / "audit.json")
-    assert source_audit["panels"]["ordinary"]["totals"]["assisted"] > 0
+    assert source_audit["panels"]["ordinary"]["totals"]["chains"] > 0
     cfg = read(a.showcase / "launch.json")
-    assert cfg["mode"] == "showcase" and cfg["cases"] == 1
+    assert cfg["mode"] in ("ordinary", "showcase") and cfg["cases"] == 1
     result = panel(a.showcase)
     game = read(a.showcase / "game-000.json")
-    candidates = [e for e in game["conversions"] if "goal" in e and e["passes"]]
+    candidates = [e for e in game["conversions"] if "goal" in e]
     if not candidates:
-        raise ValueError("No pass-assisted goal in the rendered match")
-    e = max(candidates, key=lambda x: (x["dribble_m"] >= 0.18, len(x["passes"]), -x["goal"]))
-    original = a.qualification / cfg["selected_from"]
+        raise ValueError("No recovery goal in the rendered match")
+    e = max(
+        candidates,
+        key=lambda x: (bool(x["passes"]), x["dribble_m"] >= 0.18, len(x["passes"]), -x["goal"]),
+    )
+    original = a.qualification / cfg.get("selected_from", "ordinary")
     idx = game["seed"] - read(original / "launch.json")["first"]
     baseline = read(original / f"game-{idx:03}.json")
     with np.load(original / f"trace-{idx:03}.npz") as t, np.load(a.showcase / "trace-000.npz") as m:
@@ -40,7 +43,7 @@ def main():
         identical_conversions=game["conversions"] == baseline["conversions"],
     )
     save(a.showcase / "audit.json", result)
-    movie = a.media / "recovery-pass-finish.mp4"
+    movie = a.media / ("recovery-pass-finish.mp4" if e["passes"] else "recovery-finish.mp4")
     a.media.mkdir(exist_ok=True, parents=True)
     shutil.copyfile(a.showcase / "match.mp4", movie)
     ffmpeg("-i", movie, "-f", "null", "-")

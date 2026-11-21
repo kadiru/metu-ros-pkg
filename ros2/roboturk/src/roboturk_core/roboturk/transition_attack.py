@@ -187,7 +187,7 @@ class TransitionGame(AttackGame):
                 rx, ry = mate.x - w.ball.x, mate.y - w.ball.y
                 along = rx * ux + ry * uy
                 cross = ry * ux - rx * uy
-                if 0 < along < remaining_distance(w, gx, gy) and abs(cross) < 0.65:
+                if 0 < along < math.hypot(gx - w.ball.x, gy - w.ball.y) and abs(cross) < 0.65:
                     side = 1 if cross >= 0 else -1
                     out[mate.key] = move(
                         mate,
@@ -196,7 +196,3 @@ class TransitionGame(AttackGame):
                         face(mate, w.ball),
                     )
         return out
-
-
-def remaining_distance(w, x, y):
-    return math.hypot(x - w.ball.x, y - w.ball.y)

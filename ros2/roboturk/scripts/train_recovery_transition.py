@@ -71,6 +71,8 @@ def main():
         default=ROOT.parent / "runtime/Webots-nightly.app/Contents/MacOS/webots",
     )
     a = p.parse_args()
+    if a.version < 1 or a.cases < 1:
+        p.error("version and cases must be positive")
     verify()
     for name, sha in read(ROOT / "policies/recovery_attack_v2/freeze.json").items():
         assert digest(ROOT / name) == sha, name
@@ -84,15 +86,9 @@ def main():
     }[a.mode]
     first = plan[default] + (a.version - 1) * 1000 if a.first is None else a.first
     if a.mode in ("qualify", "demo"):
-        assert (
-            a.first is None
-            and a.policy == R / f"candidate-{a.version}.json"
-            or (
-                a.first is None
-                and a.policy
-                and a.policy.resolve() == R / f"candidate-{a.version}.json"
-            )
-        )
+        if a.first is not None or a.candidates is not None or a.policy is None:
+            p.error("qualification and demo require the frozen policy and registered seeds")
+        assert a.policy.resolve() == R / f"candidate-{a.version}.json"
         frozen = read(R / f"freeze-{a.version}.json")
         for f, h in frozen.items():
             assert digest(ROOT / f) == h, f

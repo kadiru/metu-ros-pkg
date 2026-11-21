@@ -32,7 +32,17 @@ def compare(trained, baseline):
             new_outcome=new["outcome"],
         )
         if new["qualified"]:
+            start = 4 * new["kick"] - 1
+            sample = traces[0][start]
+            number = new["receiver"] + (3 if new["chain"]["team"] == "yellow" else 0)
+            robot = sample[4:].reshape(6, 3)[number]
+            mouth = robot[:2] + 0.115 * np.array([np.cos(robot[2]), np.sin(robot[2])])
+            axis = mouth - sample[:2]
+            axis /= np.linalg.norm(axis)
+            delta = np.array(new["target"]) - mouth
+            offset = abs(axis[0] * delta[1] - axis[1] * delta[0])
             row.update(
+                lateral_target_offset=float(offset),
                 team=new["chain"]["team"],
                 receiver=new["receiver"],
                 lead=new["lead"],

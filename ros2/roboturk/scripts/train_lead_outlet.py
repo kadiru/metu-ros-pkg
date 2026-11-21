@@ -93,7 +93,9 @@ def summary(rows):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("mode", choices=["train", "dev", "freeze", "qualify", "baseline", "demo"])
+    p.add_argument(
+        "mode", choices=["train", "dev", "freeze", "qualify", "baseline", "historical", "demo"]
+    )
     p.add_argument("folder", type=Path)
     p.add_argument("--models", type=Path)
     p.add_argument("--offset", type=int, default=0)
@@ -129,7 +131,7 @@ def main():
         ]
         save(freeze, {str(f.relative_to(ROOT)): sha(f) for f in files})
         return
-    frozen = a.mode in ("qualify", "baseline", "demo")
+    frozen = a.mode in ("qualify", "baseline", "historical", "demo")
     if frozen:
         if a.models or a.offset:
             p.error("Reserved panels require frozen models and registered starts")
@@ -167,6 +169,8 @@ def main():
     schedule = [
         [first + i, j, j if a.mirror else (i + j) % n] for i in range(count) for j in range(n)
     ]
+    if a.mode == "historical":
+        schedule = [[v["seed"], 0, 0] for v in read(R / "previous-interceptions.json")]
     d = a.folder.resolve()
     d.mkdir(parents=True, exist_ok=False)
     cfg = dict(
@@ -181,7 +185,7 @@ def main():
         webots_sha256=sha(a.webots),
     )
     save(d / "launch.json", cfg)
-    if a.mode in ("qualify", "baseline"):
+    if a.mode in ("qualify", "baseline", "historical"):
         evaluate_isolated(d, cfg, a.webots, a.workers)
     else:
         run_matches(d, cfg, a.webots, WORLD, False)

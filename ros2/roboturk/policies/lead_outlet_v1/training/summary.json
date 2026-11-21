@@ -1,0 +1,183 @@
+[
+  {
+    "name": "search1",
+    "cases": 88,
+    "first": 13100000,
+    "returns": [
+      {
+        "games": 21,
+        "goals": 3,
+        "lead_goals": 3,
+        "interceptions": 9,
+        "outcomes": {
+          "no opening pass": 6,
+          "intercepted": 9,
+          "pass goal": 3,
+          "no uninterrupted finish": 3
+        },
+        "candidate": 0
+      },
+      {
+        "games": 19,
+        "goals": 3,
+        "lead_goals": 3,
+        "interceptions": 7,
+        "outcomes": {
+          "intercepted": 7,
+          "pass goal": 3,
+          "no uninterrupted finish": 2,
+          "no opening pass": 5,
+          "timeout": 1,
+          "opponent retouch before pass": 1
+        },
+        "candidate": 1
+      },
+      {
+        "games": 21,
+        "goals": 8,
+        "lead_goals": 8,
+        "interceptions": 7,
+        "outcomes": {
+          "pass goal": 8,
+          "intercepted": 7,
+          "no opening pass": 5,
+          "opponent retouch before pass": 1
+        },
+        "candidate": 2
+      },
+      {
+        "games": 22,
+        "goals": 0,
+        "lead_goals": 0,
+        "interceptions": 15,
+        "outcomes": {
+          "intercepted": 15,
+          "timeout": 1,
+          "no opening pass": 6
+        },
+        "candidate": 3
+      }
+    ]
+  },
+  {
+    "name": "search2",
+    "cases": 112,
+    "first": 13100100,
+    "returns": [
+      {
+        "games": 27,
+        "goals": 4,
+        "lead_goals": 3,
+        "interceptions": 18,
+        "outcomes": {
+          "intercepted": 18,
+          "timeout": 1,
+          "no opening pass": 3,
+          "pass goal": 3,
+          "goal without verified lead": 1,
+          "no uninterrupted finish": 1
+        },
+        "candidate": 0
+      },
+      {
+        "games": 26,
+        "goals": 8,
+        "lead_goals": 8,
+        "interceptions": 8,
+        "outcomes": {
+          "no opening pass": 6,
+          "intercepted": 8,
+          "timeout": 2,
+          "restart": 1,
+          "pass goal": 8,
+          "opponent retouch before pass": 1
+        },
+        "candidate": 1
+      },
+      {
+        "games": 28,
+        "goals": 20,
+        "lead_goals": 20,
+        "interceptions": 0,
+        "outcomes": {
+          "pass goal": 20,
+          "no opening pass": 4,
+          "no uninterrupted finish": 1,
+          "restart": 1,
+          "timeout": 1,
+          "opponent retouch before pass": 1
+        },
+        "candidate": 2
+      },
+      {
+        "games": 26,
+        "goals": 8,
+        "lead_goals": 8,
+        "interceptions": 11,
+        "outcomes": {
+          "no opening pass": 7,
+          "pass goal": 8,
+          "intercepted": 11
+        },
+        "candidate": 3
+      }
+    ]
+  },
+  {
+    "name": "search3",
+    "cases": 96,
+    "first": 13100200,
+    "returns": [
+      {
+        "games": 24,
+        "goals": 22,
+        "lead_goals": 21,
+        "interceptions": 0,
+        "outcomes": {
+          "pass goal": 21,
+          "goal without verified lead": 1,
+          "no opening pass": 2
+        },
+        "candidate": 0
+      },
+      {
+        "games": 23,
+        "goals": 18,
+        "lead_goals": 18,
+        "interceptions": 1,
+        "outcomes": {
+          "pass goal": 18,
+          "intercepted": 1,
+          "no uninterrupted finish": 2,
+          "no opening pass": 2
+        },
+        "candidate": 1
+      },
+      {
+        "games": 24,
+        "goals": 16,
+        "lead_goals": 16,
+        "interceptions": 3,
+        "outcomes": {
+          "pass goal": 16,
+          "intercepted": 3,
+          "no opening pass": 3,
+          "no uninterrupted finish": 2
+        },
+        "candidate": 2
+      },
+      {
+        "games": 23,
+        "goals": 16,
+        "lead_goals": 16,
+        "interceptions": 0,
+        "outcomes": {
+          "pass goal": 16,
+          "no opening pass": 6,
+          "no uninterrupted finish": 1
+        },
+        "candidate": 3
+      }
+    ]
+  }
+]

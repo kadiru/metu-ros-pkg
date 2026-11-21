@@ -133,6 +133,10 @@ def carry(w, actor):
     return Command(0.62 * max(0, math.cos(err)) ** 3, -0.115 * omega, omega, 1, 0)
 
 
+class PossessionEnded(Exception):
+    """End a training rollout after its scoring opportunity has been decided."""
+
+
 class AttackGame(JawGame):
     def __init__(
         self,
@@ -143,10 +147,12 @@ class AttackGame(JawGame):
         learner=None,
         refined=False,
         temperature=0.55,
+        early_stop=False,
         **kwargs,
     ):
         self.strategies = strategies
         self.fixture = fixture
+        self.early_stop = early_stop
         self.epsilon = epsilon
         self.learner = learner
         self.refined = refined
@@ -157,6 +163,7 @@ class AttackGame(JawGame):
 
     def reset(self, team, reason):
         super().reset(team, reason)
+        self.terminal_restart = reason != "start"
         if reason == "start" and self.fixture:
             self.world = self.backend.reset(scramble(self.seed, self.sign))
         self.contestants = set()
@@ -200,9 +207,28 @@ class AttackGame(JawGame):
                     self.option = None
                 self.contestants.clear()
 
+    def run(self):
+        try:
+            return super().run()
+        except PossessionEnded:
+            self.finish_pass("end")
+            return dict(
+                seed=self.seed,
+                seconds=self.tick * CFG.dt,
+                score=dict(self.score),
+                stats=dict(self.stats),
+                passes=self.passes,
+                events=self.events,
+            )
+
     def commands(self):
+        if self.early_stop and self.terminal_restart:
+            raise PossessionEnded
         out = super().commands()
+        previous = self.active
         self.observe_recovery()
+        if self.early_stop and previous and not self.active:
+            raise PossessionEnded
         if not self.active:
             return out
         w = self.world

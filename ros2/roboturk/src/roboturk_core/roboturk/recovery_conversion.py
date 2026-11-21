@@ -80,10 +80,11 @@ def conversions(states, game):
                 bad = np.flatnonzero(~ok)
                 n = int(bad[0]) if len(bad) else len(ok)
                 if n > 1:
-                    dribble = max(
-                        dribble,
-                        float(np.linalg.norm(states[a : a + n, :2] - states[a, :2], axis=1).max()),
+                    ball_travel = np.linalg.norm(states[a : a + n, :2] - states[a, :2], axis=1)
+                    robot_travel = np.linalg.norm(
+                        robots[a : a + n, key, :2] - robots[a, key, :2], axis=1
                     )
+                    dribble = max(dribble, float(np.minimum(ball_travel, robot_travel).max()))
             row.update(
                 goal=end,
                 shot=sequence[-1]["tick"],

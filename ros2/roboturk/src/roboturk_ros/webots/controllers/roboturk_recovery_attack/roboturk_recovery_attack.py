@@ -85,6 +85,9 @@ def movie_camera(sim, folder):
             team = g.active[0].upper()
             action = g.option["action"].upper() if g.option else "BALL IN PLAY"
             outlets = [f"{team} RECOVERY   |   {action}"]
+        if g.events and g.events[-1]["event"] == "goal" and g.tick - g.events[-1]["tick"] < 28:
+            label = "GOAL"
+            sim.setLabel(2, label, 0.02, 0.83, 0.065, 0xFFDF80, 0, "Arial")
         sim.setLabel(10, "     ".join(outlets), 0.02, 0.91, 0.045, 0x83EEDD, 0, "Arial")
         for r in g.world.robots:
             sim.setLabel(
@@ -148,6 +151,7 @@ def run(sim, folder):
             set(),
             strategies=strategies,
             refined=refined,
+            early_stop=train and refined,
             temperature=model.get("temperature", 0.55),
             fixture=mode != "ordinary" and not (mode == "demo" and i == 2),
             epsilon=max(0.22, 0.85 - 0.6 * i / max(1, cfg["cases"] - 1)),

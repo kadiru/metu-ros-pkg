@@ -40,3 +40,19 @@ def test_restart_and_unintended_kick_invalidate_credit():
         s, g = sequence()
         g["events"].insert(0, event)
         assert "goal" not in conversions(s, g)[0]
+
+
+def test_opening_choice_changes_with_geometry_and_credits_the_first_possession():
+    from roboturk.attack_opening import fit, training_example, values
+
+    contexts = np.zeros((3, 17))
+    contexts[:, 3] = [0, 0.5, 1.0]
+    examples = [
+        dict(action=act, x=x.tolist(), value=5.0 if i == act else -1.0)
+        for i, x in enumerate(contexts)
+        for act in range(3)
+    ]
+    policy = fit(examples, neighbors=1)
+    assert [int(np.argmax(values(policy, x))) for x in contexts] == [0, 1, 2]
+    game = dict(seed=2, conversions=[dict(start=0), dict(recovery=80, goal=240)], options=[])
+    assert training_example(game) is None

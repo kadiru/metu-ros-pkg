@@ -25,7 +25,7 @@ def main():
     if not candidates:
         raise ValueError("No pass-assisted goal in the rendered match")
     e = max(candidates, key=lambda x: (x["dribble_m"] >= 0.18, len(x["passes"]), -x["goal"]))
-    original = a.qualification / "trained"
+    original = a.qualification / cfg["selected_from"]
     idx = game["seed"] - read(original / "launch.json")["first"]
     baseline = read(original / f"game-{idx:03}.json")
     with np.load(original / f"trace-{idx:03}.npz") as t, np.load(a.showcase / "trace-000.npz") as m:

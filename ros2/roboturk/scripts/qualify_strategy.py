@@ -68,6 +68,7 @@ def main():
         p.error("Keep all previous qualification attempts")
     a.output.mkdir(parents=True)
     protocol = json.loads((RELEASE / "protocol.json").read_text())
+    freeze = json.loads((RELEASE / "freeze.json").read_text())
     model_map = {
         f"{s}-{stage}": RELEASE / f"seed{s}" / folder / "policy.zip"
         for s in (811, 822)
@@ -100,6 +101,8 @@ def main():
             "--timeout",
             "3600",
         ]
+        if freeze.get("pass_motor"):
+            command += ["--pass-motor", str(ROOT / freeze["pass_motor"])]
         with output.with_suffix(".log").open("w") as log:
             subprocess.run(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, check=True)
         data = json.loads(output.with_suffix(".json").read_text())

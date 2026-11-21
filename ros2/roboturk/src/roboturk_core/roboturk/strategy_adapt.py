@@ -1,6 +1,7 @@
 """Native correction data and choice-conditioned intent-head preparation."""
 
 from pathlib import Path
+import json
 import numpy as np
 import torch
 from .strategy_heads import expand
@@ -11,6 +12,9 @@ def fit_heads(paths, parent, output, seed, epochs=250):
     torch.set_num_threads(1)
     torch.manual_seed(seed)
     data = [np.load(p) for p in paths]
+    banks = [json.loads(Path(p).with_name("collection.json").read_text())["motors"] for p in paths]
+    signatures = [{k: v["sha256"] for k, v in bank.items()} for bank in banks]
+    assert all(s == signatures[0] for s in signatures), "Do not mix different motor-bank datasets"
     x = np.concatenate([d["observations"] for d in data])
     y = np.concatenate([d["actions"] for d in data])
     modes = y[:, :10].argmax(1)
@@ -68,6 +72,7 @@ def fit_heads(paths, parent, output, seed, epochs=250):
             "parent": str(parent),
             "parent_sha256": digest(parent),
             "datasets": [{"path": str(p), "sha256": digest(p)} for p in paths],
+            "motors": banks[0],
             "target_loss": "selected skill head, only entry/positive refresh; refresh score on active skill",
             "loss_by_epoch": losses,
             "counts": {str(i): int((modes == i).sum()) for i in range(10)},

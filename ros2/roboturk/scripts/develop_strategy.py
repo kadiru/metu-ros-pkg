@@ -17,7 +17,11 @@ def main():
     p.add_argument("--league811", type=Path, required=True)
     p.add_argument("--league822", type=Path, required=True)
     p.add_argument("--output", type=Path, required=True)
+    p.add_argument("--pass-motor", type=Path)
+    p.add_argument("--paired-seed", type=int, default=6300200)
+    p.add_argument("--cross-seed", type=int, default=6301000)
     a = p.parse_args()
+    assert 6300000 <= a.paired_seed < 6399900 and 6300000 <= a.cross_seed < 6399800
     if a.output.exists():
         p.error("Retain previous development attempts")
     a.output.mkdir(parents=True)
@@ -26,10 +30,10 @@ def main():
         822: a.league822 / "generation2/policy.zip",
     }
     cases = [
-        ("811-paired", 811, 811, 6300200),
-        ("822-paired", 822, 822, 6300200),
-        ("811-cross", 811, 822, 6301000),
-        ("822-cross", 822, 811, 6301100),
+        ("811-paired", 811, 811, a.paired_seed),
+        ("822-paired", 822, 822, a.paired_seed),
+        ("811-cross", 811, 822, a.cross_seed),
+        ("822-cross", 822, 811, a.cross_seed + 100),
     ]
     results = {}
     for name, blue, yellow, seed in cases:
@@ -56,6 +60,8 @@ def main():
             "--timeout",
             "3600",
         ]
+        if a.pass_motor:
+            command += ["--pass-motor", str(a.pass_motor)]
         with out.with_suffix(".log").open("w") as log:
             subprocess.run(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, check=True)
         data = json.loads(out.with_suffix(".json").read_text())

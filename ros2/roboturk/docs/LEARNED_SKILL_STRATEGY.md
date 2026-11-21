@@ -100,3 +100,12 @@ candidate pipeline; it is retained with that limitation. All other motor actors
 remain unchanged. The pass replacement is opt-in through `--pass-motor` and must
 be frozen alongside the eventual strategy before reserved evaluation. No new
 reliable integrated release or final demo is claimed at this stage.
+
+
+The learned-pass diagnostic completed eight fresh training-range cases with three
+goals, two stopped receptions, two redirect goals and four clearances, without
+robot contacts or field exits. All 32,000 native 5 ms states passed the independent
+geometry audit. Strategic choices were supplied by the explicit coach, so this
+is motor-integration evidence only. The next selector dataset contains complete
+20-second matches rather than the previous 12-second prefixes. Both strategy
+seeds use the same frozen motor bank and independently initialized selectors.

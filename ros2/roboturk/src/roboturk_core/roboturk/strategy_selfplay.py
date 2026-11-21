@@ -156,6 +156,10 @@ def train(backend, bank, out, initial, seed, rounds, steps, duration):
     out.mkdir(parents=True)
     initial = Path(initial)
     meta = json.loads(initial.with_suffix(".json").read_text())
+    if "motors" in meta:
+        assert {k: v["sha256"] for k, v in meta["motors"].items()} == {
+            k: v["sha256"] for k, v in bank.descriptors.items()
+        }, "Self-play must preserve the prepared motor functions"
     dataset_paths = []
     root = Path(__file__).resolve().parents[3]
     for receipt in meta["datasets"]:

@@ -97,11 +97,17 @@ def stage(source, seed):
     return rows
 
 
-def freeze():
+def freeze(pass_motor=None):
     destination = RELEASE / "freeze.json"
     assert not destination.exists(), "Never overwrite a published freeze"
     for seed in (811, 822):
         assert json.loads((RELEASE / f"seed{seed}/training-audit.json").read_text())["passed"]
+        for stage in ("initial", "generation1", "generation2"):
+            meta = json.loads((RELEASE / f"seed{seed}" / stage / "policy.json").read_text())
+            override = meta.get("motors", {}).get("pass_override")
+            assert bool(override) == bool(pass_motor), "Frozen motor bank differs from training"
+            if override:
+                assert override["sha256"] == sha(pass_motor)
     files = list((ROOT / "src/roboturk_core/roboturk").glob("*.py"))
     files += list((ROOT / "src/roboturk_ros/webots/controllers/roboturk_strategy").glob("*.py"))
     files += list((ROOT / "src/roboturk_ros/webots/protos").glob("*.proto"))
@@ -121,6 +127,10 @@ def freeze():
             "stage_strategy.py",
             "build_strategy_gif.py",
             "replay_strategy.py",
+            "fit_strategy_pass.py",
+            "fit_strategy_heads.py",
+            "prepare_strategy_pair.py",
+            "develop_strategy.py",
         )
     ]
     for seed in (811, 822):
@@ -130,6 +140,12 @@ def freeze():
         ROOT / f"policies/tdp_skills_v1/{kind}/policy.zip"
         for kind in ("receive", "redirect", "clear")
     ]
+    if pass_motor:
+        from roboturk.strategy_pass import LearnedPass
+
+        pass_motor = Path(pass_motor).resolve()
+        LearnedPass(pass_motor)
+        dependencies.append(pass_motor)
     for p in dependencies:
         files += [p, p.with_suffix(".json")]
     files = sorted({p for p in files if p.is_file()})
@@ -142,6 +158,7 @@ def freeze():
             "python": platform.python_version(),
             "platform": platform.platform(),
             "packages": packages,
+            "pass_motor": str(pass_motor.relative_to(ROOT)) if pass_motor else None,
             "webots": "R2025a nightly 2026-11-17 e5d1122",
             "webots_executable_sha256": sha(
                 ROOT.parent / "runtime/Webots-nightly.app/Contents/MacOS/webots"
@@ -157,10 +174,11 @@ def main():
     p.add_argument("--league811", type=Path)
     p.add_argument("--league822", type=Path)
     p.add_argument("--freeze", action="store_true")
+    p.add_argument("--pass-motor", type=Path)
     a = p.parse_args()
     if a.freeze:
         assert a.league811 is None and a.league822 is None
-        freeze()
+        freeze(a.pass_motor)
     else:
         assert a.league811 is not None and a.league822 is not None
         for seed, source in ((811, a.league811), (822, a.league822)):

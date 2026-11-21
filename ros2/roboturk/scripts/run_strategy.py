@@ -53,6 +53,10 @@ def main():
     if a.freeze:
         freeze = Path(a.freeze).resolve()
         f = json.loads(freeze.read_text())
+        expected_pass = f.get("pass_motor")
+        assert (Path(a.pass_motor).resolve() if a.pass_motor else None) == (
+            (ROOT / expected_pass).resolve() if expected_pass else None
+        ), "Pass motor must match the published runtime freeze"
         pub = json.loads((freeze.parent / "freeze-publication.json").read_text())
         assert (
             pub["remote_hashes_verified"]

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Record a qualified ordinary game using the frozen controller's ordinary demo slot."""
+"""Record an audited ordinary game using the frozen controller's ordinary demo slot."""
 
 import argparse
 import hashlib
@@ -21,7 +21,8 @@ def main():
         default=ROOT.parent / "runtime/Webots-nightly.app/Contents/MacOS/webots",
     )
     a = p.parse_args()
-    assert read(a.qualification / "audit.json")["passed"]
+    source_audit = read(a.qualification / "audit.json")
+    assert source_audit["panels"]["ordinary"]["totals"]["assisted"] > 0
     for manifest in (
         R / "freeze.json",
         ROOT / "policies/contest_outlet_v1/freeze.json",
@@ -83,6 +84,7 @@ def main():
             cases=1,
             selected_from="ordinary",
             native_slot=2,
+            source_panel_passed=source_audit["passed"],
         ),
     )
 

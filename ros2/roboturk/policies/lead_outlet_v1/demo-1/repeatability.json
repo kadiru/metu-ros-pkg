@@ -1,0 +1,20 @@
+[
+  {
+    "seed": 13400000,
+    "samples": 1800,
+    "max_state_difference": 0.0,
+    "same_plans_decisions_events": true
+  },
+  {
+    "seed": 13400001,
+    "samples": 1800,
+    "max_state_difference": 0.0,
+    "same_plans_decisions_events": true
+  },
+  {
+    "seed": 13400002,
+    "samples": 1800,
+    "max_state_difference": 0.0,
+    "same_plans_decisions_events": true
+  }
+]

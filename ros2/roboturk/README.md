@@ -4,6 +4,14 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2 and 3v3 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Leading the open teammate in 3v3
+
+The frozen 3v3 teams scored **31/40** after leading an open teammate around a blocked dribble lane. Opening interceptions fell from nine in the preceding release to **1**. On these same fresh starts the previous team scored from 27 direct-to-receiver passes and had 7 interceptions.
+
+[![A 3v3 Webots pass into the open teammate’s running path, followed by a goal.](media/lead-outlet/lead-pass.gif)](media/lead-outlet/lead-pass.mp4)
+
+*Yellow 0 leads Yellow 1 by 0.25 m. The receiver runs 0.21 m along that heading before controlling the pass. Yellow 1 scores at 4.27 s.* [Full three-opening demo](media/lead-outlet/lead-pass.mp4) · [Full GIF](media/lead-outlet/all-openings.gif) · [Previous interception and new goal side by side](media/lead-outlet/matched-lead.gif) · [Trained policy, interception analysis and all 40 pairs](policies/lead_outlet_v1/README.md)
+
 ## Passing around a blocked lane in 3v3
 
 The recovering team passed to an open teammate and scored on **25 of 40 fresh Webots openings**. The target was 24. Both colors and both possible receiver slots contributed goals. All 40 opening contests count.

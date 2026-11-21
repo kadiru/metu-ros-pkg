@@ -2,6 +2,21 @@
 
 The previous RoboTurk team could win a contested ball and find an outlet. Across its twelve published 90-second self-play games, one of sixteen verified recoveries led to a goal under the uninterrupted-possession definition used here. This experiment gives the recovering team a learned choice of passing, carrying the ball or shooting. The same decision policy runs on each of the three players and can choose again after an intended reception or a short dribble.
 
+## Frozen-team evaluation
+
+All 58 games ran in independent native Webots processes. Each contested start used identical first-frame coordinates for the released and trained teams. An opening conversion credits only the first contest of the game. The third column includes later recoveries in the same match. Pass and carry columns count scoring sequences and can overlap.
+
+| Teams and starts | Opening goals / games | Recovery goals / recoveries | With a pass | With a carry |
+| --- | ---: | ---: | ---: | ---: |
+| Previous team, contested | 2/20 | 5/39 | 3 | 0 |
+| New team, contested | 11/20 | 16/30 | 1 | 9 |
+| Head-to-head, contested | 3/12 | 8/21 | 1 | 3 |
+| New team, ordinary 60-second open play | 3/6 | 3/5 | 1 | 2 |
+
+Two qualification targets were missed. The new team scored from the opening recovery in 11 of 20 contested games against a target of 12. In head-to-head games it scored twice from the opening contest against a target of three. Across all recoveries it scored seven times against the previous team's one. In new-team self-play, both colors scored eight recovery goals. No recorded robot pair came within 0.18 m and no robot left the field in this test. [Every game and physical audit](qualification/audit.json) · [Predeclared thresholds](protocol.json)
+
+The independent replication doubled the sample size with the same teams, durations and proportional thresholds. Its protocol was published before the new games. [Replication plan](replication-plan.json)
+
 ## What the policy observes
 
 A native Webots contest begins when an opponent from each side holds the ball in its front mouth for 0.20 seconds. One of those players must then hold it alone for 0.20 seconds. The released jaw and support policies handle that contest. The new attack policy takes over after recovery and stays active while the team retains the ball. An opposing mouth touch, a restart or 18 elapsed seconds ends its opportunity.

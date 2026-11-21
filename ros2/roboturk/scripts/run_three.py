@@ -2,6 +2,7 @@
 """Run a bounded six-robot native Webots experiment."""
 
 import argparse
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -19,16 +20,57 @@ def main():
     )
     p.add_argument("--output", required=True, type=Path)
     p.add_argument("--seed", type=int, default=901)
-    p.add_argument("--first", type=int, default=7300000)
-    p.add_argument("--matches", type=int, default=4)
+    p.add_argument("--first", type=int)
+    p.add_argument("--matches", type=int)
     p.add_argument("--seconds", type=int, default=60)
     p.add_argument("--models", type=Path)
     args = p.parse_args()
+    release = ROOT / "policies/recipient_3v3_v1"
+    protocol = json.loads((release / "protocol.json").read_text())
+    reserved = args.mode in ("qualify", "demo")
+    plan = protocol["qualification" if args.mode == "qualify" else "demo"] if reserved else {}
+    default_first = 7110000 + (args.seed - 901) * 100000 if args.mode == "train" else 7300000
+    if args.first is None:
+        args.first = plan.get("first", default_first)
+    if args.matches is None:
+        args.matches = plan.get("matches", 20 if args.mode == "train" else 4)
+    if args.matches <= 0 or args.seconds <= 0:
+        p.error("matches and seconds must be positive")
+    if reserved and (args.first, args.matches, args.seconds) != (
+        plan["first"],
+        plan["matches"],
+        protocol["seconds"],
+    ):
+        p.error("Use the complete reserved panel specified in protocol.json")
+    if not reserved:
+        low, high = (7100000, 7300000) if args.mode == "train" else (7300000, 7400000)
+        if not (low <= args.first and args.first + args.matches <= high):
+            p.error("Select cases from the declared training or development split")
+    if args.mode != "train" and args.models is None:
+        args.models = release / "selectors.json"
+    if args.models:
+        params = json.loads(args.models.read_text())
+        for seed in ("901", "902"):
+            if len(params[seed]) != 6 or not all(
+                isinstance(x, (int, float)) and abs(x) < float("inf") for x in params[seed]
+            ):
+                p.error("Expected six finite recipient weights per policy")
+    if reserved:
+        freeze = json.loads((release / "freeze.json").read_text())
+        for name, digest in freeze["files"].items():
+            if hashlib.sha256((ROOT / name).read_bytes()).hexdigest() != digest:
+                p.error("Frozen file differs: " + name)
+        if args.models.resolve() != (release / "selectors.json").resolve():
+            p.error("Reserved evaluation uses the frozen recipient selectors")
     output = args.output.resolve()
     config = {
         **vars(args),
         "output": str(output),
         "root": str(ROOT),
+        "models_sha256": hashlib.sha256(args.models.read_bytes()).hexdigest()
+        if args.models
+        else None,
+        "webots_sha256": hashlib.sha256(args.webots.read_bytes()).hexdigest(),
         "models": str(args.models.resolve()) if args.models else None,
         "webots": str(args.webots.resolve()),
     }

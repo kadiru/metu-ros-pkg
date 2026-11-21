@@ -2,6 +2,7 @@
 
 from collections import Counter
 import json
+import math
 import os
 from pathlib import Path
 import time
@@ -35,6 +36,20 @@ def run(supervisor, folder):
     results, updates = [], []
     demo = mode == "demo"
     if demo:
+        ring_points = ", ".join(
+            f"{0.075 * math.cos(a * math.tau / 32)} {0.075 * math.sin(a * math.tau / 32)} 0"
+            for a in range(32)
+        )
+        indices = ", ".join(str(n) for n in [*range(32), 0, -1])
+        children = supervisor.getRoot().getField("children")
+        children.importMFNodeFromString(
+            -1,
+            "DEF THREE_BALL_RING Pose { children [ Shape { "
+            "appearance Appearance { material Material { emissiveColor 1 .8 .1 } } "
+            f"geometry IndexedLineSet {{ coord Coordinate {{ point [ {ring_points} ] }} "
+            f"coordIndex [ {indices} ] }} }} ] }}",
+        )
+        ring = supervisor.getFromDef("THREE_BALL_RING").getField("translation")
         camera = supervisor.getFromDef("CAMERA")
         camera.getField("position").setSFVec3f([0, 0, 16.5])
         camera.getField("orientation").setSFRotation(
@@ -57,10 +72,13 @@ def run(supervisor, folder):
             }
             sample = set()
             if mode == "control":
-                policies["blue"] = np.zeros(6)
-                sample.add("blue")
+                challenger = "blue" if i % 2 == 0 else "yellow"
+                policies[challenger] = np.zeros(6)
+                sample.add(challenger)
 
         def render(game):
+            ring.setSFVec3f([game.world.ball.x, game.world.ball.y, 0.045])
+
             def label(index, line, y, color=0xFFFFFF):
                 supervisor.setLabel(index, line, 0.02, y, 0.052, color, 0, "Arial")
 
@@ -73,6 +91,8 @@ def run(supervisor, folder):
             completed = sum(p.get("result") == "complete" for p in game.passes)
             label(2, f"Intended receives   {completed} / {len(game.passes)} passes", 0.16)
             last = game.passes[-1] if game.passes else None
+            if not last:
+                label(3, "First possession", 0.84)
             if last:
                 label(
                     3,

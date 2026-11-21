@@ -1,0 +1,54 @@
+{
+  "totals": {
+    "contested_seconds": 2.67,
+    "contests": 3,
+    "recoveries": 3,
+    "chains": 2,
+    "designated_outlet_chains": 2,
+    "challenger_chains": 0,
+    "late": 6,
+    "completions": 14,
+    "passes": 24,
+    "contacts": 0,
+    "exits": 0,
+    "samples": 18000,
+    "goals": 2,
+    "late_matches": 2,
+    "chain_matches": 1
+  },
+  "games": [
+    {
+      "seed": 8960000,
+      "contested_seconds": 2.67,
+      "contests": 3,
+      "recoveries": 3,
+      "chains": 2,
+      "designated_outlet_chains": 2,
+      "challenger_chains": 0,
+      "late": 2,
+      "completions": 6,
+      "passes": 11,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 9000,
+      "goals": 2
+    },
+    {
+      "seed": 8960001,
+      "contested_seconds": 0.0,
+      "contests": 0,
+      "recoveries": 0,
+      "chains": 0,
+      "designated_outlet_chains": 0,
+      "challenger_chains": 0,
+      "late": 4,
+      "completions": 8,
+      "passes": 13,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 9000,
+      "goals": 0
+    }
+  ],
+  "passed": true
+}

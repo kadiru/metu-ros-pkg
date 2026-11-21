@@ -44,7 +44,15 @@ def training_example(game):
         for p in game["passes"]
     ):
         score = -0.6
-    return dict(x=o["opening_x"], action=a, value=score, scored=success, seed=game["seed"])
+    return dict(
+        x=o["opening_x"],
+        action=a,
+        value=score,
+        scored=success,
+        assisted=bool(e.get("passes")),
+        carried=e.get("dribble_m", 0) >= 0.18,
+        seed=game["seed"],
+    )
 
 
 def values(model, x):
@@ -62,7 +70,12 @@ def values(model, x):
             )
             scale = np.r_[SCALE * (0.6 if a == 0 else 1), extra]
         dist = np.sum(((rows - x) * scale) ** 2, axis=1)
-        n = min(len(y), model["neighbors"])
+        n = min(
+            len(y),
+            model.get("pass_neighbors", model["neighbors"]) if a == 0 else model["neighbors"],
+        )
+        if a == 0:
+            y = y + model.get("pass_success_bonus", 0.0) * (y > 0)
         nearest = np.argsort(dist)[:n]
         bw = max(0.12, float(dist[nearest[-1]]) * 0.45)
         weight = np.exp(-(dist[nearest] - dist[nearest[0]]) / bw)

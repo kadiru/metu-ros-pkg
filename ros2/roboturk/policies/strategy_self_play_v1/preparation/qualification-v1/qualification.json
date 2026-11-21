@@ -1,0 +1,74 @@
+{
+  "811": {
+    "passed": true,
+    "checks": {
+      "complete_panel": true,
+      "completion": true,
+      "contacts": true,
+      "field_exits": true,
+      "goals": true,
+      "both_colors_score": true,
+      "receive_stop": true,
+      "redirect_kick": true,
+      "redirect_goal": true,
+      "clearance_complete": true,
+      "skill_use": true,
+      "independent_audit": true
+    },
+    "matches": 60,
+    "completion_fraction": 1.0,
+    "mean_contact_fraction": 0.0,
+    "field_exit_matches": 0,
+    "goals": {
+      "blue": 14,
+      "yellow": 8
+    },
+    "new_skill_ticks": {
+      "receive": 70794,
+      "redirect": 700,
+      "clear": 8975
+    },
+    "skill_outcomes": {
+      "receive_stop": 13,
+      "redirect_kick": 14,
+      "redirect_goal": 13,
+      "clearance_complete": 16
+    }
+  },
+  "822": {
+    "passed": true,
+    "checks": {
+      "complete_panel": true,
+      "completion": true,
+      "contacts": true,
+      "field_exits": true,
+      "goals": true,
+      "both_colors_score": true,
+      "receive_stop": true,
+      "redirect_kick": true,
+      "redirect_goal": true,
+      "clearance_complete": true,
+      "skill_use": true,
+      "independent_audit": true
+    },
+    "matches": 60,
+    "completion_fraction": 1.0,
+    "mean_contact_fraction": 0.0,
+    "field_exit_matches": 0,
+    "goals": {
+      "blue": 8,
+      "yellow": 15
+    },
+    "new_skill_ticks": {
+      "receive": 72256,
+      "redirect": 731,
+      "clear": 8127
+    },
+    "skill_outcomes": {
+      "receive_stop": 15,
+      "redirect_kick": 15,
+      "redirect_goal": 12,
+      "clearance_complete": 17
+    }
+  }
+}

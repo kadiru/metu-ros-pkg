@@ -113,3 +113,55 @@ def test_conditional_head_checkpoint_round_trip(tmp_path):
     np.testing.assert_array_equal(
         loaded.predict(x, deterministic=True)[0], model.predict(x, deterministic=True)[0]
     )
+
+
+def test_geometry_encoder_preserves_checkpoint_and_frozen_target_contract(tmp_path):
+    from roboturk.strategy_geometry import GeometryPolicy
+    from roboturk.strategy_training import save, load
+
+    model = SelfPlayPPO(
+        GeometryPolicy,
+        ShapeEnv(),
+        n_steps=8,
+        batch_size=4,
+        seed=811,
+        policy_kwargs={"net_arch": {"pi": [256, 256], "vf": [256, 256]}},
+    )
+    x = np.random.default_rng(83).normal(size=(16, 162)).astype(np.float32)
+    x[0, 38:40] = 0
+    before = model.predict(x, deterministic=True)[0]
+    assert before.shape == (16, 17) and np.isfinite(before).all()
+    path = tmp_path / "policy.zip"
+    save(model, path, {"geometry_features": True})
+    restored = load(path)
+    np.testing.assert_array_equal(before, restored.predict(x, deterministic=True)[0])
+    freeze_targets(restored)
+    target = target_hash(restored)
+    old_choices = restored.policy.action_net.weight[:10].detach().clone()
+    for _ in range(2):
+        loss = restored.policy.get_distribution(torch.as_tensor(x)).distribution.mean.square().sum()
+        restored.policy.optimizer.zero_grad()
+        loss.backward()
+        restored.policy.optimizer.step()
+    assert target_hash(restored) == target
+    assert not torch.equal(old_choices, restored.policy.action_net.weight[:10])
+
+
+def test_corrective_refresh_labels_do_not_copy_the_student_target():
+    from roboturk.strategy_geometry import grounded_refresh_labels
+
+    x = np.zeros((2, 162), np.float32)
+    x[:, 38:40] = [0.4, 0.2]
+    x[:, 151:153] = [0.03, -0.06]
+    x[0, 132:138] = 0.9
+    x[1, 132:138] = -0.7
+    y = np.zeros((2, 17), np.float32)
+    y[:, 7] = 0.8
+    y[:, 16] = 0.8
+    y[0, 10:16] = 0.7
+    y[1, 10:16] = -0.8
+    corrected = grounded_refresh_labels(x, y)
+    np.testing.assert_array_equal(corrected[0, 10:14], corrected[1, 10:14])
+    assert not np.array_equal(y[0, 10:14], y[1, 10:14])
+    y[:, 16] = -0.8
+    np.testing.assert_array_equal(grounded_refresh_labels(x, y), y)

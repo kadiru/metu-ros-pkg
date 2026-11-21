@@ -50,9 +50,9 @@ def actions(match):
             mode = 9
         elif active and env.kind == "redirect":
             mode = 8
-        elif active and env.kind == "receive" and env.dwell < 25:
+        elif active and env.kind == "receive" and env.dwell < 40:
             mode = 8 if can_redirect else 7
-        elif env and (env.kicked or env.dwell >= 25 or env.steps >= 180):
+        elif env and (env.kicked or env.dwell >= 40 or env.steps >= 180):
             pass
         elif incoming and 0 < ahead < 2 and ownrange < materange:
             mode = 8 if can_redirect else 7
@@ -110,11 +110,12 @@ def actions(match):
                 and ahead > 0
             )
             if refresh:
-                t = ((intent.point[0] - b.x) * b.vx + (intent.point[1] - b.y) * b.vy) / max(
-                    0.01, speed2
-                )
-                point = (b.x + t * b.vx, b.y + t * b.vy)
                 heading = math.atan2(-b.vy, -b.vx) if kind == "receive" else shot
+                # DAgger must correct a student's erroneous latched target,
+                # rather than relabel that same error as the desired intercept.
+                nominal = (r.x + 0.115 * math.cos(heading), r.y + 0.115 * math.sin(heading))
+                t = ((nominal[0] - b.x) * b.vx + (nominal[1] - b.y) * b.vy) / max(0.01, speed2)
+                point = (b.x + t * b.vx, b.y + t * b.vy)
                 intent = BallIntent(kind, point, heading, intent.outlet)
             result[i, 10:16] = intent_values(w, k, intent)
             result[i, 16] = 0.8 if refresh else -0.8

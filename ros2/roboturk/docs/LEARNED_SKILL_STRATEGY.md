@@ -109,3 +109,34 @@ geometry audit. Strategic choices were supplied by the explicit coach, so this
 is motor-integration evidence only. The next selector dataset contains complete
 20-second matches rather than the previous 12-second prefixes. Both strategy
 seeds use the same frozen motor bank and independently initialized selectors.
+
+### Receiving-target correction
+
+Both v5 selectors scored one goal in eight fresh native development matches;
+neither completed a stopped reception. Each completed two clearances; the first
+seed made two redirect kicks/one goal and the second one kick/one goal. Geometry
+audits passed for both, and exact checkpoint replay reproduced every decision and
+intent for the first seed. These are retained failed development candidates.
+
+The traces show initial receive-point errors up to roughly 0.10 m and successive
+updates that move the receiver away from the incoming ball. The corrective coach
+also previously projected the student's own latched target, allowing that error
+to contaminate correction labels. It now projects the current mouth position
+onto the measured trajectory. Historical refresh labels are corrected from their
+recorded native observations during the new fit; raw datasets remain unchanged.
+
+The next actor adds direct observations and four velocity/projection features to
+its learned features. All choice and target coefficients remain learned; there
+is no runtime target planner. Entry and refresh examples receive separate
+sampling weight. A final regularized target regression balances those phases
+without changing behavior-choice or refresh coefficients. Coaching allows a
+0.8-second stopped hold above the unchanged 0.5-second outcome requirement;
+termination remains a learned decision. Future collections retain every option
+entry instead of allowing alternate-tick sampling to drop rare entries.
+
+Two additional native correction collections each contain 16 full matches with
+80% student decisions. Seed811's mixed controller scored seven goals with three
+stopped receptions, three redirect goals and five clearances; seed822's scored
+two goals with three stopped receptions, one redirect goal and four clearances.
+All matches completed with zero detected contacts or field exits. These mixed
+training results do not qualify either autonomous policy.

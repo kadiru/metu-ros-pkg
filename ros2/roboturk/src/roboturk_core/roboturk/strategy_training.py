@@ -165,7 +165,9 @@ def collect(backend, bank, out, count, seed, duration=20, model=None, mix=0):
             match.restart_if_needed()
             x = match.observations()
             y = actions(match)
-            if match.steps % 2 == 0:
+            kinds = y[:, :10].argmax(1)
+            entry = (kinds >= 7) & (x[:, 122:132].argmax(1) != kinds)
+            if match.steps % 2 == 0 or entry.any():
                 xs.extend(x)
                 ys.extend(y)
             a = y.copy()

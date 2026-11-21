@@ -13,9 +13,10 @@ def main():
     p.add_argument("--output", type=Path, required=True)
     p.add_argument("--seed", type=int, required=True)
     p.add_argument("--epochs", type=int, default=250)
+    p.add_argument("--geometry", action="store_true")
     a = p.parse_args()
     assert not a.output.exists() and not a.output.with_suffix(".json").exists()
-    fit_heads(a.data, a.parent, a.output, a.seed, a.epochs)
+    fit_heads(a.data, a.parent, a.output, a.seed, a.epochs, a.geometry)
 
 
 if __name__ == "__main__":

@@ -8,7 +8,7 @@ from .strategy_heads import expand
 from .strategy_training import collect, load, write, digest, save, evaluate
 
 
-def fit_heads(paths, parent, output, seed, epochs=250):
+def fit_heads(paths, parent, output, seed, epochs=250, geometry=False):
     torch.set_num_threads(1)
     torch.manual_seed(seed)
     data = [np.load(p) for p in paths]
@@ -17,12 +17,30 @@ def fit_heads(paths, parent, output, seed, epochs=250):
     assert all(s == signatures[0] for s in signatures), "Do not mix different motor-bank datasets"
     x = np.concatenate([d["observations"] for d in data])
     y = np.concatenate([d["actions"] for d in data])
+    if geometry:
+        from .strategy_geometry import grounded_refresh_labels
+
+        y = grounded_refresh_labels(x, y)
     modes = y[:, :10].argmax(1)
-    setting = (modes >= 7) & ((x[:, 122:132].argmax(1) != modes) | (y[:, 16] > 0))
+    entry = (modes >= 7) & (x[:, 122:132].argmax(1) != modes)
+    refresh = (modes >= 7) & (y[:, 16] > 0) & ~entry
+    setting = entry | refresh
     groups = [g for i in range(10) if len(g := np.flatnonzero(modes == i))]
-    groups += [g for i in range(7, 10) if len(g := np.flatnonzero(setting & (modes == i)))]
+    # Entry is rare relative to trajectory refresh. Give both supervision phases
+    # their own sampling mass so initial aiming is not drowned out by refreshes.
+    groups += [
+        g
+        for i in range(7, 10)
+        for phase in (entry, refresh)
+        if len(g := np.flatnonzero(phase & (modes == i)))
+    ]
     previous = load(parent)
-    model = expand(parent, seed) if previous.policy.action_net.out_features == 17 else previous
+    if geometry:
+        from .strategy_geometry import expand_geometry
+
+        model = expand_geometry(parent, seed)
+    else:
+        model = expand(parent, seed) if previous.policy.action_net.out_features == 17 else previous
     model.set_random_seed(seed)
     before = model.predict(x[:128], deterministic=True)[0]
     old = load(parent).predict(x[:128], deterministic=True)[0]
@@ -60,6 +78,11 @@ def fit_heads(paths, parent, output, seed, epochs=250):
         if (epoch + 1) % 25 == 0:
             print("Conditional intent fit", seed, epoch + 1, epochs, losses[-1], flush=True)
     model.policy.optimizer.state.clear()
+    calibration = None
+    if geometry:
+        from .strategy_geometry import calibrate_targets
+
+        calibration = calibrate_targets(model, inputs, labels, setting)
     save(
         model,
         output,
@@ -67,6 +90,13 @@ def fit_heads(paths, parent, output, seed, epochs=250):
             "seed": seed,
             "method": "native DAgger with separate receive/redirect/clear intent heads",
             "raw_actor_outputs": 31,
+            "geometry_features": geometry,
+            "label_revision": "grounded mouth-line refresh from native observations"
+            if geometry
+            else "original labels",
+            "target_calibration": calibration,
+            "entry_rows": {str(i): int((entry & (modes == i)).sum()) for i in range(7, 10)},
+            "refresh_rows": {str(i): int((refresh & (modes == i)).sum()) for i in range(7, 10)},
             "deployed_action_values": 17,
             "epochs": epochs,
             "parent": str(parent),

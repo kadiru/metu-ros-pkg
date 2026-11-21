@@ -114,8 +114,9 @@
     "target_refresh_score": 1,
     "raw_actor_outputs": 31,
     "intent_heads": 3,
-    "parameter_routing": "The neural categorical choice selects its own seven-value receive/redirect/clear intent head; the deployed action remains 17 values."
+    "parameter_routing": "The neural categorical choice selects its own seven-value receive/redirect/clear intent head; the deployed action remains 17 values.",
+    "actor_features": "256 learned features, 162 direct observations, four unit-velocity/projection features; all target and choice coefficients learned"
   },
-  "preparation_revision": 3,
+  "preparation_revision": 4,
   "motor_preparation": "Original continuous/TDP actors preserved. Optional separate pass motor trained from training-range native states before strategy preparation; exact selected motor bank frozen through PPO and all qualification."
 }

@@ -64,8 +64,10 @@ def inspect_game(folder, i, result, weights):
 def audit(folder, models, protocol, mode):
     launches = json.loads((folder / "launch.json").read_text())
     assert launches["mode"] == mode
-    plan = protocol["qualification" if mode == "qualify" else "demo"]
-    assert launches["matches"] == plan["matches"] and launches["seconds"] == protocol["seconds"]
+    plan = protocol["qualification" if mode == "qualify" else mode]
+    assert launches["matches"] == plan["matches"] and launches["seconds"] == plan.get(
+        "seconds", protocol["seconds"]
+    )
     total, slots, receivers, pairings, scores = (
         Counter(),
         Counter(),
@@ -76,7 +78,9 @@ def audit(folder, models, protocol, mode):
     games = []
     for i in range(plan["matches"]):
         g = json.loads((folder / f"game-{i:02}.json").read_text())
-        assert g["seed"] == plan["first"] + i and g["seconds"] == protocol["seconds"]
+        assert g["seed"] == plan["first"] + i and g["seconds"] == plan.get(
+            "seconds", protocol["seconds"]
+        )
         blue, yellow = [(901, 901), (902, 902), (901, 902), (902, 901)][
             i // 8 if mode == "qualify" else 2
         ]
@@ -120,6 +124,26 @@ def audit(folder, models, protocol, mode):
             contact_fraction=total["contacts"] / total["physical_samples"]
             <= t["max_robot_contact_sample_fraction"],
         )
+    if mode in ("open", "demo"):
+        assert all(
+            e["event"] != "shot clock"
+            for f in folder.glob("game-*.json")
+            for e in json.loads(f.read_text())["events"]
+        )
+    if mode == "open":
+        criteria = plan["gates"]
+        checks = dict(
+            with_completion=total["with_completion"] >= criteria["min_matches_with_completion"],
+            completion_rate=rate >= criteria["min_completion_rate"],
+            choices=all(
+                slots[f"{t}/{i}"] >= criteria["minimum_completed_each_slot_per_color"]
+                for t in ("blue", "yellow")
+                for i in range(2)
+            ),
+            exits=total["exits"] <= criteria["max_robot_field_exits"],
+            contact_fraction=total["contacts"] / total["physical_samples"]
+            <= criteria["max_robot_contact_sample_fraction"],
+        )
     return dict(
         passed=all(checks.values()),
         checks=checks,
@@ -138,7 +162,7 @@ def main():
     p.add_argument("folder", type=Path)
     p.add_argument("--models", required=True, type=Path)
     p.add_argument("--protocol", required=True, type=Path)
-    p.add_argument("--mode", choices=["qualify", "demo"], required=True)
+    p.add_argument("--mode", choices=["qualify", "demo", "open"], required=True)
     a = p.parse_args()
     summary = audit(
         a.folder, json.loads(a.models.read_text()), json.loads(a.protocol.read_text()), a.mode

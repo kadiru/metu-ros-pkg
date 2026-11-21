@@ -123,6 +123,7 @@ class Game:
         self.events, self.passes, self.samples = [], [], []
         self.render, self.trace = render, trace
         self.stats, self.score = Counter(), Counter()
+        self.shot_clock = True
         self.tick = 0
         self.reset("blue" if seed % 4 < 2 else "yellow", "start")
 
@@ -291,7 +292,7 @@ class Game:
                         )
             b = self.world.ball
             out = abs(b.x) > 4.5215 or abs(b.y) > 3.0215
-            if out or (self.tick - self.clock_start + 1) * DT >= 12:
+            if out or (self.shot_clock and (self.tick - self.clock_start + 1) * DT >= 12):
                 goal = abs(b.x) > 4.5215 and abs(b.y) < 0.4785
                 if goal:
                     self.score["blue" if b.x * self.sign > 0 else "yellow"] += 1

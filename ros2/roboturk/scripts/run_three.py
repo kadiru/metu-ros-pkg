@@ -16,30 +16,32 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument("--webots", required=True, type=Path)
     p.add_argument(
-        "--mode", required=True, choices=["train", "develop", "qualify", "demo", "control"]
+        "--mode", required=True, choices=["train", "develop", "qualify", "demo", "open", "control"]
     )
     p.add_argument("--output", required=True, type=Path)
     p.add_argument("--seed", type=int, default=901)
     p.add_argument("--first", type=int)
     p.add_argument("--matches", type=int)
-    p.add_argument("--seconds", type=int, default=60)
+    p.add_argument("--seconds", type=int)
     p.add_argument("--models", type=Path)
     args = p.parse_args()
     release = ROOT / "policies/recipient_3v3_v1"
     protocol = json.loads((release / "protocol.json").read_text())
-    reserved = args.mode in ("qualify", "demo")
-    plan = protocol["qualification" if args.mode == "qualify" else "demo"] if reserved else {}
+    reserved = args.mode in ("qualify", "demo", "open")
+    plan = protocol["qualification" if args.mode == "qualify" else args.mode] if reserved else {}
     default_first = 7110000 + (args.seed - 901) * 100000 if args.mode == "train" else 7300000
     if args.first is None:
         args.first = plan.get("first", default_first)
     if args.matches is None:
         args.matches = plan.get("matches", 20 if args.mode == "train" else 4)
+    if args.seconds is None:
+        args.seconds = plan.get("seconds", protocol["seconds"])
     if args.matches <= 0 or args.seconds <= 0:
         p.error("matches and seconds must be positive")
     if reserved and (args.first, args.matches, args.seconds) != (
         plan["first"],
         plan["matches"],
-        protocol["seconds"],
+        plan.get("seconds", protocol["seconds"]),
     ):
         p.error("Use the complete reserved panel specified in protocol.json")
     if not reserved:

@@ -22,7 +22,8 @@
     "matches": 2,
     "blue": 901,
     "yellow": 902,
-    "uncut": true
+    "uncut": true,
+    "shot_clock": false
   },
   "gates": {
     "finished": 32,
@@ -34,10 +35,23 @@
     "max_robot_contact_sample_fraction": 0.005
   },
   "completion": "After the credited physical pass kick, the intended teammate exclusively holds the ball at its mouth for at least 0.20 s, following travel of at least 0.55 m within 4 s. An opponent or unintended teammate touching with its mouth ends the pass.",
-  "scope": "Six mobile robots, symmetric possession tactics and a 12-second shot clock. Randomized tactical restarts after goal, out or clock expiry. Learned receiver choice and frozen learned pass motor, with geometric movement, support, defensive and shooting tactics.",
+  "scope": "Six mobile robots, symmetric possession tactics and a 12-second shot clock. Randomized tactical restarts after goal, out or clock expiry. Learned receiver choice and frozen learned pass motor, with geometric movement, support, defensive and shooting tactics. The additional 90-second open-play panel and the fresh demo restart only after goals and ball-outs.",
   "paired_development": {
     "first": 7301000,
     "matches": 4,
     "comparison": "Alternate a uniform random blue or yellow receiver selector against the same trained opponent on the same initial case. Compare actual kicked passes by the replaced side; complete game trajectories can diverge."
+  },
+  "open": {
+    "first": 7510000,
+    "matches": 8,
+    "seconds": 90,
+    "shot_clock": false,
+    "gates": {
+      "min_matches_with_completion": 6,
+      "min_completion_rate": 0.65,
+      "minimum_completed_each_slot_per_color": 1,
+      "max_robot_field_exits": 0,
+      "max_robot_contact_sample_fraction": 0.005
+    }
   }
 }

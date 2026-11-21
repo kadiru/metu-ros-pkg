@@ -129,8 +129,9 @@ def run(supervisor, folder):
             cfg["seconds"],
             sample,
             render if demo else None,
-            mode in ("demo", "qualify"),
+            mode in ("demo", "qualify", "open"),
         )
+        game.shot_clock = mode not in ("open", "demo")
         result = game.run()
         if game.trace:
             np.savez_compressed(

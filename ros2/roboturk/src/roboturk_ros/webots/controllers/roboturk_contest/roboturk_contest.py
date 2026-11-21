@@ -79,6 +79,11 @@ def movie_camera(sim, folder):
         else:
             label = "Ball in play"
         sim.setLabel(2, label, 0.02, 0.83, 0.065, 0xFFDF80, 0, "Arial")
+        outlets = [
+            f"{team.upper()} {role['mate'].id} opens for {role['actor'].id}"
+            for team, role in g.roles.items()
+        ]
+        sim.setLabel(10, "     ".join(outlets), 0.02, 0.91, 0.045, 0x83EEDD, 0, "Arial")
         for r in g.world.robots:
             sim.setLabel(
                 3 + (3 if r.key.team == "yellow" else 0) + r.key.id,

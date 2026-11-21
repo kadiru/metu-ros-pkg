@@ -59,6 +59,8 @@ def measures(states, game):
         if not p or p["result"] != "complete" or p["team"] != team or p["passer"] != actor % 3:
             continue
         end = (p["end"] + 1) * 4
+        if p["end"] - p["tick"] > 100 or any(p["tick"] < k["tick"] <= p["end"] for k in kicks):
+            continue
         if any(start <= t < end for t in restarts):
             continue
         rivals = mouths[start:end, 3:] if team == "blue" else mouths[start:end, :3]

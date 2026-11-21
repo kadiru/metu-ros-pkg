@@ -101,11 +101,19 @@ def freeze(candidate):
         model["opening"]["groups"] == branches["groups"]
         and 3 <= model["opening"]["neighbors"] <= 100
     )
+    calibration = read(candidate.parent / "selection.json")
+    selected = calibration["selected"]
+    assert all(
+        model["opening"][k] == selected[k]
+        for k in ("neighbors", "pass_neighbors", "pass_success_bonus")
+    )
     if (R / "freeze.json").exists():
         raise ValueError("Frozen policy already exists")
+    save(R / "selection.json", calibration)
     save(R / "policy.json", model)
     files = [
         R / "policy.json",
+        R / "selection.json",
         R / "protocol.json",
         R / "initial.json.gz",
         R / "branches.json.gz",

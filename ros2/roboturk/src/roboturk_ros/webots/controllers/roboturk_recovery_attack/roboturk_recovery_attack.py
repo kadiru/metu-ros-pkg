@@ -130,7 +130,7 @@ def run(sim, folder):
     history = [fit.policy()]
     examples = []
     branches = mode == "branches"
-    render = movie_camera(sim, folder) if mode == "demo" else None
+    render = movie_camera(sim, folder) if mode in ("demo", "showcase") else None
     idx = os.environ.get("RECOVERY_CASE")
     for i in [int(idx)] if idx is not None else range(cfg["cases"]):
         team = "blue" if i % 2 == 0 else "yellow"

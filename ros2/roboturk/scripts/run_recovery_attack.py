@@ -25,7 +25,7 @@ def save(p, data):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("mode", choices=["train", "branches", "develop", "qualify", "demo"])
+    p.add_argument("mode", choices=["train", "branches", "develop", "qualify", "demo", "showcase"])
     p.add_argument("folder", type=Path)
     p.add_argument("--model", type=Path, default=R / "policy.json")
     p.add_argument("--cases", type=int)
@@ -36,6 +36,7 @@ def main():
         default=ROOT.parent / "runtime/Webots-nightly.app/Contents/MacOS/webots",
     )
     p.add_argument("--refine", action="store_true")
+    p.add_argument("--qualification", type=Path)
     a = p.parse_args()
     assert not a.refine or a.mode == "train"
     plan = read(R / "protocol.json")
@@ -47,7 +48,7 @@ def main():
     ]:
         for f, digest in read(path).items():
             assert hashlib.sha256((ROOT / f).read_bytes()).hexdigest() == digest, f
-    if a.mode in ("qualify", "demo"):
+    if a.mode in ("qualify", "demo", "showcase"):
         assert a.cases is None and a.offset == 0 and a.model.resolve() == R / "policy.json"
         for f, digest in read(R / "freeze.json").items():
             assert hashlib.sha256((ROOT / f).read_bytes()).hexdigest() == digest, f
@@ -70,7 +71,7 @@ def main():
         if idx is not None:
             env["RECOVERY_CASE"] = str(idx)
         cmd = [str(binary), "--batch", "--stdout", "--stderr", "--mode=fast"]
-        if a.mode != "demo":
+        if a.mode not in ("demo", "showcase"):
             cmd += ["--no-rendering", "--minimize"]
         with (path / "webots.log").open("a") as stream:
             subprocess.run(
@@ -81,6 +82,30 @@ def main():
             raise RuntimeError(f"Native game missing in {path}")
 
     folder.mkdir(parents=True, exist_ok=False)
+    if a.mode == "showcase":
+        assert a.qualification is not None and read(a.qualification / "audit.json")["passed"]
+        moments = []
+        for file in sorted((a.qualification / "trained").glob("game-*.json")):
+            game = read(file)
+            for e in game["conversions"]:
+                if "goal" in e and e["passes"]:
+                    moments.append(
+                        ((e["dribble_m"] >= 0.18, len(e["passes"]), -e["goal"]), game["seed"])
+                    )
+        _, seed = max(moments)
+        save(
+            folder / "launch.json",
+            dict(
+                **meta,
+                mode="showcase",
+                first=seed,
+                cases=1,
+                seconds=plan["seconds"],
+                selected_from="trained",
+            ),
+        )
+        simulate(folder)
+        return
     if a.mode != "qualify":
         n = a.cases or (
             144 if a.mode == "train" else plan["demo_cases"] if a.mode == "demo" else 16

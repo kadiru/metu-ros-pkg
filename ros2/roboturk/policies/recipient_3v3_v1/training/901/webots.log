@@ -1,0 +1,22 @@
+INFO: roboturk_three: Starting controller: python3 -u roboturk_three.py
+1 {'complete': 5, 'intercepted': 4} {'blue': 1}
+2 {'intercepted': 5, 'complete': 8, 'restart': 1} {'yellow': 2}
+3 {'intercepted': 6, 'complete': 7} {'blue': 2, 'yellow': 1}
+4 {'complete': 6, 'intercepted': 6} {'yellow': 1}
+5 {'intercepted': 5, 'complete': 5} {'yellow': 1}
+6 {'complete': 6, 'intercepted': 4} {'yellow': 1}
+7 {'intercepted': 5, 'complete': 4} {'blue': 2}
+8 {'intercepted': 11, 'complete': 5} {'yellow': 2}
+9 {'complete': 2, 'intercepted': 7, 'end': 1} {'blue': 3}
+10 {'intercepted': 4, 'complete': 2, 'timeout': 1} {}
+11 {'complete': 9, 'intercepted': 5} {}
+12 {'complete': 5, 'intercepted': 7, 'restart': 1} {'yellow': 2}
+13 {'complete': 4, 'intercepted': 6} {}
+14 {'intercepted': 6, 'complete': 5} {'yellow': 1}
+15 {'intercepted': 4, 'complete': 6, 'end': 1} {'yellow': 1}
+16 {'complete': 9, 'intercepted': 6} {'blue': 2}
+17 {'complete': 8, 'intercepted': 4, 'timeout': 1} {'yellow': 2}
+18 {'complete': 5, 'intercepted': 3} {'blue': 1}
+19 {'complete': 7, 'intercepted': 4} {'blue': 2}
+INFO: roboturk_three: Terminating.
+UNSUPPORTED (log once): POSSIBLE ISSUE: unit 1 GLD_TEXTURE_INDEX_2D is unloadable and bound to sampler type (Float) - using zero texture because texture unloadable

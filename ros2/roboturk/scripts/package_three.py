@@ -49,7 +49,12 @@ def stage(run, seed):
     assert all(counts[t] > 0 for t in ("blue", "yellow"))
     assert np.linalg.norm(weights - training["initial"]) > 0.01
     dest = RELEASE / "training" / str(seed)
-    shutil.copytree(run, dest)
+    if dest.exists():
+        for source in run.iterdir():
+            if source.is_file() and digest(source) != digest(dest / source.name):
+                raise ValueError(f"Existing training evidence differs: {source.name}")
+    else:
+        shutil.copytree(run, dest)
     return weights.tolist(), dict(
         matches=len(training["updates"]),
         decisions=dict(counts),

@@ -45,6 +45,37 @@ def panel(folder):
         assert len({e["goal"] for e in won}) == len(won)
         for e in won:
             k = e["shot"]
+            attacking_sign = direction if e["team"] == "blue" else -direction
+            positions = s[k * 4 : e["goal"] + 1, :2]
+            crossing = np.flatnonzero(positions[:, 0] * attacking_sign > 4.5215)
+            assert len(crossing) and crossing[0] > 0
+            j = int(crossing[0])
+            before, after = positions[j - 1 : j + 1]
+            fraction = (attacking_sign * 4.5215 - before[0]) / (after[0] - before[0])
+            assert abs(before[1] + fraction * (after[1] - before[1])) < 0.4785
+            if cfg["mode"] != "released" and (
+                cfg["mode"] != "mixed" or e["team"] == g["challenger"]
+            ):
+                choices = [
+                    o
+                    for o in g["options"]
+                    if o["team"] == e["team"] and o["recovery"] == e["recovery"]
+                ]
+                assert any(
+                    o["action"] == "shoot"
+                    and o["actor"] == e["scorer"]
+                    and o["tick"] <= k < o["until"]
+                    for o in choices
+                )
+                for pt in e["passes"]:
+                    pas = next(p for p in g["passes"] if p["tick"] == pt)
+                    assert any(
+                        o["action"] == "pass"
+                        and o["actor"] == pas["passer"]
+                        and o["receiver"] == pas["receiver"]
+                        and o["tick"] <= pt < o["until"]
+                        for o in choices
+                    )
             actor = (0 if e["team"] == "blue" else 3) + e["scorer"]
             # Check a measured velocity change and a ball near the shooter's
             # actual front mouth, independently of the controller's kick event.

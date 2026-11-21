@@ -1,0 +1,212 @@
+[
+  {
+    "league": "finishers",
+    "games": 96,
+    "first": 14100900,
+    "selected": 0,
+    "returns": [
+      {
+        "games": 23,
+        "goals": 17,
+        "leads": 18,
+        "interceptions": 0,
+        "under_pressure": 18,
+        "shields": 18,
+        "outcomes": {
+          "pressured shield goal": 17,
+          "no opening pass": 3,
+          "no uninterrupted finish": 2,
+          "goal without closing pressure": 1
+        }
+      },
+      {
+        "games": 23,
+        "goals": 17,
+        "leads": 18,
+        "interceptions": 0,
+        "under_pressure": 20,
+        "shields": 18,
+        "outcomes": {
+          "pressured shield goal": 17,
+          "no uninterrupted finish": 3,
+          "goal without closing pressure": 1,
+          "no opening pass": 2
+        }
+      },
+      {
+        "games": 24,
+        "goals": 17,
+        "leads": 20,
+        "interceptions": 1,
+        "under_pressure": 19,
+        "shields": 17,
+        "outcomes": {
+          "pressured shield goal": 17,
+          "no uninterrupted finish": 2,
+          "goal without closing pressure": 3,
+          "intercepted": 1,
+          "no opening pass": 1
+        }
+      },
+      {
+        "games": 24,
+        "goals": 17,
+        "leads": 20,
+        "interceptions": 0,
+        "under_pressure": 18,
+        "shields": 17,
+        "outcomes": {
+          "pressured shield goal": 17,
+          "goal without closing pressure": 3,
+          "no opening pass": 3,
+          "no uninterrupted finish": 1
+        }
+      }
+    ]
+  },
+  {
+    "league": "centering",
+    "games": 96,
+    "first": 14101200,
+    "selected": 0,
+    "returns": [
+      {
+        "games": 24,
+        "goals": 19,
+        "leads": 21,
+        "interceptions": 0,
+        "under_pressure": 19,
+        "shields": 19,
+        "outcomes": {
+          "pressured shield goal": 19,
+          "no uninterrupted finish": 2,
+          "goal without closing pressure": 2,
+          "no opening pass": 1
+        }
+      },
+      {
+        "games": 22,
+        "goals": 17,
+        "leads": 17,
+        "interceptions": 1,
+        "under_pressure": 18,
+        "shields": 17,
+        "outcomes": {
+          "pressured shield goal": 17,
+          "opponent retouch before pass": 1,
+          "intercepted": 1,
+          "no uninterrupted finish": 3
+        }
+      },
+      {
+        "games": 22,
+        "goals": 15,
+        "leads": 19,
+        "interceptions": 0,
+        "under_pressure": 15,
+        "shields": 15,
+        "outcomes": {
+          "pressured shield goal": 15,
+          "opponent retouch before pass": 2,
+          "goal without closing pressure": 4,
+          "no opening pass": 1
+        }
+      },
+      {
+        "games": 24,
+        "goals": 18,
+        "leads": 19,
+        "interceptions": 0,
+        "under_pressure": 21,
+        "shields": 20,
+        "outcomes": {
+          "pressured shield goal": 18,
+          "goal without closing pressure": 1,
+          "opponent retouch before pass": 2,
+          "no uninterrupted finish": 3
+        }
+      }
+    ]
+  },
+  {
+    "league": "final2",
+    "games": 140,
+    "first": 14101600,
+    "selected": 4,
+    "returns": [
+      {
+        "games": 27,
+        "goals": 22,
+        "leads": 22,
+        "interceptions": 0,
+        "under_pressure": 26,
+        "shields": 23,
+        "outcomes": {
+          "pressured shield goal": 22,
+          "no uninterrupted finish": 4,
+          "no opening pass": 1
+        }
+      },
+      {
+        "games": 27,
+        "goals": 22,
+        "leads": 23,
+        "interceptions": 2,
+        "under_pressure": 24,
+        "shields": 23,
+        "outcomes": {
+          "goal without verified lead": 1,
+          "pressured shield goal": 22,
+          "opponent retouch before pass": 1,
+          "intercepted": 2,
+          "goal without receiver shield": 1
+        }
+      },
+      {
+        "games": 28,
+        "goals": 22,
+        "leads": 22,
+        "interceptions": 1,
+        "under_pressure": 26,
+        "shields": 23,
+        "outcomes": {
+          "pressured shield goal": 22,
+          "no opening pass": 1,
+          "no uninterrupted finish": 3,
+          "intercepted": 1,
+          "goal without verified lead": 1
+        }
+      },
+      {
+        "games": 27,
+        "goals": 20,
+        "leads": 21,
+        "interceptions": 0,
+        "under_pressure": 22,
+        "shields": 21,
+        "outcomes": {
+          "pressured shield goal": 20,
+          "no opening pass": 3,
+          "goal without closing pressure": 1,
+          "no uninterrupted finish": 2,
+          "opponent retouch before pass": 1
+        }
+      },
+      {
+        "games": 28,
+        "goals": 23,
+        "leads": 24,
+        "interceptions": 1,
+        "under_pressure": 25,
+        "shields": 23,
+        "outcomes": {
+          "pressured shield goal": 23,
+          "no opening pass": 1,
+          "no uninterrupted finish": 2,
+          "intercepted": 1,
+          "goal without closing pressure": 1
+        }
+      }
+    ]
+  }
+]

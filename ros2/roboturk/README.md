@@ -4,7 +4,17 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2 and 3v3 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
-## 3v3 scoring after a recovery
+## 3v3 recovery decisions in Webots
+
+The same team makes two different choices after recovering the ball. In ordinary play, Yellow 2 keeps possession, dribbles 0.40 m and scores. In a separate fresh game, Yellow 0 finds Yellow 1 with a pass. Yellow 1 receives, turns and scores.
+
+[![Two Webots recoveries, a dribble and goal followed by a pass and finish in a different match](media/recovery-shield/recovery-choices.gif)](media/recovery-shield/recovery-to-goal.mp4)
+
+*The first four seconds show the spontaneous recovery. After a short break the second game starts at its opening contest. Both clips play at normal speed. The full three-game demo reproduced all 10,500 measured states, decisions and goals in a second native launch.* [Three uncut games](media/recovery-shield/recovery-to-goal.mp4) · [Full GIF](media/recovery-shield/recovery-to-goal.gif) · [Full ordinary match](media/recovery-shield/recovery-finish.mp4)
+
+On 40 matched starts, the newly trained teams converted **17 opening contests**, compared with **3** for the previous outlet teams. They also scored from **4/11 spontaneous recoveries** in 12 ordinary one-minute games. The opening-conversion threshold was 24/40. [Policy, training and all 116 games](policies/recovery_attack_v2/README.md)
+
+## Earlier 3v3 recovery, dribble, pass and finish
 
 Yellow 0 wins a contested ball in open play, dribbles 0.25 m and passes to Yellow 1. The receiver shoots across the left goal line. Both teams run the same frozen self-play strategy, choosing again after a carry or a reception.
 

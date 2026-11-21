@@ -1,0 +1,38 @@
+{
+  "native_sha256": "7847a2685e0a16debd4be49de6e4b4663e33b462394cb608309c143b6b8402bf",
+  "full_match_seconds": 60,
+  "excerpt": {
+    "file": "recovery-finish.gif",
+    "frames": 50,
+    "seconds": 4.0,
+    "fps": 12.5,
+    "sha256": "7b9db2a7ed5ba9691a1c27c7a4c90cb7dc3a027b9c56584c59ccc9a26218d71d",
+    "native_zoom_crop_and_overlay_x": [
+      816,
+      290,
+      270,
+      162,
+      18
+    ]
+  },
+  "source_start": 28.520000000000003,
+  "source_end": 32.47,
+  "play": {
+    "start": 2917,
+    "recovery": 2994,
+    "winner": 5,
+    "team": "yellow",
+    "goal": 3127,
+    "shot": 777,
+    "scorer": 2,
+    "passes": [],
+    "dribble_m": 0.402,
+    "options": [
+      "dribble",
+      "shoot"
+    ]
+  },
+  "seed": 10500005,
+  "trace_delta": 0.0,
+  "speed": 1
+}

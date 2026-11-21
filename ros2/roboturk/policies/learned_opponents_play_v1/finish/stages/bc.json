@@ -1,0 +1,54 @@
+{
+  "contract": "roboturk.pressure_finish.v2",
+  "config": {
+    "length": 9.0,
+    "width": 6.0,
+    "goal_width": 1.0,
+    "robot_radius": 0.09,
+    "ball_radius": 0.0215,
+    "ball_mass": 0.046,
+    "max_speed": 2.0,
+    "max_omega": 8.0,
+    "max_kick": 5.0,
+    "dt": 0.02,
+    "max_steps": 500,
+    "neighbors": 5,
+    "possession_x": 0.115
+  },
+  "task": "learned_keeper_pressure_finish.randomized.v2",
+  "backend": "webots_ideal_body_velocity+learned_keeper_v1",
+  "source_checkpoint_sha256": "7252f42b80f71f1578b238d28f288544ab38a5344660c7ac7106233a278e0be7",
+  "frozen_opponents": {
+    "defender": "06fd042a37390dd0e51ab73f668763730a2e52faade721fbd421fa847612a726",
+    "keeper": "9dea9369b2b6bfe3811ca338c4d89f9b7854f7146ae0f33f1fd755967ecc52f4"
+  },
+  "training_seed": 137,
+  "warm_start_ppo_steps": 65536,
+  "method": "warm-start + native Webots demonstrations/DAgger + anchored PPO against frozen neural opponents",
+  "demonstration_seed_range": [
+    1500000,
+    1500299
+  ],
+  "dagger_seed_range": [
+    1520000,
+    1520149
+  ],
+  "development_seed_range": [
+    1510000,
+    1510059
+  ],
+  "qualification_seed_range": [
+    1650000,
+    1650199
+  ],
+  "demo_seed_range": [
+    1660000,
+    1660005
+  ],
+  "anchor_mean_square_delta": 1e-06,
+  "anchor_max_normalized_action_delta": 0.01,
+  "validated_for_hardware": false,
+  "stage": "bc",
+  "actual_steps": 65536,
+  "current_experiment_ppo_steps": 0
+}

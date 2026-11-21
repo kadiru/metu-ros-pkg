@@ -1,0 +1,92 @@
+[
+  {
+    "seed": 4385835,
+    "learner": "blue0",
+    "opponent_index": 1,
+    "opponent_sha256": "e37e0301465e912e64c4e92c89427170cad2d1efc8b6d651f34e0c3f745f59fd"
+  },
+  {
+    "seed": 4343942,
+    "learner": "yellow0",
+    "opponent_index": 0,
+    "opponent_sha256": "62b04f99fdade09f01d4410d396b6921c874a60704c2e059b54f198c19497b82"
+  },
+  {
+    "seed": 4368254,
+    "learner": "yellow1",
+    "opponent_index": 0,
+    "opponent_sha256": "62b04f99fdade09f01d4410d396b6921c874a60704c2e059b54f198c19497b82"
+  },
+  {
+    "seed": 4355710,
+    "learner": "blue1",
+    "opponent_index": 0,
+    "opponent_sha256": "62b04f99fdade09f01d4410d396b6921c874a60704c2e059b54f198c19497b82"
+  },
+  {
+    "seed": 4347007,
+    "learner": "blue0",
+    "opponent_index": 1,
+    "opponent_sha256": "e37e0301465e912e64c4e92c89427170cad2d1efc8b6d651f34e0c3f745f59fd"
+  },
+  {
+    "seed": 4302220,
+    "learner": "blue1",
+    "opponent_index": 0,
+    "opponent_sha256": "62b04f99fdade09f01d4410d396b6921c874a60704c2e059b54f198c19497b82"
+  },
+  {
+    "seed": 4389826,
+    "learner": "yellow0",
+    "opponent_index": 0,
+    "opponent_sha256": "62b04f99fdade09f01d4410d396b6921c874a60704c2e059b54f198c19497b82"
+  },
+  {
+    "seed": 4368191,
+    "learner": "yellow1",
+    "opponent_index": 0,
+    "opponent_sha256": "62b04f99fdade09f01d4410d396b6921c874a60704c2e059b54f198c19497b82"
+  },
+  {
+    "seed": 4321844,
+    "learner": "yellow1",
+    "opponent_index": 1,
+    "opponent_sha256": "e37e0301465e912e64c4e92c89427170cad2d1efc8b6d651f34e0c3f745f59fd"
+  },
+  {
+    "seed": 4366657,
+    "learner": "blue1",
+    "opponent_index": 1,
+    "opponent_sha256": "e37e0301465e912e64c4e92c89427170cad2d1efc8b6d651f34e0c3f745f59fd"
+  },
+  {
+    "seed": 4361182,
+    "learner": "blue0",
+    "opponent_index": 1,
+    "opponent_sha256": "e37e0301465e912e64c4e92c89427170cad2d1efc8b6d651f34e0c3f745f59fd"
+  },
+  {
+    "seed": 4382058,
+    "learner": "yellow0",
+    "opponent_index": 0,
+    "opponent_sha256": "62b04f99fdade09f01d4410d396b6921c874a60704c2e059b54f198c19497b82"
+  },
+  {
+    "seed": 4359365,
+    "learner": "yellow0",
+    "opponent_index": 0,
+    "opponent_sha256": "62b04f99fdade09f01d4410d396b6921c874a60704c2e059b54f198c19497b82"
+  },
+  {
+    "seed": 4320922,
+    "learner": "blue1",
+    "opponent_index": 1,
+    "opponent_sha256": "e37e0301465e912e64c4e92c89427170cad2d1efc8b6d651f34e0c3f745f59fd"
+  },
+  {
+    "seed": 4372917,
+    "learner": "blue0",
+    "opponent_index": 0,
+    "opponent_sha256": "62b04f99fdade09f01d4410d396b6921c874a60704c2e059b54f198c19497b82"
+  }
+]

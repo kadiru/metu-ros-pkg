@@ -1,0 +1,94 @@
+"""Single-owner native learned-decision experiments."""
+
+import json
+import os
+from pathlib import Path
+import torch
+from roboturk.decision_play import DecisionEnv, evaluate
+from roboturk.decision_training import DecisionTeacher, bootstrap, train, load
+from roboturk.self_play import load_model, digest
+from roboturk.self_play_training import write
+
+
+def run(supervisor, backend, cfg, mode):
+    torch.set_num_threads(1)
+    output = Path(os.environ["ROBOTURK_OUTPUT"])
+    root = Path(__file__).resolve().parents[5]
+    count, seed = int(os.environ["ROBOTURK_EPISODES"]), int(os.environ["ROBOTURK_SEED"])
+    sources = {
+        r: str(root / "policies/self_play_v1/final" / r / "policy.zip")
+        for r in ("transfer", "finish", "defender", "keeper")
+    }
+    if mode == "decision-bootstrap":
+        bootstrap(backend, cfg, output, sources, seed)
+    elif mode == "decision-prepare":
+        from roboturk.decision_prepare import prepare
+
+        prepare(backend, cfg, output, seed)
+    elif mode == "decision-commitment":
+        from roboturk.decision_commitment import prepare
+
+        prepare(backend, cfg, output, seed)
+    elif mode == "decision-panel":
+        from roboturk.decision_panel import cross_play
+
+        cross_play(backend, cfg, output, count, seed)
+    elif mode == "decision-flank":
+        from roboturk.decision_flank import prepare
+
+        prepare(backend, cfg, output, seed)
+    elif mode == "decision-spacing":
+        from roboturk.decision_precision import prepare_spacing
+
+        prepare_spacing(backend, cfg, output, seed)
+    elif mode == "decision-repair":
+        from roboturk.decision_precision import prepare
+
+        prepare(backend, cfg, output, Path(os.environ["ROBOTURK_CHECKPOINT"]), seed)
+    elif mode in ("decision-train", "decision-train-precision"):
+        train(
+            backend,
+            cfg,
+            output,
+            rounds=int(os.environ.get("ROBOTURK_ROUNDS", "3")),
+            steps=int(os.environ["ROBOTURK_STEPS"]),
+            seed=seed,
+            precision=mode == "decision-train-precision",
+        )
+    else:
+        bundle_path = os.environ.get("ROBOTURK_CHECKPOINT")
+        if bundle_path:
+            bundle = json.loads(Path(bundle_path).read_text())
+            # Webots may start controllers in their own directory. Published
+            # bundles deliberately use paths relative to the modern repo root.
+            bundle = {
+                role: {**entry, "path": str((root / entry["path"]).resolve())}
+                for role, entry in bundle.items()
+            }
+            models = load(bundle, cfg)
+        else:
+            models = {r: load_model(p, r, cfg) for r, p in sources.items()}
+            bundle = {r: {"path": p, "sha256": digest(p)} for r, p in sources.items()}
+        env = DecisionEnv(backend, cfg, models)
+        env.defender.sha256 = bundle["defender"]["sha256"]
+        env.keeper.sha256 = bundle["keeper"]["sha256"]
+        if mode == "decision-probe":
+            result = evaluate(env, count, seed, DecisionTeacher())
+            result["manager_control"] = (
+                "scripted training teacher; low-level motion and opponents neural"
+            )
+            result["scripted_handoff"] = True
+            result["scripted_target_selection"] = True
+        elif mode == "decision-evaluate":
+            result = evaluate(env, count, seed)
+        elif mode == "decision-demo":
+            from decision_demo import record
+
+            result = record(supervisor, env, output, count, seed)
+        else:
+            raise ValueError("Unknown decision experiment")
+        result["models"] = bundle
+        write(output.with_suffix(".json"), result)
+        print(json.dumps(result["summary"]), flush=True)
+    backend.close()
+    supervisor.simulationQuit(0)

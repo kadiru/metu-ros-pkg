@@ -1,0 +1,31 @@
+{
+  "seed": 9600014,
+  "seconds": 24,
+  "score": {},
+  "stats": {
+    "safety_ticks": 11,
+    "physical_samples": 2400,
+    "contacts": 0,
+    "exits": 0
+  },
+  "passes": [],
+  "events": [
+    {
+      "tick": 0,
+      "event": "start",
+      "team": "yellow"
+    }
+  ],
+  "options": [],
+  "learner": null,
+  "challenger": null,
+  "opponent": null,
+  "conversions": [
+    {
+      "start": 0,
+      "recovery": 134,
+      "winner": 1,
+      "team": "blue"
+    }
+  ]
+}

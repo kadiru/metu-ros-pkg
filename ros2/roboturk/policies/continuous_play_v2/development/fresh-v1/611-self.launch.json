@@ -1,0 +1,38 @@
+{
+  "started_at": "2026-11-20T03:27:56.567840-08:00",
+  "arguments": {
+    "webots": "../runtime/Webots-nightly.app/Contents/MacOS/webots",
+    "mode": "evaluate",
+    "output": "runs/continuous-v2/development-v1/611-self",
+    "checkpoint": "/Users/kadir/linkedin/projects/roboturk/modern/runs/continuous-v2/league611-categorical-v1/seed611/round2/policy.zip",
+    "opponent": "/Users/kadir/linkedin/projects/roboturk/modern/runs/continuous-v2/league611-categorical-v1/seed611/round2/policy.zip",
+    "freeze": null,
+    "seed": 4401000,
+    "episodes": 15,
+    "duration": 45.0,
+    "steps": 32768,
+    "epochs": 80,
+    "rounds": 2,
+    "decisions_only": false,
+    "categorical_decisions": false,
+    "velocity_safety": true,
+    "mix": 0,
+    "timeout": 1800.0,
+    "render": false
+  },
+  "runtime_sha256": {
+    "src/roboturk_core/roboturk/continuous_features.py": "d4267acad3ce0e4ca6964debc6267a8ed44838890e506f025d1c96f5f30fa2c9",
+    "src/roboturk_core/roboturk/continuous_safety.py": "e77eafcec8c40878f6c2a494af2380a0f9f79a077bd3f8268914049d6594d16f",
+    "src/roboturk_core/roboturk/continuous_preflight.py": "03c5205750f505223c75e786a01f8d01b686fcd1691bb9ee8c0b4929dca0b421",
+    "src/roboturk_core/roboturk/continuous_training.py": "1ac63b6a03e2ce37bb74ccc49d746abd99b0624461b8c1bbd66ffe66d6218e41",
+    "src/roboturk_core/roboturk/continuous_selfplay.py": "3c0f9a412a5599dbc520122d697d485062619b90869065f5f995e3f4889fc795",
+    "src/roboturk_core/roboturk/continuous.py": "85aec062569d4aec3cfdd6f6dcd0a14877d86a20d1d556fdd5033abf19faf261",
+    "src/roboturk_core/roboturk/continuous_teacher.py": "4b8fad6f917e4616d5bc852deeb3d12677a4aa5f2b1345bfeb12797ea0b75669",
+    "src/roboturk_core/roboturk/continuous_backend.py": "4ae894ea2282fe1a7551d6a58001b4310a14d8a65d84d4cca5b44b9c49d60cbf",
+    "src/roboturk_core/roboturk/continuous_distribution.py": "7dd59172ed4938fd740014b63e376c6f299b06d03d551ccdeea3e8e9de330071",
+    "src/roboturk_ros/webots/controllers/roboturk_continuous/roboturk_continuous.py": "3332d7a48f7f97a0b87ae96a252ddac6f82c9d112f020b9a8ca6fafd9e64181f",
+    "src/roboturk_ros/webots/controllers/roboturk_continuous/continuous_demo.py": "8c7158fcab6da59258530451ea750d3b031711f1502b8f2e4177b147c63976d6",
+    "scripts/run_continuous.py": "91bea691425c7b8fe4f303da699f38cf3fcd1f3d7792459233117f0b58cd2c14",
+    "src/roboturk_ros/webots/worlds/ssl_continuous.wbt": "77692148fb5d55fa6ed780b1e5051a8eec7bad3e433b53adc0d9ba883a174b40"
+  }
+}

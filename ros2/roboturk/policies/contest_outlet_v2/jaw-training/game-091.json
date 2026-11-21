@@ -1,0 +1,110 @@
+{
+  "seed": 8190091,
+  "seconds": 8,
+  "score": {},
+  "stats": {
+    "safety_ticks": 58,
+    "physical_samples": 800,
+    "contacts": 0,
+    "exits": 0
+  },
+  "passes": [],
+  "events": [
+    {
+      "tick": 0,
+      "event": "start",
+      "team": "yellow"
+    },
+    {
+      "tick": 138,
+      "event": "kick",
+      "team": "blue",
+      "robot": 2,
+      "speed": 4
+    },
+    {
+      "tick": 193,
+      "event": "ball out",
+      "team": "blue"
+    }
+  ],
+  "contest_metrics": {
+    "contested_seconds": 0.61,
+    "contests": [
+      {
+        "start": 0,
+        "last": 60,
+        "contestants": [
+          2,
+          3
+        ],
+        "winner": 2,
+        "recovery": 80
+      }
+    ],
+    "recoveries": 1,
+    "chains": 0,
+    "late": 0,
+    "passes": 0,
+    "completions": 0
+  },
+  "learned_actions": [
+    {
+      "team": "yellow",
+      "tick": 5,
+      "head": "outlet",
+      "action": 6,
+      "actor": 0,
+      "mate": 2,
+      "target": [
+        -1.2775613212165071,
+        -1.0672540952331766
+      ],
+      "gradient": [
+        0.0028864966178240997,
+        -0.10717037474605906,
+        -0.05747363003482131,
+        -0.12109480213111812,
+        0.04457520597032444,
+        -0.021494025691104368
+      ]
+    },
+    {
+      "team": "yellow",
+      "head": "jaw",
+      "actor": 0,
+      "tick": 5,
+      "action": 7,
+      "context": [
+        1.0,
+        0.29673941353344657,
+        0.1744692482737706,
+        0.23441549774521817,
+        -0.05929432018783228,
+        -0.9895307790835514,
+        -0.14432199155464764,
+        0.0
+      ]
+    },
+    {
+      "team": "yellow",
+      "head": "jaw",
+      "actor": 0,
+      "tick": 13,
+      "action": 7,
+      "context": [
+        1.0,
+        0.449709439614115,
+        0.47251860874441265,
+        -0.07549868601798689,
+        -0.8069739073701878,
+        -0.9998330224458563,
+        -0.018273675787425787,
+        0.32
+      ]
+    }
+  ],
+  "challenger": "yellow",
+  "reward": -1,
+  "opponent": "released"
+}

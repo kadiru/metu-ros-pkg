@@ -1,0 +1,11 @@
+{
+  "motors_first": 10100000, "motors_layouts": 120,
+  "controls": [null, {"turn": 4.4, "escape": 0.28}, {"turn": 5.5, "escape": 0.55}, {"turn": 6.8, "escape": 0.85}, {"turn": 5.5, "escape": 1.15}],
+  "branches_first": 10200000, "branches_layouts": 300,
+  "development_first": 10300000, "development_games": 32,
+  "first": 10400000, "ordinary_first": 10500000, "demo_first": 10600000,
+  "cases": 40, "mixed_cases": 24, "ordinary_cases": 12, "seconds": 24, "ordinary_seconds": 60,
+  "demo_seconds": 35, "demo_cases": 3,
+  "gates": {"first": 24, "improvement": 8, "mixed": 6, "ordinary": 2, "assisted": 2, "carried": 2, "max_exits": 0, "max_contact_fraction": 0.005},
+  "selection": "Compare five pivot controls on 120 training layouts per control in native self-play. Select the highest number of recoveries converted on the opening contest, breaking ties by pass-assisted goals then controlled carries. Run balanced pass/dribble/shoot trials on a further 300 training layouts, fit opening values and choose smoothing with the same grouped cross-validation as v1. Compare the new opening to the original opening with the selected motor on 32 paired development layouts. Among candidates with pass-assisted and dribble-assisted goals, select the one with more opening goals. Freeze the resulting team before the independent evaluation. Compare with the previous outlet release under the original proportional gates. Include all matches, with no seed replacement."
+}

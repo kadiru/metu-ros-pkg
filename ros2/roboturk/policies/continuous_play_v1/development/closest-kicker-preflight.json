@@ -1,0 +1,272 @@
+{
+  "backend": "webots_ideal_body_velocity",
+  "backend_contract": "roboturk.webots.closest_kicker.v1",
+  "control": "scripted_contact_preflight",
+  "cases": [
+    {
+      "swap_colors": false,
+      "reverse_iteration": false,
+      "tie": false,
+      "first_winner": "blue0",
+      "first_candidates": [
+        [
+          "blue0",
+          0.0
+        ],
+        [
+          "yellow0",
+          9.99999999999999e-05
+        ]
+      ],
+      "kicks": [
+        {
+          "robot": "blue0",
+          "physics_time": 0.0,
+          "speed": 3.5
+        },
+        {
+          "robot": "yellow0",
+          "physics_time": 0.005,
+          "speed": 3.5
+        }
+      ],
+      "final_ball_velocity": [
+        1.5887376387749739,
+        2.714670389834677e-18
+      ],
+      "passed": true
+    },
+    {
+      "swap_colors": false,
+      "reverse_iteration": false,
+      "tie": true,
+      "first_winner": null,
+      "first_candidates": [
+        [
+          "blue0",
+          0.0
+        ],
+        [
+          "yellow0",
+          1.9834323125703067e-34
+        ]
+      ],
+      "kicks": [
+        {
+          "robot": "blue0",
+          "physics_time": 0.0050000000000000044,
+          "speed": 3.5
+        },
+        {
+          "robot": "yellow0",
+          "physics_time": 0.010000000000000002,
+          "speed": 3.5
+        }
+      ],
+      "final_ball_velocity": [
+        -3.4706399385292643,
+        3.630578902998583e-24
+      ],
+      "passed": true
+    },
+    {
+      "swap_colors": false,
+      "reverse_iteration": true,
+      "tie": false,
+      "first_winner": "blue0",
+      "first_candidates": [
+        [
+          "yellow0",
+          9.99999999999999e-05
+        ],
+        [
+          "blue0",
+          0.0
+        ]
+      ],
+      "kicks": [
+        {
+          "robot": "blue0",
+          "physics_time": 0.0,
+          "speed": 3.5
+        },
+        {
+          "robot": "yellow0",
+          "physics_time": 0.0049999999999999975,
+          "speed": 3.5
+        }
+      ],
+      "final_ball_velocity": [
+        1.5938282414419676,
+        6.875290769556776e-18
+      ],
+      "passed": true
+    },
+    {
+      "swap_colors": false,
+      "reverse_iteration": true,
+      "tie": true,
+      "first_winner": null,
+      "first_candidates": [
+        [
+          "yellow0",
+          1.9834323125703067e-34
+        ],
+        [
+          "blue0",
+          0.0
+        ]
+      ],
+      "kicks": [
+        {
+          "robot": "blue0",
+          "physics_time": 0.0050000000000000044,
+          "speed": 3.5
+        },
+        {
+          "robot": "yellow0",
+          "physics_time": 0.009999999999999995,
+          "speed": 3.5
+        }
+      ],
+      "final_ball_velocity": [
+        -3.4706399385292643,
+        3.630578902977387e-24
+      ],
+      "passed": true
+    },
+    {
+      "swap_colors": true,
+      "reverse_iteration": false,
+      "tie": false,
+      "first_winner": "yellow0",
+      "first_candidates": [
+        [
+          "yellow0",
+          0.0
+        ],
+        [
+          "blue0",
+          9.99999999999999e-05
+        ]
+      ],
+      "kicks": [
+        {
+          "robot": "yellow0",
+          "physics_time": 0.0,
+          "speed": 3.5
+        },
+        {
+          "robot": "blue0",
+          "physics_time": 0.0050000000000000044,
+          "speed": 3.5
+        }
+      ],
+      "final_ball_velocity": [
+        1.5855321227909347,
+        -3.2355728497609746e-18
+      ],
+      "passed": true
+    },
+    {
+      "swap_colors": true,
+      "reverse_iteration": false,
+      "tie": true,
+      "first_winner": null,
+      "first_candidates": [
+        [
+          "yellow0",
+          0.0
+        ],
+        [
+          "blue0",
+          1.9834323125703067e-34
+        ]
+      ],
+      "kicks": [
+        {
+          "robot": "yellow0",
+          "physics_time": 0.0050000000000000044,
+          "speed": 3.5
+        },
+        {
+          "robot": "blue0",
+          "physics_time": 0.010000000000000009,
+          "speed": 3.5
+        }
+      ],
+      "final_ball_velocity": [
+        -3.4706399385292643,
+        3.63057890298262e-24
+      ],
+      "passed": true
+    },
+    {
+      "swap_colors": true,
+      "reverse_iteration": true,
+      "tie": false,
+      "first_winner": "yellow0",
+      "first_candidates": [
+        [
+          "blue0",
+          9.99999999999999e-05
+        ],
+        [
+          "yellow0",
+          0.0
+        ]
+      ],
+      "kicks": [
+        {
+          "robot": "yellow0",
+          "physics_time": 0.0,
+          "speed": 3.5
+        },
+        {
+          "robot": "blue0",
+          "physics_time": 0.0050000000000000044,
+          "speed": 3.5
+        }
+      ],
+      "final_ball_velocity": [
+        1.5891336436720915,
+        4.200623354192515e-18
+      ],
+      "passed": true
+    },
+    {
+      "swap_colors": true,
+      "reverse_iteration": true,
+      "tie": true,
+      "first_winner": null,
+      "first_candidates": [
+        [
+          "blue0",
+          1.9834323125703067e-34
+        ],
+        [
+          "yellow0",
+          0.0
+        ]
+      ],
+      "kicks": [
+        {
+          "robot": "blue0",
+          "physics_time": 0.0050000000000000044,
+          "speed": 3.5
+        },
+        {
+          "robot": "yellow0",
+          "physics_time": 0.010000000000000009,
+          "speed": 3.5
+        }
+      ],
+      "final_ball_velocity": [
+        3.4706399385292643,
+        5.5378907775273705e-27
+      ],
+      "passed": true
+    }
+  ],
+  "passed": true
+}

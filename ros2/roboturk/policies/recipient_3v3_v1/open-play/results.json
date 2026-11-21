@@ -1,0 +1,116 @@
+[
+  {
+    "seed": 7510000,
+    "score": {},
+    "outcomes": {
+      "complete": 7,
+      "intercepted": 1
+    },
+    "stats": {
+      "safety_ticks": 29,
+      "physical_samples": 9000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7510001,
+    "score": {},
+    "outcomes": {
+      "intercepted": 1
+    },
+    "stats": {
+      "safety_ticks": 15,
+      "physical_samples": 9000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7510002,
+    "score": {
+      "blue": 2
+    },
+    "outcomes": {
+      "complete": 14,
+      "intercepted": 5
+    },
+    "stats": {
+      "safety_ticks": 178,
+      "physical_samples": 9000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7510003,
+    "score": {},
+    "outcomes": {
+      "complete": 3,
+      "intercepted": 1
+    },
+    "stats": {
+      "safety_ticks": 16,
+      "physical_samples": 9000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7510004,
+    "score": {},
+    "outcomes": {
+      "intercepted": 1
+    },
+    "stats": {
+      "safety_ticks": 7,
+      "physical_samples": 9000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7510005,
+    "score": {},
+    "outcomes": {
+      "complete": 6,
+      "intercepted": 1
+    },
+    "stats": {
+      "safety_ticks": 27,
+      "physical_samples": 9000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7510006,
+    "score": {
+      "yellow": 1
+    },
+    "outcomes": {
+      "complete": 13,
+      "intercepted": 3
+    },
+    "stats": {
+      "safety_ticks": 328,
+      "physical_samples": 9000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7510007,
+    "score": {},
+    "outcomes": {
+      "intercepted": 2,
+      "complete": 3
+    },
+    "stats": {
+      "safety_ticks": 77,
+      "physical_samples": 9000,
+      "contacts": 0,
+      "exits": 0
+    }
+  }
+]

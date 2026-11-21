@@ -1,0 +1,82 @@
+{
+  "source": "actual Webots native movie recorder",
+  "source_path": "runs/strategy-v1/demo-v1.mp4",
+  "source_sha256": "ce92a558c634e88039a34549d8be5d2a2f1d2e81ec09d1fde307be1b1c40a2fb",
+  "delivered_path": "media/learned-skills-self-play-demo.mp4",
+  "delivered_sha256": "ce92a558c634e88039a34549d8be5d2a2f1d2e81ec09d1fde307be1b1c40a2fb",
+  "byte_identical": true,
+  "duration_seconds": 79.96,
+  "frames": 1999,
+  "fps": 25,
+  "width": 1280,
+  "height": 720,
+  "cuts": 0,
+  "speed": 1,
+  "outcome_selection": false,
+  "full_decode_passed": true,
+  "native_summary": {
+    "matches": 4,
+    "completed": 4,
+    "unfinished": 0,
+    "goals": {
+      "blue": 1,
+      "yellow": 1
+    },
+    "wins": {
+      "blue": 1,
+      "yellow": 1
+    },
+    "draws": 2,
+    "goal_matches": 2,
+    "turnover_matches": 2,
+    "acquisition_matches": 4,
+    "recovery_matches": 3,
+    "passes": 12,
+    "receptions": 1,
+    "mean_contact_fraction": 0.0,
+    "field_exit_matches": 0,
+    "mean_possession_seconds": {
+      "blue": 7.370000000000045,
+      "yellow": 2.178749999999968
+    },
+    "skill_outcomes": {
+      "receive_stop": 1,
+      "redirect_kick": 1,
+      "redirect_goal": 1,
+      "clearance_complete": 1
+    },
+    "new_skill_ticks": {
+      "receive": 5038,
+      "redirect": 53,
+      "clear": 770
+    }
+  },
+  "physics_samples": 16000,
+  "robot_decisions": 16000,
+  "geometry_audit_passed": true,
+  "checkpoint_replay_passed": true,
+  "scores": [
+    {
+      "blue": 0,
+      "yellow": 1
+    },
+    {
+      "blue": 0,
+      "yellow": 0
+    },
+    {
+      "blue": 1,
+      "yellow": 0
+    },
+    {
+      "blue": 0,
+      "yellow": 0
+    }
+  ],
+  "seeds": [
+    6600000,
+    6600001,
+    6600002,
+    6600003
+  ]
+}

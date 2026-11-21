@@ -1,0 +1,124 @@
+{
+  "training": {
+    "contract": "roboturk.skills.v1",
+    "skill": "chase",
+    "config": {
+      "length": 9.0,
+      "width": 6.0,
+      "goal_width": 1.0,
+      "robot_radius": 0.09,
+      "ball_radius": 0.0215,
+      "ball_mass": 0.046,
+      "max_speed": 2.0,
+      "max_omega": 8.0,
+      "max_kick": 5.0,
+      "dt": 0.02,
+      "max_steps": 500,
+      "neighbors": 5,
+      "possession_x": 0.115
+    },
+    "backend": "webots_ideal_body_velocity",
+    "seed": 7,
+    "requested_steps": 2048,
+    "actual_steps": 2048,
+    "validated_for_hardware": false
+  },
+  "evaluation": {
+    "episodes": [
+      {
+        "is_success": false,
+        "reason": "out",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "chase",
+        "steps": 385,
+        "seed": 3000,
+        "return": -11.9598
+      },
+      {
+        "is_success": false,
+        "reason": "out",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "chase",
+        "steps": 384,
+        "seed": 3001,
+        "return": -12.5768
+      },
+      {
+        "is_success": false,
+        "reason": "collision",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "chase",
+        "steps": 151,
+        "seed": 3002,
+        "return": -5.493
+      },
+      {
+        "is_success": false,
+        "reason": "collision",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "chase",
+        "steps": 150,
+        "seed": 3003,
+        "return": -5.5643
+      },
+      {
+        "is_success": false,
+        "reason": "out",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "chase",
+        "steps": 385,
+        "seed": 3004,
+        "return": -13.3783
+      },
+      {
+        "is_success": false,
+        "reason": "collision",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "chase",
+        "steps": 151,
+        "seed": 3005,
+        "return": -5.5338
+      },
+      {
+        "is_success": false,
+        "reason": "collision",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "chase",
+        "steps": 150,
+        "seed": 3006,
+        "return": -5.3526
+      },
+      {
+        "is_success": false,
+        "reason": "out",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "chase",
+        "steps": 385,
+        "seed": 3007,
+        "return": -12.2474
+      },
+      {
+        "is_success": false,
+        "reason": "out",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "chase",
+        "steps": 384,
+        "seed": 3008,
+        "return": -11.5045
+      },
+      {
+        "is_success": false,
+        "reason": "out",
+        "backend": "webots_ideal_body_velocity",
+        "skill": "chase",
+        "steps": 384,
+        "seed": 3009,
+        "return": -12.6492
+      }
+    ],
+    "success_rate": 0.0
+  },
+  "checkpoint_load": "passed",
+  "mismatched_skill_rejection": "passed",
+  "qualification": "pipeline smoke test only; not a deployable learned behavior"
+}

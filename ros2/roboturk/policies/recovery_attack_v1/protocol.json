@@ -1,0 +1,10 @@
+{
+  "train_first": 9200000, "development_first": 9400000,
+  "reserved_first": 9600000, "ordinary_first": 9700000, "demo_first": 9800000,
+  "cases": 20, "mixed_cases": 12, "ordinary_cases": 6, "seconds": 24, "ordinary_seconds": 60,
+  "demo_cases": 3, "demo_seconds": 35,
+  "design": "Twenty seeded contested starts on the released pair and on the trained pair. First twelve repeated with the trained side alternating colors against the release. Six additional ordinary open-play starts. All qualification games get a fresh physics process.",
+  "conversion": "First sustained opposing-mouth contest, then 0.20 seconds of exclusive possession by an original contestant. Within 18 seconds of recovery the recovering team shoots across the opponent goal line. No opposing mouth contact, intervening restart or unintended kick. Every intermediate pass must be a verified intended reception. A goal is counted once.",
+  "gates": {"first_conversions": 12, "improvement_over_released": 4, "mixed_trained_conversions": 3, "ordinary_recovery_goals": 1, "min_pass_assisted": 1, "min_dribble_assisted": 1, "both_colors_score": true, "max_exits": 0, "max_contact_fraction": 0.005},
+  "demo": "Two fresh contested fixtures and one ordinary open-play start, all uncut. Require a verified recovery goal."
+}

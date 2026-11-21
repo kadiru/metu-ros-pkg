@@ -1,0 +1,79 @@
+{
+  "seed": 8190179,
+  "seconds": 8,
+  "score": {},
+  "stats": {
+    "safety_ticks": 186,
+    "physical_samples": 800,
+    "contacts": 0,
+    "exits": 0
+  },
+  "passes": [],
+  "events": [
+    {
+      "tick": 0,
+      "event": "start",
+      "team": "yellow"
+    }
+  ],
+  "contest_metrics": {
+    "contested_seconds": 0.32,
+    "contests": [
+      {
+        "start": 0,
+        "last": 31,
+        "contestants": [
+          2,
+          4
+        ]
+      }
+    ],
+    "recoveries": 0,
+    "chains": 0,
+    "late": 0,
+    "passes": 0,
+    "completions": 0
+  },
+  "learned_actions": [
+    {
+      "team": "yellow",
+      "tick": 5,
+      "head": "outlet",
+      "action": 6,
+      "actor": 1,
+      "mate": 0,
+      "target": [
+        -1.3186065788997323,
+        -1.0475696279352302
+      ],
+      "gradient": [
+        3.932861528649356e-05,
+        -0.08428258680352851,
+        0.26662105992807567,
+        0.08634056381237887,
+        0.3441324438349488,
+        -0.22864341408042332
+      ]
+    },
+    {
+      "team": "yellow",
+      "head": "jaw",
+      "actor": 1,
+      "tick": 5,
+      "action": 0,
+      "context": [
+        1.0,
+        0.018181642359611186,
+        0.0585005755299,
+        -0.02689898850411289,
+        0.01746441136503305,
+        0.09680388312201789,
+        -0.9953034754347534,
+        0.0
+      ]
+    }
+  ],
+  "challenger": "yellow",
+  "reward": -1,
+  "opponent": "released"
+}

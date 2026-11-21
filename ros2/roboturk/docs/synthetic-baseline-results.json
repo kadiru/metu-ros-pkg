@@ -1,0 +1,572 @@
+{
+  "move": {
+    "episodes": [
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "move",
+        "steps": 77,
+        "seed": 2000,
+        "return": 13.3143
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "move",
+        "steps": 78,
+        "seed": 2001,
+        "return": 13.3298
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "move",
+        "steps": 78,
+        "seed": 2002,
+        "return": 13.3309
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "move",
+        "steps": 78,
+        "seed": 2003,
+        "return": 13.3719
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "move",
+        "steps": 89,
+        "seed": 2004,
+        "return": 13.2892
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "move",
+        "steps": 77,
+        "seed": 2005,
+        "return": 13.3147
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "move",
+        "steps": 77,
+        "seed": 2006,
+        "return": 13.3148
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "move",
+        "steps": 77,
+        "seed": 2007,
+        "return": 13.3162
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "move",
+        "steps": 77,
+        "seed": 2008,
+        "return": 13.3107
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "move",
+        "steps": 86,
+        "seed": 2009,
+        "return": 13.294
+      }
+    ],
+    "success_rate": 1.0
+  },
+  "chase": {
+    "episodes": [
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "chase",
+        "steps": 61,
+        "seed": 2000,
+        "return": 11.066
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "chase",
+        "steps": 68,
+        "seed": 2001,
+        "return": 11.5422
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "chase",
+        "steps": 70,
+        "seed": 2002,
+        "return": 11.7406
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "chase",
+        "steps": 70,
+        "seed": 2003,
+        "return": 11.733
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "chase",
+        "steps": 74,
+        "seed": 2004,
+        "return": 12.0151
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "chase",
+        "steps": 73,
+        "seed": 2005,
+        "return": 11.8933
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "chase",
+        "steps": 65,
+        "seed": 2006,
+        "return": 11.3604
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "chase",
+        "steps": 64,
+        "seed": 2007,
+        "return": 11.2676
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "chase",
+        "steps": 73,
+        "seed": 2008,
+        "return": 11.9407
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "chase",
+        "steps": 75,
+        "seed": 2009,
+        "return": 12.0893
+      }
+    ],
+    "success_rate": 1.0
+  },
+  "dribble": {
+    "episodes": [
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "dribble",
+        "steps": 77,
+        "seed": 2000,
+        "return": 11.5751
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "dribble",
+        "steps": 78,
+        "seed": 2001,
+        "return": 11.5956
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "dribble",
+        "steps": 78,
+        "seed": 2002,
+        "return": 11.5959
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "dribble",
+        "steps": 81,
+        "seed": 2003,
+        "return": 11.6574
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "dribble",
+        "steps": 78,
+        "seed": 2004,
+        "return": 11.5965
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "dribble",
+        "steps": 77,
+        "seed": 2005,
+        "return": 11.5753
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "dribble",
+        "steps": 77,
+        "seed": 2006,
+        "return": 11.5753
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "dribble",
+        "steps": 77,
+        "seed": 2007,
+        "return": 11.5758
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "dribble",
+        "steps": 77,
+        "seed": 2008,
+        "return": 11.5739
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "dribble",
+        "steps": 78,
+        "seed": 2009,
+        "return": 11.595
+      }
+    ],
+    "success_rate": 1.0
+  },
+  "pass": {
+    "episodes": [
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "pass",
+        "steps": 39,
+        "seed": 2000,
+        "return": 12.0881
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "pass",
+        "steps": 39,
+        "seed": 2001,
+        "return": 12.0881
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "pass",
+        "steps": 53,
+        "seed": 2002,
+        "return": 12.029
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "pass",
+        "steps": 47,
+        "seed": 2003,
+        "return": 12.0507
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "pass",
+        "steps": 44,
+        "seed": 2004,
+        "return": 12.064
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "pass",
+        "steps": 48,
+        "seed": 2005,
+        "return": 12.0462
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "pass",
+        "steps": 52,
+        "seed": 2006,
+        "return": 12.0329
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "pass",
+        "steps": 49,
+        "seed": 2007,
+        "return": 12.0426
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "pass",
+        "steps": 53,
+        "seed": 2008,
+        "return": 12.0293
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "pass",
+        "steps": 50,
+        "seed": 2009,
+        "return": 12.0388
+      }
+    ],
+    "success_rate": 1.0
+  },
+  "receive": {
+    "episodes": [
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "receive",
+        "steps": 41,
+        "seed": 2000,
+        "return": 11.5581
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "receive",
+        "steps": 35,
+        "seed": 2001,
+        "return": 11.589
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "receive",
+        "steps": 32,
+        "seed": 2002,
+        "return": 11.6037
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "receive",
+        "steps": 32,
+        "seed": 2003,
+        "return": 11.6037
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "receive",
+        "steps": 30,
+        "seed": 2004,
+        "return": 11.6144
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "receive",
+        "steps": 31,
+        "seed": 2005,
+        "return": 11.6088
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "receive",
+        "steps": 36,
+        "seed": 2006,
+        "return": 11.5834
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "receive",
+        "steps": 38,
+        "seed": 2007,
+        "return": 11.5734
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "receive",
+        "steps": 30,
+        "seed": 2008,
+        "return": 11.614
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "receive",
+        "steps": 30,
+        "seed": 2009,
+        "return": 11.6148
+      }
+    ],
+    "success_rate": 1.0
+  },
+  "shoot": {
+    "episodes": [
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "shoot",
+        "steps": 65,
+        "seed": 2000,
+        "return": 14.111
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "shoot",
+        "steps": 65,
+        "seed": 2001,
+        "return": 14.11
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "shoot",
+        "steps": 65,
+        "seed": 2002,
+        "return": 13.9026
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "shoot",
+        "steps": 65,
+        "seed": 2003,
+        "return": 14.0329
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "shoot",
+        "steps": 65,
+        "seed": 2004,
+        "return": 14.0743
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "shoot",
+        "steps": 65,
+        "seed": 2005,
+        "return": 14.0244
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "shoot",
+        "steps": 65,
+        "seed": 2006,
+        "return": 13.9147
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "shoot",
+        "steps": 65,
+        "seed": 2007,
+        "return": 13.995
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "shoot",
+        "steps": 65,
+        "seed": 2008,
+        "return": 13.898
+      },
+      {
+        "is_success": true,
+        "reason": "success",
+        "backend": "synthetic_planar",
+        "skill": "shoot",
+        "steps": 65,
+        "seed": 2009,
+        "return": 13.975
+      }
+    ],
+    "success_rate": 1.0
+  }
+}

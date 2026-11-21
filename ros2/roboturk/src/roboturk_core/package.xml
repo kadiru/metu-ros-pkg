@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>roboturk_core</name><version>0.1.0</version>
+  <description>RoboTurk soccer behavior and simulation prototype</description>
+  <maintainer email="kadir@ceng.metu.edu.tr">Kadir Firat Uyanik</maintainer>
+  <license>LicenseRef-Unlicensed</license>
+  <buildtool_depend>ament_python</buildtool_depend>
+  <depend>python3-numpy</depend>
+
+  <export><build_type>ament_python</build_type></export>
+</package>

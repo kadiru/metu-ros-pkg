@@ -1,0 +1,23 @@
+{
+  "stage": "snapshot",
+  "generation": 2,
+  "contract": "roboturk.mobile_opponent.v1",
+  "role": "defender",
+  "config": {
+    "length": 9.0,
+    "width": 6.0,
+    "goal_width": 1.0,
+    "robot_radius": 0.09,
+    "ball_radius": 0.0215,
+    "ball_mass": 0.046,
+    "max_speed": 2.0,
+    "max_omega": 8.0,
+    "max_kick": 5.0,
+    "dt": 0.02,
+    "max_steps": 500,
+    "neighbors": 5,
+    "possession_x": 0.115
+  },
+  "actor_sha256": "77088357e43e75d5fdd450261665fc624adf4b8214e3892de02e397b3ddffccb",
+  "validated_for_hardware": false
+}

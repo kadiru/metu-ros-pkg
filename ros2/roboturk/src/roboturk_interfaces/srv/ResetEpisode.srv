@@ -1,0 +1,4 @@
+uint64 seed
+---
+bool success
+WorldState world

@@ -1,0 +1,1170 @@
+{
+  "passed": true,
+  "freeze_sha256": "bd3e54eeba3c0ac3afc00d17f51651725ea7c3c8c2245954e38d987a4271e135",
+  "frozen_commit": "196ac8094ebd1aa3f863c4c3921840aa4e3b7554",
+  "panels": {
+    "611-self": {
+      "matches": 20,
+      "summary": {
+        "matches": 20,
+        "completed": 20,
+        "unfinished": 0,
+        "goals": {
+          "blue": 6,
+          "yellow": 8
+        },
+        "wins": {
+          "blue": 3,
+          "yellow": 6
+        },
+        "draws": 11,
+        "goal_matches": 11,
+        "turnover_matches": 13,
+        "acquisition_matches": 20,
+        "recovery_matches": 20,
+        "passes": 49,
+        "receptions": 22,
+        "mean_contact_fraction": 0.0,
+        "field_exit_matches": 0,
+        "mean_possession_seconds": {
+          "blue": 17.829250000000023,
+          "yellow": 16.521499999999968
+        }
+      },
+      "counterattacks": [
+        {
+          "seed": 4510000,
+          "team": "yellow",
+          "turnover_step": 491,
+          "until_step": 991,
+          "controlled_advance": 2.060751355899785
+        },
+        {
+          "seed": 4510000,
+          "team": "blue",
+          "turnover_step": 1526,
+          "until_step": 1821,
+          "controlled_advance": 0.7606517177015006
+        },
+        {
+          "seed": 4510002,
+          "team": "blue",
+          "turnover_step": 776,
+          "until_step": 1276,
+          "controlled_advance": 5.49867804242219
+        },
+        {
+          "seed": 4510002,
+          "team": "yellow",
+          "turnover_step": 1732,
+          "until_step": 2232,
+          "controlled_advance": 4.595725382552921
+        },
+        {
+          "seed": 4510005,
+          "team": "blue",
+          "turnover_step": 651,
+          "until_step": 1151,
+          "controlled_advance": 4.365897265354831
+        },
+        {
+          "seed": 4510006,
+          "team": "yellow",
+          "turnover_step": 292,
+          "until_step": 633,
+          "controlled_advance": 1.7122472952644223
+        },
+        {
+          "seed": 4510007,
+          "team": "yellow",
+          "turnover_step": 1002,
+          "until_step": 1502,
+          "controlled_advance": 2.6079329618743574
+        },
+        {
+          "seed": 4510009,
+          "team": "yellow",
+          "turnover_step": 991,
+          "until_step": 1491,
+          "controlled_advance": 2.5750267016717334
+        },
+        {
+          "seed": 4510009,
+          "team": "blue",
+          "turnover_step": 1872,
+          "until_step": 2174,
+          "controlled_advance": 0.8039085142589562
+        },
+        {
+          "seed": 4510011,
+          "team": "blue",
+          "turnover_step": 325,
+          "until_step": 766,
+          "controlled_advance": 2.7985970102568514
+        },
+        {
+          "seed": 4510013,
+          "team": "yellow",
+          "turnover_step": 1353,
+          "until_step": 1849,
+          "controlled_advance": 1.3391315839202993
+        },
+        {
+          "seed": 4510013,
+          "team": "blue",
+          "turnover_step": 1849,
+          "until_step": 2250,
+          "controlled_advance": 1.809385275967709
+        },
+        {
+          "seed": 4510015,
+          "team": "yellow",
+          "turnover_step": 852,
+          "until_step": 1352,
+          "controlled_advance": 5.747457374358484
+        },
+        {
+          "seed": 4510016,
+          "team": "blue",
+          "turnover_step": 858,
+          "until_step": 1358,
+          "controlled_advance": 1.4481337783893244
+        },
+        {
+          "seed": 4510016,
+          "team": "blue",
+          "turnover_step": 1831,
+          "until_step": 2250,
+          "controlled_advance": 2.2307934449374023
+        },
+        {
+          "seed": 4510019,
+          "team": "blue",
+          "turnover_step": 994,
+          "until_step": 1494,
+          "controlled_advance": 2.356536169652702
+        },
+        {
+          "seed": 4510019,
+          "team": "yellow",
+          "turnover_step": 1651,
+          "until_step": 2151,
+          "controlled_advance": 4.866810432222914
+        }
+      ],
+      "counterattack_matches": 11,
+      "source_sha256": "a10262a681d20cd610359f911c51e10b6c79c96d663d447388f65b7650147471"
+    },
+    "622-self": {
+      "matches": 20,
+      "summary": {
+        "matches": 20,
+        "completed": 20,
+        "unfinished": 0,
+        "goals": {
+          "blue": 8,
+          "yellow": 5
+        },
+        "wins": {
+          "blue": 7,
+          "yellow": 4
+        },
+        "draws": 9,
+        "goal_matches": 11,
+        "turnover_matches": 16,
+        "acquisition_matches": 20,
+        "recovery_matches": 20,
+        "passes": 50,
+        "receptions": 29,
+        "mean_contact_fraction": 0.0,
+        "field_exit_matches": 0,
+        "mean_possession_seconds": {
+          "blue": 19.815999999999914,
+          "yellow": 14.288000000000107
+        }
+      },
+      "counterattacks": [
+        {
+          "seed": 4510100,
+          "team": "blue",
+          "turnover_step": 619,
+          "until_step": 1119,
+          "controlled_advance": 3.988684796113116
+        },
+        {
+          "seed": 4510101,
+          "team": "blue",
+          "turnover_step": 356,
+          "until_step": 781,
+          "controlled_advance": 2.2074622608892307
+        },
+        {
+          "seed": 4510102,
+          "team": "yellow",
+          "turnover_step": 225,
+          "until_step": 667,
+          "controlled_advance": 4.0325916762241505
+        },
+        {
+          "seed": 4510102,
+          "team": "blue",
+          "turnover_step": 667,
+          "until_step": 1167,
+          "controlled_advance": 4.881179200335229
+        },
+        {
+          "seed": 4510102,
+          "team": "blue",
+          "turnover_step": 1937,
+          "until_step": 2250,
+          "controlled_advance": 1.9634804281459344
+        },
+        {
+          "seed": 4510105,
+          "team": "yellow",
+          "turnover_step": 848,
+          "until_step": 1348,
+          "controlled_advance": 4.045505371622289
+        },
+        {
+          "seed": 4510106,
+          "team": "blue",
+          "turnover_step": 629,
+          "until_step": 1129,
+          "controlled_advance": 3.982969377725227
+        },
+        {
+          "seed": 4510108,
+          "team": "blue",
+          "turnover_step": 383,
+          "until_step": 883,
+          "controlled_advance": 5.229289545475602
+        },
+        {
+          "seed": 4510109,
+          "team": "yellow",
+          "turnover_step": 953,
+          "until_step": 1453,
+          "controlled_advance": 1.0552497381083548
+        },
+        {
+          "seed": 4510109,
+          "team": "blue",
+          "turnover_step": 1799,
+          "until_step": 2250,
+          "controlled_advance": 3.6857061524889803
+        },
+        {
+          "seed": 4510110,
+          "team": "blue",
+          "turnover_step": 424,
+          "until_step": 924,
+          "controlled_advance": 3.2956432436301206
+        },
+        {
+          "seed": 4510110,
+          "team": "blue",
+          "turnover_step": 1525,
+          "until_step": 2025,
+          "controlled_advance": 1.7789380836656687
+        },
+        {
+          "seed": 4510112,
+          "team": "yellow",
+          "turnover_step": 306,
+          "until_step": 806,
+          "controlled_advance": 2.9115462349456536
+        },
+        {
+          "seed": 4510112,
+          "team": "blue",
+          "turnover_step": 991,
+          "until_step": 1491,
+          "controlled_advance": 2.7835551315359717
+        },
+        {
+          "seed": 4510112,
+          "team": "yellow",
+          "turnover_step": 1825,
+          "until_step": 2250,
+          "controlled_advance": 2.9433054218866337
+        },
+        {
+          "seed": 4510113,
+          "team": "blue",
+          "turnover_step": 927,
+          "until_step": 1100,
+          "controlled_advance": 0.7767490297017328
+        },
+        {
+          "seed": 4510114,
+          "team": "blue",
+          "turnover_step": 1262,
+          "until_step": 1762,
+          "controlled_advance": 3.880058454426173
+        },
+        {
+          "seed": 4510115,
+          "team": "blue",
+          "turnover_step": 702,
+          "until_step": 1171,
+          "controlled_advance": 1.1368652188564563
+        },
+        {
+          "seed": 4510116,
+          "team": "blue",
+          "turnover_step": 785,
+          "until_step": 1285,
+          "controlled_advance": 5.052028210832194
+        },
+        {
+          "seed": 4510118,
+          "team": "yellow",
+          "turnover_step": 568,
+          "until_step": 1068,
+          "controlled_advance": 3.521608174796804
+        },
+        {
+          "seed": 4510118,
+          "team": "blue",
+          "turnover_step": 2118,
+          "until_step": 2250,
+          "controlled_advance": 0.9426497400484005
+        }
+      ],
+      "counterattack_matches": 14,
+      "source_sha256": "2b289df435a7a60e491e3a64375fd57b9b7adf8d7a06430b120da31092709e00"
+    },
+    "611-history": {
+      "matches": 20,
+      "summary": {
+        "matches": 20,
+        "completed": 20,
+        "unfinished": 0,
+        "goals": {
+          "blue": 10,
+          "yellow": 9
+        },
+        "wins": {
+          "blue": 8,
+          "yellow": 6
+        },
+        "draws": 6,
+        "goal_matches": 15,
+        "turnover_matches": 16,
+        "acquisition_matches": 20,
+        "recovery_matches": 20,
+        "passes": 62,
+        "receptions": 22,
+        "mean_contact_fraction": 0.0,
+        "field_exit_matches": 0,
+        "mean_possession_seconds": {
+          "blue": 15.921999999999988,
+          "yellow": 17.31700000000024
+        }
+      },
+      "counterattacks": [
+        {
+          "seed": 4510201,
+          "team": "yellow",
+          "turnover_step": 456,
+          "until_step": 956,
+          "controlled_advance": 2.7640987111208712
+        },
+        {
+          "seed": 4510202,
+          "team": "blue",
+          "turnover_step": 703,
+          "until_step": 1203,
+          "controlled_advance": 4.114270395093677
+        },
+        {
+          "seed": 4510202,
+          "team": "blue",
+          "turnover_step": 2066,
+          "until_step": 2250,
+          "controlled_advance": 0.8987036313236716
+        },
+        {
+          "seed": 4510203,
+          "team": "blue",
+          "turnover_step": 960,
+          "until_step": 1460,
+          "controlled_advance": 4.878630102108659
+        },
+        {
+          "seed": 4510205,
+          "team": "blue",
+          "turnover_step": 1400,
+          "until_step": 1900,
+          "controlled_advance": 1.6328369346294132
+        },
+        {
+          "seed": 4510208,
+          "team": "blue",
+          "turnover_step": 218,
+          "until_step": 718,
+          "controlled_advance": 3.4106637329966047
+        },
+        {
+          "seed": 4510208,
+          "team": "yellow",
+          "turnover_step": 935,
+          "until_step": 1435,
+          "controlled_advance": 5.428548329546967
+        },
+        {
+          "seed": 4510209,
+          "team": "blue",
+          "turnover_step": 366,
+          "until_step": 866,
+          "controlled_advance": 3.629028750140712
+        },
+        {
+          "seed": 4510212,
+          "team": "blue",
+          "turnover_step": 1621,
+          "until_step": 1786,
+          "controlled_advance": 0.933319253824308
+        },
+        {
+          "seed": 4510212,
+          "team": "yellow",
+          "turnover_step": 1786,
+          "until_step": 2250,
+          "controlled_advance": 4.386224470453963
+        },
+        {
+          "seed": 4510213,
+          "team": "blue",
+          "turnover_step": 1949,
+          "until_step": 2250,
+          "controlled_advance": 1.9354852701374963
+        },
+        {
+          "seed": 4510214,
+          "team": "blue",
+          "turnover_step": 404,
+          "until_step": 904,
+          "controlled_advance": 2.337891986052983
+        },
+        {
+          "seed": 4510214,
+          "team": "blue",
+          "turnover_step": 1858,
+          "until_step": 2250,
+          "controlled_advance": 1.4136941267097471
+        },
+        {
+          "seed": 4510215,
+          "team": "blue",
+          "turnover_step": 1740,
+          "until_step": 2240,
+          "controlled_advance": 4.292614788735588
+        },
+        {
+          "seed": 4510216,
+          "team": "yellow",
+          "turnover_step": 167,
+          "until_step": 667,
+          "controlled_advance": 1.149422762825329
+        },
+        {
+          "seed": 4510216,
+          "team": "blue",
+          "turnover_step": 1426,
+          "until_step": 1776,
+          "controlled_advance": 0.8052569132883134
+        },
+        {
+          "seed": 4510217,
+          "team": "blue",
+          "turnover_step": 1107,
+          "until_step": 1607,
+          "controlled_advance": 4.713465479135829
+        },
+        {
+          "seed": 4510218,
+          "team": "yellow",
+          "turnover_step": 162,
+          "until_step": 662,
+          "controlled_advance": 2.0148399854152386
+        }
+      ],
+      "counterattack_matches": 13,
+      "source_sha256": "0081e284329c39c58fec31a8302548a8e6904af58143fe57ca94c5e174ff27d8"
+    },
+    "622-history": {
+      "matches": 20,
+      "summary": {
+        "matches": 20,
+        "completed": 20,
+        "unfinished": 0,
+        "goals": {
+          "blue": 2,
+          "yellow": 5
+        },
+        "wins": {
+          "blue": 2,
+          "yellow": 5
+        },
+        "draws": 13,
+        "goal_matches": 7,
+        "turnover_matches": 12,
+        "acquisition_matches": 20,
+        "recovery_matches": 19,
+        "passes": 60,
+        "receptions": 27,
+        "mean_contact_fraction": 0.0,
+        "field_exit_matches": 0,
+        "mean_possession_seconds": {
+          "blue": 16.40099999999983,
+          "yellow": 17.260249999999914
+        }
+      },
+      "counterattacks": [
+        {
+          "seed": 4510301,
+          "team": "yellow",
+          "turnover_step": 762,
+          "until_step": 1262,
+          "controlled_advance": 2.4772537236292598
+        },
+        {
+          "seed": 4510305,
+          "team": "yellow",
+          "turnover_step": 364,
+          "until_step": 864,
+          "controlled_advance": 3.0924424750629385
+        },
+        {
+          "seed": 4510306,
+          "team": "yellow",
+          "turnover_step": 669,
+          "until_step": 1169,
+          "controlled_advance": 3.953985079417508
+        },
+        {
+          "seed": 4510311,
+          "team": "yellow",
+          "turnover_step": 1303,
+          "until_step": 1803,
+          "controlled_advance": 2.5998013709549506
+        },
+        {
+          "seed": 4510312,
+          "team": "blue",
+          "turnover_step": 1334,
+          "until_step": 1834,
+          "controlled_advance": 2.5452274954866927
+        },
+        {
+          "seed": 4510313,
+          "team": "blue",
+          "turnover_step": 2136,
+          "until_step": 2250,
+          "controlled_advance": 0.8587978813893874
+        },
+        {
+          "seed": 4510314,
+          "team": "yellow",
+          "turnover_step": 917,
+          "until_step": 1417,
+          "controlled_advance": 4.860340482373868
+        },
+        {
+          "seed": 4510318,
+          "team": "yellow",
+          "turnover_step": 1235,
+          "until_step": 1735,
+          "controlled_advance": 3.2149458009172247
+        },
+        {
+          "seed": 4510319,
+          "team": "yellow",
+          "turnover_step": 1848,
+          "until_step": 2250,
+          "controlled_advance": 1.5895487415151686
+        }
+      ],
+      "counterattack_matches": 9,
+      "source_sha256": "9140b185c3145a40ca4806e2818c94a6dde1cf4c0d686af3c3d990d2e57dba99"
+    },
+    "611-cross": {
+      "matches": 20,
+      "summary": {
+        "matches": 20,
+        "completed": 20,
+        "unfinished": 0,
+        "goals": {
+          "blue": 6,
+          "yellow": 5
+        },
+        "wins": {
+          "blue": 6,
+          "yellow": 5
+        },
+        "draws": 9,
+        "goal_matches": 11,
+        "turnover_matches": 15,
+        "acquisition_matches": 20,
+        "recovery_matches": 19,
+        "passes": 45,
+        "receptions": 23,
+        "mean_contact_fraction": 0.0,
+        "field_exit_matches": 0,
+        "mean_possession_seconds": {
+          "blue": 18.906000000000397,
+          "yellow": 15.868750000000295
+        }
+      },
+      "counterattacks": [
+        {
+          "seed": 4510400,
+          "team": "blue",
+          "turnover_step": 161,
+          "until_step": 661,
+          "controlled_advance": 3.189021179593187
+        },
+        {
+          "seed": 4510400,
+          "team": "yellow",
+          "turnover_step": 1636,
+          "until_step": 2136,
+          "controlled_advance": 4.79136612208544
+        },
+        {
+          "seed": 4510402,
+          "team": "blue",
+          "turnover_step": 535,
+          "until_step": 1035,
+          "controlled_advance": 3.3555977140777835
+        },
+        {
+          "seed": 4510402,
+          "team": "yellow",
+          "turnover_step": 1036,
+          "until_step": 1536,
+          "controlled_advance": 3.8016223944663183
+        },
+        {
+          "seed": 4510403,
+          "team": "blue",
+          "turnover_step": 664,
+          "until_step": 1164,
+          "controlled_advance": 2.1201549092742975
+        },
+        {
+          "seed": 4510404,
+          "team": "blue",
+          "turnover_step": 212,
+          "until_step": 712,
+          "controlled_advance": 1.603625972111016
+        },
+        {
+          "seed": 4510404,
+          "team": "yellow",
+          "turnover_step": 1252,
+          "until_step": 1752,
+          "controlled_advance": 2.8798746215186624
+        },
+        {
+          "seed": 4510405,
+          "team": "blue",
+          "turnover_step": 945,
+          "until_step": 1445,
+          "controlled_advance": 2.9908836836859485
+        },
+        {
+          "seed": 4510407,
+          "team": "yellow",
+          "turnover_step": 682,
+          "until_step": 1182,
+          "controlled_advance": 2.815135720559158
+        },
+        {
+          "seed": 4510407,
+          "team": "blue",
+          "turnover_step": 1587,
+          "until_step": 2087,
+          "controlled_advance": 2.7980727405647072
+        },
+        {
+          "seed": 4510408,
+          "team": "blue",
+          "turnover_step": 1199,
+          "until_step": 1699,
+          "controlled_advance": 2.4907194193725615
+        },
+        {
+          "seed": 4510410,
+          "team": "yellow",
+          "turnover_step": 957,
+          "until_step": 1457,
+          "controlled_advance": 4.196639381825244
+        },
+        {
+          "seed": 4510414,
+          "team": "yellow",
+          "turnover_step": 838,
+          "until_step": 1338,
+          "controlled_advance": 2.4511754989477046
+        },
+        {
+          "seed": 4510415,
+          "team": "yellow",
+          "turnover_step": 1760,
+          "until_step": 2250,
+          "controlled_advance": 3.6745403742312903
+        },
+        {
+          "seed": 4510416,
+          "team": "blue",
+          "turnover_step": 2011,
+          "until_step": 2250,
+          "controlled_advance": 1.6608832833107823
+        },
+        {
+          "seed": 4510417,
+          "team": "yellow",
+          "turnover_step": 839,
+          "until_step": 1339,
+          "controlled_advance": 3.5155845333068894
+        },
+        {
+          "seed": 4510418,
+          "team": "yellow",
+          "turnover_step": 252,
+          "until_step": 752,
+          "controlled_advance": 4.738317620981082
+        }
+      ],
+      "counterattack_matches": 13,
+      "source_sha256": "74bbbb290b39a886ae49b31a5e1ae750d6095143c8ed689ea89767636802e30c"
+    },
+    "622-cross": {
+      "matches": 20,
+      "summary": {
+        "matches": 20,
+        "completed": 20,
+        "unfinished": 0,
+        "goals": {
+          "blue": 1,
+          "yellow": 8
+        },
+        "wins": {
+          "blue": 0,
+          "yellow": 7
+        },
+        "draws": 13,
+        "goal_matches": 8,
+        "turnover_matches": 17,
+        "acquisition_matches": 20,
+        "recovery_matches": 20,
+        "passes": 39,
+        "receptions": 23,
+        "mean_contact_fraction": 0.0,
+        "field_exit_matches": 0,
+        "mean_possession_seconds": {
+          "blue": 17.79450000000019,
+          "yellow": 17.955749999999977
+        }
+      },
+      "counterattacks": [
+        {
+          "seed": 4510500,
+          "team": "blue",
+          "turnover_step": 557,
+          "until_step": 1057,
+          "controlled_advance": 1.221557581475559
+        },
+        {
+          "seed": 4510500,
+          "team": "blue",
+          "turnover_step": 1810,
+          "until_step": 2250,
+          "controlled_advance": 2.2008080979132876
+        },
+        {
+          "seed": 4510501,
+          "team": "blue",
+          "turnover_step": 1909,
+          "until_step": 2250,
+          "controlled_advance": 1.5960898873582687
+        },
+        {
+          "seed": 4510502,
+          "team": "yellow",
+          "turnover_step": 1209,
+          "until_step": 1709,
+          "controlled_advance": 3.211627198782052
+        },
+        {
+          "seed": 4510503,
+          "team": "blue",
+          "turnover_step": 1399,
+          "until_step": 1899,
+          "controlled_advance": 1.8504922164448876
+        },
+        {
+          "seed": 4510504,
+          "team": "yellow",
+          "turnover_step": 188,
+          "until_step": 688,
+          "controlled_advance": 2.643370512894257
+        },
+        {
+          "seed": 4510504,
+          "team": "blue",
+          "turnover_step": 1542,
+          "until_step": 2042,
+          "controlled_advance": 2.8989836769208335
+        },
+        {
+          "seed": 4510506,
+          "team": "blue",
+          "turnover_step": 127,
+          "until_step": 627,
+          "controlled_advance": 3.0666960123217093
+        },
+        {
+          "seed": 4510506,
+          "team": "yellow",
+          "turnover_step": 827,
+          "until_step": 1327,
+          "controlled_advance": 4.334881759231576
+        },
+        {
+          "seed": 4510507,
+          "team": "blue",
+          "turnover_step": 701,
+          "until_step": 1201,
+          "controlled_advance": 3.930092240824253
+        },
+        {
+          "seed": 4510507,
+          "team": "blue",
+          "turnover_step": 1540,
+          "until_step": 2040,
+          "controlled_advance": 3.654336865358106
+        },
+        {
+          "seed": 4510508,
+          "team": "blue",
+          "turnover_step": 1194,
+          "until_step": 1565,
+          "controlled_advance": 1.8730784536152116
+        },
+        {
+          "seed": 4510508,
+          "team": "yellow",
+          "turnover_step": 1565,
+          "until_step": 2065,
+          "controlled_advance": 4.011625693372754
+        },
+        {
+          "seed": 4510511,
+          "team": "blue",
+          "turnover_step": 1065,
+          "until_step": 1565,
+          "controlled_advance": 2.507250239963027
+        },
+        {
+          "seed": 4510511,
+          "team": "yellow",
+          "turnover_step": 1860,
+          "until_step": 2250,
+          "controlled_advance": 5.0365679804641355
+        },
+        {
+          "seed": 4510512,
+          "team": "blue",
+          "turnover_step": 143,
+          "until_step": 643,
+          "controlled_advance": 3.623517072409154
+        },
+        {
+          "seed": 4510512,
+          "team": "yellow",
+          "turnover_step": 1207,
+          "until_step": 1707,
+          "controlled_advance": 1.0917711897268347
+        },
+        {
+          "seed": 4510512,
+          "team": "blue",
+          "turnover_step": 1756,
+          "until_step": 2250,
+          "controlled_advance": 2.94927710099575
+        },
+        {
+          "seed": 4510513,
+          "team": "yellow",
+          "turnover_step": 229,
+          "until_step": 729,
+          "controlled_advance": 2.748175746522006
+        },
+        {
+          "seed": 4510513,
+          "team": "blue",
+          "turnover_step": 898,
+          "until_step": 1398,
+          "controlled_advance": 3.5555359071339177
+        },
+        {
+          "seed": 4510514,
+          "team": "blue",
+          "turnover_step": 753,
+          "until_step": 1137,
+          "controlled_advance": 1.9749845892019007
+        },
+        {
+          "seed": 4510514,
+          "team": "blue",
+          "turnover_step": 1468,
+          "until_step": 1968,
+          "controlled_advance": 2.9783903475128937
+        },
+        {
+          "seed": 4510516,
+          "team": "blue",
+          "turnover_step": 360,
+          "until_step": 860,
+          "controlled_advance": 3.929664890266732
+        },
+        {
+          "seed": 4510517,
+          "team": "yellow",
+          "turnover_step": 1666,
+          "until_step": 2166,
+          "controlled_advance": 6.269544873356198
+        }
+      ],
+      "counterattack_matches": 14,
+      "source_sha256": "8763f91bdce90fe13375a130d660ced6dd822f6454c0d4e642bbca777ca7190c"
+    }
+  },
+  "training_seeds": {
+    "611": {
+      "passed": true,
+      "summary": {
+        "matches": 60,
+        "completed": 60,
+        "unfinished": 0,
+        "goals": {
+          "blue": 22,
+          "yellow": 22
+        },
+        "wins": {
+          "blue": 17,
+          "yellow": 17
+        },
+        "draws": 26,
+        "goal_matches": 37,
+        "turnover_matches": 44,
+        "acquisition_matches": 60,
+        "recovery_matches": 59,
+        "passes": 156,
+        "receptions": 67,
+        "mean_contact_fraction": 0.0,
+        "field_exit_matches": 0,
+        "mean_possession_seconds": {
+          "blue": 17.552416666666804,
+          "yellow": 16.569083333333502
+        }
+      },
+      "metrics": {
+        "completion_fraction": 1.0,
+        "mean_contact_fraction": 0.0,
+        "field_exit_fraction": 0.0,
+        "loose_start_acquisition_fraction": 1.0,
+        "goals": 44,
+        "goals_per_color": 22,
+        "passes": 156,
+        "receptions": 67,
+        "shots": 71,
+        "counterattack_matches": 37,
+        "mean_support_distance_per_color_m": 13.27034207501341,
+        "all_event_and_hash_audits_pass": true,
+        "safety_intervention_tick_fraction": 0.2026,
+        "safety_intervention_robot_tick_fraction": 0.09966666666666667,
+        "mean_safety_velocity_correction_m_per_s": 0.00824976326512345,
+        "mean_contested_seconds": 4.7064166666665965
+      },
+      "gates": {
+        "min_completion_fraction": {
+          "value": 1.0,
+          "limit": 0.95,
+          "passed": true
+        },
+        "max_mean_contact_fraction": {
+          "value": 0.0,
+          "limit": 0.02,
+          "passed": true
+        },
+        "max_field_exit_fraction": {
+          "value": 0.0,
+          "limit": 0.05,
+          "passed": true
+        },
+        "min_loose_start_acquisition_fraction": {
+          "value": 1.0,
+          "limit": 0.9,
+          "passed": true
+        },
+        "min_goals": {
+          "value": 44,
+          "limit": 20,
+          "passed": true
+        },
+        "min_goals_per_color": {
+          "value": 22,
+          "limit": 5,
+          "passed": true
+        },
+        "min_passes": {
+          "value": 156,
+          "limit": 20,
+          "passed": true
+        },
+        "min_receptions": {
+          "value": 67,
+          "limit": 15,
+          "passed": true
+        },
+        "min_shots": {
+          "value": 71,
+          "limit": 20,
+          "passed": true
+        },
+        "min_counterattack_matches": {
+          "value": 37,
+          "limit": 10,
+          "passed": true
+        },
+        "min_mean_support_distance_per_color_m": {
+          "value": 13.27034207501341,
+          "limit": 1,
+          "passed": true
+        },
+        "all_event_and_hash_audits_pass": {
+          "value": true,
+          "limit": true,
+          "passed": true
+        }
+      }
+    },
+    "622": {
+      "passed": true,
+      "summary": {
+        "matches": 60,
+        "completed": 60,
+        "unfinished": 0,
+        "goals": {
+          "blue": 11,
+          "yellow": 18
+        },
+        "wins": {
+          "blue": 9,
+          "yellow": 16
+        },
+        "draws": 35,
+        "goal_matches": 26,
+        "turnover_matches": 45,
+        "acquisition_matches": 60,
+        "recovery_matches": 59,
+        "passes": 149,
+        "receptions": 79,
+        "mean_contact_fraction": 0.0,
+        "field_exit_matches": 0,
+        "mean_possession_seconds": {
+          "blue": 18.00383333333331,
+          "yellow": 16.501333333333335
+        }
+      },
+      "metrics": {
+        "completion_fraction": 1.0,
+        "mean_contact_fraction": 0.0,
+        "field_exit_fraction": 0.0,
+        "loose_start_acquisition_fraction": 1.0,
+        "goals": 29,
+        "goals_per_color": 11,
+        "passes": 149,
+        "receptions": 79,
+        "shots": 69,
+        "counterattack_matches": 37,
+        "mean_support_distance_per_color_m": 13.675487510183501,
+        "all_event_and_hash_audits_pass": true,
+        "safety_intervention_tick_fraction": 0.16435555555555556,
+        "safety_intervention_robot_tick_fraction": 0.08201296296296297,
+        "mean_safety_velocity_correction_m_per_s": 0.004408655562857762,
+        "mean_contested_seconds": 4.5069999999999375
+      },
+      "gates": {
+        "min_completion_fraction": {
+          "value": 1.0,
+          "limit": 0.95,
+          "passed": true
+        },
+        "max_mean_contact_fraction": {
+          "value": 0.0,
+          "limit": 0.02,
+          "passed": true
+        },
+        "max_field_exit_fraction": {
+          "value": 0.0,
+          "limit": 0.05,
+          "passed": true
+        },
+        "min_loose_start_acquisition_fraction": {
+          "value": 1.0,
+          "limit": 0.9,
+          "passed": true
+        },
+        "min_goals": {
+          "value": 29,
+          "limit": 20,
+          "passed": true
+        },
+        "min_goals_per_color": {
+          "value": 11,
+          "limit": 5,
+          "passed": true
+        },
+        "min_passes": {
+          "value": 149,
+          "limit": 20,
+          "passed": true
+        },
+        "min_receptions": {
+          "value": 79,
+          "limit": 15,
+          "passed": true
+        },
+        "min_shots": {
+          "value": 69,
+          "limit": 20,
+          "passed": true
+        },
+        "min_counterattack_matches": {
+          "value": 37,
+          "limit": 10,
+          "passed": true
+        },
+        "min_mean_support_distance_per_color_m": {
+          "value": 13.675487510183501,
+          "limit": 1,
+          "passed": true
+        },
+        "all_event_and_hash_audits_pass": {
+          "value": true,
+          "limit": true,
+          "passed": true
+        }
+      }
+    }
+  },
+  "cases": 120,
+  "primary_seed": 611,
+  "reserved_cases_selected_or_dropped": 0
+}

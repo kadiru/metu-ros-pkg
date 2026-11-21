@@ -1,0 +1,134 @@
+{
+  "verified_at": "2026-11-19T17:07:47.857873-08:00",
+  "source": "Native Webots Supervisor movie, all eight predeclared consecutive cases; no generated imagery",
+  "freeze_commit": "a143963da3e7cc7d2061276e4c1b500d0e3b5d8c",
+  "freeze_sha256": "250f5867e29e2de3f46ee98e4455d2ea4ccf7d3403da7a0b6b1d960af0d38ae5",
+  "native": {
+    "path": "runs/selfplay-v1/reserved-demo.mp4",
+    "sha256": "3c3e010b6b24e27d8d4ac7770a1e3c3fbf1f6e50d0f62026444cda78f96bd863",
+    "bytes": 9859540,
+    "ffprobe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1280,
+          "height": 720,
+          "r_frame_rate": "25/1",
+          "nb_read_frames": "1830"
+        }
+      ],
+      "format": {
+        "duration": "73.200000",
+        "size": "9859540"
+      }
+    },
+    "full_decode_exit_code": 0
+  },
+  "published": {
+    "path": "media/mobile-self-play-demo.mp4",
+    "sha256": "185368768ead12c82e4c70d360cf65d304de33cd577713bfbcca4c8c3e0ef5c6",
+    "bytes": 2153014,
+    "ffprobe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1280,
+          "height": 720,
+          "r_frame_rate": "25/1",
+          "nb_read_frames": "1830"
+        }
+      ],
+      "format": {
+        "duration": "73.200000",
+        "size": "2153014"
+      }
+    },
+    "full_decode_exit_code": 0
+  },
+  "preview": {
+    "path": "media/mobile-self-play-preview.jpg",
+    "sha256": "c60a1d06d7b239f15546e04feff85a41e05d47add96edf794ecbd731f2544b6c",
+    "source_seconds": 61.46
+  },
+  "ordered_episodes": [
+    {
+      "seed": 2400000,
+      "reason": "defender_interception",
+      "start_seconds": 0,
+      "terminal_seconds": 3.54,
+      "episode_seconds": 3.54
+    },
+    {
+      "seed": 2400001,
+      "reason": "keeper_save",
+      "start_seconds": 4.14,
+      "terminal_seconds": 14.3,
+      "episode_seconds": 10.16
+    },
+    {
+      "seed": 2400002,
+      "reason": "keeper_save",
+      "start_seconds": 14.9,
+      "terminal_seconds": 30.82,
+      "episode_seconds": 15.920000000000002
+    },
+    {
+      "seed": 2400003,
+      "reason": "defender_interception",
+      "start_seconds": 31.42,
+      "terminal_seconds": 33.32,
+      "episode_seconds": 1.9
+    },
+    {
+      "seed": 2400004,
+      "reason": "keeper_save",
+      "start_seconds": 33.92,
+      "terminal_seconds": 44.42,
+      "episode_seconds": 10.5
+    },
+    {
+      "seed": 2400005,
+      "reason": "defender_interception",
+      "start_seconds": 45.02,
+      "terminal_seconds": 47.02,
+      "episode_seconds": 2.0
+    },
+    {
+      "seed": 2400006,
+      "reason": "goal",
+      "start_seconds": 47.62,
+      "terminal_seconds": 61.34,
+      "episode_seconds": 13.72
+    },
+    {
+      "seed": 2400007,
+      "reason": "goal",
+      "start_seconds": 61.94,
+      "terminal_seconds": 72.58,
+      "episode_seconds": 10.64
+    }
+  ],
+  "outcome_display_seconds": 0.6,
+  "summed_episode_and_display_seconds": 73.18,
+  "frame_quantization_difference_seconds": 0.02,
+  "temporal_editing": false,
+  "reordered_or_removed_episodes": false,
+  "playback_speed": 1,
+  "encoding": "ffmpeg -v error -threads 1 -i runs/selfplay-v1/reserved-demo.mp4 -c:v libx264 -preset slow -crf 20 -threads 1 -pix_fmt yuv420p -movflags +faststart -an -y media/mobile-self-play-demo.mp4",
+  "visual_qa": {
+    "terminal_frames_inspected": 8,
+    "pass_reception_frame_seconds": 53.5,
+    "dribble_pursuit_frame_seconds": 57.5,
+    "goal_frames_seconds": [
+      61.46,
+      72.7
+    ],
+    "observations": "Legible episode/outcome labels and colored roles; passing, reception, carry under pursuit, interceptions, keeper deflections and whole-ball goals visible. Defense contact stops do not imply sustained possession. Robots halt for the outcome display, while the ball can continue moving."
+  },
+  "native_encoder_warning": "x264 target-bitrate/2pass curve convergence warning; Webots completed recording and both full movie decodes passed.",
+  "scope": "Approximate ground-truth two-attacker/defender/keeper drill; learned motion/release, scripted tactical targets and handoff."
+}

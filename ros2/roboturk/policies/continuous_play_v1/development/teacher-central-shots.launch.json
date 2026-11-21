@@ -1,0 +1,27 @@
+{
+  "started_at": "2026-11-20T01:10:11.093513-08:00",
+  "arguments": {
+    "webots": "../runtime/Webots-nightly.app/Contents/MacOS/webots",
+    "mode": "pilot",
+    "output": "runs/continuous-v1/teacher-central-shots",
+    "checkpoint": null,
+    "opponent": null,
+    "seed": 4100000,
+    "episodes": 6,
+    "duration": 45.0,
+    "steps": 32768,
+    "epochs": 80,
+    "rounds": 2,
+    "mix": 0,
+    "timeout": 600.0,
+    "render": false
+  },
+  "runtime_sha256": {
+    "src/roboturk_core/roboturk/continuous_training.py": "ec1038082d3edeb8a5f51aa51e9d927675ab45763d77ebbbde2b8541a0310ec4",
+    "src/roboturk_core/roboturk/continuous.py": "f9e8efb117807d9b83fcbbf0153563fc5bfc3314c4beed50df7b8bd586708604",
+    "src/roboturk_core/roboturk/continuous_teacher.py": "3e4166f546bd4aa65b0378ce5b15f058e3459fcb6f1cca40a9a152107ca4fef9",
+    "src/roboturk_ros/webots/controllers/roboturk_continuous/roboturk_continuous.py": "63ab2c9a46151e3fc23aa9cc89b292942d534300320097ef33cbdce7e3521554",
+    "scripts/run_continuous.py": "c6e299567a5b24027b78b6f9d51e0a93160bc48875ccb073a90d44ba0434aa0e",
+    "src/roboturk_ros/webots/worlds/ssl_continuous.wbt": "77692148fb5d55fa6ed780b1e5051a8eec7bad3e433b53adc0d9ba883a174b40"
+  }
+}

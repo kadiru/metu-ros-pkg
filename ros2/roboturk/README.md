@@ -1,0 +1,332 @@
+# RoboTurk: ROS 2, Webots and learned soccer skills
+
+A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk stack](https://github.com/kadiru/metu-ros-pkg/tree/master/stacks/robocup_ssl). The historical checkout is preserved at `../upstream`; no archival sources were overwritten.
+
+A research prototype with learned soccer skills, continuous 2v2 and 3v3 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
+
+## 3v3 recovery decisions in Webots
+
+The same team makes two different choices after recovering the ball. In ordinary play, Yellow 2 keeps possession, dribbles 0.40 m and scores. In a separate fresh game, Yellow 0 finds Yellow 1 with a pass. Yellow 1 receives, turns and scores.
+
+[![Two Webots recoveries, a dribble and goal followed by a pass and finish in a different match](media/recovery-shield/recovery-choices.gif)](media/recovery-shield/recovery-to-goal.mp4)
+
+*The first four seconds show the spontaneous recovery. After a short break the second game starts at its opening contest. Both clips play at normal speed. The full three-game demo reproduced all 10,500 measured states, decisions and goals in a second native launch.* [Three uncut games](media/recovery-shield/recovery-to-goal.mp4) · [Full GIF](media/recovery-shield/recovery-to-goal.gif) · [Full ordinary match](media/recovery-shield/recovery-finish.mp4)
+
+On 40 matched starts, the newly trained teams converted **17 opening contests**, compared with **3** for the previous outlet teams. They also scored from **4/11 spontaneous recoveries** in 12 ordinary one-minute games. The opening-conversion threshold was 24/40. [Policy, training and all 116 games](policies/recovery_attack_v2/README.md)
+
+## Earlier 3v3 recovery, dribble, pass and finish
+
+Yellow 0 wins a contested ball in open play, dribbles 0.25 m and passes to Yellow 1. The receiver shoots across the left goal line. Both teams run the same frozen self-play strategy, choosing again after a carry or a reception.
+
+[![Yellow 0 recovers in traffic, carries the ball and passes to Yellow 1 for a goal](media/recovery-pass-finish.gif)](media/recovery-pass-finish.mp4)
+
+*Yellow 0 gains sole control at 10.19 seconds, passes at 11.48 and Yellow 1 completes the reception at 12.96. The shot crosses the goal line at 15.39. The inset enlarges the same Webots frames. The rendered rerun reproduced every recorded state in the original 60-second match.* [Full open-play match](media/recovery-pass-finish.mp4) · [Three fresh uncut demo matches](media/recovery-to-goal.mp4) · [Full demo GIF](media/recovery-to-goal.gif)
+
+Across two independent matched Webots evaluations, the new team scored from **28/60 opening contests**, compared with **6/60** for the previous team. It improved on the previous team in both evaluations and missed the 60% opening-conversion target in both. In 18 ordinary one-minute games it scored from **8/14 spontaneous recoveries**. [Model, training and both evaluation protocols](policies/recovery_attack_v1/README.md)
+
+## 3v3 contested recovery and outlet passing
+
+Two opponents reach the ball together. One learns how to free it with its dribbler while a teammate moves into a receiving position. On 12 matched 90-second Webots starts, the new team reduced time spent holding the ball jointly from **318.80 to 16.58 seconds**. It completed **10 recovery-to-pass sequences in seven games** when both sides used the new policies. In head-to-head games, the trained side completed all six such sequences.
+
+[![Yellow 2 wins the contested ball and passes to Yellow 0](media/contest-outlet-pass.gif)](media/contest-outlet-self-play.mp4)
+
+*At 84.26 seconds, Blue 2 and Yellow 2 contest the ball in open play. Yellow 2 establishes sole control at 85.64, kicks at 88.20, and Yellow 0 completes the reception at 89.20. The inset enlarges the same Webots frames. The full recording includes both fresh 90-second matches.* [Full three-minute GIF](media/contest-outlet-self-play.gif) · [Native MP4](media/contest-outlet-self-play.mp4) · [Policies, training and match results](policies/contest_outlet_v2/README.md).
+
+## 3v3 self-play with two possible pass recipients
+
+Six robots now choose between their two teammates in native Webots. Two receiver
+policies trained through 40 one-minute matches against historical opponents.
+All six players completed passes to both teammates in held-out play. The policies
+completed **250/371 intended passes (67.4%)** in 32 one-minute matches and
+**46/61 (75.4%)** in eight 90-second matches without a possession clock.
+
+[![Blue 2 passes to 0, then chooses 1 on its next possession](media/three-recipient-choices.gif)](media/three-recipient-self-play.mp4)
+
+*12-second excerpt from the second fresh demo match. Blue 2 completes its pass
+to 0, receives the ball back, and tries 1. Yellow intercepts the second pass.*
+[Full two-minute GIF](media/three-recipient-self-play.gif) ·
+[Original Webots video](media/three-recipient-self-play.mp4) ·
+[Model card, controls and all outcomes](policies/recipient_3v3_v1/README.md).
+
+The fresh demo retains both scoreless matches and all 14 pass attempts, including
+10 intended receptions. Receiver selection is learned, the pass motor is frozen,
+and the surrounding 3v3 tactics use explicit controllers. Two of the eight
+90-second games had a completion in the final 30 seconds.
+
+## Earlier ten-skill 2v2 strategy
+
+The [learned skill strategy](policies/strategy_self_play_v1/README.md) integrates
+receive-and-stop, one-touch redirect and defensive clearance into ten neural
+behavior choices, trained through two historical self-play leagues.
+**Both seeds passed every reserved gate: 120/120 complete matches, 45 goals,
+28 stopped receptions, 25 redirect goals and 33 clearances**, with zero detected
+contacts or field exits. There were 79 draws. All physics and checkpoint audits
+passed. An explicit geometric safety filter intervened on 33–35% of ticks.
+
+[![Four uncut Webots matches with learned skills and self-play](media/learned-skills-self-play-preview.gif)](media/learned-skills-self-play-demo.mp4)
+
+*Full-length, normal-speed GIF of all four fresh matches: two goals, one stopped
+reception, one redirect goal and one defensive clearance. Click for the original
+79.96-second native video. Receive near 0:22, redirect goal near 0:42, clearance
+near 1:02. No cuts or selected outcomes.*
+
+[Architecture and training](docs/LEARNED_SKILL_STRATEGY.md) ·
+[Every reserved result](policies/strategy_self_play_v1/qualification-summary.json) ·
+[Team-paper inspiration](docs/TDP_SKILL_PACK.md).
+This remains approximate ground-truth 2v2 simulation with simplified restarts.
+
+The earlier isolated [TDP-inspired skill pack](policies/tdp_skills_v1/README.md) adds timed
+receive-and-stop (197/200 reserved cases), one-touch redirect (200/200), and defensive
+recover-and-clear (200/200), with zero collision/field-exit/own-goal/premature-release
+failures. Three receive timeouts are retained. [Native 30.8-second demo](media/tdp-skills-demo.mp4)
+shows all 12 fresh cases, 12/12 successful. [CMDragons, Thai Skuba and TIGERs provenance](docs/TDP_SKILL_PACK.md)
+explains the explicit play/role/committed-option coordinator around learned motion
+and release. That release preserves its previous continuous learned manager. Its isolated
+skill rates do not establish composed match-strategy performance; the new
+[integration experiment](policies/strategy_self_play_v1/README.md) trains and
+evaluates a separate learned selector over all ten skills.
+
+[![Receive, one-touch redirect and defensive clearance in Webots](media/tdp-skills-preview.gif)](media/tdp-skills-demo.mp4)
+
+*Animated preview: all 12 skill cases, 30.8 seconds at normal speed. Click for the full-resolution video.*
+
+The [continuous 2v2 release](policies/continuous_play_v2/README.md) adds learned
+recovery, support, pressing, coverage and counterattacks through two independent
+historical self-play leagues. Both seeds passed all reserved gates:120/120matches
+completed,73goals,146stable receptions and74counterattack matches, with zero
+detected contacts or field exits. An explicit geometric safety layer changed
+translation on16–20%of ticks. All interventions and failures are retained.
+
+[Uncut native Webots demo](media/continuous-self-play-demo.mp4): three fresh45-second
+matches, scores0–0,1–0,0–0. [Architecture and limits](docs/CONTINUOUS_PLAY.md).
+The [unfiltered attempts](policies/continuous_play_v1/README.md) remain available.
+This is approximate ground-truth simulation with simplified restarts; official
+SSL match, hardware and complete live ROS graph qualification remain outstanding.
+
+[![Continuous 2v2 self-play goal in Webots](media/continuous-goal-preview.gif)](media/continuous-self-play-demo.mp4)
+
+*Selected goal highlight, 1:04–1:20 at normal speed. Click for all three uncut matches and their outcomes.*
+
+The previous qualified drill replaces scripted tactical targets and handoffs with a **neural
+manager** that chooses when to pass, dribble or shoot, which robot acts, and where
+to receive/dribble/aim. Two alternating self-play generations trained the manager,
+defender and keeper for 196,608 native PPO steps; learned motion skills stay frozen.
+
+All reserved panels passed: **233/240**, **118/120** and **117/120** clean outcomes.
+The final pair produced **107 goals, 126 defensive stops and seven failures**.
+Clean includes legitimate defensive stops, not only attacker wins.
+[Model card, checkpoints and every outcome](policies/decision_self_play_v2/README.md) ·
+[Architecture, training and replay](docs/LEARNED_DECISIONS.md).
+
+The [fresh 45.6-second Webots demo](media/learned-decisions-self-play-demo.mp4) retains
+all nine consecutive games: five goals, two interceptions and two saves. Episode 3
+(starting 6.84 s) shows learned passing, receiver handoff, dribbling and scoring.
+
+[![Learned passing, reception, dribbling and scoring in Webots](media/learned-pass-score-preview.gif)](media/learned-decisions-self-play-demo.mp4)
+
+*Selected pass-and-score sequence, 0:06.84–0:18.60 at normal speed. Click for all nine consecutive games, including defensive stops.*
+
+Initialization used imitation/DAgger and supervised defensive coaching. Self-play
+updates decision readouts and opponents while preserving learned coordinate
+regression and motion skills; no isolated PPO gain is established. This remains an
+approximate ground-truth, initial-possession 2v2 drill, with live ROS graph and
+hardware qualification still separate.
+
+## Previous mobile self-play release
+
+The previous release gives the neural defender and keeper wider planar movement and
+trains both sides through **five generations of alternating self-play** (655,360
+PPO steps). The final pair produced **194/200 clean reserved outcomes**: 78 goals,
+100 defender interceptions and 16 keeper saves. Six failures remain documented.
+Clean means a goal or valid defensive stop, not an attacking win. Historical panels
+also passed: 99/100 and 97/100 clean outcomes.
+
+The [fresh 73.2-second Webots demo](media/mobile-self-play-demo.mp4) includes all eight
+consecutive games: two goals, three interceptions and three saves, with no collisions
+or unforced failures. The goals are episodes 7 and 8. All frames and original timing
+are retained. [Model card, checkpoints and evidence](policies/self_play_v1/README.md) ·
+[Self-play protocol and replay commands](docs/SELF_PLAY.md).
+
+[![Actual Webots self-play goal](media/mobile-self-play-preview.jpg)](media/mobile-self-play-demo.mp4)
+
+Motion and kick decisions are learned; tactical targets and phase handoff remain
+scripted. This is an approximate, ground-truth two-attacker versus defender/keeper
+drill. Training includes imitation and supervised spacing preparations; neither
+isolated PPO gains nor monotonically improving match strength is established.
+
+## Earlier fixed-opponent milestone
+
+The two attackers now **pass around a learned defender, receive, dribble and score
+against a learned goalkeeper**. Both opponent motion controllers are neural policies;
+the attacking transfer and finishing policies were retrained against those frozen
+opponents. The four-policy play scored **200/200 reserved native Webots cases**,
+with **zero pre-release possession losses or robot collisions**. Mean sequence:
+**15.22s**; mean ball displacement to reception **2.93m** and retained receiver carry
+**3.77m**. [Model card and every outcome](policies/learned_opponents_play_v1/README.md) ·
+[Training and qualification protocol](docs/LEARNED_OPPONENTS.md).
+
+The [fresh native Webots demo](media/learned-opponents-pass-receive-score-demo.mp4)
+scored **6/6 consecutive cases**. All2,346 native frames are retained at normal
+simulation speed (93.84s). Blue is the passer, cyan the receiver/scorer, yellow the
+defender and red the keeper.
+
+[![Actual Webots play against learned defense](media/learned-opponents-pass-receive-score-preview.jpg)](media/learned-opponents-pass-receive-score-demo.mp4)
+
+The neural defender intercepted **100/100** reserved direct passes; the neural
+keeper saved **99/100** reserved direct shots. Their [independent defensive checks](policies/learned_opponents_v1/README.md)
+include stationary and teacher comparisons. The previous attackers scored45/60
+against these same frozen opponents, with15 keeper saves. All failed candidates
+and development outcomes remain published.
+
+A62-input/seven-output transfer actor controls both attackers until stable reception;
+a32-input/four-output finisher controls dribbling, turning and shot release. The
+33-input/three-output opponents control their own translation and rotation throughout
+both phases, without reset or analytic motion fallback. Receiving/finishing targets,
+open-corner aim selection, role handoff and fixed kick speeds remain scripted.
+Training used demonstrations, DAgger and anchored PPO; no incremental PPO success-rate
+benefit over the best imitation stage is established.
+
+This is a bounded approximate, ground-truth Webots curriculum, starting with passer
+possession. The defender is a lane guard (0.25–0.55m/s); the keeper retains a goal-line
+role,0.65–0.95m/s speed limit and0.08–0.14s command delay. It does not establish
+unrestricted match strength, a self-play equilibrium or calibrated hardware behavior.
+A complete live ROS/Webots graph with applied-kick feedback also remains to be validated.
+
+Earlier releases remain available: [analytic-opponent keeper play](policies/keeper_finish_v1/README.md)
+(199/200), [defended passing](policies/defended_pass_receive_v3/README.md),
+[unguarded passing/scoring](policies/pass_receive_v2/README.md),
+[capture/dribble/shoot](policies/capture_dribble_shoot_v2/README.md),
+[capture/dribble](policies/capture_dribble_v1/README.md) and
+[capture](policies/chase_capture_v1/README.md) (each200/200 in its own curriculum).
+Separate [block/recover](policies/block_shot_v1/README.md) and
+[passing-lane coverage](policies/cover_pass_lane_v1/README.md) policies each passed200/200
+and have a [native defensive demo](media/defensive-micro-behaviors-demo.mp4).
+[Behavior contracts and paper provenance](docs/BEHAVIOR_SOURCES.md) trace inspiration
+to CMDragons2015, TIGERs Mannheim2025 and ER-Force2024.
+
+Replay the learned-opponent play with the pinned environment and Webots installation:
+
+```sh
+../.venv/bin/python scripts/run_webots.py \
+  --webots ../runtime/Webots-nightly.app/Contents/MacOS/webots \
+  --mode opponents-demo \
+  --checkpoint policies/learned_opponents_play_v1/transfer/policy.zip \
+  --shoot-checkpoint policies/learned_opponents_play_v1/finish/policy.zip \
+  --defender-checkpoint policies/learned_opponents_v1/defender/policy.zip \
+  --keeper-checkpoint policies/learned_opponents_v1/keeper/policy.zip \
+  --episodes 6 --seed 1660000 --output runs/learned-opponents-demo --timeout 1800 --render
+```
+
+```mermaid
+flowchart TD
+  Vision[Webots ground truth / future SSL vision] --> World[World state + referee state]
+  World --> Strategy[Team strategy]
+  Strategy --> Play[Recover / advance / pass-and-receive / shoot]
+  Play --> Roles[Goalkeeper / striker / receiver / support]
+  Roles --> Skills[Move / chase / dribble / pass / receive / shoot]
+  Skills --> Policies[Analytic baseline or checkpoint policy]
+  Policies --> Gate[Actuator limits + referee and freshness gate]
+  Gate --> Backend[Webots / future hardware adapter]
+  Backend --> Vision
+  Curriculum[Seeded Gymnasium skill episodes] --> Policies
+```
+
+## Run the core on this Mac
+
+From this directory, the isolated environment is `../.venv`:
+
+```sh
+PYTHONPATH=src/roboturk_core ../.venv/bin/python -m roboturk.cli evaluate --skill chase --episodes 10
+../.venv/bin/python -m pytest -q
+```
+
+For a fresh machine (Python 3.12 recommended):
+
+```sh
+python3.12 -m venv .venv
+. .venv/bin/activate
+python -m pip install -e 'src/roboturk_core[rl,test]' ruff
+python -m roboturk.cli evaluate --skill pass
+```
+
+The CLI's default backend is **synthetic planar dynamics**, intended for contract tests and pipeline debugging. It has no wheel physics, teleports a held ball to the mouth, and must not be used as evidence of realistic dribbling or transfer.
+
+## Run Webots
+
+Use Webots R2025a on a supported platform. On macOS 27, the original R2025a binary has a [known startup bug fixed upstream](https://github.com/cyberbotics/webots/pull/7032). Local validation uses the dated `nightly_17_11_2026` R2025a asset, recorded separately from stable.
+
+```sh
+../.venv/bin/python scripts/run_webots.py \
+  --webots ../runtime/Webots-nightly.app/Contents/MacOS/webots \
+  --skill chase --episodes 10 --output runs/webots/chase
+```
+
+Add `--render` to display the field. On Linux, use `--webots /usr/local/webots/webots` or the location of your Webots executable. A display server is needed even with `--no-rendering`; use Xvfb for unattended Linux runs.
+
+Use `--mode suite` to evaluate all six analytic skill baselines serially. Set `ROBOTURK_TRACE=1` for per-episode trajectory samples in single-skill evaluation output.
+
+The Webots model uses ODE contacts, an **ideal body-velocity actuator**, a bounded spring/damper dribbler, and an edge-triggered ball-velocity kick. It does not teleport the ball during stepping. The robot body is a simplified cylinder; motor dynamics, rollers, battery, radio latency and physical dribbler/kicker geometry are not yet calibrated. The authored training field is 9 × 6 m with a 1 m goal mouth, a 90 mm robot radius and a 21.5 mm ball radius. These are prototype parameters, not a claim of full current SSL rule compliance.
+
+## ROS 2 workspace
+
+The initial Linux baseline is **ROS 2 Jazzy / Ubuntu 24.04**, matching Webots R2025a's published Ubuntu binaries. Jazzy remains supported through May 2029. Lyrical is the current ROS 2 release, but a Lyrical/Ubuntu 26.04/Webots combination has not been validated here. [Version evidence and migration audit](docs/MIGRATION.md).
+
+```sh
+source /opt/ros/jazzy/setup.bash
+rosdep install --from-paths src --ignore-src -r -y
+colcon build --symlink-install
+source install/setup.bash
+ros2 launch roboturk_ros soccer.launch.py webots:=/usr/local/webots/webots
+```
+
+Starts in HALT. For a deliberately enabled simulated practice game:
+
+```sh
+ros2 launch roboturk_ros soccer.launch.py webots:=/usr/local/webots/webots practice:=true
+```
+
+The launch starts the simulator, blue/yellow strategy nodes, and optionally a practice referee heartbeat. This is a custom Supervisor/rclpy bridge; it does not depend on `webots_ros2_driver`. ROS uses a single simulation owner and monotonic `/clock`. Training runs directly inside the Supervisor so each action advances an exact number of physics steps without ROS callback timing in the learning loop.
+
+| Interface | Meaning |
+| --- | --- |
+| `/roboturk/world` | Typed field-frame robot/ball state and effective referee state |
+| `/roboturk/blue/commands`, `/roboturk/yellow/commands` | Full team snapshots of body-frame commands |
+| `/roboturk/referee` | Internal HALT/STOP/RUNNING heartbeat; official SSL protocol is future work |
+| `/roboturk/reset` | Seeded practice formation reset; clears commands and enters HALT |
+| `/clock` | Simulation time, monotonic across formation resets |
+
+Commands older than 250 ms stop; referee heartbeats older than 500 ms halt. HALT and STOP both conservatively hold all actuators. Set pieces, defense areas, ball placement and full rule constraints remain to be implemented. Do not connect this prototype directly to physical actuators.
+
+## Training and policy replacement
+
+```sh
+# Bounded CPU smoke run in synthetic dynamics; not a performance experiment.
+PYTHONPATH=src/roboturk_core ../.venv/bin/python -m roboturk.cli train \
+  --skill chase --steps 2048 --output runs/synthetic_smoke/policy
+
+# Actual Webots backend; choose a budget explicitly before a longer run.
+../.venv/bin/python scripts/run_webots.py \
+  --webots ../runtime/Webots-nightly.app/Contents/MacOS/webots \
+  --mode train --skill chase --steps 2048 --timeout 180 \
+  --output runs/webots_smoke/policy
+
+# Evaluate the checkpoint on held-out seeds in the same backend.
+../.venv/bin/python scripts/run_webots.py \
+  --webots ../runtime/Webots-nightly.app/Contents/MacOS/webots \
+  --skill chase --checkpoint runs/webots_smoke/policy.zip \
+  --seed 1000 --episodes 20 --output runs/webots_smoke/evaluation
+```
+
+PPO uses one CPU thread here. A `.zip` checkpoint has a companion `.json` with observation contract version, skill, full configuration, backend and seed. Loading rejects incompatible skill/configuration/contract combinations. Successful loading is not a qualification for deployment.
+
+In Python, register `CheckpointPolicy(path, skill, cfg)` with `BehaviorLibrary.register`, matching `Skill.CHASE`, `Skill.DRIBBLE` or `Skill.SHOOT` to the checkpoint. Dribble and scoring policies receive `Intent.target` through their shared observation contracts; for the released scoring policy this is the opponent goal center. The ROS strategy node accepts a `policies` JSON parameter mapping individual skill names to checkpoint paths. Both paths apply the same actuator masks and runtime referee gate. Recurrent policies and observation normalization beyond the fixed contract are not supported yet.
+
+## What to develop next
+
+1. Validate the complete Webots/ROS live graph on Ubuntu. CI already builds all three ROS packages and passes the two bridge/interface tests; full simulator integration remains separate.
+2. Confirm which physical robot revision to reproduce: the archive contains both three- and four-wheel references. Add real motor/roller geometry and measure step response, slip, braking, dribbler capture and kick speed.
+3. Improve obstacle avoidance and skill termination, add randomized opponents, latency, observation noise and dynamics; evaluate held-out configurations.
+4. Extend continuous2v2 to larger teams, stronger opponent pools, recurrent policies and broader held-out starts. Measure win/draw/loss, possession, pass completion, intervention rates and uncertainty; preserve independent training seeds and controlled ablations.
+5. Add official SSL vision/game-controller adapters, set pieces and rule enforcement. Compare the current shared per-robot behavior policies with centralized-critic training and longer-horizon team strategy learning.
+
+New code has no release license selected yet (`LicenseRef-Unlicensed` metadata). The historical repository's file-specific licenses and authorship remain intact. No archive implementation was copied into the modern Python stack.

@@ -1,0 +1,19 @@
+{
+  "source": "actual Webots movie recorder",
+  "episodes": 3,
+  "successes": 3,
+  "seeds": [
+    1060000,
+    1060002
+  ],
+  "duration_seconds": 8.28,
+  "native_frames": 207,
+  "published_frames": 207,
+  "width": 1280,
+  "height": 720,
+  "fps": 25,
+  "codec": "H.264",
+  "transcode": "CRF20, no trimming or episode selection",
+  "visual_check_seconds": 1.8,
+  "sha256": "f064affc03cc7ade6c4d98cff918add1b24da70598207f46e59f22fcb3e09f16"
+}

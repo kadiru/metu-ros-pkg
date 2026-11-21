@@ -1,0 +1,80 @@
+{
+  "seed": 8500000,
+  "seconds": 90,
+  "score": {},
+  "stats": {
+    "safety_ticks": 15,
+    "physical_samples": 9000,
+    "contacts": 0,
+    "exits": 0
+  },
+  "passes": [
+    {
+      "receiver": 2,
+      "slot": 1,
+      "features": [
+        [
+          0.018014982410409434,
+          0.46659438802456865,
+          0.4058662223021091,
+          0.43982685529397997,
+          0.9227863588066454,
+          0.9997179993563315
+        ],
+        [
+          0.5977140128960031,
+          0.86567519746988,
+          0.4016941999221984,
+          0.49669006651193914,
+          0.8087421653973077,
+          0.9994715688058938
+        ]
+      ],
+      "probability": 0.9262073314479374,
+      "tick": 27,
+      "team": "blue",
+      "passer": 0,
+      "ball": [
+        -1.4267092670255186,
+        0.17713498001173347
+      ],
+      "result": "intercepted",
+      "end": 68,
+      "reward": -1
+    }
+  ],
+  "events": [
+    {
+      "tick": 0,
+      "event": "start",
+      "team": "blue"
+    },
+    {
+      "tick": 27,
+      "event": "kick",
+      "team": "blue",
+      "robot": 0,
+      "speed": 2.2
+    }
+  ],
+  "contest_metrics": {
+    "contested_seconds": 84.43,
+    "contests": [
+      {
+        "start": 557,
+        "last": 8999,
+        "contestants": [
+          2,
+          5
+        ]
+      }
+    ],
+    "recoveries": 0,
+    "chains": 0,
+    "late": 0,
+    "passes": 1,
+    "completions": 0
+  },
+  "learned_actions": [],
+  "challenger": null
+}

@@ -1,0 +1,24 @@
+{
+  "stage": "new isolated self-play league",
+  "seed": 622,
+  "files": [
+    {
+      "source": "/Users/kadir/linkedin/projects/roboturk/modern/runs/continuous-v1/precision-fit622/data.npz",
+      "copy": "/Users/kadir/linkedin/projects/roboturk/modern/runs/continuous-v1/league622-v1/data.npz",
+      "sha256": "f8a45157fe9ffb7d1d779e6880ae4852e020858ffce2b24670cf14ba82fda19b",
+      "read_only_copy": true
+    },
+    {
+      "source": "/Users/kadir/linkedin/projects/roboturk/modern/runs/continuous-v1/precision-fit622/seed622/bootstrap.zip",
+      "copy": "/Users/kadir/linkedin/projects/roboturk/modern/runs/continuous-v1/league622-v1/seed622/bootstrap.zip",
+      "sha256": "62b04f99fdade09f01d4410d396b6921c874a60704c2e059b54f198c19497b82",
+      "read_only_copy": true
+    },
+    {
+      "source": "/Users/kadir/linkedin/projects/roboturk/modern/runs/continuous-v1/precision-fit622/seed622/bootstrap.json",
+      "copy": "/Users/kadir/linkedin/projects/roboturk/modern/runs/continuous-v1/league622-v1/seed622/bootstrap.json",
+      "sha256": "d63f291574f6b3f7fd314915933a07cad9c4ddb8ac96b9d3eed8d1f6a4606b1c",
+      "read_only_copy": true
+    }
+  ]
+}

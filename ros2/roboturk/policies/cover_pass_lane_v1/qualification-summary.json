@@ -1,0 +1,20 @@
+{
+  "count": 200,
+  "successes": 200,
+  "failures": {},
+  "loss_episodes": 0,
+  "collision_episodes": 0,
+  "passes_gate": true,
+  "checkpoint_sha256": "afc9b76860cdd5b561ff370de596edf4d62cd2f403594efdfbd5cae6670d1b1e",
+  "wilson_95": [
+    0.9811546736227335,
+    1
+  ],
+  "mean_success_seconds": 3.4480999999999993,
+  "physics_checks": 137924,
+  "minimum_stable_dwell_seconds": 3.0,
+  "by_direction": {
+    "-1": 99,
+    "1": 101
+  }
+}

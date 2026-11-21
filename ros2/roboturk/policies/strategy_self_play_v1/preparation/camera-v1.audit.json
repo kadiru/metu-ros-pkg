@@ -1,0 +1,48 @@
+{
+  "source": "runs/strategy-v1/camera-v1.json",
+  "source_sha256": "33d3161124574043f0e66a7583f331287bf79900190383c41dad47263d5d7a01",
+  "passed": true,
+  "matches": [
+    {
+      "seed": 6300502,
+      "passed": true,
+      "errors": [],
+      "physics_samples": 1200,
+      "motor_calls": {
+        "receive": 310,
+        "continuous_batches": 300,
+        "redirect": 44,
+        "clear": 124
+      },
+      "actual_kicks": 2,
+      "goals": {
+        "blue": 1
+      },
+      "contact_samples": 0,
+      "outside_samples": 0,
+      "skill_outcomes": {
+        "redirect_kick": 1,
+        "redirect_goal": 1
+      }
+    },
+    {
+      "seed": 6300503,
+      "passed": true,
+      "errors": [],
+      "physics_samples": 1200,
+      "motor_calls": {
+        "clear": 37,
+        "receive": 361,
+        "continuous_batches": 300
+      },
+      "actual_kicks": 1,
+      "goals": {},
+      "contact_samples": 0,
+      "outside_samples": 0,
+      "skill_outcomes": {
+        "clearance_complete": 1
+      }
+    }
+  ],
+  "physics_samples": 2400
+}

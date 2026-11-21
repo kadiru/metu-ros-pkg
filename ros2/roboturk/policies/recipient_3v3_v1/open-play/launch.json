@@ -1,0 +1,13 @@
+{
+  "webots": "/Users/kadir/linkedin/projects/roboturk/runtime/Webots-nightly.app/Contents/MacOS/webots",
+  "mode": "open",
+  "output": "/Users/kadir/linkedin/projects/roboturk/modern/runs/recipient3/open-play",
+  "seed": 901,
+  "first": 7510000,
+  "matches": 8,
+  "seconds": 90,
+  "models": "/Users/kadir/linkedin/projects/roboturk/modern/policies/recipient_3v3_v1/selectors.json",
+  "root": "/Users/kadir/linkedin/projects/roboturk/modern",
+  "models_sha256": "3e38092a7a744689aa141a3a408c1bf15d2980ff91f6a51d264f0e0f7f57fd15",
+  "webots_sha256": "035a91bad1d12e4f34108ec48c8cadcb2dab4dc3278e4f03c9e969bb82d6babe"
+}

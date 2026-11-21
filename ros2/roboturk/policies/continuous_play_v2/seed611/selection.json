@@ -1,0 +1,31 @@
+{
+  "seed": 611,
+  "generations": 2,
+  "ppo_steps": 65536,
+  "accepted_updates": 64,
+  "snapshots": [
+    {
+      "path": "seed611/generation0/policy.zip",
+      "sha256": "92b93953476f975754b752e04c252def841709536aa263b7b9165d0b11af2aff",
+      "metadata_sha256": "baea8f4dc20a6f7e094c21b3d44cd26bfdac46220f5c5e442353a15a37ee91f0",
+      "actor_sha256": "9802dfe513b49588ce41321e13c708a8ca131daf2eb1dbca119e2a6c85f81aa8",
+      "contract": "roboturk.continuous_robot.v4"
+    },
+    {
+      "path": "seed611/generation1/policy.zip",
+      "sha256": "35e3f2dda659c38446473c17e3135e15462443e412bf454d049debb02d40843a",
+      "metadata_sha256": "6baeab9861130b072f7310d638b3f5a98b3eb1d1aca4c5d148c3e0c4f7a0f19e",
+      "actor_sha256": "4da2a339880fe53d8cda14f41197f69b9e6cf98e8a498772f26cb5d88fa60a38",
+      "contract": "roboturk.continuous_robot.v4"
+    },
+    {
+      "path": "seed611/generation2/policy.zip",
+      "sha256": "0541f0b4e39e479b207acdc16ad7cd752c0ef556608bbd173b12e1932b22f25a",
+      "metadata_sha256": "d8e1c0df8fdda178183f77e0c76ccc87bb44d4d6a297035a9315db34c71d9ce7",
+      "actor_sha256": "23c0909f5bc9781e10d9fa10562653850c1e595e4a6927628b8faa84c959baf8",
+      "contract": "roboturk.continuous_robot.v4"
+    }
+  ],
+  "source": "/Users/kadir/linkedin/projects/roboturk/modern/runs/continuous-v2/league611-categorical-v1",
+  "source_ledger_sha256": "ca6bed8766f8f50a981bd66524bb451c4cc3aee70cac471c820c2f65f4885283"
+}

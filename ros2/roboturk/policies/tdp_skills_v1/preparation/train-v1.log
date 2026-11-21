@@ -1,0 +1,143 @@
+INFO: roboturk_tdp: Starting controller: python3 -u roboturk_tdp.py
+collect receive 25 200 25 2335
+collect receive 50 200 50 4788
+collect receive 75 200 75 7233
+collect receive 100 200 100 9812
+collect receive 125 200 125 12229
+collect receive 150 200 149 15005
+collect receive 175 200 174 17425
+collect receive 200 200 199 19844
+fit 20 120 0.0014468100598605815
+fit 40 120 0.0010841536156173486
+fit 60 120 0.0008827840150236929
+fit 80 120 0.0008543356919593256
+fit 100 120 0.000694592345704829
+fit 120 120 0.0006755952945241006
+receive 10 60 10
+receive 20 60 20
+receive 30 60 30
+receive 40 60 40
+receive 50 60 50
+receive 60 60 60
+collect receive 25 100 25 2335
+collect receive 50 100 50 4755
+collect receive 75 100 75 7265
+collect receive 100 100 100 9591
+fit 20 100 0.0005554361168833566
+fit 40 100 0.000520248822188781
+fit 60 100 0.00048691625791737653
+fit 80 100 0.0004196711379336193
+fit 100 100 0.0003761326852327329
+receive 10 60 10
+receive 20 60 20
+receive 30 60 30
+receive 40 60 40
+receive 50 60 50
+receive 60 60 60
+ppo receive 8192 32768 33.9
+ppo receive 16384 32768 70.0
+Actor anchor: 16 updates, 0 rejected; probe MSE 0.00000002, max 0.00034
+ppo receive 24576 32768 105.6
+ppo receive 32768 32768 143.8
+Actor anchor: 32 updates, 0 rejected; probe MSE 0.00000003, max 0.00044
+receive 10 60 10
+receive 20 60 20
+receive 30 60 30
+receive 40 60 40
+receive 50 60 50
+receive 60 60 60
+collect redirect 25 200 25 2959
+collect redirect 50 200 50 5757
+collect redirect 75 200 75 8617
+collect redirect 100 200 100 11594
+collect redirect 125 200 125 14435
+collect redirect 150 200 150 17262
+collect redirect 175 200 175 20155
+collect redirect 200 200 200 23084
+fit 20 120 0.0046975635923445225
+fit 40 120 0.004373563215873825
+fit 60 120 0.0038009173586033285
+fit 80 120 0.003620473794095839
+fit 100 120 0.003316274737395967
+fit 120 120 0.002710601533181034
+redirect 10 60 10
+redirect 20 60 20
+redirect 30 60 30
+redirect 40 60 40
+redirect 50 60 50
+redirect 60 60 60
+collect redirect 25 100 25 2901
+collect redirect 50 100 50 5752
+collect redirect 75 100 75 8630
+collect redirect 100 100 100 11467
+fit 20 100 0.002665107965488763
+fit 40 100 0.0019672825267965286
+fit 60 100 0.001480049313007233
+fit 80 100 0.001301898487630145
+fit 100 100 0.001128627130431899
+redirect 10 60 10
+redirect 20 60 20
+redirect 30 60 30
+redirect 40 60 40
+redirect 50 60 50
+redirect 60 60 60
+ppo redirect 8192 32768 37.4
+ppo redirect 16384 32768 74.5
+Actor anchor: 16 updates, 0 rejected; probe MSE 0.00000000, max 0.00012
+ppo redirect 24576 32768 111.7
+ppo redirect 32768 32768 148.5
+Actor anchor: 32 updates, 0 rejected; probe MSE 0.00000002, max 0.00037
+redirect 10 60 10
+redirect 20 60 20
+redirect 30 60 30
+redirect 40 60 40
+redirect 50 60 50
+redirect 60 60 60
+collect clear 25 200 25 2135
+collect clear 50 200 50 4311
+collect clear 75 200 75 6437
+collect clear 100 200 100 8612
+collect clear 125 200 125 10792
+collect clear 150 200 150 12921
+collect clear 175 200 175 15039
+collect clear 200 200 200 17197
+fit 20 120 0.022848663036711514
+fit 40 120 0.007173425277869683
+fit 60 120 0.004211918931105174
+fit 80 120 0.0022821982893219683
+fit 100 120 0.0015823987005205709
+fit 120 120 0.001074265204351832
+clear 10 60 10
+clear 20 60 20
+clear 30 60 30
+clear 40 60 40
+clear 50 60 50
+clear 60 60 60
+collect clear 25 100 25 2116
+collect clear 50 100 50 4282
+collect clear 75 100 75 6450
+collect clear 100 100 100 8638
+fit 20 100 0.0007635931615368463
+fit 40 100 0.000521786533681734
+fit 60 100 0.0003804163598033483
+fit 80 100 0.00026872108082898194
+fit 100 100 0.00019645942518309312
+clear 10 60 10
+clear 20 60 20
+clear 30 60 30
+clear 40 60 40
+clear 50 60 50
+clear 60 60 60
+ppo clear 8192 32768 31.4
+ppo clear 16384 32768 62.9
+Actor anchor: 16 updates, 0 rejected; probe MSE 0.00000002, max 0.00048
+ppo clear 24576 32768 94.3
+ppo clear 32768 32768 125.8
+Actor anchor: 32 updates, 0 rejected; probe MSE 0.00000006, max 0.00105
+clear 10 60 10
+clear 20 60 20
+clear 30 60 30
+clear 40 60 40
+clear 50 60 50
+INFO: roboturk_tdp: Terminating.
+UNSUPPORTED (log once): POSSIBLE ISSUE: unit 1 GLD_TEXTURE_INDEX_2D is unloadable and bound to sampler type (Float) - using zero texture because texture unloadable

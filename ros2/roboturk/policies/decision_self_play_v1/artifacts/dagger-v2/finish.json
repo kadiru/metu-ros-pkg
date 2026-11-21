@@ -1,0 +1,50 @@
+{
+  "stage": "v2_native_dagger",
+  "seed": 438,
+  "parent": {
+    "transfer": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/prepared-v2/transfer.zip",
+      "sha256": "a2dca5ea7327c787036585c727a466e663e405b071de702a6570f28ec1bff8b1",
+      "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+    },
+    "finish": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/prepared-v2/finish.zip",
+      "sha256": "c9286d4138a5a6988393c0c2487d1935225fba87077a03e72b1c76d534948201",
+      "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+    },
+    "defender": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/prepared-v2/defender.zip",
+      "sha256": "71f627640fdbd0589b8d97fcb2ca9047f12dc05b4e778c9d18fedf62f887609f",
+      "actor_sha256": "59b9598a05993578be7b300a5f0c9f242561f4b6b4be44a32ead1edcfdb85d36"
+    },
+    "keeper": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/prepared-v2/keeper.zip",
+      "sha256": "901b68085a15e83669a2aa28b1fbdddcfa5a08848e541e18cf104dfb1ca29140",
+      "actor_sha256": "b6297278ab5d458a458b13f9664abfb9addaa51664e0d867a5d074719e0e3d83"
+    },
+    "manager": {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/prepared-v2/manager.zip",
+      "sha256": "3fb07f25dbf9a1bd3816a03ec4e4fa154f1cdd7e91daa7ef9254320fd79f311b",
+      "actor_sha256": "2399a9aebfa14978b91127d1c2d1655ad1767cabe33f83cdf0b13cbab745a0a4"
+    }
+  },
+  "contract": "roboturk.mobile_finish.v1",
+  "role": "finish",
+  "config": {
+    "length": 9.0,
+    "width": 6.0,
+    "goal_width": 1.0,
+    "robot_radius": 0.09,
+    "ball_radius": 0.0215,
+    "ball_mass": 0.046,
+    "max_speed": 2.0,
+    "max_omega": 8.0,
+    "max_kick": 5.0,
+    "dt": 0.02,
+    "max_steps": 500,
+    "neighbors": 5,
+    "possession_x": 0.115
+  },
+  "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b",
+  "validated_for_hardware": false
+}

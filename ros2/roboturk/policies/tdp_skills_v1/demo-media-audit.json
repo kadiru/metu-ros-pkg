@@ -1,0 +1,126 @@
+{
+  "video": "media/tdp-skills-demo.mp4",
+  "sha256": "aaa1867ca02601256010e9aaa31f1b73d2590e5a21a429dca35ae3c942f2ac69",
+  "bytes": 848754,
+  "ffprobe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1280,
+        "height": 720,
+        "avg_frame_rate": "25/1",
+        "nb_frames": "770"
+      }
+    ],
+    "format": {
+      "duration": "30.800000",
+      "size": "848754"
+    }
+  },
+  "all_frames_decoded": true,
+  "native_bytes_unchanged": true,
+  "visual_review": "Entire 1fps contact sheet covering all12cases plus full-size preview and endpoint frames",
+  "cuts": 0,
+  "outcome_selection": false,
+  "speed": 1,
+  "cases": [
+    {
+      "kind": "receive",
+      "seed": 5060000,
+      "start_seconds": 0,
+      "episode_seconds": 1.98,
+      "post_episode_hold_seconds": 0.6,
+      "success": true
+    },
+    {
+      "kind": "receive",
+      "seed": 5060001,
+      "start_seconds": 2.58,
+      "episode_seconds": 2.18,
+      "post_episode_hold_seconds": 0.6,
+      "success": true
+    },
+    {
+      "kind": "receive",
+      "seed": 5060002,
+      "start_seconds": 5.36,
+      "episode_seconds": 1.72,
+      "post_episode_hold_seconds": 0.6,
+      "success": true
+    },
+    {
+      "kind": "receive",
+      "seed": 5060003,
+      "start_seconds": 7.68,
+      "episode_seconds": 1.86,
+      "post_episode_hold_seconds": 0.6,
+      "success": true
+    },
+    {
+      "kind": "redirect",
+      "seed": 5260000,
+      "start_seconds": 10.14,
+      "episode_seconds": 2.32,
+      "post_episode_hold_seconds": 0.6,
+      "success": true
+    },
+    {
+      "kind": "redirect",
+      "seed": 5260001,
+      "start_seconds": 13.06,
+      "episode_seconds": 2.14,
+      "post_episode_hold_seconds": 0.6,
+      "success": true
+    },
+    {
+      "kind": "redirect",
+      "seed": 5260002,
+      "start_seconds": 15.8,
+      "episode_seconds": 2.38,
+      "post_episode_hold_seconds": 0.6,
+      "success": true
+    },
+    {
+      "kind": "redirect",
+      "seed": 5260003,
+      "start_seconds": 18.78,
+      "episode_seconds": 2.12,
+      "post_episode_hold_seconds": 0.6,
+      "success": true
+    },
+    {
+      "kind": "clear",
+      "seed": 5460000,
+      "start_seconds": 21.5,
+      "episode_seconds": 1.6400000000000001,
+      "post_episode_hold_seconds": 0.6,
+      "success": true
+    },
+    {
+      "kind": "clear",
+      "seed": 5460001,
+      "start_seconds": 23.74,
+      "episode_seconds": 1.76,
+      "post_episode_hold_seconds": 0.6,
+      "success": true
+    },
+    {
+      "kind": "clear",
+      "seed": 5460002,
+      "start_seconds": 26.1,
+      "episode_seconds": 1.74,
+      "post_episode_hold_seconds": 0.6,
+      "success": true
+    },
+    {
+      "kind": "clear",
+      "seed": 5460003,
+      "start_seconds": 28.44,
+      "episode_seconds": 1.76,
+      "post_episode_hold_seconds": 0.6,
+      "success": true
+    }
+  ]
+}

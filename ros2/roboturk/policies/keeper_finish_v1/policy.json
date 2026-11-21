@@ -1,0 +1,48 @@
+{
+  "contract": "roboturk.keeper_finish.v1",
+  "config": {
+    "length": 9.0,
+    "width": 6.0,
+    "goal_width": 1.0,
+    "robot_radius": 0.09,
+    "ball_radius": 0.0215,
+    "ball_mass": 0.046,
+    "max_speed": 2.0,
+    "max_omega": 8.0,
+    "max_kick": 5.0,
+    "dt": 0.02,
+    "max_steps": 500,
+    "neighbors": 5,
+    "possession_x": 0.115
+  },
+  "task": "keeper_finish.randomized.v1",
+  "backend": "webots_ideal_body_velocity+reactive_keeper_v1",
+  "method": "Webots demonstration cloning + DAgger + anchored PPO",
+  "seed": 97,
+  "demonstration_seed_range": [
+    900000,
+    900299
+  ],
+  "dagger_seed_range": [
+    920000,
+    920149
+  ],
+  "development_seed_range": [
+    910000,
+    910059
+  ],
+  "qualification_seed_range": [
+    950000,
+    950199
+  ],
+  "validated_for_hardware": false,
+  "learning_rate": 3e-07,
+  "anchor_max_normalized_action_delta": 0.01,
+  "anchor_mean_square_delta": 1e-06,
+  "stage": "policy",
+  "actual_steps": 65536,
+  "anchor_reference": "bc",
+  "resumed_refinement": true,
+  "anchor_updates": 64,
+  "anchor_rejected_updates": 0
+}

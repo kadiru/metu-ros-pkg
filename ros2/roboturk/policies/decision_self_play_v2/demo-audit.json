@@ -1,0 +1,98 @@
+{
+  "split": "demo",
+  "count": 9,
+  "passes_gate": true,
+  "counts": {
+    "keeper_save": 2,
+    "goals": 5,
+    "stops": 4,
+    "collisions": 0,
+    "clean": 9,
+    "unforced": 0,
+    "passes": 3,
+    "shots": 7,
+    "receptions": 1,
+    "carry_episodes": 4,
+    "direct_goals": 4,
+    "goal": 5,
+    "defender_interception": 2
+  },
+  "families": {
+    "advanced": {
+      "count": 3,
+      "clean": 3,
+      "goals": 1
+    },
+    "close": {
+      "count": 3,
+      "clean": 3,
+      "goals": 3
+    },
+    "midfield": {
+      "count": 3,
+      "clean": 3,
+      "goals": 1
+    }
+  },
+  "directions": {
+    "-1": 3,
+    "1": 6
+  },
+  "option_control_ticks": {
+    "dribble": 1300,
+    "shoot": 188,
+    "pass": 523
+  },
+  "learned_target_updates": 10,
+  "pass_target_ranges": [
+    [
+      -0.7244366779923439,
+      0.49705294892191887
+    ],
+    [
+      -2.436593151092529,
+      2.2838878870010375
+    ]
+  ],
+  "clean_wilson_95": [
+    0.7008549515804559,
+    1
+  ],
+  "goal_wilson_95": [
+    0.26665129349549305,
+    0.8112214789023355
+  ],
+  "models": {
+    "defender": {
+      "path": "final/defender/policy.zip",
+      "sha256": "9f275c10a0f3b331a55e5a0137e7212bc6477f81b5ac063ad46491eeef150938",
+      "manifest_sha256": "81b163090d9e1ab45e91f22240ebc2c0b19511d3f249bb3d0253c80fe8cd03f8",
+      "actor_sha256": "cae99185c28c49f4979e8b693bd94fcd9bfe64eea6acc3ee373bc3e86afe8d5b"
+    },
+    "keeper": {
+      "path": "final/keeper/policy.zip",
+      "sha256": "f553b39637f7aa5c3ac6d5632ca027cde883c663bb840576f174fbc5c4b1d9bc",
+      "manifest_sha256": "ed1bce1df440e61bbc6bb396b58d3a436eba68f89ea1ed72958fd0592d4b79d4",
+      "actor_sha256": "c9e6bd5388b93a0932e0d983a509effde1528e4082167f98ad0b90355cf99319"
+    },
+    "manager": {
+      "path": "final/manager/policy.zip",
+      "sha256": "3ecba688dc88efecc7312eed2e3906f68b89758a8f00be7bb2b421261d7afe3a",
+      "manifest_sha256": "367e39935977c578c582a70d1c2e04bfc5e5f6dc8f727b09395894881749ac1f",
+      "actor_sha256": "9a7d1c2e2dbc519e55cff407cb3753d2bf3f31cbf31ac984bbc249eb124ffd09"
+    },
+    "transfer": {
+      "path": "final/transfer/policy.zip",
+      "sha256": "18b66d774e38cd544f8206b408517f36ded9699feadead24f0feec723c4a7701",
+      "manifest_sha256": "5142fd00dc546a856bf57ed8dfc238b7cbed3c2538375a583d2408f175252396",
+      "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+    },
+    "finish": {
+      "path": "final/finish/policy.zip",
+      "sha256": "674a5e141b228ac12c68daffdcb535a102b01cdbdf81d1afabf10782e4d4a971",
+      "manifest_sha256": "db01ff029023f632b7dfac7490d74010db85580146673553eaac6835a55c96b8",
+      "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+    }
+  },
+  "runtime_verified": true
+}

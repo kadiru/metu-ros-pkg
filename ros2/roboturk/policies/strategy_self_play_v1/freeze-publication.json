@@ -1,0 +1,11 @@
+{
+  "commit": "008122327014feaba4e9f05a73381a0bd2d73681",
+  "tree": "13558abb2f3eef56b10052e932d700c42736b4eb",
+  "verified_at": "2026-11-20T19:22:09.418456-08:00",
+  "remote_hashes_verified": true,
+  "verified_manifest_files": 457,
+  "freeze_sha256": "441918e59d5ad20e294ee205a57583529c6b712ddaad195f089ceaf6ff7b89fd",
+  "repository": "kadiru/metu-ros-pkg",
+  "branch": "codex/roboturk-ros2",
+  "scope": "Every frozen dependency and freeze.json matched remote Git blob SHA; 64 development match evidence included."
+}

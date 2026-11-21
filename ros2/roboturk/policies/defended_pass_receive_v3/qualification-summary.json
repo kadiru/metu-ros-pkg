@@ -1,0 +1,50 @@
+{
+  "episodes": 200,
+  "goals": 200,
+  "success_rate": 1.0,
+  "wilson_95": [
+    0.9811546736227335,
+    1.0
+  ],
+  "failure_reasons": {},
+  "possession_loss_episodes": 0,
+  "collision_episodes": 0,
+  "interception_episodes": 0,
+  "possession_physics_checks": 407216,
+  "defender_physics_checks": 531960,
+  "mean_full_sequence_seconds": 13.299,
+  "mean_ball_displacement_to_reception": 2.8343119895586097,
+  "mean_receiver_carry_progress": 3.249642488045398,
+  "mean_shot_distance": 1.285140993729609,
+  "mean_receiver_lateral_displacement": 2.494531247768931,
+  "mean_defender_distance_moved": 1.770709081035527,
+  "max_initial_lane_clearance": 0.024746338717526465,
+  "min_release_lane_clearance": 0.7453166153750286,
+  "min_ball_defender_distance": 0.47502288974671714,
+  "min_robot_defender_distance": 0.7042216381078958,
+  "max_goal_offset": 0.0690954246442838,
+  "two_actual_kicks_per_success": true,
+  "subsets": {
+    "attack_sign": {
+      "-1": {
+        "goals": 99,
+        "episodes": 99
+      },
+      "1": {
+        "goals": 101,
+        "episodes": 101
+      }
+    },
+    "passer_id": {
+      "0": {
+        "goals": 100,
+        "episodes": 100
+      },
+      "1": {
+        "goals": 100,
+        "episodes": 100
+      }
+    }
+  },
+  "acceptance_passed": true
+}

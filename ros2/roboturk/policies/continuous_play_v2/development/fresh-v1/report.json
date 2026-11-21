@@ -1,0 +1,118 @@
+{
+  "611": {
+    "summary": {
+      "matches": 30,
+      "completed": 30,
+      "unfinished": 0,
+      "goals": {
+        "blue": 19,
+        "yellow": 16
+      },
+      "wins": {
+        "blue": 13,
+        "yellow": 6
+      },
+      "draws": 11,
+      "goal_matches": 24,
+      "turnover_matches": 22,
+      "acquisition_matches": 30,
+      "recovery_matches": 29,
+      "passes": 73,
+      "receptions": 29,
+      "mean_contact_fraction": 0.0,
+      "field_exit_matches": 0,
+      "mean_possession_seconds": {
+        "blue": 16.661333333333456,
+        "yellow": 17.524000000000367
+      }
+    },
+    "metrics": {
+      "completion_fraction": 1.0,
+      "contact_fraction": 0.0,
+      "field_exit_fraction": 0.0,
+      "loose_acquisition_fraction": 1.0,
+      "goals": 35,
+      "goals_per_color": 16,
+      "passes": 73,
+      "receptions": 29,
+      "shots": 45,
+      "counterattack_matches": 20,
+      "mean_support_m_per_color": 13.689484463531624,
+      "safety_intervention_tick_fraction": 0.18837037037037038
+    },
+    "minimum": {
+      "completion_fraction": 0.95,
+      "loose_acquisition_fraction": 0.9,
+      "goals": 10,
+      "goals_per_color": 3,
+      "passes": 10,
+      "receptions": 8,
+      "shots": 10,
+      "counterattack_matches": 5,
+      "mean_support_m_per_color": 1
+    },
+    "maximum": {
+      "contact_fraction": 0.02,
+      "field_exit_fraction": 0.05
+    },
+    "passed": true
+  },
+  "622": {
+    "summary": {
+      "matches": 30,
+      "completed": 30,
+      "unfinished": 0,
+      "goals": {
+        "blue": 6,
+        "yellow": 7
+      },
+      "wins": {
+        "blue": 4,
+        "yellow": 6
+      },
+      "draws": 20,
+      "goal_matches": 11,
+      "turnover_matches": 21,
+      "acquisition_matches": 30,
+      "recovery_matches": 29,
+      "passes": 82,
+      "receptions": 35,
+      "mean_contact_fraction": 0.0,
+      "field_exit_matches": 0,
+      "mean_possession_seconds": {
+        "blue": 16.52783333333364,
+        "yellow": 15.721000000000382
+      }
+    },
+    "metrics": {
+      "completion_fraction": 1.0,
+      "contact_fraction": 0.0,
+      "field_exit_fraction": 0.0,
+      "loose_acquisition_fraction": 1.0,
+      "goals": 13,
+      "goals_per_color": 6,
+      "passes": 82,
+      "receptions": 35,
+      "shots": 32,
+      "counterattack_matches": 16,
+      "mean_support_m_per_color": 13.426340444137033,
+      "safety_intervention_tick_fraction": 0.1645037037037037
+    },
+    "minimum": {
+      "completion_fraction": 0.95,
+      "loose_acquisition_fraction": 0.9,
+      "goals": 10,
+      "goals_per_color": 3,
+      "passes": 10,
+      "receptions": 8,
+      "shots": 10,
+      "counterattack_matches": 5,
+      "mean_support_m_per_color": 1
+    },
+    "maximum": {
+      "contact_fraction": 0.02,
+      "field_exit_fraction": 0.05
+    },
+    "passed": true
+  }
+}

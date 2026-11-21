@@ -1,0 +1,22 @@
+{
+  "defender": {
+    "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/release-head-repair/defender.zip",
+    "sha256": "397ff7d377132acad2fdcbaba13eb25776ec387bddb347236dce1237ecf04f58",
+    "actor_sha256": "b0de00f317bf00ed2552a142c8b8a467fe3723741852828e32ba48ad79229b9b"
+  },
+  "keeper": {
+    "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/release-head-repair/keeper.zip",
+    "sha256": "9935cb042ceb7e6bda358f0d102f578c461fef8963217330c76f0f7f89206493",
+    "actor_sha256": "6f16273d50f5c612cc5e4c3a28b437fffb1b1db937485ee5635ff84a0937698a"
+  },
+  "transfer": {
+    "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/release-head-repair/transfer.zip",
+    "sha256": "2ea2d3b2621e45a55fd638f7a8239eb5ef64da758acc656c47f828c56bd9fc0b",
+    "actor_sha256": "7b6fc4b878b8705dc86d68fb76405adf20c25c54f467811f7e89720ca3b62d19"
+  },
+  "finish": {
+    "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/release-head-repair/finish.zip",
+    "sha256": "a1254bffe842c90e0b42ecb6bf7b1aab717b99be436dfe571bf2fcdac8f9dddd",
+    "actor_sha256": "0f7abc626b6d07a35cde4c108fb14912427885652e9d50be4b27ec69bb0a543d"
+  }
+}

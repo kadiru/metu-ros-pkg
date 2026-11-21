@@ -1,0 +1,14 @@
+#VRML_SIM R2025a utf8
+PROTO SslBall [ field SFVec3f translation 0 0 0.0215 ] {
+  Solid {
+    translation IS translation
+    name "ball"
+    contactMaterial "ball"
+    children [ Shape {
+      appearance PBRAppearance { baseColor 1 0.45 0.02 roughness 0.75 metalness 0 }
+      geometry Sphere { radius 0.0215 subdivision 3 }
+    } ]
+    boundingObject Sphere { radius 0.0215 }
+    physics Physics { density -1 mass 0.046 }
+  }
+}

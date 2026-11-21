@@ -1,0 +1,20 @@
+{
+  "frozen_at": "2026-11-19T04:46:12.540691-08:00",
+  "checkpoint_sha256": "afc9b76860cdd5b561ff370de596edf4d62cd2f403594efdfbd5cae6670d1b1e",
+  "development_sha256": "9cd795e7e9867848ae4ef7d4ecf7272811c4017c093ac92e8e1605ac6ed611f9",
+  "runtime_source_sha256": {
+    "defense_micro.py": "26c4bbb354dcf80e48d490df3dda3db6fe38b76b50908205478348eec4fe80e6",
+    "model.py": "0489022ffecdaa2b269a7b547218d056401749aaa03f050b0cc8393d861cfa10",
+    "webots_backend.py": "1cc82885cb85d158463a94ab39a224d9c734ad8ae8699be40e501b018d3befaf"
+  },
+  "qualification_seeds": [
+    1150000,
+    1150199
+  ],
+  "demo_seeds": [
+    1160000,
+    1160002
+  ],
+  "gate": ">=190/200 successes; zero robot collisions",
+  "scope": "geometric moving passing-lane coverage"
+}

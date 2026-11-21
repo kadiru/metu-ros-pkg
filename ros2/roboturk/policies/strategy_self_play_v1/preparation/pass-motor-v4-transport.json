@@ -1,0 +1,42 @@
+[
+  {
+    "source": "runs/strategy-v1/pass-motor-v4/data.npz",
+    "path": "policies/strategy_self_play_v1/preparation/pass-motor-v4/data.npz",
+    "payload_sha256": "03cd019b42d81d7f807e31424635d0cb965c06bc200098bb843f8555112df8f5",
+    "sha256": "03cd019b42d81d7f807e31424635d0cb965c06bc200098bb843f8555112df8f5",
+    "original_bytes": 3631792,
+    "bytes": 3631792
+  },
+  {
+    "source": "runs/strategy-v1/pass-motor-v4/excluded.json",
+    "path": "policies/strategy_self_play_v1/preparation/pass-motor-v4/excluded.json",
+    "payload_sha256": "6863caacb957add7b5e6b1a0cbf1a8cc27ce98ecd79389d76009db2a73414925",
+    "sha256": "6863caacb957add7b5e6b1a0cbf1a8cc27ce98ecd79389d76009db2a73414925",
+    "original_bytes": 227,
+    "bytes": 227
+  },
+  {
+    "source": "runs/strategy-v1/pass-motor-v4/policy.json",
+    "path": "policies/strategy_self_play_v1/preparation/pass-motor-v4/policy.json",
+    "payload_sha256": "07accd3b374930db7d1c441a6f2e7c863ac37c81d65a0a738af7ae7358aafed5",
+    "sha256": "07accd3b374930db7d1c441a6f2e7c863ac37c81d65a0a738af7ae7358aafed5",
+    "original_bytes": 7456,
+    "bytes": 7456
+  },
+  {
+    "source": "runs/strategy-v1/pass-motor-v4/policy.pt",
+    "path": "policies/strategy_self_play_v1/preparation/pass-motor-v4/policy.pt",
+    "payload_sha256": "3a2f7b1d194edd52ffcd82654f804a2a626fb640116257908423ede45fe8a638",
+    "sha256": "3a2f7b1d194edd52ffcd82654f804a2a626fb640116257908423ede45fe8a638",
+    "original_bytes": 24713,
+    "bytes": 24713
+  },
+  {
+    "source": "runs/strategy-v1/pass-motor-v4.log",
+    "path": "policies/strategy_self_play_v1/preparation/pass-motor-v4.log",
+    "payload_sha256": "1c6b13f0f368ef2f8f863b0177bb7820d7cf72e1a42fd48fe4c5a5faef8650df",
+    "sha256": "1c6b13f0f368ef2f8f863b0177bb7820d7cf72e1a42fd48fe4c5a5faef8650df",
+    "original_bytes": 785,
+    "bytes": 785
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "scope": "development preflight only",
+  "portable_bundle_native_load_verified": true,
+  "models_and_outcomes_match_absolute_bundle": true,
+  "physics_and_decision_audit_passed": true,
+  "frame_visually_inspected": true,
+  "full_video_decode_exit_code": 0,
+  "width": 1280,
+  "height": 720,
+  "fps": 25,
+  "frames": 269,
+  "duration": 10.76,
+  "expected_elapsed_plus_display": 10.799999999999999,
+  "sha256": "91c312f5a3a1bed95b93eef4854f5985c795642cdd5329367a5e7a3a388a0aaf",
+  "native_encoder_warning": "2pass target bitrate convergence warning; movie ready and full decode passed",
+  "labels_enlarged": true
+}

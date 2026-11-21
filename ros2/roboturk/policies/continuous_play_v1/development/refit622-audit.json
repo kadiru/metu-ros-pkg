@@ -1,0 +1,39 @@
+{
+  "matches": 6,
+  "summary": {
+    "matches": 6,
+    "completed": 5,
+    "goals": {
+      "blue": 0,
+      "yellow": 0
+    },
+    "wins": {
+      "blue": 0,
+      "yellow": 0
+    },
+    "draws": 6,
+    "goal_matches": 0,
+    "turnover_matches": 5,
+    "acquisition_matches": 6,
+    "recovery_matches": 5,
+    "passes": 28,
+    "receptions": 1,
+    "mean_contact_fraction": 0.18768770163892115,
+    "field_exit_matches": 6,
+    "mean_possession_seconds": {
+      "blue": 13.674166666667295,
+      "yellow": 10.054999999999977
+    }
+  },
+  "counterattacks": [
+    {
+      "seed": 4400001,
+      "team": "blue",
+      "turnover_step": 1355,
+      "until_step": 1613,
+      "controlled_advance": 2.570869417940455
+    }
+  ],
+  "counterattack_matches": 1,
+  "source_sha256": "295b280be7b55b611cf8fb9deafc02c8f6ab94cbfa19796c38b157ce5162e350"
+}

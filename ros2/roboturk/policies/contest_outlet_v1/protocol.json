@@ -1,0 +1,15 @@
+{
+  "training_first": 8100000,
+  "development_first": 8300000,
+  "reserved_first": 8500000,
+  "matches_per_panel": 8,
+  "seconds": 90,
+  "panels": ["released", "trained", "head_to_head"],
+  "starts": "Same eight ordinary open-play starts in each panel. Head-to-head alternates the trained color. Only goal or ball-out restarts.",
+  "demo_first": 8600000,
+  "demo_matches": 2,
+  "demo_starts": "One new contested midfield start, then one ordinary open-play start; full 90 seconds each.",
+  "contest": "Opposing mouths simultaneously contain the ball for at least 0.20 s. Re-arm after 0.20 s exclusive possession, a referee restart, or 1 s without a mouth on the ball.",
+  "chain": "A contestant establishes exclusive mouth control for 0.20 s within 3 s of leaving the tie, then physically kicks to the selected teammate within 8 s of recovery; no opposing mouth touch, intervening kick or reset before delivery. Reception requires 0.55 m travel and 0.20 s exclusive possession within 4 s.",
+  "gates": {"max_trained_contested_seconds_relative_to_released": 0.65, "min_trained_chains": 5, "min_trained_matches_with_chain": 4, "min_trained_matches_with_late_reception": 4, "min_trained_team_chains_head_to_head": 2, "max_robot_field_exits": 0, "max_contact_fraction": 0.005}
+}

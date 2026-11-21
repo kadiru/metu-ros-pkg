@@ -1,0 +1,89 @@
+{
+  "split": "demo",
+  "count": 8,
+  "passes_gate": true,
+  "counts": {
+    "defender_interception": 3,
+    "goals": 2,
+    "stops": 6,
+    "collisions": 0,
+    "outside": 0,
+    "clean": 8,
+    "unforced": 0,
+    "keeper_save": 3,
+    "goal": 2
+  },
+  "directions": {
+    "1": 4,
+    "-1": 4
+  },
+  "policy_calls": {
+    "defender": 3419,
+    "keeper": 3419
+  },
+  "excursions_m": {
+    "defender": {
+      "x": {
+        "min": 0.12365755893340924,
+        "median": 2.625704098089524,
+        "max": 3.6783437958490657,
+        "mean": 2.0613617769729053
+      },
+      "y": {
+        "min": 1.0011577919390786,
+        "median": 1.3509768886284306,
+        "max": 1.6224589937820266,
+        "mean": 1.3383496234401113
+      }
+    },
+    "keeper": {
+      "x": {
+        "min": 0.03695348034378654,
+        "median": 0.583897190780573,
+        "max": 0.6427416393019532,
+        "mean": 0.3936488805793623
+      },
+      "y": {
+        "min": 0.06578233580370689,
+        "median": 0.16358970607968212,
+        "max": 0.2634791133483021,
+        "mean": 0.16620147807664967
+      }
+    }
+  },
+  "goal_wilson_95": [
+    0.071479212752109,
+    0.5907245696898311
+  ],
+  "clean_wilson_95": [
+    0.6755924351161198,
+    1
+  ],
+  "models": {
+    "defender": {
+      "path": "policies/self_play_v1/final/defender/policy.zip",
+      "sha256": "ef0e9a73f29488d37b4302c3e3f2342f39c0a8e225732b990098c6e7e5202abc",
+      "manifest_sha256": "b68c6a0958fba95ce26b98ce131291410b1261549d425d55f9f5038190e29bc6",
+      "actor_sha256": "59b9598a05993578be7b300a5f0c9f242561f4b6b4be44a32ead1edcfdb85d36"
+    },
+    "keeper": {
+      "path": "policies/self_play_v1/final/keeper/policy.zip",
+      "sha256": "87e14001b27755ecef88ad8d554f90f34a806fcd8e47caef0dd85be3a7098ddd",
+      "manifest_sha256": "67a450292cb22f1d9db8f836badaf6eb1f3a432e1d71a8104603d68dc5a558fb",
+      "actor_sha256": "b6297278ab5d458a458b13f9664abfb9addaa51664e0d867a5d074719e0e3d83"
+    },
+    "transfer": {
+      "path": "policies/self_play_v1/final/transfer/policy.zip",
+      "sha256": "f55cc19989397f6c7965f9a2612b7aea300f648f616b20b9dcae3eb5b5bad42a",
+      "manifest_sha256": "816c073034a9d91fd62b720304389675d83de6c0f90a2e37922dd01692545c92",
+      "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+    },
+    "finish": {
+      "path": "policies/self_play_v1/final/finish/policy.zip",
+      "sha256": "3310235fa2a121234ae51264c72510184feb136c8e6c6e8c87708bdb504f0534",
+      "manifest_sha256": "c2f906acec8b8ca2d3942988525f2173c4eb61f9b20856993f40fb7e2a32ca92",
+      "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+    }
+  },
+  "runtime_verified": true
+}

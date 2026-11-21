@@ -1,0 +1,10 @@
+INFO: roboturk_contest: Starting controller: python3 -u roboturk_contest.py
+1 84.43 0 0
+2 0.0 0 0
+3 81.33 0 0
+4 15.64 0 2
+5 36.050000000000004 0 0
+6 76.84 0 0
+7 0.0 0 5
+INFO: roboturk_contest: Terminating.
+UNSUPPORTED (log once): POSSIBLE ISSUE: unit 1 GLD_TEXTURE_INDEX_2D is unloadable and bound to sampler type (Float) - using zero texture because texture unloadable

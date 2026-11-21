@@ -1,0 +1,6 @@
+{
+  "scope": "Deployment packaging fix before freeze",
+  "change": "Resolve published bundle paths against modern repository root; preserve absolute paths unchanged. Ongoing development uses absolute paths and identical model bytes. Cross-play and subsequent media/qualification use the revised loader.",
+  "file": "src/roboturk_ros/webots/controllers/roboturk_supervisor/decision_runner.py",
+  "sha256": "8998be6c601a91048015247c77200d894e6d7b9d87c61f211a14f5502f100b87"
+}

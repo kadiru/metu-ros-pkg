@@ -1,0 +1,13 @@
+UNSUPPORTED (log once): POSSIBLE ISSUE: unit 0 GLD_TEXTURE_INDEX_2D is unloadable and bound to sampler type (Float) - using zero texture because texture unloadable
+INFO: roboturk_strategy: Starting controller: python3 -u roboturk_strategy.py
+Strategy evaluation 1 2 {'matches': 1, 'completed': 1, 'unfinished': 0, 'goals': {'blue': 1, 'yellow': 0}, 'wins': {'blue': 1, 'yellow': 0}, 'draws': 0, 'goal_matches': 1, 'turnover_matches': 0, 'acquisition_matches': 1, 'recovery_matches': 0, 'passes': 1, 'receptions': 0, 'mean_contact_fraction': 0.0, 'field_exit_matches': 0, 'mean_possession_seconds': {'blue': 1.8449999999999827, 'yellow': 0.3300000000000002}, 'skill_outcomes': {'receive_stop': 0, 'redirect_kick': 1, 'redirect_goal': 1, 'clearance_complete': 0}, 'new_skill_ticks': {'receive': 310, 'redirect': 44, 'clear': 124}}
+INFO: Creating video...
+Strategy evaluation 2 2 {'matches': 2, 'completed': 2, 'unfinished': 0, 'goals': {'blue': 1, 'yellow': 0}, 'wins': {'blue': 1, 'yellow': 0}, 'draws': 1, 'goal_matches': 1, 'turnover_matches': 1, 'acquisition_matches': 2, 'recovery_matches': 1, 'passes': 1, 'receptions': 0, 'mean_contact_fraction': 0.0, 'field_exit_matches': 0, 'mean_possession_seconds': {'blue': 2.314999999999973, 'yellow': 0.4650000000000003}, 'skill_outcomes': {'receive_stop': 0, 'redirect_kick': 1, 'redirect_goal': 1, 'clearance_complete': 1}, 'new_skill_ticks': {'receive': 671, 'redirect': 44, 'clear': 161}}
+Recording at 25 FPS, 7650000 bit/s.
+Video encoding stage 1... (please wait)
+Video encoding stage 2... (please wait)
+[libx264 @ 0x7f90c6808200] Error: 2pass curve failed to converge
+[libx264 @ 0x7f90c6808200] target: 7650.00 kbit/s, expected: 1317.34 kbit/s, avg QP: 0.0259
+[libx264 @ 0x7f90c6808200] try reducing target bitrate
+INFO: Video creation finished.
+INFO: roboturk_strategy: Terminating.

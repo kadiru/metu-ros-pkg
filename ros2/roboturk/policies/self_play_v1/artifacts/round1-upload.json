@@ -1,0 +1,337 @@
+[
+  {
+    "path": "policies/self_play_v1/README.md",
+    "size": 3563,
+    "sha": "cc037bef54471d735687133bf5f671eda09fa7a9"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/league.json",
+    "size": 14465,
+    "sha": "0195012fb82841f958982b5ea9e84f1cd9d5eeb5"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-defender/bundle.json",
+    "size": 1215,
+    "sha": "465dd49867b5559e1d424a98a978fcbf72eba56c"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-defender/defender.json",
+    "size": 555,
+    "sha": "34d42ccc4d23e9fd9638650fa2467eec13431a29"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-defender/defender.zip",
+    "size": 390374,
+    "sha": "8b7f285d9abbca26ebdb50cc7536b229abdf2e7a"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-defender/finish.json",
+    "size": 551,
+    "sha": "250f0fd70d296094c197915bfd9670afb65a54c9"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-defender/finish.zip",
+    "size": 192460,
+    "sha": "26a305e4edfea295d79769a92588b8a71260318e"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-defender/keeper.json",
+    "size": 553,
+    "sha": "1b9d2f79b677bd7873f068c20f74f5bc85b13af1"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-defender/keeper.zip",
+    "size": 390374,
+    "sha": "8703de2484a21c4223cfa1009a85716eb17e30da"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-defender/transfer.json",
+    "size": 555,
+    "sha": "a5aab4110fb5dfb5db5d436c75eb15f4e3c41889"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-defender/transfer.zip",
+    "size": 432851,
+    "sha": "d4076b151c13b3ce5c52d79039a0c24a883b029f"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-finish/bundle.json",
+    "size": 1207,
+    "sha": "88238c05fc91446c9cb837325e0b6f9b5988f3a0"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-finish/defender.json",
+    "size": 555,
+    "sha": "681931342457563dc8784c1b605173e03b3f864d"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-finish/defender.zip",
+    "size": 1144167,
+    "sha": "452470ffba66de2555e0be73d24a99d673f06e95"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-finish/finish.json",
+    "size": 551,
+    "sha": "250f0fd70d296094c197915bfd9670afb65a54c9"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-finish/finish.zip",
+    "size": 192460,
+    "sha": "3ac0c48e02deff7d0a0058d8999f4cd80ed64ed1"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-finish/keeper.json",
+    "size": 553,
+    "sha": "2c8853e29dca7a360aeff0004592c39285286c5b"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-finish/keeper.zip",
+    "size": 1144619,
+    "sha": "b2d39aca1b6ffc7d9ef1c20175c7e82af252bf58"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-finish/transfer.json",
+    "size": 555,
+    "sha": "e13f951db4b6948260970620ba7fe7d0fc6622f9"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-finish/transfer.zip",
+    "size": 1270908,
+    "sha": "d72d784ff5de0029714765d398a1ed056070dafd"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-keeper/bundle.json",
+    "size": 1207,
+    "sha": "e665e671640a6365747b860af63f5816cd45369c"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-keeper/defender.json",
+    "size": 555,
+    "sha": "681931342457563dc8784c1b605173e03b3f864d"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-keeper/defender.zip",
+    "size": 1144167,
+    "sha": "3d752359df5bfd91140f7a71f066a0e2b0c4b613"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-keeper/finish.json",
+    "size": 551,
+    "sha": "250f0fd70d296094c197915bfd9670afb65a54c9"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-keeper/finish.zip",
+    "size": 192460,
+    "sha": "0e9895c27b248336cc369e510e17ee38e576f2d7"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-keeper/keeper.json",
+    "size": 553,
+    "sha": "1b9d2f79b677bd7873f068c20f74f5bc85b13af1"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-keeper/keeper.zip",
+    "size": 390374,
+    "sha": "00d36e623ccd9018594c11b6be8d4c3ce8332195"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-keeper/transfer.json",
+    "size": 555,
+    "sha": "a5aab4110fb5dfb5db5d436c75eb15f4e3c41889"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-keeper/transfer.zip",
+    "size": 432851,
+    "sha": "323903fd638d5885daacf0e927d3bacf365b29a5"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-transfer/bundle.json",
+    "size": 1215,
+    "sha": "bccad6302dfd48a06537b848eac459f9dc78f417"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-transfer/defender.json",
+    "size": 555,
+    "sha": "681931342457563dc8784c1b605173e03b3f864d"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-transfer/defender.zip",
+    "size": 1144167,
+    "sha": "da47a00386b388bc6ade84087879c78fc4138259"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-transfer/finish.json",
+    "size": 551,
+    "sha": "250f0fd70d296094c197915bfd9670afb65a54c9"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-transfer/finish.zip",
+    "size": 192460,
+    "sha": "fb7f9c0ba38cfa0813e9f54cf72c70f8fe6cd33b"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-transfer/keeper.json",
+    "size": 553,
+    "sha": "2c8853e29dca7a360aeff0004592c39285286c5b"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-transfer/keeper.zip",
+    "size": 1144619,
+    "sha": "e7d276eb34ad2ae757d4104f3fa8663fb6d2d0d8"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-transfer/transfer.json",
+    "size": 555,
+    "sha": "a5aab4110fb5dfb5db5d436c75eb15f4e3c41889"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/before-transfer/transfer.zip",
+    "size": 432851,
+    "sha": "72df81d32730d4621aff971116187646e8644c94"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/defender-rollouts.json",
+    "size": 320803,
+    "sha": "64e8c49477d9344ff65fcbe2d68cb2b5422806c8"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/defender-updates.json",
+    "size": 3975,
+    "sha": "01238712b98fd77be333e52174a26cf5059b794a"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/defender.json",
+    "size": 2063,
+    "sha": "b1671fabbd10712e0043c3d8d1c300cd368f1f22"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/defender.zip",
+    "size": 1144167,
+    "sha": "3d752359df5bfd91140f7a71f066a0e2b0c4b613"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/development.json",
+    "size": 250626,
+    "sha": "a5870ee5d1dabd6de296116385c119449fdbeeb4"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/finish-rollouts.json",
+    "size": 805819,
+    "sha": "5bfcc5a3ccda7ff9cf3e0e27886fafade1a11582"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/finish-updates.json",
+    "size": 3996,
+    "sha": "d55e80e873f322cd0450710678f68808c053239a"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/finish.json",
+    "size": 3355,
+    "sha": "d98a873fb5f3b16cff01bae4b16bb3df4e5eb61c"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/finish.zip",
+    "size": 551489,
+    "sha": "a22fe0338ca7550c256d78f7618dadce7715bca3"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/keeper-rollouts.json",
+    "size": 350231,
+    "sha": "5151665e32ae9a2c1640ea58211f4d2ca2f2b8e0"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/keeper-updates.json",
+    "size": 3975,
+    "sha": "6ed2efca1dbce8edae0e4cf9c76b49a0a3fcd77c"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/keeper.json",
+    "size": 2061,
+    "sha": "f29b059d897f6ceaaa9f286c202bf867a4b892ad"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/keeper.zip",
+    "size": 1144619,
+    "sha": "e7d276eb34ad2ae757d4104f3fa8663fb6d2d0d8"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/snapshot/bundle.json",
+    "size": 1187,
+    "sha": "4f0450a58169430e6c3fea4fd0c7dfc57fb6e26c"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/snapshot/defender.json",
+    "size": 563,
+    "sha": "6c2c4560c7d2d5caa699d9418e256b9b27081907"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/snapshot/defender.zip",
+    "size": 1144167,
+    "sha": "aa16276865fc34067e2a4cb45590cb5d14fbd420"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/snapshot/finish.json",
+    "size": 559,
+    "sha": "acb4def2b7b66e01f74006e857eb0ced31f08f17"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/snapshot/finish.zip",
+    "size": 551489,
+    "sha": "a22fe0338ca7550c256d78f7618dadce7715bca3"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/snapshot/keeper.json",
+    "size": 561,
+    "sha": "4b322fc1cac7556c8f5cb9dd57b49f768c569e38"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/snapshot/keeper.zip",
+    "size": 1144619,
+    "sha": "365e17731f0b39b1304284ed78452d9fd90a4739"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/snapshot/transfer.json",
+    "size": 563,
+    "sha": "0853a9bc26c5992b998c7a76f719053b925ebd77"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/snapshot/transfer.zip",
+    "size": 1270908,
+    "sha": "27eb5a0fb11d5b3bed04bb12f898bfbff0537b8d"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/transfer-rollouts.json",
+    "size": 703225,
+    "sha": "3b68f38b878865d905c55c603a4513ba6a31b5ff"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/transfer-updates.json",
+    "size": 3991,
+    "sha": "732c1a1c4e644350001a3dff3e9b7900aabc8310"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/transfer.json",
+    "size": 3367,
+    "sha": "05dfc32f2885542a2958fd2423524e1876e9f99b"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/round1/transfer.zip",
+    "size": 1270908,
+    "sha": "d72d784ff5de0029714765d398a1ed056070dafd"
+  },
+  {
+    "path": "policies/self_play_v1/artifacts/training-progress.json",
+    "size": 13189,
+    "sha": "f632be304a93da9ea08d8b9d60bc3eec89ee4394"
+  },
+  {
+    "path": "scripts/stage_self_play.py",
+    "size": 3445,
+    "sha": "bff24a6fb989476b0d7540a5709d885015596d2b"
+  },
+  {
+    "path": "src/roboturk_core/roboturk/micro_catalog.py",
+    "size": 7408,
+    "sha": "ed21d3d7aab754c2d7b13ba797f75ac044839d86"
+  }
+]

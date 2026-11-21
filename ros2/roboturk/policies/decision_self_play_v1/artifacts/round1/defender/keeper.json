@@ -1,0 +1,24 @@
+{
+  "stage": "self_play",
+  "generation": 1,
+  "learning_role": "defender",
+  "contract": "roboturk.mobile_opponent.v1",
+  "role": "keeper",
+  "config": {
+    "length": 9.0,
+    "width": 6.0,
+    "goal_width": 1.0,
+    "robot_radius": 0.09,
+    "ball_radius": 0.0215,
+    "ball_mass": 0.046,
+    "max_speed": 2.0,
+    "max_omega": 8.0,
+    "max_kick": 5.0,
+    "dt": 0.02,
+    "max_steps": 500,
+    "neighbors": 5,
+    "possession_x": 0.115
+  },
+  "actor_sha256": "b6297278ab5d458a458b13f9664abfb9addaa51664e0d867a5d074719e0e3d83",
+  "validated_for_hardware": false
+}

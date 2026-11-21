@@ -1,0 +1,11 @@
+{
+  "cases": [
+    6300502,
+    6300503
+  ],
+  "physical_samples_compared": 2400,
+  "all_physics_states_identical": true,
+  "outcomes_identical": true,
+  "full_video_decode_passed": true,
+  "visual_qa": "Whole field, all four robots, live skill labels, score and ball ring visible; ring is non-collidable."
+}

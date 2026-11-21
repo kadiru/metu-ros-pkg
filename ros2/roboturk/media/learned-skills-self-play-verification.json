@@ -1,0 +1,27 @@
+{
+  "mp4": "media/learned-skills-self-play-demo.mp4",
+  "gif": "media/learned-skills-self-play-preview.gif",
+  "native_delivery_sha256": "ce92a558c634e88039a34549d8be5d2a2f1d2e81ec09d1fde307be1b1c40a2fb",
+  "gif_sha256": "90d2fc3e79e9717cd76779ef621bd210abf29b82fd824ae67884c3019239931c",
+  "full_native_decode_passed": true,
+  "full_gif_decode_passed": true,
+  "visual_inspection": {
+    "native_contact_sheet_seconds": [
+      5,
+      15,
+      25,
+      35,
+      45,
+      55,
+      65,
+      75
+    ],
+    "native_full_frame_seconds": 42.6,
+    "gif_full_frame_seconds": 22.4,
+    "whole_field_visible": true,
+    "four_robots_visible": true,
+    "ball_marker_visible": true,
+    "score_and_behavior_labels_readable": true
+  },
+  "scope": "Representative visual inspection plus full stream decode; source is actual native recording, no generated animation."
+}

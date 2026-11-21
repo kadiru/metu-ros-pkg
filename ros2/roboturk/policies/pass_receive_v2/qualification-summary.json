@@ -1,0 +1,31 @@
+{
+  "inference_play": "PassReceiveScorePlay",
+  "successes": 200,
+  "success_rate": 1.0,
+  "wilson_95": [
+    0.9811546736227335,
+    1.0
+  ],
+  "transfer_successes": 200,
+  "mean_success_seconds": 12.3278,
+  "mean_pass_distance": 1.9192816527260166,
+  "possession_loss_episodes": 0,
+  "policy": "policies/pass_receive_v2/policy.zip",
+  "shooter": "policies/capture_dribble_shoot_v2/policy.zip",
+  "checkpoint_sha256": "317bbf99ac4e436ef43d4bb1140e1e328749d5fdb01930a572ab0ad9f2d157f3",
+  "shooting_checkpoint_sha256": "6558b977dcdeb0001e9590b01ca1cfb9f3ec3fd16da1f43d17b8c3e6c9f6cc11",
+  "mean_ball_displacement_to_reception": 1.9137703583060406,
+  "mean_receiver_carry": 2.7488248997380724,
+  "mean_shot_distance": 1.2859781398744012,
+  "physics_possession_checks": 399816,
+  "maximum_goal_offset": 0.07641120373674475,
+  "by_attack_direction": {
+    "-1": 95,
+    "1": 105
+  },
+  "by_passer_id": {
+    "0": 87,
+    "1": 113
+  },
+  "minimum_received_displacement": 1.2489775424789207
+}

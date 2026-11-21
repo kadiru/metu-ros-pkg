@@ -1,0 +1,71 @@
+{
+  "transformation": "Remove JSON whitespace outside quoted strings only; no values, cases or order changed",
+  "files": [
+    {
+      "path": "qualification/611-self.json",
+      "source_path": "runs/continuous-v2/qualification-raw/611-self.json",
+      "source_sha256": "ac3ecafa311f5d65b6da71766bb7b3f2f8e987b3c8b3eae533b54ba1f8b3b913",
+      "packaged_sha256": "a10262a681d20cd610359f911c51e10b6c79c96d663d447388f65b7650147471",
+      "source_bytes": 26368835,
+      "packaged_bytes": 11166155,
+      "whitespace_only_verified": true,
+      "semantic_identity_verified": true,
+      "original_bytes_reconstructable_with_json_indent_2": true
+    },
+    {
+      "path": "qualification/622-self.json",
+      "source_path": "runs/continuous-v2/qualification-raw/622-self.json",
+      "source_sha256": "a428bc773506956d9ab73d21930aa6cec3e45db76a9b6b9576f42ea0ffc9a524",
+      "packaged_sha256": "2b289df435a7a60e491e3a64375fd57b9b7adf8d7a06430b120da31092709e00",
+      "source_bytes": 23354178,
+      "packaged_bytes": 9865607,
+      "whitespace_only_verified": true,
+      "semantic_identity_verified": true,
+      "original_bytes_reconstructable_with_json_indent_2": true
+    },
+    {
+      "path": "qualification/611-history.json",
+      "source_path": "runs/continuous-v2/qualification-raw/611-history.json",
+      "source_sha256": "365aa54862a58885236951b72275fa3e4fe989668f43c814650b5637d7a0f09d",
+      "packaged_sha256": "0081e284329c39c58fec31a8302548a8e6904af58143fe57ca94c5e174ff27d8",
+      "source_bytes": 25371048,
+      "packaged_bytes": 10729005,
+      "whitespace_only_verified": true,
+      "semantic_identity_verified": true,
+      "original_bytes_reconstructable_with_json_indent_2": true
+    },
+    {
+      "path": "qualification/622-history.json",
+      "source_path": "runs/continuous-v2/qualification-raw/622-history.json",
+      "source_sha256": "8b0a2f033753f3c6684b6aca313ebce36d24b7e162556dfa8b31e5031a2df39e",
+      "packaged_sha256": "9140b185c3145a40ca4806e2818c94a6dde1cf4c0d686af3c3d990d2e57dba99",
+      "source_bytes": 22331460,
+      "packaged_bytes": 9424396,
+      "whitespace_only_verified": true,
+      "semantic_identity_verified": true,
+      "original_bytes_reconstructable_with_json_indent_2": true
+    },
+    {
+      "path": "qualification/611-cross.json",
+      "source_path": "runs/continuous-v2/qualification-raw/611-cross.json",
+      "source_sha256": "93adda2bc1ddd16fe16a09d4f79423316669ae614399acd78132b9b7c5d0216b",
+      "packaged_sha256": "74bbbb290b39a886ae49b31a5e1ae750d6095143c8ed689ea89767636802e30c",
+      "source_bytes": 26079638,
+      "packaged_bytes": 11062266,
+      "whitespace_only_verified": true,
+      "semantic_identity_verified": true,
+      "original_bytes_reconstructable_with_json_indent_2": true
+    },
+    {
+      "path": "qualification/622-cross.json",
+      "source_path": "runs/continuous-v2/qualification-raw/622-cross.json",
+      "source_sha256": "bd2d4308e3f24afaee7ef8d7aef8d0d2f078a160439e05dd5daff74b1ede995a",
+      "packaged_sha256": "8763f91bdce90fe13375a130d660ced6dd822f6454c0d4e642bbca777ca7190c",
+      "source_bytes": 23069229,
+      "packaged_bytes": 9740493,
+      "whitespace_only_verified": true,
+      "semantic_identity_verified": true,
+      "original_bytes_reconstructable_with_json_indent_2": true
+    }
+  ]
+}

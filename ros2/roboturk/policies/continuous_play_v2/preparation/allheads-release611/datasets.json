@@ -1,0 +1,29 @@
+{
+  "inputs": [
+    {
+      "path": "runs/continuous-v1/allheads-teacher-data",
+      "data_sha256": "19661e9c8dafb08503efc071eac414bcdef900f958cc2c71e1a28af0a75c3130",
+      "collection_sha256": "3bf182f9dca6231b0fbee3a1f2bd00e63fbf125b9433e39697dad3ca607ebcde",
+      "observations": 135224,
+      "seed": 4200000,
+      "count": 30,
+      "control": "training_teacher",
+      "base_observations": 122,
+      "training_observations": 122
+    },
+    {
+      "path": "runs/continuous-v1/allheads-dagger2-611",
+      "data_sha256": "4e15bfd2be10868d0daed01b6180bae718b6469bb7f33f6c7b16a5b5246777dd",
+      "collection_sha256": "382745a9df2a22dc01d89bc13c07920de2fe8a0d0917d5474296ea3c6892dd7e",
+      "observations": 130648,
+      "seed": 4210200,
+      "count": 30,
+      "control": "neural_rollouts_teacher_labels",
+      "base_observations": 122,
+      "training_observations": 122
+    }
+  ],
+  "source": "runs/continuous-v1/allheads-fit611/seed611/bootstrap.zip",
+  "source_sha256": "8deb486f2302abcfb066d8bc033c7e5b48eb5b02f0d48d54a75478407787fbc3",
+  "data_sha256": "27a63725cf5a328a3eb391af027a9e6909780cd3d27b8183aa9985a63351684d"
+}

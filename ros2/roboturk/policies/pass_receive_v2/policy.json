@@ -1,0 +1,56 @@
+{
+  "contract": "roboturk.pass_receive.v2",
+  "skill": "pass_receive_team",
+  "config": {
+    "length": 9.0,
+    "width": 6.0,
+    "goal_width": 1.0,
+    "robot_radius": 0.09,
+    "ball_radius": 0.0215,
+    "ball_mass": 0.046,
+    "max_speed": 2.0,
+    "max_omega": 8.0,
+    "max_kick": 5.0,
+    "dt": 0.02,
+    "max_steps": 500,
+    "neighbors": 5,
+    "possession_x": 0.115
+  },
+  "task": "pass_receive.randomized.v1",
+  "backend": "webots_ideal_body_velocity",
+  "stage": "anchored_ppo",
+  "method": "Explicit-angle warm start + new DAgger + anchored PPO",
+  "actual_steps": 65536,
+  "pass_speed": 1.8,
+  "centralized": true,
+  "validated_for_hardware": false,
+  "seed": 57,
+  "source_checkpoint_sha256": "8e6abdfd6f80e662fb629e433ff9a4b1dc325109b81bbbd0db9ff9f57d1da837",
+  "reused_demonstration_seed_range": [
+    400000,
+    400299
+  ],
+  "reused_dagger_seed_range": [
+    420000,
+    420149
+  ],
+  "new_dagger_seed_range": [
+    520000,
+    520149
+  ],
+  "development_seed_range": [
+    510000,
+    510059
+  ],
+  "qualification_seed_range": [
+    550000,
+    550199
+  ],
+  "learning_rate": 3e-07,
+  "anchor_max_normalized_action_delta": 0.01,
+  "anchor_mean_square_delta": 1e-06,
+  "anchor_reference": "dagger",
+  "anchor_projection_learning_rate": 3e-06,
+  "anchor_updates": 64,
+  "anchor_rejected_updates": 0
+}

@@ -1,0 +1,31 @@
+{
+  "901": {
+    "matches": 20,
+    "decisions": {
+      "blue": 51,
+      "yellow": 51
+    },
+    "outcomes": {
+      "complete": 61,
+      "intercepted": 36,
+      "restart": 2,
+      "end": 2,
+      "timeout": 1
+    },
+    "policy_l2_change": 3.619908222746628
+  },
+  "902": {
+    "matches": 20,
+    "decisions": {
+      "blue": 54,
+      "yellow": 43
+    },
+    "outcomes": {
+      "intercepted": 34,
+      "complete": 59,
+      "end": 3,
+      "timeout": 1
+    },
+    "policy_l2_change": 4.479367628341635
+  }
+}

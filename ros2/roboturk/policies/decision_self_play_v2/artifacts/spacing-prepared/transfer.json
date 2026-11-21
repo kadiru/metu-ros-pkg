@@ -1,0 +1,23 @@
+{
+  "stage": "learned_defender_spacing_preparation",
+  "seed": 467,
+  "contract": "roboturk.mobile_transfer.v1",
+  "role": "transfer",
+  "config": {
+    "length": 9.0,
+    "width": 6.0,
+    "goal_width": 1.0,
+    "robot_radius": 0.09,
+    "ball_radius": 0.0215,
+    "ball_mass": 0.046,
+    "max_speed": 2.0,
+    "max_omega": 8.0,
+    "max_kick": 5.0,
+    "dt": 0.02,
+    "max_steps": 500,
+    "neighbors": 5,
+    "possession_x": 0.115
+  },
+  "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0",
+  "validated_for_hardware": false
+}

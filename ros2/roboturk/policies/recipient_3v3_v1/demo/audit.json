@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "checks": {},
+  "totals": {
+    "safety_ticks": 119,
+    "physical_samples": 12000,
+    "contacts": 0,
+    "exits": 0,
+    "matches": 2,
+    "passes": 14,
+    "complete": 10,
+    "with_completion": 2
+  },
+  "completion_rate": 0.7142857142857143,
+  "completed_by_slot": {
+    "blue/1": 5,
+    "yellow/1": 2,
+    "blue/0": 2,
+    "yellow/0": 1
+  },
+  "completed_by_id": {
+    "blue/2": 4,
+    "blue/1": 1,
+    "yellow/2": 1,
+    "blue/0": 2,
+    "yellow/1": 1,
+    "yellow/0": 1
+  },
+  "pairs": {
+    "blue/0->2": 2,
+    "blue/2->1": 1,
+    "yellow/0->2": 1,
+    "blue/1->2": 2,
+    "blue/2->0": 2,
+    "yellow/2->1": 1,
+    "yellow/1->0": 1
+  },
+  "goals": {},
+  "games": [
+    {
+      "seed": 7600000,
+      "passes": 4,
+      "complete": 3,
+      "goals": {}
+    },
+    {
+      "seed": 7600001,
+      "passes": 10,
+      "complete": 7,
+      "goals": {}
+    }
+  ]
+}

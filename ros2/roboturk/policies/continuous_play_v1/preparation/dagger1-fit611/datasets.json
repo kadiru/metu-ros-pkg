@@ -1,0 +1,25 @@
+{
+  "inputs": [
+    {
+      "path": "runs/continuous-v1/teacher-data",
+      "data_sha256": "08b67921d1fec9511859cc8bd924cf0fefd1b42a7be235fbe75e42fd6d5f9c90",
+      "collection_sha256": "b6abc581efba98d84651ae434ac3897a476b294f5121c1a208ca77a15f9485d2",
+      "observations": 135224,
+      "seed": 4200000,
+      "count": 30,
+      "control": "training_teacher"
+    },
+    {
+      "path": "runs/continuous-v1/dagger1-611",
+      "data_sha256": "862cba37aaa0f03442aa6f66565c78422399318d255ea17901c963dff9c4a732",
+      "collection_sha256": "2ed59fc9b0c4dec02e163b971c9c1a0305cc7848065326332dcaa134e7d90aa0",
+      "observations": 90068,
+      "seed": 4210000,
+      "count": 20,
+      "control": "mixed_neural_0.5"
+    }
+  ],
+  "source": "runs/continuous-v1/teacher-refit/seed611/bootstrap.zip",
+  "source_sha256": "bd84726f6b9856ea2cdbe1484f057bcaba4a90dbb8b76b9cc3093bb2ff0df45e",
+  "data_sha256": "01cd57c2d4502dc0883e92fafab57734f4320ddf0528bba7dd6e3113fb161e63"
+}

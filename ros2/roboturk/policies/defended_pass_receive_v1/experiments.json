@@ -1,0 +1,186 @@
+{
+  "bc": {
+    "sha256": "1c2310de85f31fbcef8e3b99ea4362368390973eb51b865537d9a1446d738746",
+    "manifest": {
+      "contract": "roboturk.defended_transfer.v1",
+      "skill": "pass_receive_team",
+      "config": {
+        "length": 9.0,
+        "width": 6.0,
+        "goal_width": 1.0,
+        "robot_radius": 0.09,
+        "ball_radius": 0.0215,
+        "ball_mass": 0.046,
+        "max_speed": 2.0,
+        "max_omega": 8.0,
+        "max_kick": 5.0,
+        "dt": 0.02,
+        "max_steps": 500,
+        "neighbors": 5,
+        "possession_x": 0.115
+      },
+      "task": "defended_pass_receive.randomized.v1",
+      "backend": "webots_ideal_body_velocity+reactive_lane_defender_v1",
+      "stage": "cloned",
+      "method": "Webots cloning + DAgger selection + anchored PPO",
+      "actual_steps": 0,
+      "pass_speed": 1.8,
+      "centralized": true,
+      "validated_for_hardware": false,
+      "source_checkpoint_sha256": "317bbf99ac4e436ef43d4bb1140e1e328749d5fdb01930a572ab0ad9f2d157f3",
+      "opponent": "reactive_lane_defender_v1",
+      "defender_speed_range": [
+        0.25,
+        0.55
+      ],
+      "seed": 67,
+      "demonstration_seed_range": [
+        600000,
+        600299
+      ],
+      "dagger_seed_range": [
+        620000,
+        620149
+      ],
+      "development_seed_range": [
+        610000,
+        610059
+      ],
+      "qualification_seed_range": [
+        650000,
+        650199
+      ],
+      "demo_seed_range": [
+        660000,
+        660005
+      ],
+      "learning_rate": 3e-07,
+      "anchor_max_normalized_action_delta": 0.01,
+      "anchor_mean_square_delta": 1e-06
+    }
+  },
+  "dagger": {
+    "sha256": "095eb46f0e596689f3bda179dfc700383440b36b2efea7d58ab611c4edfb3821",
+    "manifest": {
+      "contract": "roboturk.defended_transfer.v1",
+      "skill": "pass_receive_team",
+      "config": {
+        "length": 9.0,
+        "width": 6.0,
+        "goal_width": 1.0,
+        "robot_radius": 0.09,
+        "ball_radius": 0.0215,
+        "ball_mass": 0.046,
+        "max_speed": 2.0,
+        "max_omega": 8.0,
+        "max_kick": 5.0,
+        "dt": 0.02,
+        "max_steps": 500,
+        "neighbors": 5,
+        "possession_x": 0.115
+      },
+      "task": "defended_pass_receive.randomized.v1",
+      "backend": "webots_ideal_body_velocity+reactive_lane_defender_v1",
+      "stage": "dagger",
+      "method": "Webots cloning + DAgger selection + anchored PPO",
+      "actual_steps": 0,
+      "pass_speed": 1.8,
+      "centralized": true,
+      "validated_for_hardware": false,
+      "source_checkpoint_sha256": "317bbf99ac4e436ef43d4bb1140e1e328749d5fdb01930a572ab0ad9f2d157f3",
+      "opponent": "reactive_lane_defender_v1",
+      "defender_speed_range": [
+        0.25,
+        0.55
+      ],
+      "seed": 67,
+      "demonstration_seed_range": [
+        600000,
+        600299
+      ],
+      "dagger_seed_range": [
+        620000,
+        620149
+      ],
+      "development_seed_range": [
+        610000,
+        610059
+      ],
+      "qualification_seed_range": [
+        650000,
+        650199
+      ],
+      "demo_seed_range": [
+        660000,
+        660005
+      ],
+      "learning_rate": 3e-07,
+      "anchor_max_normalized_action_delta": 0.01,
+      "anchor_mean_square_delta": 1e-06
+    }
+  },
+  "policy": {
+    "sha256": "773f32211edcbaaa15f05471ab58e432152ab13ff4a15052faf2e19662680657",
+    "manifest": {
+      "contract": "roboturk.defended_transfer.v1",
+      "skill": "pass_receive_team",
+      "config": {
+        "length": 9.0,
+        "width": 6.0,
+        "goal_width": 1.0,
+        "robot_radius": 0.09,
+        "ball_radius": 0.0215,
+        "ball_mass": 0.046,
+        "max_speed": 2.0,
+        "max_omega": 8.0,
+        "max_kick": 5.0,
+        "dt": 0.02,
+        "max_steps": 500,
+        "neighbors": 5,
+        "possession_x": 0.115
+      },
+      "task": "defended_pass_receive.randomized.v1",
+      "backend": "webots_ideal_body_velocity+reactive_lane_defender_v1",
+      "stage": "anchored_ppo",
+      "method": "Webots cloning + DAgger selection + anchored PPO",
+      "actual_steps": 65536,
+      "pass_speed": 1.8,
+      "centralized": true,
+      "validated_for_hardware": false,
+      "source_checkpoint_sha256": "317bbf99ac4e436ef43d4bb1140e1e328749d5fdb01930a572ab0ad9f2d157f3",
+      "opponent": "reactive_lane_defender_v1",
+      "defender_speed_range": [
+        0.25,
+        0.55
+      ],
+      "seed": 67,
+      "demonstration_seed_range": [
+        600000,
+        600299
+      ],
+      "dagger_seed_range": [
+        620000,
+        620149
+      ],
+      "development_seed_range": [
+        610000,
+        610059
+      ],
+      "qualification_seed_range": [
+        650000,
+        650199
+      ],
+      "demo_seed_range": [
+        660000,
+        660005
+      ],
+      "learning_rate": 3e-07,
+      "anchor_max_normalized_action_delta": 0.01,
+      "anchor_mean_square_delta": 1e-06,
+      "anchor_reference": "dagger",
+      "anchor_projection_learning_rate": 3e-06,
+      "anchor_updates": 64,
+      "anchor_rejected_updates": 0
+    }
+  }
+}

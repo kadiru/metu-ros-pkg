@@ -1,0 +1,73 @@
+{
+  "receive": {
+    "successes": 197,
+    "count": 200,
+    "mean_seconds_all": 2.0103,
+    "mean_seconds_successes": 1.9190862944162437,
+    "neural_calls": 20103,
+    "physics_samples": 80412,
+    "failures": [
+      {
+        "seed": 5050042,
+        "reason": "timeout",
+        "contact_checks": 15,
+        "maximum_stable_dwell": 0.0
+      },
+      {
+        "seed": 5050170,
+        "reason": "timeout",
+        "contact_checks": 15,
+        "maximum_stable_dwell": 0.0
+      },
+      {
+        "seed": 5050180,
+        "reason": "timeout",
+        "contact_checks": 14,
+        "maximum_stable_dwell": 0.0
+      }
+    ],
+    "colors": {
+      "blue": 100,
+      "yellow": 100
+    },
+    "directions": {
+      "-1": 99,
+      "1": 101
+    }
+  },
+  "redirect": {
+    "successes": 200,
+    "count": 200,
+    "mean_seconds_all": 2.3207,
+    "mean_seconds_successes": 2.3207,
+    "neural_calls": 23207,
+    "physics_samples": 92828,
+    "failures": [],
+    "colors": {
+      "blue": 97,
+      "yellow": 103
+    },
+    "directions": {
+      "-1": 86,
+      "1": 114
+    },
+    "max_redirect_delay_seconds": 0.015000000000100044
+  },
+  "clear": {
+    "successes": 200,
+    "count": 200,
+    "mean_seconds_all": 1.7291,
+    "mean_seconds_successes": 1.7291,
+    "neural_calls": 17291,
+    "physics_samples": 69164,
+    "failures": [],
+    "colors": {
+      "blue": 94,
+      "yellow": 106
+    },
+    "directions": {
+      "-1": 97,
+      "1": 103
+    }
+  }
+}

@@ -1,0 +1,15 @@
+UNSUPPORTED (log once): POSSIBLE ISSUE: unit 0 GLD_TEXTURE_INDEX_2D is unloadable and bound to sampler type (Float) - using zero texture because texture unloadable
+INFO: roboturk_strategy: Starting controller: python3 -u roboturk_strategy.py
+Strategy evaluation 1 4 {'matches': 1, 'completed': 1, 'unfinished': 0, 'goals': {'blue': 0, 'yellow': 1}, 'wins': {'blue': 0, 'yellow': 1}, 'draws': 0, 'goal_matches': 1, 'turnover_matches': 1, 'acquisition_matches': 1, 'recovery_matches': 1, 'passes': 4, 'receptions': 0, 'mean_contact_fraction': 0.0, 'field_exit_matches': 0, 'mean_possession_seconds': {'blue': 4.359999999999929, 'yellow': 2.4299999999999704}, 'skill_outcomes': {'receive_stop': 0, 'redirect_kick': 0, 'redirect_goal': 0, 'clearance_complete': 0}, 'new_skill_ticks': {'receive': 1326, 'redirect': 0, 'clear': 4}}
+Strategy evaluation 2 4 {'matches': 2, 'completed': 2, 'unfinished': 0, 'goals': {'blue': 0, 'yellow': 1}, 'wins': {'blue': 0, 'yellow': 1}, 'draws': 1, 'goal_matches': 1, 'turnover_matches': 2, 'acquisition_matches': 2, 'recovery_matches': 2, 'passes': 7, 'receptions': 1, 'mean_contact_fraction': 0.0, 'field_exit_matches': 0, 'mean_possession_seconds': {'blue': 5.5199999999999045, 'yellow': 4.037499999999936}, 'skill_outcomes': {'receive_stop': 1, 'redirect_kick': 0, 'redirect_goal': 0, 'clearance_complete': 0}, 'new_skill_ticks': {'receive': 2664, 'redirect': 0, 'clear': 177}}
+Strategy evaluation 3 4 {'matches': 3, 'completed': 3, 'unfinished': 0, 'goals': {'blue': 1, 'yellow': 1}, 'wins': {'blue': 1, 'yellow': 1}, 'draws': 1, 'goal_matches': 2, 'turnover_matches': 2, 'acquisition_matches': 3, 'recovery_matches': 3, 'passes': 10, 'receptions': 1, 'mean_contact_fraction': 0.0, 'field_exit_matches': 0, 'mean_possession_seconds': {'blue': 7.705000000000099, 'yellow': 2.698333333333291}, 'skill_outcomes': {'receive_stop': 1, 'redirect_kick': 1, 'redirect_goal': 1, 'clearance_complete': 0}, 'new_skill_ticks': {'receive': 3778, 'redirect': 53, 'clear': 642}}
+INFO: Creating video...
+Strategy evaluation 4 4 {'matches': 4, 'completed': 4, 'unfinished': 0, 'goals': {'blue': 1, 'yellow': 1}, 'wins': {'blue': 1, 'yellow': 1}, 'draws': 2, 'goal_matches': 2, 'turnover_matches': 2, 'acquisition_matches': 4, 'recovery_matches': 3, 'passes': 12, 'receptions': 1, 'mean_contact_fraction': 0.0, 'field_exit_matches': 0, 'mean_possession_seconds': {'blue': 7.370000000000045, 'yellow': 2.178749999999968}, 'skill_outcomes': {'receive_stop': 1, 'redirect_kick': 1, 'redirect_goal': 1, 'clearance_complete': 1}, 'new_skill_ticks': {'receive': 5038, 'redirect': 53, 'clear': 770}}
+Recording at 25 FPS, 7650000 bit/s.
+Video encoding stage 1... (please wait)
+Video encoding stage 2... (please wait)
+[libx264 @ 0x7fbcaf011400] Error: 2pass curve failed to converge
+[libx264 @ 0x7fbcaf011400] target: 7650.00 kbit/s, expected: 868.47 kbit/s, avg QP: 0.0213
+[libx264 @ 0x7fbcaf011400] try reducing target bitrate
+INFO: Video creation finished.
+INFO: roboturk_strategy: Terminating.

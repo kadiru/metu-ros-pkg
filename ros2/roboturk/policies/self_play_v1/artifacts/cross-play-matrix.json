@@ -1,0 +1,584 @@
+{
+  "seed": 2200200,
+  "episodes_per_pair": 20,
+  "runtime_sha256": "29b2d6bf0e96b068a502b57cb052089859e4f3164c4051d6c0f9a33a5f0eecca",
+  "matrix": [
+    {
+      "attackers": 0,
+      "defenders": 0,
+      "episodes": 20,
+      "goals": 2,
+      "defensive_stops": 17,
+      "clean_outcomes": 19,
+      "collisions": 1,
+      "reasons": {
+        "defender_interception": 14,
+        "keeper_save": 3,
+        "goal": 2,
+        "defender_collision": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack0-defense0.json"
+    },
+    {
+      "attackers": 0,
+      "defenders": 1,
+      "episodes": 20,
+      "goals": 2,
+      "defensive_stops": 17,
+      "clean_outcomes": 19,
+      "collisions": 1,
+      "reasons": {
+        "defender_interception": 14,
+        "keeper_save": 3,
+        "goal": 2,
+        "defender_collision": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack0-defense1.json"
+    },
+    {
+      "attackers": 0,
+      "defenders": 2,
+      "episodes": 20,
+      "goals": 2,
+      "defensive_stops": 17,
+      "clean_outcomes": 19,
+      "collisions": 1,
+      "reasons": {
+        "defender_interception": 14,
+        "keeper_save": 3,
+        "goal": 2,
+        "defender_collision": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack0-defense2.json"
+    },
+    {
+      "attackers": 0,
+      "defenders": 3,
+      "episodes": 20,
+      "goals": 4,
+      "defensive_stops": 16,
+      "clean_outcomes": 20,
+      "collisions": 0,
+      "reasons": {
+        "defender_interception": 14,
+        "keeper_save": 2,
+        "goal": 4
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack0-defense3.json"
+    },
+    {
+      "attackers": 0,
+      "defenders": 4,
+      "episodes": 20,
+      "goals": 6,
+      "defensive_stops": 13,
+      "clean_outcomes": 19,
+      "collisions": 0,
+      "reasons": {
+        "defender_interception": 11,
+        "invalid_pass": 1,
+        "goal": 6,
+        "keeper_save": 2
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack0-defense4.json"
+    },
+    {
+      "attackers": 0,
+      "defenders": 5,
+      "episodes": 20,
+      "goals": 6,
+      "defensive_stops": 12,
+      "clean_outcomes": 18,
+      "collisions": 0,
+      "reasons": {
+        "defender_interception": 11,
+        "invalid_pass": 1,
+        "goal": 6,
+        "keeper_save": 1,
+        "lost_possession": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack0-defense5.json"
+    },
+    {
+      "attackers": 1,
+      "defenders": 0,
+      "episodes": 20,
+      "goals": 3,
+      "defensive_stops": 16,
+      "clean_outcomes": 19,
+      "collisions": 1,
+      "reasons": {
+        "defender_interception": 12,
+        "keeper_save": 4,
+        "goal": 3,
+        "defender_collision": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack1-defense0.json"
+    },
+    {
+      "attackers": 1,
+      "defenders": 1,
+      "episodes": 20,
+      "goals": 3,
+      "defensive_stops": 15,
+      "clean_outcomes": 18,
+      "collisions": 2,
+      "reasons": {
+        "defender_interception": 13,
+        "keeper_save": 2,
+        "goal": 3,
+        "defender_collision": 2
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack1-defense1.json"
+    },
+    {
+      "attackers": 1,
+      "defenders": 2,
+      "episodes": 20,
+      "goals": 3,
+      "defensive_stops": 16,
+      "clean_outcomes": 19,
+      "collisions": 1,
+      "reasons": {
+        "defender_interception": 13,
+        "keeper_save": 3,
+        "goal": 3,
+        "defender_collision": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack1-defense2.json"
+    },
+    {
+      "attackers": 1,
+      "defenders": 3,
+      "episodes": 20,
+      "goals": 4,
+      "defensive_stops": 16,
+      "clean_outcomes": 20,
+      "collisions": 0,
+      "reasons": {
+        "defender_interception": 13,
+        "keeper_save": 3,
+        "goal": 4
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack1-defense3.json"
+    },
+    {
+      "attackers": 1,
+      "defenders": 4,
+      "episodes": 20,
+      "goals": 7,
+      "defensive_stops": 13,
+      "clean_outcomes": 20,
+      "collisions": 0,
+      "reasons": {
+        "defender_interception": 10,
+        "goal": 7,
+        "keeper_save": 3
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack1-defense4.json"
+    },
+    {
+      "attackers": 1,
+      "defenders": 5,
+      "episodes": 20,
+      "goals": 7,
+      "defensive_stops": 12,
+      "clean_outcomes": 19,
+      "collisions": 0,
+      "reasons": {
+        "defender_interception": 11,
+        "goal": 7,
+        "keeper_save": 1,
+        "lost_possession": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack1-defense5.json"
+    },
+    {
+      "attackers": 2,
+      "defenders": 0,
+      "episodes": 20,
+      "goals": 4,
+      "defensive_stops": 15,
+      "clean_outcomes": 19,
+      "collisions": 1,
+      "reasons": {
+        "goal": 4,
+        "keeper_save": 3,
+        "defender_interception": 12,
+        "defender_collision": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack2-defense0.json"
+    },
+    {
+      "attackers": 2,
+      "defenders": 1,
+      "episodes": 20,
+      "goals": 4,
+      "defensive_stops": 15,
+      "clean_outcomes": 19,
+      "collisions": 1,
+      "reasons": {
+        "goal": 4,
+        "keeper_save": 3,
+        "defender_interception": 12,
+        "defender_collision": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack2-defense1.json"
+    },
+    {
+      "attackers": 2,
+      "defenders": 2,
+      "episodes": 20,
+      "goals": 4,
+      "defensive_stops": 15,
+      "clean_outcomes": 19,
+      "collisions": 1,
+      "reasons": {
+        "goal": 4,
+        "keeper_save": 3,
+        "defender_interception": 12,
+        "defender_collision": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack2-defense2.json"
+    },
+    {
+      "attackers": 2,
+      "defenders": 3,
+      "episodes": 20,
+      "goals": 4,
+      "defensive_stops": 16,
+      "clean_outcomes": 20,
+      "collisions": 0,
+      "reasons": {
+        "defender_interception": 14,
+        "keeper_save": 2,
+        "goal": 4
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack2-defense3.json"
+    },
+    {
+      "attackers": 2,
+      "defenders": 4,
+      "episodes": 20,
+      "goals": 6,
+      "defensive_stops": 14,
+      "clean_outcomes": 20,
+      "collisions": 0,
+      "reasons": {
+        "defender_interception": 11,
+        "goal": 6,
+        "keeper_save": 3
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack2-defense4.json"
+    },
+    {
+      "attackers": 2,
+      "defenders": 5,
+      "episodes": 20,
+      "goals": 9,
+      "defensive_stops": 11,
+      "clean_outcomes": 20,
+      "collisions": 0,
+      "reasons": {
+        "defender_interception": 10,
+        "goal": 9,
+        "keeper_save": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack2-defense5.json"
+    },
+    {
+      "attackers": 3,
+      "defenders": 0,
+      "episodes": 20,
+      "goals": 3,
+      "defensive_stops": 16,
+      "clean_outcomes": 19,
+      "collisions": 1,
+      "reasons": {
+        "defender_interception": 14,
+        "keeper_save": 2,
+        "goal": 3,
+        "defender_collision": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack3-defense0.json"
+    },
+    {
+      "attackers": 3,
+      "defenders": 1,
+      "episodes": 20,
+      "goals": 3,
+      "defensive_stops": 16,
+      "clean_outcomes": 19,
+      "collisions": 1,
+      "reasons": {
+        "defender_interception": 14,
+        "keeper_save": 2,
+        "goal": 3,
+        "defender_collision": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack3-defense1.json"
+    },
+    {
+      "attackers": 3,
+      "defenders": 2,
+      "episodes": 20,
+      "goals": 2,
+      "defensive_stops": 17,
+      "clean_outcomes": 19,
+      "collisions": 1,
+      "reasons": {
+        "defender_interception": 14,
+        "keeper_save": 3,
+        "goal": 2,
+        "defender_collision": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack3-defense2.json"
+    },
+    {
+      "attackers": 3,
+      "defenders": 3,
+      "episodes": 20,
+      "goals": 3,
+      "defensive_stops": 16,
+      "clean_outcomes": 19,
+      "collisions": 1,
+      "reasons": {
+        "defender_interception": 14,
+        "keeper_save": 2,
+        "goal": 3,
+        "defender_collision": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack3-defense3.json"
+    },
+    {
+      "attackers": 3,
+      "defenders": 4,
+      "episodes": 20,
+      "goals": 7,
+      "defensive_stops": 13,
+      "clean_outcomes": 20,
+      "collisions": 0,
+      "reasons": {
+        "defender_interception": 11,
+        "goal": 7,
+        "keeper_save": 2
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack3-defense4.json"
+    },
+    {
+      "attackers": 3,
+      "defenders": 5,
+      "episodes": 20,
+      "goals": 8,
+      "defensive_stops": 11,
+      "clean_outcomes": 19,
+      "collisions": 0,
+      "reasons": {
+        "defender_interception": 10,
+        "goal": 8,
+        "keeper_save": 1,
+        "lost_possession": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack3-defense5.json"
+    },
+    {
+      "attackers": 4,
+      "defenders": 0,
+      "episodes": 20,
+      "goals": 2,
+      "defensive_stops": 16,
+      "clean_outcomes": 18,
+      "collisions": 1,
+      "reasons": {
+        "defender_interception": 14,
+        "keeper_save": 2,
+        "goal": 2,
+        "invalid_pass": 1,
+        "defender_collision": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack4-defense0.json"
+    },
+    {
+      "attackers": 4,
+      "defenders": 1,
+      "episodes": 20,
+      "goals": 2,
+      "defensive_stops": 16,
+      "clean_outcomes": 18,
+      "collisions": 1,
+      "reasons": {
+        "defender_interception": 14,
+        "keeper_save": 2,
+        "goal": 2,
+        "invalid_pass": 1,
+        "defender_collision": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack4-defense1.json"
+    },
+    {
+      "attackers": 4,
+      "defenders": 2,
+      "episodes": 20,
+      "goals": 2,
+      "defensive_stops": 16,
+      "clean_outcomes": 18,
+      "collisions": 1,
+      "reasons": {
+        "defender_interception": 14,
+        "keeper_save": 2,
+        "goal": 2,
+        "invalid_pass": 1,
+        "defender_collision": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack4-defense2.json"
+    },
+    {
+      "attackers": 4,
+      "defenders": 3,
+      "episodes": 20,
+      "goals": 2,
+      "defensive_stops": 16,
+      "clean_outcomes": 18,
+      "collisions": 0,
+      "reasons": {
+        "defender_interception": 14,
+        "keeper_save": 2,
+        "goal": 2,
+        "lost_possession": 1,
+        "invalid_pass": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack4-defense3.json"
+    },
+    {
+      "attackers": 4,
+      "defenders": 4,
+      "episodes": 20,
+      "goals": 6,
+      "defensive_stops": 13,
+      "clean_outcomes": 19,
+      "collisions": 0,
+      "reasons": {
+        "defender_interception": 12,
+        "goal": 6,
+        "keeper_save": 1,
+        "invalid_pass": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack4-defense4.json"
+    },
+    {
+      "attackers": 4,
+      "defenders": 5,
+      "episodes": 20,
+      "goals": 7,
+      "defensive_stops": 11,
+      "clean_outcomes": 18,
+      "collisions": 0,
+      "reasons": {
+        "defender_interception": 10,
+        "goal": 7,
+        "keeper_save": 1,
+        "lost_possession": 1,
+        "invalid_pass": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack4-defense5.json"
+    },
+    {
+      "attackers": 5,
+      "defenders": 0,
+      "episodes": 20,
+      "goals": 3,
+      "defensive_stops": 16,
+      "clean_outcomes": 19,
+      "collisions": 1,
+      "reasons": {
+        "defender_interception": 14,
+        "keeper_save": 2,
+        "goal": 3,
+        "defender_collision": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack5-defense0.json"
+    },
+    {
+      "attackers": 5,
+      "defenders": 1,
+      "episodes": 20,
+      "goals": 1,
+      "defensive_stops": 17,
+      "clean_outcomes": 18,
+      "collisions": 1,
+      "reasons": {
+        "defender_interception": 14,
+        "keeper_save": 3,
+        "goal": 1,
+        "invalid_pass": 1,
+        "defender_collision": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack5-defense1.json"
+    },
+    {
+      "attackers": 5,
+      "defenders": 2,
+      "episodes": 20,
+      "goals": 2,
+      "defensive_stops": 17,
+      "clean_outcomes": 19,
+      "collisions": 1,
+      "reasons": {
+        "defender_interception": 14,
+        "keeper_save": 3,
+        "goal": 2,
+        "defender_collision": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack5-defense2.json"
+    },
+    {
+      "attackers": 5,
+      "defenders": 3,
+      "episodes": 20,
+      "goals": 3,
+      "defensive_stops": 16,
+      "clean_outcomes": 19,
+      "collisions": 0,
+      "reasons": {
+        "defender_interception": 14,
+        "keeper_save": 2,
+        "goal": 3,
+        "invalid_pass": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack5-defense3.json"
+    },
+    {
+      "attackers": 5,
+      "defenders": 4,
+      "episodes": 20,
+      "goals": 5,
+      "defensive_stops": 14,
+      "clean_outcomes": 19,
+      "collisions": 0,
+      "reasons": {
+        "defender_interception": 12,
+        "invalid_pass": 1,
+        "keeper_save": 2,
+        "goal": 5
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack5-defense4.json"
+    },
+    {
+      "attackers": 5,
+      "defenders": 5,
+      "episodes": 20,
+      "goals": 7,
+      "defensive_stops": 11,
+      "clean_outcomes": 18,
+      "collisions": 0,
+      "reasons": {
+        "defender_interception": 10,
+        "invalid_pass": 1,
+        "goal": 7,
+        "keeper_save": 1,
+        "lost_possession": 1
+      },
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/cross-play-29b2d6bf0e96/attack5-defense5.json"
+    }
+  ]
+}

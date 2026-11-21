@@ -1,0 +1,18 @@
+{
+  "scope": "Fixed training-observation probe, not native performance",
+  "samples": 30000,
+  "sample_seed": 900,
+  "models": {
+    "flank-prepared/manager.zip": "d5c7e68ab5f43ce45144cd3cccba94e54b1e023620aa4e4702ee1a84acba1b54",
+    "round1/snapshot/manager.zip": "89eaa2d3641a13c71d1f2e789f6ba7bbb8a7225f5bda94c7a5e61ab13693c7c6"
+  },
+  "geometry_regression_max_delta": 0.0,
+  "changed_choice_rows": 47,
+  "changed_choices": {
+    "behavior": 12,
+    "owner": 0,
+    "corner": 11,
+    "target_update": 9,
+    "flank": 17
+  }
+}

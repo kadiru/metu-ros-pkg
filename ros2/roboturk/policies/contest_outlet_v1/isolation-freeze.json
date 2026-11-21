@@ -1,0 +1,6 @@
+{
+  "src/roboturk_ros/webots/controllers/roboturk_isolated_contest/roboturk_isolated_contest.py": "f343c630d91a756bc6c5d6f60860fe6c0f26052e26190bf69f1280ba8a444d6a",
+  "src/roboturk_ros/webots/worlds/ssl_isolated_contest.wbt": "fee95c5400210a51690ace5abe9383791186e6265dc76fab78ada627d3418fbf",
+  "scripts/run_isolated_contest.py": "6b94719bfed95caba59048f733aa34998d3856be38eafb1ec6cff70869303edd",
+  "policies/contest_outlet_v1/freeze.json": "120ff18c020b53e015bc19d11a8603dd27b79f347dfbf2ba59be7dd60460e58a"
+}

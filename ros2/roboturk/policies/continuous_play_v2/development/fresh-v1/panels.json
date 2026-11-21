@@ -1,0 +1,86 @@
+{
+  "purpose": "development, not reserved qualification",
+  "selection": "last completed generation; no other-seed opponent in these panels",
+  "panels": [
+    {
+      "name": "611-self",
+      "training_seed": 611,
+      "seed": 4401000,
+      "count": 15,
+      "blue": {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/continuous-v2/league611-categorical-v1/seed611/round2/policy.zip",
+        "sha256": "0541f0b4e39e479b207acdc16ad7cd752c0ef556608bbd173b12e1932b22f25a",
+        "metadata_sha256": "d8e1c0df8fdda178183f77e0c76ccc87bb44d4d6a297035a9315db34c71d9ce7",
+        "actor_sha256": "23c0909f5bc9781e10d9fa10562653850c1e595e4a6927628b8faa84c959baf8",
+        "contract": "roboturk.continuous_robot.v4"
+      },
+      "yellow": {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/continuous-v2/league611-categorical-v1/seed611/round2/policy.zip",
+        "sha256": "0541f0b4e39e479b207acdc16ad7cd752c0ef556608bbd173b12e1932b22f25a",
+        "metadata_sha256": "d8e1c0df8fdda178183f77e0c76ccc87bb44d4d6a297035a9315db34c71d9ce7",
+        "actor_sha256": "23c0909f5bc9781e10d9fa10562653850c1e595e4a6927628b8faa84c959baf8",
+        "contract": "roboturk.continuous_robot.v4"
+      }
+    },
+    {
+      "name": "611-history",
+      "training_seed": 611,
+      "seed": 4401100,
+      "count": 15,
+      "blue": {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/continuous-v2/league611-categorical-v1/seed611/round2/policy.zip",
+        "sha256": "0541f0b4e39e479b207acdc16ad7cd752c0ef556608bbd173b12e1932b22f25a",
+        "metadata_sha256": "d8e1c0df8fdda178183f77e0c76ccc87bb44d4d6a297035a9315db34c71d9ce7",
+        "actor_sha256": "23c0909f5bc9781e10d9fa10562653850c1e595e4a6927628b8faa84c959baf8",
+        "contract": "roboturk.continuous_robot.v4"
+      },
+      "yellow": {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/continuous-v2/league611-categorical-v1/seed611/bootstrap.zip",
+        "sha256": "92b93953476f975754b752e04c252def841709536aa263b7b9165d0b11af2aff",
+        "metadata_sha256": "baea8f4dc20a6f7e094c21b3d44cd26bfdac46220f5c5e442353a15a37ee91f0",
+        "actor_sha256": "9802dfe513b49588ce41321e13c708a8ca131daf2eb1dbca119e2a6c85f81aa8",
+        "contract": "roboturk.continuous_robot.v4"
+      }
+    },
+    {
+      "name": "622-self",
+      "training_seed": 622,
+      "seed": 4401200,
+      "count": 15,
+      "blue": {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/continuous-v2/league622-categorical-v1/seed622/round2/policy.zip",
+        "sha256": "0ff95a7e5427d556c6ee9f6579d72601eb270e5d5d4af6121720463e4f0cc966",
+        "metadata_sha256": "798decf14b5f8eb838df2808166784705074a9c1d9e5064e9e34b83e9cda7dda",
+        "actor_sha256": "886a9e51beef946bb700abb00ae027b02d33f186fd7551787809d4c1e35e2a30",
+        "contract": "roboturk.continuous_robot.v4"
+      },
+      "yellow": {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/continuous-v2/league622-categorical-v1/seed622/round2/policy.zip",
+        "sha256": "0ff95a7e5427d556c6ee9f6579d72601eb270e5d5d4af6121720463e4f0cc966",
+        "metadata_sha256": "798decf14b5f8eb838df2808166784705074a9c1d9e5064e9e34b83e9cda7dda",
+        "actor_sha256": "886a9e51beef946bb700abb00ae027b02d33f186fd7551787809d4c1e35e2a30",
+        "contract": "roboturk.continuous_robot.v4"
+      }
+    },
+    {
+      "name": "622-history",
+      "training_seed": 622,
+      "seed": 4401300,
+      "count": 15,
+      "blue": {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/continuous-v2/league622-categorical-v1/seed622/round2/policy.zip",
+        "sha256": "0ff95a7e5427d556c6ee9f6579d72601eb270e5d5d4af6121720463e4f0cc966",
+        "metadata_sha256": "798decf14b5f8eb838df2808166784705074a9c1d9e5064e9e34b83e9cda7dda",
+        "actor_sha256": "886a9e51beef946bb700abb00ae027b02d33f186fd7551787809d4c1e35e2a30",
+        "contract": "roboturk.continuous_robot.v4"
+      },
+      "yellow": {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/continuous-v2/league622-categorical-v1/seed622/bootstrap.zip",
+        "sha256": "cb741f1bd3abdb687942ebb0c573ea56448ff8fca8bb3fe4207fcdab93b6d6a9",
+        "metadata_sha256": "1e06c5ed235df52937024bafa34f7766de5987e208be94706e315e3b39a65a4a",
+        "actor_sha256": "2b633b2fd16701d5ff6a5de6f18ef8fe1001b1ac97efcec62f27bdc216b698bd",
+        "contract": "roboturk.continuous_robot.v4"
+      }
+    }
+  ]
+}

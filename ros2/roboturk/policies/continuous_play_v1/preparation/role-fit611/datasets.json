@@ -1,0 +1,29 @@
+{
+  "inputs": [
+    {
+      "path": "runs/continuous-v1/relabel-teacher-data",
+      "data_sha256": "33aa8274007c1bcbffcaf11097bee7a82c801977b80a4b415d4e2c5959977b7d",
+      "collection_sha256": "435c01ad6c5b6ffd13dcfbd288e8a3a2af1648b75106e0eca87bbdd84b869673",
+      "observations": 135224,
+      "seed": 4200000,
+      "count": 30,
+      "control": "training_teacher",
+      "base_observations": 122,
+      "training_observations": 122
+    },
+    {
+      "path": "runs/continuous-v1/relabel-dagger1-611",
+      "data_sha256": "47c28f08ae009085b8ddb03ca46276a2df9a7d7d696a8d226eb7eda75cf50644",
+      "collection_sha256": "4a57108c7cec7f75924f559c5b6c1309da4cc20d84d67a3eba6977629f3a9e68",
+      "observations": 90068,
+      "seed": 4210000,
+      "count": 20,
+      "control": "mixed_neural_0.5",
+      "base_observations": 122,
+      "training_observations": 122
+    }
+  ],
+  "source": "runs/continuous-v1/geometry-fit611/seed611/bootstrap.zip",
+  "source_sha256": "9c56103ec3d8a0e7b6dbbe2b5b3def6337d93db535ec18301e10cf6c5d542f65",
+  "data_sha256": "320595c415972d83f1388251ca9b45b3f96b936cc533574a44997ec9cea3f912"
+}

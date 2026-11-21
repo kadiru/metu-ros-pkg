@@ -1,0 +1,47 @@
+{
+  "total_manager_calls": 62767,
+  "behavior_switches": 849,
+  "robot_switches": 160,
+  "episodes_with_robot_switch": 37,
+  "opponent_policy_calls": {
+    "defender": 62767,
+    "keeper": 62767
+  },
+  "failures": [
+    {
+      "seed": 3300023,
+      "family": "close",
+      "reason": "robot_collision"
+    },
+    {
+      "seed": 3300051,
+      "family": "midfield",
+      "reason": "ball_out"
+    },
+    {
+      "seed": 3300123,
+      "family": "midfield",
+      "reason": "ball_out"
+    },
+    {
+      "seed": 3300153,
+      "family": "midfield",
+      "reason": "ball_out"
+    },
+    {
+      "seed": 3300165,
+      "family": "midfield",
+      "reason": "lost_possession"
+    },
+    {
+      "seed": 3300186,
+      "family": "midfield",
+      "reason": "ball_out"
+    },
+    {
+      "seed": 3300223,
+      "family": "advanced",
+      "reason": "robot_collision"
+    }
+  ]
+}

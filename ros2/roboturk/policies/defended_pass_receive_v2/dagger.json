@@ -1,0 +1,57 @@
+{
+  "contract": "roboturk.defended_transfer.v2",
+  "skill": "pass_receive_team",
+  "config": {
+    "length": 9.0,
+    "width": 6.0,
+    "goal_width": 1.0,
+    "robot_radius": 0.09,
+    "ball_radius": 0.0215,
+    "ball_mass": 0.046,
+    "max_speed": 2.0,
+    "max_omega": 8.0,
+    "max_kick": 5.0,
+    "dt": 0.02,
+    "max_steps": 500,
+    "neighbors": 5,
+    "possession_x": 0.115
+  },
+  "task": "defended_pass_receive.randomized.v1",
+  "backend": "webots_ideal_body_velocity+reactive_lane_defender_v1",
+  "stage": "dagger",
+  "method": "Attack-frame receiver warm start + new DAgger + anchored PPO",
+  "actual_steps": 0,
+  "pass_speed": 1.8,
+  "centralized": true,
+  "validated_for_hardware": false,
+  "opponent": "reactive_lane_defender_v1",
+  "seed": 77,
+  "source_checkpoint_sha256": "095eb46f0e596689f3bda179dfc700383440b36b2efea7d58ab611c4edfb3821",
+  "reused_demonstration_seed_range": [
+    600000,
+    600299
+  ],
+  "reused_dagger_seed_range": [
+    620000,
+    620149
+  ],
+  "new_dagger_seed_range": [
+    720000,
+    720149
+  ],
+  "development_seed_range": [
+    710000,
+    710059
+  ],
+  "qualification_seed_range": [
+    750000,
+    750199
+  ],
+  "demo_seed_range": [
+    760000,
+    760005
+  ],
+  "learning_rate": 3e-07,
+  "anchor_max_normalized_action_delta": 0.01,
+  "anchor_mean_square_delta": 1e-06
+}

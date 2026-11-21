@@ -1,0 +1,32 @@
+{
+  "transfer": {
+    "path": "policies/decision_self_play_v1/final/transfer/policy.zip",
+    "sha256": "d2580a658fc74fe744a075e6b61166b4c468e4c9a387161c0e3ffce943735f1c",
+    "manifest_sha256": "c6452460aa8351351dbe9dba9eb8da642e657fd6c57f7305614aeada7d66a551",
+    "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+  },
+  "finish": {
+    "path": "policies/decision_self_play_v1/final/finish/policy.zip",
+    "sha256": "944821a36e8c9c714a6c460a3e8ff6c5299d7b9afb2f1e7c5233f88311ccb80c",
+    "manifest_sha256": "b52cb7e157052b2714cbaa74ee4e967a4d55d2083b43e52ec11c4e8d2a771edb",
+    "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+  },
+  "defender": {
+    "path": "policies/decision_self_play_v1/final/defender/policy.zip",
+    "sha256": "2e6376d0d1f19d1454167dc2d7a80878a75b0bd03e6ee5de50f2dd54ca838629",
+    "manifest_sha256": "8e29122608ff5533288bd9879108c2ec4a97b952418b10430f642b8cdc81e2cd",
+    "actor_sha256": "a82a9ad55e8369140885268ac9de0634806b5c887f6d3b4ef1e5d231ee83eb2d"
+  },
+  "keeper": {
+    "path": "policies/decision_self_play_v1/final/keeper/policy.zip",
+    "sha256": "9b731aa001a9354f08093799a4e44cdddaac4def7ba84db066825d36e4670eea",
+    "manifest_sha256": "fd7d7e49a7f9d1f63a44fe0c1b3c53566b8cb7e78a498aa1e7f9a1f540499009",
+    "actor_sha256": "0e15c8c1fcc85fe53d29a98ab6592478a938f2953a9f1d3336fd56b84afd7f73"
+  },
+  "manager": {
+    "path": "policies/decision_self_play_v1/final/manager/policy.zip",
+    "sha256": "46a0af15ee044b0c2ecbcac5f20c2313c219380df05b407dc68c0425d57b12f8",
+    "manifest_sha256": "3f4cf5afe0389f2499afba9e937655b03a7e8fbfdfd0907cf7db9b90be74c0ee",
+    "actor_sha256": "a4e5a2b2b5e7cbdca04618766a8c72c8b8056a80b93f0c352582beeb60a5cc26"
+  }
+}

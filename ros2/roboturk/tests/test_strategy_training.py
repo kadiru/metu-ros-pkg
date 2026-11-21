@@ -59,3 +59,57 @@ def test_optimizer_cannot_change_target_function():
         model.policy.optimizer.step()
     assert target_hash(model) == before
     assert not torch.equal(model.policy.action_net.weight[:10], choices)
+
+
+def test_choice_uses_its_own_intent_and_remains_a_17_value_action():
+    from roboturk.strategy_heads import IntentHeadDistribution, IntentHeadPolicy
+
+    means = torch.zeros((3, 31))
+    for head in range(3):
+        means[:, 10 + 7 * head : 17 + 7 * head] = 0.1 * (head + 1)
+    dist = IntentHeadDistribution(17).proba_distribution(means, torch.zeros(17))
+    chosen = dist.chosen(torch.tensor([7, 8, 9]))
+    assert chosen.shape == (3, 17)
+    torch.testing.assert_close(chosen[:, 10:], torch.tensor([[0.1] * 7, [0.2] * 7, [0.3] * 7]))
+    model = SelfPlayPPO(
+        IntentHeadPolicy,
+        ShapeEnv(),
+        n_steps=8,
+        batch_size=4,
+        policy_kwargs={"net_arch": {"pi": [256, 256], "vf": [256, 256]}},
+        seed=822,
+    )
+    assert model.predict(np.zeros((4, 162), np.float32), deterministic=True)[0].shape == (4, 17)
+    freeze_targets(model)
+    before = target_hash(model)
+    x = torch.ones((8, 162))
+    for _ in range(2):
+        loss = model.policy.get_distribution(x).distribution.mean.square().sum()
+        model.policy.optimizer.zero_grad()
+        loss.backward()
+        model.policy.optimizer.step()
+    assert target_hash(model) == before
+
+
+def test_conditional_head_checkpoint_round_trip(tmp_path):
+    from roboturk.strategy_heads import IntentHeadPolicy
+    from roboturk.strategy_training import save, load
+    from roboturk.self_play_training import actor_hash
+
+    model = SelfPlayPPO(
+        IntentHeadPolicy,
+        ShapeEnv(),
+        n_steps=8,
+        batch_size=4,
+        policy_kwargs={"net_arch": {"pi": [256, 256], "vf": [256, 256]}},
+        seed=811,
+    )
+    source = tmp_path / "policy.zip"
+    save(model, source, {"raw_actor_outputs": 31})
+    loaded = load(source)
+    assert loaded.policy.action_net.out_features == 31
+    assert actor_hash(loaded) == actor_hash(model)
+    x = np.random.default_rng(41).normal(size=(32, 162)).astype(np.float32)
+    np.testing.assert_array_equal(
+        loaded.predict(x, deterministic=True)[0], model.predict(x, deterministic=True)[0]
+    )

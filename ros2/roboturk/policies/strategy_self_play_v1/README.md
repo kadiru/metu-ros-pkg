@@ -30,7 +30,7 @@ The first historical league (seed 811) completed 65,536 native PPO steps over tw
 generations, accepting 58 of 64 updates. Both actors changed; the complete target
 function and all motor policies remained fixed. Final-generation development:
 8/8 completed, two goals, one stopped reception, one redirect goal and two
-clearances, with zero detected contacts/exits. Seed 822's league is in progress.
+clearances, with zero detected contacts/exits. Both leagues have now completed: 131,072 total steps and 112/128 accepted updates.
 These results do not isolate a PPO benefit from preparation.
 
 The native camera preflight retains both 6-second cases and both rendering
@@ -38,3 +38,9 @@ versions. Adding a non-collidable ball ring left all 2,400 recorded physics stat
 identical. The ring is only a visibility aid for the GIF; the physical ball,
 observations and controllers are unchanged. This is development footage, not the
 reserved final demonstration.
+
+The broader 64-match development check produced 12 goals with zero robot
+contacts/exits. This was not enough margin to freeze the first candidates.
+A second preparation is collecting correction data and fitting three separate
+learned intent heads. The actor has 31 raw outputs, packed into the same 17-value
+deployed action after its neural skill choice. Reserved tests remain untouched.

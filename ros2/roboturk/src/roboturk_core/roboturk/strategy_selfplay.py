@@ -187,8 +187,11 @@ def train(backend, bank, out, initial, seed, rounds, steps, duration):
         model.set_random_seed(seed + generation * 101)
         freeze_targets(model)
         model.prepare_anchor(x, seed + generation * 101, groups)
-        model.anchor_optimizer = torch.optim.Adam(model.actor_parameters(), lr=3e-6)
-        model.actor_mse_limit = 0.01
+        # Keep the same per-choice trust region when intent heads add frozen outputs.
+        raw_outputs = model.policy.action_net.out_features
+        anchor_lr = 3e-6 * raw_outputs / 17
+        model.anchor_optimizer = torch.optim.Adam(model.actor_parameters(), lr=anchor_lr)
+        model.actor_mse_limit = 0.01 * 17 / raw_outputs
         model.actor_delta_limit = 0.8
         before = actor_hash(model)
         targets_before = target_hash(model)
@@ -243,7 +246,9 @@ def train(backend, bank, out, initial, seed, rounds, steps, duration):
             "deterministic_probe_choice_changes": changed,
             "probe_rows": len(model.anchor_probe),
             "frozen_targets_and_motor_policies": True,
-            "actor_mse_limit": 0.01,
+            "actor_mse_limit": model.actor_mse_limit,
+            "anchor_learning_rate": anchor_lr,
+            "raw_actor_outputs": raw_outputs,
             "actor_delta_limit": 0.8,
         }
         save(model, stage / "policy.zip", metadata)

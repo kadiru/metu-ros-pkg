@@ -5,7 +5,11 @@ one-touch redirect and recover-clear actors into continuous 2v2. Earlier frozen
 releases remain unchanged. No new learned-strategy qualification is claimed yet.
 
 The shared selector observes 162 measurements/state features and produces 17
-outputs: ten behavior scores, six target parameters and a target-refresh score.
+deployed values: ten behavior scores, six target parameters and a target-refresh
+score. The revised actor internally predicts 31 values: ten choice logits and
+three separate seven-value intent heads. The neural choice selects its matching
+intent head, so receiving, redirecting and clearing have independent target
+functions. All three target functions stay fixed during decision-head PPO.
 The behavior choices are recover, dribble, pass, shoot, press, cover, support,
 receive, redirect and clear. Four neural selectors run every 20 ms. Each robot may
 change responsibilities; there is no permanent scripted keeper or attacker.
@@ -56,3 +60,20 @@ The next preparation adds 96 fresh native teacher matches. Target regression now
 uses option entry and positive target-refresh decisions, with those states
 oversampled; a retained target is not treated as a newly issued target command.
 Choice and refresh decisions remain learned. No reserved cases have been used.
+
+### First self-play attempt and conditional intent correction
+
+The first two leagues completed 131,072 native PPO steps and accepted 112 of 128
+updates. Both seeds changed strategic decisions while preserving their target
+functions and all motor actors. A broader 64-match development check completed
+without robot contacts or field exits, but produced only 12 goals. Paired panels
+scored four and three goals; fresh cross-play panels scored two and three. These
+candidates were not frozen or run on reserved qualification cases.
+
+The next preparation separates the previously shared intent vector into three
+learned heads, retaining the 162-observation/17-action deployment interface. It
+collects 32 additional mixed DAgger matches per seed from the first self-play
+policies, then refits each seed with supervision applied only to the selected
+skill head. A new categorical choice therefore selects its own learned intent.
+This is a new preparation experiment, not an isolated causal attribution of the
+previous results to either architecture or PPO. All old candidates are retained.

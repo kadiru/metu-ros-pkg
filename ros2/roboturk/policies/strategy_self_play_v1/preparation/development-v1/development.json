@@ -1,0 +1,210 @@
+{
+  "811-paired": {
+    "summary": {
+      "matches": 16,
+      "completed": 16,
+      "unfinished": 0,
+      "goals": {
+        "blue": 2,
+        "yellow": 2
+      },
+      "wins": {
+        "blue": 2,
+        "yellow": 1
+      },
+      "draws": 13,
+      "goal_matches": 3,
+      "turnover_matches": 6,
+      "acquisition_matches": 16,
+      "recovery_matches": 10,
+      "passes": 19,
+      "receptions": 6,
+      "mean_contact_fraction": 0.0,
+      "field_exit_matches": 0,
+      "mean_possession_seconds": {
+        "blue": 5.0243750000001945,
+        "yellow": 7.72906250000031
+      },
+      "skill_outcomes": {
+        "receive_stop": 4,
+        "redirect_kick": 2,
+        "redirect_goal": 2,
+        "clearance_complete": 5
+      },
+      "new_skill_ticks": {
+        "receive": 16541,
+        "redirect": 94,
+        "clear": 1772
+      }
+    },
+    "audit_passed": true,
+    "selectors": [
+      {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/strategy-v1/league811-v1/generation2/policy.zip",
+        "sha256": "f62adda24db76a5a97ab3173547805cc8f2c14809ba7c177d19969253596e68d",
+        "metadata_sha256": "4340fbc421a9ca2ece3739d1ee573ed94dff823c359ea22bc1fc282984c5ae18"
+      },
+      {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/strategy-v1/league811-v1/generation2/policy.zip",
+        "sha256": "f62adda24db76a5a97ab3173547805cc8f2c14809ba7c177d19969253596e68d",
+        "metadata_sha256": "4340fbc421a9ca2ece3739d1ee573ed94dff823c359ea22bc1fc282984c5ae18"
+      }
+    ]
+  },
+  "822-paired": {
+    "summary": {
+      "matches": 16,
+      "completed": 16,
+      "unfinished": 0,
+      "goals": {
+        "blue": 2,
+        "yellow": 1
+      },
+      "wins": {
+        "blue": 2,
+        "yellow": 1
+      },
+      "draws": 13,
+      "goal_matches": 3,
+      "turnover_matches": 7,
+      "acquisition_matches": 16,
+      "recovery_matches": 13,
+      "passes": 18,
+      "receptions": 3,
+      "mean_contact_fraction": 0.0,
+      "field_exit_matches": 0,
+      "mean_possession_seconds": {
+        "blue": 6.505937500000249,
+        "yellow": 6.180937500000199
+      },
+      "skill_outcomes": {
+        "receive_stop": 3,
+        "redirect_kick": 2,
+        "redirect_goal": 2,
+        "clearance_complete": 4
+      },
+      "new_skill_ticks": {
+        "receive": 18168,
+        "redirect": 97,
+        "clear": 3070
+      }
+    },
+    "audit_passed": true,
+    "selectors": [
+      {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/strategy-v1/league822-v1/generation2/policy.zip",
+        "sha256": "88ea656f50b2d8f11e35c373d4c33c5339da1d08185773c0e7a5df631d54ca12",
+        "metadata_sha256": "67c0fec1c821bb6248d237825cf7703e66d6e0d8f21aa0117b7c7c38d205d95c"
+      },
+      {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/strategy-v1/league822-v1/generation2/policy.zip",
+        "sha256": "88ea656f50b2d8f11e35c373d4c33c5339da1d08185773c0e7a5df631d54ca12",
+        "metadata_sha256": "67c0fec1c821bb6248d237825cf7703e66d6e0d8f21aa0117b7c7c38d205d95c"
+      }
+    ]
+  },
+  "811-cross": {
+    "summary": {
+      "matches": 16,
+      "completed": 16,
+      "unfinished": 0,
+      "goals": {
+        "blue": 2,
+        "yellow": 0
+      },
+      "wins": {
+        "blue": 2,
+        "yellow": 0
+      },
+      "draws": 14,
+      "goal_matches": 2,
+      "turnover_matches": 6,
+      "acquisition_matches": 16,
+      "recovery_matches": 10,
+      "passes": 18,
+      "receptions": 5,
+      "mean_contact_fraction": 0.0,
+      "field_exit_matches": 0,
+      "mean_possession_seconds": {
+        "blue": 6.588125000000196,
+        "yellow": 5.9818750000002145
+      },
+      "skill_outcomes": {
+        "receive_stop": 4,
+        "redirect_kick": 1,
+        "redirect_goal": 0,
+        "clearance_complete": 5
+      },
+      "new_skill_ticks": {
+        "receive": 16889,
+        "redirect": 473,
+        "clear": 1919
+      }
+    },
+    "audit_passed": true,
+    "selectors": [
+      {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/strategy-v1/league811-v1/generation2/policy.zip",
+        "sha256": "f62adda24db76a5a97ab3173547805cc8f2c14809ba7c177d19969253596e68d",
+        "metadata_sha256": "4340fbc421a9ca2ece3739d1ee573ed94dff823c359ea22bc1fc282984c5ae18"
+      },
+      {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/strategy-v1/league822-v1/generation2/policy.zip",
+        "sha256": "88ea656f50b2d8f11e35c373d4c33c5339da1d08185773c0e7a5df631d54ca12",
+        "metadata_sha256": "67c0fec1c821bb6248d237825cf7703e66d6e0d8f21aa0117b7c7c38d205d95c"
+      }
+    ]
+  },
+  "822-cross": {
+    "summary": {
+      "matches": 16,
+      "completed": 16,
+      "unfinished": 0,
+      "goals": {
+        "blue": 3,
+        "yellow": 0
+      },
+      "wins": {
+        "blue": 3,
+        "yellow": 0
+      },
+      "draws": 13,
+      "goal_matches": 3,
+      "turnover_matches": 7,
+      "acquisition_matches": 15,
+      "recovery_matches": 9,
+      "passes": 18,
+      "receptions": 5,
+      "mean_contact_fraction": 0.0,
+      "field_exit_matches": 0,
+      "mean_possession_seconds": {
+        "blue": 5.016250000000141,
+        "yellow": 7.579687500000225
+      },
+      "skill_outcomes": {
+        "receive_stop": 4,
+        "redirect_kick": 2,
+        "redirect_goal": 2,
+        "clearance_complete": 5
+      },
+      "new_skill_ticks": {
+        "receive": 16259,
+        "redirect": 138,
+        "clear": 2723
+      }
+    },
+    "audit_passed": true,
+    "selectors": [
+      {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/strategy-v1/league822-v1/generation2/policy.zip",
+        "sha256": "88ea656f50b2d8f11e35c373d4c33c5339da1d08185773c0e7a5df631d54ca12",
+        "metadata_sha256": "67c0fec1c821bb6248d237825cf7703e66d6e0d8f21aa0117b7c7c38d205d95c"
+      },
+      {
+        "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/strategy-v1/league811-v1/generation2/policy.zip",
+        "sha256": "f62adda24db76a5a97ab3173547805cc8f2c14809ba7c177d19969253596e68d",
+        "metadata_sha256": "4340fbc421a9ca2ece3739d1ee573ed94dff823c359ea22bc1fc282984c5ae18"
+      }
+    ]
+  }
+}

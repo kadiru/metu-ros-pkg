@@ -111,6 +111,10 @@
     "actions": 17,
     "choice_logits": 10,
     "target_parameters": 6,
-    "target_refresh_score": 1
-  }
+    "target_refresh_score": 1,
+    "raw_actor_outputs": 31,
+    "intent_heads": 3,
+    "parameter_routing": "The neural categorical choice selects its own seven-value receive/redirect/clear intent head; the deployed action remains 17 values."
+  },
+  "preparation_revision": 2
 }

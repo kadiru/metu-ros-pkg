@@ -50,6 +50,11 @@ def main():
 
             refine(backend, bank, out)
             result = None
+        elif mode == "adapt":
+            from roboturk.strategy_adapt import adapt
+
+            adapt(backend, bank, out)
+            result = None
         elif mode == "train":
             from roboturk.strategy_selfplay import train
 

@@ -1,0 +1,71 @@
+{
+  "index": 24,
+  "before": {
+    "seed": 11400024,
+    "team": "blue",
+    "recovery_s": 2.19,
+    "origin": [
+      1.3827850113432152,
+      -0.42275794524692617
+    ],
+    "outcome": "opponent touch before first kick",
+    "elapsed_s": 0.46,
+    "ball": [
+      1.4035291544492985,
+      -0.49443366451953796
+    ],
+    "options": [
+      "dribble"
+    ]
+  },
+  "play": {
+    "start": 0,
+    "recovery": 89,
+    "winner": 2,
+    "team": "blue",
+    "goal": 243,
+    "shot": 38,
+    "scorer": 2,
+    "passes": [],
+    "dribble_m": 0.507,
+    "options": [
+      "dribble",
+      "shoot"
+    ]
+  },
+  "proof": {
+    "previous": {
+      "seed": 11400024,
+      "samples": 2400,
+      "max_state_delta": 0.0,
+      "identical_options_events_goals": true
+    },
+    "trained": {
+      "seed": 11400024,
+      "samples": 2400,
+      "max_state_delta": 0.0,
+      "identical_options_events_goals": true
+    }
+  },
+  "excerpt": {
+    "file": "matched-recovery.gif",
+    "frames": 46,
+    "seconds": 3.68,
+    "fps": 12.5,
+    "sha256": "2801e5947c9812dd217b65271f40bc69f9a53bb67361c296e3c8be1f1373f7f2"
+  },
+  "mp4_sha256": "43c474b4bbe65c660cb9e63caa199fd91eadcd4de45f3fb2f2ed9f18e669ff9a",
+  "speed": 1,
+  "source_start": 0,
+  "source_end": 3.65,
+  "common_crop": [
+    676,
+    248,
+    470,
+    264
+  ],
+  "native_sources": {
+    "previous": "c6b6ab897c88f9cdabb460a24b8a892cef4f1ad2889e0cfac4c7d8e201ad972a",
+    "trained": "02446e423e3da56f3b8695cdf44bb44fd68305555514355fd51eea672c96f247"
+  }
+}

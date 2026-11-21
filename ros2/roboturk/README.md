@@ -6,11 +6,11 @@ A research prototype with learned soccer skills, continuous 2v2 and 3v3 play, RO
 
 ## 32 goals from 40 fresh 3v3 opening contests
 
-The trained teams scored from **32 of 40 opening contests (80%)** in independent Webots matches, clearing the 24-goal target. The policy starts centering the moving ball as soon as one contestant holds it alone. Twenty-three of the 32 opening goals followed a controlled dribble. The eight misses split evenly between a turnover before the first kick and a shot out of play. The teams chose to carry or shoot on these starts.
+On the same 40 fresh Webots starts, the new team scored from **32 opening recoveries (80%)**, up from **20 (50%)** for the previous team. The target was 24/40. The new controller starts centering the moving ball as soon as one contestant holds it alone. Twenty-three of the 32 opening goals followed a controlled dribble.
 
-[![Blue 2 wins the ball, carries it and scores in the second fresh Webots game](media/recovery-transition/recovery-goal-play.gif)](media/recovery-transition/recovery-to-goal.mp4)
+[![Same opening contest in Webots. The previous team loses the ball before a kick and Blue 2 scores for the new team.](media/recovery-transition/matched-recovery.gif)](media/recovery-transition/matched-recovery.mp4)
 
-*Blue 2 establishes sole possession at 14.80 s, dribbles 0.60 m and scores at 19.23 s. The uncut 105-second recording includes all three fresh games. A second native launch reproduced all 10,500 measured states, strategy choices and referee events.* [Full Webots recording](media/recovery-transition/recovery-to-goal.mp4) · [Full GIF](media/recovery-transition/recovery-to-goal.gif) · [Where the earlier team lost possession](media/recovery-transition/previous-losses.png) · [Training, frozen policy and held-out results](policies/recovery_attack_v3/README.md)
+*The two native recordings share the same starting positions and clock. On the left the opponent touches the ball at 2.65 s. On the right Blue 2 keeps possession, dribbles 0.51 m and scores at 2.43 s.* [Three fresh uncut Webots games](media/recovery-transition/recovery-to-goal.mp4) · [Fresh scoring-play GIF](media/recovery-transition/recovery-goal-play.gif) · [Full GIF](media/recovery-transition/recovery-to-goal.gif) · [Where the earlier team lost possession](media/recovery-transition/previous-losses.png) · [Policy, training and all 40 match pairs](policies/recovery_attack_v3/README.md)
 
 ## Earlier 3v3 recovery decisions in Webots
 

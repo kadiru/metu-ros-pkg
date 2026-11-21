@@ -43,6 +43,22 @@ The selected controller favored carrying and shooting throughout these fixtures.
 
 The second six-policy league produced 39, 37, 40, 48, 39 and 38 opening goals on 56 layouts each. The selected policy's 48 goals included 35 controlled carries. It then converted 16/24 independent development starts. The qualification used a separate seed range, 11400000–11400039. [Frozen policy](candidate-1.json) · [Source and training hashes](freeze-1.json) · [Second league](training-1.json.gz) · [Development](dev1/audit.json) · [Qualification and individual seeds](qual1/audit.json) · [All eight misses](qual1/losses.json)
 
+## Same starts with the previous team
+
+The previous recovery team scored from **20/40**, compared with **32/40** for the frozen first-touch team. The first frame matched exactly in all 40 pairs. The new team converted fourteen starts that the previous team missed and lost two that it previously converted. [Per-start comparison and physical outcomes](baseline1/comparison.json)
+
+| Opening result | Previous team | New team |
+| --- | ---: | ---: |
+| Recovery goal | 20 | 32 |
+| Opponent touch before first kick | 6 | 4 |
+| Opponent touch after pass | 3 | 0 |
+| Opponent touch after shot | 3 | 0 |
+| Ball out after shot | 8 | 4 |
+
+[![Both teams start from the same contest. The previous team loses the ball and the new team scores.](../../media/recovery-transition/matched-recovery.gif)](../../media/recovery-transition/matched-recovery.mp4)
+
+The synchronized excerpt shows one of the fourteen newly converted starts, seed 11400024. On the left, the opponent touches the ball at 2.65 s, before the previous team's first kick. On the right, Blue 2 establishes possession at 0.89 s, carries the ball 0.507 m, shoots at 1.52 s and scores at 2.43 s. Both recordings reproduced all 2,400 states and decisions of their original games. [Full previous-team game](../../media/recovery-transition/previous-matched-game.mp4) · [Full new-team game](../../media/recovery-transition/trained-matched-game.mp4) · [Exact replay evidence](../../media/recovery-transition/matched-recovery.json)
+
 ## Fresh Webots demo
 
 The prespecified 35-second games produced three recovery goals. Blue scored once in the first game and twice in the second. The ordinary-play third game ended scoreless. The main excerpt shows the second game's recovery at 14.80 s. Blue 2 carries the ball 0.60 m, shoots at 17.24 s and scores at 19.23 s. The full recording plays all three games in order at normal speed. Repeating the entire sequence in a fresh Webots process reproduced all 10,500 physical samples, options, events and recovery attributions. [Native MP4](../../media/recovery-transition/recovery-to-goal.mp4) · [Highlight GIF](../../media/recovery-transition/recovery-goal-play.gif) · [Complete GIF](../../media/recovery-transition/recovery-to-goal.gif) · [Repeatability audit](demo1/repeatability.json)

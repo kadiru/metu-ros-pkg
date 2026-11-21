@@ -138,6 +138,7 @@ class LeadGame(BlockedGame):
             if p.get("choose_route"):
                 rivals = [r for r in w.robots if r.key.team != team]
                 best = None
+                scores = []
                 for slot, runner in enumerate(candidates(w, actor)):
                     h = run_direction(w, runner, p)
                     point, _ = rendezvous(w, runner, h, p)
@@ -155,10 +156,17 @@ class LeadGame(BlockedGame):
                         - 0.22 * abs(math.hypot(point[0] - b.x, point[1] - b.y) - 1.1)
                         + 0.17 * (runner.key == mate.key)
                     )
+                    scores.append(float(value))
                     if best is None or value > best[0]:
                         best = (value, runner, h, slot)
                 _, mate, self.heading, slot = best
-                self.target_choice = replace(self.choice, receiver=mate.key.id, slot=slot)
+                probability = float(
+                    1 / (1 + math.exp(float(np.clip(scores[0] - scores[1], -30, 30))))
+                )
+                self.target_choice = replace(
+                    self.choice, receiver=mate.key.id, slot=slot, probability=probability
+                )
+                option["route_scores"] = scores
                 self.choice = self.target_choice
                 option["receiver"] = mate.key.id
         if (

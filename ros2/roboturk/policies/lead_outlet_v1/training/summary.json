@@ -179,5 +179,73 @@
         "candidate": 3
       }
     ]
+  },
+  {
+    "name": "search4",
+    "cases": 160,
+    "first": 13100350,
+    "returns": [
+      {
+        "games": 30,
+        "goals": 25,
+        "lead_goals": 25,
+        "interceptions": 0,
+        "outcomes": {
+          "pass goal": 25,
+          "no uninterrupted finish": 1,
+          "no opening pass": 4
+        },
+        "candidate": 0
+      },
+      {
+        "games": 30,
+        "goals": 21,
+        "lead_goals": 21,
+        "interceptions": 0,
+        "outcomes": {
+          "pass goal": 21,
+          "no uninterrupted finish": 1,
+          "no opening pass": 8
+        },
+        "candidate": 1
+      },
+      {
+        "games": 30,
+        "goals": 25,
+        "lead_goals": 24,
+        "interceptions": 0,
+        "outcomes": {
+          "pass goal": 24,
+          "no uninterrupted finish": 1,
+          "no opening pass": 4,
+          "goal without verified lead": 1
+        },
+        "candidate": 2
+      },
+      {
+        "games": 31,
+        "goals": 26,
+        "lead_goals": 26,
+        "interceptions": 0,
+        "outcomes": {
+          "pass goal": 26,
+          "no opening pass": 4,
+          "no uninterrupted finish": 1
+        },
+        "candidate": 3
+      },
+      {
+        "games": 29,
+        "goals": 23,
+        "lead_goals": 23,
+        "interceptions": 0,
+        "outcomes": {
+          "pass goal": 23,
+          "no opening pass": 4,
+          "no uninterrupted finish": 2
+        },
+        "candidate": 4
+      }
+    ]
   }
 ]

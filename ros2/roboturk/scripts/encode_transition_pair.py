@@ -51,7 +51,7 @@ def main():
     with tempfile.TemporaryDirectory() as tmp:
         title = Path(tmp) / "title.png"
         banner.save(title)
-        movie = a.media / "matched-recovery.mp4"
+        movie = a.media / (evidence.get("stem", "matched-recovery") + ".mp4")
         args = [
             "-i",
             a.pair / "previous/match.mp4",

@@ -69,7 +69,7 @@ def replay(folder, checkpoint):
                 receiver=mate.key.id,
                 slot=choice.slot,
                 other_receiver=other.key.id,
-                other_open=other_open,
+                other_open=bool(other_open),
                 moved_defenders=moved,
                 observed=action,
                 cleared_lane=alternative,

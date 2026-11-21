@@ -161,6 +161,83 @@
     ]
   },
   {
+    "name": "league4",
+    "games": 180,
+    "returns": [
+      {
+        "candidate": 0,
+        "opportunities": 26,
+        "goals": 16,
+        "receives": 18,
+        "outcomes": {
+          "pass goal": 16,
+          "no uninterrupted finish": 2,
+          "no opening pass": 7,
+          "intercepted": 1
+        }
+      },
+      {
+        "candidate": 1,
+        "opportunities": 32,
+        "goals": 22,
+        "receives": 26,
+        "outcomes": {
+          "no uninterrupted finish": 4,
+          "pass goal": 22,
+          "intercepted": 2,
+          "no opening pass": 4
+        }
+      },
+      {
+        "candidate": 2,
+        "opportunities": 28,
+        "goals": 20,
+        "receives": 22,
+        "outcomes": {
+          "pass goal": 20,
+          "intercepted": 3,
+          "no uninterrupted finish": 2,
+          "no opening pass": 3
+        }
+      },
+      {
+        "candidate": 3,
+        "opportunities": 25,
+        "goals": 19,
+        "receives": 20,
+        "outcomes": {
+          "no opening pass": 5,
+          "pass goal": 19,
+          "no uninterrupted finish": 1
+        }
+      },
+      {
+        "candidate": 4,
+        "opportunities": 32,
+        "goals": 23,
+        "receives": 24,
+        "outcomes": {
+          "pass goal": 23,
+          "intercepted": 3,
+          "no opening pass": 5,
+          "no uninterrupted finish": 1
+        }
+      },
+      {
+        "candidate": 5,
+        "opportunities": 35,
+        "goals": 25,
+        "receives": 26,
+        "outcomes": {
+          "pass goal": 25,
+          "intercepted": 3,
+          "no opening pass": 6,
+          "receiver covered": 1
+        }
+      }
+    ]
+  },
+  {
     "name": "league5",
     "games": 120,
     "returns": [

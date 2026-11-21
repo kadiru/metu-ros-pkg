@@ -1,0 +1,72 @@
+{
+  "cases": 3,
+  "schedule": [
+    [
+      12400000,
+      0,
+      0
+    ],
+    [
+      12400001,
+      0,
+      0
+    ],
+    [
+      12400002,
+      0,
+      0
+    ]
+  ],
+  "models": [
+    {
+      "tracking": 0.54,
+      "centering": 14.0,
+      "turn": 5.7,
+      "escape": 0.7,
+      "speed": 0.95,
+      "receiver": [
+        3.8,
+        0.8,
+        0.12,
+        0.18,
+        -0.35
+      ],
+      "bias": 0.75,
+      "block": 2.6,
+      "lane": 0.85,
+      "support_x": 0.35,
+      "support_y": 1.12,
+      "cover": 1.0,
+      "finish": 7,
+      "early_turn": true,
+      "slide": 0.36,
+      "shot_clear": 0.115,
+      "lookahead": 0.15,
+      "advance": 1.12,
+      "open_penalty": 8.0,
+      "peel": 0.85,
+      "peel_side": 1.15,
+      "space_penalty": 2.6
+    }
+  ],
+  "protocol": {
+    "train_first": 12100000,
+    "development_first": 12200000,
+    "qualification_first": 12300000,
+    "demo_first": 12400000,
+    "version_stride": 1000,
+    "cases": 40,
+    "seconds": 18,
+    "goal_target": 24,
+    "direct_lane_length_m": 1.65,
+    "blocked_center_gap_m": 0.24,
+    "minimum_pass_lane_gap_m": 0.19,
+    "minimum_receiver_space_m": 0.48,
+    "criterion": "From the tick-zero dual-mouth contest, the winner earns 0.20 s sole possession. At the decision to pass a defender is in the direct dribble corridor and the chosen teammate has an open lane and receiving space. The actual 2.2 m/s pass travels at least 0.55 m, the intended teammate controls it alone for 0.20 s, then the team scores in the same uninterrupted recovery. All 40 starts count. No seed selection. New checkpoint attempts use new seed blocks.",
+    "layout": "Symmetric lane-defense opening. Two robots contest a randomized ball at midfield. Each side has a central cover robot and a wide support robot. Identities, directions, distances, initial facing, ball and wings vary. All six move live. Qualification starts a new simulator for each opening."
+  },
+  "seconds": 18,
+  "record": true,
+  "study": false,
+  "webots_sha256": "035a91bad1d12e4f34108ec48c8cadcb2dab4dc3278e4f03c9e969bb82d6babe"
+}

@@ -1,0 +1,33 @@
+{
+  "games": 3,
+  "outcomes": {
+    "opponent retouch before pass": 1,
+    "no opening pass": 1,
+    "pass goal": 1
+  },
+  "qualifying_slots": {
+    "0": 1
+  },
+  "qualifying_sides": {
+    "blue": 1
+  },
+  "unique_open_receiver_goals": 1,
+  "replayed_passes": 1,
+  "cleared_frames": 1,
+  "switched_from_pass": 1,
+  "decisions": [
+    {
+      "seed": 12400002,
+      "qualified": true,
+      "receiver": 0,
+      "slot": 0,
+      "other_receiver": 1,
+      "other_open": false,
+      "moved_defenders": [
+        1
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    }
+  ]
+}

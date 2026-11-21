@@ -79,11 +79,9 @@ def play_preview(movie, dest, trace, row, start, duration):
             s = states[sample]
             ball = s[:2]
             rs = s[4:].reshape(6, 3)
-            field = (
-                Image.open(path)
-                .convert("RGB")
-                .crop((x, y, x + width, y + height))
-                .resize((960, 480), Image.Resampling.LANCZOS)
+            native = Image.open(path).convert("RGB")
+            field = native.crop((x, y, x + width, y + height)).resize(
+                (960, 480), Image.Resampling.LANCZOS
             )
             img = Image.new("RGB", (960, 585), (17, 29, 39))
             img.paste(field, (0, 52))
@@ -179,6 +177,28 @@ def play_preview(movie, dest, trace, row, start, duration):
                     caption = f"Body between ball and defender    /    {gap:.2f} m apart"
                 else:
                     caption = "Shield complete    /    Receiver turns to finish"
+            if row.get("pressure") and row["contact"] - 12 <= sample < chain["shot"] * 4:
+                # Magnify the same native frame while retaining the direction of the attack.
+                runner_px = np.array(pixel(rs[receiver, :2]))
+                rival_px = np.array(pixel(rs[3 - offset + row["marker"], :2]))
+                focus = (runner_px + rival_px) * 0.5
+                detail_width = int(
+                    max(
+                        76,
+                        abs(runner_px[0] - rival_px[0]) + 46,
+                        (abs(runner_px[1] - rival_px[1]) + 42) * 1.6,
+                    )
+                )
+                detail_height = round(detail_width / 1.6)
+                left = int(np.clip(focus[0] - detail_width / 2, 0, 1280 - detail_width))
+                top = int(np.clip(focus[1] - detail_height / 2, 0, 720 - detail_height))
+                detail = native.crop((left, top, left + detail_width, top + detail_height))
+                origin = 16 if screen(rs[receiver, :2])[0] > 480 else 704
+                draw.rectangle(
+                    (origin - 2, 67, origin + 242, 245), fill=(17, 29, 39), outline=gold, width=2
+                )
+                draw.text((origin + 7, 69), "Receiver and marker", font=label_font, fill=text_color)
+                img.paste(detail.resize((240, 150), Image.Resampling.LANCZOS), (origin, 93))
             if chain["recovery"] <= sample < chain["goal"]:
                 for actor in [passer, receiver]:
                     px, py = screen(rs[actor, :2])

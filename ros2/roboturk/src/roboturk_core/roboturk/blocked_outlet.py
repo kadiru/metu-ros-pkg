@@ -85,6 +85,8 @@ def select(w, actor, p, received=False):
     lane, space = features[j][:2]
     # A continuous comparison allows carrying and shooting to win on clear lanes.
     pass_value = p["bias"] - p["block"] * min(0.75, direct) + p["lane"] * lane + 0.22 * space
+    if "open_penalty" in p:
+        pass_value -= p["open_penalty"] * max(0, 0.26 - lane)
     shot_value = (
         0.3
         + 1.25 * min(0.75, direct)
@@ -93,6 +95,37 @@ def select(w, actor, p, received=False):
     carry_value = 0.58 + 0.10 * max(0, 4.5 - direction * b.x) / 5
     values = [pass_value, carry_value, shot_value]
     return choice, ("pass", "dribble", "shoot")[int(np.argmax(values))], values
+
+
+def finish_motion(w, actor, p, escape):
+    """Carry across a defender's line until the current physical heading can score."""
+    gx, gy, gap = window(w, actor)
+    b = w.ball
+    dx, dy = unit(gx - b.x, gy - b.y)
+    # Advance to enlarge the visible goal aperture while pivoting around the ball.
+    side = (1 if b.y >= 0 else -1) * w.direction(actor.key.team)
+    lateral = p.get("slide", 0.0) * side * float(np.clip((2.12 - abs(b.y)) / 0.65, -1, 1))
+    forward = p.get("advance", 0.0) * float(np.clip((abs(gx - b.x) - 0.45) / 1.1, 0, 1))
+    v = (escape[0] + forward * dx - lateral * dy, escape[1] + forward * dy + lateral * dx)
+    # Compensate for the motor's yaw lag while the shot origin translates.
+    ahead = p.get("lookahead", 0.0)
+    aim = math.atan2(gy - b.y - ahead * b.vy, gx - b.x - ahead * b.vx)
+    ux, uy = math.cos(actor.yaw), math.sin(actor.yaw)
+    if ux * w.direction(actor.key.team) <= 0.15:
+        return aim, v, False
+    length = (gx - b.x) / ux
+    intercept = b.y + length * uy
+    margin = 2.0
+    for r in w.robots:
+        if r.key == actor.key:
+            continue
+        rx, ry = r.x - b.x, r.y - b.y
+        along = rx * ux + ry * uy
+        if 0.02 < along < length + 0.10:
+            horizon = min(0.5, along / 3.75)
+            closest = abs((rx + horizon * r.vx) * uy - (ry + horizon * r.vy) * ux)
+            margin = min(margin, closest)
+    return aim, v, abs(intercept) < 0.405 and margin > p.get("shot_clear", 0.14)
 
 
 class BlockedGame(AttackGame):
@@ -135,6 +168,8 @@ class BlockedGame(AttackGame):
                     )
                 ):
                     continue
+                if key == guard and self.active and self.active[0] == t and len(held) == 1:
+                    x, y = b.x + direction * 0.60, b.y - side * 1.22
                 if self.flight and self.flight["team"] != t:
                     # Opposing cover can intercept the ball in flight.
                     px, py = b.x + 0.22 * b.vx, b.y + 0.22 * b.vy
@@ -159,7 +194,10 @@ class BlockedGame(AttackGame):
             f = self.flight
             mate = w.robot(RobotKey(f["team"], f["receiver"]))
             if mate in held:
-                out[mate.key] = trap(w, mate, mate.yaw, (0, 0), self.teams[mate.key.team])
+                p = self.teams[mate.key.team]
+                gx, gy, _ = window(w, mate)
+                heading = math.atan2(gy - b.y, gx - b.x) if p.get("early_turn", False) else mate.yaw
+                out[mate.key] = trap(w, mate, heading, (0, 0), p)
             self.option = None
             return out
         if len(held) != 1:
@@ -208,13 +246,15 @@ class BlockedGame(AttackGame):
             mate = w.robot(RobotKey(team, self.choice.receiver))
             out[mate.key] = move(mate, mate.x, mate.y, face(mate, b))
             angle = face(b, mate)
+            lead = p.get("lookahead", 0.0)
+            aim = math.atan2(mate.y - b.y - lead * b.vy, mate.x - b.x - lead * b.vx)
             aligned = (
                 abs(wrap(angle - actor.yaw)) < 0.025 and abs(wrap(face(mate, b) - mate.yaw)) < 0.22
             )
-            out[actor.key] = trap(w, actor, angle, escape, p, 2.2 if aligned else 0)
+            out[actor.key] = trap(w, actor, aim, escape, p, 2.2 if aligned else 0)
         elif action == "shoot":
-            aligned = abs(wrap(shot - actor.yaw)) < 0.014
-            out[actor.key] = trap(w, actor, shot, escape, p, 4.0 if aligned else 0)
+            aim, velocity, aligned = finish_motion(w, actor, p, escape)
+            out[actor.key] = trap(w, actor, aim, velocity, p, 4.0 if aligned else 0)
         else:
             velocity = carry_velocity(w, actor, gx, gy, rival, p)
             out[actor.key] = trap(w, actor, shot, velocity, p)

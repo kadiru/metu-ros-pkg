@@ -1,6 +1,5 @@
 """Reconstruct blocked-lane pass goals from Webots samples and physical kick events."""
 
-import numpy as np
 from .blocked_outlet import geometry
 from .recovery_conversion import conversions
 

@@ -1,5 +1,47 @@
 # Validation — November 20, 2026 (America/Los_Angeles)
 
+## Qualified ten-skill strategy integration
+
+Two independently initialized strategy seeds passed every predeclared gate in
+six reserved panels of 20 full 20-second native Webots matches. Both seeds faced
+self, initial-checkpoint and other-seed opponents. **120/120 completed, 45 goals,
+28 receive-stops, 29 redirect kicks/25 goals, 33 clearances, 371 passes and 55 base
+stable receptions.** There were 79 draws; all outcomes are retained.
+
+No robot contacts or field exits were detected. Independent geometry audits
+checked all 480,000 physical samples, and exact checkpoint replay reproduced
+480,000 per-robot decisions plus intent lifecycle events and motor-call counts.
+The explicit geometric translation filter intervened on 32.998% of ticks for
+seed 811 and 35.042% for 822. This result qualifies bounded functional play; it does
+not isolate PPO gains or establish a guaranteed scoring or winning rate.
+
+Both historical leagues completed 131,072 native PPO steps and 113/128 accepted
+updates in total. Targets and all motor actors stayed fixed while the choice
+readouts trained. The selected final generations and 117 dependencies were
+frozen at 0081223; all 457 publication blobs were verified remotely before the first
+reserved launch. Every launch and audit is retained, along with failed earlier
+preparations. All 432 TDP freeze files and 110 prior continuous runtime files remain
+unchanged. Local tests: 197 passed, one ROS module skipped; core/ROS CI passed on
+the freeze receipt for both PR and push.
+
+The fresh consecutive demo retains all four 20-second cases: scores 0–1, 0–0, 1–0, 0–0,
+with one stopped reception, one redirect goal and one defensive clearance.
+All 16,000 physical samples and 16,000 robot decisions passed geometry/inference
+audits; zero contacts/exits. Native MP4: 79.96 s, 1,999 frames, 1280×720, 25 fps, unchanged
+bytes from the Webots recorder. Full-length GIF: 80 s, 1,000 frames, 960×540, 12.5 fps,
+normal speed, forever loop, no cuts or outcome selection. Both full decodes and
+representative-frame visual inspection passed.
+
+[Model card and reproduction](../policies/strategy_self_play_v1/README.md) ·
+[Exact panel results](../policies/strategy_self_play_v1/qualification-summary.json) ·
+[Native demo](../media/learned-skills-self-play-demo.mp4) ·
+[GIF timing/hash receipt](../media/learned-skills-self-play-preview.json).
+
+Scope: approximate ground-truth Webots, tactical starting opportunities, ideal
+body velocity, spring dribbling, fixed kick power and simplified referee restarts.
+Official SSL rules, noisy perception/radio, calibrated hardware and full live ROS
+graph qualification remain separate work.
+
 ## Qualified continuous 2v2 with explicit velocity safety
 
 Two independent training seeds passed every predeclared gate across120reserved

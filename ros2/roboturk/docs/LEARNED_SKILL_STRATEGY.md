@@ -1,8 +1,18 @@
 # Learned strategy over ten soccer skills
 
-Work in progress, November 20, 2026. This integrates the qualified receive-stop,
-one-touch redirect and recover-clear actors into continuous 2v2. Earlier frozen
-releases remain unchanged. No new learned-strategy qualification is claimed yet.
+This integrates the qualified receive-stop, one-touch redirect and recover-clear
+actors into continuous learned 2v2 strategy. Earlier frozen releases remain
+unchanged. The [model card](../policies/strategy_self_play_v1/README.md) records
+training, reserved qualification and demo status separately.
+
+Both selected seeds passed all 120 reserved 20-second matches and every
+predeclared gate: 45 goals, 28 receive-stops, 25 redirect goals and 33 clearances,
+with zero detected contacts or field exits. Exact checkpoint replay and separate
+physics audits passed for every case. The geometric translation filter remained
+active. The full-length [fresh demo](../media/learned-skills-self-play-demo.mp4)
+shows all four new matches, including scoreless play; the
+[model card](../policies/strategy_self_play_v1/README.md) gives complete counts
+and limits. These results do not isolate a PPO improvement.
 
 The shared selector observes 162 measurements/state features and produces 17
 deployed values: ten behavior scores, six target parameters and a target-refresh
@@ -56,10 +66,11 @@ without detected robot contact or field exit. These are failed development
 candidates, retained under `preparation/prepare-v1`; neither is a release candidate.
 The independent 5 ms trace auditor reproduced the initial clone and refit metrics.
 
-The next preparation adds 96 fresh native teacher matches. Target regression now
+The second preparation added 96 fresh native teacher matches. Target regression now
 uses option entry and positive target-refresh decisions, with those states
 oversampled; a retained target is not treated as a newly issued target command.
-Choice and refresh decisions remain learned. No reserved cases have been used.
+Choice and refresh decisions remained learned. Reserved cases were excluded
+from every preparation dataset.
 
 ### First self-play attempt and conditional intent correction
 
@@ -70,12 +81,12 @@ without robot contacts or field exits, but produced only 12 goals. Paired panels
 scored four and three goals; fresh cross-play panels scored two and three. These
 candidates were not frozen or run on reserved qualification cases.
 
-The next preparation separates the previously shared intent vector into three
+A later preparation separated the previously shared intent vector into three
 learned heads, retaining the 162-observation/17-action deployment interface. It
-collects 32 additional mixed DAgger matches per seed from the first self-play
-policies, then refits each seed with supervision applied only to the selected
+collected 32 additional mixed DAgger matches per seed from the first self-play
+policies, then refitted each seed with supervision applied only to the selected
 skill head. A new categorical choice therefore selects its own learned intent.
-This is a new preparation experiment, not an isolated causal attribution of the
+This preparation does not establish an isolated causal attribution of the
 previous results to either architecture or PPO. All old candidates are retained.
 
 ### Resumed diagnosis and pass-motor preparation
@@ -98,15 +109,15 @@ states from training-range seeds, with explicit coaching labels. The exploratory
 v4 fit included previously inspected development states and is excluded from the
 candidate pipeline; it is retained with that limitation. All other motor actors
 remain unchanged. The pass replacement is opt-in through `--pass-motor` and must
-be frozen alongside the eventual strategy before reserved evaluation. No new
-reliable integrated release or final demo is claimed at this stage.
+be frozen alongside the strategy before reserved evaluation. The pass pilot
+alone did not qualify the integrated strategy.
 
 
 The learned-pass diagnostic completed eight fresh training-range cases with three
 goals, two stopped receptions, two redirect goals and four clearances, without
 robot contacts or field exits. All 32,000 native 5 ms states passed the independent
 geometry audit. Strategic choices were supplied by the explicit coach, so this
-is motor-integration evidence only. The next selector dataset contains complete
+is motor-integration evidence only. The corrected selector dataset contains complete
 20-second matches rather than the previous 12-second prefixes. Both strategy
 seeds use the same frozen motor bank and independently initialized selectors.
 
@@ -125,7 +136,7 @@ to contaminate correction labels. It now projects the current mouth position
 onto the measured trajectory. Historical refresh labels are corrected from their
 recorded native observations during the new fit; raw datasets remain unchanged.
 
-The next actor adds direct observations and four velocity/projection features to
+The selected actor adds direct observations and four velocity/projection features to
 its learned features. All choice and target coefficients remain learned; there
 is no runtime target planner. Entry and refresh examples receive separate
 sampling weight. A final regularized target regression balances those phases
@@ -145,6 +156,15 @@ The corrected v6 selectors each completed eight fresh native development matches
 with three goals (one blue, two yellow), two stopped receptions, two redirect
 goals and three clearances. Neither had a detected robot contact or field exit.
 Both 32,000-sample geometry audits and complete checkpoint-inference replays
-passed. These are development results; reserved qualification remains untouched.
-The next historical self-play leagues keep these target functions and the entire
-motor bank fixed while updating strategic choices across all four robot roles.
+passed. These were development results collected before reserved qualification.
+The selected historical self-play leagues kept these target functions and the
+entire motor bank fixed while updating strategic choices across all four roles.
+
+Both selected leagues completed 65,536 native PPO steps, with 58/64 accepted
+updates for seed811 and 55/64 for seed822. Training audits verify every role,
+retained-opponent sampling, changed strategic actors and unchanged target
+functions. The final generation from each seed was selected after 64 fresh
+development matches: 24 goals, 13 receive-stops, 14 redirect kicks/12 goals,
+18 clearances, no contacts or field exits, and four passing geometry audits.
+This comparison does not isolate a PPO benefit. The final models and 117 runtime
+dependencies were frozen and remotely verified before reserved evaluation.

@@ -2,16 +2,38 @@
 
 A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk stack](https://github.com/kadiru/metu-ros-pkg/tree/master/stacks/robocup_ssl). The historical checkout is preserved at `../upstream`; no archival sources were overwritten.
 
-This is an initial implementation, not a competition-ready team. It provides six skill environments, interchangeable analytic/learned policies, a stateful team-play layer, ROS 2 messages/nodes and a Webots Supervisor backend. See [validation](docs/VALIDATION.md) for exactly what has run.
+A research prototype with learned soccer skills, continuous 2v2 strategy, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
-The new [TDP-inspired skill pack](policies/tdp_skills_v1/README.md) adds timed
+The new [learned skill strategy](policies/strategy_self_play_v1/README.md) integrates
+receive-and-stop, one-touch redirect and defensive clearance into ten neural
+behavior choices, trained through two historical self-play leagues.
+**Both seeds passed every reserved gate: 120/120 complete matches, 45 goals,
+28 stopped receptions, 25 redirect goals and 33 clearances**, with zero detected
+contacts or field exits. There were 79 draws. All physics and checkpoint audits
+passed. An explicit geometric safety filter intervened on 33–35% of ticks.
+
+[![Four uncut Webots matches with learned skills and self-play](media/learned-skills-self-play-preview.gif)](media/learned-skills-self-play-demo.mp4)
+
+*Full-length, normal-speed GIF of all four fresh matches: two goals, one stopped
+reception, one redirect goal and one defensive clearance. Click for the original
+79.96-second native video. Receive near 0:22, redirect goal near 0:42, clearance
+near 1:02. No cuts or selected outcomes.*
+
+[Architecture and training](docs/LEARNED_SKILL_STRATEGY.md) ·
+[Every reserved result](policies/strategy_self_play_v1/qualification-summary.json) ·
+[Team-paper inspiration](docs/TDP_SKILL_PACK.md).
+This remains approximate ground-truth 2v2 simulation with simplified restarts.
+
+The earlier isolated [TDP-inspired skill pack](policies/tdp_skills_v1/README.md) adds timed
 receive-and-stop (197/200 reserved cases), one-touch redirect (200/200), and defensive
 recover-and-clear (200/200), with zero collision/field-exit/own-goal/premature-release
 failures. Three receive timeouts are retained. [Native 30.8-second demo](media/tdp-skills-demo.mp4)
 shows all 12 fresh cases, 12/12 successful. [CMDragons, Thai Skuba and TIGERs provenance](docs/TDP_SKILL_PACK.md)
 explains the explicit play/role/committed-option coordinator around learned motion
-and release. The previous continuous learned manager stays unchanged; these new
-bounded fixtures do not yet establish improved match strategy.
+and release. That release preserves its previous continuous learned manager. Its isolated
+skill rates do not establish composed match-strategy performance; the new
+[integration experiment](policies/strategy_self_play_v1/README.md) trains and
+evaluates a separate learned selector over all ten skills.
 
 [![Receive, one-touch redirect and defensive clearance in Webots](media/tdp-skills-preview.gif)](media/tdp-skills-demo.mp4)
 

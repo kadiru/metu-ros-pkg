@@ -1,0 +1,79 @@
+{
+  "seed": 9900015,
+  "seconds": 24,
+  "score": {},
+  "stats": {
+    "safety_ticks": 73,
+    "physical_samples": 2400,
+    "contacts": 0,
+    "exits": 0
+  },
+  "passes": [
+    {
+      "receiver": 1,
+      "slot": 1,
+      "features": [
+        [
+          0.001546074156328111,
+          0.5766649804278289,
+          -0.5734255406185311,
+          0.5762175962341176,
+          0.9513477022252843,
+          0.9999905752128022
+        ],
+        [
+          0.2538520948030715,
+          0.7951756045828603,
+          -0.6584953188116188,
+          0.6678563654529892,
+          0.9988907204524261,
+          0.9999838812801648
+        ]
+      ],
+      "probability": 0.7604219120929641,
+      "tick": 185,
+      "team": "blue",
+      "passer": 2,
+      "ball": [
+        0.8033987122994044,
+        -0.6650437482754817
+      ],
+      "result": "complete",
+      "end": 232,
+      "reward": 1
+    }
+  ],
+  "events": [
+    {
+      "tick": 0,
+      "event": "start",
+      "team": "yellow"
+    },
+    {
+      "tick": 185,
+      "event": "kick",
+      "team": "blue",
+      "robot": 2,
+      "speed": 2.2
+    },
+    {
+      "tick": 594,
+      "event": "kick",
+      "team": "blue",
+      "robot": 1,
+      "speed": 4
+    }
+  ],
+  "options": [],
+  "learner": null,
+  "challenger": "yellow",
+  "opponent": null,
+  "conversions": [
+    {
+      "start": 0,
+      "recovery": 438,
+      "winner": 2,
+      "team": "blue"
+    }
+  ]
+}

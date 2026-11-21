@@ -1,0 +1,23 @@
+{
+  "episodes": 256,
+  "decisions": 1240,
+  "recoveries": 98,
+  "completions": 49,
+  "by_group_episodes_recoveries_completions": {
+    "released": [
+      128,
+      29,
+      19
+    ],
+    "previous": [
+      64,
+      43,
+      21
+    ],
+    "historical": [
+      64,
+      26,
+      9
+    ]
+  }
+}

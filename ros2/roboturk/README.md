@@ -4,6 +4,14 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2 and 3v3 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Passing around a blocked lane in 3v3
+
+The recovering team passed to an open teammate and scored on **25 of 40 fresh Webots openings**. The target was 24. Both colors and both possible receiver slots contributed goals. All 40 opening contests count.
+
+[![A defender blocks Blue 2. Blue 2 passes to Blue 0, who receives and scores.](media/blocked-outlet/open-teammate.gif)](media/blocked-outlet/blocked-outlet.mp4)
+
+*Blue 2 wins the ball, passes to Blue 0 at 3.64 s, and Blue 0 scores at 6.35 s.* [Full three-opening Webots recording](media/blocked-outlet/blocked-outlet.mp4) · [Full GIF](media/blocked-outlet/all-openings.gif) · [Policy, training and all 40 outcomes](policies/blocked_outlet_v1/README.md)
+
 ## 32 goals from 40 fresh 3v3 opening contests
 
 On the same 40 fresh Webots starts, the new team scored from **32 opening recoveries (80%)**, up from **20 (50%)** for the previous team. The target was 24/40. The new controller starts centering the moving ball as soon as one contestant holds it alone. Twenty-three of the 32 opening goals followed a controlled dribble.

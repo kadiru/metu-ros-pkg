@@ -1,0 +1,483 @@
+{
+  "games": 40,
+  "outcomes": {
+    "pass goal": 25,
+    "intercepted": 9,
+    "no uninterrupted finish": 1,
+    "no opening pass": 2,
+    "no confirmed recovery": 2,
+    "opponent retouch before pass": 1
+  },
+  "qualifying_slots": {
+    "0": 13,
+    "1": 12
+  },
+  "qualifying_sides": {
+    "blue": 7,
+    "yellow": 18
+  },
+  "unique_open_receiver_goals": 15,
+  "replayed_passes": 35,
+  "cleared_frames": 35,
+  "switched_from_pass": 33,
+  "decisions": [
+    {
+      "seed": 12300000,
+      "qualified": true,
+      "receiver": 1,
+      "slot": 0,
+      "other_receiver": 2,
+      "other_open": false,
+      "moved_defenders": [
+        0
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300001,
+      "qualified": true,
+      "receiver": 1,
+      "slot": 0,
+      "other_receiver": 2,
+      "other_open": false,
+      "moved_defenders": [
+        0
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300002,
+      "qualified": true,
+      "receiver": 2,
+      "slot": 1,
+      "other_receiver": 0,
+      "other_open": true,
+      "moved_defenders": [
+        1
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300003,
+      "qualified": true,
+      "receiver": 1,
+      "slot": 0,
+      "other_receiver": 2,
+      "other_open": true,
+      "moved_defenders": [
+        0
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300004,
+      "qualified": true,
+      "receiver": 1,
+      "slot": 0,
+      "other_receiver": 2,
+      "other_open": false,
+      "moved_defenders": [
+        0
+      ],
+      "observed": "pass",
+      "cleared_lane": "pass"
+    },
+    {
+      "seed": 12300005,
+      "qualified": true,
+      "receiver": 2,
+      "slot": 1,
+      "other_receiver": 0,
+      "other_open": false,
+      "moved_defenders": [
+        1
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300006,
+      "qualified": false,
+      "receiver": 2,
+      "slot": 1,
+      "other_receiver": 1,
+      "other_open": false,
+      "moved_defenders": [
+        0
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300007,
+      "qualified": true,
+      "receiver": 1,
+      "slot": 0,
+      "other_receiver": 2,
+      "other_open": true,
+      "moved_defenders": [
+        2
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300008,
+      "qualified": false,
+      "receiver": 2,
+      "slot": 1,
+      "other_receiver": 0,
+      "other_open": false,
+      "moved_defenders": [
+        1,
+        2
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300009,
+      "qualified": true,
+      "receiver": 1,
+      "slot": 1,
+      "other_receiver": 0,
+      "other_open": true,
+      "moved_defenders": [
+        2
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300010,
+      "qualified": false,
+      "receiver": 2,
+      "slot": 1,
+      "other_receiver": 0,
+      "other_open": false,
+      "moved_defenders": [
+        2
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300011,
+      "qualified": false,
+      "receiver": 2,
+      "slot": 1,
+      "other_receiver": 1,
+      "other_open": false,
+      "moved_defenders": [
+        1,
+        2
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300012,
+      "qualified": false,
+      "receiver": 2,
+      "slot": 1,
+      "other_receiver": 1,
+      "other_open": true,
+      "moved_defenders": [
+        2
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300013,
+      "qualified": true,
+      "receiver": 2,
+      "slot": 1,
+      "other_receiver": 1,
+      "other_open": false,
+      "moved_defenders": [
+        0
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300014,
+      "qualified": true,
+      "receiver": 0,
+      "slot": 0,
+      "other_receiver": 2,
+      "other_open": true,
+      "moved_defenders": [
+        0
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300015,
+      "qualified": true,
+      "receiver": 0,
+      "slot": 0,
+      "other_receiver": 2,
+      "other_open": false,
+      "moved_defenders": [
+        1
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300016,
+      "qualified": true,
+      "receiver": 2,
+      "slot": 1,
+      "other_receiver": 0,
+      "other_open": true,
+      "moved_defenders": [
+        1
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300017,
+      "qualified": false,
+      "receiver": 2,
+      "slot": 1,
+      "other_receiver": 1,
+      "other_open": false,
+      "moved_defenders": [
+        1
+      ],
+      "observed": "pass",
+      "cleared_lane": "pass"
+    },
+    {
+      "seed": 12300018,
+      "qualified": false,
+      "receiver": 0,
+      "slot": 0,
+      "other_receiver": 2,
+      "other_open": false,
+      "moved_defenders": [
+        0
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300019,
+      "qualified": true,
+      "receiver": 1,
+      "slot": 1,
+      "other_receiver": 0,
+      "other_open": false,
+      "moved_defenders": [
+        2
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300020,
+      "qualified": false,
+      "receiver": 0,
+      "slot": 0,
+      "other_receiver": 2,
+      "other_open": true,
+      "moved_defenders": [
+        0
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300021,
+      "qualified": true,
+      "receiver": 2,
+      "slot": 1,
+      "other_receiver": 1,
+      "other_open": true,
+      "moved_defenders": [
+        2
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300023,
+      "qualified": true,
+      "receiver": 1,
+      "slot": 1,
+      "other_receiver": 0,
+      "other_open": true,
+      "moved_defenders": [
+        1
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300025,
+      "qualified": true,
+      "receiver": 2,
+      "slot": 1,
+      "other_receiver": 1,
+      "other_open": false,
+      "moved_defenders": [
+        0
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300026,
+      "qualified": false,
+      "receiver": 1,
+      "slot": 1,
+      "other_receiver": 0,
+      "other_open": false,
+      "moved_defenders": [
+        1
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300027,
+      "qualified": true,
+      "receiver": 1,
+      "slot": 0,
+      "other_receiver": 2,
+      "other_open": false,
+      "moved_defenders": [
+        0
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300029,
+      "qualified": false,
+      "receiver": 1,
+      "slot": 1,
+      "other_receiver": 0,
+      "other_open": false,
+      "moved_defenders": [
+        0,
+        2
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300030,
+      "qualified": true,
+      "receiver": 1,
+      "slot": 0,
+      "other_receiver": 2,
+      "other_open": false,
+      "moved_defenders": [
+        0
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300031,
+      "qualified": true,
+      "receiver": 1,
+      "slot": 1,
+      "other_receiver": 0,
+      "other_open": true,
+      "moved_defenders": [
+        2
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300032,
+      "qualified": true,
+      "receiver": 0,
+      "slot": 0,
+      "other_receiver": 1,
+      "other_open": false,
+      "moved_defenders": [
+        0
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300034,
+      "qualified": true,
+      "receiver": 1,
+      "slot": 0,
+      "other_receiver": 2,
+      "other_open": false,
+      "moved_defenders": [
+        1
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300035,
+      "qualified": true,
+      "receiver": 2,
+      "slot": 1,
+      "other_receiver": 0,
+      "other_open": false,
+      "moved_defenders": [
+        2
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300037,
+      "qualified": true,
+      "receiver": 0,
+      "slot": 0,
+      "other_receiver": 1,
+      "other_open": false,
+      "moved_defenders": [
+        2
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300038,
+      "qualified": true,
+      "receiver": 2,
+      "slot": 1,
+      "other_receiver": 1,
+      "other_open": false,
+      "moved_defenders": [
+        0
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    },
+    {
+      "seed": 12300039,
+      "qualified": true,
+      "receiver": 1,
+      "slot": 0,
+      "other_receiver": 2,
+      "other_open": true,
+      "moved_defenders": [
+        1
+      ],
+      "observed": "pass",
+      "cleared_lane": "shoot"
+    }
+  ]
+}

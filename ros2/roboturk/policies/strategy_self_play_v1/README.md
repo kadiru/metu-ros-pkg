@@ -71,9 +71,9 @@ subsequent restarts use loose-ball formations. No official SSL match, hardware,
 full live ROS graph or PPO-only improvement claim is made. Earlier frozen releases
 and videos remain unchanged.
 
-Current first corrected league (seed811) completed65,536 native PPO steps,
-accepting58/64updates. Both generations changed strategic decisions while
-preserving the complete aiming functions and motor bank. Final development:
-8/8completed,3goals,2stopped receptions,2redirectgoals,2clearances,zero contacts/
-exits. The second seed is training; broader cross-play and reserved qualification
-are still pending.
+The corrected leagues completed131,072 native PPO steps across both seeds,
+accepting113/128updates (58for811,55for822). Every generation changed strategic
+choices while preserving aiming functions and the motor bank. Final8-case
+development produced3goals for811 and4for822;both had2stopped receptions,
+2redirectgoals,2clearances andzero contacts/exits. A broader64-match fresh
+self/cross-play development sweep is running; reserved qualification remains pending.

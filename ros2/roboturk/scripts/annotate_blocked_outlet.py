@@ -165,6 +165,20 @@ def play_preview(movie, dest, trace, row, start, duration):
                     stroke_fill=(20, 36, 41),
                 )
                 caption = f"{team} {row['passer']} leads the run   /   {row['lead']:.2f} m ahead at release"
+            if row.get("pressure") and row["contact"] <= sample < chain["shot"] * 4:
+                rival = rs[3 - offset + row["marker"], :2]
+                runner = rs[receiver, :2]
+                gap = np.linalg.norm(rival - runner)
+                if sample <= row["shield_end"]:
+                    draw.line([screen(rival), screen(runner)], fill=gold, width=3)
+                    px, py = screen(rival)
+                    draw.ellipse((px - 12, py - 12, px + 12, py + 12), outline=gold, width=2)
+                if sample < row["shield_start"]:
+                    caption = f"First touch under pressure    /    Defender {gap:.2f} m away"
+                elif sample <= row["shield_end"]:
+                    caption = f"Body between ball and defender    /    {gap:.2f} m apart"
+                else:
+                    caption = "Shield complete    /    Receiver turns to finish"
             if chain["recovery"] <= sample < chain["goal"]:
                 for actor in [passer, receiver]:
                     px, py = screen(rs[actor, :2])

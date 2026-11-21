@@ -1,0 +1,49 @@
+#VRML_SIM R2025a utf8
+IMPORTABLE EXTERNPROTO "../protos/SslRobot.proto"
+EXTERNPROTO "../protos/SslBall.proto"
+
+WorldInfo {
+  info [ "RoboTurk behavior prototype: ideal body velocity, ODE contacts, spring dribbler." ]
+  basicTimeStep 10
+  coordinateSystem "ENU"
+  randomSeed 0
+  contactProperties [
+    ContactProperties {
+      material1 "robot" material2 "floor"
+      coulombFriction [ 0.02 ] bounce 0
+    }
+    ContactProperties {
+      material1 "ball" material2 "floor"
+      coulombFriction [ 0.3 ] rollingFriction 0.0001 0.0001 0.0001 bounce 0.1
+    }
+  ]
+}
+DEF CAMERA Viewpoint { orientation 0 1 0 1.57079632679 position 0 0 13 }
+Background { skyColor [ 0.08 0.1 0.14 ] }
+DirectionalLight { direction -0.2 -0.3 -1 intensity 1 }
+Solid {
+  name "field_floor"
+  translation 0 0 -0.025
+  contactMaterial "floor"
+  children [ Shape {
+    appearance PBRAppearance { baseColor 0.04 0.3 0.12 roughness 1 metalness 0 }
+    geometry Box { size 10 7 0.05 }
+  } ]
+  boundingObject Box { size 10 7 0.05 }
+}
+# Visual boundaries. Continuous match referee explicitly restarts goals and ball-outs.
+Pose { translation 0 3 0.002 children [ Shape { appearance DEF WHITE PBRAppearance { baseColor 1 1 1 roughness 1 metalness 0 } geometry Box { size 9 0.01 0.002 } } ] }
+Pose { translation 0 -3 0.002 children [ Shape { appearance USE WHITE geometry Box { size 9 0.01 0.002 } } ] }
+Pose { translation 4.5 0 0.002 children [ Shape { appearance USE WHITE geometry Box { size 0.01 6 0.002 } } ] }
+Pose { translation -4.5 0 0.002 children [ Shape { appearance USE WHITE geometry Box { size 0.01 6 0.002 } } ] }
+Pose { translation 0 0 0.002 children [ Shape { appearance USE WHITE geometry Box { size 0.01 6 0.002 } } ] }
+# Goal backs; scoring uses full-ball line crossing inside the goal mouth.
+Solid { name "positive_goal_back" translation 4.7 0 0.08 children [ Shape { appearance USE WHITE geometry Box { size 0.02 1 0.16 } } ] boundingObject Box { size 0.02 1 0.16 } }
+Solid { name "negative_goal_back" translation -4.7 0 0.08 children [ Shape { appearance USE WHITE geometry Box { size 0.02 1 0.16 } } ] boundingObject Box { size 0.02 1 0.16 } }
+DEF BALL SslBall { }
+Robot {
+  name "roboturk_supervisor"
+  supervisor TRUE
+  controller "roboturk_pressure"
+  synchronization TRUE
+}

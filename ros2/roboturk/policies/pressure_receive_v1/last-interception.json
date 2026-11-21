@@ -1,0 +1,18 @@
+{
+  "seed": 13300014,
+  "receiver": 0,
+  "team": "yellow",
+  "opponent": 0,
+  "exclusive_samples": 19,
+  "first_touch_sample": 194,
+  "interception_sample": 213,
+  "opponent_gap_first_m": 0.38747899768102245,
+  "opponent_gap_loss_m": 0.2571016246590816,
+  "delay_from_release_s": 1.1400000000000001,
+  "receiver_still_holds": true,
+  "reproduction": {
+    "samples": 1800,
+    "max_state_delta": 0,
+    "events_plans_options_match": true
+  }
+}

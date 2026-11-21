@@ -1,0 +1,465 @@
+{
+  "totals": {
+    "first": 16,
+    "recoveries": 33,
+    "chains": 23,
+    "mixed_first": 0,
+    "assisted": 0,
+    "carried": 13,
+    "blue": 8,
+    "yellow": 15,
+    "goals": 26,
+    "contacts": 0,
+    "exits": 0,
+    "samples": 57600,
+    "choices": {
+      "dribble": 37,
+      "shoot": 25
+    }
+  },
+  "games": [
+    {
+      "seed": 11300000,
+      "first": 1,
+      "recoveries": 1,
+      "chains": 1,
+      "mixed_first": 0,
+      "assisted": 0,
+      "carried": 1,
+      "blue": 0,
+      "yellow": 1,
+      "goals": 1,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 2400,
+      "choices": {
+        "dribble": 4,
+        "shoot": 1
+      }
+    },
+    {
+      "seed": 11300001,
+      "first": 1,
+      "recoveries": 1,
+      "chains": 1,
+      "mixed_first": 0,
+      "assisted": 0,
+      "carried": 0,
+      "blue": 0,
+      "yellow": 1,
+      "goals": 1,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 2400,
+      "choices": {
+        "dribble": 1,
+        "shoot": 1
+      }
+    },
+    {
+      "seed": 11300002,
+      "first": 0,
+      "recoveries": 1,
+      "chains": 0,
+      "mixed_first": 0,
+      "assisted": 0,
+      "carried": 0,
+      "blue": 0,
+      "yellow": 0,
+      "goals": 1,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 2400,
+      "choices": {}
+    },
+    {
+      "seed": 11300003,
+      "first": 1,
+      "recoveries": 1,
+      "chains": 1,
+      "mixed_first": 0,
+      "assisted": 0,
+      "carried": 1,
+      "blue": 0,
+      "yellow": 1,
+      "goals": 1,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 2400,
+      "choices": {
+        "dribble": 1,
+        "shoot": 1
+      }
+    },
+    {
+      "seed": 11300004,
+      "first": 1,
+      "recoveries": 1,
+      "chains": 1,
+      "mixed_first": 0,
+      "assisted": 0,
+      "carried": 1,
+      "blue": 0,
+      "yellow": 1,
+      "goals": 1,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 2400,
+      "choices": {
+        "dribble": 2,
+        "shoot": 1
+      }
+    },
+    {
+      "seed": 11300005,
+      "first": 0,
+      "recoveries": 2,
+      "chains": 1,
+      "mixed_first": 0,
+      "assisted": 0,
+      "carried": 0,
+      "blue": 1,
+      "yellow": 0,
+      "goals": 1,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 2400,
+      "choices": {
+        "dribble": 1,
+        "shoot": 1
+      }
+    },
+    {
+      "seed": 11300006,
+      "first": 1,
+      "recoveries": 1,
+      "chains": 1,
+      "mixed_first": 0,
+      "assisted": 0,
+      "carried": 1,
+      "blue": 0,
+      "yellow": 1,
+      "goals": 2,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 2400,
+      "choices": {
+        "dribble": 1,
+        "shoot": 1
+      }
+    },
+    {
+      "seed": 11300007,
+      "first": 1,
+      "recoveries": 2,
+      "chains": 2,
+      "mixed_first": 0,
+      "assisted": 0,
+      "carried": 2,
+      "blue": 1,
+      "yellow": 1,
+      "goals": 2,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 2400,
+      "choices": {
+        "dribble": 2,
+        "shoot": 2
+      }
+    },
+    {
+      "seed": 11300008,
+      "first": 1,
+      "recoveries": 2,
+      "chains": 1,
+      "mixed_first": 0,
+      "assisted": 0,
+      "carried": 1,
+      "blue": 0,
+      "yellow": 1,
+      "goals": 1,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 2400,
+      "choices": {
+        "dribble": 6,
+        "shoot": 1
+      }
+    },
+    {
+      "seed": 11300009,
+      "first": 1,
+      "recoveries": 1,
+      "chains": 1,
+      "mixed_first": 0,
+      "assisted": 0,
+      "carried": 1,
+      "blue": 1,
+      "yellow": 0,
+      "goals": 1,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 2400,
+      "choices": {
+        "dribble": 1,
+        "shoot": 1
+      }
+    },
+    {
+      "seed": 11300010,
+      "first": 1,
+      "recoveries": 2,
+      "chains": 2,
+      "mixed_first": 0,
+      "assisted": 0,
+      "carried": 0,
+      "blue": 1,
+      "yellow": 1,
+      "goals": 2,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 2400,
+      "choices": {
+        "dribble": 1,
+        "shoot": 2
+      }
+    },
+    {
+      "seed": 11300011,
+      "first": 1,
+      "recoveries": 1,
+      "chains": 1,
+      "mixed_first": 0,
+      "assisted": 0,
+      "carried": 0,
+      "blue": 0,
+      "yellow": 1,
+      "goals": 1,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 2400,
+      "choices": {
+        "shoot": 1
+      }
+    },
+    {
+      "seed": 11300012,
+      "first": 1,
+      "recoveries": 1,
+      "chains": 1,
+      "mixed_first": 0,
+      "assisted": 0,
+      "carried": 1,
+      "blue": 0,
+      "yellow": 1,
+      "goals": 1,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 2400,
+      "choices": {
+        "dribble": 2,
+        "shoot": 1
+      }
+    },
+    {
+      "seed": 11300013,
+      "first": 1,
+      "recoveries": 1,
+      "chains": 1,
+      "mixed_first": 0,
+      "assisted": 0,
+      "carried": 1,
+      "blue": 1,
+      "yellow": 0,
+      "goals": 1,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 2400,
+      "choices": {
+        "dribble": 1,
+        "shoot": 1
+      }
+    },
+    {
+      "seed": 11300014,
+      "first": 0,
+      "recoveries": 1,
+      "chains": 0,
+      "mixed_first": 0,
+      "assisted": 0,
+      "carried": 0,
+      "blue": 0,
+      "yellow": 0,
+      "goals": 0,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 2400,
+      "choices": {
+        "dribble": 1
+      }
+    },
+    {
+      "seed": 11300015,
+      "first": 1,
+      "recoveries": 1,
+      "chains": 1,
+      "mixed_first": 0,
+      "assisted": 0,
+      "carried": 0,
+      "blue": 0,
+      "yellow": 1,
+      "goals": 1,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 2400,
+      "choices": {
+        "shoot": 1
+      }
+    },
+    {
+      "seed": 11300016,
+      "first": 1,
+      "recoveries": 2,
+      "chains": 2,
+      "mixed_first": 0,
+      "assisted": 0,
+      "carried": 1,
+      "blue": 0,
+      "yellow": 2,
+      "goals": 2,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 2400,
+      "choices": {
+        "dribble": 6,
+        "shoot": 2
+      }
+    },
+    {
+      "seed": 11300017,
+      "first": 0,
+      "recoveries": 2,
+      "chains": 1,
+      "mixed_first": 0,
+      "assisted": 0,
+      "carried": 1,
+      "blue": 1,
+      "yellow": 0,
+      "goals": 1,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 2400,
+      "choices": {
+        "dribble": 2,
+        "shoot": 2
+      }
+    },
+    {
+      "seed": 11300018,
+      "first": 0,
+      "recoveries": 3,
+      "chains": 0,
+      "mixed_first": 0,
+      "assisted": 0,
+      "carried": 0,
+      "blue": 0,
+      "yellow": 0,
+      "goals": 0,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 2400,
+      "choices": {
+        "dribble": 3
+      }
+    },
+    {
+      "seed": 11300019,
+      "first": 1,
+      "recoveries": 1,
+      "chains": 1,
+      "mixed_first": 0,
+      "assisted": 0,
+      "carried": 1,
+      "blue": 0,
+      "yellow": 1,
+      "goals": 1,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 2400,
+      "choices": {
+        "dribble": 1,
+        "shoot": 1
+      }
+    },
+    {
+      "seed": 11300020,
+      "first": 0,
+      "recoveries": 0,
+      "chains": 0,
+      "mixed_first": 0,
+      "assisted": 0,
+      "carried": 0,
+      "blue": 0,
+      "yellow": 0,
+      "goals": 0,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 2400,
+      "choices": {}
+    },
+    {
+      "seed": 11300021,
+      "first": 0,
+      "recoveries": 1,
+      "chains": 0,
+      "mixed_first": 0,
+      "assisted": 0,
+      "carried": 0,
+      "blue": 0,
+      "yellow": 0,
+      "goals": 0,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 2400,
+      "choices": {}
+    },
+    {
+      "seed": 11300022,
+      "first": 1,
+      "recoveries": 2,
+      "chains": 2,
+      "mixed_first": 0,
+      "assisted": 0,
+      "carried": 0,
+      "blue": 1,
+      "yellow": 1,
+      "goals": 2,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 2400,
+      "choices": {
+        "shoot": 2
+      }
+    },
+    {
+      "seed": 11300023,
+      "first": 0,
+      "recoveries": 2,
+      "chains": 1,
+      "mixed_first": 0,
+      "assisted": 0,
+      "carried": 0,
+      "blue": 1,
+      "yellow": 0,
+      "goals": 2,
+      "contacts": 0,
+      "exits": 0,
+      "samples": 2400,
+      "choices": {
+        "shoot": 2,
+        "dribble": 1
+      }
+    }
+  ],
+  "passed": true
+}

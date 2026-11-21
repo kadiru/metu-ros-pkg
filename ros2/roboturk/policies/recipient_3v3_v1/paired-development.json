@@ -1,0 +1,73 @@
+{
+  "sides": {
+    "trained": {
+      "passes": 21,
+      "complete": 14,
+      "clearer_lane": 20
+    },
+    "random": {
+      "passes": 24,
+      "complete": 14,
+      "clearer_lane": 15
+    }
+  },
+  "cases": [
+    {
+      "team": "blue",
+      "seed": 7301000,
+      "trained": {
+        "passes": 6,
+        "complete": 3,
+        "clearer_lane": 6
+      },
+      "random": {
+        "passes": 6,
+        "complete": 2,
+        "clearer_lane": 2
+      }
+    },
+    {
+      "team": "yellow",
+      "seed": 7301001,
+      "trained": {
+        "passes": 7,
+        "complete": 5,
+        "clearer_lane": 7
+      },
+      "random": {
+        "passes": 5,
+        "complete": 4,
+        "clearer_lane": 4
+      }
+    },
+    {
+      "team": "blue",
+      "seed": 7301002,
+      "trained": {
+        "passes": 5,
+        "complete": 4,
+        "clearer_lane": 4
+      },
+      "random": {
+        "passes": 7,
+        "complete": 4,
+        "clearer_lane": 5
+      }
+    },
+    {
+      "team": "yellow",
+      "seed": 7301003,
+      "trained": {
+        "passes": 3,
+        "complete": 2,
+        "clearer_lane": 3
+      },
+      "random": {
+        "passes": 6,
+        "complete": 4,
+        "clearer_lane": 4
+      }
+    }
+  ],
+  "scope": "Counts from the side whose receiver policy changed on matched starts. Play trajectories can diverge."
+}

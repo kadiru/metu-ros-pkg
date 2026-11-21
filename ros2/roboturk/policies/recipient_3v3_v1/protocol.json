@@ -1,11 +1,43 @@
 {
   "seconds": 60,
-  "training_seeds": [901, 902],
+  "training_seeds": [
+    901,
+    902
+  ],
   "training_cases": "7100000..7299999",
   "development_cases": "7300000..7399999",
-  "qualification": {"first": 7500000, "matches": 32, "panels": ["901 self", "902 self", "901 blue vs 902 yellow", "902 blue vs 901 yellow"], "per_panel": 8},
-  "demo": {"first": 7600000, "matches": 2, "blue": 901, "yellow": 902, "uncut": true},
-  "gates": {"finished": 32, "min_matches_with_intended_completion": 28, "min_intended_completions_per_kicked_pass": 0.65, "min_completed_passes_per_receiver_slot_per_team": 8, "min_distinct_receiver_ids_per_color": 3, "max_robot_field_exits": 0, "max_robot_contact_sample_fraction": 0.005},
+  "qualification": {
+    "first": 7500000,
+    "matches": 32,
+    "panels": [
+      "901 self",
+      "902 self",
+      "901 blue vs 902 yellow",
+      "902 blue vs 901 yellow"
+    ],
+    "per_panel": 8
+  },
+  "demo": {
+    "first": 7600000,
+    "matches": 2,
+    "blue": 901,
+    "yellow": 902,
+    "uncut": true
+  },
+  "gates": {
+    "finished": 32,
+    "min_matches_with_intended_completion": 28,
+    "min_intended_completions_per_kicked_pass": 0.65,
+    "min_completed_passes_per_receiver_slot_per_team": 8,
+    "min_distinct_receiver_ids_per_color": 3,
+    "max_robot_field_exits": 0,
+    "max_robot_contact_sample_fraction": 0.005
+  },
   "completion": "After the credited physical pass kick, the intended teammate exclusively holds the ball at its mouth for at least 0.20 s, following travel of at least 0.55 m within 4 s. An opponent or unintended teammate touching with its mouth ends the pass.",
-  "scope": "Six mobile robots, symmetric possession tactics and a 12-second shot clock. Randomized tactical restarts after goal, out or clock expiry. Learned receiver choice and frozen learned pass motor, with geometric movement, support, defensive and shooting tactics."
+  "scope": "Six mobile robots, symmetric possession tactics and a 12-second shot clock. Randomized tactical restarts after goal, out or clock expiry. Learned receiver choice and frozen learned pass motor, with geometric movement, support, defensive and shooting tactics.",
+  "paired_development": {
+    "first": 7301000,
+    "matches": 4,
+    "comparison": "Alternate a uniform random blue or yellow receiver selector against the same trained opponent on the same initial case. Compare actual kicked passes by the replaced side; complete game trajectories can diverge."
+  }
 }

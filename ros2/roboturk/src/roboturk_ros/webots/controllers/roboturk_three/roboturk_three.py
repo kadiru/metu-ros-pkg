@@ -91,9 +91,16 @@ def run(supervisor, folder):
             completed = sum(p.get("result") == "complete" for p in game.passes)
             label(2, f"Intended receives   {completed} / {len(game.passes)} passes", 0.16)
             last = game.passes[-1] if game.passes else None
-            if not last:
+            if game.choice is not None and game.owner is not None:
+                label(
+                    3,
+                    f"{game.owner.team.upper()} {game.owner.id}  selects  {game.choice.receiver}",
+                    0.84,
+                    0xFFFF80,
+                )
+            elif not last:
                 label(3, "First possession", 0.84)
-            if last:
+            else:
                 label(
                     3,
                     f"{last['team'].upper()} {last['passer']}  to  {last['receiver']}     "
@@ -101,7 +108,7 @@ def run(supervisor, folder):
                     0.84,
                     0xFFFF80,
                 )
-            for k, node in backend.nodes.items():
+            for k in backend.nodes:
                 r = game.world.robot(k)
                 supervisor.setLabel(
                     4 + k.id + (3 if k.team == "yellow" else 0),

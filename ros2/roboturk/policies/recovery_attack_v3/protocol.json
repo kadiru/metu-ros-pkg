@@ -1,0 +1,5 @@
+{
+  "training_first": 11200000, "development_first": 11300000, "qualification_first": 11400000, "demo_first": 11500000,
+  "cases": 40, "seconds": 24, "target": 24,
+  "design": "Use the v2 scramble, ball and wheel limits, six active players, 100 Hz attribution and 24-second games. Count only the first contest, including failures to recover in the denominator. Each held-out start gets a new Webots process. Freeze before every qualification. A failed version needs a changed policy and the next disjoint 1000-seed block. Report every attempted panel. Three prespecified 35-second demo games include one ordinary start."
+}

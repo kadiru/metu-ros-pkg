@@ -2,6 +2,8 @@ import math
 import pytest
 
 from roboturk.model import Ball, Robot, RobotKey, World
+
+pytest.importorskip("torch")
 from roboturk.recovery_shield import shot_target
 
 

@@ -1,0 +1,210 @@
+{
+  "games": 5,
+  "goals": 2,
+  "leads": 2,
+  "interceptions": 0,
+  "under_pressure": 3,
+  "shields": 2,
+  "outcomes": {
+    "no opening pass": 2,
+    "pressured shield goal": 2,
+    "no uninterrupted finish": 1
+  },
+  "prepass_losses": 2,
+  "confirmed": 5,
+  "contacts": 0,
+  "exits": 0,
+  "rows": [
+    {
+      "seed": 14301004,
+      "qualified": false,
+      "chain": {
+        "start": 0,
+        "recovery": 95,
+        "winner": 5,
+        "team": "yellow"
+      },
+      "outcome": "no opening pass",
+      "pass_goal": false,
+      "intercepted": false,
+      "lead_goal": false,
+      "prepass_loss": true,
+      "first_break": 122,
+      "first_pass": null
+    },
+    {
+      "seed": 14301018,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 87,
+        "winner": 2,
+        "team": "blue",
+        "goal": 535,
+        "shot": 103,
+        "scorer": 0,
+        "passes": [
+          48
+        ],
+        "dribble_m": 0.442,
+        "options": [
+          "dribble",
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 2,
+      "receiver": 0,
+      "slot": 0,
+      "decision": 34,
+      "kick": 48,
+      "end": 74,
+      "direct": 0.1837900862568207,
+      "lane": 0.2872861528115978,
+      "space": 1.2438575573426924,
+      "pass_result": "complete",
+      "outcome": "pressured shield goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        0.14761135539500303,
+        0.9346531512419909
+      ],
+      "run_speed": 0.5944195600831037,
+      "lead": 0.41581515959242926,
+      "contact": 279,
+      "advance": 0.3350795562359183,
+      "target_error": 0.06943921052221202,
+      "verified_lead": true,
+      "lead_goal": true,
+      "marker": 0,
+      "pressure": true,
+      "gap_m": 0.4523208654566247,
+      "approach_mps": 1.0422269664229662,
+      "sole_samples": 133,
+      "shield": true,
+      "shield_start": 337,
+      "shield_end": 356,
+      "prepass_loss": false,
+      "first_break": null,
+      "first_pass": 48
+    },
+    {
+      "seed": 14301026,
+      "qualified": false,
+      "chain": {
+        "start": 0,
+        "recovery": 152,
+        "winner": 4,
+        "team": "yellow"
+      },
+      "outcome": "no opening pass",
+      "pass_goal": false,
+      "intercepted": false,
+      "lead_goal": false,
+      "prepass_loss": true,
+      "first_break": 174,
+      "first_pass": null
+    },
+    {
+      "seed": 14301031,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 108,
+        "winner": 2,
+        "team": "blue",
+        "goal": 527,
+        "shot": 109,
+        "scorer": 0,
+        "passes": [
+          56
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 2,
+      "receiver": 0,
+      "slot": 0,
+      "decision": 28,
+      "kick": 56,
+      "end": 80,
+      "direct": 0.17437765334074762,
+      "lane": 0.2708871984916848,
+      "space": 1.1383858850339879,
+      "pass_result": "complete",
+      "outcome": "pressured shield goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        -0.8924202036738806,
+        0.7625513062120387
+      ],
+      "run_speed": 0.5941630296594679,
+      "lead": 0.4750334336076296,
+      "contact": 302,
+      "advance": 0.47561787750450907,
+      "target_error": 0.02924265302728837,
+      "verified_lead": true,
+      "lead_goal": true,
+      "marker": 1,
+      "pressure": true,
+      "gap_m": 0.46787315217347697,
+      "approach_mps": 1.0308289574994745,
+      "sole_samples": 134,
+      "shield": true,
+      "shield_start": 365,
+      "shield_end": 384,
+      "prepass_loss": false,
+      "first_break": null,
+      "first_pass": 56
+    },
+    {
+      "seed": 14301033,
+      "qualified": false,
+      "chain": {
+        "start": 0,
+        "recovery": 91,
+        "winner": 5,
+        "team": "yellow"
+      },
+      "passer": 2,
+      "receiver": 1,
+      "slot": 1,
+      "decision": 35,
+      "kick": 48,
+      "end": 76,
+      "direct": 0.16243140719869947,
+      "lane": 0.32069956602891364,
+      "space": 1.1304154298537696,
+      "pass_result": "complete",
+      "outcome": "no uninterrupted finish",
+      "pass_goal": false,
+      "intercepted": false,
+      "target": [
+        0.35001274076459926,
+        -0.004860138363029329
+      ],
+      "run_speed": 0.5948850564978581,
+      "lead": 0.4133911645054734,
+      "contact": 288,
+      "advance": 0.3458470187943227,
+      "target_error": 0.07782081945191263,
+      "verified_lead": true,
+      "lead_goal": false,
+      "marker": 1,
+      "pressure": true,
+      "gap_m": 0.3755954649033688,
+      "approach_mps": 1.0455939253255775,
+      "sole_samples": 35,
+      "shield": false,
+      "prepass_loss": false,
+      "first_break": null,
+      "first_pass": 48
+    }
+  ],
+  "passing_goals": 2
+}

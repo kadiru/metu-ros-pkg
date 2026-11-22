@@ -1,0 +1,162 @@
+{
+  "stem": "first-touch-comparison",
+  "seed": 14301018,
+  "before": {
+    "outcome": "Lost ball before pass",
+    "elapsed_s": 0.89
+  },
+  "original": {
+    "seed": 14301018,
+    "qualified": false,
+    "chain": {
+      "start": 0,
+      "recovery": 87,
+      "winner": 2,
+      "team": "blue"
+    },
+    "outcome": "no opening pass",
+    "pass_goal": false,
+    "intercepted": false,
+    "lead_goal": false,
+    "prepass_loss": true,
+    "first_break": 88,
+    "first_pass": null
+  },
+  "trained": {
+    "seed": 14301018,
+    "qualified": true,
+    "chain": {
+      "start": 0,
+      "recovery": 87,
+      "winner": 2,
+      "team": "blue",
+      "goal": 535,
+      "shot": 102,
+      "scorer": 0,
+      "passes": [
+        48
+      ],
+      "dribble_m": 0.438,
+      "options": [
+        "dribble",
+        "pass",
+        "shoot"
+      ]
+    },
+    "passer": 2,
+    "receiver": 0,
+    "slot": 0,
+    "decision": 34,
+    "kick": 48,
+    "end": 73,
+    "direct": 0.18520958141607577,
+    "lane": 0.31761726765112086,
+    "space": 1.2482015515007352,
+    "pass_result": "complete",
+    "outcome": "pressured shield goal",
+    "pass_goal": true,
+    "intercepted": false,
+    "target": [
+      0.15416702891773312,
+      0.9471973268801915
+    ],
+    "run_speed": 0.5944404559884352,
+    "lead": 0.3968576369254058,
+    "contact": 275,
+    "advance": 0.32326161321291186,
+    "target_error": 0.06539358219724664,
+    "verified_lead": true,
+    "lead_goal": true,
+    "marker": 0,
+    "pressure": true,
+    "gap_m": 0.470382732797892,
+    "approach_mps": 1.0399098055323628,
+    "sole_samples": 133,
+    "shield": true,
+    "shield_start": 330,
+    "shield_end": 349,
+    "prepass_loss": false,
+    "first_break": null,
+    "first_pass": 48
+  },
+  "play": {
+    "start": 0,
+    "recovery": 87,
+    "winner": 2,
+    "team": "blue",
+    "goal": 535,
+    "shot": 102,
+    "scorer": 0,
+    "passes": [
+      48
+    ],
+    "dribble_m": 0.438,
+    "options": [
+      "dribble",
+      "pass",
+      "shoot"
+    ]
+  },
+  "first_touches": [
+    {
+      "team": "blue",
+      "actor": 2,
+      "first": 12,
+      "action": "release",
+      "last": 13
+    },
+    {
+      "team": "blue",
+      "actor": 2,
+      "first": 15,
+      "action": "release",
+      "last": 16
+    },
+    {
+      "team": "blue",
+      "actor": 2,
+      "first": 18,
+      "action": "release",
+      "last": 19
+    },
+    {
+      "team": "blue",
+      "actor": 2,
+      "first": 20,
+      "action": "shield",
+      "last": 33
+    },
+    {
+      "team": "blue",
+      "actor": 2,
+      "first": 34,
+      "action": "release",
+      "last": 48
+    },
+    {
+      "team": "blue",
+      "actor": 1,
+      "first": 302,
+      "action": "release",
+      "last": 303
+    }
+  ],
+  "first_different_sample": 80,
+  "same_first_frame": true,
+  "excerpt_goal_qualified": true,
+  "reproduced_samples_per_side": 1800,
+  "max_replay_delta": 0,
+  "excerpt": {
+    "file": "first-touch-comparison.gif",
+    "frames": 77,
+    "seconds": 6.16,
+    "fps": 12.5,
+    "sha256": "e01343d14e158ac742d299453850cb5293cdc62c659c06b635631b969347d49b"
+  },
+  "mp4_sha256": "1a700b92dfe10bcbda4b467dd5fc544934e3ec7683414cdbe1cf454d2fbb6c7f",
+  "speed": 1,
+  "native_sources": {
+    "previous": "6b6e53430f20178ac52787011078f16a8658c7b103cd6aae5744157fa36e7e1a",
+    "trained": "9b3903e44766f2bd3506cddf70bb8c634ad180b061802ab7ae75dc9f0388e6de"
+  }
+}

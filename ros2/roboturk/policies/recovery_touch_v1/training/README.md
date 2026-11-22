@@ -34,6 +34,10 @@ Each archive contains the actual team coefficients, seed schedule, opening event
 | [jaw2](jaw2.json.gz) | mirror | 190 | 4 | 33/38 | 1 |
 | [phase](phase.json.gz) | mirror | 180 | 4 | 27/36 | 0 |
 | [final7](final7.json.gz) | mirror | 192 | 3 | 28/32 | 0 |
+| [half-turn](half-turn.json.gz) | mirror | 180 | 0 | 24/36 | 2 |
+| [cold-league](cold-league.json.gz) | independent mirror | 144 | 4 | 18/24 | 1 |
+| [settle](settle.json.gz) | independent mirror | 120 | 0 | 19/24 | 1 |
+| [catch-guard](catch-guard.json.gz) | mirror | 192 | 0 | 23/32 | 1 |
 
 On cross schedules the team owning the confirmed recovery receives the opening return. Mirrored selection rows above include every scheduled start for that candidate. The development audits and all historical diagnostics retain unconfirmed openings. The qualification table counts all 40 starts on every attempt.
 

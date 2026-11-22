@@ -2,7 +2,15 @@
 
 A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk stack](https://github.com/kadiru/metu-ros-pkg/tree/master/stacks/robocup_ssl). The historical checkout is preserved at `../upstream`; no archival sources were overwritten.
 
-A research prototype with learned soccer skills, continuous 2v2 and 3v3 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
+A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
+
+## Watch the 5v5 role assignments
+
+Follow Yellow 2 through a turnover, a pass to Yellow 4 and the return pass. The ten jersey numbers stay fixed. The rosters show who is carrying, receiving, pressing or covering as the ball moves.
+
+[![Ten robots changing tactical roles during a native Webots match](media/five-roles/five-roles.gif)](media/five-roles/five-roles.mp4)
+
+[Full 60-second Webots match](media/five-roles/five-roles.mp4) · [How roles are assigned, match traces and live launch command](media/five-roles/README.md)
 
 ## When the pass is about to be intercepted
 

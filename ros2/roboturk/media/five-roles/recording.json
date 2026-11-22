@@ -1,0 +1,19 @@
+{
+  "seed": 20300000,
+  "native_frames": 1499,
+  "independent_replay_exact": true,
+  "movie_offset_s": 0.05,
+  "jersey_center_mean_error_px": 0.5112168177354058,
+  "jersey_centers_checked": 105,
+  "excerpt_match_seconds": [
+    9.8,
+    21.8
+  ],
+  "gif": {
+    "file": "five-roles.gif",
+    "frames": 150,
+    "seconds": 12.0,
+    "fps": 12.5,
+    "sha256": "f4d190e1d46ab560616497070393ad5fe8834e0a53092ab92f2af0c925255f7e"
+  }
+}

@@ -1,0 +1,379 @@
+{
+  "seed": 20300000,
+  "seconds": 60,
+  "score": [
+    1,
+    2
+  ],
+  "control_frames": 1500,
+  "assignments_checked": 15000,
+  "open_play_role_changes": [
+    0,
+    40,
+    37,
+    33,
+    27,
+    0,
+    39,
+    40,
+    30,
+    27
+  ],
+  "control_frames_by_player": [
+    0,
+    165,
+    98,
+    36,
+    29,
+    0,
+    200,
+    183,
+    66,
+    94
+  ],
+  "turnovers": 12,
+  "passes": 23,
+  "confirmed_passes": [
+    {
+      "kick": 7,
+      "receive": 25,
+      "passer": 4,
+      "receiver": 1
+    },
+    {
+      "kick": 50,
+      "receive": 69,
+      "passer": 9,
+      "receiver": 6
+    },
+    {
+      "kick": 382,
+      "receive": 409,
+      "passer": 7,
+      "receiver": 9
+    },
+    {
+      "kick": 416,
+      "receive": 449,
+      "passer": 9,
+      "receiver": 7
+    },
+    {
+      "kick": 454,
+      "receive": 490,
+      "passer": 7,
+      "receiver": 6
+    },
+    {
+      "kick": 497,
+      "receive": 532,
+      "passer": 6,
+      "receiver": 7
+    },
+    {
+      "kick": 596,
+      "receive": 621,
+      "passer": 1,
+      "receiver": 2
+    },
+    {
+      "kick": 627,
+      "receive": 666,
+      "passer": 2,
+      "receiver": 4
+    },
+    {
+      "kick": 673,
+      "receive": 709,
+      "passer": 4,
+      "receiver": 2
+    },
+    {
+      "kick": 778,
+      "receive": 804,
+      "passer": 7,
+      "receiver": 8
+    },
+    {
+      "kick": 811,
+      "receive": 847,
+      "passer": 8,
+      "receiver": 9
+    },
+    {
+      "kick": 949,
+      "receive": 971,
+      "passer": 7,
+      "receiver": 8
+    },
+    {
+      "kick": 998,
+      "receive": 1020,
+      "passer": 3,
+      "receiver": 2
+    },
+    {
+      "kick": 1163,
+      "receive": 1186,
+      "passer": 2,
+      "receiver": 3
+    },
+    {
+      "kick": 1193,
+      "receive": 1233,
+      "passer": 3,
+      "receiver": 1
+    },
+    {
+      "kick": 1330,
+      "receive": 1349,
+      "passer": 1,
+      "receiver": 3
+    }
+  ],
+  "control_changes": [
+    {
+      "tick": 25,
+      "time": 1.0,
+      "before": 4,
+      "after": 1,
+      "event": "handoff",
+      "restart": 0
+    },
+    {
+      "tick": 31,
+      "time": 1.24,
+      "before": 1,
+      "after": 9,
+      "event": "turnover",
+      "restart": 0
+    },
+    {
+      "tick": 69,
+      "time": 2.76,
+      "before": 9,
+      "after": 6,
+      "event": "handoff",
+      "restart": 0
+    },
+    {
+      "tick": 194,
+      "time": 7.76,
+      "before": 6,
+      "after": 1,
+      "event": "turnover",
+      "restart": 0
+    },
+    {
+      "tick": 221,
+      "time": 8.84,
+      "before": 1,
+      "after": 6,
+      "event": "turnover",
+      "restart": 0
+    },
+    {
+      "tick": 255,
+      "time": 10.2,
+      "before": 6,
+      "after": 1,
+      "event": "turnover",
+      "restart": 0
+    },
+    {
+      "tick": 281,
+      "time": 11.24,
+      "before": 1,
+      "after": 6,
+      "event": "turnover",
+      "restart": 0
+    },
+    {
+      "tick": 316,
+      "time": 12.64,
+      "before": 6,
+      "after": 1,
+      "event": "turnover",
+      "restart": 0
+    },
+    {
+      "tick": 366,
+      "time": 14.64,
+      "before": 1,
+      "after": 7,
+      "event": "turnover",
+      "restart": 0
+    },
+    {
+      "tick": 409,
+      "time": 16.36,
+      "before": 7,
+      "after": 9,
+      "event": "handoff",
+      "restart": 0
+    },
+    {
+      "tick": 449,
+      "time": 17.96,
+      "before": 9,
+      "after": 7,
+      "event": "handoff",
+      "restart": 0
+    },
+    {
+      "tick": 490,
+      "time": 19.6,
+      "before": 7,
+      "after": 6,
+      "event": "handoff",
+      "restart": 0
+    },
+    {
+      "tick": 532,
+      "time": 21.28,
+      "before": 6,
+      "after": 7,
+      "event": "handoff",
+      "restart": 0
+    },
+    {
+      "tick": 621,
+      "time": 24.84,
+      "before": 1,
+      "after": 2,
+      "event": "handoff",
+      "restart": 1
+    },
+    {
+      "tick": 666,
+      "time": 26.64,
+      "before": 2,
+      "after": 4,
+      "event": "handoff",
+      "restart": 1
+    },
+    {
+      "tick": 709,
+      "time": 28.36,
+      "before": 4,
+      "after": 2,
+      "event": "handoff",
+      "restart": 1
+    },
+    {
+      "tick": 804,
+      "time": 32.16,
+      "before": 7,
+      "after": 8,
+      "event": "handoff",
+      "restart": 2
+    },
+    {
+      "tick": 847,
+      "time": 33.88,
+      "before": 8,
+      "after": 9,
+      "event": "handoff",
+      "restart": 2
+    },
+    {
+      "tick": 912,
+      "time": 36.48,
+      "before": 9,
+      "after": 7,
+      "event": "handoff",
+      "restart": 2
+    },
+    {
+      "tick": 971,
+      "time": 38.84,
+      "before": 7,
+      "after": 8,
+      "event": "handoff",
+      "restart": 2
+    },
+    {
+      "tick": 1020,
+      "time": 40.8,
+      "before": 3,
+      "after": 2,
+      "event": "handoff",
+      "restart": 3
+    },
+    {
+      "tick": 1028,
+      "time": 41.12,
+      "before": 2,
+      "after": 8,
+      "event": "turnover",
+      "restart": 3
+    },
+    {
+      "tick": 1125,
+      "time": 45.0,
+      "before": 8,
+      "after": 2,
+      "event": "turnover",
+      "restart": 3
+    },
+    {
+      "tick": 1186,
+      "time": 47.44,
+      "before": 2,
+      "after": 3,
+      "event": "handoff",
+      "restart": 3
+    },
+    {
+      "tick": 1233,
+      "time": 49.32,
+      "before": 3,
+      "after": 1,
+      "event": "handoff",
+      "restart": 3
+    },
+    {
+      "tick": 1349,
+      "time": 53.96,
+      "before": 1,
+      "after": 3,
+      "event": "handoff",
+      "restart": 4
+    },
+    {
+      "tick": 1356,
+      "time": 54.24,
+      "before": 3,
+      "after": 9,
+      "event": "turnover",
+      "restart": 4
+    },
+    {
+      "tick": 1449,
+      "time": 57.96,
+      "before": 9,
+      "after": 2,
+      "event": "turnover",
+      "restart": 4
+    },
+    {
+      "tick": 1468,
+      "time": 58.72,
+      "before": 2,
+      "after": 7,
+      "event": "turnover",
+      "restart": 4
+    }
+  ],
+  "excerpt": [
+    245,
+    545
+  ],
+  "events": {
+    "pass": 23,
+    "shot": 3,
+    "goal": 3,
+    "out": 1
+  },
+  "exact_recorded_replay": true
+}

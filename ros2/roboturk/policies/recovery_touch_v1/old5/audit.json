@@ -1,0 +1,103 @@
+{
+  "games": 5,
+  "goals": 0,
+  "leads": 0,
+  "interceptions": 0,
+  "under_pressure": 0,
+  "shields": 0,
+  "outcomes": {
+    "no opening pass": 5
+  },
+  "prepass_losses": 5,
+  "confirmed": 5,
+  "contacts": 0,
+  "exits": 0,
+  "rows": [
+    {
+      "seed": 14301004,
+      "qualified": false,
+      "chain": {
+        "start": 0,
+        "recovery": 95,
+        "winner": 5,
+        "team": "yellow"
+      },
+      "outcome": "no opening pass",
+      "pass_goal": false,
+      "intercepted": false,
+      "lead_goal": false,
+      "prepass_loss": true,
+      "first_break": 122,
+      "first_pass": null
+    },
+    {
+      "seed": 14301018,
+      "qualified": false,
+      "chain": {
+        "start": 0,
+        "recovery": 87,
+        "winner": 2,
+        "team": "blue"
+      },
+      "outcome": "no opening pass",
+      "pass_goal": false,
+      "intercepted": false,
+      "lead_goal": false,
+      "prepass_loss": true,
+      "first_break": 88,
+      "first_pass": null
+    },
+    {
+      "seed": 14301026,
+      "qualified": false,
+      "chain": {
+        "start": 0,
+        "recovery": 152,
+        "winner": 4,
+        "team": "yellow"
+      },
+      "outcome": "no opening pass",
+      "pass_goal": false,
+      "intercepted": false,
+      "lead_goal": false,
+      "prepass_loss": true,
+      "first_break": 174,
+      "first_pass": null
+    },
+    {
+      "seed": 14301031,
+      "qualified": false,
+      "chain": {
+        "start": 0,
+        "recovery": 108,
+        "winner": 2,
+        "team": "blue"
+      },
+      "outcome": "no opening pass",
+      "pass_goal": false,
+      "intercepted": false,
+      "lead_goal": false,
+      "prepass_loss": true,
+      "first_break": 116,
+      "first_pass": null
+    },
+    {
+      "seed": 14301033,
+      "qualified": false,
+      "chain": {
+        "start": 0,
+        "recovery": 91,
+        "winner": 5,
+        "team": "yellow"
+      },
+      "outcome": "no opening pass",
+      "pass_goal": false,
+      "intercepted": false,
+      "lead_goal": false,
+      "prepass_loss": true,
+      "first_break": 100,
+      "first_pass": null
+    }
+  ],
+  "passing_goals": 0
+}

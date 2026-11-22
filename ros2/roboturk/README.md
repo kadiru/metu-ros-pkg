@@ -4,6 +4,14 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2 and 3v3 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Shielding a lead pass in 3v3
+
+The frozen receiver turned **27 of 40 fresh opening contests** into a pressured reception, a shield and a goal. On the same starts, the previous team scored 15 lead-pass goals and earned zero goals with a verified shield under pressure.
+
+[![A 3v3 Webots receiver protects the lead pass from a closing defender and scores](media/pressure-receive/pressure-shield.gif)](media/pressure-receive/pressure-shield.mp4)
+
+*Blue 0 leads Blue 1 by 0.33 m. The defender closes to 0.46 m at reception.* [Previous interception and new finish side by side](media/pressure-receive/matched-reception.gif) · [Uncut three-opening demo](media/pressure-receive/pressure-shield.mp4) · [Policy and all 40 matched pairs](policies/pressure_receive_v1/README.md)
+
 ## Leading the open teammate in 3v3
 
 The frozen 3v3 teams scored **31/40** after leading an open teammate around a blocked dribble lane. Opening interceptions fell from nine in the preceding release to **1**. On these same fresh starts the previous team scored from 27 direct-to-receiver passes and had 7 interceptions.

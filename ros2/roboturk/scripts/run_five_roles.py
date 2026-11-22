@@ -23,6 +23,10 @@ def main():
     )
     p.add_argument("--seed", type=int, default=20300000)
     p.add_argument("--seconds", type=int, default=60)
+    p.add_argument("--referee", choices=("local", "ssl"), default="local")
+    p.add_argument("--referee-address", default="224.5.23.1")
+    p.add_argument("--referee-port", type=int, default=10003)
+    p.add_argument("--referee-interface", default="0.0.0.0")
     mode = p.add_mutually_exclusive_group()
     mode.add_argument("--watch", action="store_true")
     mode.add_argument("--record", action="store_true")
@@ -32,7 +36,19 @@ def main():
     dest = a.output.resolve()
     dest.mkdir(parents=True, exist_ok=False)
     (dest / "config.json").write_text(
-        json.dumps(dict(root=str(ROOT), seed=a.seed, seconds=a.seconds, record=a.record), indent=2)
+        json.dumps(
+            dict(
+                root=str(ROOT),
+                seed=a.seed,
+                seconds=a.seconds,
+                record=a.record,
+                referee=a.referee,
+                referee_address=a.referee_address,
+                referee_port=a.referee_port,
+                referee_interface=a.referee_interface,
+            ),
+            indent=2,
+        )
         + "\n"
     )
     env = dict(
@@ -46,7 +62,7 @@ def main():
         "--batch",
         "--stdout",
         "--stderr",
-        "--mode=realtime" if a.watch else "--mode=fast",
+        "--mode=realtime" if a.watch or a.referee == "ssl" else "--mode=fast",
     ]
     if not (a.watch or a.record):
         cmd.extend(["--no-rendering", "--minimize"])

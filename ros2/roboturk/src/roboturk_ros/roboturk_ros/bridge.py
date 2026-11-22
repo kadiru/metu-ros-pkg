@@ -8,6 +8,7 @@ import rclpy
 from rclpy.node import Node
 from rosgraph_msgs.msg import Clock
 from roboturk.model import Ball, Command, Referee, Robot, RobotKey, World, safe_command
+from roboturk.ssl_referee import RestartGate
 from roboturk_interfaces.msg import CommandArray, RefereeState, WorldState
 from roboturk_interfaces.srv import ResetEpisode
 from .conversions import from_command_message, set_stamp, stamp_seconds, world_message
@@ -36,6 +37,8 @@ class Bridge(Node):
         self.command_received = {}
         self.referee = Referee.HALT
         self.referee_received = 0.0
+        self.restart_gate = RestartGate()
+        self.restart = ("", 0, "")
         self.attack_sign = 1
         backend.reset(formation())
         self.world_pub = self.create_publisher(WorldState, "/roboturk/world", 1)
@@ -58,6 +61,9 @@ class Bridge(Node):
             age = self.supervisor.getTime() - stamp_seconds(message.header.stamp)
             if not -0.02 <= age <= 0.5:
                 raise ValueError("Stale referee stamp")
+            if message.restart_team not in ("", "blue", "yellow"):
+                raise ValueError("Invalid restart team")
+            self.restart = (message.source, message.command_counter, message.restart_team)
             self.referee = referee
             self.attack_sign = message.attack_sign
             self.referee_received = time.monotonic()
@@ -86,6 +92,8 @@ class Bridge(Node):
         self.command_received.clear()
         self.referee = Referee.HALT
         self.referee_received = 0.0
+        self.restart_gate = RestartGate()
+        self.restart = ("", 0, "")
         self.backend.reset(formation(request.seed))
         response.world = world_message(replace(self.backend.world, time=self.supervisor.getTime()))
         response.success = True
@@ -98,8 +106,11 @@ class Bridge(Node):
         self.backend.world = replace(
             self.backend.world, referee=referee, attack_sign=self.attack_sign
         )
+        restricted = self.restart_gate.restricted_to(*self.restart, self.backend.world.ball)
         commands = {}
         for robot in self.backend.world.robots:
+            if restricted and robot.key.team != restricted:
+                continue
             commands[robot.key] = safe_command(
                 self.backend.world,
                 robot.key,

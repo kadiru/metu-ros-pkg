@@ -2,11 +2,12 @@ from pathlib import Path
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, EmitEvent, ExecuteProcess, RegisterEventHandler
-from launch.conditions import IfCondition
+from launch.conditions import IfCondition, UnlessCondition
 from launch.event_handlers import OnProcessExit
 from launch.events import Shutdown
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 
 
 def generate_launch_description():
@@ -21,6 +22,22 @@ def generate_launch_description():
             DeclareLaunchArgument("webots", default_value="webots"),
             DeclareLaunchArgument(
                 "practice", default_value="false", description="Enable practice referee heartbeat"
+            ),
+            DeclareLaunchArgument("referee_address", default_value="224.5.23.1"),
+            DeclareLaunchArgument("referee_port", default_value="10003"),
+            DeclareLaunchArgument("referee_interface", default_value="0.0.0.0"),
+            Node(
+                package="roboturk_ros",
+                executable="ssl_referee",
+                parameters=[
+                    {
+                        "use_sim_time": True,
+                        "address": LaunchConfiguration("referee_address"),
+                        "port": ParameterValue(LaunchConfiguration("referee_port"), value_type=int),
+                        "interface": LaunchConfiguration("referee_interface"),
+                    }
+                ],
+                condition=UnlessCondition(LaunchConfiguration("practice")),
             ),
             simulator,
             *[

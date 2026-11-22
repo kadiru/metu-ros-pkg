@@ -1,5 +1,7 @@
 """Native 5v5 match with an on-field jersey HUD and live role rosters."""
 
+from contextlib import closing, nullcontext
+from dataclasses import replace
 import gzip
 import json
 import os
@@ -11,7 +13,9 @@ import numpy as np
 from controller import Supervisor
 from roboturk.continuous_backend import ContinuousWebotsBackend
 from roboturk.five_play import commands
-from roboturk.five_roles import CFG, TEAMS, FiveRoles, kickoff
+from roboturk.five_roles import Assignment, CFG, TEAMS, FiveRoles, kickoff
+from roboturk.model import Referee
+from roboturk.ssl_referee import RefereeSocket, RestartGate
 from roboturk.three_match import filter_commands, snapshot
 
 
@@ -36,7 +40,7 @@ def hud(sim, w, keys, roles, phases, score, seconds):
         label(32 + i, str(k.id), 0.5 + r.x * 0.073, 0.485 - r.y * 0.13, 0.030, color)
 
 
-def match(sim, folder, cfg):
+def match(sim, folder, cfg, receiver=None):
     root = Path(cfg["root"])
     weights = json.loads((root / "policies/recipient_3v3_v1/selectors.json").read_text())
     weights = {t: np.array(weights[str(901 + i)]) for i, t in enumerate(TEAMS)}
@@ -47,6 +51,9 @@ def match(sim, folder, cfg):
     w = backend.reset(kickoff(seed, serving, sign))
     keys = [r.key for r in w.robots]
     tactics = FiveRoles()
+    gate = RestartGate()
+    previous_referee = None
+    prepared_kickoff = None
     steps = []
     states = []
     events = []
@@ -56,17 +63,76 @@ def match(sim, folder, cfg):
     if cfg["record"]:
         sim.movieStartRecording(str(folder / "native.mp4"), 1280, 720, 0, 85, 1, False)
     for tick in range(round(cfg["seconds"] / CFG.dt)):
-        sole = tactics.observe(w)
-        roles = {}
-        phases = {}
-        for team in TEAMS:
-            phase, side = tactics.assign(w, team)
-            phases[team] = phase
-            roles.update(side)
-        out, planned = commands(w, roles, weights, sole, tactics)
-        out, _ = filter_commands(w, out)
-        if not cfg["record"]:
+        state = receiver.poll() if receiver else None
+        restricted = ""
+        if state:
+            sign = state.attack_sign
+            kickoff_key = (state.source, state.counter)
+            if (
+                state.command.startswith("PREPARE_KICKOFF_")
+                and state.mode == Referee.STOP
+                and kickoff_key != prepared_kickoff
+            ):
+                serving = state.command.split("_")[-1].lower()
+                restarts += 1
+                w = backend.reset(kickoff(seed + 101 * restarts, serving, sign, w.time))
+                prepared_kickoff = kickoff_key
+            backend.world = w = replace(w, referee=state.mode, attack_sign=sign)
+            score[:] = state.score
+            restricted = gate.restricted_to(state.source, state.counter, state.restart_team, w.ball)
+            referee_key = (
+                state.source,
+                state.counter,
+                state.command,
+                state.stage,
+                state.mode,
+                sign,
+            )
+            if referee_key != previous_referee:
+                tactics = FiveRoles()
+                events.append(
+                    dict(
+                        tick=tick,
+                        event="referee",
+                        command=state.command,
+                        mode=state.mode.value,
+                        stage=state.stage,
+                        source=state.source,
+                        counter=state.counter,
+                        sign=sign,
+                    )
+                )
+                print(f"Referee {state.command or 'NO SIGNAL'} -> {state.mode.value}", flush=True)
+                previous_referee = referee_key
+        if w.referee == Referee.RUNNING:
+            sole = tactics.observe(w)
+            roles = {}
+            phases = {}
+            for team in TEAMS:
+                phase, side = tactics.assign(w, team)
+                phases[team] = phase
+                roles.update(side)
+            out, planned = commands(w, roles, weights, sole, tactics)
+            out, _ = filter_commands(w, out)
+            if restricted:
+                out = {k: c for k, c in out.items() if k.team == restricted}
+        else:
+            roles = {r.key: Assignment("hold", (r.x, r.y)) for r in w.robots}
+            phases = dict.fromkeys(TEAMS, w.referee.value.upper())
+            out, planned = {}, {}
+        if not cfg["record"] or receiver:
             hud(sim, w, keys, roles, phases, score, tick * CFG.dt)
+            if state:
+                sim.setLabel(
+                    50,
+                    "SSL   " + (state.command or "NO SIGNAL"),
+                    0.34,
+                    0.075,
+                    0.035,
+                    0xFFFFFF,
+                    0,
+                    "Arial",
+                )
         meta = dict(
             clock=round(sim.getTime() - start_time, 6),
             roles=[roles[k].role for k in keys],
@@ -75,6 +141,13 @@ def match(sim, folder, cfg):
             score=score.copy(),
             restart=restarts,
         )
+        if state:
+            meta.update(
+                ssl_command=state.command,
+                mode=state.mode.value,
+                restricted_to=restricted,
+                attack_sign=sign,
+            )
         steps.append(meta)
         states.append(snapshot(w))
         w = backend.step(out)
@@ -86,6 +159,8 @@ def match(sim, folder, cfg):
             else:
                 tactics.flight = None
             events.append(event)
+        if receiver:
+            continue  # The external match official owns goals, scores and restarts.
         scorer = None
         for sample in backend.last_substep_worlds:
             b = sample.ball
@@ -151,7 +226,16 @@ cfg = (
     )
 )
 try:
-    match(sim, folder, cfg)
+    live = cfg.get("referee") == "ssl"
+    connection = (
+        closing(
+            RefereeSocket(cfg["referee_address"], cfg["referee_port"], cfg["referee_interface"])
+        )
+        if live
+        else nullcontext()
+    )
+    with connection as receiver:
+        match(sim, folder, cfg, receiver)
     if folder:
         sim.simulationQuit(0)
     else:

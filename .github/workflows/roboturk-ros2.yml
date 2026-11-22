@@ -27,7 +27,7 @@ jobs:
         shell: bash
         run: |
           apt-get update
-          apt-get install -y python3-colcon-common-extensions python3-numpy python3-pytest
+          apt-get install -y python3-colcon-common-extensions python3-numpy python3-protobuf python3-pytest
           source /opt/ros/jazzy/setup.bash
           colcon build --symlink-install
           source install/setup.bash

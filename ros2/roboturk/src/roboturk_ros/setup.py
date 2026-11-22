@@ -19,6 +19,7 @@ setup(
     install_requires=["setuptools"],
     entry_points={
         "console_scripts": [
+            "ssl_referee=roboturk_ros.ssl_referee:main",
             "strategy=roboturk_ros.strategy_node:main",
             "practice_referee=roboturk_ros.practice_referee:main",
         ]

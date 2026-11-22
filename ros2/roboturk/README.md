@@ -12,6 +12,14 @@ Follow Yellow 2 through a turnover, a pass to Yellow 4 and the return pass. The 
 
 [Full 60-second Webots match](media/five-roles/five-roles.mp4) · [How roles are assigned, match traces and live launch command](media/five-roles/README.md)
 
+## Watch the official referee control a 5v5 match
+
+The RoboCup SSL Game Controller awards Blue a kickoff, halts both teams during play, then restarts them. The scoreboard follows an operator correction from 2–0 to 1–0. The final sequence shows what happens when the controller disconnects.
+
+[![Official referee stopping and restarting ten Webots robots](media/ssl-referee/referee.gif)](media/ssl-referee/referee.mp4)
+
+[Watch the film](media/ssl-referee/referee.mp4) · [Frame-by-frame transition measurements](media/ssl-referee/verification.json) · [Connect your controller](#official-game-controller)
+
 ## When the pass is about to be intercepted
 
 At 6.84 s, Blue 2 switches from receiver 1 to 0. The previous pass is intercepted. The new sequence ends in a goal at 11.28 s. Over 40 matched fresh Webots kickoffs the challenger's interception rate was 10.4% against 27.8% for the 248-goal team.
@@ -359,23 +367,43 @@ source install/setup.bash
 ros2 launch roboturk_ros soccer.launch.py webots:=/usr/local/webots/webots
 ```
 
-Starts in HALT. For a deliberately enabled simulated practice game:
+The launch listens for the official referee and starts in HALT until a fresh command arrives. To run with the local practice heartbeat, use the following command.
 
 ```sh
 ros2 launch roboturk_ros soccer.launch.py webots:=/usr/local/webots/webots practice:=true
 ```
 
-The launch starts the simulator, blue/yellow strategy nodes, and optionally a practice referee heartbeat. This is a custom Supervisor/rclpy bridge; it does not depend on `webots_ros2_driver`. ROS uses a single simulation owner and monotonic `/clock`. Training runs directly inside the Supervisor so each action advances an exact number of physics steps without ROS callback timing in the learning loop.
+The launch starts the simulator, both strategy nodes and one referee source. The default source listens on 224.5.23.1 port 10003. For a different endpoint, set the launch arguments `referee_address`, `referee_port` and `referee_interface`. This is a custom Supervisor/rclpy bridge; it does not depend on `webots_ros2_driver`. ROS uses a single simulation owner and monotonic `/clock`. Training runs directly inside the Supervisor so each action advances an exact number of physics steps without ROS callback timing in the learning loop.
 
 | Interface | Meaning |
 | --- | --- |
 | `/roboturk/world` | Typed field-frame robot/ball state and effective referee state |
 | `/roboturk/blue/commands`, `/roboturk/yellow/commands` | Full team snapshots of body-frame commands |
-| `/roboturk/referee` | Internal HALT/STOP/RUNNING heartbeat; official SSL protocol is future work |
+| `/roboturk/referee` | Effective motion gate, original SSL command, stage, source, counter, score, restart team and blue attack direction |
 | `/roboturk/reset` | Seeded practice formation reset; clears commands and enters HALT |
 | `/clock` | Simulation time, monotonic across formation resets |
 
 Commands older than 250 ms stop; referee heartbeats older than 500 ms halt. HALT and STOP both conservatively hold all actuators. Set pieces, defense areas, ball placement and full rule constraints remain to be implemented. Do not connect this prototype directly to physical actuators.
+
+### Official Game Controller
+
+Run the official executable on the same multicast network as RoboTurk. The Web UI defaults to `http://localhost:8081`. On macOS or Linux, give the downloaded executable execute permission and use its path for `ssl-game-controller` below. [Official release downloads](https://github.com/RoboCup-SSL/ssl-game-controller/releases/tag/v3.23.1).
+
+```sh
+ssl-game-controller
+```
+
+From the modern stack directory, run a real-time 5v5 match. Use a new output directory for each run.
+
+```sh
+python scripts/run_five_roles.py runs/official-match --referee ssl --watch --seconds 120
+```
+
+For a single-machine session, start the controller with `-publishAddress 127.0.0.1:10003` and pass `--referee-address 127.0.0.1` to the match, or `referee_address:=127.0.0.1` to the ROS launch. For multicast on a multi-interface host, pass the receiving interface's IPv4 address with `--referee-interface`. For a remote controller, synchronize host clocks. Packet time and local heartbeat age each have a 500 ms freshness window.
+
+Use **Force Start** for immediate open play. For a kickoff, prepare the team and send **Normal Start**. In native 5v5, preparing a kickoff places the ball at center and the ten robots in formation once for that command. During a kickoff or free kick, the awarded team moves first. The opponent can play after the ball moves 5 cm. A Normal Start received without the preceding kickoff preparation holds both teams. During Halt, Stop, placement, penalty and timeout commands, both teams hold their actuators. Autonomous penalty taking, ball placement and STOP-distance positioning remain open.
+
+Official mode takes the score and field sides from the broadcast. Webots supplies local ball and robot state to the teams. A human operator or a separate AutoRef supplies decisions to the Game Controller. This integration receives decisions in one direction. The default native training launcher continues to use its local referee for reproducible seeds. [Official referee protocol](https://github.com/RoboCup-SSL/ssl-game-controller/blob/v3.23.1/proto/state/ssl_gc_referee_message.proto).
 
 ## Training and policy replacement
 

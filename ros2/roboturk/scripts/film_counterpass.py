@@ -42,6 +42,20 @@ def main():
     assert np.array_equal(sides[0][4][:through], sides[1][4][:through])
     start = max(0, (case["sample"] + 1) / 100 - 1.0)
     end = min(90, max(x[1]["end"] + 1 for x in sides) / 100 + 1.0)
+    # Lock both cameras to the same region, including both ball paths and the goal.
+    points = [
+        pixel(point)
+        for _, r, _, _, states, _ in sides
+        for point in states[round(start * 100) : r["end"] + 1, :2]
+    ]
+    goal_x = 4.5 if case["trained"]["team"] == "blue" else -4.5
+    points.extend(pixel((goal_x, y)) for y in (-0.5, 0.5))
+    low, high = np.min(points, axis=0), np.max(points, axis=0)
+    width = min(928, max(480, high[0] - low[0] + 90, (high[1] - low[1] + 60) * 566 / 360))
+    height = round(width * 360 / 566)
+    left = round(np.clip((low[0] + high[0] - width) / 2, 160, 1120 - width))
+    top = round(np.clip((low[1] + high[1] - height) / 2, 55, 657 - height))
+    crop = (left, top, left + round(width), top + height)
     fps = 12.5
     team = case["trained"]["team"].title()
     file = a.media / "same-possession.mp4"
@@ -73,8 +87,8 @@ def main():
                 # The yellow ring follows the actual recorded ball in the native camera.
                 bx, by = pixel(s[max(0, round(sec * 100)), :2])
                 mark = ImageDraw.Draw(img)
-                mark.ellipse((bx - 15, by - 15, bx + 15, by + 15), outline="#f4cb76", width=2)
-                img = img.crop((176, 64, 1104, 656)).resize((566, 360), Image.Resampling.LANCZOS)
+                mark.ellipse((bx - 10, by - 10, bx + 10, by + 10), outline="#f4cb76", width=2)
+                img = img.crop(crop).resize((566, 360), Image.Resampling.LANCZOS)
                 x = k * 576 + 5
                 frame.paste(img, (x, 38))
                 d.text((x + 7, 5), label, font=font(23), fill="white")

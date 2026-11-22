@@ -1,0 +1,132 @@
+{
+  "case": {
+    "seed": 18300000,
+    "slot": 0,
+    "sample": 439,
+    "trained": {
+      "sample": 439,
+      "winner": 3,
+      "kind": "takeaway",
+      "team": "yellow",
+      "outcome": "goal",
+      "end": 639,
+      "goal": 639,
+      "scorer": 2,
+      "passes": [
+        119
+      ]
+    },
+    "detail": {
+      "seed": 18300000,
+      "sample": 439,
+      "team": "yellow",
+      "passer": 0,
+      "receiver": 2,
+      "tick": 119,
+      "arrival": 513,
+      "goal": 639,
+      "lead_m": 0.326244037815659,
+      "advance_m": 0.27299802889914854,
+      "running_mps": 1.1976032758409296,
+      "rival_gap_m": 0.3874392401598905,
+      "verified_lead": true,
+      "open_at_arrival": true
+    },
+    "direct": true,
+    "old_slot": 0,
+    "old": {
+      "sample": 439,
+      "winner": 3,
+      "kind": "takeaway",
+      "team": "yellow",
+      "outcome": "ball out",
+      "end": 679
+    },
+    "counterfactual": false,
+    "identical_samples": 440
+  },
+  "trained": {
+    "seed": 18300000,
+    "trained_moment": {
+      "sample": 439,
+      "winner": 3,
+      "kind": "takeaway",
+      "team": "yellow",
+      "outcome": "goal",
+      "end": 639,
+      "goal": 639,
+      "scorer": 2,
+      "passes": [
+        119
+      ]
+    },
+    "model": 1,
+    "exact_trajectory": true,
+    "exact_events": true,
+    "physical_samples": 9000,
+    "same_recovery_samples": 440,
+    "distribution_choice": {
+      "seed": 18300000,
+      "sample": 439,
+      "team": "yellow",
+      "passer": 0,
+      "receiver": 2,
+      "tick": 119,
+      "arrival": 513,
+      "goal": 639,
+      "lead_m": 0.326244037815659,
+      "advance_m": 0.27299802889914854,
+      "running_mps": 1.1976032758409296,
+      "rival_gap_m": 0.3874392401598905,
+      "verified_lead": true,
+      "open_at_arrival": true
+    },
+    "incumbent_only_at_this_decision": false
+  },
+  "previous": {
+    "seed": 18300000,
+    "trained_moment": {
+      "sample": 439,
+      "winner": 3,
+      "kind": "takeaway",
+      "team": "yellow",
+      "outcome": "goal",
+      "end": 639,
+      "goal": 639,
+      "scorer": 2,
+      "passes": [
+        119
+      ]
+    },
+    "model": 0,
+    "exact_trajectory": true,
+    "exact_events": true,
+    "physical_samples": 9000,
+    "same_recovery_samples": 440,
+    "distribution_choice": {
+      "seed": 18300000,
+      "sample": 439,
+      "team": "yellow",
+      "passer": 0,
+      "receiver": 2,
+      "tick": 119,
+      "arrival": 513,
+      "goal": 639,
+      "lead_m": 0.326244037815659,
+      "advance_m": 0.27299802889914854,
+      "running_mps": 1.1976032758409296,
+      "rival_gap_m": 0.3874392401598905,
+      "verified_lead": true,
+      "open_at_arrival": true
+    },
+    "incumbent_only_at_this_decision": false
+  },
+  "sha256": "abbe62b1a1e716491a5bd2edaa16054481690db2b5bf4c7a81ec6ad32e024f5f",
+  "gif": {
+    "file": "same-possession.gif",
+    "frames": 55,
+    "seconds": 4.4,
+    "fps": 12.5,
+    "sha256": "a2446afc0ef374582c1d310abf62f84c9ad5646aa8a2d1aa4659f08f5baa6bb4"
+  }
+}

@@ -38,6 +38,8 @@ def main():
         [DEST / "freeze.json"] if a.mode == "evaluate" else []
     ):
         assert all(sha(ROOT / name) == value for name, value in read(lock).items()), lock
+    if a.mode == "evaluate" and sha(a.checkpoint) != sha(DEST / "policy.json"):
+        raise ValueError("Evaluation requires the frozen policy")
     base = read(ROOT / plan["baseline"])
     models = [base]
     schedule = []

@@ -41,6 +41,8 @@ def rows(folder):
             r = next(
                 v for v in g["recoveries"] if v["sample"] == sample and v["kind"] == "takeaway"
             )
+            if j == 0 and r["end"] >= 100 * cfg["durations"][i]:
+                r = dict(outcome="match ended", end=100 * cfg["durations"][i] - 1)
             if j:
                 s = np.load(folder / f"trace-{i + j - 1:03}.npz")["states"]
                 assert g["initial_world"] == base["initial_world"] and np.array_equal(
@@ -207,6 +209,8 @@ def freeze(folder):
         DEST / "protocol.json",
         DEST / "returns.json",
         DEST / "development.json",
+        ROOT / "scripts/audit_counterpass.py",
+        ROOT / "scripts/takeaway_native.py",
         ROOT / "scripts/train_counterpass.py",
         ROOT / "scripts/fit_counterpass.py",
         ROOT / "src/roboturk_core/roboturk/counterpass.py",

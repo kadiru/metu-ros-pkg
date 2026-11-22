@@ -100,6 +100,9 @@ def evidence(control, new):
             counts = by_arm.setdefault(side, Counter())
             counts["clean"] += 1
             counts["goals"] += int("goal" in r)
+            counts["second_half_clean"] += int(r["sample"] >= 4500)
+            counts["second_half_goals"] += int(r["sample"] >= 4500 and "goal" in r)
+            counts["second_half_pass_goals"] += int(r["sample"] >= 4500 and bool(r.get("passes")))
             attempts = [
                 p
                 for p in g["passes"]
@@ -138,8 +141,11 @@ if __name__ == "__main__":
     p.add_argument("new", type=Path)
     p.add_argument("output", type=Path)
     a = p.parse_args()
-    assert (
-        len(read(a.control / "launch.json")["schedule"]) == 40
-        and len(read(a.new / "launch.json")["schedule"]) == 56
-    )
+    for folder, required in ((a.control, 40), (a.new, 56)):
+        cfg = read(folder / "launch.json")
+        games = all_games(folder)
+        assert len(cfg["schedule"]) == len(games) == required
+        for (g, f), expected in zip(games, cfg["schedule"], strict=True):
+            assert [g["seed"], g["blue_model"], g["yellow_model"]] == expected
+            assert len(trace(f)) == 9000
     save(a.output, evidence(a.control, a.new))

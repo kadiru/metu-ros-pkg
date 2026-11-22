@@ -1,7 +1,6 @@
 """Infer post-steal action values from the two candidate routes and carrier state."""
 
 import numpy as np
-from .takeaway import select
 
 
 def design(x, action):
@@ -38,6 +37,8 @@ def design(x, action):
 
 def decision(model, x):
     if "heads" not in model:
+        from .takeaway import select
+
         return select(model, x)
     scores = [float(design(x, a) @ model["heads"][min(a, 2)]) for a in range(4)]
     return max(range(4), key=lambda a: scores[a])

@@ -4,6 +4,14 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2 and 3v3 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## When the pass is about to be intercepted
+
+At 6.84 s, Blue 2 switches from receiver 1 to 0. The previous pass is intercepted. The new sequence ends in a goal at 11.28 s. Over 40 matched fresh Webots kickoffs the challenger's interception rate was 10.4% against 27.8% for the 248-goal team.
+
+[![An intercepted pass and an alternative from the same release in Webots](media/pass-release/same-possession.gif)](media/pass-release/same-possession.mp4)
+
+[Delay, switch and dribble in fresh matches](media/pass-release/release-choices.gif) · [Full fresh match](media/pass-release/open-play-match.mp4) · [Policy, all 43 interceptions and fresh results](policies/pass_release_v1/README.md)
+
 ## Pass or shoot after a steal
 
 The 3v3 team scored **248 goals after clean takeaways** on 40 fresh 90-second Webots starts. The previous team scored 77 on the same kickoffs. Watch the right panel as Yellow 0 finds Yellow 2 moving into space.

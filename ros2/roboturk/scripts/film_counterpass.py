@@ -11,6 +11,17 @@ from compare_takeaways import trace
 from train_counterpass import read, save
 
 
+def tracking_crop(states, tick, attack_x, width, height):
+    # Use only elapsed samples so matched cameras agree before the decision.
+    tick = max(0, min(tick, len(states) - 1))
+    center = states[max(0, tick - 22) : tick + 1, :2].mean(axis=0)
+    cx, cy = pixel(center)
+    cx += 35 if attack_x > 0 else -35
+    left = round(np.clip(cx - width / 2, 150, 1130 - width))
+    top = round(np.clip(cy - height / 2, 52, 660 - height))
+    return (left, top, left + width, top + height)
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("demo", type=Path)
@@ -98,16 +109,7 @@ def main():
                 mark.ellipse((bx - 10, by - 10, bx + 10, by + 10), outline="#f4cb76", width=2)
                 view = crop
                 if decision:
-                    # Follow long counterattacks at a constant scale. Both views use only
-                    # past ball samples, so the camera agrees up to the original kick.
-                    tick = max(0, round(sec * 100))
-                    center = s[max(0, tick - 22) : tick + 1, :2].mean(axis=0)
-                    cx, cy = pixel(center)
-                    w, h = 490, 312
-                    cx += 35 if goal_x > 0 else -35
-                    left = round(np.clip(cx - w / 2, 150, 1130 - w))
-                    top = round(np.clip(cy - h / 2, 52, 660 - h))
-                    view = (left, top, left + w, top + h)
+                    view = tracking_crop(s, round(sec * 100), goal_x, 490, 312)
                 img = img.crop(view).resize((566, 360), Image.Resampling.LANCZOS)
                 x = k * 576 + 5
                 frame.paste(img, (x, 38))

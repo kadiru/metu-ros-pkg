@@ -3,11 +3,11 @@
 import argparse
 import tempfile
 from pathlib import Path
-import numpy as np
 from PIL import Image, ImageDraw
 from annotate_blocked_outlet import font, pixel
 from build_contest_preview import digest, ffmpeg, make_gif
 from compare_takeaways import trace
+from film_counterpass import tracking_crop
 from train_pass_release import read, save
 
 
@@ -70,15 +70,7 @@ def main():
                     0,
                     frames / "f-%04d.png",
                 )
-                # Keep the same crop throughout each play. Include every recorded ball position.
-                loc = np.array(
-                    [pixel(v) for v in s[round(100 * start) : min(len(s), d["end"] + 1), :2]]
-                )
-                low, high = loc.min(0), loc.max(0)
-                width = min(960, max(470, high[0] - low[0] + 140, (high[1] - low[1] + 95) * 1.65))
-                height = round(width / 1.65)
-                x = round(np.clip((low[0] + high[0] - width) / 2, 160, 1120 - width))
-                y = round(np.clip((low[1] + high[1] - height) / 2, 55, 657 - height))
+                attack_x = game["initial_world"]["attack_sign"] * (1 if d["team"] == "blue" else -1)
                 for j, f in enumerate(sorted(frames.glob("f-*.png"))):
                     t = start + j / 12.5
                     with Image.open(f) as src:
@@ -91,9 +83,9 @@ def main():
                         )
                     img = Image.new("RGB", (768, 548), (17, 30, 39))
                     img.paste(
-                        field.crop((x, y, x + round(width), y + height)).resize(
-                            (768, 464), Image.Resampling.LANCZOS
-                        ),
+                        field.crop(
+                            tracking_crop(s, min(round(t * 100), d["end"]), attack_x, 490, 296)
+                        ).resize((768, 464), Image.Resampling.LANCZOS),
                         (0, 40),
                     )
                     draw = ImageDraw.Draw(img)

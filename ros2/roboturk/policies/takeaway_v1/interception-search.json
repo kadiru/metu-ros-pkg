@@ -1,0 +1,29 @@
+{
+  "first": 17140000,
+  "training_starts": 8,
+  "seconds": 75,
+  "profiles": [
+    {
+      "stand": 0.48,
+      "face": 0.85,
+      "time": 0.35,
+      "screen": true,
+      "settle": true
+    },
+    {
+      "stand": 0.83,
+      "face": 0.35,
+      "time": 0.49,
+      "screen": true,
+      "settle": true
+    },
+    {
+      "stand": 0.27,
+      "face": 0.6,
+      "time": 0.26,
+      "screen": false,
+      "settle": true
+    }
+  ],
+  "selection": "Before reading the fresh controls, compare the incumbent and three interception settings in 48 full-length mirror and cross games. Select by verified clean goals per team appearance plus 0.25 times clean conversion fraction, with the incumbent winning equal returns. Combine the selected interception policy with the independently fitted post-takeaway option. For historical diagnosis isolate the post-takeaway decision at the original recovery, with an additional matched pre-touch replay if the selected policy uses earlier interception. Fresh matched starts and the 100 Hz audit remain as originally registered."
+}

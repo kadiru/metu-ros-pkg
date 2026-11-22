@@ -19,6 +19,7 @@ def trace(path):
 
 
 def compare(control, trained):
+    proactive = "takeaway_press" in read(trained / "launch.json")["models"][1]
     old = all_games(control)
     new = all_games(trained)
     previous = {g["seed"]: (g, f) for g, f in old}
@@ -63,7 +64,11 @@ def compare(control, trained):
                 for r in clean
             )
         prefix = 4 * (active[0]["sample"] // 4 + 1) if active else len(data)
-        assert np.array_equal(states[:prefix], data[:prefix]), (g["seed"], prefix)
+        if proactive:
+            divergence = np.flatnonzero((states != data).any(axis=1))
+            prefix = int(divergence[0]) if len(divergence) else len(data)
+        else:
+            assert np.array_equal(states[:prefix], data[:prefix]), (g["seed"], prefix)
         if arm == "mixed":
             t = "blue" if blue else "yellow"
             z = "yellow" if blue else "blue"

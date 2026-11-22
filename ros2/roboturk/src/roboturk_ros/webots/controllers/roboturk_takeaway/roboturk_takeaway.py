@@ -11,7 +11,7 @@ import numpy as np
 import torch
 
 from roboturk.open_play_audit import recoveries
-from roboturk.takeaway_outlet import OutletGame
+from roboturk.takeaway_press import InterceptGame
 from roboturk.continuous_backend import ContinuousWebotsBackend
 from roboturk.recovery_camera import movie_camera
 from roboturk.strategy_pass import LearnedPass
@@ -43,7 +43,7 @@ def run(sim, folder):
     for i in [int(case)] if case is not None else range(cfg["cases"]):
         seed, blue, yellow = cfg["schedule"][i]
         teams = dict(blue=cfg["models"][blue], yellow=cfg["models"][yellow])
-        game = OutletGame(
+        game = InterceptGame(
             backend,
             motor,
             weights,
@@ -51,6 +51,7 @@ def run(sim, folder):
             cfg.get("durations", [cfg["seconds"]] * cfg["cases"])[i],
             set(),
             teams=teams,
+            press_from=cfg.get("press_from", [0] * cfg["cases"])[i],
             takeaway_start=cfg.get("starts", [None] * cfg["cases"])[i],
             press=cfg["press"],
             strategies={t: True for t in sides},

@@ -141,6 +141,8 @@ class TakeawayGame(OpenPlayGame):
             key = self.takeaway_observer.step(held, sample)
             if key is None:
                 continue
+            if self.takeaway_start is None and sample < getattr(self, "press_from", 0):
+                continue
             tree = self.teams[key.team].get("takeaway_tree")
             if not tree or (self.takeaway_start is not None and sample != self.takeaway_start):
                 continue

@@ -78,7 +78,16 @@ def summarize(games):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "mode", choices=["train", "extend", "control", "historical", "evaluate", "record"]
+        "mode",
+        choices=[
+            "train",
+            "extend",
+            "control",
+            "historical",
+            "historical-early",
+            "evaluate",
+            "record",
+        ],
     )
     parser.add_argument("folder", type=Path)
     parser.add_argument("--workers", type=int, choices=range(1, 5), default=3)
@@ -90,7 +99,11 @@ def main():
     base = read(ROOT / plan["baseline"])
     for lock in [
         OLD / "freeze.json",
-        *([DEST / "freeze.json"] if args.mode in ("historical", "evaluate", "record") else []),
+        *(
+            [DEST / "freeze.json"]
+            if args.mode in ("historical", "historical-early", "evaluate", "record")
+            else []
+        ),
     ]:
         for name, digest in read(lock).items():
             if sha(ROOT / name) != digest:
@@ -136,12 +149,17 @@ def main():
                     ),
                     i,
                 )
-    elif args.mode == "historical":
+    elif args.mode in ("historical", "historical-early"):
         models = [base, read(DEST / "policy.json")]
         for f, g, r in historical():
             for a in (0, 1):
                 pair = (a, 0) if r["team"] == "blue" else (0, a)
-                add(g["seed"], *pair, r["sample"], reference=f.name)
+                add(
+                    g["seed"],
+                    *pair,
+                    r["sample"] if args.mode == "historical" else None,
+                    reference=f.name,
+                )
     else:
         models = [base] if args.mode == "control" else [base, read(DEST / "policy.json")]
         for i in range(plan["starts"]):
@@ -184,6 +202,13 @@ def main():
         seconds=nsec,
         durations=durations,
         starts=starts,
+        press_from=(
+            [100000] * len(schedule)
+            if args.mode == "historical"
+            else [(r["sample"] // 4 - 25) * 4 for _, _, r in historical() for _ in (0, 1)]
+            if args.mode == "historical-early"
+            else [0] * len(schedule)
+        ),
         references=refs,
         press=True,
         record=args.mode == "record",
@@ -223,7 +248,7 @@ def main():
         games.append(g)
     if args.mode == "train":
         fit(d, games, starts, refs, base)
-    elif args.mode == "historical":
+    elif args.mode in ("historical", "historical-early"):
         outcomes = []
         for i, g in enumerate(games):
             source = OLD / "evaluation"
@@ -231,15 +256,34 @@ def main():
             old = read(source / name)
             orig = np.load(source / name.replace("game", "trace").replace("json", "npz"))["states"]
             s = np.load(d / f"trace-{i:03}.npz")["states"]
-            through = 4 * (starts[i] // 4 + 1)
+            target = historical()[i // 2][2]
+            through = (
+                4 * (starts[i] // 4 + 1) if args.mode == "historical" else cfg["press_from"][i]
+            )
             assert np.array_equal(orig[:through], s[:through])
             if i % 2 == 0:
                 assert np.array_equal(orig, s) and all(
                     g[k] == v for k, v in old.items() if k not in ("blue_model", "yellow_model")
                 )
-            row = next(
-                r for r in g["recoveries"] if r["sample"] == starts[i] and r["kind"] == "takeaway"
-            )
+            if args.mode == "historical":
+                row = next(
+                    r
+                    for r in g["recoveries"]
+                    if r["sample"] == starts[i] and r["kind"] == "takeaway"
+                )
+            else:
+                nearby = [
+                    r
+                    for r in g["recoveries"]
+                    if r["kind"] == "takeaway"
+                    and r["winner"] == target["winner"]
+                    and through <= r["sample"] <= target["sample"] + 300
+                ]
+                row = (
+                    min(nearby, key=lambda r: abs(r["sample"] - target["sample"]))
+                    if nearby
+                    else dict(outcome="original clean takeover absent")
+                )
             outcomes.append(
                 dict(
                     seed=g["seed"],

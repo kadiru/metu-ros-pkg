@@ -14,6 +14,7 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("training", type=Path)
     p.add_argument("extended", type=Path)
+    p.add_argument("press", type=Path)
     args = p.parse_args()
     d = args.training
     if (DEST / "freeze.json").exists():
@@ -40,7 +41,9 @@ def main():
             k: v for k, v in extra.items() if k != "returns"
         }
         combined.append(row | dict(returns=row["returns"] + extra["returns"]))
-    fit_rows(DEST, combined, MODES + EXTRA, base)
+    press = read(args.press / "selected.json")
+    fit_rows(DEST, combined, MODES + EXTRA, press)
+    save(DEST / "press-selection.json", read(args.press / "summary.json"))
     save(DEST / "first-fit.json", primary)
     for name, config, data in [("training", cfg, games), ("extended", extension, added)]:
         config.pop("root")
@@ -48,10 +51,22 @@ def main():
         (DEST / f"{name}.json.gz").write_bytes(
             gzip.compress(json.dumps(payload, separators=(",", ":")).encode(), mtime=0)
         )
+    cfg = read(args.press / "launch.json")
+    cfg.pop("root")
+    data = [read(args.press / f"game-{i:03}.json") for i in range(cfg["cases"])]
+    (DEST / "press-training.json.gz").write_bytes(
+        gzip.compress(
+            json.dumps(dict(config=cfg, games=data), separators=(",", ":")).encode(), mtime=0
+        )
+    )
     files = [
         WORLD,
         CTRL,
         OLD / "freeze.json",
+        DEST / "interception-search.json",
+        DEST / "option-search.json",
+        ROOT / "scripts/train_takeaway_press.py",
+        ROOT / "src/roboturk_core/roboturk/takeaway_press.py",
         OLD / "policy.json",
         DEST / "policy.json",
         DEST / "fit.json",

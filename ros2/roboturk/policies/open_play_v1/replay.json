@@ -1,0 +1,21 @@
+{
+  "seed": 16300000,
+  "trained_moment": {
+    "sample": 5519,
+    "winner": 5,
+    "kind": "contest",
+    "team": "yellow",
+    "outcome": "goal",
+    "end": 6251,
+    "goal": 6251,
+    "scorer": 1,
+    "passes": [
+      1392,
+      1448
+    ]
+  },
+  "model": 1,
+  "physical_samples": 9000,
+  "exact_events": true,
+  "exact_trajectory": true
+}

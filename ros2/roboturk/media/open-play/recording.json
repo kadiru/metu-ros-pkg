@@ -1,0 +1,73 @@
+{
+  "seed": 16300000,
+  "trained_moment": {
+    "sample": 5519,
+    "winner": 5,
+    "kind": "contest",
+    "team": "yellow",
+    "outcome": "goal",
+    "end": 6251,
+    "goal": 6251,
+    "scorer": 1,
+    "passes": [
+      1392,
+      1448
+    ]
+  },
+  "model": 1,
+  "physical_samples": 9000,
+  "exact_events": true,
+  "exact_trajectory": true,
+  "matched": {
+    "previous": {
+      "seed": 16300000,
+      "trained_moment": {
+        "sample": 5519,
+        "winner": 5,
+        "kind": "contest",
+        "team": "yellow",
+        "outcome": "goal",
+        "end": 6251,
+        "goal": 6251,
+        "scorer": 1,
+        "passes": [
+          1392,
+          1448
+        ]
+      },
+      "model": 0,
+      "physical_samples": 9000,
+      "exact_events": true,
+      "exact_trajectory": true
+    },
+    "excerpt": {
+      "file": "same-start.gif",
+      "frames": 99,
+      "seconds": 9.9,
+      "fps": 10,
+      "sha256": "905488d1b89ee4890de1e7f72bdb15e0ec8158db82447457dd69d3f4d7a8623d"
+    },
+    "sha256": "6c76cbd2a4882ae972fd192be8f45eb98720863f1623d3b84a26f9f87333158f"
+  },
+  "full_seconds": 90.04,
+  "native_sha256": "4c7a3a85cb5eb5086c04c8d8ba329e1b01352d6e75d168136d265a710d0aecf1",
+  "excerpt_seconds": [
+    53.6,
+    63.52
+  ],
+  "highlight_sha256": "ed9592347fd541b35702ec8a27234a1cd8fee8e71904972139a624b2b8177154",
+  "full": {
+    "file": "open-play-match.gif",
+    "frames": 720,
+    "seconds": 90.01,
+    "fps": 8,
+    "sha256": "6f00d7dd6a0d6cb58409337f6a8f2a6d384834636c129cda25966584112f04fe"
+  },
+  "highlight": {
+    "file": "open-play-recovery.gif",
+    "frames": 124,
+    "seconds": 9.92,
+    "fps": 12.5,
+    "sha256": "a1ebb959a69e7781c542c6b0f53ac1bafd0257f8c7dd5faca83c9485fc0675ca"
+  }
+}

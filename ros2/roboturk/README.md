@@ -4,6 +4,14 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2 and 3v3 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Open-play recovery goals in 90-second 3v3 matches
+
+Across 16 matched starts, the new 3v3 teams scored **55 goals from 176 open-play recoveries**. The previous 31/40 opening team scored 9 from 54 in the same 24 minutes of play. The test counted live takeaways and contested-ball wins throughout each match.
+
+[![An open-play recovery and goal from the native Webots evaluation](media/open-play/open-play-recovery.gif)](media/open-play/open-play-recovery.mp4)
+
+Yellow 2 wins the ball at 55.20 s and plays it to Yellow 0. Yellow 0 finds Yellow 1, who scores at 62.52 s. [Watch the full 90-second match](media/open-play/open-play-match.mp4) · [Same start, both policies](media/open-play/same-start.gif) · [All paired and head-to-head results](policies/open_play_v1/README.md)
+
 ## Protecting the first touch in 3v3
 
 The recovering team protected the first touch, led a teammate past the defender and finished under pressure on **31 of 40 fresh Webots openings**. The original ball winner lost possession before the pass in 1 opening. On identical starts, the previous team scored 24/40 and lost possession before the pass in 3 openings.

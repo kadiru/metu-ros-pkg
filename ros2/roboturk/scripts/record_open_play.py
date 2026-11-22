@@ -45,7 +45,7 @@ def main():
     )
     passes = [p for p in game["passes"] if p["tick"] in r["passes"]]
     if passes:
-        players = f"{team} " + " → ".join(
+        players = f"{team} " + " to ".join(
             str(n) for n in [r["winner"] % 3, *(p["receiver"] for p in passes)]
         )
     with tempfile.TemporaryDirectory() as path:

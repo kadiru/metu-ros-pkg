@@ -4,13 +4,16 @@ import argparse
 import gzip
 import json
 from pathlib import Path
-from fit_takeaway import fit
+from fit_takeaway import fit, fit_rows, branch_returns
+from roboturk.takeaway import MODES
+from roboturk.takeaway_outlet import EXTRA
 from train_takeaway import CTRL, DEST, OLD, ROOT, WORLD, read, save, sha
 
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("training", type=Path)
+    p.add_argument("extended", type=Path)
     args = p.parse_args()
     d = args.training
     if (DEST / "freeze.json").exists():
@@ -21,13 +24,30 @@ def main():
     previous = read(d / "policy.json")
     fit(d, games, cfg["starts"], cfg["references"], base)
     assert read(d / "policy.json") == previous
-    cfg.pop("root")
-    payload = dict(config=cfg, games=games)
-    (DEST / "training.json.gz").write_bytes(
-        gzip.compress(json.dumps(payload, separators=(",", ":")).encode(), mtime=0)
+    extension = read(args.extended / "launch.json")
+    added = [read(args.extended / f"game-{i:03}.json") for i in range(extension["cases"])]
+    additional = branch_returns(
+        args.extended,
+        added,
+        extension["starts"],
+        extension["references"],
+        range(len(MODES), len(MODES) + len(EXTRA)),
     )
-    save(DEST / "policy.json", previous)
-    save(DEST / "fit.json", read(d / "fit.json"))
+    primary = read(d / "fit.json")
+    combined = []
+    for row, extra in zip(primary["rows"], additional, strict=True):
+        assert {k: v for k, v in row.items() if k != "returns"} == {
+            k: v for k, v in extra.items() if k != "returns"
+        }
+        combined.append(row | dict(returns=row["returns"] + extra["returns"]))
+    fit_rows(DEST, combined, MODES + EXTRA, base)
+    save(DEST / "first-fit.json", primary)
+    for name, config, data in [("training", cfg, games), ("extended", extension, added)]:
+        config.pop("root")
+        payload = dict(config=config, games=data)
+        (DEST / f"{name}.json.gz").write_bytes(
+            gzip.compress(json.dumps(payload, separators=(",", ":")).encode(), mtime=0)
+        )
     files = [
         WORLD,
         CTRL,
@@ -37,6 +57,7 @@ def main():
         DEST / "fit.json",
         DEST / "protocol.json",
         ROOT / "src/roboturk_core/roboturk/takeaway.py",
+        ROOT / "src/roboturk_core/roboturk/takeaway_outlet.py",
         ROOT / "scripts/train_takeaway.py",
         ROOT / "scripts/fit_takeaway.py",
         Path(__file__).resolve(),

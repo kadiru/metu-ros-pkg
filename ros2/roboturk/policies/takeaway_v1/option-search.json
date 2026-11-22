@@ -1,0 +1,15 @@
+{
+  "baseline": "open_play_v1",
+  "training_starts": "24 archived clean changes of possession, earlier open_play training seeds only",
+  "primary_branches": 144,
+  "additional_branches": 120,
+  "selection": "For the same 24 training events compare all 11 options. Select depth 0, 1 or 2 by leave-one-kickoff-seed-out clean goals, breaking ties by smaller depth. Refit on all 24. The three historical misses are diagnostic probes and have zero target weight. Compare the frozen policy to the previous team on all 40 ordinary starts, plus both colors in eight matched head-to-head starts.",
+  "feature_order": [
+    "attack-frame ball x (m)",
+    "absolute ball y (m)",
+    "nearest rival to ball (m)",
+    "projected shot lane clearance (m)",
+    "heading error to open shot (rad)",
+    "ball speed (m/s)"
+  ]
+}

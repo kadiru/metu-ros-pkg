@@ -13,6 +13,7 @@ from train_recovery_touch import ROOT, WEBOTS, read, save, sha, run_matches
 from roboturk.open_play_audit import recoveries
 from roboturk.takeaway import MODES
 from fit_takeaway import fit
+from roboturk.takeaway_outlet import EXTRA
 
 DEST = ROOT / "policies/takeaway_v1"
 OLD = ROOT / "policies/open_play_v1"
@@ -76,7 +77,9 @@ def summarize(games):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("mode", choices=["train", "control", "historical", "evaluate", "record"])
+    parser.add_argument(
+        "mode", choices=["train", "extend", "control", "historical", "evaluate", "record"]
+    )
     parser.add_argument("folder", type=Path)
     parser.add_argument("--workers", type=int, choices=range(1, 5), default=3)
     parser.add_argument("--webots", type=Path, default=WEBOTS)
@@ -111,10 +114,15 @@ def main():
             models.append(m)
         return models.index(m)
 
-    if args.mode == "train":
+    if args.mode in ("train", "extend"):
         original, cases = source_rows(plan)
         for i, g, r in cases:
-            for action in range(len(MODES)):
+            actions = (
+                range(len(MODES))
+                if args.mode == "train"
+                else range(len(MODES), len(MODES) + len(EXTRA))
+            )
+            for action in actions:
                 teams = [original[g[t + "_model"]] for t in ("blue", "yellow")]
                 j = int(r["team"] == "yellow")
                 teams[j] = teams[j] | dict(takeaway_tree=dict(action=action))

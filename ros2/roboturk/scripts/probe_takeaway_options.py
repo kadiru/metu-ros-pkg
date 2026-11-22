@@ -6,6 +6,7 @@ from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 import numpy as np
 import train_touch_planner as native
+from roboturk.takeaway_outlet import EXTRA
 from train_takeaway import ROOT, WEBOTS, OLD, WORLD, MODES, historical, read, save, sha
 
 
@@ -13,16 +14,20 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("folder", type=Path)
     p.add_argument("--workers", type=int, choices=(1, 2, 3, 4), default=2)
+    p.add_argument("--extra", action="store_true")
     a = p.parse_args()
     base = read(OLD / "policy.json")
-    models = [base | dict(takeaway_tree=dict(action=i)) for i in range(len(MODES))] + [base]
+    actions = (
+        list(range(len(MODES), len(MODES) + len(EXTRA))) if a.extra else list(range(len(MODES)))
+    )
+    models = [base | dict(takeaway_tree=dict(action=i)) for i in actions] + [base]
     cases = historical()
     schedule = []
     starts = []
     durations = []
     for f, g, r in cases:
-        for j in range(len(MODES)):
-            pair = (j, len(MODES)) if r["team"] == "blue" else (len(MODES), j)
+        for j in range(len(actions)):
+            pair = (j, len(actions)) if r["team"] == "blue" else (len(actions), j)
             schedule.append([g["seed"], *pair])
             starts.append(r["sample"])
             durations.append(min(g["seconds"], math.ceil(r["sample"] / 100) + 18))
@@ -47,7 +52,7 @@ def main():
         list(pool.map(lambda i: native.isolated(d, i, WEBOTS), range(len(schedule))))
     report = []
     for i in range(len(schedule)):
-        f, g, r = cases[i // len(MODES)]
+        f, g, r = cases[i // len(actions)]
         prefix = (r["sample"] // 4 + 1) * 4
         original = np.load(f.with_name(f.name.replace("game", "trace").replace("json", "npz")))[
             "states"

@@ -151,7 +151,9 @@ class TakeawayGame(OpenPlayGame):
             self.takeaway_actions.append(self.counter)
 
     def commands(self):
-        out = super().commands()
+        return self.counter_commands(super().commands())
+
+    def counter_commands(self, out):
         if not self.counter or not self.counter["action"] or self.flight:
             return out
         c = self.counter

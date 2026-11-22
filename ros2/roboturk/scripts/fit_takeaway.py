@@ -1,5 +1,6 @@
 """Fit a small contextual maneuver policy to full native counterfactual returns."""
 
+import hashlib
 import numpy as np
 from train_recovery_touch import save
 from roboturk.takeaway import MODES, select
@@ -30,9 +31,9 @@ def learn(rows, depth):
     return tree, best
 
 
-def fit(d, games, starts, refs, base):
+def branch_returns(d, games, starts, refs, actions):
     rows = []
-    n = len(MODES)
+    n = len(actions)
     for a in range(0, len(games), n):
         target = starts[a]
         turns = []
@@ -45,7 +46,7 @@ def fit(d, games, starts, refs, base):
                 r for r in g["recoveries"] if r["sample"] == target and r["kind"] == "takeaway"
             )
             (decision,) = g["takeaway_actions"]
-            assert decision["sample"] == target and decision["action"] == j
+            assert decision["sample"] == target and decision["action"] == actions[j]
             turns.append(float("goal" in row))
         rows.append(
             dict(
@@ -55,8 +56,13 @@ def fit(d, games, starts, refs, base):
                 x=decision["x"],
                 returns=turns,
                 matched_samples=through,
+                prefix_sha256=hashlib.sha256(states[:through].tobytes()).hexdigest(),
             )
         )
+    return rows
+
+
+def fit_rows(d, rows, options, base):
     seeds = sorted({r["seed"] for r in rows})
     validation = []
     for depth in (0, 1, 2):
@@ -70,7 +76,7 @@ def fit(d, games, starts, refs, base):
     save(
         d / "fit.json",
         dict(
-            options=MODES,
+            options=options,
             rows=rows,
             held_out_goals=validation,
             depth=depth,
@@ -79,3 +85,8 @@ def fit(d, games, starts, refs, base):
         ),
     )
     save(d / "policy.json", base | dict(takeaway_tree=tree))
+
+
+def fit(d, games, starts, refs, base):
+    rows = branch_returns(d, games, starts, refs, range(len(MODES)))
+    fit_rows(d, rows, MODES, base)

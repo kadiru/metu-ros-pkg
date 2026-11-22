@@ -4,6 +4,14 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2 and 3v3 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Pass or shoot after a steal
+
+The 3v3 team scored **248 goals after clean takeaways** on 40 fresh 90-second Webots starts. The previous team scored 77 on the same kickoffs. Watch the right panel as Yellow 0 finds Yellow 2 moving into space.
+
+[![Two outcomes from the same possession, with a lead pass and goal on the right](media/counterpass/same-possession.gif)](media/counterpass/same-possession.mp4)
+
+[Full Webots match](media/counterpass/open-play-match.mp4) · [Learned policy, all paired starts and head-to-head results](policies/counterpass_v1/README.md)
+
 ## Clean takeaways in 3v3
 
 The team scored **73 goals from 391 clean takeaways** in 40 fresh 90-second Webots matches. The 55-goal team scored 1 from 12 on the same starts. In the clip, Yellow 0 intercepts Blue 1’s pass, secures it at 4.48 s and scores at 5.52 s.

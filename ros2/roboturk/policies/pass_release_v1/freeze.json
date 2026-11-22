@@ -1,0 +1,17 @@
+{
+  "src/roboturk_ros/webots/controllers/roboturk_pass_release/roboturk_pass_release.py": "6d9447f6932bae968618c2487507eed08a22e8e58abc5f0d8f74eb90c7714355",
+  "src/roboturk_ros/webots/worlds/ssl_pass_release.wbt": "12e901e74b5e5e215b64f88859f3441029235ab51a13718a2f424921579ccfba",
+  "policies/pass_release_v1/protocol.json": "e53aec46394064886f2c15ef9bdfaefe4427bb309b0ab2d43f6e592e49e36765",
+  "policies/pass_release_v1/interceptions.json": "2f87ad123103336333407ec138a3ef3494eb51aa36ec112bb214bb6d6e614dbd",
+  "policies/pass_release_v1/policy.json": "abdd5ff82606cf4cc6ed9f58ecce39983e067284343ab7c65a10db042441c258",
+  "policies/pass_release_v1/returns.json": "936374539f93da8b3d736d3d792c4e57ea9e93199013c9fc9126bef7692cc931",
+  "policies/pass_release_v1/development.json": "6dd41efd1da4a7e71760e8026cac0b2b6a764ca5149fdc31d936602dcfe36299",
+  "policies/counterpass_v1/freeze.json": "969aee72151ba39f79928ebf9ad3a351060f7abf285b080a17ac9e810cb41114",
+  "src/roboturk_core/roboturk/pass_release.py": "039795df16fdbcb579812fedf069ddca33f23787c470763db08ec418f4e9cf90",
+  "scripts/train_pass_release.py": "f8157d97bc965f1777f5ed56f7d8f2d8aca68afa29238311ef7fc40d156b649c",
+  "scripts/fit_pass_release.py": "e5507f139b494ccfb1688f8a94a5746657e3ca9e473f5ae9291859cac63ada68",
+  "scripts/audit_pass_release.py": "310b8a7c1442a5bc4ad1dc331b5f0dd483838bee139d7bb947f2d86892bd759e",
+  "scripts/takeaway_native.py": "2283e3a33646c0632c9228f8e7910d94f937a6fdfaad6965a415b014207e11a0",
+  "scripts/compare_takeaways.py": "d15e45d2c136d030738c000ab60b81f5efe89c672b6a6e41fafb3f9a7e49ed1c",
+  "scripts/fit_counterpass.py": "9d4f98497702da5261adb6b57d7148df928e97a2834f265cb6c171fd8ce7682e"
+}

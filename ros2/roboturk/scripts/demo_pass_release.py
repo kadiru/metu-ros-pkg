@@ -61,6 +61,7 @@ def select_case(out, control, new, historical):
                     if p["tick"] == d["tick"]
                     and p["team"] == d["team"]
                     and p["result"] == "intercepted"
+                    and chain["outcome"] == "opponent touch"
                 ),
                 None,
             )

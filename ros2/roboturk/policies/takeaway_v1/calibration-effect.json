@@ -1,0 +1,496 @@
+{
+  "pairs": [
+    {
+      "seed": 17300000,
+      "verified_prefix_samples": 448,
+      "general_goals": 1,
+      "calibrated_goals": 3,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 447,
+        "general": "goal",
+        "calibrated": "goal"
+      }
+    },
+    {
+      "seed": 17300001,
+      "verified_prefix_samples": 404,
+      "general_goals": 1,
+      "calibrated_goals": 0,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 403,
+        "general": "goal",
+        "calibrated": "ball out"
+      }
+    },
+    {
+      "seed": 17300002,
+      "verified_prefix_samples": 284,
+      "general_goals": 0,
+      "calibrated_goals": 4,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 282,
+        "general": "ball out",
+        "calibrated": "goal"
+      }
+    },
+    {
+      "seed": 17300003,
+      "verified_prefix_samples": 540,
+      "general_goals": 2,
+      "calibrated_goals": 1,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 537,
+        "general": "opponent touch",
+        "calibrated": "goal"
+      }
+    },
+    {
+      "seed": 17300004,
+      "verified_prefix_samples": 452,
+      "general_goals": 2,
+      "calibrated_goals": 1,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 451,
+        "general": "ball out",
+        "calibrated": "opponent touch"
+      }
+    },
+    {
+      "seed": 17300005,
+      "verified_prefix_samples": 536,
+      "general_goals": 0,
+      "calibrated_goals": 0,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 532,
+        "general": "opponent touch",
+        "calibrated": "opponent touch"
+      }
+    },
+    {
+      "seed": 17300006,
+      "verified_prefix_samples": 1524,
+      "general_goals": 0,
+      "calibrated_goals": 3,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 1520,
+        "general": "opponent touch",
+        "calibrated": "goal"
+      }
+    },
+    {
+      "seed": 17300007,
+      "verified_prefix_samples": 472,
+      "general_goals": 0,
+      "calibrated_goals": 1,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 468,
+        "general": "ball out",
+        "calibrated": "unverified scoring chain"
+      }
+    },
+    {
+      "seed": 17300008,
+      "verified_prefix_samples": 256,
+      "general_goals": 1,
+      "calibrated_goals": 1,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 254,
+        "general": "goal",
+        "calibrated": "goal"
+      }
+    },
+    {
+      "seed": 17300009,
+      "verified_prefix_samples": 432,
+      "general_goals": 2,
+      "calibrated_goals": 2,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 431,
+        "general": "goal",
+        "calibrated": "ball out"
+      }
+    },
+    {
+      "seed": 17300010,
+      "verified_prefix_samples": 448,
+      "general_goals": 3,
+      "calibrated_goals": 5,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 446,
+        "general": "ball out",
+        "calibrated": "goal"
+      }
+    },
+    {
+      "seed": 17300011,
+      "verified_prefix_samples": 2384,
+      "general_goals": 1,
+      "calibrated_goals": 3,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 2381,
+        "general": "opponent touch",
+        "calibrated": "goal"
+      }
+    },
+    {
+      "seed": 17300012,
+      "verified_prefix_samples": 280,
+      "general_goals": 2,
+      "calibrated_goals": 4,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 277,
+        "general": "goal",
+        "calibrated": "goal"
+      }
+    },
+    {
+      "seed": 17300013,
+      "verified_prefix_samples": 464,
+      "general_goals": 2,
+      "calibrated_goals": 6,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 463,
+        "general": "ball out",
+        "calibrated": "opponent touch"
+      }
+    },
+    {
+      "seed": 17300014,
+      "verified_prefix_samples": 436,
+      "general_goals": 1,
+      "calibrated_goals": 3,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 435,
+        "general": "goal",
+        "calibrated": "ball out"
+      }
+    },
+    {
+      "seed": 17300015,
+      "verified_prefix_samples": 388,
+      "general_goals": 1,
+      "calibrated_goals": 1,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 385,
+        "general": "ball out",
+        "calibrated": "opponent touch"
+      }
+    },
+    {
+      "seed": 17300016,
+      "verified_prefix_samples": 3252,
+      "general_goals": 2,
+      "calibrated_goals": 0,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 3248,
+        "general": "goal",
+        "calibrated": "opponent touch"
+      }
+    },
+    {
+      "seed": 17300017,
+      "verified_prefix_samples": 1224,
+      "general_goals": 0,
+      "calibrated_goals": 3,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 1221,
+        "general": "opponent touch",
+        "calibrated": "goal"
+      }
+    },
+    {
+      "seed": 17300018,
+      "verified_prefix_samples": 268,
+      "general_goals": 1,
+      "calibrated_goals": 2,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 266,
+        "general": "ball out",
+        "calibrated": "ball out"
+      }
+    },
+    {
+      "seed": 17300019,
+      "verified_prefix_samples": 9000,
+      "general_goals": 0,
+      "calibrated_goals": 0
+    },
+    {
+      "seed": 17300020,
+      "verified_prefix_samples": 428,
+      "general_goals": 2,
+      "calibrated_goals": 2,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 426,
+        "general": "ball out",
+        "calibrated": "goal"
+      }
+    },
+    {
+      "seed": 17300021,
+      "verified_prefix_samples": 5580,
+      "general_goals": 2,
+      "calibrated_goals": 1,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 5576,
+        "general": "ball out",
+        "calibrated": "ball out"
+      }
+    },
+    {
+      "seed": 17300022,
+      "verified_prefix_samples": 444,
+      "general_goals": 3,
+      "calibrated_goals": 0,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 440,
+        "general": "goal",
+        "calibrated": "ball out"
+      }
+    },
+    {
+      "seed": 17300023,
+      "verified_prefix_samples": 456,
+      "general_goals": 0,
+      "calibrated_goals": 2,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 454,
+        "general": "match ended",
+        "calibrated": "opponent touch"
+      }
+    },
+    {
+      "seed": 17300024,
+      "verified_prefix_samples": 532,
+      "general_goals": 2,
+      "calibrated_goals": 3,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 531,
+        "general": "opponent touch",
+        "calibrated": "goal"
+      }
+    },
+    {
+      "seed": 17300025,
+      "verified_prefix_samples": 2792,
+      "general_goals": 1,
+      "calibrated_goals": 2,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 2791,
+        "general": "ball out",
+        "calibrated": "opponent touch"
+      }
+    },
+    {
+      "seed": 17300026,
+      "verified_prefix_samples": 3496,
+      "general_goals": 0,
+      "calibrated_goals": 0,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 3494,
+        "general": "match ended",
+        "calibrated": "unverified scoring chain"
+      }
+    },
+    {
+      "seed": 17300027,
+      "verified_prefix_samples": 308,
+      "general_goals": 1,
+      "calibrated_goals": 1,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 304,
+        "general": "ball out",
+        "calibrated": "opponent touch"
+      }
+    },
+    {
+      "seed": 17300028,
+      "verified_prefix_samples": 432,
+      "general_goals": 1,
+      "calibrated_goals": 4,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 430,
+        "general": "opponent touch",
+        "calibrated": "ball out"
+      }
+    },
+    {
+      "seed": 17300029,
+      "verified_prefix_samples": 520,
+      "general_goals": 1,
+      "calibrated_goals": 0,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 517,
+        "general": "goal",
+        "calibrated": "ball out"
+      }
+    },
+    {
+      "seed": 17300030,
+      "verified_prefix_samples": 996,
+      "general_goals": 1,
+      "calibrated_goals": 1,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 992,
+        "general": "goal",
+        "calibrated": "opponent touch"
+      }
+    },
+    {
+      "seed": 17300031,
+      "verified_prefix_samples": 396,
+      "general_goals": 0,
+      "calibrated_goals": 4,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 392,
+        "general": "opponent touch",
+        "calibrated": "opponent touch"
+      }
+    },
+    {
+      "seed": 17300032,
+      "verified_prefix_samples": 2628,
+      "general_goals": 0,
+      "calibrated_goals": 2,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 2627,
+        "general": "match ended",
+        "calibrated": "goal"
+      }
+    },
+    {
+      "seed": 17300033,
+      "verified_prefix_samples": 292,
+      "general_goals": 0,
+      "calibrated_goals": 1,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 289,
+        "general": "opponent touch",
+        "calibrated": "ball out"
+      }
+    },
+    {
+      "seed": 17300034,
+      "verified_prefix_samples": 248,
+      "general_goals": 1,
+      "calibrated_goals": 0,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 246,
+        "general": "ball out",
+        "calibrated": "unverified scoring chain"
+      }
+    },
+    {
+      "seed": 17300035,
+      "verified_prefix_samples": 444,
+      "general_goals": 2,
+      "calibrated_goals": 3,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 442,
+        "general": "goal",
+        "calibrated": "opponent touch"
+      }
+    },
+    {
+      "seed": 17300036,
+      "verified_prefix_samples": 376,
+      "general_goals": 0,
+      "calibrated_goals": 3,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 372,
+        "general": "ball out",
+        "calibrated": "goal"
+      }
+    },
+    {
+      "seed": 17300037,
+      "verified_prefix_samples": 428,
+      "general_goals": 1,
+      "calibrated_goals": 0,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 427,
+        "general": "ball out",
+        "calibrated": "ball out"
+      }
+    },
+    {
+      "seed": 17300038,
+      "verified_prefix_samples": 2260,
+      "general_goals": 1,
+      "calibrated_goals": 1,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 2256,
+        "general": "ball out",
+        "calibrated": "goal"
+      }
+    },
+    {
+      "seed": 17300039,
+      "verified_prefix_samples": 3392,
+      "general_goals": 1,
+      "calibrated_goals": 0,
+      "first_repair": {
+        "region": "attacking",
+        "sample": 3388,
+        "general": "goal",
+        "calibrated": "ball out"
+      }
+    }
+  ],
+  "regions": {
+    "attacking": {
+      "opportunities": 170,
+      "goals": 55
+    },
+    "deep": {
+      "opportunities": 22,
+      "goals": 10
+    }
+  },
+  "additional_clean_goals": 31,
+  "paired_95": [
+    0.275,
+    1.3
+  ],
+  "higher": 20,
+  "equal": 10,
+  "lower": 10
+}

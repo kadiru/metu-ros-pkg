@@ -4,6 +4,14 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2 and 3v3 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Clean takeaways in 3v3
+
+The team scored **73 goals from 391 clean takeaways** in 40 fresh 90-second Webots matches. The 55-goal team scored 1 from 12 on the same starts. In the clip, Yellow 0 intercepts Blue 1’s pass, secures it at 4.48 s and scores at 5.52 s.
+
+[![Fresh Webots clean takeaway and goal](media/clean-takeaway/open-play-recovery.gif)](media/clean-takeaway/open-play-recovery.mp4)
+
+[All three original losses and repaired goals side by side](media/clean-takeaway/three-repaired-takeaways.gif) · [Full 90-second match](media/clean-takeaway/open-play-match.mp4) · [Same-start comparisons, all three recoveries and training evidence](policies/takeaway_v1/README.md)
+
 ## Open-play recovery goals in 90-second 3v3 matches
 
 Across 16 matched starts, the new 3v3 teams scored **55 goals from 176 open-play recoveries**. The previous 31/40 opening team scored 9 from 54 in the same 24 minutes of play. The test counted live takeaways and contested-ball wins throughout each match.

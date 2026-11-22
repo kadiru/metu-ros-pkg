@@ -40,7 +40,8 @@ def main():
         )
         for j, profile in enumerate(parameters):
             subset = [r for r in rows if r["profile"] == j]
-            assert len(subset) == 3 and len({(r["seed"], r["sample"]) for r in subset}) == 3
+            expected = 1 if name == "chain" else 3
+            assert len(subset) == expected == len({(r["seed"], r["sample"]) for r in subset})
             for r in subset:
                 z = region(r["x"], plan["regions"])
                 assert z is not None

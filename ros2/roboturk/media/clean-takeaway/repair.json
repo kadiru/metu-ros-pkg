@@ -1,0 +1,49 @@
+{
+  "seed": 16300008,
+  "training_set": true,
+  "source": "finish",
+  "profile": 0,
+  "goals": 1,
+  "previous": {
+    "sample": 4913,
+    "winner": 0,
+    "kind": "takeaway",
+    "team": "blue",
+    "outcome": "ball out",
+    "end": 5815
+  },
+  "selected": {
+    "seed": 16300008,
+    "action": 9,
+    "x": [
+      -1.958677953269268,
+      2.9144192273449265,
+      0.17222948450544653,
+      0.2778350382003739,
+      2.3501863221686636,
+      0.12292408926862947
+    ],
+    "matched_samples": 4916,
+    "profile": 0,
+    "sample": 4913,
+    "winner": 0,
+    "kind": "takeaway",
+    "team": "blue",
+    "outcome": "goal",
+    "end": 5287,
+    "goal": 5287,
+    "scorer": 0,
+    "passes": []
+  },
+  "matched_recording_samples": 6800,
+  "exact_events": true,
+  "matched_before_intervention": 4916,
+  "sha256": "36be8ee0dd5734d2da4e1e2ea17ee19b27bd3ba1fd55fbde336c5d6182fc443f",
+  "gif": {
+    "file": "takeaway-repair.gif",
+    "frames": 131,
+    "seconds": 10.48,
+    "fps": 12.5,
+    "sha256": "d2973d19e0e7ab284b515702915a0fc4c36d1acb995b5df373927de0bcebc657"
+  }
+}

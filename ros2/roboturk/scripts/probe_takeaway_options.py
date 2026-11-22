@@ -17,6 +17,9 @@ def main():
     p.add_argument("--finish-search", action="store_true")
     p.add_argument("--sprint-search", action="store_true")
     p.add_argument("--release-search", action="store_true")
+    p.add_argument(
+        "--chain-search", action="store_true", help="Train escape handoffs on the deep steal"
+    )
     p.add_argument("--resume", action="store_true")
     a = p.parse_args()
     base = read(OLD / "policy.json")
@@ -25,7 +28,9 @@ def main():
     )
     models = [base | dict(takeaway_tree=dict(action=i)) for i in actions] + [base]
     profiles = []
-    searches = [name for name in ("finish", "sprint", "release") if getattr(a, name + "_search")]
+    searches = [
+        name for name in ("finish", "sprint", "release", "chain") if getattr(a, name + "_search")
+    ]
     if len(searches) > 1:
         p.error("Select one training search")
     if searches:
@@ -36,6 +41,8 @@ def main():
             base
         ]
     cases = historical()
+    if a.chain_search:
+        cases = [c for c in cases if c[2]["sample"] == 7872 and c[1]["seed"] == 16300008]
     schedule = []
     starts = []
     durations = []

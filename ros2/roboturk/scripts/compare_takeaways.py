@@ -93,6 +93,18 @@ def compare(control, trained):
             for p in pairs
         ]
     )
+    summary["seeds_with_clean_goal"] = {
+        arm: sum(any("goal" in r for r in pair[arm]) for pair in pairs)
+        for arm in ("previous", "trained")
+    }
+    summary["seeds_with_clean_takeaway"] = {
+        arm: sum(bool(pair[arm]) for pair in pairs) for arm in ("previous", "trained")
+    }
+    summary["paired_clean_goals"] = {
+        "higher": int((changes > 0).sum()),
+        "equal": int((changes == 0).sum()),
+        "lower": int((changes < 0).sum()),
+    }
     summary["paired_goals_per_match_difference"] = float(changes.mean())
     summary["paired_bootstrap_95"] = np.percentile(
         np.random.default_rng(178).choice(changes, (20000, len(changes))).mean(axis=1), [2.5, 97.5]

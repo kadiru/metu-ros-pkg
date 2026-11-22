@@ -1,0 +1,64 @@
+{
+  "purpose": "Learn when to switch from the initial outside escape on the deep steal; the earlier run passed two defenders before the third opponent retouched.",
+  "profiles": [
+    {
+      "outlet": false,
+      "escape": 1.1,
+      "accuracy": 0.13,
+      "margin": 0.38,
+      "escape_ticks": 25
+    },
+    {
+      "outlet": false,
+      "escape": 1.1,
+      "accuracy": 0.13,
+      "margin": 0.38,
+      "escape_ticks": 33
+    },
+    {
+      "outlet": false,
+      "escape": 1.1,
+      "accuracy": 0.13,
+      "margin": 0.38,
+      "escape_ticks": 40
+    },
+    {
+      "outlet": false,
+      "escape": 1.1,
+      "accuracy": 0.13,
+      "margin": 0.38,
+      "escape_ticks": 58
+    },
+    {
+      "speed": 1.78,
+      "advance": 0.38,
+      "shield": 0.27,
+      "shot_clear": 0.1,
+      "margin": 0.26,
+      "escape_ticks": 22
+    },
+    {
+      "speed": 1.78,
+      "advance": 0.38,
+      "shield": 0.27,
+      "shot_clear": 0.1,
+      "margin": 0.26,
+      "escape_ticks": 39
+    },
+    {
+      "speed": 1.78,
+      "advance": 0.38,
+      "shield": 0.27,
+      "shot_clear": 0.1,
+      "margin": 0.26,
+      "escape_ticks": 54
+    },
+    {
+      "outlet": true,
+      "escape": 1.1,
+      "accuracy": 0.19,
+      "margin": 0.38,
+      "escape_ticks": 40
+    }
+  ]
+}

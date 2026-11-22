@@ -51,6 +51,8 @@ class FinishGame(InterceptGame):
             return super().counter_commands(out)
         r = held[0]
         b = w.ball
+        if "escape_ticks" in profile and self.tick - c["sample"] // 4 < profile["escape_ticks"]:
+            return super().counter_commands(out)
         if "outlet" in profile:
             return out if self.flight else release(self, out, r, profile)
         if "speed" in profile:

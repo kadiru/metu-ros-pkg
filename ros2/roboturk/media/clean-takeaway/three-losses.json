@@ -1,0 +1,59 @@
+{
+  "clips": [
+    {
+      "seed": 16300006,
+      "start": 11.08,
+      "end": 15.69,
+      "frames": 58,
+      "row": {
+        "sample": 1172,
+        "winner": 2,
+        "kind": "takeaway",
+        "team": "blue",
+        "outcome": "opponent touch",
+        "end": 1493
+      }
+    },
+    {
+      "seed": 16300008,
+      "start": 48.49,
+      "end": 58.91,
+      "frames": 130,
+      "row": {
+        "sample": 4913,
+        "winner": 0,
+        "kind": "takeaway",
+        "team": "blue",
+        "outcome": "ball out",
+        "end": 5815
+      }
+    },
+    {
+      "seed": 16300008,
+      "start": 78.08,
+      "end": 79.62,
+      "frames": 19,
+      "row": {
+        "sample": 7872,
+        "winner": 2,
+        "kind": "takeaway",
+        "team": "blue",
+        "outcome": "opponent touch",
+        "end": 7886
+      }
+    }
+  ],
+  "source_seeds": [
+    16300006,
+    16300008
+  ],
+  "exact_samples_per_source": 9000,
+  "sha256": "fb58b777b8bec307a6014cb120f21a5db837bd718d90e3f702e4af0ffa27508e",
+  "gif": {
+    "file": "three-takeaway-losses.gif",
+    "frames": 207,
+    "seconds": 16.56,
+    "fps": 12.5,
+    "sha256": "c407e5dea5d0648f3d511802da667e95521dfa368e02d850f62c86f17bf61970"
+  }
+}

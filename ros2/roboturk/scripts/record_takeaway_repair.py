@@ -16,12 +16,18 @@ def main():
     p.add_argument("media", type=Path)
     p.add_argument("old_film", type=Path)
     p.add_argument("searches", nargs="+", type=Path)
+    p.add_argument("--sample", type=int, help="Film this historical recovery")
+    p.add_argument("--stem", default="takeaway-repair")
     args = p.parse_args()
     choices = []
     for search in args.searches:
         rows = read(search / "options.json")
-        for j in sorted({r["profile"] for r in rows}):
-            goals = [(i, r) for i, r in enumerate(rows) if r["profile"] == j and "goal" in r]
+        if args.sample is not None:
+            rows = [(i, r) for i, r in enumerate(rows) if r["sample"] == args.sample]
+        else:
+            rows = list(enumerate(rows))
+        for j in sorted({r["profile"] for _, r in rows}):
+            goals = [(i, r) for i, r in rows if r["profile"] == j and "goal" in r]
             choices.append((len(goals), search, j, goals))
     count, search, profile, goals = max(choices, key=lambda v: v[0])
     if not goals:
@@ -57,7 +63,7 @@ def main():
     )
     start = max(0, (row["sample"] + 1) / 100 - 0.8)
     end = max(before["end"], row["goal"]) / 100 + 0.65
-    mp4 = args.media / "takeaway-repair.mp4"
+    mp4 = args.media / (args.stem + ".mp4")
     with tempfile.TemporaryDirectory() as tmp:
         tmp = Path(tmp)
         for label, src in [("before", prior), ("after", folder)]:
@@ -86,7 +92,7 @@ def main():
                 ]
             ):
                 # Hold the last frame so both outcomes remain readable at the same clock.
-                stop = min(j, max(0, round(((stamp + 1) / 100 + 0.30 - start) * 12.5)))
+                stop = min(j, max(0, int(((stamp + 1) / 100 - 0.04 - start) * 12.5)))
                 frame = Image.open(tmp / f"{label}-{stop:04d}.png").convert("RGB")
                 img.paste(
                     frame.crop((176, 64, 1104, 656)).resize((550, 352), Image.Resampling.LANCZOS),
@@ -94,7 +100,7 @@ def main():
                 )
                 draw.text((k * 560 + 12, 5), caption, font=font(22), fill="white")
                 msg = (
-                    outcome
+                    f"{outcome} at {(stamp + 1) / 100:.2f} s"
                     if t >= (stamp + 1) / 100
                     else (
                         f"Blue {row['winner'] % 3} wins the ball"
@@ -120,7 +126,7 @@ def main():
         )
         gif = make_gif(mp4, mp4.with_suffix(".gif"), 0, n / 12.5, 12.5)
     save(
-        args.media / "repair.json",
+        args.media / ("repair.json" if args.stem == "takeaway-repair" else args.stem + ".json"),
         dict(
             seed=seed,
             training_set=True,

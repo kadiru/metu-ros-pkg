@@ -5,18 +5,44 @@ import math
 
 from .model import possession, wrap
 from .takeaway_press import InterceptGame
+from .takeaway_release import release
 from .takeaway_sprint import sprint
 from .three_match import CFG
 from .three_recipient import distance
 
 
+def region(x, limits):
+    if x[1] > limits["touchline_abs_y_above"]:
+        return "touchline"
+    if x[0] < limits["deep_attack_x_below"] and x[2] < limits["deep_gap_below"]:
+        return "deep"
+    if x[0] > limits["attacking_x_above"] and x[2] < limits["attacking_gap_below"]:
+        return "attacking"
+    return None
+
+
 class FinishGame(InterceptGame):
+    def observe_recovery(self):
+        super().observe_recovery()
+        c = self.counter
+        if not c or "repair_region" in c:
+            return
+        repair = self.teams[c["team"]].get("takeaway_repairs")
+        if repair:
+            zone = region(c["x"], repair["regions"])
+            c["repair_region"] = zone
+            if zone in repair["profiles"]:
+                c["action"] = 9
+
     def counter_commands(self, out):
         c = self.counter
         if not c or c["action"] != 9:
             return super().counter_commands(out)
         team = c["team"]
-        profile = self.teams[team].get("escape_finish")
+        policy = self.teams[team]
+        profile = policy.get("escape_finish")
+        if "takeaway_repairs" in policy:
+            profile = policy["takeaway_repairs"]["profiles"].get(c.get("repair_region"))
         if not profile:
             return super().counter_commands(out)
         w = self.world
@@ -25,6 +51,8 @@ class FinishGame(InterceptGame):
             return super().counter_commands(out)
         r = held[0]
         b = w.ball
+        if "outlet" in profile:
+            return out if self.flight else release(self, out, r, profile)
         if "speed" in profile:
             if self.flight:
                 return super().counter_commands(out)

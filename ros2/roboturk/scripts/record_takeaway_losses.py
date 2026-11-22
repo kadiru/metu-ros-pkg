@@ -20,9 +20,9 @@ def main():
     args.media.mkdir(parents=True, exist_ok=True)
     cases = historical()
     captions = [
-        "Blue 0 receives the pass; the opponent reaches the ball first",
-        "Blue 0 chooses to shoot; the ball rolls wide without a kick",
-        "The opponent touches the ball again after 0.14 s",
+        "Blue 0 receives the pass. A defender gets the next touch.",
+        "Blue 0 lines up a shot. The ball rolls wide before the kick.",
+        "The opponent touches the ball again after 0.14 s.",
     ]
     sources = {}
     for f, g, r in cases:
@@ -105,7 +105,7 @@ def main():
                 draw.text(
                     (935, 5), f"{sec:.2f} s", font=font(21), fill=(241, 201, 111), anchor="ra"
                 )
-                draw.text((20, 557), captions[i].replace(";", "."), font=font(20), fill="white")
+                draw.text((20, 557), captions[i], font=font(20), fill="white")
                 canvas.save(tmp / f"clip-{count:04d}.png")
                 count += 1
         ffmpeg(

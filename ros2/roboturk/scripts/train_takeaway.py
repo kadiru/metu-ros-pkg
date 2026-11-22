@@ -1,14 +1,13 @@
 """Train a clean-takeaway option policy and evaluate it in ordinary native matches."""
 
 import argparse
-from concurrent.futures import ThreadPoolExecutor
+from takeaway_native import launch_cases
 import gzip
 import json
 import math
 from pathlib import Path
 
 import numpy as np
-import train_touch_planner as native
 from train_recovery_touch import ROOT, WEBOTS, read, save, sha, run_matches
 from roboturk.open_play_audit import recoveries
 from roboturk.takeaway import MODES
@@ -94,11 +93,24 @@ def main():
     parser.add_argument("--webots", type=Path, default=WEBOTS)
     parser.add_argument("--from-evaluation", type=Path)
     parser.add_argument("--previous", action="store_true")
+    parser.add_argument(
+        "--calibrated", action="store_true", help="Use the separate historical fine-tune"
+    )
+    parser.add_argument("--resume", action="store_true")
     args = parser.parse_args()
+    if args.calibrated and args.mode not in (
+        "historical",
+        "historical-early",
+        "evaluate",
+        "record",
+    ):
+        parser.error("The calibrated policy is available for qualification and film")
+    checkpoint = "calibrated.json" if args.calibrated else "policy.json"
     plan = read(DEST / "protocol.json")
     base = read(ROOT / plan["baseline"])
     for lock in [
         OLD / "freeze.json",
+        *([DEST / "calibration-freeze.json"] if args.calibrated else []),
         *(
             [DEST / "freeze.json"]
             if args.mode in ("historical", "historical-early", "evaluate", "record")
@@ -108,7 +120,6 @@ def main():
         for name, digest in read(lock).items():
             if sha(ROOT / name) != digest:
                 raise ValueError(f"Freeze mismatch in {name}")
-    native.WORLD = WORLD
     schedule = []
     starts = []
     durations = []
@@ -150,7 +161,7 @@ def main():
                     i,
                 )
     elif args.mode in ("historical", "historical-early"):
-        models = [base, read(DEST / "policy.json")]
+        models = [base, read(DEST / checkpoint)]
         for f, g, r in historical():
             for a in (0, 1):
                 pair = (a, 0) if r["team"] == "blue" else (0, a)
@@ -161,7 +172,7 @@ def main():
                     reference=f.name,
                 )
     else:
-        models = [base] if args.mode == "control" else [base, read(DEST / "policy.json")]
+        models = [base] if args.mode == "control" else [base, read(DEST / checkpoint)]
         for i in range(plan["starts"]):
             seed = plan["fresh_first"] + i
             pairs = (
@@ -193,7 +204,6 @@ def main():
         durations = [nsec]
         refs = [None]
     d = args.folder.resolve()
-    d.mkdir(parents=True, exist_ok=False)
     cfg = dict(
         root=str(ROOT),
         models=models,
@@ -212,11 +222,13 @@ def main():
         references=refs,
         press=True,
         record=args.mode == "record",
+        **({"finish_search": True} if args.calibrated else {}),
         world=str(WORLD.relative_to(ROOT)),
         webots_sha256=sha(args.webots),
     )
-    save(d / "launch.json", cfg)
     if args.mode == "record":
+        d.mkdir(parents=True, exist_ok=False)
+        save(d / "launch.json", cfg)
         run_matches(d, cfg, args.webots, WORLD, True)
         actual = np.load(d / "trace-000.npz")["states"]
         assert np.array_equal(actual, np.load(source / f"trace-{slot:03}.npz")["states"])
@@ -233,8 +245,7 @@ def main():
             ),
         )
         return
-    with ThreadPoolExecutor(max_workers=args.workers) as pool:
-        list(pool.map(lambda i: native.isolated(d, i, args.webots), range(len(schedule))))
+    launch_cases(d, cfg, args.webots, args.workers, args.resume)
     games = []
     for i, (seed, b, y) in enumerate(schedule):
         g = read(d / f"game-{i:03}.json")

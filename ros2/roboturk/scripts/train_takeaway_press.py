@@ -1,10 +1,9 @@
 """Compare passing-lane and shot-lane interception policies in full native self-play."""
 
 import argparse
-from concurrent.futures import ThreadPoolExecutor
+from takeaway_native import launch_cases
 from pathlib import Path
 import numpy as np
-import train_touch_planner as native
 from train_takeaway import ROOT, OLD, DEST, WORLD, WEBOTS, read, save, sha
 from roboturk.open_play_audit import recoveries
 
@@ -13,9 +12,9 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("folder", type=Path)
     p.add_argument("--workers", type=int, choices=(1, 2, 3, 4), default=2)
+    p.add_argument("--resume", action="store_true")
     a = p.parse_args()
     d = a.folder.resolve()
-    d.mkdir(parents=True, exist_ok=False)
     base = read(OLD / "policy.json")
     protocol = read(DEST / "interception-search.json")
     models = [base] + [base | dict(takeaway_press=profile) for profile in protocol["profiles"]]
@@ -37,10 +36,7 @@ def main():
         press=True,
         record=False,
     )
-    save(d / "launch.json", cfg)
-    native.WORLD = WORLD
-    with ThreadPoolExecutor(max_workers=a.workers) as pool:
-        list(pool.map(lambda i: native.isolated(d, i, WEBOTS), range(len(schedule))))
+    launch_cases(d, cfg, WEBOTS, a.workers, a.resume)
     stats = [dict(appearances=0, clean=0, goals=0, all_recovery_goals=0, score=0) for _ in models]
     first = {}
     for i, (seed, blue, yellow) in enumerate(schedule):

@@ -66,6 +66,7 @@ def main():
         DEST / "interception-search.json",
         DEST / "option-search.json",
         ROOT / "scripts/train_takeaway_press.py",
+        ROOT / "scripts/takeaway_native.py",
         ROOT / "src/roboturk_core/roboturk/takeaway_press.py",
         OLD / "policy.json",
         DEST / "policy.json",

@@ -1,0 +1,7 @@
+{
+  "purpose": "Add a separately reported historical fine-tune to the independently trained interception and post-steal team. Freeze both checkpoints before examining fresh results. The original 11-option selector continues to exclude all three historical misses.",
+  "training": "Use only the three prior historical misses and outcomes of the finish, sprint, and release searches. For each region, install the first profile in registered search and profile order with the largest number of verified goals, only if it repairs a historical loss. Otherwise keep the independent selector. Region order is touchline, deep under pressure, attacking under pressure.",
+  "regions": {"touchline_abs_y_above":2.60,"deep_attack_x_below":-2.80,"deep_gap_below":0.35,"attacking_x_above":0.40,"attacking_gap_below":0.50},
+  "searches": ["finish", "sprint", "release"],
+  "evaluation": "Run the original general checkpoint and the historically calibrated team on the same reserved 40 starts as the old team, plus eight starts in both color assignments. Report both. The calibrated team is the intended final challenger regardless of the reservation's outcome. Qualify the historical replays separately. Use the earliest fresh calibrated mirror game with an audited clean-takeaway goal for the demo."
+}

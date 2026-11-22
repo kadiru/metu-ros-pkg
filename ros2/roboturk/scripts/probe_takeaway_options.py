@@ -3,9 +3,8 @@
 import argparse
 import math
 from pathlib import Path
-from concurrent.futures import ThreadPoolExecutor
+from takeaway_native import launch_cases
 import numpy as np
-import train_touch_planner as native
 from roboturk.takeaway_outlet import EXTRA
 from train_takeaway import ROOT, WEBOTS, OLD, WORLD, MODES, historical, read, save, sha
 
@@ -17,6 +16,8 @@ def main():
     p.add_argument("--extra", action="store_true")
     p.add_argument("--finish-search", action="store_true")
     p.add_argument("--sprint-search", action="store_true")
+    p.add_argument("--release-search", action="store_true")
+    p.add_argument("--resume", action="store_true")
     a = p.parse_args()
     base = read(OLD / "policy.json")
     actions = (
@@ -24,8 +25,11 @@ def main():
     )
     models = [base | dict(takeaway_tree=dict(action=i)) for i in actions] + [base]
     profiles = []
-    if a.finish_search or a.sprint_search:
-        name = "sprint-search" if a.sprint_search else "finish-search"
+    searches = [name for name in ("finish", "sprint", "release") if getattr(a, name + "_search")]
+    if len(searches) > 1:
+        p.error("Select one training search")
+    if searches:
+        name = searches[0] + "-search"
         profiles = read(ROOT / f"policies/takeaway_v1/{name}.json")["profiles"]
         actions = [9] * len(profiles)
         models = [base | dict(takeaway_tree=dict(action=9), escape_finish=v) for v in profiles] + [
@@ -42,7 +46,6 @@ def main():
             starts.append(r["sample"])
             durations.append(min(g["seconds"], math.ceil(r["sample"] / 100) + 18))
     d = a.folder.resolve()
-    d.mkdir(parents=True, exist_ok=False)
     cfg = dict(
         root=str(ROOT),
         models=models,
@@ -57,10 +60,7 @@ def main():
         record=False,
         finish_search=bool(profiles),
     )
-    save(d / "launch.json", cfg)
-    native.WORLD = WORLD
-    with ThreadPoolExecutor(max_workers=a.workers) as pool:
-        list(pool.map(lambda i: native.isolated(d, i, WEBOTS), range(len(schedule))))
+    launch_cases(d, cfg, WEBOTS, a.workers, a.resume)
     report = []
     for i in range(len(schedule)):
         f, g, r = cases[i // len(actions)]

@@ -21,7 +21,7 @@ def font(size):
     return ImageFont.load_default(size=size)
 
 
-def play_preview(movie, dest, trace, row, start, duration):
+def play_preview(movie, dest, trace, row, start, duration, carrier_actions=()):
     states = np.load(trace)["states"]
     chain = row["chain"]
     offset = 3 * (chain["team"] == "yellow")
@@ -177,10 +177,28 @@ def play_preview(movie, dest, trace, row, start, duration):
                     caption = f"Body between ball and defender    /    {gap:.2f} m apart"
                 else:
                     caption = "Shield complete    /    Receiver turns to finish"
-            if row.get("pressure") and row["contact"] - 12 <= sample < chain["shot"] * 4:
+            carrier = next(
+                (v for v in carrier_actions if 4 * v["first"] <= sample < 4 * (v["last"] + 1)), None
+            )
+            if carrier and sample < 4 * row["kick"]:
+                caption = {
+                    "release": "Preparing the lead pass",
+                    "shield": "Protecting the first touch",
+                    "sidestep": "Carrying sideways to open the pass",
+                }[carrier["action"]]
+            at_receiver = row.get("pressure") and row["contact"] - 12 <= sample < chain["shot"] * 4
+            at_carrier = carrier is not None and sample < 4 * row["kick"]
+            if at_receiver or at_carrier:
                 # Magnify the same native frame while retaining the direction of the attack.
-                runner_px = np.array(pixel(rs[receiver, :2]))
-                rival_px = np.array(pixel(rs[3 - offset + row["marker"], :2]))
+                owner = passer if at_carrier else receiver
+                rivals = rs[3 - offset : 6 - offset, :2]
+                marker = (
+                    int(np.argmin(np.linalg.norm(rivals - rs[owner, :2], axis=1)))
+                    if at_carrier
+                    else row["marker"]
+                )
+                runner_px = np.array(pixel(rs[owner, :2]))
+                rival_px = np.array(pixel(rivals[marker]))
                 focus = (runner_px + rival_px) * 0.5
                 detail_width = int(
                     max(
@@ -193,11 +211,16 @@ def play_preview(movie, dest, trace, row, start, duration):
                 left = int(np.clip(focus[0] - detail_width / 2, 0, 1280 - detail_width))
                 top = int(np.clip(focus[1] - detail_height / 2, 0, 720 - detail_height))
                 detail = native.crop((left, top, left + detail_width, top + detail_height))
-                origin = 16 if screen(rs[receiver, :2])[0] > 480 else 704
+                origin = 16 if screen(rs[owner, :2])[0] > 480 else 704
                 draw.rectangle(
                     (origin - 2, 67, origin + 242, 245), fill=(17, 29, 39), outline=gold, width=2
                 )
-                draw.text((origin + 7, 69), "Receiver and marker", font=label_font, fill=text_color)
+                draw.text(
+                    (origin + 7, 69),
+                    "First touch" if at_carrier else "Receiver and marker",
+                    font=label_font,
+                    fill=text_color,
+                )
                 img.paste(detail.resize((240, 150), Image.Resampling.LANCZOS), (origin, 93))
             if chain["recovery"] <= sample < chain["goal"]:
                 for actor in [passer, receiver]:

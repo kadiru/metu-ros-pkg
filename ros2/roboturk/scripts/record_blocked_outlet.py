@@ -26,6 +26,17 @@ def main():
     leading = "lead_distance_m" in cfg["protocol"]
     pressure = "shield_samples" in cfg["protocol"]
     stem = "pressure-shield" if pressure else "lead-pass" if leading else "blocked-outlet"
+    carrier_actions = []
+    if "carrier_rule" in cfg["protocol"]:
+        stem = "first-touch"
+        game = json.loads((folder / f"game-{i:03}.json").read_text())
+        carrier_actions = [
+            v
+            for v in game["first_touches"]
+            if v["team"] == chain["team"]
+            and v["actor"] == row["passer"]
+            and v["first"] <= row["kick"]
+        ]
     movie = dest / f"{stem}.mp4"
     shutil.copyfile(folder / "match.mp4", movie)
     ffmpeg("-i", movie, "-f", "null", "-")
@@ -40,6 +51,7 @@ def main():
         row,
         i * cfg["seconds"],
         end,
+        carrier_actions=carrier_actions,
     )
     data = dict(
         file=movie.name,
@@ -53,6 +65,8 @@ def main():
         native_pixel_crop=crop,
         speed=1,
     )
+    if carrier_actions:
+        data["carrier_actions"] = carrier_actions
     (dest / "recording.json").write_text(json.dumps(data, indent=2) + "\n")
     print(json.dumps(data, indent=2))
 

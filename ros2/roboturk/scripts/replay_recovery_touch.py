@@ -13,7 +13,10 @@ def record(src, slot, dst, exe):
     assert cfg["webots_sha256"] == sha(exe)
     dst.mkdir(parents=True, exist_ok=False)
     save(dst / "launch.json", cfg)
-    run_matches(dst, cfg, exe, WORLD, True)
+    world = ROOT / cfg["world"] if "world" in cfg else WORLD
+    if world not in (WORLD, WORLD.with_name("ssl_touch_planner.wbt")):
+        raise ValueError("Unexpected recording world")
+    run_matches(dst, cfg, exe, world, True)
     game = read(dst / "game-000.json")
     assert game == expected
     states = np.load(dst / "trace-000.npz")["states"]

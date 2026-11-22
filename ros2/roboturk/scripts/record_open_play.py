@@ -20,6 +20,7 @@ def main():
     parser.add_argument(
         "--previous", type=Path, help="Verified previous-team replay on the identical start"
     )
+    parser.add_argument("--previous-label", default="Previous team  /  31 of 40 opening goals")
     args = parser.parse_args()
     args.media.mkdir(parents=True, exist_ok=True)
     replay = read(args.replay / "replay.json")
@@ -89,7 +90,11 @@ def main():
             draw.text((938, 6), f"{t:.1f} s", font=font(21), fill=(241, 201, 111), anchor="ra")
             caption = "Ball in play"
             if j >= r["sample"]:
-                caption = f"{team} {r['winner'] % 3} wins sole possession"
+                caption = (
+                    f"{team} {r['winner'] % 3} completes the clean takeaway"
+                    if r["kind"] == "takeaway"
+                    else f"{team} {r['winner'] % 3} wins sole possession"
+                )
             for delivery in passes:
                 if j >= 4 * delivery["tick"]:
                     caption = f"{team} {delivery['passer']} passes to {team} {delivery['receiver']}"
@@ -125,9 +130,7 @@ def main():
         # The counterfactuals share the kickoff. From that moment each match plays independently.
         title = Image.new("RGB", (1280, 48), (17, 30, 39))
         labels = ImageDraw.Draw(title)
-        labels.text(
-            (14, 9), "Previous team  /  31 of 40 opening goals", fill="white", font=font(22)
-        )
+        labels.text((14, 9), args.previous_label, fill="white", font=font(22))
         labels.text((654, 9), "New team  /  open-play self-play", fill="white", font=font(22))
         movie = args.media / "same-start.mp4"
         with tempfile.TemporaryDirectory() as directory:

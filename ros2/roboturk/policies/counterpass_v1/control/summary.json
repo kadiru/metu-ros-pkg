@@ -1,0 +1,38 @@
+{
+  "mirror": [
+    {
+      "matches": 40,
+      "takeaways": 386,
+      "takeaway_goals": 77,
+      "recovery_goals": 91,
+      "recoveries": 415,
+      "all_goals": 102
+    },
+    {
+      "matches": 0,
+      "takeaways": 0,
+      "takeaway_goals": 0,
+      "recovery_goals": 0,
+      "recoveries": 0,
+      "all_goals": 0
+    }
+  ],
+  "mixed": [
+    {
+      "matches": 0,
+      "takeaways": 0,
+      "takeaway_goals": 0,
+      "recovery_goals": 0,
+      "recoveries": 0,
+      "all_goals": 0
+    },
+    {
+      "matches": 0,
+      "takeaways": 0,
+      "takeaway_goals": 0,
+      "recovery_goals": 0,
+      "recoveries": 0,
+      "all_goals": 0
+    }
+  ]
+}

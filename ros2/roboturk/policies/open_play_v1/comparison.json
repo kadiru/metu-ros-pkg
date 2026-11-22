@@ -1,0 +1,370 @@
+{
+  "pairs": [
+    {
+      "seed": 16300000,
+      "previous": {
+        "recoveries": 5,
+        "goals": 0
+      },
+      "trained": {
+        "recoveries": 13,
+        "goals": 2
+      }
+    },
+    {
+      "seed": 16300001,
+      "previous": {
+        "recoveries": 5,
+        "goals": 1
+      },
+      "trained": {
+        "recoveries": 8,
+        "goals": 3
+      }
+    },
+    {
+      "seed": 16300002,
+      "previous": {
+        "recoveries": 1,
+        "goals": 0
+      },
+      "trained": {
+        "recoveries": 13,
+        "goals": 4
+      }
+    },
+    {
+      "seed": 16300003,
+      "previous": {
+        "recoveries": 3,
+        "goals": 0
+      },
+      "trained": {
+        "recoveries": 8,
+        "goals": 4
+      }
+    },
+    {
+      "seed": 16300004,
+      "previous": {
+        "recoveries": 4,
+        "goals": 1
+      },
+      "trained": {
+        "recoveries": 12,
+        "goals": 3
+      }
+    },
+    {
+      "seed": 16300005,
+      "previous": {
+        "recoveries": 1,
+        "goals": 0
+      },
+      "trained": {
+        "recoveries": 7,
+        "goals": 1
+      }
+    },
+    {
+      "seed": 16300006,
+      "previous": {
+        "recoveries": 2,
+        "goals": 0
+      },
+      "trained": {
+        "recoveries": 3,
+        "goals": 1
+      }
+    },
+    {
+      "seed": 16300007,
+      "previous": {
+        "recoveries": 2,
+        "goals": 1
+      },
+      "trained": {
+        "recoveries": 12,
+        "goals": 7
+      }
+    },
+    {
+      "seed": 16300008,
+      "previous": {
+        "recoveries": 10,
+        "goals": 1
+      },
+      "trained": {
+        "recoveries": 13,
+        "goals": 4
+      }
+    },
+    {
+      "seed": 16300009,
+      "previous": {
+        "recoveries": 5,
+        "goals": 1
+      },
+      "trained": {
+        "recoveries": 7,
+        "goals": 3
+      }
+    },
+    {
+      "seed": 16300010,
+      "previous": {
+        "recoveries": 4,
+        "goals": 2
+      },
+      "trained": {
+        "recoveries": 12,
+        "goals": 2
+      }
+    },
+    {
+      "seed": 16300011,
+      "previous": {
+        "recoveries": 3,
+        "goals": 1
+      },
+      "trained": {
+        "recoveries": 10,
+        "goals": 2
+      }
+    },
+    {
+      "seed": 16300012,
+      "previous": {
+        "recoveries": 3,
+        "goals": 1
+      },
+      "trained": {
+        "recoveries": 19,
+        "goals": 8
+      }
+    },
+    {
+      "seed": 16300013,
+      "previous": {
+        "recoveries": 1,
+        "goals": 0
+      },
+      "trained": {
+        "recoveries": 12,
+        "goals": 3
+      }
+    },
+    {
+      "seed": 16300014,
+      "previous": {
+        "recoveries": 4,
+        "goals": 0
+      },
+      "trained": {
+        "recoveries": 11,
+        "goals": 3
+      }
+    },
+    {
+      "seed": 16300015,
+      "previous": {
+        "recoveries": 1,
+        "goals": 0
+      },
+      "trained": {
+        "recoveries": 16,
+        "goals": 5
+      }
+    }
+  ],
+  "geometry_flags": {
+    "trained": [
+      {
+        "seed": 16300000,
+        "blue_model": 1,
+        "yellow_model": 1,
+        "outside_samples": 499,
+        "close_samples": 0,
+        "affected_goal_samples": []
+      }
+    ],
+    "mixed": [
+      {
+        "seed": 16300003,
+        "blue_model": 0,
+        "yellow_model": 1,
+        "outside_samples": 0,
+        "close_samples": 31,
+        "affected_goal_samples": []
+      },
+      {
+        "seed": 16300007,
+        "blue_model": 0,
+        "yellow_model": 1,
+        "outside_samples": 1981,
+        "close_samples": 0,
+        "affected_goal_samples": []
+      }
+    ],
+    "previous": [
+      {
+        "seed": 16300007,
+        "blue_model": 0,
+        "yellow_model": 0,
+        "outside_samples": 1981,
+        "close_samples": 0,
+        "affected_goal_samples": []
+      },
+      {
+        "seed": 16300015,
+        "blue_model": 0,
+        "yellow_model": 0,
+        "outside_samples": 0,
+        "close_samples": 254,
+        "affected_goal_samples": []
+      }
+    ]
+  },
+  "mirror_kinds": [
+    {
+      "takeaway": 6,
+      "contest": 48,
+      "contest_goals": 8,
+      "with_pass": 3,
+      "takeaway_goals": 1
+    },
+    {
+      "contest": 173,
+      "contest_goals": 55,
+      "with_pass": 17,
+      "takeaway": 3
+    }
+  ],
+  "mirror_misses": [
+    {
+      "opponent touch": 27,
+      "ball out": 9,
+      "match ended": 7,
+      "unverified scoring chain": 2
+    },
+    {
+      "ball out": 28,
+      "opponent touch": 86,
+      "unverified scoring chain": 3,
+      "match ended": 4
+    }
+  ],
+  "more_tied_fewer": [
+    15,
+    1,
+    0
+  ],
+  "extra_goals_per_match": 2.875,
+  "paired_bootstrap_95": [
+    2.0,
+    3.8125
+  ],
+  "head_to_head_wdl": {
+    "drawn": 6,
+    "won": 6,
+    "lost": 4
+  },
+  "head_to_head_scores": [
+    {
+      "seed": 16300000,
+      "new_color": "yellow",
+      "new_score": 1,
+      "previous_score": 1
+    },
+    {
+      "seed": 16300000,
+      "new_color": "blue",
+      "new_score": 0,
+      "previous_score": 0
+    },
+    {
+      "seed": 16300001,
+      "new_color": "yellow",
+      "new_score": 3,
+      "previous_score": 2
+    },
+    {
+      "seed": 16300001,
+      "new_color": "blue",
+      "new_score": 0,
+      "previous_score": 1
+    },
+    {
+      "seed": 16300002,
+      "new_color": "yellow",
+      "new_score": 0,
+      "previous_score": 0
+    },
+    {
+      "seed": 16300002,
+      "new_color": "blue",
+      "new_score": 2,
+      "previous_score": 1
+    },
+    {
+      "seed": 16300003,
+      "new_color": "yellow",
+      "new_score": 0,
+      "previous_score": 2
+    },
+    {
+      "seed": 16300003,
+      "new_color": "blue",
+      "new_score": 0,
+      "previous_score": 1
+    },
+    {
+      "seed": 16300004,
+      "new_color": "yellow",
+      "new_score": 3,
+      "previous_score": 0
+    },
+    {
+      "seed": 16300004,
+      "new_color": "blue",
+      "new_score": 0,
+      "previous_score": 0
+    },
+    {
+      "seed": 16300005,
+      "new_color": "yellow",
+      "new_score": 0,
+      "previous_score": 0
+    },
+    {
+      "seed": 16300005,
+      "new_color": "blue",
+      "new_score": 0,
+      "previous_score": 0
+    },
+    {
+      "seed": 16300006,
+      "new_color": "yellow",
+      "new_score": 3,
+      "previous_score": 0
+    },
+    {
+      "seed": 16300006,
+      "new_color": "blue",
+      "new_score": 2,
+      "previous_score": 1
+    },
+    {
+      "seed": 16300007,
+      "new_color": "yellow",
+      "new_score": 0,
+      "previous_score": 1
+    },
+    {
+      "seed": 16300007,
+      "new_color": "blue",
+      "new_score": 2,
+      "previous_score": 0
+    }
+  ]
+}

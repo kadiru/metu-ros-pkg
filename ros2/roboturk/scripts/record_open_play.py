@@ -43,8 +43,11 @@ def main():
         for e in reversed(game["events"])
         if e["event"] == "kick" and e["tick"] * 4 <= r["goal"] and e["speed"] == 4
     )
-    if r["passes"]:
-        players += f" to {team} {r['scorer']}"
+    passes = [p for p in game["passes"] if p["tick"] in r["passes"]]
+    if passes:
+        players = f"{team} " + " → ".join(
+            str(n) for n in [r["winner"] % 3, *(p["receiver"] for p in passes)]
+        )
     with tempfile.TemporaryDirectory() as path:
         path = Path(path)
         ffmpeg(
@@ -87,8 +90,11 @@ def main():
             caption = "Ball in play"
             if j >= r["sample"]:
                 caption = f"{team} {r['winner'] % 3} wins sole possession"
-            if any(4 * k <= j for k in r["passes"]):
-                caption = f"{team} attacks through the pass"
+            for delivery in passes:
+                if j >= 4 * delivery["tick"]:
+                    caption = f"{team} {delivery['passer']} passes to {team} {delivery['receiver']}"
+                if j >= 4 * (delivery["end"] + 1):
+                    caption = f"{team} {delivery['receiver']} controls the pass"
             if j >= shot["tick"] * 4:
                 caption = f"{team} {r['scorer']} shoots"
             if j >= r["goal"]:

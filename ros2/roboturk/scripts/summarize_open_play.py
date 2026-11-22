@@ -13,15 +13,51 @@ def count(game, color=None):
     return dict(recoveries=len(rows), goals=sum(r["outcome"] == "goal" for r in rows))
 
 
+def geometry_flags(states):
+    robots = states[:, 4:].reshape(-1, 6, 3)[:, :, :2]
+    outside = ((abs(robots[:, :, 0]) > 4.41) | (abs(robots[:, :, 1]) > 2.91)).any(axis=1)
+    distances = [
+        np.linalg.norm(robots[:, i] - robots[:, j], axis=1) for i in range(6) for j in range(i)
+    ]
+    close = np.min(distances, axis=0) < 0.18
+    return outside, close
+
+
 def compare(folder):
     pairs = defaultdict(dict)
     versus = Counter()
     match_scores = []
     kinds = [Counter(), Counter()]
     failures = [Counter(), Counter()]
+    geometry = defaultdict(list)
     for f in sorted(folder.glob("game-*.json")):
         g = read(f)
         a, b = g["blue_model"], g["yellow_model"]
+        states = np.load(folder / f.name.replace("game-", "trace-").replace(".json", ".npz"))[
+            "states"
+        ]
+        outside, close = geometry_flags(states)
+        assert (
+            int(outside.sum()) == g["stats"]["exits"] and int(close.sum()) == g["stats"]["contacts"]
+        )
+        if outside.any() or close.any():
+            flagged_goals = []
+            for row in g["recoveries"]:
+                if "goal" in row:
+                    span = slice(row["sample"], row["goal"] + 1)
+                    if outside[span].any() or close[span].any():
+                        flagged_goals.append(row["goal"])
+            arm = "mixed" if a != b else "trained" if a else "previous"
+            geometry[arm].append(
+                dict(
+                    seed=g["seed"],
+                    blue_model=a,
+                    yellow_model=b,
+                    outside_samples=int(outside.sum()),
+                    close_samples=int(close.sum()),
+                    affected_goal_samples=flagged_goals,
+                )
+            )
         if a == b:
             pairs[g["seed"]][a] = count(g)
             for row in g["recoveries"]:
@@ -53,6 +89,7 @@ def compare(folder):
     draws = rng.choice(differences, size=(20000, len(rows)), replace=True).mean(axis=1)
     return dict(
         pairs=rows,
+        geometry_flags=geometry,
         mirror_kinds=kinds,
         mirror_misses=failures,
         more_tied_fewer=[

@@ -15,7 +15,7 @@ def main():
     clips = [
         ("attacking-repair", "attacking-repair"),
         ("takeaway-repair", "repair"),
-        ("deep-repair", "deep-repair"),
+        ("deep-selected", "deep-selected"),
     ]
     rows = []
     with tempfile.TemporaryDirectory() as tmp:

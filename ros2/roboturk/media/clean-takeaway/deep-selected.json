@@ -1,0 +1,49 @@
+{
+  "seed": 16300008,
+  "training_set": true,
+  "source": "sprint",
+  "profile": 0,
+  "goals": 1,
+  "previous": {
+    "sample": 7872,
+    "winner": 2,
+    "kind": "takeaway",
+    "team": "blue",
+    "outcome": "opponent touch",
+    "end": 7886
+  },
+  "selected": {
+    "seed": 16300008,
+    "action": 9,
+    "x": [
+      -3.886339790172256,
+      0.7688024065995246,
+      0.11830117595064428,
+      0.0013664760389339656,
+      1.1155505640657006,
+      0.1389505737711547
+    ],
+    "matched_samples": 7876,
+    "profile": 0,
+    "sample": 7872,
+    "winner": 2,
+    "kind": "takeaway",
+    "team": "blue",
+    "outcome": "goal",
+    "end": 8255,
+    "goal": 8255,
+    "scorer": 2,
+    "passes": []
+  },
+  "matched_recording_samples": 9000,
+  "exact_events": true,
+  "matched_before_intervention": 7876,
+  "sha256": "f4e17f19660d0fdea8806de1be36e8e30a761502c7d662275f7aae0ab09905fc",
+  "gif": {
+    "file": "deep-selected.gif",
+    "frames": 66,
+    "seconds": 5.28,
+    "fps": 12.5,
+    "sha256": "cd20fc8303ab61c8177c88b36f35ef213e906b7544ca23d85076309ee9d67152"
+  }
+}

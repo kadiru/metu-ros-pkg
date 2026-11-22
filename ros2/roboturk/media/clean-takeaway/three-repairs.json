@@ -15,17 +15,17 @@
     {
       "seed": 16300008,
       "sample": 7872,
-      "goal": 8335,
-      "clip": "deep-repair.mp4"
+      "goal": 8255,
+      "clip": "deep-selected.mp4"
     }
   ],
-  "seconds": 21.52,
-  "sha256": "99d7431f6a01f93bcdf5e07428b758e8b64760ea3f0c4cbdcc31dee0cdfb848c",
+  "seconds": 20.72,
+  "sha256": "0a6961a0e16135c324c29b87bfff8e70010bbdb7d4469a02d317ed2a3786fbe4",
   "gif": {
     "file": "three-repaired-takeaways.gif",
-    "frames": 269,
-    "seconds": 21.52,
+    "frames": 259,
+    "seconds": 20.72,
     "fps": 12.5,
-    "sha256": "4b127fb3151fa01e5a6805632ccff4542f837d56290354c6a5ff2be51ff0f1a0"
+    "sha256": "2b128b6c9e936999d8ad62640808eca04f52b9e8907e804191f1a8f7890b111d"
   }
 }

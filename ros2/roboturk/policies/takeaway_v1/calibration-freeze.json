@@ -1,0 +1,21 @@
+{
+  "policies/takeaway_v1/freeze.json": "30a5af9bdfd7638ae91e80b4f5ed96e4853fc5ccadef5e63785fed26510b281f",
+  "policies/takeaway_v1/policy.json": "180d210aa6fdd4dd5930ccd432c024bc6073695628c307560a31c1d0868e0ce3",
+  "policies/takeaway_v1/calibration-protocol.json": "97eee50cbc26a6e5aadb0cb1b0599b19861071a6ec9ce617a97ad90761060bcf",
+  "scripts/fit_takeaway_repairs.py": "374725635002c534b4868b7b64b550eb0c610bb079985f80d33e69252bbaa84d",
+  "scripts/probe_takeaway_options.py": "4ed96d611e24bdb9216eafcd73966899754a8c6d76b9b606ca0e3c7c55cf95d7",
+  "policies/takeaway_v1/finish-search.json": "fb8a3e65f08f7e2e77c8aa2c537127903ee8820c2c84aee6b1ffaa7a07cf3219",
+  "policies/takeaway_v1/finish-returns.json": "a6276b5cbaf502ce965ff6c2ee62b178d911c9b29718f95f55e0de984fe6112b",
+  "policies/takeaway_v1/sprint-search.json": "1e26042e09b300adb4012a4344274a7be74a52de9320e4a599494903c263b835",
+  "policies/takeaway_v1/sprint-returns.json": "0d8449596cbf067876bfae511db5b0796758e1df9697a59cbc4f2aa500099569",
+  "policies/takeaway_v1/release-search.json": "27446d87304920f580712f87327e0f3c9f0489230e2d6d11bc3dfde8c27c7c82",
+  "policies/takeaway_v1/release-returns.json": "451a835db0de9febd867cc08ee307ccfa0a5bbeae6e1236ac1ba55d61dd6019a",
+  "policies/takeaway_v1/chain-search.json": "0691ce981945b422364ce65d258d845ec7be10edff3a2d1017c22a692a8fd285",
+  "policies/takeaway_v1/chain-returns.json": "e9274a3b7f1c7159871c26e9edc715bffdb5313b13d2d5f1cb9de4abf2233228",
+  "src/roboturk_core/roboturk/takeaway_sprint.py": "a40745dad7e1d83883770ff85ba3bca0b8c70c9596074c2312180de346aa7c7b",
+  "src/roboturk_core/roboturk/takeaway_finish.py": "9dc02e9153ec3a8496f0998f55e0fd48986819184b517660d21cd8f7ead9dff2",
+  "src/roboturk_core/roboturk/takeaway_release.py": "72c8c8e94c6d63a21657fb83508eb3bf4df876c4eb9569df0bfc48a3de59c612",
+  "policies/takeaway_v1/targeted-training.json.gz": "9a8cdb2536fecbcbe8389519fc625233d1522c100d31cdbf01062becfd21b9a4",
+  "policies/takeaway_v1/calibrated.json": "efd258afa42a9631c4d1e1a7e3bac8800659e312bd726e2d98ace387368c5dfe",
+  "policies/takeaway_v1/calibration-fit.json": "1d9022cd0c39106b8039edda8a43dabf9032d1e979cccd56b63a504e9fc8c470"
+}

@@ -1,0 +1,39 @@
+{
+  "selected": 1,
+  "stats": [
+    {
+      "appearances": 24,
+      "clean": 7,
+      "goals": 2,
+      "all_recovery_goals": 34,
+      "score": 36
+    },
+    {
+      "appearances": 24,
+      "clean": 66,
+      "goals": 27,
+      "all_recovery_goals": 33,
+      "score": 36
+    },
+    {
+      "appearances": 24,
+      "clean": 39,
+      "goals": 8,
+      "all_recovery_goals": 13,
+      "score": 16
+    },
+    {
+      "appearances": 24,
+      "clean": 42,
+      "goals": 11,
+      "all_recovery_goals": 19,
+      "score": 20
+    }
+  ],
+  "values": [
+    0.15476190476190477,
+    1.2272727272727273,
+    0.3846153846153846,
+    0.5238095238095238
+  ]
+}

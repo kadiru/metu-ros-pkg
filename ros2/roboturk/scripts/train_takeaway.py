@@ -193,6 +193,10 @@ def main():
             for r in read(source / f"game-{i:03}.json")["recoveries"]:
                 if r["kind"] == "takeaway" and "goal" in r:
                     choices.append((seed, r["sample"], i, r))
+            # The registration selects the earliest seed. Later completed games
+            # cannot change which verified goal is recorded.
+            if choices:
+                break
         if not choices:
             raise ValueError("No fresh clean-takeaway goal")
         seed, _, slot, moment = min(choices, key=lambda item: item[:2])

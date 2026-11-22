@@ -13,7 +13,13 @@ The work spans hardware/software integration and path-planning experiments: how 
 
 ## Robot soccer in Webots
 
-In the modern ROS 2 successor to this stack, two teams of three train by playing each other in Webots. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/a439b168c34a34714aa319ece425971c19314744/ros2/roboturk)
+In the modern ROS 2 successor to this stack, two teams of three train by playing each other in Webots. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/59fa891a1b24fed4fcd8c10c7f741b0c918f339d/ros2/roboturk)
+
+### Reconsidering the pass
+
+Watch Blue 2 at 6.84 seconds. On the left, a defender intercepts the original pass. On the right, the carrier switches from receiver 1 to 0 and the team scores. Both replays agree through the moment of the decision. [Delay, switch and dribble in fresh matches](https://github.com/kadiru/metu-ros-pkg/blob/59fa891a1b24fed4fcd8c10c7f741b0c918f339d/ros2/roboturk/media/pass-release/release-choices.gif) · [Full fresh match](https://github.com/kadiru/metu-ros-pkg/blob/59fa891a1b24fed4fcd8c10c7f741b0c918f339d/ros2/roboturk/media/pass-release/open-play-match.mp4) · [Results and all 43 original interceptions](https://github.com/kadiru/metu-ros-pkg/tree/59fa891a1b24fed4fcd8c10c7f741b0c918f339d/ros2/roboturk/policies/pass_release_v1)
+
+[![The same release opportunity ends in an interception or a goal in native Webots.](../../docs/assets/roboturk-webots/reconsider-release.gif)](https://github.com/kadiru/metu-ros-pkg/blob/59fa891a1b24fed4fcd8c10c7f741b0c918f339d/ros2/roboturk/media/pass-release/same-possession.mp4)
 
 ### A teammate with a better shot
 

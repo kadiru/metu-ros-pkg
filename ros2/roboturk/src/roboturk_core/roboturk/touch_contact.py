@@ -11,11 +11,11 @@ from .transition_attack import unit
 def forecast(world, actor, rival, commands, p):
     """Forecast a short contact interval with the observed rival velocity and body geometry."""
     n = len(commands)
-    xyz = np.tile([actor.x, actor.y], (n, 1))
-    yaw = np.full(n, actor.yaw)
-    ball = np.tile([world.ball.x, world.ball.y], (n, 1))
-    v = np.tile([world.ball.vx, world.ball.vy], (n, 1))
-    enemy = np.tile([rival.x, rival.y], (n, 1))
+    xyz = np.tile(np.array([actor.x, actor.y], dtype=float), (n, 1))
+    yaw = np.full(n, actor.yaw, dtype=float)
+    ball = np.tile(np.array([world.ball.x, world.ball.y], dtype=float), (n, 1))
+    v = np.tile(np.array([world.ball.vx, world.ball.vy], dtype=float), (n, 1))
+    enemy = np.tile(np.array([rival.x, rival.y], dtype=float), (n, 1))
     other_yaw = rival.yaw
     local = np.array([(c.vx, c.vy) for c in commands])
     turns = np.array([c.omega for c in commands])

@@ -1,0 +1,160 @@
+{
+  "case": {
+    "seed": 18300024,
+    "source": "historical branch",
+    "trained": {
+      "sample": 639,
+      "winner": 2,
+      "kind": "takeaway",
+      "team": "blue",
+      "outcome": "goal",
+      "end": 1127,
+      "goal": 1127,
+      "scorer": 0,
+      "passes": [
+        178
+      ]
+    },
+    "release_decision": {
+      "sample": 639,
+      "tick": 171,
+      "team": "blue",
+      "actor": 2,
+      "action": 2,
+      "intended": 1,
+      "alternative": 0,
+      "released_to": 0,
+      "release_tick": 178,
+      "completed": true,
+      "outcome": "goal",
+      "goal": 1127,
+      "end": 1127
+    },
+    "slot": 23,
+    "sample": 639,
+    "identical_samples": 684,
+    "counterfactual": true,
+    "old_slot": 40,
+    "old": {
+      "sample": 639,
+      "winner": 2,
+      "kind": "takeaway",
+      "team": "blue",
+      "outcome": "opponent touch",
+      "end": 760
+    },
+    "old_pass": {
+      "receiver": 1,
+      "slot": 1,
+      "features": [
+        [
+          0.32463361018015274,
+          0.38688692162767163,
+          -0.034663069407835145,
+          0.09707320903577858,
+          -0.6731552099541249,
+          0.9657910334649632
+        ],
+        [
+          0.27839761136718955,
+          0.16707820434865284,
+          0.41643506944440645,
+          0.4484301327702126,
+          0.9999774783051966,
+          0.9986219397948527
+        ]
+      ],
+      "probability": 0.26921661761595916,
+      "tick": 171,
+      "team": "blue",
+      "passer": 2,
+      "ball": [
+        -3.9101461065334444,
+        0.05290818315031089
+      ],
+      "result": "intercepted",
+      "end": 190,
+      "reward": -1
+    }
+  },
+  "trained": {
+    "seed": 18300024,
+    "trained_moment": {
+      "sample": 639,
+      "winner": 2,
+      "kind": "takeaway",
+      "team": "blue",
+      "outcome": "goal",
+      "end": 1127,
+      "goal": 1127,
+      "scorer": 0,
+      "passes": [
+        178
+      ]
+    },
+    "model": 1,
+    "exact_events": true,
+    "exact_trajectory": true,
+    "physical_samples": 1900,
+    "decision": {
+      "sample": 639,
+      "tick": 171,
+      "team": "blue",
+      "actor": 2,
+      "action": 2,
+      "intended": 1,
+      "alternative": 0,
+      "released_to": 0,
+      "release_tick": 178,
+      "completed": true,
+      "outcome": "goal",
+      "goal": 1127,
+      "end": 1127
+    },
+    "source": "historical branch"
+  },
+  "previous": {
+    "seed": 18300024,
+    "trained_moment": {
+      "sample": 639,
+      "winner": 2,
+      "kind": "takeaway",
+      "team": "blue",
+      "outcome": "goal",
+      "end": 1127,
+      "goal": 1127,
+      "scorer": 0,
+      "passes": [
+        178
+      ]
+    },
+    "model": 0,
+    "exact_events": true,
+    "exact_trajectory": true,
+    "physical_samples": 9000,
+    "decision": {
+      "sample": 639,
+      "tick": 171,
+      "team": "blue",
+      "actor": 2,
+      "action": 2,
+      "intended": 1,
+      "alternative": 0,
+      "released_to": 0,
+      "release_tick": 178,
+      "completed": true,
+      "outcome": "goal",
+      "goal": 1127,
+      "end": 1127
+    },
+    "source": "historical branch"
+  },
+  "sha256": "5e43fc7e8f5742309a633449710611a874645ffe3968d7c99816670cb66ecd0d",
+  "gif": {
+    "file": "same-possession.gif",
+    "frames": 79,
+    "seconds": 6.32,
+    "fps": 12.5,
+    "sha256": "4de008b4de658deb2c14ff4930fb53b4f5741627325fdf8357c722274aaceb15"
+  }
+}

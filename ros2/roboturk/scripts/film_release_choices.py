@@ -1,4 +1,4 @@
-"""Show actual release choices from a single independently verified fresh match."""
+"""Show actual release choices from independently verified fresh matches."""
 
 import argparse
 import tempfile
@@ -17,19 +17,31 @@ def main():
     p.add_argument("media", type=Path)
     a = p.parse_args()
     case = read(a.demo / "full.json")
-    replay = a.demo / "full"
-    check = read(replay / "replay.json")
-    assert check["exact_events"] and check["exact_trajectory"]
-    game = read(replay / "game-000.json")
-    s = trace(replay / "game-000.json")
-    clips = case["clips"]
-    assert clips and game["seed"] == case["seed"]
+    clips = [dict(folder="full", seed=case["seed"], decision=d) for d in case["clips"]]
+    clips.extend(
+        dict(folder=e["folder"], seed=e["seed"], decision=e["release_decision"])
+        for e in case["extras"]
+    )
+    clips.sort(key=lambda clip: clip["decision"]["action"])
+    assert clips
+    receipts = {}
     a.media.mkdir(parents=True, exist_ok=True)
     movie = a.media / "release-choices.mp4"
     with tempfile.TemporaryDirectory() as directory:
         tmp = Path(directory)
         n = 0
-        for d in clips:
+        for clip in clips:
+            d = clip["decision"]
+            replay = a.demo / clip["folder"]
+            check = read(replay / "replay.json")
+            assert (
+                check["exact_events"]
+                and check["exact_trajectory"]
+                and check["seed"] == clip["seed"]
+            )
+            receipts[clip["folder"]] = check
+            game = read(replay / "game-000.json")
+            s = trace(replay / "game-000.json")
             title = {1: "Delay the pass", 2: "Switch receivers", 3: "Keep dribbling"}[d["action"]]
             team = d["team"].title()
             actor = d["actor"]
@@ -86,7 +98,13 @@ def main():
                     )
                     draw = ImageDraw.Draw(img)
                     draw.text((12, 5), title, font=font(25), fill="white")
-                    draw.text((754, 9), f"{t:.2f} s", font=font(18), anchor="ra", fill="white")
+                    draw.text(
+                        (754, 9),
+                        f"Kickoff {game['seed']}  /  {t:.2f} s",
+                        font=font(18),
+                        anchor="ra",
+                        fill="white",
+                    )
                     caption = f"{team} {actor} prepares a pass to {d['intended']}"
                     if t >= d["tick"] * 0.04:
                         caption = {
@@ -123,7 +141,7 @@ def main():
     gif = make_gif(movie, movie.with_suffix(".gif"), 0, n / 12.5, 12.5)
     save(
         a.media / "release-choices.json",
-        dict(seed=game["seed"], choices=clips, replay=check, sha256=digest(movie), gif=gif),
+        dict(choices=clips, replays=receipts, sha256=digest(movie), gif=gif),
     )
 
 

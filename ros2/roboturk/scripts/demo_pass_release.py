@@ -71,7 +71,7 @@ def select_case(out, control, new, historical):
             rank = (
                 not (d["action"] in (1, 2) and d["completed"]),
                 not d["completed"],
-                hist,
+                not hist,
                 g["seed"],
                 d["tick"],
             )
@@ -99,7 +99,7 @@ def select_case(out, control, new, historical):
                 chosen.append((rank, entry))
     if not chosen or not fresh:
         raise ValueError("No matched interception-to-goal or fresh scoring decision found")
-    # Prefer an actual switched or delayed pass and goal, then an independent fresh pair.
+    # Prefer an actual switched or delayed pass and goal, then one of the original 43 interceptions.
     best = min(chosen, key=lambda v: v[0])[1]
 
     def coverage(item):
@@ -116,11 +116,44 @@ def select_case(out, control, new, historical):
     full = full | dict(clips=full_choices[full["slot"]])
     out.mkdir(parents=True, exist_ok=True)
     save(out / "selected.json", best)
-    save(out / "full.json", full)
+    extras = []
+    for action in (1, 2, 3):
+        if any(d["action"] == action for d in full["clips"]):
+            continue
+        options = [
+            (slot, d)
+            for slot, items in full_choices.items()
+            for d in items
+            if d["action"] == action
+        ]
+        if not options:
+            continue
+        slot, d = max(options, key=lambda x: (x[1]["completed"], x[1]["goal"] is not None, -x[0]))
+        game = read(new / f"game-{slot:03}.json")
+        chain = next(
+            r for r in game["recoveries"] if r["sample"] == d["sample"] and r["team"] == d["team"]
+        )
+        extras.append(
+            dict(
+                seed=game["seed"],
+                slot=slot,
+                new_folder=str(new.resolve()),
+                source="fresh mirrors",
+                trained=chain,
+                release_decision=d,
+                folder=f"extra-{action}",
+            )
+        )
+    save(out / "full.json", full | dict(extras=extras))
 
 
-def record(folder, mode):
-    case = read(folder / ("full.json" if mode == "full" else "selected.json"))
+def record(folder, mode, case=None):
+    if mode == "extras":
+        for extra in read(folder / "full.json")["extras"]:
+            record(folder, extra["folder"], extra)
+        return
+    if case is None:
+        case = read(folder / ("full.json" if mode == "full" else "selected.json"))
     old = mode == "previous"
     src = Path(case["old_folder" if old else "new_folder"])
     idx = case["old_slot" if old else "slot"]
@@ -162,7 +195,7 @@ def record(folder, mode):
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("mode", choices=["find", "previous", "trained", "full"])
+    p.add_argument("mode", choices=["find", "previous", "trained", "full", "extras"])
     p.add_argument("folder", type=Path)
     p.add_argument("--control", type=Path)
     p.add_argument("--new", type=Path)

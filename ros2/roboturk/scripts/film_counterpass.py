@@ -96,7 +96,19 @@ def main():
                 bx, by = pixel(s[max(0, round(sec * 100)), :2])
                 mark = ImageDraw.Draw(img)
                 mark.ellipse((bx - 10, by - 10, bx + 10, by + 10), outline="#f4cb76", width=2)
-                img = img.crop(crop).resize((566, 360), Image.Resampling.LANCZOS)
+                view = crop
+                if decision:
+                    # Follow long counterattacks at a constant scale. Both views use only
+                    # past ball samples, so the camera agrees up to the original kick.
+                    tick = max(0, round(sec * 100))
+                    center = s[max(0, tick - 22) : tick + 1, :2].mean(axis=0)
+                    cx, cy = pixel(center)
+                    w, h = 490, 312
+                    cx += 35 if goal_x > 0 else -35
+                    left = round(np.clip(cx - w / 2, 150, 1130 - w))
+                    top = round(np.clip(cy - h / 2, 52, 660 - h))
+                    view = (left, top, left + w, top + h)
+                img = img.crop(view).resize((566, 360), Image.Resampling.LANCZOS)
                 x = k * 576 + 5
                 frame.paste(img, (x, 38))
                 d.text((x + 7, 5), label, font=font(23), fill="white")

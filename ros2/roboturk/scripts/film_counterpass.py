@@ -21,26 +21,32 @@ def main():
     prior = read(a.demo / "previous/replay.json")
     current = read(a.demo / "trained/replay.json")
     assert all(x["exact_events"] and x["exact_trajectory"] for x in (prior, current))
+    decision = case.get("release_decision")
     sides = []
     for key, r, label in [
-        ("previous", case["old"], "73-goal finish"),
-        ("trained", case["trained"], "Learned team decision"),
+        ("previous", case["old"], "248-goal team" if decision else "73-goal finish"),
+        ("trained", case["trained"], "New release policy" if decision else "Learned team decision"),
     ]:
         folder = a.demo / key
         g = read(folder / "game-000.json")
         s = trace(folder / "game-000.json")
         shot = next(
-            e
-            for e in reversed(g["events"])
-            if e["event"] == "kick"
-            and e["team"] == r["team"]
-            and e["speed"] == 4
-            and r["sample"] <= 4 * e["tick"] <= r["end"]
+            (
+                e
+                for e in reversed(g["events"])
+                if e["event"] == "kick"
+                and e["team"] == r["team"]
+                and e["speed"] == 4
+                and r["sample"] <= 4 * e["tick"] <= r["end"]
+            ),
+            None,
         )
         sides.append((folder, r, label, g, s, shot))
     through = case["identical_samples"]
     assert np.array_equal(sides[0][4][:through], sides[1][4][:through])
     start = max(0, (case["sample"] + 1) / 100 - 1.0)
+    if decision:
+        start = max(start, 0.04 * decision["tick"] - 0.85)
     end = min(90, max(x[1]["end"] + 1 for x in sides) / 100 + 1.0)
     # Lock both cameras to the same region, including both ball paths and the goal.
     points = [
@@ -49,6 +55,8 @@ def main():
         for point in states[round(start * 100) : r["end"] + 1, :2]
     ]
     goal_x = 4.5 if case["trained"]["team"] == "blue" else -4.5
+    if case["seed"] % 2:
+        goal_x = -goal_x
     points.extend(pixel((goal_x, y)) for y in (-0.5, 0.5))
     low, high = np.min(points, axis=0), np.max(points, axis=0)
     width = min(928, max(480, high[0] - low[0] + 90, (high[1] - low[1] + 60) * 566 / 360))
@@ -102,17 +110,29 @@ def main():
                 caption = "Same possession"
                 if 100 * t >= r["sample"] + 1:
                     caption = f"{team} {r['winner'] % 3} wins the ball"
+                if decision and 100 * t >= 4 * decision["tick"]:
+                    if k == 0:
+                        caption = f"{team} {decision['actor']} passes to {decision['intended']}"
+                    else:
+                        caption = [
+                            "Release the pass",
+                            f"Delay the pass to {decision['intended']}",
+                            f"Switch from {decision['intended']} to {decision['alternative']}",
+                            f"{team} {decision['actor']} keeps dribbling",
+                        ][decision["action"]]
                 for ps in (p for p in g["passes"] if p["tick"] in r.get("passes", [])):
                     if 100 * t >= 4 * ps["tick"]:
                         caption = f"{team} {ps['passer']} leads {team} {ps['receiver']}"
                     if 100 * t >= 4 * (ps["end"] + 1):
                         caption = f"{team} {ps['receiver']} controls the pass"
-                if 100 * t >= 4 * shot["tick"]:
+                if shot and 100 * t >= 4 * shot["tick"]:
                     caption = f"{team} {shot['robot']} shoots"
                 if 100 * t >= r["end"] + 1:
                     caption = {
                         "goal": f"Goal for {team}",
-                        "opponent touch": "Opponent touches the ball",
+                        "opponent touch": "Pass intercepted"
+                        if decision and k == 0
+                        else "Opponent touches the ball",
                         "ball out": "Shot goes out",
                     }[r["outcome"]]
                 d.text((x + 8, 402), caption, font=font(21), fill="#f4cb76")

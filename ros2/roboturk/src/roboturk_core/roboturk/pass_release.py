@@ -3,6 +3,8 @@
 from dataclasses import replace
 import math
 
+import numpy as np
+
 from .counterpass import DistributionGame, carry, clearance, routes
 from .model import RobotKey, wrap
 from .takeaway import select
@@ -56,6 +58,18 @@ def release_features(world, actor, receiver, target, alternate):
     ]
 
 
+def choose_release(model, obs):
+    if "examples" not in model:
+        return select(model, obs)
+    delta = (np.asarray(model["examples"]) - obs) / model["scale"]
+    distance2 = np.mean(np.minimum(delta * delta, 9), axis=1)
+    nearest = np.argsort(distance2, kind="stable")[: model["neighbors"]]
+    weights = np.exp(-distance2[nearest] / model["bandwidth"])
+    values = weights @ np.asarray(model["advantages"])[nearest]
+    values[0] += model["release_prior"]
+    return int(np.argmax(values))
+
+
 class ReleaseGame(DistributionGame):
     def __init__(self, *args, release_tick=None, **kwargs):
         self.release_tick = release_tick
@@ -89,7 +103,7 @@ class ReleaseGame(DistributionGame):
         options = routes(self.world, actor)
         alternate = next(row for row in options if row[1].key != receiver.key)
         obs = release_features(self.world, actor, receiver, c["target"], alternate)
-        action = select(model, obs)
+        action = choose_release(model, obs)
         review = dict(
             tick=self.tick,
             sample=c["sample"],

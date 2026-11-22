@@ -108,7 +108,7 @@ def run(mode, folder, checkpoint, workers, resume):
         else read(checkpoint)
         if mode == "dev"
         else []
-        if mode == "control"
+        if mode in ("control", "dev-control")
         else [read(checkpoint)]
     )
     if mode in ("evaluate", "historical", "control"):
@@ -125,6 +125,8 @@ def run(mode, folder, checkpoint, workers, resume):
                 jobs.append(
                     (r["seed"], b, y, min(90, math.ceil(0.04 * r["tick"] + 12)), r["tick"], r)
                 )
+    elif mode == "dev-control":
+        jobs.extend((plan["dev_first"] + i, 0, 0, 60, None, None) for i in range(6))
     elif mode == "dev":
         for i in range(6):
             for j in range(1, len(candidates) + 1):
@@ -138,7 +140,7 @@ def run(mode, folder, checkpoint, workers, resume):
                 else [(1, 1)] + ([(0, 1), (1, 0)] if i < plan["mixed_starts"] else [])
             )
             jobs.extend((plan["fresh_first"] + i, b, y, 90, None, None) for b, y in sides)
-    world = INCUMBENT_WORLD if mode == "control" else WORLD
+    world = INCUMBENT_WORLD if mode in ("control", "dev-control") else WORLD
     cfg = dict(
         root=str(ROOT),
         world=str(world.relative_to(ROOT)),
@@ -174,7 +176,10 @@ def run(mode, folder, checkpoint, workers, resume):
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("mode", choices=["audit", "train", "dev", "control", "evaluate", "historical"])
+    p.add_argument(
+        "mode",
+        choices=["audit", "train", "dev", "dev-control", "control", "evaluate", "historical"],
+    )
     p.add_argument("folder", type=Path)
     p.add_argument("--checkpoint", type=Path, default=DEST / "policy.json")
     p.add_argument("--workers", type=int, choices=range(1, 9), default=4)

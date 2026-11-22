@@ -2,7 +2,7 @@
   "baseline": "policies/counterpass_v1/policy.json",
   "archive": "policies/counterpass_v1/evaluation",
   "training": "Audit every archived clean-takeaway pass. From each of the intercepted, completed and other outcomes, choose up to 24, 24 and 5 attempts, spaced over kickoff and time. Reproduce each physical prefix and explore delay (0.32 s, same receiver), switch, or carry. The original action supplies the release arm. Score through the next opposing touch, stoppage or 12 s; preserve the original regulation clock.",
-  "development": "Six separate 60-second kickoffs with mirrors and both colors versus the incumbent. Select from fitted trees using goals, interceptions, verified passing and head-to-head goal difference.",
+  "development": "Six separate 60-second kickoffs with mirrors and both colors versus the incumbent. Select from fitted trees and local action values using goals, interceptions, verified passing and head-to-head goal difference.",
   "dev_first": 19200000,
   "fresh_first": 19300000,
   "fresh_starts": 40,

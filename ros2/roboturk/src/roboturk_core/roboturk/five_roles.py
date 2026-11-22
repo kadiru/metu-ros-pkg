@@ -1,0 +1,201 @@
+"""State-dependent 5v5 tactics. Robot IDs persist as field roles change."""
+
+from dataclasses import dataclass
+from itertools import permutations
+import math
+import random
+
+from .model import Ball, Config, Referee, Robot, RobotKey, World, possession
+
+CFG = Config(dt=0.04)
+TEAMS = ("blue", "yellow")
+
+
+def limit(value, bound):
+    return max(-bound, min(bound, value))
+
+
+def kickoff(seed, serving, direction, time=0.0):
+    rng = random.Random(seed)
+    robots = []
+    for team in TEAMS:
+        sign = direction if team == "blue" else -direction
+        positions = [
+            (-4.18, 0),
+            (-0.115 if team == serving else -0.62, 0),
+            (-0.75, 1.55),
+            (-1.14, -1.45),
+            (-2.45, 0.1),
+        ]
+        ids = list(range(1, 5))
+        rng.shuffle(ids)
+        for j, ((x, y), number) in enumerate(zip(positions, [0, *ids], strict=True)):
+            if j > 1:
+                x += rng.uniform(-0.34, 0.34)
+                y += rng.uniform(-0.42, 0.42)
+            robots.append(
+                Robot(RobotKey(team, number), sign * x, sign * y, 0 if sign > 0 else math.pi)
+            )
+    return World(
+        time, tuple(sorted(robots, key=lambda r: r.key)), Ball(0, 0), Referee.RUNNING, direction
+    )
+
+
+@dataclass(frozen=True)
+class Assignment:
+    role: str
+    target: tuple[float, float]
+
+
+@dataclass(frozen=True)
+class Flight:
+    team: str
+    receiver: RobotKey
+    target: tuple[float, float]
+    expires: float
+
+
+class FiveRoles:
+    def __init__(self):
+        self.previous = {}
+        self.flight = None
+        self.control = None
+        self.last_touch = -10.0
+        self.candidate = None
+        self.samples = 0
+        self.contested = 0
+        self.contain = None
+        self.contain_until = 0.0
+
+    def observe(self, world):
+        holders = [r.key for r in world.robots if possession(world, r.key, CFG)]
+        both = len({k.team for k in holders}) == 2
+        self.contested = self.contested + 1 if both else 0
+        if self.contain and world.time >= self.contain_until:
+            self.contain = None
+        if self.contested >= 4 and self.contain is None:
+            # On a double touch, the field player with the worse grip drops goal-side
+            # to contain the opponent. Contact geometry decides who disengages.
+            def grip_error(key):
+                r = world.robot(key)
+                return math.hypot(
+                    world.ball.x - r.x - CFG.possession_x * math.cos(r.yaw),
+                    world.ball.y - r.y - CFG.possession_x * math.sin(r.yaw),
+                )
+
+            field_players = [k for k in holders if k.id != 0]
+            if field_players:
+                self.contain = max(field_players, key=grip_error)
+                self.contain_until = world.time + 0.72
+                self.contested = 0
+        sole = holders[0] if len(holders) == 1 else None
+        self.samples = self.samples + 1 if sole == self.candidate else 1
+        self.candidate = sole
+        if sole and self.samples >= 3:
+            if sole == self.contain:
+                self.contain = None
+            self.control = sole
+            self.last_touch = world.time
+            if self.flight and (sole.team != self.flight.team or sole == self.flight.receiver):
+                self.flight = None
+        if self.flight and world.time >= self.flight.expires:
+            self.flight = None
+        if world.time - self.last_touch > 0.32:
+            self.control = None
+        return sole
+
+    def assign(self, world, team):
+        players = sorted((r for r in world.robots if r.key.team == team), key=lambda r: r.key.id)
+        if len(players) != 5 or players[0].key.id != 0:
+            raise ValueError("Five-player teams require a designated goalkeeper with ID 0")
+        sign = world.direction(team)
+        bx, by = sign * world.ball.x, sign * world.ball.y
+
+        def field(x, y):
+            return sign * limit(x, 4.30), sign * limit(y, 2.73)
+
+        keeper = players[0].key
+        positions = {keeper: Assignment("Keeper", field(-4.23, limit(by * 0.48, 0.49)))}
+        if bx < -3.57 and abs(by) < 1.0:
+            r = players[0]
+            angle = math.atan2(world.ball.y - r.y, world.ball.x - r.x)
+            positions[keeper] = Assignment(
+                "Keeper",
+                (world.ball.x - 0.105 * math.cos(angle), world.ball.y - 0.105 * math.sin(angle)),
+            )
+        team_in_control = (
+            self.flight.team if self.flight else self.control.team if self.control else None
+        )
+        forced = None
+        if team_in_control == team:
+            phase = "Attack"
+            if self.flight:
+                primary = "Receiver"
+                main = self.flight.target
+                forced = self.flight.receiver
+            elif self.control != keeper:
+                primary = "Carrier"
+                main = (world.ball.x, world.ball.y)
+                forced = self.control
+            else:
+                primary = "Outlet"
+                main = field(bx + 1.45, by * 0.3)
+            roles = {
+                primary: main,
+                "Left wing": field(bx + 1.32, max(0.80, 1.45 + 0.34 * by)),
+                "Right wing": field(bx + 1.32, min(-0.80, -1.45 + 0.34 * by)),
+                "Anchor": field(bx - 1.35, by * 0.48),
+            }
+        elif team_in_control is not None:
+            phase = "Defend"
+            rivals = [
+                r
+                for r in world.robots
+                if r.key.team != team and r.key.id != 0 and r.key != self.control
+            ]
+            threat = min(rivals, key=lambda r: math.hypot(sign * r.x + 4.5, r.y))
+            roles = {
+                "Presser": field(bx, by),
+                "Marker": field(sign * threat.x - 0.31, sign * threat.y * 0.94),
+                "Screen": field(bx * 0.64 - 1.40, by * 0.64),
+                "Cover": field(bx * 0.28 - 2.94, by * 0.28),
+            }
+        else:
+            phase = "Recover"
+            roles = {
+                "Chaser": field(bx, by),
+                "Left wing": field(bx + 0.65, 1.45 + 0.25 * by),
+                "Right wing": field(bx + 0.65, -1.45 + 0.25 * by),
+                "Cover": field(bx * 0.45 - 2.08, by * 0.42),
+            }
+        if phase != "Attack" and abs(bx) > 3.64 and abs(by) < 0.99:
+            # Leave room for the designated keeper to collect. The nearest field
+            # player covers the return lane at the edge of the goal area.
+            primary = next(iter(roles))
+            roles = {
+                "Block outlet" if bx > 0 else "Guard box": field(math.copysign(3.48, bx), by),
+                **{n: p for n, p in roles.items() if n != primary},
+            }
+        if self.contain and self.contain.team == team and phase != "Attack":
+            primary = next(iter(roles))
+            roles = {
+                "Contain": field(bx - 0.54, by * 0.94),
+                **{n: p for n, p in roles.items() if n != primary},
+            }
+            forced = self.contain
+        names = tuple(roles)
+        # The small roster permits an exact minimum-cost bijection, with a travel
+        # penalty for giving up a role. Possession and intended reception take priority.
+        costs = {
+            (r.key, name): math.dist((r.x, r.y), target)
+            + (0.42 if r.key in self.previous and self.previous[r.key] != name else 0)
+            for r in players[1:]
+            for name, target in roles.items()
+        }
+        allowed = (
+            order for order in permutations(players[1:]) if forced is None or order[0].key == forced
+        )
+        match = min(allowed, key=lambda order: sum(costs[r.key, n] for r, n in zip(order, names)))
+        positions.update({r.key: Assignment(n, roles[n]) for r, n in zip(match, names)})
+        self.previous.update({k: a.role for k, a in positions.items()})
+        return phase, positions

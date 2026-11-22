@@ -15,12 +15,22 @@ def main():
     p.add_argument("folder", type=Path)
     p.add_argument("--workers", type=int, choices=(1, 2, 3, 4), default=2)
     p.add_argument("--extra", action="store_true")
+    p.add_argument("--finish-search", action="store_true")
+    p.add_argument("--sprint-search", action="store_true")
     a = p.parse_args()
     base = read(OLD / "policy.json")
     actions = (
         list(range(len(MODES), len(MODES) + len(EXTRA))) if a.extra else list(range(len(MODES)))
     )
     models = [base | dict(takeaway_tree=dict(action=i)) for i in actions] + [base]
+    profiles = []
+    if a.finish_search or a.sprint_search:
+        name = "sprint-search" if a.sprint_search else "finish-search"
+        profiles = read(ROOT / f"policies/takeaway_v1/{name}.json")["profiles"]
+        actions = [9] * len(profiles)
+        models = [base | dict(takeaway_tree=dict(action=9), escape_finish=v) for v in profiles] + [
+            base
+        ]
     cases = historical()
     schedule = []
     starts = []
@@ -45,6 +55,7 @@ def main():
         webots_sha256=sha(WEBOTS),
         press=True,
         record=False,
+        finish_search=bool(profiles),
     )
     save(d / "launch.json", cfg)
     native.WORLD = WORLD
@@ -70,6 +81,7 @@ def main():
                 action=decision["action"],
                 x=decision["x"],
                 matched_samples=prefix,
+                **(dict(profile=i % len(profiles)) if profiles else {}),
                 **row,
             )
         )

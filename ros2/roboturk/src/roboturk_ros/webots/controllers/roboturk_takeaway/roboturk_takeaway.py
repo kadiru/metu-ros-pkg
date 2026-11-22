@@ -24,6 +24,11 @@ def read(path):
 
 def run(sim, folder):
     cfg = read(folder / "launch.json")
+    cls = InterceptGame
+    if cfg.get("finish_search"):
+        from roboturk.takeaway_finish import FinishGame
+
+        cls = FinishGame
     root = Path(cfg["root"])
     torch.set_num_threads(1)
     motor = LearnedPass(root / "policies/strategy_self_play_v1/preparation/pass-motor-v5/policy.pt")
@@ -43,7 +48,7 @@ def run(sim, folder):
     for i in [int(case)] if case is not None else range(cfg["cases"]):
         seed, blue, yellow = cfg["schedule"][i]
         teams = dict(blue=cfg["models"][blue], yellow=cfg["models"][yellow])
-        game = InterceptGame(
+        game = cls(
             backend,
             motor,
             weights,

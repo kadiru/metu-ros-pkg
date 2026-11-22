@@ -1,0 +1,11 @@
+{
+  "purpose": "Targeted repair experiment on the three old failures. This calibration uses their outcomes and is excluded from fitting and evaluation of the general policy on the 40 fresh starts.",
+  "profiles": [
+    {"margin": 0.29, "centering": 0, "handoff_ticks": 250},
+    {"margin": 0.15, "centering": 2.5, "handoff_ticks": 250},
+    {"margin": 0.22, "centering": 1.0, "handoff_ticks": 23},
+    {"margin": 0.18, "centering": 2.5, "handoff_ticks": 44},
+    {"margin": 0.08, "centering": 4.0, "handoff_ticks": 72}
+  ],
+  "selection": "Choose one profile by the number of goals from the same three clean takeaways against the original opponents. Break ties by profile order. These historical training returns are not an independent test."
+}

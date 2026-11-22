@@ -27,6 +27,27 @@ def fit(x, choices, reward, n, depth, minimum, penalty):
         best = None
         for j in range(x.shape[1]):
             for value in np.unique(np.quantile(x[:, j], [0.20, 0.35, 0.50, 0.65, 0.80])):
+                # Use thresholds at physical measurement resolution, including around zero.
+                step = (
+                    0.03,
+                    0.03,
+                    0.03,
+                    0.003,
+                    0.003,
+                    0.003,
+                    0.003,
+                    0.003,
+                    0.003,
+                    0.03,
+                    0.03,
+                    0.2,
+                    0.2,
+                    0.03,
+                    0.03,
+                    0.03,
+                    0.03,
+                )[j]
+                value = (np.floor(value / step) + 0.5) * step
                 mask = x[:, j] <= value
                 if (
                     min(np.bincount(choices[mask], minlength=n)) < minimum

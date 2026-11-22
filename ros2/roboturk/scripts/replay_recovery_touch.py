@@ -19,6 +19,7 @@ def record(src, slot, dst, exe):
         WORLD.with_name("ssl_touch_planner.wbt"),
         WORLD.with_name("ssl_touch_escape.wbt"),
         WORLD.with_name("ssl_early_outlet.wbt"),
+        WORLD.with_name("ssl_clean_recovery.wbt"),
     ):
         raise ValueError("Unexpected recording world")
     run_matches(dst, cfg, exe, world, True)

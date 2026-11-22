@@ -30,11 +30,13 @@ def main():
     a = p.parse_args()
     old, new = [read(d / "audit.json")["rows"] for d in [a.previous, a.trained]]
     assert [r["seed"] for r in old] == [r["seed"] for r in new]
-    i = next(
+    slots = [
         i
         for i, (x, y) in enumerate(zip(old, new, strict=True))
         if x["prepass_loss"] and y["qualified"] and x["chain"]["winner"] == y["chain"]["winner"]
-    )
+    ]
+    # Select the fastest documented original loss among repaired openings.
+    i = min(slots, key=lambda j: old[j]["first_break"] - old[j]["chain"]["recovery"])
     a.pair.mkdir(parents=True, exist_ok=False)
     left, g = record(a.previous, i, (a.pair / "previous").resolve(), a.webots)
     right, h = record(a.trained, i, (a.pair / "trained").resolve(), a.webots)

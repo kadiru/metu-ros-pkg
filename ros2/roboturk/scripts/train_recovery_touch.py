@@ -118,6 +118,18 @@ def main():
             PRIOR / "freeze-2.json",
             PRIOR / "policy-2.json",
         ]
+        sources.extend(
+            ROOT / f"src/roboturk_core/roboturk/{name}.py"
+            for name in ["lead_audit", "lead_outlet", "recovery_attack", "recovery_camera"]
+        )
+        sources.extend(
+            ROOT / "scripts" / name
+            for name in [
+                "train_pressure_receive.py",
+                "train_recovery_transition.py",
+                "evolve_recovery_touch.py",
+            ]
+        )
         save(lock, {str(p.relative_to(ROOT)): sha(p) for p in sources})
         return
     frozen = a.mode in ("qualify", "control", "demo", "historical")

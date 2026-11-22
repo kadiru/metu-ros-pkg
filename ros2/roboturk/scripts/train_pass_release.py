@@ -102,15 +102,14 @@ def run(mode, folder, checkpoint, workers, resume):
             if mode == "train"
             else [r for r in rows if r["outcome"] == "intercepted"]
         )
-    candidates = (
-        [base | {"pass_release": {"action": j}} for j in (1, 2, 3)]
-        if mode == "train"
-        else read(checkpoint)
-        if mode == "dev"
-        else []
-        if mode in ("control", "dev-control")
-        else [read(checkpoint)]
-    )
+    if mode == "train":
+        candidates = [base | {"pass_release": {"action": action}} for action in (1, 2, 3)]
+    elif mode == "dev":
+        candidates = read(checkpoint)
+    elif mode in ("control", "dev-control"):
+        candidates = []
+    else:
+        candidates = [read(checkpoint)]
     if mode in ("evaluate", "historical", "control"):
         verify_lock(checkpoint.parent)
         assert (

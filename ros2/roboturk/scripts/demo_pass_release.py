@@ -12,6 +12,7 @@ from train_takeaway import run_matches
 def select_case(out, control, new, historical):
     chosen = []
     fresh = []
+    full_choices = {}
     base = {g["seed"]: (g, f) for g, f in all_games(control)}
     archive = ROOT / read(DEST / "protocol.json")["archive"]
     for g, f in all_games(new) + all_games(historical):
@@ -26,7 +27,28 @@ def select_case(out, control, new, historical):
             old = read(rf)
         else:
             old, rf = base[g["seed"]]
-        for d in review_outcomes(g):
+        reviews = review_outcomes(g)
+        if not hist:
+            clips = {}
+            for d in reviews:
+                a = d["action"]
+                if a == 0:
+                    continue
+                valid = (
+                    (
+                        d["release_tick"] is not None
+                        and d["released_to"] == (d["intended"] if a == 1 else d["alternative"])
+                    )
+                    if a in (1, 2)
+                    else d["goal"] is not None
+                )
+                if not valid:
+                    continue
+                quality = (d["completed"], d["goal"] is not None, -d["tick"])
+                if a not in clips or quality > clips[a][0]:
+                    clips[a] = (quality, d)
+            full_choices[int(f.stem[-3:])] = [item[1] for _, item in sorted(clips.items())]
+        for d in reviews:
             if d["action"] == 0 or d["goal"] is None:
                 continue
             r = next(
@@ -78,7 +100,19 @@ def select_case(out, control, new, historical):
         raise ValueError("No matched interception-to-goal or fresh scoring decision found")
     # Prefer an actual switched or delayed pass and goal, then an independent fresh pair.
     best = min(chosen, key=lambda v: v[0])[1]
-    full = best if best["source"] == "fresh mirrors" else min(fresh, key=lambda v: v[0])[1]
+
+    def coverage(item):
+        rank, entry = item
+        clips = full_choices[entry["slot"]]
+        return (
+            -len(clips),
+            -sum(c["completed"] for c in clips),
+            -sum(c["goal"] is not None for c in clips),
+            rank,
+        )
+
+    full = min(fresh, key=coverage)[1]
+    full = full | dict(clips=full_choices[full["slot"]])
     out.mkdir(parents=True, exist_ok=True)
     save(out / "selected.json", best)
     save(out / "full.json", full)

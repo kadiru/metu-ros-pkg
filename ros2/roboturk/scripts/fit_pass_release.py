@@ -1,6 +1,7 @@
 """Learn release-time decisions from matched native actions and full-match self-play."""
 
 import argparse
+import hashlib
 from collections import Counter
 from pathlib import Path
 
@@ -8,7 +9,7 @@ import numpy as np
 from roboturk.pass_release import choose_release
 from fit_counterpass import archive, tree_fit
 from roboturk.takeaway import select
-from train_pass_release import CTRL, DEST, ROOT, WORLD, all_games, attempts, read, save, sha
+from train_pass_release import CTRL, DEST, ROOT, WORLD, all_games, attempts, read, save, sha, trace
 
 
 def result(game, ref, duration):
@@ -53,7 +54,16 @@ def training_rows(folder):
             assert obs is None or obs == review["x"]
             obs = review["x"]
             results.append(result(g, ref, cfg["durations"][i]))
-        rows.append(dict(reference=ref, x=obs, results=results))
+        prefix = trace(old / ref["source"])[: 4 * ref["tick"]]
+        rows.append(
+            dict(
+                reference=ref,
+                x=obs,
+                results=results,
+                identical_samples=len(prefix),
+                prefix_sha256=hashlib.sha256(prefix.tobytes()).hexdigest(),
+            )
+        )
     return rows
 
 
@@ -229,7 +239,11 @@ def freeze(folder, out):
         )
 
     baseline = mirror_score(controls)
+    examples = read(out / "returns.json")
     for i, s in enumerate(stats, 1):
+        selected = {choose_release(cfg["models"][i]["pass_release"], row["x"]) for row in examples}
+        s["learned_actions"] = sorted(selected)
+
         m = mirror_score([g for g in games if g["blue_model"] == g["yellow_model"] == i])
         s["mirror"] = m
         s["development_checks"] = dict(
@@ -250,6 +264,7 @@ def freeze(folder, out):
     winner = max(
         range(len(stats)),
         key=lambda i: (
+            len(stats[i]["learned_actions"]) == 4,
             all(stats[i]["development_checks"].values()),
             stats[i].get("complete", 0) > 0,
             stats[i]["value"],

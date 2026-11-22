@@ -170,10 +170,20 @@ def historical(folder):
     cfg = read(folder / "launch.json")
     rows = []
     assert len(cfg["schedule"]) == 43 and (folder / "summary.json").exists()
+    from train_pass_release import DEST
+
+    used = {(r["reference"]["seed"], r["reference"]["tick"]) for r in read(DEST / "returns.json")}
     for i, (g, f) in enumerate(all_games(folder)):
         ref = cfg["references"][i]
         (d,) = review_outcomes(g)
-        rows.append(dict(reference=ref, decision=d, result=result(g, ref, cfg["durations"][i])))
+        rows.append(
+            dict(
+                reference=ref,
+                decision=d,
+                in_branch_training=(ref["seed"], ref["tick"]) in used,
+                result=result(g, ref, cfg["durations"][i]),
+            )
+        )
     return rows
 
 

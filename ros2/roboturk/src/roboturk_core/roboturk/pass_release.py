@@ -84,15 +84,12 @@ class ReleaseGame(DistributionGame):
             return out
         team = c["team"]
         model = self.teams[team].get("pass_release")
-        if (
-            model is None
-            or self.release_tick not in (None, self.tick)
-            and "release_review" not in c
-        ):
+        scheduled = self.release_tick in (None, self.tick) or "release_review" in c
+        if model is None or not scheduled:
             return out
         actor = self.world.robot(RobotKey(team, c["actor"]))
         cmd = out[actor.key]
-        if cmd.kick != 2.2 or plan["runner"] != c["recipient"]:
+        if cmd.kick != 2.2 or plan.get("runner") != c["recipient"]:
             return out
         if "release_review" in c:
             if self.tick < c["release_review"]["resume"]:

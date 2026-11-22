@@ -1,0 +1,182 @@
+[
+  {
+    "seed": 15305012,
+    "arm": 0,
+    "same_through_release": true,
+    "identical_prefix_samples": 1800,
+    "old_outcome": "goal without receiver shield",
+    "new_outcome": "goal without receiver shield",
+    "qualified": false
+  },
+  {
+    "seed": 15305012,
+    "arm": 1,
+    "same_through_release": true,
+    "identical_prefix_samples": 272,
+    "old_outcome": "goal without receiver shield",
+    "new_outcome": "goal without receiver shield",
+    "qualified": false
+  },
+  {
+    "seed": 15305012,
+    "arm": 2,
+    "same_through_release": true,
+    "identical_prefix_samples": 272,
+    "old_outcome": "goal without receiver shield",
+    "new_outcome": "goal without receiver shield",
+    "qualified": false
+  },
+  {
+    "seed": 15305012,
+    "arm": 3,
+    "same_through_release": true,
+    "identical_prefix_samples": 272,
+    "old_outcome": "goal without receiver shield",
+    "new_outcome": "goal without receiver shield",
+    "qualified": false
+  },
+  {
+    "seed": 15305012,
+    "arm": 4,
+    "same_through_release": true,
+    "identical_prefix_samples": 272,
+    "old_outcome": "goal without receiver shield",
+    "new_outcome": "goal without receiver shield",
+    "qualified": false
+  },
+  {
+    "seed": 15305019,
+    "arm": 0,
+    "same_through_release": true,
+    "identical_prefix_samples": 1800,
+    "old_outcome": "no uninterrupted finish",
+    "new_outcome": "no uninterrupted finish",
+    "qualified": false
+  },
+  {
+    "seed": 15305019,
+    "arm": 1,
+    "same_through_release": true,
+    "identical_prefix_samples": 260,
+    "old_outcome": "no uninterrupted finish",
+    "new_outcome": "no uninterrupted finish",
+    "qualified": false
+  },
+  {
+    "seed": 15305019,
+    "arm": 2,
+    "same_through_release": true,
+    "identical_prefix_samples": 260,
+    "old_outcome": "no uninterrupted finish",
+    "new_outcome": "no uninterrupted finish",
+    "qualified": false
+  },
+  {
+    "seed": 15305019,
+    "arm": 3,
+    "same_through_release": true,
+    "identical_prefix_samples": 260,
+    "old_outcome": "no uninterrupted finish",
+    "new_outcome": "no uninterrupted finish",
+    "qualified": false
+  },
+  {
+    "seed": 15305019,
+    "arm": 4,
+    "same_through_release": true,
+    "identical_prefix_samples": 260,
+    "old_outcome": "no uninterrupted finish",
+    "new_outcome": "no uninterrupted finish",
+    "qualified": false
+  },
+  {
+    "seed": 15305023,
+    "arm": 0,
+    "same_through_release": true,
+    "identical_prefix_samples": 1800,
+    "old_outcome": "no uninterrupted finish",
+    "new_outcome": "no uninterrupted finish",
+    "qualified": false
+  },
+  {
+    "seed": 15305023,
+    "arm": 1,
+    "same_through_release": true,
+    "identical_prefix_samples": 212,
+    "old_outcome": "no uninterrupted finish",
+    "new_outcome": "no uninterrupted finish",
+    "qualified": false
+  },
+  {
+    "seed": 15305023,
+    "arm": 2,
+    "same_through_release": true,
+    "identical_prefix_samples": 212,
+    "old_outcome": "no uninterrupted finish",
+    "new_outcome": "no uninterrupted finish",
+    "qualified": false
+  },
+  {
+    "seed": 15305023,
+    "arm": 3,
+    "same_through_release": true,
+    "identical_prefix_samples": 212,
+    "old_outcome": "no uninterrupted finish",
+    "new_outcome": "no uninterrupted finish",
+    "qualified": false
+  },
+  {
+    "seed": 15305023,
+    "arm": 4,
+    "same_through_release": true,
+    "identical_prefix_samples": 212,
+    "old_outcome": "no uninterrupted finish",
+    "new_outcome": "no uninterrupted finish",
+    "qualified": false
+  },
+  {
+    "seed": 15305034,
+    "arm": 0,
+    "same_through_release": true,
+    "identical_prefix_samples": 1800,
+    "old_outcome": "no uninterrupted finish",
+    "new_outcome": "no uninterrupted finish",
+    "qualified": false
+  },
+  {
+    "seed": 15305034,
+    "arm": 1,
+    "same_through_release": true,
+    "identical_prefix_samples": 412,
+    "old_outcome": "no uninterrupted finish",
+    "new_outcome": "no uninterrupted finish",
+    "qualified": false
+  },
+  {
+    "seed": 15305034,
+    "arm": 2,
+    "same_through_release": true,
+    "identical_prefix_samples": 412,
+    "old_outcome": "no uninterrupted finish",
+    "new_outcome": "pressured shield goal",
+    "qualified": true
+  },
+  {
+    "seed": 15305034,
+    "arm": 3,
+    "same_through_release": true,
+    "identical_prefix_samples": 412,
+    "old_outcome": "no uninterrupted finish",
+    "new_outcome": "no uninterrupted finish",
+    "qualified": false
+  },
+  {
+    "seed": 15305034,
+    "arm": 4,
+    "same_through_release": true,
+    "identical_prefix_samples": 412,
+    "old_outcome": "no uninterrupted finish",
+    "new_outcome": "pressured shield goal",
+    "qualified": true
+  }
+]

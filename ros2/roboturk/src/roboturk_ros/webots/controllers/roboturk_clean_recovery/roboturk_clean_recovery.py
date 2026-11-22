@@ -10,7 +10,7 @@ import numpy as np
 import torch
 
 from roboturk.touch_audit import touch_result
-from roboturk.early_outlet import EarlyOutletGame
+from roboturk.finish_touch import CleanRecoveryGame
 from roboturk.continuous_backend import ContinuousWebotsBackend
 from roboturk.recovery_camera import movie_camera
 from roboturk.strategy_pass import LearnedPass
@@ -42,7 +42,7 @@ def run(sim, folder):
     for i in [int(case)] if case is not None else range(cfg["cases"]):
         seed, blue, yellow = cfg["schedule"][i]
         teams = dict(blue=cfg["models"][blue], yellow=cfg["models"][yellow])
-        game = EarlyOutletGame(
+        game = CleanRecoveryGame(
             backend,
             motor,
             weights,

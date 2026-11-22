@@ -12,13 +12,19 @@ def main():
     p.add_argument("league", type=Path)
     p.add_argument("carrier", type=Path)
     p.add_argument("output", type=Path)
+    p.add_argument("--games", type=int, help="Use the first N scheduled matches")
     args = p.parse_args()
     anchor = read(ROOT / "policies/contest_outlet_v2/policy.json")["jaw"]
     q = np.asarray(anchor["q"])
     grams = np.tile(np.diag([2.0, 4.0, 4.0, 4.0, 4.0, 6.0, 6.0, 5.0]), (len(q), 1, 1))
     sums = np.zeros_like(q)
     support = np.zeros(len(q), dtype=int)
-    for file in sorted(args.league.glob("game-*.json")):
+    scheduled = read(args.league / "launch.json")["schedule"]
+    count = len(scheduled) if args.games is None else args.games
+    if not 1 <= count <= len(scheduled):
+        p.error("Invalid game count")
+    for index in range(count):
+        file = args.league / f"game-{index:03}.json"
         g = read(file)
         r = g["opening"]
         chain = r["chain"]
@@ -57,7 +63,7 @@ def main():
         dict(
             action_support=support.tolist(),
             estimated_return=residual.tolist(),
-            games=len(list(args.league.glob("game-*.json"))),
+            games=count,
         ),
     )
 

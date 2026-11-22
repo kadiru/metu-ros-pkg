@@ -16,6 +16,7 @@ def main():
     extra.append(trainer.ROOT / "src/roboturk_core/roboturk/early_outlet.py")
     extra.append(trainer.ROOT / "src/roboturk_core/roboturk/roller_rescue.py")
     extra.append(trainer.ROOT / "src/roboturk_core/roboturk/touch_context.py")
+    extra.append(trainer.ROOT / "src/roboturk_core/roboturk/finish_touch.py")
     args = sys.argv[1:]
     extra.append(trainer.ROOT / "src/roboturk_core/roboturk/touch_contact.py")
     if "--version" not in args:

@@ -55,6 +55,7 @@ def main():
     mode = p.add_mutually_exclusive_group()
     mode.add_argument("--watch", action="store_true")
     mode.add_argument("--record", action="store_true")
+    p.add_argument("--placement-batch", type=Path, help="Native placement experiment specification")
     a = p.parse_args()
     if a.seconds < 1:
         p.error("Use a positive duration")
@@ -75,6 +76,9 @@ def main():
                 seed=a.seed,
                 seconds=a.seconds,
                 record=a.record,
+                placement_batch=json.loads(a.placement_batch.read_text())
+                if a.placement_batch
+                else None,
                 referee=a.referee,
                 stop_after_goal_restart=a.stop_after_goal_restart,
                 capture_exit=a.capture_exit,
@@ -101,7 +105,9 @@ def main():
         "--batch",
         "--stdout",
         "--stderr",
-        "--mode=realtime" if a.watch or a.referee == "ssl" else "--mode=fast",
+        "--mode=realtime"
+        if a.watch or (a.referee == "ssl" and not a.placement_batch)
+        else "--mode=fast",
     ]
     if not (a.watch or a.record):
         cmd.extend(["--no-rendering", "--minimize"])
@@ -109,6 +115,10 @@ def main():
         subprocess.run(
             [*cmd, str(WORLD)], env=env, stdout=log, stderr=subprocess.STDOUT, check=True
         )
+    if a.placement_batch:
+        if not (dest / "placement.json").is_file():
+            raise RuntimeError(f"Missing placement report. See {dest}/webots.log")
+        return
     if a.capture_exit and not (dest / "tail.pb").exists():
         raise RuntimeError("Requested exit did not occur")
     if not (dest / "positions.npz").exists():

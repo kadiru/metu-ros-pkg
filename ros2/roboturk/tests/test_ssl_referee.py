@@ -99,3 +99,41 @@ def test_restart_releases_once_per_command():
     assert team(2, 1) == team(2, 1.04) == "yellow"
     assert team(2, 1.06) == team(2, 1) == ""
     assert team(3, 1.06) == "yellow"
+
+
+def test_placement_target_uses_metres_and_expires_on_halt_or_stale_feed():
+    feed = RefereeFeed()
+    p = packet("BALL_PLACEMENT_YELLOW", 8, 10)
+    p.designated_position.x, p.designated_position.y = -1234, 2800
+    state = send(feed, p, 1)
+    assert state.placement_target == pytest.approx((-1.234, 2.8))
+    assert state.placement_team == "yellow" and state.mode == Referee.STOP
+    assert feed.current(1.51).placement_target is None
+    p.packet_timestamp += 1
+    p.stage = Packet.NORMAL_HALF_TIME
+    assert send(feed, p, 1.6).placement_target is None
+    p.packet_timestamp += 1
+    p.stage = Packet.NORMAL_FIRST_HALF
+    p.designated_position.x = float("nan")
+    assert send(feed, p, 1.7).placement_target is None
+
+
+def test_restart_retains_assignment_and_rejects_wrong_free_kick():
+    from roboturk.five_roles import kickoff
+    from roboturk.placement import PlacementRestart
+
+    feed = RefereeFeed()
+    w = kickoff(23, "blue", 1)
+    actor = PlacementRestart([1.2, 0.6, 2.0, 0.04, 0.02])
+    p = packet("BALL_PLACEMENT_BLUE", 8, 10)
+    p.designated_position.x = 200
+    p.designated_position.y = 2500
+    state = send(feed, p, 1)
+    commands, _ = actor.commands(w, state)
+    assert len(commands) == 10 and all(c.kick == 0 for c in commands.values())
+    play = actor.play
+    actor.commands(w, state)
+    assert actor.play is play and play.placer.team == play.receiver.team == "blue"
+    assert play.placer.id != 0 and play.receiver != play.placer
+    assert actor.commands(w, send(feed, packet("DIRECT_FREE_YELLOW", 9, 11), 1.1)) is None
+    assert actor.play is None

@@ -10,3 +10,8 @@ string source
 string restart_team
 uint32 blue_score
 uint32 yellow_score
+# Designated placement position in field coordinates (metres).
+string placement_team
+bool has_placement_target
+float64 placement_x
+float64 placement_y

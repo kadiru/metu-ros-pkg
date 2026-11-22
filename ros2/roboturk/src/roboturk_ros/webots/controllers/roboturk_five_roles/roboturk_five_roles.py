@@ -15,6 +15,7 @@ from roboturk.continuous_backend import ContinuousWebotsBackend
 from roboturk.five_play import commands
 from roboturk.five_roles import Assignment, CFG, TEAMS, FiveRoles, kickoff
 from roboturk.model import Referee
+from roboturk.placement import PlacementRestart
 from roboturk.ssl_referee import RefereeSocket, RestartGate
 from roboturk.ssl_vision import (
     VisionOutput,
@@ -55,11 +56,22 @@ def match(sim, folder, cfg, receiver=None, vision=None):
     seed = cfg["seed"]
     sign = 1 if seed % 2 == 0 else -1
     serving = TEAMS[(seed // 2) % 2]
+    if receiver:
+        from placement_runner import boards
+
+        boards(sim)
     backend = ContinuousWebotsBackend(sim, CFG)
     w = backend.reset(kickoff(seed, serving, sign))
     keys = [r.key for r in w.robots]
     tactics = FiveRoles()
     gate = RestartGate()
+    restart = (
+        PlacementRestart(
+            json.loads((root / "policies/placement_v1/actor.json").read_text())["weights"]
+        )
+        if receiver
+        else None
+    )
     previous_referee = None
     prepared_kickoff = None
     awaiting_team = None
@@ -135,7 +147,12 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                 )
                 print(f"Referee {state.command or 'NO SIGNAL'} -> {state.mode.value}", flush=True)
                 previous_referee = referee_key
-        if w.referee == Referee.RUNNING:
+        placement = restart.commands(w, state) if restart else None
+        if placement:
+            out, roles = placement
+            phases = {t: "Restart" for t in TEAMS}
+            planned = {}
+        elif w.referee == Referee.RUNNING:
             sole = tactics.observe(w)
             roles = {}
             phases = {}
@@ -185,6 +202,8 @@ def match(sim, folder, cfg, receiver=None, vision=None):
         steps.append(meta)
         states.append(snapshot(w))
         w = backend.step(out)
+        if restart:
+            restart.applied(backend.last_kick_events)
         for k, _, speed in backend.last_kick_events:
             event = dict(tick=tick, event="shot", actor=keys.index(k), speed=speed)
             if k in planned:
@@ -303,7 +322,12 @@ try:
         else nullcontext()
     )
     with connection as receiver, camera as vision:
-        match(sim, folder, cfg, receiver, vision)
+        if cfg.get("placement_batch"):
+            from placement_runner import run
+
+            run(sim, folder, cfg, receiver, vision)
+        else:
+            match(sim, folder, cfg, receiver, vision)
     if folder:
         sim.simulationQuit(0)
     else:

@@ -41,6 +41,8 @@ class Decision:
     attack_sign: int = 1
     score: tuple[int, int] = (0, 0)  # blue, yellow
     restart_team: str = ""
+    placement_team: str = ""
+    placement_target: tuple[float, float] | None = None
 
 
 def resolve(command, previous, consecutive):
@@ -87,6 +89,12 @@ class RefereeFeed:
         sign = self.last.attack_sign if same else 1
         if p.HasField("blue_team_on_positive_half"):
             sign = -1 if p.blue_team_on_positive_half else 1
+        placing = ""
+        target = None
+        if command.startswith("BALL_PLACEMENT_") and p.HasField("designated_position"):
+            x, y = p.designated_position.x / 1000, p.designated_position.y / 1000
+            if math.isfinite(x) and math.isfinite(y):
+                placing, target = command.split("_")[-1].lower(), (x, y)
         self.packet = p
         self.last = Decision(
             mode,
@@ -97,6 +105,8 @@ class RefereeFeed:
             sign,
             (p.blue.score, p.yellow.score),
             team,
+            placing,
+            target,
         )
         self.timestamp, self.received = p.packet_timestamp, now
 
@@ -104,7 +114,13 @@ class RefereeFeed:
         if now - self.received > TIMEOUT:
             return Decision(attack_sign=self.last.attack_sign, score=self.last.score)
         if self.last.stage.endswith(("HALF_TIME", "BREAK")) or self.last.stage == "POST_GAME":
-            return replace(self.last, mode=Referee.HALT, restart_team="")
+            return replace(
+                self.last,
+                mode=Referee.HALT,
+                restart_team="",
+                placement_team="",
+                placement_target=None,
+            )
         return self.last
 
 

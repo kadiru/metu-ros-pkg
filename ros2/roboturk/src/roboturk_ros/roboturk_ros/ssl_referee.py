@@ -27,6 +27,10 @@ class OfficialReferee(Node):
             command_counter=state.counter,
             source=state.source,
             restart_team=state.restart_team,
+            placement_team=state.placement_team,
+            has_placement_target=state.placement_target is not None,
+            placement_x=(state.placement_target or (0.0, 0.0))[0],
+            placement_y=(state.placement_target or (0.0, 0.0))[1],
             blue_score=state.score[0],
             yellow_score=state.score[1],
         )

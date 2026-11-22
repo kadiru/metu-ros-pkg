@@ -14,7 +14,11 @@ def record(src, slot, dst, exe):
     dst.mkdir(parents=True, exist_ok=False)
     save(dst / "launch.json", cfg)
     world = ROOT / cfg["world"] if "world" in cfg else WORLD
-    if world not in (WORLD, WORLD.with_name("ssl_touch_planner.wbt")):
+    if world not in (
+        WORLD,
+        WORLD.with_name("ssl_touch_planner.wbt"),
+        WORLD.with_name("ssl_touch_escape.wbt"),
+    ):
         raise ValueError("Unexpected recording world")
     run_matches(dst, cfg, exe, world, True)
     game = read(dst / "game-000.json")

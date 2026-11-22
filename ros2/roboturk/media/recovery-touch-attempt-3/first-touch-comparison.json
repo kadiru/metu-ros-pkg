@@ -1,0 +1,179 @@
+{
+  "stem": "first-touch-comparison",
+  "seed": 14301018,
+  "before": {
+    "outcome": "Lost ball before pass",
+    "elapsed_s": 0.89
+  },
+  "original": {
+    "seed": 14301018,
+    "qualified": false,
+    "chain": {
+      "start": 0,
+      "recovery": 87,
+      "winner": 2,
+      "team": "blue"
+    },
+    "outcome": "no opening pass",
+    "pass_goal": false,
+    "intercepted": false,
+    "lead_goal": false,
+    "prepass_loss": true,
+    "first_break": 88,
+    "first_pass": null
+  },
+  "trained": {
+    "seed": 14301018,
+    "qualified": true,
+    "chain": {
+      "start": 0,
+      "recovery": 65,
+      "winner": 2,
+      "team": "blue",
+      "goal": 787,
+      "shot": 165,
+      "scorer": 0,
+      "passes": [
+        114
+      ],
+      "dribble_m": 0.0,
+      "options": [
+        "pass",
+        "pass",
+        "shoot"
+      ]
+    },
+    "passer": 2,
+    "receiver": 0,
+    "slot": 0,
+    "decision": 92,
+    "kick": 114,
+    "end": 140,
+    "direct": 0.01792669934438261,
+    "lane": 0.9516232508829053,
+    "space": 1.3079374844181528,
+    "pass_result": "complete",
+    "outcome": "pressured shield goal",
+    "pass_goal": true,
+    "intercepted": false,
+    "target": [
+      0.4686971366255873,
+      1.447681227150126
+    ],
+    "run_speed": 0.5940726502114018,
+    "lead": 0.3425868850978434,
+    "contact": 543,
+    "advance": 0.34245799849648273,
+    "target_error": 0.04953793655554801,
+    "verified_lead": true,
+    "lead_goal": true,
+    "marker": 0,
+    "pressure": true,
+    "gap_m": 0.5890749985411903,
+    "approach_mps": 1.0305861664672449,
+    "sole_samples": 117,
+    "shield": true,
+    "shield_start": 573,
+    "shield_end": 592,
+    "prepass_loss": false,
+    "first_break": null,
+    "first_pass": 114
+  },
+  "play": {
+    "start": 0,
+    "recovery": 65,
+    "winner": 2,
+    "team": "blue",
+    "goal": 787,
+    "shot": 165,
+    "scorer": 0,
+    "passes": [
+      114
+    ],
+    "dribble_m": 0.0,
+    "options": [
+      "pass",
+      "pass",
+      "shoot"
+    ]
+  },
+  "first_touches": [
+    {
+      "first": 12,
+      "team": "blue",
+      "actor": 2,
+      "action": "shield",
+      "default_edge": 0.5472511445332081,
+      "default_threat": 2.0217717964646376,
+      "selected_cost": 0.0,
+      "last": 18
+    },
+    {
+      "first": 19,
+      "team": "blue",
+      "actor": 2,
+      "action": "sidestep",
+      "default_edge": 0.5087355456393433,
+      "default_threat": 0.6115102566717209,
+      "selected_cost": 0.0,
+      "last": 23
+    },
+    {
+      "first": 24,
+      "team": "blue",
+      "actor": 2,
+      "action": "release",
+      "default_edge": 0.09872798762409624,
+      "default_threat": 0.0,
+      "selected_cost": 0.0,
+      "last": 114
+    },
+    {
+      "first": 365,
+      "team": "blue",
+      "actor": 1,
+      "action": "shield",
+      "default_edge": 0.6795456109228654,
+      "default_threat": 2.081516787715055,
+      "selected_cost": 0.0,
+      "last": 368
+    },
+    {
+      "first": 370,
+      "team": "blue",
+      "actor": 1,
+      "action": "shield",
+      "default_edge": 0.9788236558535045,
+      "default_threat": 0.52507342191636,
+      "selected_cost": 0.0,
+      "last": 370
+    },
+    {
+      "first": 372,
+      "team": "blue",
+      "actor": 1,
+      "action": "release",
+      "default_edge": 0.8466530562760964,
+      "default_threat": 0.0,
+      "selected_cost": 0.0,
+      "last": 394
+    }
+  ],
+  "first_different_sample": 48,
+  "same_first_frame": true,
+  "reproduced_samples_per_side": 1800,
+  "max_replay_delta": 0,
+  "excerpt": {
+    "file": "first-touch-comparison.gif",
+    "frames": 109,
+    "seconds": 8.72,
+    "fps": 12.5,
+    "sha256": "93b1d39478a613749eede9fae2026a246e669a12a7dacb0554f93303a6721b82"
+  },
+  "mp4_sha256": "61433232d5916fb534feb72a4bb56c52e11ba5081a84ed5bc766a4b872141e8d",
+  "speed": 1,
+  "native_sources": {
+    "previous": "7232c348205c551c0409220875c184e2a774b40ef22ae5e5e272c17a1470bf03",
+    "trained": "937ad3fb6c0ba8dd2c81c3f86d03fb64d856988d63ddb6a7144d2f08aaac5283"
+  }
+}

@@ -35,10 +35,12 @@ def main():
     a = p.parse_args()
     plan = read(DEST / "protocol.json")
     for lock in [OLD / "freeze.json", OLD / "calibration-freeze.json"] + (
-        [DEST / "freeze.json"] if a.mode == "evaluate" else []
+        [a.checkpoint.resolve().parent / "freeze.json"] if a.mode == "evaluate" else []
     ):
         assert all(sha(ROOT / name) == value for name, value in read(lock).items()), lock
-    if a.mode == "evaluate" and sha(a.checkpoint) != sha(DEST / "policy.json"):
+    if a.mode == "evaluate" and sha(a.checkpoint) != read(
+        a.checkpoint.resolve().parent / "freeze.json"
+    ).get(str(a.checkpoint.resolve().relative_to(ROOT))):
         raise ValueError("Evaluation requires the frozen policy")
     base = read(ROOT / plan["baseline"])
     models = [base]

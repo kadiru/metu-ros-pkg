@@ -11,11 +11,11 @@ from roboturk.distribution_value import design, decision
 from train_counterpass import ROOT, DEST, OLD, WORLD, CTRL, read, save, sha
 
 
-def archive(folder, name):
+def archive(folder, name, output):
     cfg = read(folder / "launch.json")
     cfg.pop("root")
     games = [read(folder / f"game-{i:03}.json") for i in range(cfg["cases"])]
-    (DEST / (name + ".json.gz")).write_bytes(
+    (output / (name + ".json.gz")).write_bytes(
         gzip.compress(
             json.dumps(dict(config=cfg, games=games), separators=(",", ":")).encode(), mtime=0
         )
@@ -118,7 +118,7 @@ def ridge(data, penalty):
     return dict(heads=heads)
 
 
-def fit(folder):
+def fit(folder, output):
     data = rows(folder)
     use = [r for r in data if r["x"] is not None]
     base = read(OLD / "calibrated.json")
@@ -154,16 +154,17 @@ def fit(folder):
         m = learner(use, best["setting"])
         candidates.append(base | dict(distribution=m))
         report.append(dict(family=family, folds=trials, selected=best["setting"]))
-    save(DEST / "returns.json", data)
-    save(DEST / "fit.json", report)
-    save(DEST / "candidates.json", candidates)
-    archive(folder, "training")
+    save(output / "returns.json", data)
+    save(output / "fit.json", report)
+    save(output / "candidates.json", candidates)
+    archive(folder, "training", output)
 
 
-def freeze(folder):
-    if (DEST / "freeze.json").exists():
+def freeze(folder, output):
+    if (output / "freeze.json").exists():
         raise ValueError("Checkpoint already frozen")
     cfg = read(folder / "launch.json")
+    assert cfg["models"][1:] == read(output / "candidates.json")
     stats = []
     for j in range(1, len(cfg["models"])):
         clean = goals = passes = diff = appearances = 0
@@ -196,19 +197,19 @@ def freeze(folder):
             )
         )
     best = max(stats, key=lambda s: (s["pass_goals"] > 0, s["value"]))
-    save(DEST / "development.json", dict(stats=stats, selected=best["model"]))
-    save(DEST / "policy.json", cfg["models"][best["model"]])
-    archive(folder, "league")
+    save(output / "development.json", dict(stats=stats, selected=best["model"]))
+    save(output / "policy.json", cfg["models"][best["model"]])
+    archive(folder, "league", output)
     files = [
         WORLD,
         CTRL,
         OLD / "calibration-freeze.json",
         OLD / "freeze.json",
         OLD / "calibrated.json",
-        DEST / "policy.json",
+        output / "policy.json",
         DEST / "protocol.json",
-        DEST / "returns.json",
-        DEST / "development.json",
+        output / "returns.json",
+        output / "development.json",
         ROOT / "scripts/audit_counterpass.py",
         ROOT / "scripts/takeaway_native.py",
         ROOT / "scripts/train_counterpass.py",
@@ -216,12 +217,20 @@ def freeze(folder):
         ROOT / "src/roboturk_core/roboturk/counterpass.py",
         ROOT / "src/roboturk_core/roboturk/distribution_value.py",
     ]
-    save(DEST / "freeze.json", {str(f.relative_to(ROOT)): sha(f) for f in files})
+    save(output / "freeze.json", {str(f.relative_to(ROOT)): sha(f) for f in files})
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("mode", choices=["fit", "freeze"])
     parser.add_argument("folder", type=Path)
+    parser.add_argument(
+        "--output", type=Path, default=DEST, help="Checkpoint directory inside the project"
+    )
     a = parser.parse_args()
-    (fit if a.mode == "fit" else freeze)(a.folder)
+    output = a.output.resolve()
+    output.relative_to(ROOT)
+    output.mkdir(parents=True, exist_ok=True)
+    if (output / "freeze.json").exists():
+        parser.error("Use a new output directory to repeat training")
+    (fit if a.mode == "fit" else freeze)(a.folder, output)

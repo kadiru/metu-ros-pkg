@@ -1,0 +1,12 @@
+{
+  "baseline": "policies/open_play_v1/policy.json",
+  "training_archive": "policies/open_play_v1/training.json.gz",
+  "fresh_first": 17300000,
+  "starts": 40,
+  "seconds": 90,
+  "mixed_starts": 8,
+  "training_cases": 24,
+  "training_followup_seconds": 18,
+  "selection": "Train a contextual maneuver choice from native counterfactual self-play returns. Use archived training contests with a clean takeover and at least 12 seconds left. Keep the three previous evaluation failures out of return fitting. Frozen teams play the same 40 ordinary 90-second starts. Test both color assignments head-to-head on the first eight. Count all clean takeaways, including losses and timeouts, separately from contested wins.",
+  "demonstration": "Replay the earliest fresh trained mirror game with a verified clean-takeaway goal, selecting its first such goal. If none, disclose the result and use an explicitly labeled historical counterfactual or a new frozen challenge."
+}

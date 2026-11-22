@@ -13,6 +13,7 @@ def main():
     )
     extra = [Path(__file__).resolve(), trainer.ROOT / "src/roboturk_core/roboturk/touch_escape.py"]
     args = sys.argv[1:]
+    extra.append(trainer.ROOT / "src/roboturk_core/roboturk/touch_contact.py")
     if "--version" not in args:
         raise SystemExit("Use an explicit checkpoint version starting at 3.")
     version = int(args[args.index("--version") + 1])

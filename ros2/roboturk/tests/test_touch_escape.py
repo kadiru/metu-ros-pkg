@@ -43,3 +43,40 @@ def test_escape_velocity_and_pivot_mirror_across_the_field():
     assert left.vx == pytest.approx(right.vx)
     assert left.vy == pytest.approx(-right.vy)
     assert left.omega == pytest.approx(-right.omega)
+
+
+def test_contact_forecast_flags_an_opponent_inside_the_roller():
+    from roboturk.model import Command
+    from roboturk.touch_contact import forecast
+
+    actor = Robot(RobotKey("blue", 2), 0, 0)
+    ball = Ball(0.115, 0)
+    commands = [Command(0, 0, 0, 1)]
+    p = dict(
+        contact_steps=4,
+        body_contact=0.110,
+        impulse=1.0,
+        own_edge=0.75,
+        rival_edge=1.6,
+        retouch_weight=2.0,
+    )
+
+    def risk(x):
+        marker = Robot(RobotKey("yellow", 0), x, 0, yaw=math.pi)
+        return forecast(World(0, (actor, marker), ball), actor, marker, commands, p)[0]
+
+    assert risk(0.235) > risk(0.70)
+
+
+def test_swing_releases_to_passing_after_the_rival_falls_behind():
+    from roboturk.touch_contact import swing_roller
+
+    actor = Robot(RobotKey("blue", 2), 0, 0)
+    ball = Ball(0.115, 0)
+    marker = Robot(RobotKey("yellow", 1), -0.19, 0.015)
+    assert (
+        swing_roller(
+            World(0, (actor, marker), ball), actor, marker, dict(swing_range=0.4, swing_clear=0.035)
+        )
+        is None
+    )

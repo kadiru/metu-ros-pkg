@@ -7,6 +7,7 @@ from .carrier_motor import track_roller
 from .model import body_vector, possession, world_vector, wrap
 from .three_match import CFG
 from .three_recipient import distance
+from .touch_contact import protect_contact, swing_roller
 from .touch_planner import PlannedTouchGame
 from .transition_attack import unit
 
@@ -61,8 +62,36 @@ def escape_command(world, actor, rival, p):
 
 
 class EscapeGame(PlannedTouchGame):
+    def cushion_receiver(self, out):
+        runner = self.world.robot(self.runner)
+        p = self.teams[runner.key.team]
+        if "receive_drive" not in p or not possession(self.world, runner.key, CFG):
+            return
+        default = out[runner.key]
+        if default.kick or not self.shield_commands:
+            return
+        event = self.shield_commands[-1]
+        if event["kick"] != self.delivery["tick"] or event["last"] != self.tick:
+            return
+        rival = min(
+            (r for r in self.world.robots if r.key.team != runner.key.team),
+            key=lambda r: distance(r, runner),
+        )
+        ux, uy = unit(runner.x - rival.x, runner.y - rival.y)
+        velocity = p["shield_speed"] * ux, p["shield_speed"] * uy
+        motor = p | dict(
+            drive=p["receive_drive"],
+            step_v=p["receive_step"],
+            grip=p["receive_grip"],
+            pivot=p["shield_turn"],
+        )
+        out[runner.key] = track_roller(self.world, runner, velocity, default.omega, motor)
+
     def commands(self):
         out = super().commands()
+        if self.delivery:
+            self.cushion_receiver(out)
+            return out
         if self.contestants and not self.active:
             tied = [r for r in self.world.robots if possession(self.world, r.key, CFG)]
             if len({r.key.team for r in tied}) == 2:
@@ -101,13 +130,24 @@ class EscapeGame(PlannedTouchGame):
             return out
         actor = held[0]
         p = self.teams[actor.key.team]
-        if "escape_horizon" not in p or out[actor.key].kick:
+        if (
+            not any(k in p for k in ("escape_horizon", "contact_steps", "swing_speed"))
+            or out[actor.key].kick
+        ):
             return out
         rival = min(
             (r for r in self.world.robots if r.key.team != actor.key.team),
             key=lambda r: distance(r, self.world.ball),
         )
-        answer = escape_command(self.world, actor, rival, p)
+        if "swing_speed" in p:
+            answer = swing_roller(self.world, actor, rival, p)
+            metric = "rival_distance"
+        elif "contact_steps" in p:
+            answer = protect_contact(self.world, actor, rival, out[actor.key], p)
+            metric = "predicted_risk_reduction"
+        else:
+            answer = escape_command(self.world, actor, rival, p)
+            metric = "opponent_edge"
         if answer is None:
             return out
         out[actor.key], proximity = answer
@@ -119,7 +159,7 @@ class EscapeGame(PlannedTouchGame):
                 self.first_touches[-1]["last"] -= 1
             rec.update(first=self.tick, last=self.tick, action="shield")
             self.first_touches.append(rec)
-        rec["opponent_edge"] = proximity
+        rec[metric] = proximity
         self.release_plans.pop(self.tick, None)
         self.choice = None
         return out

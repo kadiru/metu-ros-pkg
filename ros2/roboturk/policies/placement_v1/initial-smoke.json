@@ -1,0 +1,78 @@
+[
+  {
+    "seed": 24200100,
+    "crossing": null,
+    "team": "blue",
+    "placer": 2,
+    "success": false,
+    "seconds": 30.0,
+    "error": 0.08559,
+    "phase": "retreat",
+    "ball": [
+      -1.1964936870550609,
+      -2.5962380284950304
+    ],
+    "target": [
+      -1.2010619262254154,
+      -2.5107693577812156
+    ],
+    "clearance": 0.8047
+  },
+  {
+    "seed": 24200101,
+    "crossing": null,
+    "team": "yellow",
+    "placer": 3,
+    "success": false,
+    "seconds": 30.0,
+    "error": 0.00985,
+    "phase": "retreat",
+    "ball": [
+      -0.662241289223291,
+      -2.461384885171748
+    ],
+    "target": [
+      -0.6654588466426027,
+      -2.452076870312888
+    ],
+    "clearance": 0.4008
+  },
+  {
+    "seed": 24200102,
+    "crossing": null,
+    "team": "blue",
+    "placer": 2,
+    "success": false,
+    "seconds": 30.0,
+    "error": 0.01547,
+    "phase": "retreat",
+    "ball": [
+      1.9459854187907542,
+      -2.657479535507359
+    ],
+    "target": [
+      1.9446139806155291,
+      -2.642074812541558
+    ],
+    "clearance": 0.4569
+  },
+  {
+    "seed": 24200103,
+    "crossing": null,
+    "team": "yellow",
+    "placer": 1,
+    "success": false,
+    "seconds": 30.0,
+    "error": 0.06179,
+    "phase": "retreat",
+    "ball": [
+      1.0573726803294752,
+      -2.697627248572076
+    ],
+    "target": [
+      1.052125577210088,
+      -2.63605935540914
+    ],
+    "clearance": 0.7167
+  }
+]

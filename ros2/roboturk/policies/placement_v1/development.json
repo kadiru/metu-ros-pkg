@@ -1,0 +1,322 @@
+[
+  {
+    "seed": 24200000,
+    "crossing": null,
+    "team": "blue",
+    "placer": 3,
+    "success": true,
+    "seconds": 3.96,
+    "error": 0.017,
+    "phase": "retreat",
+    "speed": 4.989657443725308e-156,
+    "ball": [
+      -2.8726828445124695,
+      -2.3984871185224317
+    ],
+    "target": [
+      -2.870764606761878,
+      -2.415381072464847
+    ],
+    "clearance": 0.7084
+  },
+  {
+    "seed": 24200001,
+    "crossing": null,
+    "team": "yellow",
+    "placer": 2,
+    "success": true,
+    "seconds": 4.56,
+    "error": 0.02073,
+    "phase": "retreat",
+    "speed": 4.113167377520284e-143,
+    "ball": [
+      -2.7279614781835604,
+      2.340908968467396
+    ],
+    "target": [
+      -2.7216805069960848,
+      2.360662476557566
+    ],
+    "clearance": 0.709
+  },
+  {
+    "seed": 24200002,
+    "crossing": null,
+    "team": "blue",
+    "placer": 2,
+    "success": true,
+    "seconds": 3.72,
+    "error": 0.0173,
+    "phase": "retreat",
+    "speed": 5.658404644829699e-113,
+    "ball": [
+      0.5816017009884017,
+      -2.604920073262387
+    ],
+    "target": [
+      0.589113829587877,
+      -2.620501664096036
+    ],
+    "clearance": 0.7067
+  },
+  {
+    "seed": 24200003,
+    "crossing": null,
+    "team": "yellow",
+    "placer": 4,
+    "success": true,
+    "seconds": 3.6,
+    "error": 0.01572,
+    "phase": "retreat",
+    "speed": 2.0408219354332177e-173,
+    "ball": [
+      -1.3675723539309563,
+      2.5851125062177513
+    ],
+    "target": [
+      -1.3728050651811814,
+      2.5999407450497887
+    ],
+    "clearance": 0.6785
+  },
+  {
+    "seed": 24200004,
+    "crossing": null,
+    "team": "blue",
+    "placer": 2,
+    "success": true,
+    "seconds": 3.44,
+    "error": 0.01687,
+    "phase": "retreat",
+    "speed": 2.7976612198252885e-143,
+    "ball": [
+      1.5183173248574868,
+      2.63617858170342
+    ],
+    "target": [
+      1.51136016225146,
+      2.651544090990521
+    ],
+    "clearance": 0.7108
+  },
+  {
+    "seed": 24200005,
+    "crossing": null,
+    "team": "yellow",
+    "placer": 1,
+    "success": true,
+    "seconds": 3.44,
+    "error": 0.02141,
+    "phase": "retreat",
+    "speed": 3.331880140166359e-78,
+    "ball": [
+      1.1871365301076562,
+      -2.608656098570896
+    ],
+    "target": [
+      1.1859051667296792,
+      -2.630026665837749
+    ],
+    "clearance": 0.7072
+  },
+  {
+    "seed": 24200006,
+    "crossing": null,
+    "team": "blue",
+    "placer": 4,
+    "success": true,
+    "seconds": 3.68,
+    "error": 0.01867,
+    "phase": "retreat",
+    "speed": 9.58453952311779e-118,
+    "ball": [
+      1.0921637522511818,
+      2.4755058109079737
+    ],
+    "target": [
+      1.0930360738675033,
+      2.4941526827151437
+    ],
+    "clearance": 0.7076
+  },
+  {
+    "seed": 24200007,
+    "crossing": null,
+    "team": "yellow",
+    "placer": 1,
+    "success": true,
+    "seconds": 3.88,
+    "error": 0.01484,
+    "phase": "retreat",
+    "speed": 1.0817506707403916e-151,
+    "ball": [
+      -2.868418515994849,
+      -2.696348861025633
+    ],
+    "target": [
+      -2.8563654883508054,
+      -2.7050007328184784
+    ],
+    "clearance": 0.7075
+  },
+  {
+    "seed": 24200008,
+    "crossing": null,
+    "team": "blue",
+    "placer": 3,
+    "success": true,
+    "seconds": 3.72,
+    "error": 0.02114,
+    "phase": "retreat",
+    "speed": 6.738947856883233e-139,
+    "ball": [
+      0.6563955201131653,
+      -2.5776306269123053
+    ],
+    "target": [
+      0.6525339196651787,
+      -2.5984161094403437
+    ],
+    "clearance": 0.6887
+  },
+  {
+    "seed": 24200009,
+    "crossing": null,
+    "team": "yellow",
+    "placer": 2,
+    "success": true,
+    "seconds": 3.84,
+    "error": 0.02022,
+    "phase": "retreat",
+    "speed": 1.8706550935562543e-121,
+    "ball": [
+      -2.091711421641411,
+      -2.5669776406127265
+    ],
+    "target": [
+      -2.085155297164143,
+      -2.586102078887651
+    ],
+    "clearance": 0.7115
+  },
+  {
+    "seed": 24200010,
+    "crossing": null,
+    "team": "blue",
+    "placer": 4,
+    "success": true,
+    "seconds": 4.16,
+    "error": 0.02186,
+    "phase": "retreat",
+    "speed": 6.040976434067162e-165,
+    "ball": [
+      -0.1681067266210621,
+      2.3335212036978628
+    ],
+    "target": [
+      -0.16978340085948163,
+      2.355315781959977
+    ],
+    "clearance": 0.7097
+  },
+  {
+    "seed": 24200011,
+    "crossing": null,
+    "team": "yellow",
+    "placer": 1,
+    "success": true,
+    "seconds": 4.24,
+    "error": 0.01779,
+    "phase": "retreat",
+    "speed": 4.615708859348957e-139,
+    "ball": [
+      1.1601387245486565,
+      -2.474860123451699
+    ],
+    "target": [
+      1.1673840134370175,
+      -2.4911072043808877
+    ],
+    "clearance": 0.6876
+  },
+  {
+    "seed": 20300000,
+    "crossing": 1321,
+    "team": "blue",
+    "placer": 3,
+    "success": true,
+    "seconds": 3.52,
+    "error": 0.01917,
+    "phase": "retreat",
+    "speed": 5.915707174007841e-65,
+    "ball": [
+      1.9293821661219137,
+      2.780831477142612
+    ],
+    "target": [
+      1.9293374,
+      2.8
+    ],
+    "clearance": 0.7006
+  },
+  {
+    "seed": 20300001,
+    "crossing": 247,
+    "team": "yellow",
+    "placer": 4,
+    "success": true,
+    "seconds": 10.12,
+    "error": 0.01909,
+    "phase": "retreat",
+    "speed": 1.3851577317199952e-82,
+    "ball": [
+      2.992169156816763,
+      -2.799779457345633
+    ],
+    "target": [
+      3.0112548,
+      -2.8
+    ],
+    "clearance": 0.7058
+  },
+  {
+    "seed": 20300002,
+    "crossing": 926,
+    "team": "yellow",
+    "placer": 3,
+    "success": true,
+    "seconds": 3.36,
+    "error": 0.01928,
+    "phase": "retreat",
+    "speed": 3.946881338638611e-113,
+    "ball": [
+      4.128125926961949,
+      -2.780824434025735
+    ],
+    "target": [
+      4.1261563,
+      -2.8
+    ],
+    "clearance": 0.7068
+  },
+  {
+    "seed": 20300002,
+    "crossing": 1364,
+    "team": "blue",
+    "placer": 4,
+    "success": false,
+    "seconds": 30.0,
+    "error": 11.84674,
+    "phase": "capture",
+    "speed": 0.3356060284262786,
+    "ball": [
+      11.574120465601485,
+      2.827498107645972
+    ],
+    "target": [
+      -0.2725861,
+      2.8
+    ],
+    "clearance": 0.1559
+  }
+]

@@ -1,0 +1,324 @@
+{
+  "trials": [
+    {
+      "seed": 24200200,
+      "team": "blue",
+      "target": [
+        -1.6979735107421876,
+        2.602340087890625
+      ],
+      "initial_ball": [
+        -1.2524707084593707,
+        3.119618690763941
+      ],
+      "vision_start": 1795381900.6578212,
+      "event_ids": [
+        "9f7b98e5-0b7b-4450-b5be-74c60fe1a2ad"
+      ],
+      "commands": [
+        [
+          1.4,
+          "BALL_PLACEMENT_BLUE",
+          4
+        ],
+        [
+          12.44,
+          "STOP",
+          5
+        ]
+      ],
+      "phases": [
+        [
+          1.4,
+          "capture"
+        ],
+        [
+          2.6,
+          "carry"
+        ],
+        [
+          4.8,
+          "retreat"
+        ]
+      ],
+      "kicks": [],
+      "placement_counter": 4,
+      "placer": 1,
+      "receiver": 4,
+      "placed_seconds": 11.04,
+      "final_error_m": 0.0183987444910402,
+      "speed_at_acceptance": 2e-323,
+      "vision_end": 1795381911.737821,
+      "observer_events": [
+        {
+          "placementSucceeded": {
+            "byTeam": "BLUE",
+            "timeTaken": 8.68,
+            "precision": 0.018398827,
+            "distance": 0.7010377
+          },
+          "type": "PLACEMENT_SUCCEEDED"
+        }
+      ],
+      "controller_events": [
+        {
+          "id": "9f7b98e5-0b7b-4450-b5be-74c60fe1a2ad",
+          "type": "PLACEMENT_SUCCEEDED",
+          "origin": [
+            "TIGERs AutoRef",
+            "Engine"
+          ],
+          "createdTimestamp": "1795381904609748",
+          "placementSucceeded": {
+            "byTeam": "BLUE",
+            "timeTaken": 8.68,
+            "precision": 0.018398827,
+            "distance": 0.7010377
+          }
+        }
+      ],
+      "accepted": true
+    },
+    {
+      "seed": 24200201,
+      "team": "yellow",
+      "target": [
+        -1.3955394287109375,
+        2.7767314453125
+      ],
+      "initial_ball": [
+        -1.2900664954496721,
+        3.193751782863784
+      ],
+      "vision_start": 1795381913.1478212,
+      "event_ids": [
+        "c99ed171-ba43-4823-bbf2-8d58346513a2"
+      ],
+      "commands": [
+        [
+          1.4,
+          "BALL_PLACEMENT_YELLOW",
+          9
+        ],
+        [
+          11.08,
+          "STOP",
+          10
+        ]
+      ],
+      "phases": [
+        [
+          1.4,
+          "capture"
+        ],
+        [
+          2.28,
+          "carry"
+        ],
+        [
+          4.04,
+          "retreat"
+        ]
+      ],
+      "kicks": [],
+      "placement_counter": 9,
+      "placer": 1,
+      "receiver": 4,
+      "placed_seconds": 9.68,
+      "final_error_m": 0.01768428684340967,
+      "speed_at_acceptance": 1.5e-323,
+      "vision_end": 1795381922.867821,
+      "observer_events": [
+        {
+          "placementSucceeded": {
+            "byTeam": "YELLOW",
+            "timeTaken": 7.52,
+            "precision": 0.017684206,
+            "distance": 0.4470406
+          },
+          "type": "PLACEMENT_SUCCEEDED"
+        }
+      ],
+      "controller_events": [
+        {
+          "id": "c99ed171-ba43-4823-bbf2-8d58346513a2",
+          "type": "PLACEMENT_SUCCEEDED",
+          "origin": [
+            "TIGERs AutoRef",
+            "Engine"
+          ],
+          "createdTimestamp": "1795381910247083",
+          "placementSucceeded": {
+            "byTeam": "YELLOW",
+            "timeTaken": 7.52,
+            "precision": 0.017684206,
+            "distance": 0.4470406
+          }
+        }
+      ],
+      "accepted": true
+    },
+    {
+      "seed": 24200202,
+      "team": "blue",
+      "target": [
+        -1.074544189453125,
+        2.5842607421875
+      ],
+      "initial_ball": [
+        -1.5856072811271795,
+        3.089712166048173
+      ],
+      "vision_start": 1795381924.277821,
+      "event_ids": [
+        "228d02d6-1e4e-4b89-b890-1206097193fe"
+      ],
+      "commands": [
+        [
+          1.4,
+          "BALL_PLACEMENT_BLUE",
+          14
+        ],
+        [
+          12.28,
+          "STOP",
+          15
+        ]
+      ],
+      "phases": [
+        [
+          1.4,
+          "capture"
+        ],
+        [
+          2.32,
+          "carry"
+        ],
+        [
+          4.56,
+          "retreat"
+        ]
+      ],
+      "kicks": [],
+      "placement_counter": 14,
+      "placer": 1,
+      "receiver": 2,
+      "placed_seconds": 10.88,
+      "final_error_m": 0.014598979853257353,
+      "speed_at_acceptance": 2e-323,
+      "vision_end": 1795381935.1978211,
+      "observer_events": [
+        {
+          "placementSucceeded": {
+            "byTeam": "BLUE",
+            "timeTaken": 8.440001,
+            "precision": 0.014599082,
+            "distance": 0.7333903
+          },
+          "type": "PLACEMENT_SUCCEEDED"
+        }
+      ],
+      "controller_events": [
+        {
+          "id": "228d02d6-1e4e-4b89-b890-1206097193fe",
+          "type": "PLACEMENT_SUCCEEDED",
+          "origin": [
+            "TIGERs AutoRef",
+            "Engine"
+          ],
+          "createdTimestamp": "1795381915834141",
+          "placementSucceeded": {
+            "byTeam": "BLUE",
+            "timeTaken": 8.440001,
+            "precision": 0.014599082,
+            "distance": 0.7333903
+          }
+        }
+      ],
+      "accepted": true
+    },
+    {
+      "seed": 24200203,
+      "team": "yellow",
+      "target": [
+        3.249414306640625,
+        2.378937744140625
+      ],
+      "initial_ball": [
+        2.791352539406405,
+        3.1909305482987254
+      ],
+      "vision_start": 1795381936.607821,
+      "event_ids": [
+        "03312d61-602b-4497-8806-51e59b80b284"
+      ],
+      "commands": [
+        [
+          1.4,
+          "BALL_PLACEMENT_YELLOW",
+          19
+        ],
+        [
+          12.92,
+          "STOP",
+          20
+        ]
+      ],
+      "phases": [
+        [
+          1.4,
+          "capture"
+        ],
+        [
+          2.6,
+          "carry"
+        ],
+        [
+          5.24,
+          "retreat"
+        ]
+      ],
+      "kicks": [],
+      "placement_counter": 19,
+      "placer": 1,
+      "receiver": 4,
+      "placed_seconds": 11.52,
+      "final_error_m": 0.019939639828924542,
+      "speed_at_acceptance": 1.5e-323,
+      "vision_end": 1795381948.1678212,
+      "observer_events": [
+        {
+          "placementSucceeded": {
+            "byTeam": "YELLOW",
+            "timeTaken": 9.36,
+            "precision": 0.01993969,
+            "distance": 0.95214397
+          },
+          "type": "PLACEMENT_SUCCEEDED"
+        }
+      ],
+      "controller_events": [
+        {
+          "id": "03312d61-602b-4497-8806-51e59b80b284",
+          "type": "PLACEMENT_SUCCEEDED",
+          "origin": [
+            "TIGERs AutoRef",
+            "Engine"
+          ],
+          "createdTimestamp": "1795381922060971",
+          "placementSucceeded": {
+            "byTeam": "YELLOW",
+            "timeTaken": 9.36,
+            "precision": 0.01993969,
+            "distance": 0.95214397
+          }
+        }
+      ],
+      "accepted": true
+    }
+  ],
+  "accepted": 4,
+  "interference": 0,
+  "emitted_placements": 4,
+  "total": 4
+}

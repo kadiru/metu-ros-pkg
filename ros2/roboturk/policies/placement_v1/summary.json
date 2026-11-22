@@ -1,0 +1,13 @@
+{
+  "accepted": 40,
+  "total": 40,
+  "by_team": {
+    "blue": 20,
+    "yellow": 20
+  },
+  "interference": 0,
+  "mean_error_m": 0.018277394642248392,
+  "max_error_m": 0.025286480684869016,
+  "mean_acceptance_seconds": 11.834,
+  "max_acceptance_seconds": 14.2
+}

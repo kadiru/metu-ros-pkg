@@ -53,8 +53,9 @@ def official(sim, backend, root, folder, spec, receiver, vision):
                 time.sleep(0.025)
             raise RuntimeError(f"Table broadcast {state.command} while waiting for {name}")
 
-        for seed in spec["seeds"]:
-            world, team, target = scenario(root, seed)
+        starts = [(s, None) for s in spec.get("seeds", [])] + spec.get("archived", [])
+        for seed, crossing in starts:
+            world, team, target = scenario(root, seed, crossing)
             other = "yellow" if team == "blue" else "blue"
             if demo:
                 # Practice an overhit diagonal pass toward the right wing.
@@ -102,6 +103,7 @@ def official(sim, backend, root, folder, spec, receiver, vision):
                 await_command("BALL_PLACEMENT_" + team.upper())
             row = dict(
                 seed=seed,
+                crossing=crossing,
                 team=team,
                 target=target,
                 initial_ball=xy(w.ball),

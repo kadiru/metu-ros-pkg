@@ -4,6 +4,14 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Watch Blue restart after a pass goes out
+
+Yellow sends a pass over the touchline. Blue 4 retrieves the ball, dribbles to the referee’s spot and backs away. When the Game Controller awards the free kick, Blue 3 receives the pass. The trained placement skill passed 40/40 fresh starts with zero placement-interference calls.
+
+[![Blue retrieves the ball, places it and passes to a teammate in Webots](media/placement/touchline-restart.gif)](media/placement/touchline-restart.mp4)
+
+[Watch at match speed](media/placement/touchline-restart.mp4) · [Training, official calls and film audit](policies/placement_v1/README.md)
+
 ## Watch a robot score an officially refereed goal
 
 Yellow shoots, TIGERs AutoRef detects the goal, and the official Game Controller awards Blue the kickoff. The same detector called all four goals and all five ball-outs on three archived 5v5 matches, with zero extra goal calls.

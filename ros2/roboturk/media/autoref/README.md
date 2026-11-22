@@ -14,7 +14,7 @@ The teams played the same 4,500 control frames as the original matches. Ball and
 
 The active film uses continuous native physics and the Game Controller's live broadcast. Webots emits ideal overhead detections in SSL-Vision format. The TIGERs vision filter tracks the ball and robots. TIGERs uses its own goal detector and its active game-event connection. The controller's automatic goal approval is enabled. A simulated table operator starts play and invokes the controller's Continue actions for the restart. The controller selects the awarded team and Webots places both teams in kickoff formation. The table script has no score-edit operation. [Table actions](../../scripts/autoref/table.mjs)
 
-This fixture evaluates goals and boundary calls. The passive observer also reported five robot collisions and seven defense-area offenses. Those reports are retained in the evidence. The active fixture limits stoppages to goal and boundary events. Full foul handling, autonomous ball placement and camera noise remain open.
+This fixture evaluates goals and boundary calls. The passive observer also reported five robot collisions and seven defense-area offenses. Those reports are retained in the evidence. The active fixture limits stoppages to goal and boundary events. The follow-up placement experiment trains the awarded side to collect and place the ball. Full foul handling and camera noise remain open. [Placement results](../../policies/placement_v1/README.md)
 
 ## Run the experiment
 

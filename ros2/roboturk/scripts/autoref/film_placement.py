@@ -9,6 +9,7 @@ import subprocess
 import numpy as np
 from PIL import Image, ImageDraw
 from film import font
+from verify import load_events
 
 
 def film(run, dest):
@@ -44,7 +45,7 @@ def film(run, dest):
     green = np.flatnonzero((g > 1.5 * r) & (g > 1.35 * b))
     px = (green[-1] - green[0] + 1) / 10
     cx, cy = (w - 1) / 2, (h - 1) / 2
-    left = int(cx - 2.68 * px)
+    left = int(cx - 1.55 * px)
     top = int(cy - 3.52 * px)
     crop_width = round(5.4 * px)
     crop_height = round(crop_width * height / width)
@@ -85,6 +86,11 @@ def film(run, dest):
         str(movie),
     ]
     keys = [(r[0], r[1]) for r in row["opening_robots"]]
+    collisions = [
+        (stamp - row["vision_start"], event["botCrashUnique"])
+        for stamp, kind, event in load_events(run / "tigers.log")
+        if kind == "bot_crash_unique"
+    ]
     with subprocess.Popen(writer, stdin=subprocess.PIPE) as enc:
         for path, f in zip(frames, trace, strict=True):
             strip = (
@@ -114,6 +120,10 @@ def film(run, dest):
                 label = (
                     f"Blue {row['placer']} takes the awarded kick. Blue {row['receiver']} receives."
                 )
+            elapsed = f["time"] - trace[0]["time"]
+            for at, crash in collisions:
+                if at <= elapsed < at + 1.0:
+                    label = f"TIGERs flags contact by {crash['byTeam'].title()} {crash['violator']} during retrieval."
             bp = point(f["ball"], 0.022)
             if phase != "opening":
                 tx, ty = point(row["target"])
@@ -125,7 +135,7 @@ def film(run, dest):
                 x, y = point(location, 0.15)
                 if 8 < x < width - 32 and 67 < y < height + 35:
                     d.text(
-                        (x + 10, y - 9),
+                        (x + 17, y - 20),
                         str(key[1]),
                         font=small,
                         fill="#b8deff" if key[0] == "blue" else "#fff09a",

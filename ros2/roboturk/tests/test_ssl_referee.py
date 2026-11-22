@@ -135,5 +135,8 @@ def test_restart_retains_assignment_and_rejects_wrong_free_kick():
     actor.commands(w, state)
     assert actor.play is play and play.placer.team == play.receiver.team == "blue"
     assert play.placer.id != 0 and play.receiver != play.placer
-    assert actor.commands(w, send(feed, packet("DIRECT_FREE_YELLOW", 9, 11), 1.1)) is None
+    assert actor.commands(w, feed.current(1.6)) is None
+    p.packet_timestamp += 1
+    assert actor.commands(w, send(feed, p, 1.7)) is not None
+    assert actor.commands(w, send(feed, packet("DIRECT_FREE_YELLOW", 9, 12), 1.8)) is None
     assert actor.play is None

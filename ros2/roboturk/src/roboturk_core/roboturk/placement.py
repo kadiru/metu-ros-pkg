@@ -185,7 +185,7 @@ class PlacementRestart:
 
         if state.placement_target is not None and state.mode == Referee.STOP:
             key = state.source, state.counter, state.placement_team, state.placement_target
-            if self.key != key:
+            if self.play is None or self.key != key:
                 self.play = PlacementPlay(
                     w, state.placement_team, state.placement_target, self.weights
                 )

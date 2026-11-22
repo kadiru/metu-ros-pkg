@@ -13,7 +13,13 @@ The work spans hardware/software integration and path-planning experiments: how 
 
 ## Robot soccer in Webots
 
-In the modern ROS 2 successor to this stack, two teams of three train by playing each other in Webots. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/dc4381ee7abe83aab519ec26775b34334aed52b3/ros2/roboturk)
+In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/61b830cdacc0cf0e53f2aa2b3ef7ddf4e7dc7cb7/ros2/roboturk)
+
+### Who plays which role in 5v5?
+
+Watch Yellow 2 win the ball at 14.64 seconds. It passes to Yellow 4, moves to the right wing, then receives the return pass. The rosters beside the pitch show a role for every jersey. [Full 60-second match](https://github.com/kadiru/metu-ros-pkg/blob/61b830cdacc0cf0e53f2aa2b3ef7ddf4e7dc7cb7/ros2/roboturk/media/five-roles/five-roles.mp4) · [Role assignments and match traces](https://github.com/kadiru/metu-ros-pkg/tree/61b830cdacc0cf0e53f2aa2b3ef7ddf4e7dc7cb7/ros2/roboturk/media/five-roles)
+
+[![Five robots on each side change roles as possession moves from Blue to Yellow](../../docs/assets/roboturk-webots/five-roles.gif)](https://github.com/kadiru/metu-ros-pkg/blob/61b830cdacc0cf0e53f2aa2b3ef7ddf4e7dc7cb7/ros2/roboturk/media/five-roles/five-roles.mp4)
 
 ### Reconsidering the pass
 

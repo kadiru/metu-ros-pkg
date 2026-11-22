@@ -13,7 +13,13 @@ The work spans hardware/software integration and path-planning experiments: how 
 
 ## Robot soccer in Webots
 
-In the modern ROS 2 successor to this stack, two teams of three train by playing each other in Webots. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/6679443115b6c190076cb4bde94b1cd8b39f8c48/ros2/roboturk)
+In the modern ROS 2 successor to this stack, two teams of three train by playing each other in Webots. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/a439b168c34a34714aa319ece425971c19314744/ros2/roboturk)
+
+### A teammate with a better shot
+
+Both replays reach the same steal. On the left the ball winner shoots. On the right, Yellow 0 plays the ball ahead of Yellow 2, who runs onto it and scores. On 40 fresh Webots starts the new team scored 248 clean-takeaway goals and the previous team scored 77. [Full match](https://github.com/kadiru/metu-ros-pkg/blob/a439b168c34a34714aa319ece425971c19314744/ros2/roboturk/media/counterpass/open-play-match.mp4) · [Results and policy](https://github.com/kadiru/metu-ros-pkg/tree/a439b168c34a34714aa319ece425971c19314744/ros2/roboturk/policies/counterpass_v1)
+
+[![The same soccer possession ends in a missed shot on the left and a lead pass and goal on the right.](../../docs/assets/roboturk-webots/same-possession.gif)](https://github.com/kadiru/metu-ros-pkg/blob/a439b168c34a34714aa319ece425971c19314744/ros2/roboturk/media/counterpass/same-possession.mp4)
 
 ### Three steals, three second chances
 

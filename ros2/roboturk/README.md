@@ -4,6 +4,14 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Watch a robot score an officially refereed goal
+
+Yellow shoots, TIGERs AutoRef detects the goal, and the official Game Controller awards Blue the kickoff. The same detector called all four goals and all five ball-outs on three archived 5v5 matches, with zero extra goal calls.
+
+[![Yellow scores and Blue takes the kickoff in Webots](media/autoref/goal-kickoff.gif)](media/autoref/webots-autoref.mp4)
+
+[Watch the full sequence](media/autoref/webots-autoref.mp4) · [Match results, protocol evidence and reproduction](media/autoref/README.md)
+
 ## Watch the 5v5 role assignments
 
 Follow Yellow 2 through a turnover, a pass to Yellow 4 and the return pass. The ten jersey numbers stay fixed. The rosters show who is carrying, receiving, pressing or covering as the ball moves.
@@ -403,7 +411,7 @@ For a single-machine session, start the controller with `-publishAddress 127.0.0
 
 Use **Force Start** for immediate open play. For a kickoff, prepare the team and send **Normal Start**. In native 5v5, preparing a kickoff places the ball at center and the ten robots in formation once for that command. During a kickoff or free kick, the awarded team moves first. The opponent can play after the ball moves 5 cm. A Normal Start received without the preceding kickoff preparation holds both teams. During Halt, Stop, placement, penalty and timeout commands, both teams hold their actuators. Autonomous penalty taking, ball placement and STOP-distance positioning remain open.
 
-Official mode takes the score and field sides from the broadcast. Webots supplies local ball and robot state to the teams. A human operator or a separate AutoRef supplies decisions to the Game Controller. This integration receives decisions in one direction. The default native training launcher continues to use its local referee for reproducible seeds. [Official referee protocol](https://github.com/RoboCup-SSL/ssl-game-controller/blob/v3.23.1/proto/state/ssl_gc_referee_message.proto).
+Official mode takes the score and field sides from the broadcast. Webots supplies local ball and robot state to the teams. The native match can also publish SSL-Vision detections to an external AutoRef. The tested TIGERs integration reports events to the Game Controller and feeds its decisions back into play. [Run the closed-loop fixture](media/autoref/README.md#run-the-experiment). The default native training launcher continues to use its local referee for reproducible seeds. [Official referee protocol](https://github.com/RoboCup-SSL/ssl-game-controller/blob/v3.23.1/proto/state/ssl_gc_referee_message.proto).
 
 ## Training and policy replacement
 

@@ -16,6 +16,14 @@ from roboturk.five_play import commands
 from roboturk.five_roles import Assignment, CFG, TEAMS, FiveRoles, kickoff
 from roboturk.model import Referee
 from roboturk.ssl_referee import RefereeSocket, RestartGate
+from roboturk.ssl_vision import (
+    VisionOutput,
+    Wrapper,
+    detection,
+    practice_command,
+    read_delimited,
+    write_delimited,
+)
 from roboturk.three_match import filter_commands, snapshot
 
 
@@ -40,7 +48,7 @@ def hud(sim, w, keys, roles, phases, score, seconds):
         label(32 + i, str(k.id), 0.5 + r.x * 0.073, 0.485 - r.y * 0.13, 0.030, color)
 
 
-def match(sim, folder, cfg, receiver=None):
+def match(sim, folder, cfg, receiver=None, vision=None):
     root = Path(cfg["root"])
     weights = json.loads((root / "policies/recipient_3v3_v1/selectors.json").read_text())
     weights = {t: np.array(weights[str(901 + i)]) for i, t in enumerate(TEAMS)}
@@ -54,12 +62,26 @@ def match(sim, folder, cfg, receiver=None):
     gate = RestartGate()
     previous_referee = None
     prepared_kickoff = None
+    awaiting_team = None
+    saw_restart = False
+    finish_tick = None
     steps = []
     states = []
     events = []
     score = [0, 0]
     restarts = 0
     start_time = sim.getTime()
+    origin = time.time()
+    camera_delay = 0.0
+    practice = practice_command(sign)
+
+    def send_camera(world):
+        packet = (receiver.feed.packet if state.source else None) if receiver else practice
+        stamp = origin + (sim.getTime() - start_time) + camera_delay
+        if not receiver:
+            practice.packet_timestamp = round(stamp * 1e6)
+        vision.send(world, stamp, backend.ball.getPosition()[2], packet)
+
     if cfg["record"]:
         sim.movieStartRecording(str(folder / "native.mp4"), 1280, 720, 0, 85, 1, False)
     for tick in range(round(cfg["seconds"] / CFG.dt)):
@@ -78,8 +100,17 @@ def match(sim, folder, cfg, receiver=None):
                 w = backend.reset(kickoff(seed + 101 * restarts, serving, sign, w.time))
                 prepared_kickoff = kickoff_key
             backend.world = w = replace(w, referee=state.mode, attack_sign=sign)
+            if cfg.get("stop_after_goal_restart") and awaiting_team is None:
+                for idx, goals in enumerate(state.score):
+                    if goals > score[idx]:
+                        awaiting_team = TEAMS[1 - idx]
             score[:] = state.score
             restricted = gate.restricted_to(state.source, state.counter, state.restart_team, w.ball)
+            if awaiting_team and state.command == "NORMAL_START":
+                if restricted == awaiting_team:
+                    saw_restart = True
+                elif saw_restart and not restricted and finish_tick is None:
+                    finish_tick = tick + round(1.5 / CFG.dt)
             referee_key = (
                 state.source,
                 state.counter,
@@ -148,6 +179,9 @@ def match(sim, folder, cfg, receiver=None):
                 restricted_to=restricted,
                 attack_sign=sign,
             )
+        if vision:
+            meta["vision_time"] = origin + (sim.getTime() - start_time) + camera_delay
+            send_camera(w)
         steps.append(meta)
         states.append(snapshot(w))
         w = backend.step(out)
@@ -159,6 +193,8 @@ def match(sim, folder, cfg, receiver=None):
             else:
                 tactics.flight = None
             events.append(event)
+        if tick == finish_tick:
+            break
         if receiver:
             continue  # The external match official owns goals, scores and restarts.
         scorer = None
@@ -186,11 +222,38 @@ def match(sim, folder, cfg, receiver=None):
                         team=TEAMS[scorer] if scorer is not None else None,
                     )
                 )
+                if cfg.get("capture_exit") == restarts:
+                    with (folder / "tail.pb").open("wb") as stream:
+                        for index in range(round(1.0 / CFG.dt)):
+                            frame = detection(
+                                w, index, index * CFG.dt, backend.ball.getPosition()[2]
+                            )
+                            write_delimited(stream, frame)
+                            w = backend.step({})
+                    break
+                if cfg.get("exit_tails"):
+                    path = Path(cfg["exit_tails"]) / str(seed) / str(restarts) / "tail.pb"
+                    with path.open("rb") as stream:
+                        for index in range(round(1.0 / CFG.dt)):
+                            frame = read_delimited(stream, Wrapper)
+                            if index == 0:
+                                actual = detection(w, 0, 0, backend.ball.getPosition()[2])
+                                if actual != frame:
+                                    raise ValueError(
+                                        f"Exit branch disagrees with live state: {path}"
+                                    )
+                            stamp = origin + (sim.getTime() - start_time) + camera_delay
+                            vision.send_frame(frame, stamp, practice)
+                            camera_delay += CFG.dt
+                        if stream.read(1):
+                            raise ValueError(f"Unexpected trailing camera frames: {path}")
                 w = backend.reset(
                     kickoff(seed + 101 * restarts, serving, sign, (tick + 1) * CFG.dt)
                 )
                 tactics = FiveRoles()
                 break
+        if cfg.get("capture_exit") == restarts:
+            break
     if cfg["record"]:
         sim.movieStopRecording()
         deadline = time.monotonic() + 90
@@ -207,7 +270,7 @@ def match(sim, folder, cfg, receiver=None):
             score=score,
             frames=steps,
             events=events,
-            seconds=cfg["seconds"],
+            seconds=len(steps) * CFG.dt,
         )
         (folder / "roles.json.gz").write_bytes(
             gzip.compress(json.dumps(log, separators=(",", ":")).encode(), mtime=0)
@@ -234,8 +297,13 @@ try:
         if live
         else nullcontext()
     )
-    with connection as receiver:
-        match(sim, folder, cfg, receiver)
+    camera = (
+        closing(VisionOutput(cfg.get("vision"), cfg.get("autoref_ci"), cfg.get("tracker")))
+        if cfg.get("vision") or cfg.get("autoref_ci")
+        else nullcontext()
+    )
+    with connection as receiver, camera as vision:
+        match(sim, folder, cfg, receiver, vision)
     if folder:
         sim.simulationQuit(0)
     else:

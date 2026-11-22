@@ -12,6 +12,16 @@ ROOT = Path(__file__).resolve().parents[1]
 WORLD = ROOT / "src/roboturk_ros/webots/worlds/ssl_five_roles.wbt"
 
 
+def endpoint(value):
+    try:
+        host, port = value.rsplit(":", 1)
+        if host and 0 < int(port) < 65536:
+            return host, int(port)
+    except ValueError:
+        pass
+    raise argparse.ArgumentTypeError("Use HOST:PORT")
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("output", type=Path)
@@ -27,12 +37,35 @@ def main():
     p.add_argument("--referee-address", default="224.5.23.1")
     p.add_argument("--referee-port", type=int, default=10003)
     p.add_argument("--referee-interface", default="0.0.0.0")
+    p.add_argument("--ssl-vision", type=endpoint, help="UDP destination for SSL-Vision packets")
+    p.add_argument("--autoref-ci", type=endpoint, help="TIGERs lockstep vision input")
+    p.add_argument("--tracker-output", type=endpoint, help="Forward TIGERs filtered tracker UDP")
+    p.add_argument(
+        "--stop-after-goal-restart",
+        action="store_true",
+        help="End after one goal and the responding team puts the ball back in play",
+    )
+    audit = p.add_mutually_exclusive_group()
+    audit.add_argument(
+        "--capture-exit", type=int, help="Branch for one second at this 1-based local exit"
+    )
+    audit.add_argument(
+        "--exit-tails", type=Path, help="Replay measured post-crossing camera frames"
+    )
     mode = p.add_mutually_exclusive_group()
     mode.add_argument("--watch", action="store_true")
     mode.add_argument("--record", action="store_true")
     a = p.parse_args()
     if a.seconds < 1:
         p.error("Use a positive duration")
+    if a.tracker_output and not a.autoref_ci:
+        p.error("--tracker-output requires --autoref-ci")
+    if a.stop_after_goal_restart and a.referee != "ssl":
+        p.error("--stop-after-goal-restart requires the official referee")
+    if a.capture_exit is not None and (a.referee != "local" or a.capture_exit < 1):
+        p.error("--capture-exit requires local play and a positive exit number")
+    if a.exit_tails and (a.referee != "local" or not (a.autoref_ci or a.ssl_vision)):
+        p.error("--exit-tails requires a local match with vision output")
     dest = a.output.resolve()
     dest.mkdir(parents=True, exist_ok=False)
     (dest / "config.json").write_text(
@@ -43,6 +76,12 @@ def main():
                 seconds=a.seconds,
                 record=a.record,
                 referee=a.referee,
+                stop_after_goal_restart=a.stop_after_goal_restart,
+                capture_exit=a.capture_exit,
+                exit_tails=str(a.exit_tails.resolve()) if a.exit_tails else None,
+                vision=a.ssl_vision,
+                autoref_ci=a.autoref_ci,
+                tracker=a.tracker_output,
                 referee_address=a.referee_address,
                 referee_port=a.referee_port,
                 referee_interface=a.referee_interface,
@@ -70,6 +109,8 @@ def main():
         subprocess.run(
             [*cmd, str(WORLD)], env=env, stdout=log, stderr=subprocess.STDOUT, check=True
         )
+    if a.capture_exit and not (dest / "tail.pb").exists():
+        raise RuntimeError("Requested exit did not occur")
     if not (dest / "positions.npz").exists():
         raise RuntimeError(f"Missing telemetry. See {dest}/webots.log")
 

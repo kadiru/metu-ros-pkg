@@ -1,0 +1,414 @@
+[
+  {
+    "seed": 20300000,
+    "exact_frames": 1500,
+    "boundaries": [
+      {
+        "tick": 558,
+        "match_seconds": 22.32,
+        "expected": {
+          "tick": 558,
+          "event": "goal",
+          "team": "yellow"
+        },
+        "observed": "possible_goal",
+        "detection_delay_s": 0.44,
+        "protobuf": {
+          "possibleGoal": {
+            "byTeam": "YELLOW",
+            "kickingBot": 2,
+            "location": {
+              "x": -4.5,
+              "y": -0.14428268
+            },
+            "kickLocation": {
+              "x": -2.6638696,
+              "y": 1.0639375
+            },
+            "maxBallHeight": 0.0,
+            "kickingTeam": "YELLOW",
+            "numRobotsByTeam": 5,
+            "lastTouchByTeam": "1795380366579108",
+            "message": ""
+          },
+          "type": "POSSIBLE_GOAL"
+        }
+      },
+      {
+        "tick": 730,
+        "match_seconds": 29.2,
+        "expected": {
+          "tick": 730,
+          "event": "goal",
+          "team": "blue"
+        },
+        "observed": "possible_goal",
+        "detection_delay_s": 0.36,
+        "protobuf": {
+          "possibleGoal": {
+            "byTeam": "BLUE",
+            "kickingBot": 2,
+            "location": {
+              "x": 4.5,
+              "y": 0.0792196
+            },
+            "kickLocation": {
+              "x": 3.0344284,
+              "y": -1.1600089
+            },
+            "maxBallHeight": 0.0,
+            "kickingTeam": "BLUE",
+            "numRobotsByTeam": 5,
+            "lastTouchByTeam": "1795380374709108",
+            "message": ""
+          },
+          "type": "POSSIBLE_GOAL"
+        }
+      },
+      {
+        "tick": 989,
+        "match_seconds": 39.56,
+        "expected": {
+          "tick": 989,
+          "event": "goal",
+          "team": "yellow"
+        },
+        "observed": "possible_goal",
+        "detection_delay_s": 0.36,
+        "protobuf": {
+          "possibleGoal": {
+            "byTeam": "YELLOW",
+            "kickingBot": 3,
+            "location": {
+              "x": -4.5,
+              "y": -0.05950769
+            },
+            "kickLocation": {
+              "x": -4.2987337,
+              "y": 1.4849141
+            },
+            "maxBallHeight": 0.0,
+            "kickingTeam": "YELLOW",
+            "numRobotsByTeam": 5,
+            "lastTouchByTeam": "1795380386199108",
+            "message": ""
+          },
+          "type": "POSSIBLE_GOAL"
+        }
+      },
+      {
+        "tick": 1321,
+        "match_seconds": 52.84,
+        "expected": {
+          "tick": 1321,
+          "event": "out",
+          "team": null
+        },
+        "observed": "ball_left_field_touch_line",
+        "detection_delay_s": 0.44,
+        "protobuf": {
+          "ballLeftFieldTouchLine": {
+            "byTeam": "YELLOW",
+            "byBot": 2,
+            "location": {
+              "x": 1.9293374,
+              "y": 3.0
+            }
+          },
+          "type": "BALL_LEFT_FIELD_TOUCH_LINE"
+        }
+      }
+    ],
+    "other_events": [
+      {
+        "botCrashDrawn": {
+          "botYellow": 4,
+          "botBlue": 2,
+          "location": {
+            "x": -1.8933,
+            "y": -0.71183324
+          },
+          "crashSpeed": 1.5189481,
+          "speedDiff": -0.26000795,
+          "crashAngle": 2.1413815
+        },
+        "type": "BOT_CRASH_DRAWN"
+      },
+      {
+        "botCrashDrawn": {
+          "botYellow": 2,
+          "botBlue": 2,
+          "location": {
+            "x": 2.1557012,
+            "y": 0.46144345
+          },
+          "crashSpeed": 1.6188831,
+          "speedDiff": 0.011827456,
+          "crashAngle": 1.7680961
+        },
+        "type": "BOT_CRASH_DRAWN"
+      }
+    ]
+  },
+  {
+    "seed": 20300001,
+    "exact_frames": 1500,
+    "boundaries": [
+      {
+        "tick": 247,
+        "match_seconds": 9.88,
+        "expected": {
+          "tick": 247,
+          "event": "out",
+          "team": null
+        },
+        "observed": "ball_left_field_touch_line",
+        "detection_delay_s": 0.44,
+        "protobuf": {
+          "ballLeftFieldTouchLine": {
+            "byTeam": "BLUE",
+            "byBot": 2,
+            "location": {
+              "x": 3.0112548,
+              "y": -3.0
+            }
+          },
+          "type": "BALL_LEFT_FIELD_TOUCH_LINE"
+        }
+      },
+      {
+        "tick": 542,
+        "match_seconds": 21.68,
+        "expected": {
+          "tick": 542,
+          "event": "goal",
+          "team": "blue"
+        },
+        "observed": "possible_goal",
+        "detection_delay_s": 0.4,
+        "protobuf": {
+          "possibleGoal": {
+            "byTeam": "BLUE",
+            "kickingBot": 1,
+            "location": {
+              "x": -4.5,
+              "y": 0.07225871
+            },
+            "kickLocation": {
+              "x": -2.1996021,
+              "y": -1.3091187
+            },
+            "maxBallHeight": 0.0,
+            "kickingTeam": "BLUE",
+            "numRobotsByTeam": 5,
+            "lastTouchByTeam": "1795380392167951",
+            "message": ""
+          },
+          "type": "POSSIBLE_GOAL"
+        }
+      },
+      {
+        "tick": 1030,
+        "match_seconds": 41.2,
+        "expected": {
+          "tick": 1030,
+          "event": "out",
+          "team": null
+        },
+        "observed": "ball_left_field_goal_line",
+        "detection_delay_s": 0.4,
+        "protobuf": {
+          "ballLeftFieldGoalLine": {
+            "byTeam": "BLUE",
+            "byBot": 1,
+            "location": {
+              "x": 4.5,
+              "y": -0.8134306
+            }
+          },
+          "type": "BALL_LEFT_FIELD_GOAL_LINE"
+        }
+      }
+    ],
+    "other_events": [
+      {
+        "botCrashDrawn": {
+          "botYellow": 2,
+          "botBlue": 3,
+          "location": {
+            "x": -2.1617532,
+            "y": -0.57675153
+          },
+          "crashSpeed": 1.7381442,
+          "speedDiff": 0.020218732,
+          "crashAngle": 1.8324299
+        },
+        "type": "BOT_CRASH_DRAWN"
+      },
+      {
+        "botCrashDrawn": {
+          "botYellow": 3,
+          "botBlue": 3,
+          "location": {
+            "x": -2.7375684,
+            "y": 0.21749285
+          },
+          "crashSpeed": 1.8454564,
+          "speedDiff": 0.04267492,
+          "crashAngle": 1.9118779
+        },
+        "type": "BOT_CRASH_DRAWN"
+      }
+    ]
+  },
+  {
+    "seed": 20300002,
+    "exact_frames": 1500,
+    "boundaries": [
+      {
+        "tick": 926,
+        "match_seconds": 37.04,
+        "expected": {
+          "tick": 926,
+          "event": "out",
+          "team": null
+        },
+        "observed": "ball_left_field_touch_line",
+        "detection_delay_s": 0.4,
+        "protobuf": {
+          "ballLeftFieldTouchLine": {
+            "byTeam": "BLUE",
+            "byBot": 1,
+            "location": {
+              "x": 4.1261563,
+              "y": -3.0
+            }
+          },
+          "type": "BALL_LEFT_FIELD_TOUCH_LINE"
+        }
+      },
+      {
+        "tick": 1364,
+        "match_seconds": 54.56,
+        "expected": {
+          "tick": 1364,
+          "event": "out",
+          "team": null
+        },
+        "observed": "ball_left_field_touch_line",
+        "detection_delay_s": 0.36,
+        "protobuf": {
+          "ballLeftFieldTouchLine": {
+            "byTeam": "YELLOW",
+            "byBot": 2,
+            "location": {
+              "x": -0.2725861,
+              "y": 3.0
+            }
+          },
+          "type": "BALL_LEFT_FIELD_TOUCH_LINE"
+        }
+      }
+    ],
+    "other_events": [
+      {
+        "botCrashDrawn": {
+          "botYellow": 3,
+          "botBlue": 3,
+          "location": {
+            "x": -0.55906886,
+            "y": -0.64328974
+          },
+          "crashSpeed": 1.7351524,
+          "speedDiff": 0.16423956,
+          "crashAngle": 1.9839323
+        },
+        "type": "BOT_CRASH_DRAWN"
+      },
+      {
+        "defenderInDefenseArea": {
+          "byTeam": "YELLOW",
+          "byBot": 1,
+          "location": {
+            "x": 3.7100136,
+            "y": 0.75367516
+          },
+          "distance": 0.25001362
+        },
+        "type": "DEFENDER_IN_DEFENSE_AREA"
+      },
+      {
+        "attackerTouchedBallInDefenseArea": {
+          "byTeam": "BLUE",
+          "byBot": 1,
+          "location": {
+            "x": 3.5187566,
+            "y": 1.0018343
+          },
+          "distance": 0.05875661
+        },
+        "type": "ATTACKER_TOUCHED_BALL_IN_DEFENSE_AREA"
+      },
+      {
+        "attackerTouchedBallInDefenseArea": {
+          "byTeam": "BLUE",
+          "byBot": 1,
+          "location": {
+            "x": 3.491212,
+            "y": 0.7308606
+          },
+          "distance": 0.031211838
+        },
+        "type": "ATTACKER_TOUCHED_BALL_IN_DEFENSE_AREA"
+      },
+      {
+        "attackerTouchedBallInDefenseArea": {
+          "byTeam": "BLUE",
+          "byBot": 1,
+          "location": {
+            "x": 3.4917777,
+            "y": 0.45387593
+          },
+          "distance": 0.031777676
+        },
+        "type": "ATTACKER_TOUCHED_BALL_IN_DEFENSE_AREA"
+      },
+      {
+        "attackerTouchedBallInDefenseArea": {
+          "byTeam": "BLUE",
+          "byBot": 1,
+          "location": {
+            "x": 3.5631666,
+            "y": 0.384127
+          },
+          "distance": 0.10316663
+        },
+        "type": "ATTACKER_TOUCHED_BALL_IN_DEFENSE_AREA"
+      },
+      {
+        "attackerTouchedBallInDefenseArea": {
+          "byTeam": "BLUE",
+          "byBot": 1,
+          "location": {
+            "x": 3.4935176,
+            "y": 0.35838518
+          },
+          "distance": 0.033517625
+        },
+        "type": "ATTACKER_TOUCHED_BALL_IN_DEFENSE_AREA"
+      },
+      {
+        "attackerTouchedBallInDefenseArea": {
+          "byTeam": "BLUE",
+          "byBot": 1,
+          "location": {
+            "x": 3.494639,
+            "y": 0.21873584
+          },
+          "distance": 0.03463887
+        },
+        "type": "ATTACKER_TOUCHED_BALL_IN_DEFENSE_AREA"
+      }
+    ]
+  }
+]

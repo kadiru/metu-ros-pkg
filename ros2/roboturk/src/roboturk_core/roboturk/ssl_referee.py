@@ -57,6 +57,7 @@ def resolve(command, previous, consecutive):
 
 class RefereeFeed:
     def __init__(self):
+        self.packet = None
         self.last = Decision()
         self.received = -math.inf
         self.timestamp = -1
@@ -86,6 +87,7 @@ class RefereeFeed:
         sign = self.last.attack_sign if same else 1
         if p.HasField("blue_team_on_positive_half"):
             sign = -1 if p.blue_team_on_positive_half else 1
+        self.packet = p
         self.last = Decision(
             mode,
             command,

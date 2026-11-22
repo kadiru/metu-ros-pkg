@@ -13,7 +13,13 @@ The work spans hardware/software integration and path-planning experiments: how 
 
 ## Robot soccer in Webots
 
-In the modern ROS 2 successor to this stack, two teams of three train by playing each other in Webots. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/1cef7fddd1677b4e632119f331f65ea7168acff7/ros2/roboturk)
+In the modern ROS 2 successor to this stack, two teams of three train by playing each other in Webots. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/6679443115b6c190076cb4bde94b1cd8b39f8c48/ros2/roboturk)
+
+### Three steals, three second chances
+
+Watch the same three takeaways twice. The old team plays on the left. On the right, Blue escapes the pressure and scores from all three positions it trained on. In a separate test on 40 fresh kickoffs, the new team scored 73 goals from 391 clean steals. The old team scored 1 from 12. [Fresh Webots match](https://github.com/kadiru/metu-ros-pkg/blob/6679443115b6c190076cb4bde94b1cd8b39f8c48/ros2/roboturk/media/clean-takeaway/open-play-match.mp4) · [Match results](https://github.com/kadiru/metu-ros-pkg/tree/6679443115b6c190076cb4bde94b1cd8b39f8c48/ros2/roboturk/policies/takeaway_v1)
+
+[![Three original RoboTurk takeaways on the left and the trained team's goals from the same positions on the right.](../../docs/assets/roboturk-webots/three-repaired-takeaways.gif)](https://github.com/kadiru/metu-ros-pkg/blob/6679443115b6c190076cb4bde94b1cd8b39f8c48/ros2/roboturk/media/clean-takeaway/three-repaired-takeaways.mp4)
 
 ### Same opening, two outcomes
 

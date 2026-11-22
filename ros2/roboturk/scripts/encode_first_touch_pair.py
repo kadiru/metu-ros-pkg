@@ -100,7 +100,7 @@ def main():
                     caption = f"Goal by {team} {row['receiver']}"
                 elif k and j >= 4 * row["chain"]["shot"]:
                     caption = "Receiver shoots"
-                elif k and j >= row["shield_end"]:
+                elif k and row.get("shield_end") is not None and j >= row["shield_end"]:
                     caption = "Receiver shields and turns to goal"
                 elif k and j >= row["contact"]:
                     caption = "Receiver controls the lead pass"

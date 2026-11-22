@@ -42,10 +42,22 @@ def main():
     slots = [
         i
         for i, (x, y) in enumerate(zip(old, new, strict=True))
-        if x["prepass_loss"] and y["qualified"] and x["chain"]["winner"] == y["chain"]["winner"]
+        if x["prepass_loss"]
+        and not y["prepass_loss"]
+        and y.get("lead_goal")
+        and y["chain"].get("scorer") == y.get("receiver")
+        and x["chain"]["winner"] == y["chain"]["winner"]
     ]
     # Select the fastest documented original loss among repaired openings.
-    i = min(slots, key=lambda j: old[j]["first_break"] - old[j]["chain"]["recovery"])
+    if not slots:
+        raise ValueError("No same-winner historical loss became a clean lead-pass receiver goal")
+    i = min(
+        slots,
+        key=lambda j: (
+            not new[j]["qualified"],
+            old[j]["first_break"] - old[j]["chain"]["recovery"],
+        ),
+    )
     a.pair.mkdir(parents=True, exist_ok=False)
     left, g = record(a.previous, i, (a.pair / "previous").resolve(), a.webots)
     right, h = record(a.trained, i, (a.pair / "trained").resolve(), a.webots)
@@ -65,6 +77,7 @@ def main():
             first_touches=h["first_touches"],
             first_different_sample=int(np.flatnonzero((left != right).any(1))[0]),
             same_first_frame=True,
+            excerpt_goal_qualified=after["qualified"],
             reproduced_samples_per_side=len(left),
             max_replay_delta=0,
         ),

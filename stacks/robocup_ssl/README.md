@@ -3,13 +3,35 @@
 **RoboCup Small Size League · omnidirectional robots · planning · Webots**  
 METU IEEE Student Branch, Robotics and Automation Society · 2009–2011
 
-[Repository overview](../../README.md) · [Affordance-learning stack](../affordance_learning/README.md) · [Code map](#explore-the-code) · [Demos](#watch-the-experiments) · [Research](#papers-and-technical-reports)
+[Repository overview](../../README.md) · [Match GIFs](#robot-soccer-in-webots) · [Code map](#explore-the-code) · [Archival demos](#watch-the-experiments) · [Research](#papers-and-technical-reports) · [Affordance-learning stack](../affordance_learning/README.md)
 
 ## From a global field view to robot motion
 
 RoboTurk connects a team of **five four-omniwheel robots** with global vision, ROS message interfaces, planning and embedded robot control. A Webots counterpart supports simulation experiments before working with the physical system.
 
 The work spans hardware/software integration and path-planning experiments: how to move toward a target around other robots, how potential fields can fail, and how obstacle representations and replanning affect navigation.
+
+## Robot soccer in Webots
+
+In the modern ROS 2 successor to this stack, two teams of three train by playing each other in Webots. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/1cef7fddd1677b4e632119f331f65ea7168acff7/ros2/roboturk)
+
+### Same opening, two outcomes
+
+Both replays start with the robots and ball in the same positions. On the left, Yellow gets a touch before Blue can shoot. On the right, watch Blue 2 take the ball out of the crowd, dribble half a metre and score.
+
+[![Side-by-side Webots replay of the same opening. Blue loses control on the left and dribbles clear to score on the right.](../../docs/assets/roboturk-webots/matched-recovery.gif)](https://github.com/kadiru/metu-ros-pkg/blob/1cef7fddd1677b4e632119f331f65ea7168acff7/ros2/roboturk/media/recovery-transition/matched-recovery.mp4)
+
+### Pass into a teammate’s path
+
+Yellow 0 has a defender in the way. Watch the marked spot ahead of Yellow 1. The pass goes there while Yellow 1 is still running, and the receiver meets the ball and scores.
+
+[![Yellow 0 passes ahead of Yellow 1, who runs onto the ball and scores.](../../docs/assets/roboturk-webots/lead-pass.gif)](https://github.com/kadiru/metu-ros-pkg/blob/1cef7fddd1677b4e632119f331f65ea7168acff7/ros2/roboturk/media/lead-outlet/lead-pass.mp4)
+
+### Shield the ball under pressure
+
+Watch the inset as Yellow closes on Blue 1. Blue 1 turns its body between the defender and the ball, keeps possession, then turns toward goal and shoots. The team completed this sequence in 27 of 40 fresh simulated openings. [Match-by-match results](https://github.com/kadiru/metu-ros-pkg/tree/1cef7fddd1677b4e632119f331f65ea7168acff7/ros2/roboturk/policies/pressure_receive_v1)
+
+[![Close-up of Blue 1 shielding a received pass from Yellow’s defender before shooting and scoring.](../../docs/assets/roboturk-webots/pressure-shield.gif)](https://github.com/kadiru/metu-ros-pkg/blob/1cef7fddd1677b4e632119f331f65ea7168acff7/ros2/roboturk/media/pressure-receive/pressure-shield.mp4)
 
 ## System architecture
 

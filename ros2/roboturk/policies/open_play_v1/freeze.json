@@ -1,0 +1,10 @@
+{
+  "src/roboturk_ros/webots/worlds/ssl_open_play.wbt": "2218da9882883beb60143321faa394582bd5d4257d7f87c89e8e31fc77fa3b89",
+  "src/roboturk_ros/webots/controllers/roboturk_open_play/roboturk_open_play.py": "3ebe87196a1811d7d3af1c92c316ace432f9abeab53b86a43088f96efa98f741",
+  "scripts/train_open_play.py": "5d9ec671ea4417fa5adc9408692db73729b9f3b3601855a7098a54b15a43d281",
+  "policies/open_play_v1/protocol.json": "40b9c4dd9e468905476475fe2a26416a948c83f783b61ab37cbc5497036113b8",
+  "policies/open_play_v1/policy.json": "ab2af79833edd7ca9842700c89ac7f6edeab513523dd7e163834812f7c603698",
+  "policies/recovery_touch_v1/planned-policy-9.json": "e888d831c779339428c15e8b871ab2559f52b6d66733f3d8fd81d4e057850ef9",
+  "src/roboturk_core/roboturk/open_play.py": "f576155073cbff9913898448e95a9ad3e73bd6e3873a8f30cf420795a14ed833",
+  "src/roboturk_core/roboturk/open_play_audit.py": "a385201a6071e2ba257b5cd4eb9df8f505ceef924e22239bb7a520bff167edc2"
+}

@@ -1,5 +1,6 @@
 """Native continuous 3v3 self-play with ordinary restarts."""
 
+from dataclasses import asdict
 import json
 import os
 from pathlib import Path
@@ -60,7 +61,9 @@ def run(sim, folder):
             trace=True,
             render=render,
         )
+        initial_world = asdict(game.world)
         result = game.run()
+        result["initial_world"] = initial_world
         states = np.asarray(game.samples)
         result.update(options=game.options, blue_model=blue, yellow_model=yellow)
         result["recoveries"] = recoveries(states, result)

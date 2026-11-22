@@ -17,13 +17,16 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("replay", type=Path)
     parser.add_argument("media", type=Path)
+    parser.add_argument(
+        "--previous", type=Path, help="Verified previous-team replay on the identical start"
+    )
     args = parser.parse_args()
     args.media.mkdir(parents=True, exist_ok=True)
     replay = read(args.replay / "replay.json")
     assert replay["exact_trajectory"] and replay["exact_events"]
     game = read(args.replay / "game-000.json")
     states = np.load(args.replay / "trace-000.npz")["states"]
-    r = replay["moment"]
+    r = replay["trained_moment"]
     assert r in game["recoveries"] and r["outcome"] == "goal"
     full = args.media / "open-play-match.mp4"
     shutil.copyfile(args.replay / "match.mp4", full)
@@ -107,10 +110,55 @@ def main():
             clip,
         )
         excerpt = make_gif(clip, args.media / "open-play-recovery.gif", 0, len(files) / 12.5, 12.5)
+    paired = {}
+    if args.previous:
+        other = read(args.previous / "replay.json")
+        assert other["seed"] == replay["seed"] and other["model"] == 0 and replay["model"] == 1
+        assert other["exact_events"] and other["exact_trajectory"]
+        assert read(args.previous / "game-000.json")["initial_world"] == game["initial_world"]
+        # The counterfactuals share the kickoff. From that moment each match plays independently.
+        title = Image.new("RGB", (1280, 48), (17, 30, 39))
+        labels = ImageDraw.Draw(title)
+        labels.text(
+            (14, 9), "Previous team  /  31 of 40 opening goals", fill="white", font=font(22)
+        )
+        labels.text((654, 9), "New team  /  open-play self-play", fill="white", font=font(22))
+        movie = args.media / "same-start.mp4"
+        with tempfile.TemporaryDirectory() as directory:
+            header = Path(directory) / "titles.png"
+            title.save(header)
+            ffmpeg(
+                "-ss",
+                start,
+                "-i",
+                args.previous / "match.mp4",
+                "-ss",
+                start,
+                "-i",
+                full,
+                "-i",
+                header,
+                "-filter_complex",
+                "[0:v]scale=640:360[l];[1:v]scale=640:360[r];[l][r]hstack=2[b];[b]pad=1280:408:0:48[p];[p][2:v]overlay=0:0",
+                "-t",
+                end - start,
+                "-an",
+                "-c:v",
+                "libx264",
+                "-pix_fmt",
+                "yuv420p",
+                movie,
+            )
+        paired = dict(
+            previous=other,
+            excerpt=make_gif(movie, args.media / "same-start.gif", 0, end - start, 10),
+            sha256=digest(movie),
+        )
     save(
         args.media / "recording.json",
         replay
         | dict(
+            matched=paired,
             full_seconds=duration,
             native_sha256=digest(full),
             excerpt_seconds=[start, end],

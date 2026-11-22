@@ -67,7 +67,13 @@ def main():
     parser.add_argument("--workers", type=int, choices=(1, 2, 3, 4), default=3)
     parser.add_argument("--webots", type=Path, default=WEBOTS)
     parser.add_argument("--from-evaluation", type=Path)
+    parser.add_argument(
+        "--previous", action="store_true", help="Film the matched previous-team game"
+    )
+    parser.add_argument("--audit-existing-training", action="store_true")
     args = parser.parse_args()
+    if args.audit_existing_training and args.mode != "train":
+        parser.error("Only complete training schedules can be re-audited")
     d = args.folder.resolve()
     plan = read(DEST / "protocol.json")
     prior = read(ROOT / plan["previous"])
@@ -135,8 +141,11 @@ def main():
         if not ranking:
             raise ValueError("No verified goal to replay")
         _, i, moment = max(ranking, key=lambda item: item[0])
+        seed = schedule[i][0]
+        if args.previous:
+            i = schedule.index([seed, 0, 0])
         schedule = [schedule[i]]
-    d.mkdir(parents=True, exist_ok=False)
+    d.mkdir(parents=True, exist_ok=args.audit_existing_training)
     cfg = dict(
         root=str(ROOT),
         models=models,
@@ -148,7 +157,10 @@ def main():
         world=str(WORLD.relative_to(ROOT)),
         webots_sha256=sha(args.webots),
     )
-    save(d / "launch.json", cfg)
+    if args.audit_existing_training:
+        assert read(d / "launch.json") == cfg
+    else:
+        save(d / "launch.json", cfg)
     if args.mode == "record":
         run_matches(d, cfg, args.webots, WORLD, True)
         expected = source / f"trace-{i:03}.npz"
@@ -158,22 +170,27 @@ def main():
             d / "replay.json",
             dict(
                 seed=schedule[0][0],
-                moment=moment,
+                trained_moment=moment,
+                model=schedule[0][1],
                 physical_samples=seconds * 100,
                 exact_events=True,
                 exact_trajectory=True,
             ),
         )
         return
-    with ThreadPoolExecutor(max_workers=args.workers) as pool:
-        list(pool.map(lambda i: native.isolated(d, i, args.webots), range(len(schedule))))
+    if not args.audit_existing_training:
+        with ThreadPoolExecutor(max_workers=args.workers) as pool:
+            list(pool.map(lambda i: native.isolated(d, i, args.webots), range(len(schedule))))
     games, first = [], {}
     for i, (seed, a, b) in enumerate(schedule):
         game = read(d / f"game-{i:03}.json")
         states = np.load(d / f"trace-{i:03}.npz")["states"]
         assert len(states) == 100 * seconds and game["recoveries"] == recoveries(states, game)
         assert (game["seed"], game["blue_model"], game["yellow_model"]) == (seed, a, b)
-        assert np.array_equal(first.setdefault(seed, states[0].copy()), states[0]), seed
+        # The first trajectory sample already contains 10 ms of policy-dependent motion.
+        if "initial_world" in game or not args.audit_existing_training:
+            initial = game["initial_world"]
+            assert first.setdefault(seed, initial) == initial, seed
         games.append(game)
     if args.mode == "train":
         stats = [totals(games, j) for j in range(len(models))]

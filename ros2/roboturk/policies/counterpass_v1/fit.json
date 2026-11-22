@@ -1,0 +1,113 @@
+[
+  {
+    "family": "tree",
+    "folds": [
+      {
+        "setting": [
+          1,
+          7
+        ],
+        "goals": 40,
+        "pass_goals": 4,
+        "actions": {
+          "2": 25,
+          "1": 45,
+          "3": 7
+        }
+      },
+      {
+        "setting": [
+          2,
+          7
+        ],
+        "goals": 43,
+        "pass_goals": 8,
+        "actions": {
+          "2": 27,
+          "1": 39,
+          "3": 8,
+          "0": 3
+        }
+      },
+      {
+        "setting": [
+          3,
+          5
+        ],
+        "goals": 43,
+        "pass_goals": 10,
+        "actions": {
+          "2": 22,
+          "1": 41,
+          "0": 6,
+          "3": 8
+        }
+      },
+      {
+        "setting": [
+          3,
+          3
+        ],
+        "goals": 45,
+        "pass_goals": 12,
+        "actions": {
+          "2": 29,
+          "1": 36,
+          "0": 6,
+          "3": 6
+        }
+      }
+    ],
+    "selected": [
+      3,
+      3
+    ]
+  },
+  {
+    "family": "shared ridge",
+    "folds": [
+      {
+        "setting": 1,
+        "goals": 50,
+        "pass_goals": 12,
+        "actions": {
+          "2": 16,
+          "3": 19,
+          "1": 41,
+          "0": 1
+        }
+      },
+      {
+        "setting": 4,
+        "goals": 49,
+        "pass_goals": 13,
+        "actions": {
+          "2": 15,
+          "3": 18,
+          "1": 44
+        }
+      },
+      {
+        "setting": 12,
+        "goals": 50,
+        "pass_goals": 12,
+        "actions": {
+          "2": 12,
+          "3": 18,
+          "1": 47
+        }
+      },
+      {
+        "setting": 30,
+        "goals": 47,
+        "pass_goals": 12,
+        "actions": {
+          "2": 11,
+          "3": 13,
+          "1": 53
+        }
+      }
+    ],
+    "selected": 1
+  }
+]

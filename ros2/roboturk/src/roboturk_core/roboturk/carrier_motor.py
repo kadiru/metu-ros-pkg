@@ -1,8 +1,9 @@
 """Velocity-matched roller control during a contested recovery."""
 
 import math
-from .model import Command, body_vector, wrap
-from .transition_attack import unit
+from .model import Command, body_vector, unit, wrap
+
+MOTOR = dict(drive=0.66, step_v=0.48, grip=24, pivot=7.4, cap=1.85)
 
 
 def track_roller(w, actor, desired, omega, p):

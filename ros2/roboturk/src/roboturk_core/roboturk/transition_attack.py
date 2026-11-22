@@ -2,6 +2,7 @@
 
 import math
 import numpy as np
+from .model import unit
 from .jaw_recovery import JawGame
 from .model import Command, RobotKey, body_vector, possession, wrap
 from .recovery_attack import AttackGame, PossessionEnded
@@ -10,11 +11,6 @@ from .three_match import CFG, face
 from .three_recipient import distance, move
 
 ACTIONS = ("pass", "dribble", "shoot")
-
-
-def unit(dx, dy):
-    length = max(1e-6, math.hypot(dx, dy))
-    return dx / length, dy / length
 
 
 def window(w, actor):

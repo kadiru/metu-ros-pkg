@@ -3,20 +3,14 @@
 from dataclasses import replace
 import math
 
-from .carrier_motor import track_roller
-from .counterpass import MOTOR
+from .carrier_motor import MOTOR, track_roller
 from .five_roles import Assignment, CFG, limit
-from .model import Command, possession, wrap
+from .model import Command, possession, unit, wrap
 from .three_recipient import move
 
 
 def xy(entity):
     return entity.x, entity.y
-
-
-def unit(dx, dy):
-    d = max(0.000001, math.hypot(dx, dy))
-    return dx / d, dy / d
 
 
 def closest(point, start, end):

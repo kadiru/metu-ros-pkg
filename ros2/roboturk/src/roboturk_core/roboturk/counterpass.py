@@ -2,15 +2,13 @@
 
 import math
 from dataclasses import replace
-from .carrier_motor import track_roller
+from .carrier_motor import MOTOR, track_roller
 from .model import RobotKey, possession, wrap
 from .distribution_value import decision
 from .takeaway_finish import FinishGame
 from .three_match import CFG
 from .three_recipient import candidates, choose, distance, move
 from .transition_attack import unit
-
-MOTOR = dict(drive=0.66, step_v=0.48, grip=24, pivot=7.4, cap=1.85)
 
 
 def clearance(x, y, tx, ty, robots, speed):

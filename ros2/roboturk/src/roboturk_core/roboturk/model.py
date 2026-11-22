@@ -111,6 +111,11 @@ class Play:
     assignments: dict[RobotKey, Intent] = field(default_factory=dict)
 
 
+def unit(dx, dy):
+    length = max(1e-6, math.hypot(dx, dy))
+    return dx / length, dy / length
+
+
 def body_vector(x: float, y: float, yaw: float) -> tuple[float, float]:
     c, s = math.cos(yaw), math.sin(yaw)
     return c * x + s * y, -s * x + c * y

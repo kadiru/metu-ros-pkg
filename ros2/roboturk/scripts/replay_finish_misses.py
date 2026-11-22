@@ -13,12 +13,17 @@ def main():
     p.add_argument("models", type=Path)
     p.add_argument("folder", type=Path)
     p.add_argument("--webots", type=Path, default=trainer.WEBOTS)
+    p.add_argument(
+        "--all", action="store_true", help="Replay all previous openings as a regression panel"
+    )
     args = p.parse_args()
     d = args.folder.resolve()
     d.mkdir(parents=True, exist_ok=False)
     trainer.WORLD = trainer.WORLD.with_name("ssl_clean_recovery.wbt")
     cfg = trainer.read(args.previous / "launch.json")
     models = trainer.read(args.models)
+    if isinstance(models, dict):
+        models = [models]
     rows = trainer.read(args.previous / "audit.json")["rows"]
     sources = [
         (i, r)
@@ -28,6 +33,8 @@ def main():
         and not r["prepass_loss"]
         and r.get("pass_result") == "complete"
     ]
+    if args.all:
+        sources = list(enumerate(rows))
     schedule = [[r["seed"], a, a] for _, r in sources for a in range(len(models))]
     cfg.update(
         root=str(trainer.ROOT),
@@ -56,7 +63,12 @@ def main():
             dict(
                 seed=old["seed"],
                 arm=arm,
-                same_through_release=prefix >= 4 * old["kick"],
+                same_through_release=prefix >= 4 * old["kick"]
+                if old.get("kick") is not None
+                else None,
+                old_qualified=old["qualified"],
+                prepass_loss=r["prepass_loss"],
+                old_prepass_loss=old["prepass_loss"],
                 identical_prefix_samples=prefix,
                 old_outcome=old["outcome"],
                 new_outcome=r["outcome"],

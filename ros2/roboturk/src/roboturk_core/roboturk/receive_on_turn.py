@@ -1,0 +1,56 @@
+"""Receive on the half-turn, keeping the ball behind the body while facing the shot."""
+
+import math
+
+from .carrier_motor import track_roller
+from .finish_touch import CleanRecoveryGame
+from .model import possession, wrap
+from .three_match import CFG
+from .three_recipient import distance
+from .transition_attack import unit, window
+
+
+def shield_heading(away, shot, angle_limit):
+    return away + max(-angle_limit, min(angle_limit, wrap(shot - away)))
+
+
+class HalfTurnGame(CleanRecoveryGame):
+    def commands(self):
+        out = super().commands()
+        if not self.delivery or not self.shield_commands:
+            return out
+        event = self.shield_commands[-1]
+        if event["kick"] != self.delivery["tick"] or event["last"] != self.tick:
+            return out
+        w = self.world
+        actor = w.robot(self.runner)
+        p = self.teams[actor.key.team]
+        if "half_angle" not in p or not possession(w, actor.key, CFG):
+            return out
+        rival = min(
+            (r for r in w.robots if r.key.team != actor.key.team), key=lambda r: distance(r, actor)
+        )
+        ux, uy = unit(actor.x - rival.x, actor.y - rival.y)
+        away = math.atan2(uy, ux)
+        gx, gy, _ = window(w, actor)
+        shot = math.atan2(gy - w.ball.y, gx - w.ball.x)
+        # Stay within the protective cone while reducing the turn still needed to shoot.
+        age = self.tick - event["first"]
+        fade = min(1.0, max(0.0, (age - p["half_delay"] + 1) / p["half_ramp"]))
+        yaw = shield_heading(away, shot, fade * p["half_angle"])
+        blend = p["half_carry"] * fade
+        ex, ey = unit(
+            (1 - blend) * ux + blend * math.cos(yaw), (1 - blend) * uy + blend * math.sin(yaw)
+        )
+        omega = p["half_gain"] * wrap(yaw - actor.yaw)
+        motor = p | dict(
+            drive=p["half_drive"],
+            step_v=p["half_step"],
+            grip=p["half_grip"],
+            pivot=p["shield_turn"],
+            cap=1.16,
+        )
+        out[actor.key] = track_roller(
+            w, actor, (p["shield_speed"] * ex, p["shield_speed"] * ey), omega, motor
+        )
+        return out

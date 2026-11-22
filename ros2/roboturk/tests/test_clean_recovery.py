@@ -39,3 +39,14 @@ def test_post_shield_pivot_preserves_an_actual_shot(kick):
         assert result is cmd
     else:
         assert result.dribbler == 1 and result.kick == 0 and abs(result.vy) < 1.15
+
+
+def test_half_turn_stays_inside_the_shielding_cone_across_angle_wrap():
+    import math
+    from roboturk.model import wrap
+    from roboturk.receive_on_turn import shield_heading
+
+    away = math.pi - 0.10
+    close_shot = -math.pi + 0.15
+    assert wrap(shield_heading(away, close_shot, 0.6) - close_shot) == pytest.approx(0)
+    assert wrap(shield_heading(away, 0, 0.6) - away) == pytest.approx(-0.6)

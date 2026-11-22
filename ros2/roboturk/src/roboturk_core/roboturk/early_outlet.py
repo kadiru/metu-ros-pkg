@@ -9,6 +9,8 @@ from .model import possession, wrap
 from .three_match import CFG
 from .three_recipient import candidates, move
 from .touch_escape import EscapeGame
+from .roller_rescue import rescue_motion
+from .touch_context import first_touch_features, select_motor
 
 
 def early_route(w, actor, p):
@@ -42,10 +44,66 @@ def early_route(w, actor, p):
 class EarlyOutletGame(EscapeGame):
     def __init__(self, *args, **kwargs):
         self.early_plans = []
+        self.opening_context = None
+        self.motor_choices = {}
+        self.teams = kwargs["teams"].copy()
+        kwargs["teams"] = self.teams
         super().__init__(*args, **kwargs)
 
+    def rescue(self, out):
+        if self.flight or self.delivery or not (self.active or self.contestants):
+            return
+        w = self.world
+        held = [r for r in w.robots if possession(w, r.key, CFG)]
+        if len(held) != 1:
+            return
+        actor = held[0]
+        p = self.teams[actor.key.team]
+        if "rescue_look" not in p:
+            return
+        if self.active:
+            team, start = self.active
+            if team != actor.key.team or any(
+                f["team"] == team and 4 * f["tick"] >= start for f in self.passes
+            ):
+                return
+        elif actor.key not in self.contestants:
+            return
+        rival = min(
+            (r for r in w.robots if r.key.team != actor.key.team),
+            key=lambda r: math.hypot(r.x - w.ball.x, r.y - w.ball.y),
+        )
+        default = out[actor.key]
+        answer = (
+            None if default.kick else rescue_motion(w, actor, rival, default, p, self.sole_count)
+        )
+        mode = "sidestep" if self.option and self.option["action"] == "dribble" else "release"
+        if answer:
+            out[actor.key], mode, _, _ = answer
+        prev = self.first_touches[-1] if self.first_touches else {}
+        if (
+            prev.get("team") != actor.key.team
+            or prev.get("actor") != actor.key.id
+            or prev.get("last") != self.tick - 1
+            or prev.get("action") != mode
+        ):
+            self.first_touches.append(
+                dict(team=actor.key.team, actor=actor.key.id, first=self.tick, action=mode)
+            )
+        self.first_touches[-1]["last"] = self.tick
+
     def commands(self):
+        if self.opening_context is None and self.contestants:
+            held = [r for r in self.world.robots if possession(self.world, r.key, CFG)]
+            if len(held) == 1 and held[0].key in self.contestants:
+                self.opening_context = first_touch_features(self.world, held[0])
+                for team, p in list(self.teams.items()):
+                    if "carrier_bank" in p:
+                        i = select_motor(p["carrier_tree"], self.opening_context)
+                        self.teams[team] = p["carrier_bank"][i]
+                        self.motor_choices[team] = i
         out = super().commands()
+        self.rescue(out)
         if self.active or self.flight or not self.contestants:
             return out
         w = self.world

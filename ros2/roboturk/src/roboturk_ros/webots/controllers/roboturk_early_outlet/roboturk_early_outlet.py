@@ -66,6 +66,8 @@ def run(sim, folder):
         result.update(
             first_touches=game.first_touches,
             early_plans=game.early_plans,
+            opening_context=game.opening_context,
+            motor_choices=game.motor_choices,
             shield_commands=game.shield_commands,
             options=game.options,
             blue_model=blue,

@@ -4,6 +4,14 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2 and 3v3 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Protecting the first touch in 3v3
+
+The recovering team protected the first touch, led a teammate past the defender and finished under pressure on **31 of 40 fresh Webots openings**. The original ball winner lost possession before the pass in 1 opening. On identical starts, the previous team scored 24/40 and lost possession before the pass in 3 openings.
+
+[![Matched Webots replay of an original first-touch loss and the new team’s recovery, pass and goal](media/recovery-touch/first-touch-comparison.gif)](media/recovery-touch/first-touch-comparison.mp4)
+
+*Watch Blue 2 at the opening contest. The left panel shows the original loss. On the right the carrier keeps the ball, finds Blue 0, and the receiver scores.* [Fresh opening GIF](media/recovery-touch/first-touch.gif) · [Uncut three-opening video](media/recovery-touch/first-touch.mp4) · [Training and all 40 matched pairs](policies/recovery_touch_v1/README.md)
+
 ## Shielding a lead pass in 3v3
 
 The frozen receiver turned **27 of 40 fresh opening contests** into a pressured reception, a shield and a goal. On the same starts, the previous team scored 15 lead-pass goals and earned zero goals with a verified shield under pressure.

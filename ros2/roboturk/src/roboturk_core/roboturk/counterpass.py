@@ -4,7 +4,7 @@ import math
 from dataclasses import replace
 from .carrier_motor import track_roller
 from .model import RobotKey, possession, wrap
-from .takeaway import select
+from .distribution_value import decision
 from .takeaway_finish import FinishGame
 from .three_match import CFG
 from .three_recipient import candidates, choose, distance, move
@@ -131,8 +131,9 @@ def carry(w, r, age, can_kick=True):
 
 
 class DistributionGame(FinishGame):
-    def __init__(self, *args, decision_start=None, **kwargs):
+    def __init__(self, *args, decision_start=None, incumbent_sample=None, **kwargs):
         self.decision_start = decision_start
+        self.incumbent_sample = incumbent_sample
         super().__init__(*args, **kwargs)
 
     def observe_recovery(self):
@@ -147,7 +148,7 @@ class DistributionGame(FinishGame):
         actor = w.robot(RobotKey(c["team"], c["actor"]))
         options = routes(w, actor)
         obs = c["x"] + [float(v) for item in options for v in item[4]]
-        action = select(model, obs)
+        action = 0 if c["sample"] == self.incumbent_sample else decision(model, obs)
         c.update(distribution=action, distribution_obs=obs)
         if action >= 2:
             _, m, x, y, _ = options[action - 2]

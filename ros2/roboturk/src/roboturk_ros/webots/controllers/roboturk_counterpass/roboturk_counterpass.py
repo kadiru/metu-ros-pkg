@@ -51,6 +51,7 @@ def run(sim, folder):
             cfg.get("durations", [cfg["seconds"]] * cfg["cases"])[i],
             set(),
             teams=teams,
+            incumbent_sample=cfg.get("incumbent_samples", [None] * cfg["cases"])[i],
             decision_start=cfg.get("decision_starts", [None] * cfg["cases"])[i],
             press_from=cfg.get("press_from", [0] * cfg["cases"])[i],
             takeaway_start=cfg.get("starts", [None] * cfg["cases"])[i],

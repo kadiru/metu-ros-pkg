@@ -5,6 +5,7 @@ import math
 from .carrier_motor import track_roller
 from .finish_touch import CleanRecoveryGame
 from .model import possession, wrap
+from .roller_rescue import rescue_motion
 from .three_match import CFG
 from .three_recipient import distance
 from .transition_attack import unit, window
@@ -17,6 +18,19 @@ def shield_heading(away, shot, angle_limit):
 class HalfTurnGame(CleanRecoveryGame):
     def commands(self):
         out = super().commands()
+        if self.delivery:
+            runner = self.world.robot(self.runner)
+            guard = self.teams[runner.key.team].get("catch_guard")
+            cmd = out[runner.key]
+            if guard and not cmd.kick and possession(self.world, runner.key, CFG):
+                marker = min(
+                    (r for r in self.world.robots if r.key.team != runner.key.team),
+                    key=lambda r: distance(r, self.world.ball),
+                )
+                adjustment = rescue_motion(self.world, runner, marker, cmd, guard, 100)
+                if adjustment is not None:
+                    out[runner.key] = adjustment[0]
+                    return out
         if not self.delivery or not self.shield_commands:
             return out
         event = self.shield_commands[-1]

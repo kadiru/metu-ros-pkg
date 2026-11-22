@@ -16,10 +16,13 @@ def main():
     p.add_argument(
         "--all", action="store_true", help="Replay all previous openings as a regression panel"
     )
+    p.add_argument("--world", choices=("clean", "half-turn"), default="clean")
     args = p.parse_args()
     d = args.folder.resolve()
     d.mkdir(parents=True, exist_ok=False)
-    trainer.WORLD = trainer.WORLD.with_name("ssl_clean_recovery.wbt")
+    trainer.WORLD = trainer.WORLD.with_name(
+        {"clean": "ssl_clean_recovery.wbt", "half-turn": "ssl_half_turn.wbt"}[args.world]
+    )
     cfg = trainer.read(args.previous / "launch.json")
     models = trainer.read(args.models)
     if isinstance(models, dict):

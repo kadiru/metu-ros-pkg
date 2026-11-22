@@ -50,6 +50,23 @@ class HalfTurnGame(CleanRecoveryGame):
             pivot=p["shield_turn"],
             cap=1.16,
         )
+        if age < p.get("settle_ticks", 0):
+            speed = math.hypot(w.ball.vx, w.ball.vy)
+            if speed > p["settle_speed"] and distance(rival, actor) > p["settle_space"]:
+                # Absorb a fast arrival before exposing the ball to a full-speed turn.
+                # A marker already at the body leaves no room to delay the shield.
+                target = (
+                    p["settle_roll"] * w.ball.vx + 0.18 * ux,
+                    p["settle_roll"] * w.ball.vy + 0.18 * uy,
+                )
+                out[actor.key] = track_roller(
+                    w,
+                    actor,
+                    target,
+                    p["settle_spin"] * omega,
+                    motor | {"drive": 0.45, "step_v": 0.28},
+                )
+                return out
         out[actor.key] = track_roller(
             w, actor, (p["shield_speed"] * ex, p["shield_speed"] * ey), omega, motor
         )

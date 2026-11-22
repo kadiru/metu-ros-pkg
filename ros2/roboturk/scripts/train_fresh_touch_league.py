@@ -18,10 +18,13 @@ def main():
     p.add_argument("--cases", type=int, default=24)
     p.add_argument("--workers", type=int, default=3, choices=(1, 2, 3, 4))
     p.add_argument("--webots", type=Path, default=trainer.WEBOTS)
+    p.add_argument("--world", choices=("clean", "half-turn"), default="clean")
     args = p.parse_args()
     if not 0 <= args.offset < 90000 or not 2 <= args.cases <= 200:
         p.error("Invalid training panel")
-    trainer.WORLD = trainer.WORLD.with_name("ssl_clean_recovery.wbt")
+    trainer.WORLD = trainer.WORLD.with_name(
+        {"clean": "ssl_clean_recovery.wbt", "half-turn": "ssl_half_turn.wbt"}[args.world]
+    )
     models = trainer.read(args.models)
     protocol = trainer.read(trainer.R / "protocol.json")
     start = protocol["train_first"] + args.offset

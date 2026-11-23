@@ -4,6 +4,8 @@ The two incidents came from the same uncut Webots game. Blue 2 and Yellow 3 conv
 
 [![Blue 4 and Yellow 2 in a matched Webots replay](../../media/open-motion/encounter-2.gif)](../../media/open-motion/two-encounters.mp4)
 
+A later test ran this frozen checkpoint through both halves with an active official referee on four new paired openings. The Game Controller accepted three crash calls with learned steering and seven with previous steering. The new teams completed 51 passes and scored six goals, compared with 43 passes and eight goals. The first game's tracking replay shows why an official crash call warrants checking against the named robots' positions. [Two-half results, evidence and film](../../media/official-league/README.md)
+
 ### Results on fresh starts
 
 | Across 16 paired one-minute games | Current team | Trained team |

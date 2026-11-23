@@ -4,6 +4,12 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## A 5v5 match under the official referee
+
+Blue scores, Yellow takes the kickoff, and the teams switch ends for the second half. The SSL Game Controller kept time and awarded every goal across eight Webots games on four matched openings. Learned steering recorded 3 accepted crashes, 51 completed passes and 6 goals. Previous steering recorded 7, 43 and 8, respectively. A kickoff replay checks the distance between the players named in a crash report. [Uncut 2–0 match](media/official-league/official-match.mp4) · [Paired results and replay](media/official-league/README.md)
+
+[![Blue scores before Yellow takes the official kickoff](media/official-league/match-highlight.gif)](media/official-league/official-match.mp4)
+
 ## Two open-play collisions, replayed in 5v5
 
 Watch Blue 4 and Yellow 2 cross paths. On the left TIGERs calls a 1.61 m/s crash. On the right, the players estimate each other's motion from consecutive overhead positions and pass with 32 cm between their centers. Across 16 fresh one-minute matches the trained team went from **47 crash calls to zero** and from **151 to 201 completed passes**, with **21 goals** for each policy.

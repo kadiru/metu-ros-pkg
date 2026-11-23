@@ -1,8 +1,9 @@
 """Verify paired match starts, native receptions and scoring through the final whistle."""
 
 import argparse
-from collections import Counter
+from collections import Counter, defaultdict, deque
 import json
+from itertools import groupby
 from pathlib import Path
 
 import numpy as np
@@ -32,8 +33,7 @@ def payload(event):
     return getattr(message, message.WhichOneof("event")).SerializeToString(deterministic=True)
 
 
-def audit(folder):
-    log, states = read_game(folder / "match")
+def verify_halves(log):
     frames = log["frames"]
     stages = list(dict.fromkeys(f["stage"] for f in frames if f["stage"]))
     assert tuple(stages) == STAGES and frames[-1]["stage"] == "POST_GAME"
@@ -61,6 +61,10 @@ def audit(folder):
             )
         )
 
+    return opening, half_info
+
+
+def official_events(folder):
     rows = [
         json.loads(line)
         for line in (folder / "gc/config/state-store.json.stream").read_text().splitlines()
@@ -87,13 +91,21 @@ def audit(folder):
             if e["type"] in CRASHES or e["type"] == "POSSIBLE_GOAL":
                 assert payload(proposal) == payload(e)
 
+    return raw, official
+
+
+def verify_goals(frames, states, official):
     scoring = [e for e in official if e["type"] == "GOAL"]
     assert all(e["goal"].get("message") == "Valid and auto approved" for e in scoring)
-    valid_proposals = Counter(
-        e["possibleGoal"]["byTeam"]
-        for e in official
-        if e["type"] == "POSSIBLE_GOAL" and "TIGERs AutoRef" in e["origin"]
-    )
+    pending = []
+    for event in official:
+        if event["type"] == "POSSIBLE_GOAL" and "TIGERs AutoRef" in event["origin"]:
+            pending.append(event["possibleGoal"])
+        elif event["type"] == "GOAL":
+            # The GC copies the original shot evidence into its goal and appends a verdict.
+            proposal = dict(event["goal"], message="")
+            assert proposal in pending
+            pending.remove(proposal)
     wire_goals = []
     for i in range(1, len(frames)):
         f, prev = frames[i], frames[i - 1]
@@ -112,14 +124,18 @@ def audit(folder):
             and abs(states[j, 1]) < 0.4785
             and frames[j]["ball_z"] < 0.16
         ]
-        assert crossing and valid_proposals[team], (team, i)
-        valid_proposals[team] -= 1
+        assert crossing, (team, i)
         wire_goals.append(
             dict(team=team, score_tick=i, crossing_tick=min(crossing), score=f["score"])
         )
     assert [g["team"] for g in wire_goals] == [e["goal"]["byTeam"] for e in scoring]
     assert frames[-1]["score"] == [sum(g["team"] == t for g in wire_goals) for t in TEAMS]
 
+    return wire_goals
+
+
+def verify_receptions(log, states):
+    frames = log["frames"]
     kicks = [dict(e, event="pass") if e["event"] == "restart_pass" else e for e in log["events"]]
     results = stats(dict(log, events=kicks), states)
     deadballs = {e["tick"] for e in log["events"] if e["event"] == "restart_pass"}
@@ -131,11 +147,20 @@ def audit(folder):
             for f in frames[p["kick"] : p["receive"] + 1]
         )
     ]
+    return passes, results["attempts"]
+
+
+def locate_crashes(log, states, raw, official):
+    frames = log["frames"]
     times = np.array([f["vision_time"] for f in frames])
     xy = states[:, 4:].reshape(-1, 10, 3)[:, :, :2]
     formations = [
         i for i, f in enumerate(frames) if i == 0 or f["restart"] != frames[i - 1]["restart"]
     ]
+    accepted_calls = defaultdict(deque)
+    for event in official:
+        if event["type"] in CRASHES:
+            accepted_calls[payload(event)].append(event["id"])
     crashes = []
     for stamp, _, p in raw:
         if p["type"] in CRASHES:
@@ -157,24 +182,48 @@ def audit(folder):
                 np.linalg.norm(window[:, indices[0]] - window[:, indices[1]], axis=1).min()
             )
             reset = max(j for j in formations if j <= tick)
+            ids = accepted_calls[payload(p)]
             crashes.append(
                 dict(
                     tick=tick,
+                    official_id=ids.popleft() if ids else None,
+                    blue=blue,
+                    yellow=yellow,
                     command=frames[tick]["ssl_command"],
                     event=p,
                     since_formation_s=round((tick - reset) * log["dt"], 2),
                     nearest_centers_previous_second_m=round(nearest, 4),
                 )
             )
+    assert not any(accepted_calls.values())
+    return crashes
+
+
+def audit(folder):
+    log, states = read_game(folder / "match")
+    frames = log["frames"]
+    opening, half_info = verify_halves(log)
+    raw, official = official_events(folder)
+    goals = verify_goals(frames, states, official)
+    passes, attempts = verify_receptions(log, states)
+    crashes = locate_crashes(log, states, raw, official)
     report = dict(
         seed=log["seed"],
         final_score=frames[-1]["score"],
         official_halves=half_info,
+        kickoff_prepare_native_seconds=[
+            round(sum(1 for _ in group) * log["dt"], 2)
+            for command, group in groupby(frames, lambda f: f["ssl_command"])
+            if command.startswith("PREPARE_KICKOFF_")
+        ],
+        native_seconds_by_mode={
+            mode: round(n * log["dt"], 2) for mode, n in Counter(f["mode"] for f in frames).items()
+        },
         simulated_seconds=log["seconds"],
         opening_tick=opening,
-        goals=wire_goals,
+        goals=goals,
         completed=passes,
-        attempts=results["attempts"],
+        attempts=attempts,
         observed_crashes=crashes,
         accepted_crashes=[e for e in official if e["type"] in CRASHES],
         accepted_events=dict(Counter(e["type"] for e in official)),

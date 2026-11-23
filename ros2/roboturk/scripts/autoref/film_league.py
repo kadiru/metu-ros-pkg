@@ -24,10 +24,48 @@ STAGES = {
 FONTS = lru_cache()(font)
 
 
+def show_reported_pair(rec, output):
+    log, states, report, *_ = rec
+    case = next(
+        (
+            c
+            for c in report["observed_crashes"]
+            if c["nearest_centers_previous_second_m"] > 1 and c["since_formation_s"] < 2.5
+        ),
+        None,
+    )
+    if case is None:
+        return
+    tick = case["tick"]
+    pair = [log["keys"].index([team, case[team]]) for team in ("blue", "yellow")]
+    label = f"Blue {case['blue']} and Yellow {case['yellow']}"
+    frames = []
+    for t in range(max(0, (tick // 2 - 24) * 2), min(len(states), tick + 29), 2):
+        panel = Image.new("RGB", (640, 520), BG)
+        panel.paste(pitch(rec, t, (0, 0), 10, (640, 394), pair), (0, 74))
+        draw = ImageDraw.Draw(panel)
+        draw.text((16, 10), "A crash call after a kickoff reset", font=FONTS(24), fill=WHITE)
+        xy = [states[t, 4 + 3 * k : 6 + 3 * k] for k in pair]
+        draw.text((16, 45), f"{label}     {math.dist(*xy):.2f} m apart", font=FONTS(18), fill=WHITE)
+        for (x, y), color in zip(xy, (BLUE, YELLOW), strict=True):
+            cx = 320 + 64 * x * 16.5 / (16.5 - 0.15)
+            cy = 74 + 197 - 64 * y * 16.5 / (16.5 - 0.15)
+            draw.ellipse((cx - 10, cy - 10, cx + 10, cy + 10), outline=color, width=2)
+        caption = log["frames"][t]["ssl_command"].replace("_", " ").title()
+        if t >= tick:
+            caption = f"TIGERs reported a crash between {label}"
+        draw.text((16, 481), caption, font=FONTS(18), fill=WHITE)
+        frames.append(panel)
+    frames[0].save(
+        output / "kickoff-call.gif", save_all=True, append_images=frames[1:], duration=160, loop=0
+    )
+
+
 def film(folder, output):
     output.mkdir(parents=True, exist_ok=True)
     report, _, _ = audit(folder)
     rec = recording(folder / "match", report)
+    show_reported_pair(rec, output)
     log = rec[0]
     frames = log["frames"]
     marks = []

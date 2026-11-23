@@ -13,7 +13,13 @@ The work spans hardware/software integration and path-planning experiments: how 
 
 ## Robot soccer in Webots
 
-In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/5d8a02fa2270f725338283502af25be52e1dc536/ros2/roboturk)
+In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/6f15017b5495dc893b30d19970218e162be4839e/ros2/roboturk)
+
+### How fast can ten robots change ends?
+
+The two fields show the same 5v5 opening played with different kickoff planners. Follow the short trails as teammates and opponents cross the field. The previous planner takes 46.6 seconds to get everyone into position. The new planner lets more players travel together and the referee releases the kickoff after 12.5 seconds. Both clips run at 4× speed. [Uncut match](https://github.com/kadiru/metu-ros-pkg/blob/6f15017b5495dc893b30d19970218e162be4839e/ros2/roboturk/media/parallel-kickoff/official-match.mp4) · [How we compared the teams](https://github.com/kadiru/metu-ros-pkg/blob/6f15017b5495dc893b30d19970218e162be4839e/ros2/roboturk/media/parallel-kickoff/README.md)
+
+[![The old and new RoboTurk teams take their positions for the second half](../../docs/assets/roboturk-webots/parallel-kickoff.gif)](https://github.com/kadiru/metu-ros-pkg/blob/6f15017b5495dc893b30d19970218e162be4839e/ros2/roboturk/media/parallel-kickoff/kickoff-race.mp4)
 
 ### Follow the goalkeeper across half-time
 

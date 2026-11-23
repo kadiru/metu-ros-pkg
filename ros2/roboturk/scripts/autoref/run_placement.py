@@ -148,6 +148,10 @@ def main():
                     "TABLE_READY",
                 )
             )
+            if spec.get("await_force_start"):
+                params.append("--await-force-start")
+            if spec.get("open_play_policy"):
+                params.extend(["--open-play-policy", str(ROOT / spec["open_play_policy"])])
             params.extend(
                 [
                     "--stop-after-placement-reception",

@@ -76,7 +76,14 @@ def main():
     mode.add_argument(
         "--frame-images", action="store_true", help="Save native JPEG samples at 12.5 Hz"
     )
+    p.add_argument(
+        "--await-force-start",
+        action="store_true",
+        help="For paired live fixtures, hold the simulation clock until the first FORCE_START packet",
+    )
     a = p.parse_args()
+    if a.await_force_start and a.referee != "ssl":
+        p.error("--await-force-start requires the official referee")
     if a.steer_from_tick < 0 or (a.steer_from_tick and not a.open_play_policy):
         p.error("A delayed steering switch needs a policy and nonnegative tick")
     if a.seconds < 1:
@@ -102,6 +109,7 @@ def main():
                 record=a.record,
                 frame_images=a.frame_images,
                 motion_audit=a.motion_audit,
+                await_force_start=a.await_force_start,
                 open_play_policy=json.loads(a.open_play_policy.read_text())
                 if a.open_play_policy
                 else None,

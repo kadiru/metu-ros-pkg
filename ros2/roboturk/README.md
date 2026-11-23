@@ -4,6 +4,14 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Two open-play collisions, replayed in 5v5
+
+Watch Blue 4 and Yellow 2 cross paths. On the left TIGERs calls a 1.61 m/s crash. On the right, the players estimate each other's motion from consecutive overhead positions and pass with 32 cm between their centers. Across 16 fresh one-minute matches the trained team went from **47 crash calls to zero** and from **151 to 201 completed passes**, with **21 goals** for each policy.
+
+[![Blue 4 and Yellow 2 cross in the current and trained Webots replays](media/open-motion/encounter-2.gif)](media/open-motion/two-encounters.mp4)
+
+[Watch both original encounters](media/open-motion/two-encounters.mp4) · [Uncut fresh match](media/open-motion/fresh-match.mp4) · [Blue's scoring play](media/open-motion/first-goal.gif) · [Training and all paired results](policies/open_motion_v1/README.md)
+
 ## Can Blue get to the ball without hitting Yellow?
 
 After the ball goes out, watch Blue 4 on the left run into Yellow 2. On the right, Blue 4 takes a wider approach, places the ball and sets up a free kick to Blue 3. The official RoboCup Game Controller accepted **40/40** crowded placements by the revised team with zero crash calls. On the same fresh starts, the previous team completed **19/40** and had 21 crashes.

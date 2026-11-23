@@ -22,10 +22,10 @@ def summaries(pairs, dest):
             r = json.loads((folder / "official/result.json").read_text())
             assert r["frames"] == len(game["frames"]) and sum(r["score"]) == len(r["goals"])
             row[name] = dict(
-                crashes=len(r["crashes"]),
-                passes=len(r["passes"]),
-                goals=len(r["goals"]),
-                attempts=r["attempts"],
+                crashes=sum(e["tick"] >= start for e in r["crashes"]),
+                passes=sum(e["kick"] >= start for e in r["passes"]),
+                goals=sum(e["tick"] >= start for e in r["goals"]),
+                attempts=sum(e["event"] == "pass" and e["tick"] >= start for e in game["events"]),
             )
         rows.append(row)
     result = dict(

@@ -85,6 +85,12 @@ def match(sim, folder, cfg, receiver=None, vision=None):
     events = []
     score = [0, 0]
     restarts = 0
+    if cfg.get("await_force_start"):
+        deadline = time.monotonic() + 6
+        while receiver.poll().command != "FORCE_START":
+            if time.monotonic() >= deadline:
+                raise RuntimeError("No official FORCE_START for paired opening")
+            time.sleep(0.01)
     start_time = sim.getTime()
     origin = time.time()
     camera_delay = 0.0

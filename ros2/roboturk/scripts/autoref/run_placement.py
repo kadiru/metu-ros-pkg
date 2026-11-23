@@ -160,6 +160,8 @@ def main():
             )
         else:
             params.extend(["--placement-batch", str(args.spec.resolve())])
+        if spec.get("realtime"):
+            params.append("--watch")
         if spec["mode"] == "demo":
             params.append("--record")
         match(args, dest / "match", *params)

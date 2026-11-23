@@ -12,7 +12,7 @@ from film import font
 from verify import load_events, load_log
 
 
-def verify(run):
+def verify(run, include_open_play_fouls=False):
     log = load_log(run / "match")
     frames = log["frames"]
     with np.load(run / "match/positions.npz") as archive:
@@ -23,10 +23,6 @@ def verify(run):
     ]
     official = [c["addGameEventChange"]["gameEvent"] for c in records if "addGameEventChange" in c]
     observed = load_events(run / "tigers.log")
-    assert not any(
-        k in ("bot_crash_drawn", "bot_crash_unique", "bot_interfered_placement")
-        for _, k, _ in observed
-    )
     boundary = next(e for e in official if e["type"] == "BALL_LEFT_FIELD_TOUCH_LINE")
     accepted = next(e for e in official if e["type"] == "PLACEMENT_SUCCEEDED")
     assert all("TIGERs AutoRef" in e["origin"] for e in (boundary, accepted))
@@ -38,6 +34,33 @@ def verify(run):
     first = next(
         i for i, f in enumerate(frames) if f["ssl_command"] == "BALL_PLACEMENT_" + own.upper()
     )
+    (call,) = [
+        (t, e["ballLeftFieldTouchLine"])
+        for t, k, e in observed
+        if k == "ball_left_field_touch_line"
+    ]
+    boundary_time, last_touch = call
+    designated = boundary["ballLeftFieldTouchLine"]
+    assert (last_touch["byTeam"], last_touch["byBot"]) == (
+        designated["byTeam"],
+        designated["byBot"],
+    )
+    assert abs(last_touch["location"]["x"] - designated["location"]["x"]) < 0.001
+    assert last_touch["location"]["y"] * designated["location"]["y"] > 0
+    fouls = []
+    for t, kind, event in observed:
+        if kind in ("bot_crash_drawn", "bot_crash_unique", "bot_interfered_placement"):
+            assert include_open_play_fouls and t < boundary_time, (kind, t)
+            fouls.append(
+                dict(
+                    seconds=round(t - frames[0]["vision_time"], 2),
+                    type=kind,
+                    official=any(
+                        event["type"] == e["type"] and all(e.get(k) == v for k, v in event.items())
+                        for e in official
+                    ),
+                )
+            )
     direct = next(
         i for i, f in enumerate(frames) if f["ssl_command"] == "DIRECT_FREE_" + own.upper()
     )
@@ -62,6 +85,9 @@ def verify(run):
         dict(
             seed=log["seed"],
             team=own,
+            prior_open_play_fouls=fouls,
+            restart_crashes=0,
+            restart_interference=0,
             placer=log["keys"][passed["actor"]][1],
             receiver=log["keys"][receiver][1],
             seconds=log["seconds"],
@@ -78,8 +104,8 @@ def verify(run):
     )
 
 
-def render(run, dest):
-    audit, log, states = verify(run)
+def render(run, dest, include_open_play_fouls=False):
+    audit, log, states = verify(run, include_open_play_fouls)
     dest.mkdir(parents=True, exist_ok=True)
     (dest / "open-match.json").write_text(json.dumps(audit, indent=2) + "\n")
     files = sorted((run / "match/frames").glob("*.jpg"))
@@ -158,6 +184,9 @@ def render(run, dest):
                 fill="#c3ddf3",
             )
             label = "Both teams choose passes and roles in open play."
+            for foul in audit["prior_open_play_fouls"]:
+                if foul["seconds"] <= f["clock"] < foul["seconds"] + 2.0:
+                    label = "TIGERs reports an open-play collision."
             if tick >= audit["direct_tick"]:
                 label = f"{audit['team'].title()} {audit['placer']} takes the free kick to teammate {audit['receiver']}."
             elif f.get("placement_phase"):
@@ -180,5 +209,10 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("run", type=Path)
     p.add_argument("output", type=Path)
+    p.add_argument(
+        "--include-open-play-fouls",
+        action="store_true",
+        help="Show earlier fouls in the film and still require a clean restart from the touchline call.",
+    )
     args = p.parse_args()
-    render(args.run, args.output)
+    render(args.run, args.output, args.include_open_play_fouls)

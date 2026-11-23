@@ -1,0 +1,152 @@
+{
+  "seed": 25500000,
+  "team": "blue",
+  "prior_open_play_fouls": [
+    {
+      "seconds": 0.88,
+      "type": "bot_crash_unique",
+      "official": true
+    },
+    {
+      "seconds": 5.52,
+      "type": "bot_crash_drawn",
+      "official": true
+    }
+  ],
+  "restart_crashes": 0,
+  "restart_interference": 0,
+  "placer": 2,
+  "receiver": 1,
+  "seconds": 25.04,
+  "kick_tick": 590,
+  "receive_tick": 625,
+  "distance_m": 1.3627351692807659,
+  "placement_tick": 330,
+  "direct_tick": 544,
+  "controller_events": [
+    {
+      "id": "839da8ef-d52a-40c4-bda5-9a81a063e27e",
+      "type": "BOT_CRASH_UNIQUE",
+      "origin": [
+        "TIGERs AutoRef",
+        "Engine"
+      ],
+      "createdTimestamp": "1795401951838582",
+      "botCrashUnique": {
+        "byTeam": "BLUE",
+        "violator": 2,
+        "victim": 3,
+        "location": {
+          "x": 0.27004096,
+          "y": 1.3362136
+        },
+        "crashSpeed": 1.5432829,
+        "speedDiff": 0.5575327,
+        "crashAngle": 2.143209
+      }
+    },
+    {
+      "id": "1ea6d119-8231-4d47-be97-d79d0653cffb",
+      "type": "BOT_CRASH_DRAWN",
+      "origin": [
+        "TIGERs AutoRef",
+        "Engine"
+      ],
+      "createdTimestamp": "1795401957903148",
+      "botCrashDrawn": {
+        "botYellow": 2,
+        "botBlue": 4,
+        "location": {
+          "x": 2.9021883,
+          "y": -0.25856677
+        },
+        "crashSpeed": 1.6069657,
+        "speedDiff": 0.027621126,
+        "crashAngle": 1.8270748
+      }
+    },
+    {
+      "id": "d93f1ba0-8dcd-4009-9698-5b9abd48fae9",
+      "type": "BALL_LEFT_FIELD_TOUCH_LINE",
+      "origin": [
+        "TIGERs AutoRef",
+        "Engine"
+      ],
+      "createdTimestamp": "1795401966989783",
+      "ballLeftFieldTouchLine": {
+        "byTeam": "YELLOW",
+        "byBot": 3,
+        "location": {
+          "x": -0.65274626,
+          "y": 2.8
+        }
+      }
+    },
+    {
+      "id": "5494939a-250c-45da-9337-16ded75a6606",
+      "type": "PLACEMENT_SUCCEEDED",
+      "origin": [
+        "TIGERs AutoRef",
+        "Engine"
+      ],
+      "createdTimestamp": "1795401978323737",
+      "placementSucceeded": {
+        "byTeam": "BLUE",
+        "timeTaken": 7.72,
+        "precision": 0.024384215,
+        "distance": 0.5790764
+      }
+    }
+  ],
+  "detector_events": [
+    {
+      "botCrashUnique": {
+        "byTeam": "BLUE",
+        "violator": 2,
+        "victim": 3,
+        "location": {
+          "x": 0.27004096,
+          "y": 1.3362136
+        },
+        "crashSpeed": 1.5432829,
+        "speedDiff": 0.5575327,
+        "crashAngle": 2.143209
+      },
+      "type": "BOT_CRASH_UNIQUE"
+    },
+    {
+      "botCrashDrawn": {
+        "botYellow": 2,
+        "botBlue": 4,
+        "location": {
+          "x": 2.9021883,
+          "y": -0.25856677
+        },
+        "crashSpeed": 1.6069657,
+        "speedDiff": 0.027621126,
+        "crashAngle": 1.8270748
+      },
+      "type": "BOT_CRASH_DRAWN"
+    },
+    {
+      "ballLeftFieldTouchLine": {
+        "byTeam": "YELLOW",
+        "byBot": 3,
+        "location": {
+          "x": -0.65274626,
+          "y": 3.0
+        }
+      },
+      "type": "BALL_LEFT_FIELD_TOUCH_LINE"
+    },
+    {
+      "placementSucceeded": {
+        "byTeam": "BLUE",
+        "timeTaken": 7.72,
+        "precision": 0.024384215,
+        "distance": 0.5790764
+      },
+      "type": "PLACEMENT_SUCCEEDED"
+    }
+  ]
+}

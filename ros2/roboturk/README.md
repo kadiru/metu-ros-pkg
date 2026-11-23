@@ -4,13 +4,13 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
-## Watch Blue restart after a pass goes out
+## Can Blue get to the ball without hitting Yellow?
 
-Yellow sends a pass over the touchline. Blue 4 retrieves the ball, dribbles to the referee’s spot and backs away. When the Game Controller awards the free kick, Blue 3 receives the pass. The trained placement skill passed 40/40 fresh starts with zero placement-interference calls.
+After the ball goes out, watch Blue 4 on the left run into Yellow 2. On the right, Blue 4 takes a wider approach, places the ball and sets up a free kick to Blue 3. The official RoboCup Game Controller accepted **40/40** crowded placements by the revised team with zero crash calls. On the same fresh starts, the previous team completed **19/40** and had 21 crashes.
 
-[![Blue retrieves the ball, places it and passes to a teammate in Webots](media/placement/touchline-restart.gif)](media/placement/touchline-restart.mp4)
+[![Side-by-side Webots replay of Blue 4 approaching the ball through traffic](media/placement-traffic/matched-approach.gif)](media/placement-traffic/touchline-restart.mp4)
 
-[Watch at match speed](media/placement/touchline-restart.mp4) · [Training, official calls and film audit](policies/placement_v1/README.md)
+[Uncut 25-second open-play match and restart](media/placement-traffic/open-match.mp4) · [Full replay of the incident](media/placement-traffic/touchline-restart.mp4) · [Training and paired referee results](policies/placement_v2/README.md) · [Earlier ball-placement experiment](policies/placement_v1/README.md)
 
 ## Watch a robot score an officially refereed goal
 
@@ -399,7 +399,7 @@ The launch starts the simulator, both strategy nodes and one referee source. The
 | `/roboturk/reset` | Seeded practice formation reset; clears commands and enters HALT |
 | `/clock` | Simulation time, monotonic across formation resets |
 
-Commands older than 250 ms stop; referee heartbeats older than 500 ms halt. HALT and STOP both conservatively hold all actuators. Set pieces, defense areas, ball placement and full rule constraints remain to be implemented. Do not connect this prototype directly to physical actuators.
+The ROS actuator bridge holds on HALT or STOP, on commands older than 250 ms, and on referee heartbeats older than 500 ms. The native Webots 5v5 Supervisor also implements the touchline placement play described above.
 
 ### Official Game Controller
 
@@ -417,7 +417,7 @@ python scripts/run_five_roles.py runs/official-match --referee ssl --watch --sec
 
 For a single-machine session, start the controller with `-publishAddress 127.0.0.1:10003` and pass `--referee-address 127.0.0.1` to the match, or `referee_address:=127.0.0.1` to the ROS launch. For multicast on a multi-interface host, pass the receiving interface's IPv4 address with `--referee-interface`. For a remote controller, synchronize host clocks. Packet time and local heartbeat age each have a 500 ms freshness window.
 
-Use **Force Start** for immediate open play. For a kickoff, prepare the team and send **Normal Start**. In native 5v5, preparing a kickoff places the ball at center and the ten robots in formation once for that command. During a kickoff or free kick, the awarded team moves first. The opponent can play after the ball moves 5 cm. A Normal Start received without the preceding kickoff preparation holds both teams. During Halt, Stop, placement, penalty and timeout commands, both teams hold their actuators. Autonomous penalty taking, ball placement and STOP-distance positioning remain open.
+Use **Force Start** for immediate open play. For a kickoff, prepare the team and send **Normal Start**. In native 5v5, preparing a kickoff places the ball at center and the ten robots in formation once for that command. During a kickoff or free kick, the awarded team moves first. The opponent can play after the ball moves 5 cm. A Normal Start received without the preceding kickoff preparation holds both teams. On a valid ball-placement award the native Supervisor assigns a placer and an outlet, clears the corridor and waits for the official free kick. A STOP during this sequence asks the robots to give the ball space. Halt, penalty and timeout hold the robots. Autonomous penalty taking and general STOP-distance positioning remain open.
 
 Official mode takes the score and field sides from the broadcast. Webots supplies local ball and robot state to the teams. The native match can also publish SSL-Vision detections to an external AutoRef. The tested TIGERs integration reports events to the Game Controller and feeds its decisions back into play. [Run the closed-loop fixture](media/autoref/README.md#run-the-experiment). The default native training launcher continues to use its local referee for reproducible seeds. [Official referee protocol](https://github.com/RoboCup-SSL/ssl-game-controller/blob/v3.23.1/proto/state/ssl_gc_referee_message.proto).
 

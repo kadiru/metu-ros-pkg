@@ -93,9 +93,20 @@ def encounter(rec):
     speed = np.linalg.norm(differences, axis=2)
     distance = np.linalg.norm(xy[:, :5, None, :] - xy[:, None, 5:, :], axis=3)
     moving = (speed[:, :5, None] > 0.3) & (speed[:, None, 5:] > 0.3)
-    separation = np.where(moving, distance, np.inf)
-    if not np.isfinite(separation).any():
-        separation = distance
+    # Film a full encounter, with enough approach and separation visible on camera.
+    window = 10
+    encounters = np.zeros_like(moving)
+    if len(xy) > 2 * window:
+        middle = distance[window:-window]
+        encounters[window:-window] = (
+            moving[window:-window]
+            & (middle <= distance[window - 1 : -window - 1])
+            & (middle <= distance[window + 1 : -window + 1])
+            & (distance[: -2 * window] > middle + 0.06)
+            & (distance[2 * window :] > middle + 0.06)
+        )
+    candidates = encounters if encounters.any() else moving
+    separation = np.where(candidates, distance, np.inf) if candidates.any() else distance
     t, b, y = np.unravel_index(np.argmin(separation), separation.shape)
     return int(t), int(b), int(y + 5)
 
@@ -104,17 +115,18 @@ def closeup(rec, event):
     tick, blue, yellow = event
     xy = positions(rec)
     width, height = 672, 354
-    center = (xy[tick, blue] + xy[tick, yellow]) / 2
     first = max(0, tick - 48) // 2 * 2
     last = min(len(xy) - 1, tick + 48) // 2 * 2
     ids = [rec[0]["keys"][k][1] for k in (blue, yellow)]
-    size = 4.2
+    span = np.abs(xy[first : last + 1, blue] - xy[first : last + 1, yellow]).max(axis=0)
+    size = max(4.2, span[0] + 1.1, (span[1] + 0.8) * width / height)
 
     def point(p):
         u, v = (p * (16.5 / (16.5 - 0.15)) - center) * width / size
         return width / 2 + u, height / 2 - v
 
     for t in range(first, last + 1, 2):
+        center = (xy[t, blue] + xy[t, yellow]) / 2
         im = Image.new("RGB", (width, 454), BG)
         d = ImageDraw.Draw(im)
         d.text((12, 8), f"Blue {ids[0]} meets Yellow {ids[1]}", font=FONTS(25), fill=WHITE)

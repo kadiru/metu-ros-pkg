@@ -41,7 +41,7 @@ def match(args, dest, *params):
     subprocess.run(cmd, cwd=ROOT, check=True)
 
 
-def observer(args, folder, active=False):
+def observer(args, folder, active=False, *, ci_port=21913, gc_port=21907):
     return service(
         [
             sys.executable,
@@ -56,9 +56,9 @@ def observer(args, folder, active=False):
             "--mode",
             "ACTIVE" if active else "PASSIVE",
             "--ci-port",
-            "21913",
+            str(ci_port),
             "--gc-port",
-            "21907",
+            str(gc_port),
         ],
         ROOT,
         folder / "tigers.log",

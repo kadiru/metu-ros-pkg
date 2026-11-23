@@ -235,10 +235,21 @@ if __name__ == "__main__":
     p.add_argument(
         "--teams", action="store_true", help="Audit the shared versus independent comparison"
     )
+    p.add_argument(
+        "--replay-observer",
+        type=Path,
+        help="Verify independent TIGERs reports on matched team replay trajectories",
+    )
     args = p.parse_args()
+    if args.replay_observer and not (args.teams and args.replays):
+        p.error("--replay-observer requires --teams and --replays")
     report, cases = matches(args.fresh, teams=args.teams)
     if args.write_replay_cases:
         save(args.write_replay_cases, cases)
     if args.replays:
         report["matched_replays"] = replays(args.replays, cases, teams=args.teams)
+    if args.replay_observer:
+        from observe_kickoff_replays import read_observations
+
+        report["replay_observer"] = read_observations(args.replays, cases, args.replay_observer)
     save(args.output, report)

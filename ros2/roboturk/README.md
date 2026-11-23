@@ -4,6 +4,12 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Each team plans its own kickoff
+
+Blue and Yellow observe one another’s motion and plan their own routes to formation. On 10 matched Webots restarts, median setup to robot readiness was 9.24 s for shared routes and 8.58 s for independent teams. Four fresh official matches per planner produced 0 and 0 accepted kickoff crash calls, respectively. [Watch Blue respond to Yellow](media/team-kickoff/observed-opponent.gif) · [Results and evidence](media/team-kickoff/README.md)
+
+[![Two teams with private routes and the shared planner on the same half-time start](media/team-kickoff/matched-kickoffs.gif)](media/team-kickoff/matched-kickoffs.mp4)
+
 ## Faster 5v5 kickoffs
 
 Watch both teams change ends under the official referee. On the same 8 replayed restarts, the median time to reach formation fell from 31.28 to 9.88 seconds. In four fresh live matches per planner, the Game Controller accepted 0 kickoff crash calls with the current planner and 0 with concurrent routes. [Matched timings and evidence](media/parallel-kickoff/README.md) · [Full match](media/parallel-kickoff/official-match.mp4)

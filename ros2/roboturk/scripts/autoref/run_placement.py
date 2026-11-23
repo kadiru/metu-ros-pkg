@@ -96,16 +96,30 @@ def main():
     dest.mkdir(parents=True, exist_ok=False)
     config = dest / "gc/config"
     config.mkdir(parents=True)
+    spec = json.loads(args.spec.read_text())
+    league = spec["mode"] == "league_match"
+    timing = ""
+    if league:
+        half = int(spec["half_seconds"])
+        if half < 1:
+            raise ValueError("Half duration must be positive")
+        timing = f"  auto-approve-goals: true\n  normal:\n    half-duration: {half}s\n    half-time-duration: 1s\n"
     (config / "ssl-game-controller.yaml").write_text(
         "network:\n  publish-address: 127.0.0.1:21903\n  publish-nif: 127.0.0.1\ngame:\n  default-division: DIV_B\n"
+        + timing
     )
-    spec = json.loads(args.spec.read_text())
     strict = spec.get("adjudicate_crashes", False)
     enabled = KEEP | CRASHES if strict else KEEP
+    if league:
+        enabled = enabled | CRASHES | {"POSSIBLE_GOAL", "BALL_LEFT_FIELD_GOAL_LINE"}
     behavior = {
         name: "BEHAVIOR_ACCEPT" if name in enabled else "BEHAVIOR_IGNORE"
         for name in GameEvent.Type.keys()
     }
+    if league:
+        behavior.update(
+            dict.fromkeys(("GOAL", "INVALID_GOAL", "AIMLESS_KICK"), "BEHAVIOR_ACCEPT_MAJORITY")
+        )
     (config / "engine.yaml").write_text(
         json.dumps(dict(autoContinue=False, gameEventBehavior=behavior))
     )
@@ -135,7 +149,36 @@ def main():
             "--autoref-ci",
             "127.0.0.1:21913",
         ]
-        if spec["mode"] == "open_match":
+        if league:
+            stack.enter_context(
+                service(
+                    [
+                        "node",
+                        str(ROOT / "scripts/autoref/league_table.mjs"),
+                        "ws://127.0.0.1:21981/api/control",
+                        str(dest / "match/referee-ready"),
+                        ("BLUE", "YELLOW")[spec["seed"] % 2],
+                    ],
+                    ROOT,
+                    dest / "table.log",
+                    "TABLE_READY",
+                )
+            )
+            params.extend(
+                [
+                    "--until-post-game",
+                    "--motion-audit",
+                    "--seed",
+                    str(spec["seed"]),
+                    "--seconds",
+                    str(spec.get("seconds", 240)),
+                ]
+            )
+            if spec.get("open_play_policy"):
+                params.extend(["--open-play-policy", str(ROOT / spec["open_play_policy"])])
+            if spec.get("film"):
+                params.append("--frame-images")
+        elif spec["mode"] == "open_match":
             stack.enter_context(
                 service(
                     [
@@ -169,7 +212,7 @@ def main():
         if spec["mode"] == "demo":
             params.append("--record")
         match(args, dest / "match", *params)
-    if spec["mode"] != "open_match":
+    if not league and spec["mode"] != "open_match":
         audit(dest, strict)
 
 

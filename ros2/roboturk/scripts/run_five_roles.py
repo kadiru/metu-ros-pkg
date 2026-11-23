@@ -81,7 +81,12 @@ def main():
         action="store_true",
         help="For paired live fixtures, hold the simulation clock until the first FORCE_START packet",
     )
+    p.add_argument(
+        "--until-post-game", action="store_true", help="Finish on the official final whistle"
+    )
     a = p.parse_args()
+    if a.until_post_game and a.referee != "ssl":
+        p.error("--until-post-game requires the official referee")
     if a.await_force_start and a.referee != "ssl":
         p.error("--await-force-start requires the official referee")
     if a.steer_from_tick < 0 or (a.steer_from_tick and not a.open_play_policy):
@@ -105,6 +110,7 @@ def main():
             dict(
                 root=str(ROOT),
                 seed=a.seed,
+                until_post_game=a.until_post_game,
                 seconds=a.seconds,
                 record=a.record,
                 frame_images=a.frame_images,

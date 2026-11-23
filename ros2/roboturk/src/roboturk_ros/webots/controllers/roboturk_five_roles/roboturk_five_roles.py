@@ -112,14 +112,13 @@ def match(sim, folder, cfg, receiver=None, vision=None):
         (folder / "frames").mkdir()
     elif cfg["record"]:
         sim.movieStartRecording(str(folder / "native.mp4"), 1280, 720, 0, 85, 1, False)
+    league = cfg.get("until_post_game", False)
+    started = False
+    if league:
+        (folder / "referee-ready").touch()
     for tick in range(round(cfg["seconds"] / CFG.dt)):
-        if policy:
-            if previous_restart != restarts:
-                previous_positions = {}
-            measured = observed_velocity(w.robots, previous_positions, CFG.dt)
-            previous_positions = {r.key: (r.x, r.y) for r in w.robots}
-            previous_restart = restarts
         state = receiver.poll() if receiver else None
+        opening = False
         restricted = ""
         if state:
             sign = state.attack_sign
@@ -133,6 +132,11 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                 restarts += 1
                 w = backend.reset(kickoff(seed + 101 * restarts, serving, sign, w.time))
                 prepared_kickoff = kickoff_key
+            if league and not started and state.command == "NORMAL_START" and state.restart_team:
+                # Equalize settling time at the first authorized action of the paired fixture.
+                w = backend.reset(kickoff(seed + 101 * restarts, state.restart_team, sign, w.time))
+                previous_positions = {}
+                started = opening = True
             backend.world = w = replace(w, referee=state.mode, attack_sign=sign)
             if cfg.get("stop_after_goal_restart") and awaiting_team is None:
                 for idx, goals in enumerate(state.score):
@@ -169,6 +173,12 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                 )
                 print(f"Referee {state.command or 'NO SIGNAL'} -> {state.mode.value}", flush=True)
                 previous_referee = referee_key
+        if policy:
+            if previous_restart != restarts:
+                previous_positions = {}
+            measured = observed_velocity(w.robots, previous_positions, CFG.dt)
+            previous_positions = {r.key: (r.x, r.y) for r in w.robots}
+            previous_restart = restarts
         previous_play = restart.play if restart else None
         placement = restart.commands(w, state) if restart else None
         if previous_play and not restart.play and restart.received >= 5:
@@ -233,6 +243,16 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                 restricted_to=restricted,
                 attack_sign=sign,
             )
+        if league:
+            packet = receiver.feed.packet
+            meta.update(
+                stage=state.stage,
+                counter=state.counter,
+                stage_seconds=packet.stage_time_left / 1e6
+                if state.source and packet.HasField("stage_time_left")
+                else None,
+                first_action=opening,
+            )
         if restart and restart.play:
             meta.update(
                 placer=keys.index(restart.play.placer),
@@ -242,7 +262,7 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             )
         if cfg.get("motion_audit"):
             meta["ball_z"] = backend.ball.getPosition()[2]
-            if tick == 0:
+            if tick == 0 or opening:
                 meta["opening_velocities"] = [[r.vx, r.vy, r.omega] for r in w.robots]
         if frame_images and tick % 2 == 0:
             sim.exportImage(str(folder / "frames" / f"{tick // 2:05d}.jpg"), 85)
@@ -269,7 +289,7 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             else:
                 tactics.flight = None
             events.append(event)
-        if tick == finish_tick:
+        if tick == finish_tick or (league and state.stage == "POST_GAME"):
             break
         if receiver:
             continue  # The external match official owns goals, scores and restarts.
@@ -354,6 +374,8 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             gzip.compress(json.dumps(log, separators=(",", ":")).encode(), mtime=0)
         )
         np.savez_compressed(folder / "positions.npz", states=np.array(states))
+        if league and (not started or state.stage != "POST_GAME"):
+            raise RuntimeError("Fixture ended before official kickoff or POST_GAME")
 
 
 sim = Supervisor()

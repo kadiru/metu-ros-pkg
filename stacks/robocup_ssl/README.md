@@ -13,7 +13,13 @@ The work spans hardware/software integration and path-planning experiments: how 
 
 ## Robot soccer in Webots
 
-In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/61b830cdacc0cf0e53f2aa2b3ef7ddf4e7dc7cb7/ros2/roboturk)
+In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/82b1f9ef4f33122c6ef71dea60cd81062b07cb08/ros2/roboturk)
+
+### Can Blue reach the ball without hitting Yellow?
+
+Watch Blue 4 after the ball goes out. On the left, it runs into Yellow 2. On the right, the trained approach takes it around Yellow and Blue 3 receives the free kick. With the official referee connected, the revised team completed 40 of 40 crowded placements with zero crash calls. The previous team completed 19 on the same starts. [Full restart](https://github.com/kadiru/metu-ros-pkg/blob/82b1f9ef4f33122c6ef71dea60cd81062b07cb08/ros2/roboturk/media/placement-traffic/touchline-restart.mp4) · [Uncut 5v5 match](https://github.com/kadiru/metu-ros-pkg/blob/82b1f9ef4f33122c6ef71dea60cd81062b07cb08/ros2/roboturk/media/placement-traffic/open-match.mp4) · [Training and referee results](https://github.com/kadiru/metu-ros-pkg/blob/82b1f9ef4f33122c6ef71dea60cd81062b07cb08/ros2/roboturk/policies/placement_v2/README.md)
+
+[![Two Webots replays show Blue 4 colliding with Yellow 2 and steering around it](../../docs/assets/roboturk-webots/placement-traffic.gif)](https://github.com/kadiru/metu-ros-pkg/blob/82b1f9ef4f33122c6ef71dea60cd81062b07cb08/ros2/roboturk/media/placement-traffic/touchline-restart.mp4)
 
 ### Who plays which role in 5v5?
 

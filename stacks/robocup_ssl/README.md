@@ -13,7 +13,13 @@ The work spans hardware/software integration and path-planning experiments: how 
 
 ## Robot soccer in Webots
 
-In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/6f15017b5495dc893b30d19970218e162be4839e/ros2/roboturk)
+In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/943ff2f8259bd7022737d198db2a3b4f8a850ba7/ros2/roboturk)
+
+### How does Blue read Yellow’s movement?
+
+The short trails show where each robot has been. The pink dashes show where Blue estimates Yellow will go if it keeps its measured velocity. Each team gets only its own kickoff destinations. On 10 matched restarts, the shared planner’s median time to formation was 9.24 seconds and the independent teams’ was 8.58 seconds. [Compare the two fields](https://github.com/kadiru/metu-ros-pkg/blob/943ff2f8259bd7022737d198db2a3b4f8a850ba7/ros2/roboturk/media/team-kickoff/matched-kickoffs.gif) · [Watch the officially refereed match](https://github.com/kadiru/metu-ros-pkg/blob/943ff2f8259bd7022737d198db2a3b4f8a850ba7/ros2/roboturk/media/team-kickoff/official-match.mp4) · [Read the results](https://github.com/kadiru/metu-ros-pkg/blob/943ff2f8259bd7022737d198db2a3b4f8a850ba7/ros2/roboturk/media/team-kickoff/README.md)
+
+[![Blue and Yellow cross paths during independent kickoff planning](../../docs/assets/roboturk-webots/observed-kickoff.gif)](https://github.com/kadiru/metu-ros-pkg/blob/943ff2f8259bd7022737d198db2a3b4f8a850ba7/ros2/roboturk/media/team-kickoff/observed-opponent.mp4)
 
 ### How fast can ten robots change ends?
 

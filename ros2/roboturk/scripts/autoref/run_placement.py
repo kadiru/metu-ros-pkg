@@ -126,8 +126,6 @@ def main():
         stack.enter_context(service(cmd, dest / "gc", dest / "gc.log", "UI is available"))
         stack.enter_context(observer(args, dest, True))
         params = [
-            "--placement-batch",
-            str(args.spec.resolve()),
             "--referee",
             "ssl",
             "--referee-address",
@@ -137,10 +135,36 @@ def main():
             "--autoref-ci",
             "127.0.0.1:21913",
         ]
+        if spec["mode"] == "open_match":
+            stack.enter_context(
+                service(
+                    [
+                        "node",
+                        str(ROOT / "scripts/autoref/touchline_table.mjs"),
+                        "ws://127.0.0.1:21981/api/control",
+                    ],
+                    ROOT,
+                    dest / "table.log",
+                    "TABLE_READY",
+                )
+            )
+            params.extend(
+                [
+                    "--stop-after-placement-reception",
+                    "--seed",
+                    str(spec["seed"]),
+                    "--seconds",
+                    str(spec.get("seconds", 45)),
+                    "--record",
+                ]
+            )
+        else:
+            params.extend(["--placement-batch", str(args.spec.resolve())])
         if spec["mode"] == "demo":
             params.append("--record")
         match(args, dest / "match", *params)
-    audit(dest, strict)
+    if spec["mode"] != "open_match":
+        audit(dest, strict)
 
 
 if __name__ == "__main__":

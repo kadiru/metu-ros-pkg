@@ -57,8 +57,37 @@ def stop_formation(w):
     }
 
 
+def withdrawal(w, placer, fallback, margin):
+    """Choose a clear outward segment before releasing the dribbler."""
+    ball = xy(w.ball)
+    start = xy(placer)
+    outward = math.atan2(placer.y - w.ball.y, placer.x - w.ball.x)
+    best = None
+    for step in (0, 1, -1, 2, -2, 3, -3, 4, -4, 5, -5, 6, -6):
+        angle = outward + step * math.pi / 14
+        end = (ball[0] + 0.78 * math.cos(angle), ball[1] + 0.78 * math.sin(angle))
+        if abs(end[0]) > 4.78 or abs(end[1]) > 3.32:
+            continue
+        if (end[0] - start[0]) * (placer.x - w.ball.x) + (end[1] - start[1]) * (
+            placer.y - w.ball.y
+        ) <= 0:
+            continue
+        gap = math.inf
+        for bot in w.robots:
+            if bot.key == placer.key:
+                continue
+            for t in (0, 0.35):
+                obstacle = (bot.x + t * bot.vx, bot.y + t * bot.vy)
+                gap = min(gap, math.dist(obstacle, closest(obstacle, start, end)))
+        cost = abs(step) * 0.008 + max(0, margin + 0.12 - gap)
+        if best is None or cost < best[0]:
+            best = cost, end
+    return best[1] if best is not None else fallback
+
+
 class PlacementPlay:
-    def __init__(self, world, team, target, weights, traffic=None):
+    def __init__(self, world, team, target, weights, traffic=None, clear_retreat=False):
+        self.clear_retreat = clear_retreat
         self.traffic = traffic
         self.team, self.target, self.weights = team, target, weights
         squad = [r for r in world.robots if r.key.team == team and r.key.id != 0]
@@ -92,6 +121,8 @@ class PlacementPlay:
                     self.phase = "retreat"
                     self.release_yaw = r.yaw
                     self.retreat = clear_path(r, xy(ball), xy(ball), 0.76)
+                    if self.clear_retreat:
+                        self.retreat = withdrawal(w, r, self.retreat, self.traffic[1])
             else:
                 self.phase = "capture"
         out = {}
@@ -169,7 +200,8 @@ class PlacementPlay:
 class PlacementRestart:
     """Track one placement and its subsequent awarded kick across referee heartbeats."""
 
-    def __init__(self, weights, traffic=None):
+    def __init__(self, weights, traffic=None, clear_retreat=False):
+        self.clear_retreat = clear_retreat
         self.traffic = traffic
         self.weights = weights
         self.key = None
@@ -184,7 +216,12 @@ class PlacementRestart:
             key = state.source, state.counter, state.placement_team, state.placement_target
             if self.play is None or self.key != key:
                 self.play = PlacementPlay(
-                    w, state.placement_team, state.placement_target, self.weights, self.traffic
+                    w,
+                    state.placement_team,
+                    state.placement_target,
+                    self.weights,
+                    self.traffic,
+                    self.clear_retreat,
                 )
                 self.key = key
                 self.direct_since = None

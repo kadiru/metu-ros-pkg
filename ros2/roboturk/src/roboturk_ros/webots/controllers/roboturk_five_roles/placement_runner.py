@@ -138,6 +138,10 @@ def run(sim, folder, cfg, receiver, vision):
         from natural_placement import camera
 
         result = camera(backend, vision, spec)
+    elif spec["mode"] == "replay_misses":
+        from traffic_training import replay_misses
+
+        result = replay_misses(backend, root, spec)
     elif spec["mode"] == "traffic_train":
         from traffic_training import fit
 

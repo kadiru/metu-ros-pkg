@@ -45,6 +45,11 @@ def main():
         action="store_true",
         help="End after one goal and the responding team puts the ball back in play",
     )
+    p.add_argument(
+        "--stop-after-placement-reception",
+        action="store_true",
+        help="End after the receiver controls the official touchline free kick",
+    )
     audit = p.add_mutually_exclusive_group()
     audit.add_argument(
         "--capture-exit", type=int, help="Branch for one second at this 1-based local exit"
@@ -61,6 +66,8 @@ def main():
         p.error("Use a positive duration")
     if a.tracker_output and not a.autoref_ci:
         p.error("--tracker-output requires --autoref-ci")
+    if a.stop_after_placement_reception and a.referee != "ssl":
+        p.error("--stop-after-placement-reception requires the official referee")
     if a.stop_after_goal_restart and a.referee != "ssl":
         p.error("--stop-after-goal-restart requires the official referee")
     if a.capture_exit is not None and (a.referee != "local" or a.capture_exit < 1):
@@ -81,6 +88,7 @@ def main():
                 else None,
                 referee=a.referee,
                 stop_after_goal_restart=a.stop_after_goal_restart,
+                stop_after_placement_reception=a.stop_after_placement_reception,
                 capture_exit=a.capture_exit,
                 exit_tails=str(a.exit_tails.resolve()) if a.exit_tails else None,
                 vision=a.ssl_vision,

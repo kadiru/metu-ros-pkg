@@ -67,7 +67,9 @@ def match(sim, folder, cfg, receiver=None, vision=None):
     gate = RestartGate()
     restart = (
         PlacementRestart(
-            json.loads((root / "policies/placement_v1/actor.json").read_text())["weights"]
+            json.loads((root / "policies/placement_v1/actor.json").read_text())["weights"],
+            json.loads((root / "policies/placement_v2/actor.json").read_text())["traffic"],
+            clear_retreat=True,
         )
         if receiver
         else None
@@ -94,7 +96,10 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             practice.packet_timestamp = round(stamp * 1e6)
         vision.send(world, stamp, backend.ball.getPosition()[2], packet)
 
-    if cfg["record"]:
+    capture_restart = cfg.get("stop_after_placement_reception", False)
+    if capture_restart and cfg["record"]:
+        (folder / "frames").mkdir()
+    elif cfg["record"]:
         sim.movieStartRecording(str(folder / "native.mp4"), 1280, 720, 0, 85, 1, False)
     for tick in range(round(cfg["seconds"] / CFG.dt)):
         state = receiver.poll() if receiver else None
@@ -147,7 +152,15 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                 )
                 print(f"Referee {state.command or 'NO SIGNAL'} -> {state.mode.value}", flush=True)
                 previous_referee = referee_key
+        previous_play = restart.play if restart else None
         placement = restart.commands(w, state) if restart else None
+        if previous_play and not restart.play and restart.received >= 5:
+            events.append(
+                dict(tick=tick, event="restart_received", actor=keys.index(previous_play.receiver))
+            )
+            if capture_restart:
+                finish_tick = tick
+
         if placement:
             out, roles = placement
             phases = {t: "Restart" for t in TEAMS}
@@ -168,7 +181,7 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             roles = {r.key: Assignment("hold", (r.x, r.y)) for r in w.robots}
             phases = dict.fromkeys(TEAMS, w.referee.value.upper())
             out, planned = {}, {}
-        if not cfg["record"] or receiver:
+        if (not cfg["record"] or receiver) and not capture_restart:
             hud(sim, w, keys, roles, phases, score, tick * CFG.dt)
             if state:
                 sim.setLabel(
@@ -196,6 +209,15 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                 restricted_to=restricted,
                 attack_sign=sign,
             )
+        if restart and restart.play:
+            meta.update(
+                placer=keys.index(restart.play.placer),
+                receiver=keys.index(restart.play.receiver),
+                target=restart.play.target,
+                placement_phase=restart.play.phase,
+            )
+        if capture_restart and cfg["record"] and tick % 2 == 0:
+            sim.exportImage(str(folder / "frames" / f"{tick // 2:05d}.jpg"), 85)
         if vision:
             meta["vision_time"] = origin + (sim.getTime() - start_time) + camera_delay
             send_camera(w)
@@ -206,6 +228,13 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             restart.applied(backend.last_kick_events)
         for k, _, speed in backend.last_kick_events:
             event = dict(tick=tick, event="shot", actor=keys.index(k), speed=speed)
+            if (
+                restart
+                and restart.play
+                and restart.direct_since is not None
+                and k == restart.play.placer
+            ):
+                event.update(event="restart_pass", receiver=keys.index(restart.play.receiver))
             if k in planned:
                 tactics.flight = planned[k]
                 event.update(event="pass", receiver=keys.index(planned[k].receiver))
@@ -273,7 +302,7 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                 break
         if cfg.get("capture_exit") == restarts:
             break
-    if cfg["record"]:
+    if cfg["record"] and not capture_restart:
         sim.movieStopRecording()
         deadline = time.monotonic() + 90
         while not sim.movieIsReady() and time.monotonic() < deadline:

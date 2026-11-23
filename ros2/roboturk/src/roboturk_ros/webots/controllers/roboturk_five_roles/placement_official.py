@@ -13,6 +13,33 @@ from placement_runner import scenario
 from traffic_training import crowded, nearest_pair
 
 
+def exact_start(backend, world):
+    """Set a paired fixture after tracker warmup, before either policy acts."""
+    backend.reset(world)
+    for r in world.robots:
+        node = backend.nodes[r.key]
+        node.getField("translation").setSFVec3f([r.x, r.y, 0.075])
+        node.getField("rotation").setSFRotation([0, 0, 1, r.yaw])
+        node.setVelocity([r.vx, r.vy, 0, 0, 0, r.omega])
+    ball = world.ball
+    backend.ball.getField("translation").setSFVec3f([ball.x, ball.y, CFG.ball_radius])
+    backend.ball.setVelocity([ball.vx, ball.vy, 0, 0, 0, 0])
+    if backend.supervisor.step(0) == -1:
+        raise RuntimeError("Webots closed during paired setup")
+    actual = backend.read()
+    for r in world.robots:
+        q = actual.robot(r.key)
+        if math.dist(xy(r), xy(q)) > 1e-6 or abs(math.remainder(r.yaw - q.yaw, 2 * math.pi)) > 1e-6:
+            raise RuntimeError("Paired placement start differs from its prescribed pose")
+        if math.dist((r.vx, r.vy, r.omega), (q.vx, q.vy, q.omega)) > 1e-6:
+            raise RuntimeError("Paired robot velocity differs")
+    if math.dist((ball.vx, ball.vy), (actual.ball.vx, actual.ball.vy)) > 1e-6:
+        raise RuntimeError("Paired ball velocity differs")
+    if math.dist(xy(ball), xy(actual.ball)) > 1e-6:
+        raise RuntimeError("Paired ball start differs")
+    return actual
+
+
 def command(kind, team="UNKNOWN"):
     return {"change": {"newCommandChange": {"command": {"type": kind, "forTeam": team.upper()}}}}
 
@@ -25,7 +52,8 @@ def official(sim, backend, root, folder, spec, receiver, vision):
     demo = spec["mode"] == "demo"
     strict = spec.get("adjudicate_crashes", False)
     traffic = None
-    if spec.get("actor") == "placement_v2":
+    clear_retreat = spec.get("actor") == "placement_v2_clear"
+    if clear_retreat or spec.get("actor") == "placement_v2":
         traffic = json.loads((root / "policies/placement_v2/actor.json").read_text())["traffic"]
     if demo:
         (folder / "frames").mkdir()
@@ -98,7 +126,7 @@ def official(sim, backend, root, folder, spec, receiver, vision):
             send(command("HALT"))
             await_command("HALT")
             w = backend.reset(world)
-            restart = PlacementRestart(weights, traffic)
+            restart = PlacementRestart(weights, traffic, clear_retreat)
             for _ in range(35):
                 state = receiver.poll()
                 vision.send(
@@ -119,6 +147,8 @@ def official(sim, backend, root, folder, spec, receiver, vision):
                 )
                 send(command("BALL_PLACEMENT", team))
                 await_command("BALL_PLACEMENT_" + team.upper())
+            if spec.get("exact_start"):
+                w = exact_start(backend, replace(world, time=w.time))
             row = dict(
                 seed=seed,
                 crossing=crossing,
@@ -133,6 +163,8 @@ def official(sim, backend, root, folder, spec, receiver, vision):
                 flight_contacts=[],
                 opening_robots=[[r.key.team, r.key.id, r.x, r.y, r.yaw] for r in w.robots],
             )
+            if spec.get("exact_start"):
+                row["opening_robot_velocities"] = [[r.vx, r.vy, r.omega] for r in w.robots]
             if strict:
                 row["min_center_m"] = nearest_pair(w)
                 row["actor"] = spec.get("actor", "placement_v1")

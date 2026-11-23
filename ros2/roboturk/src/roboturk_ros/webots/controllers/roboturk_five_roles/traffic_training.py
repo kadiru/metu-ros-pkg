@@ -120,3 +120,45 @@ def fit(backend, root, folder, spec):
         for name, params in [("baseline", None), ("candidate", selected)]
     }
     return dict(traffic=selected, history=history, development=development)
+
+
+def replay_misses(backend, root, spec):
+    """Replay unconfirmed awards and measure who is still inside the clearance circle."""
+    from roboturk.model import Robot, RobotKey, World
+
+    weights = json.loads((root / "policies/placement_v1/actor.json").read_text())["weights"]
+    traffic = json.loads((root / "policies/placement_v2/actor.json").read_text())["traffic"]
+    records = []
+    for row in spec["trials"]:
+        robots = tuple(
+            Robot(RobotKey(t, n), x, y, yaw) for t, n, x, y, yaw in row["opening_robots"]
+        )
+        world = World(
+            0,
+            robots,
+            Ball(*row["initial_ball"], *row["opening_ball_velocity"]),
+            attack_sign=row.get("attack_sign", 1),
+        )
+        w = backend.reset(world)
+        play = PlacementPlay(w, row["team"], row["target"], weights, traffic)
+        trace = []
+        for i in range(750):
+            out, roles = play.place(w)
+            w = backend.step(out)
+            if i % 25 == 24:
+                closest = min(w.robots, key=lambda r: math.dist(xy(r), xy(w.ball)))
+                trace.append(
+                    dict(
+                        time=w.time,
+                        phase=play.phase,
+                        error_m=math.dist(xy(w.ball), row["target"]),
+                        ball_speed=math.hypot(w.ball.vx, w.ball.vy),
+                        closest=[closest.key.team, closest.key.id],
+                        role=roles[closest.key].role,
+                        clearance_m=math.dist(xy(closest), xy(w.ball)),
+                        robot_xy=xy(closest),
+                        desired_xy=roles[closest.key].target,
+                    )
+                )
+        records.append(dict(seed=row["seed"], trace=trace))
+    return records

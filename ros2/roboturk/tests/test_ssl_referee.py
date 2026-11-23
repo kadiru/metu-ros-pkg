@@ -165,3 +165,16 @@ def test_closest_approach_uses_relative_motion_and_horizon():
     assert separation(0.8, 0, -1, 0, 0.3) == pytest.approx(0.5)
     assert separation(0.8, 0, 1, 0, 0.4) == pytest.approx(0.8)
     assert separation(0.8, 0.25, -2, 0, 0.6) == pytest.approx(0.25)
+
+
+def test_placement_withdrawal_selects_an_outward_segment_past_blocker():
+    from roboturk.model import Robot, RobotKey, World
+    import math
+    from roboturk.placement import closest, withdrawal, xy
+
+    placer = Robot(RobotKey("blue", 4), 0.115, 0)
+    blocker = Robot(RobotKey("yellow", 2), 0.48, 0)
+    w = World(0, (placer, blocker), Ball(0, 0))
+    end = withdrawal(w, placer, (0.76, 0), 0.34)
+    assert end[0] > placer.x and math.hypot(*end) == pytest.approx(0.78)
+    assert math.dist(xy(blocker), closest(xy(blocker), xy(placer), end)) > 0.30

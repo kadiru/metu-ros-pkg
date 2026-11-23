@@ -13,7 +13,13 @@ The work spans hardware/software integration and path-planning experiments: how 
 
 ## Robot soccer in Webots
 
-In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/9a59cb0800a8fb9e755e27080c0385480fd3a8dc/ros2/roboturk)
+In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/5d8a02fa2270f725338283502af25be52e1dc536/ros2/roboturk)
+
+### Follow the goalkeeper across half-time
+
+Blue 0 changes ends on both fields. The blue ring follows the robot in Webots and the pink cross follows the referee’s tracker. On the left the simulator moves the goalkeeper over eight metres in one step. On the right the robots drive to their kickoff spots before the referee starts the second half. [Watch the uncut match](https://github.com/kadiru/metu-ros-pkg/blob/5d8a02fa2270f725338283502af25be52e1dc536/ros2/roboturk/media/kickoff-drive/official-match.mp4) · [Results on four paired openings](https://github.com/kadiru/metu-ros-pkg/blob/5d8a02fa2270f725338283502af25be52e1dc536/ros2/roboturk/media/kickoff-drive/README.md)
+
+[![The goalkeeper changes ends with measured and tracked positions superimposed](../../docs/assets/roboturk-webots/kickoff-changing-ends.gif)](https://github.com/kadiru/metu-ros-pkg/blob/5d8a02fa2270f725338283502af25be52e1dc536/ros2/roboturk/media/kickoff-drive/changing-ends.mp4)
 
 ### Who gives the kickoff after a goal?
 

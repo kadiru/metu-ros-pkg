@@ -3,6 +3,8 @@
 import heapq
 import math
 
+import numpy as np
+
 from .model import Command, body_vector, wrap
 
 CLEARANCE = 0.30
@@ -135,3 +137,81 @@ class KickoffDrive:
                 and abs(r.omega) < 0.08
             )
         return out, ready
+
+
+def trajectory(start, route, dt):
+    """Forecast command ticks, including the stopped tick when a waypoint is popped."""
+    ticks = [start]
+    for goal in route:
+        start = ticks[-1]
+        distance = math.dist(start, goal)
+        if distance > TOLERANCE:
+            steps = math.ceil((distance - TOLERANCE) / (SPEED * dt))
+            for i in range(1, steps + 1):
+                fraction = min(1.0, i * dt * SPEED / distance)
+                ticks.append(tuple(a + fraction * (b - a) for a, b in zip(start, goal)))
+        ticks.append(ticks[-1])
+    return np.asarray(ticks)
+
+
+def compatible(first, second):
+    """Compare the swept relative motion, holding the earlier finisher at its spot."""
+    length = max(len(first), len(second))
+    a, b = (np.pad(t, ((0, length - len(t)), (0, 0)), mode="edge") for t in (first, second))
+    offset = a - b
+    delta = np.diff(offset, axis=0)
+    rate = np.einsum("ij,ij->i", delta, delta)
+    dot = np.einsum("ij,ij->i", offset[:-1], delta)
+    closest = np.clip(-dot / np.maximum(rate, 1e-12), 0, 1)
+    gaps = offset[:-1] + closest[:, None] * delta
+    # Preserve an existing close approach while allowing the two robots to separate.
+    required = min(CLEARANCE + 0.025, np.linalg.norm(offset[0]))
+    return bool(np.all(np.einsum("ij,ij->i", gaps, gaps) >= (required - 1e-7) ** 2))
+
+
+class ParallelKickoffDrive(KickoffDrive):
+    """Admit new routes alongside moving robots using synchronized travel times."""
+
+    def __init__(self, targets):
+        super().__init__(targets)
+        self.next_plan = 0.0
+        self.staged = set()
+
+    def _admit(self, world, dt):
+        pos = {r.key: (r.x, r.y) for r in world.robots}
+        goals = {k: (r.x, r.y) for k, r in self.targets.items()}
+        reserved = {k: trajectory(pos[k], route, dt) for k, route in self.paths.items()}
+        pending = [k for k in pos if k not in reserved and math.dist(pos[k], goals[k]) > TOLERANCE]
+        # Give the longest trips a head start. Robots still waiting are stationary obstacles.
+        for k in sorted(pending, key=lambda k: -math.dist(pos[k], goals[k])):
+            parked = [xy for other, xy in pos.items() if other != k and other not in reserved]
+            goal = goals[k]
+            blocked = any(math.dist(goal, xy) < CLEARANCE for xy in parked)
+            destinations = [goal]
+            if blocked:
+                if k in self.staged:
+                    continue
+                # A temporary spot alongside an occupied target frees cycles such as a keeper swap.
+                destinations = [
+                    (goal[0], goal[1] + dy) for dy in (0.55, -0.55) if abs(goal[1] + dy) < 3.1
+                ]
+            for dest in destinations:
+                if math.dist(pos[k], dest) <= TOLERANCE:
+                    continue
+                route = path_to(pos[k], dest, parked)
+                if not route:
+                    continue
+                forecast = trajectory(pos[k], route, dt)
+                if all(compatible(forecast, other) for other in reserved.values()):
+                    self.paths[k] = route
+                    reserved[k] = forecast
+                    if blocked:
+                        self.staged.add(k)
+                    break
+
+    def commands(self, world, dt):
+        if world.time >= self.next_plan or not self.paths:
+            self._admit(world, dt)
+            self.next_plan = world.time + 0.32
+        # The original group planner can break any remaining cycle once all movers are parked.
+        return super().commands(world, dt)

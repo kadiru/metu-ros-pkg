@@ -14,7 +14,7 @@ from controller import Supervisor
 from roboturk.continuous_backend import ContinuousWebotsBackend
 from roboturk.five_play import commands
 from roboturk.five_roles import Assignment, CFG, TEAMS, FiveRoles, kickoff
-from roboturk.kickoff_drive import KickoffDrive
+from roboturk.kickoff_drive import KickoffDrive, ParallelKickoffDrive
 from roboturk.model import Referee
 from roboturk.open_motion import Steering, observed_velocity, steer_team
 from roboturk.placement import PlacementRestart
@@ -139,8 +139,18 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                 serving = state.command.split("_")[-1].lower()
                 restarts += 1
                 target = kickoff(seed + 101 * restarts, serving, sign, w.time)
+                if drive and cfg.get("track_kickoffs"):
+                    events.append(
+                        dict(
+                            event="formation_start",
+                            restart=restarts,
+                            tick=tick,
+                            velocities=[[r.vx, r.vy, r.omega] for r in w.robots],
+                        )
+                    )
                 if drive:
-                    formation = KickoffDrive(target)
+                    planner = ParallelKickoffDrive if cfg.get("parallel_kickoffs") else KickoffDrive
+                    formation = planner(target)
                     ball_centered = False
                 else:
                     w = backend.reset(target)
@@ -441,7 +451,11 @@ try:
         else nullcontext()
     )
     with connection as receiver, camera as vision:
-        if cfg.get("placement_batch"):
+        if cfg.get("kickoff_replays") is not None:
+            from kickoff_replay import run
+
+            run(sim, folder, cfg["kickoff_replays"])
+        elif cfg.get("placement_batch"):
             from placement_runner import run
 
             run(sim, folder, cfg, receiver, vision)

@@ -60,7 +60,15 @@ def main():
     mode = p.add_mutually_exclusive_group()
     mode.add_argument("--watch", action="store_true")
     mode.add_argument("--record", action="store_true")
-    p.add_argument("--placement-batch", type=Path, help="Native placement experiment specification")
+    batch = p.add_mutually_exclusive_group()
+    batch.add_argument(
+        "--replay-kickoffs",
+        type=Path,
+        help="Compare both planners from recorded restart states in native Webots",
+    )
+    batch.add_argument(
+        "--placement-batch", type=Path, help="Native placement experiment specification"
+    )
     p.add_argument("--open-play-policy", type=Path, help="Trained team-local steering checkpoint")
     p.add_argument(
         "--steer-from-tick",
@@ -94,7 +102,16 @@ def main():
         action="store_true",
         help="Save filtered TIGERs robot positions alongside native frames",
     )
+    p.add_argument(
+        "--parallel-kickoffs",
+        action="store_true",
+        help="Reserve concurrent kickoff routes by travel time",
+    )
     a = p.parse_args()
+    if a.replay_kickoffs and (a.referee != "local" or a.until_post_game):
+        p.error("--replay-kickoffs runs a native replay without a live referee")
+    if a.parallel_kickoffs and not a.drive_kickoffs:
+        p.error("--parallel-kickoffs requires --drive-kickoffs")
     if a.drive_kickoffs and not a.until_post_game:
         p.error("--drive-kickoffs requires the two-half official fixture")
     if a.track_kickoffs and not a.autoref_ci:
@@ -135,6 +152,7 @@ def main():
                 seed=a.seed,
                 until_post_game=a.until_post_game,
                 drive_kickoffs=a.drive_kickoffs,
+                parallel_kickoffs=a.parallel_kickoffs,
                 track_kickoffs=a.track_kickoffs,
                 seconds=a.seconds,
                 record=a.record,
@@ -145,6 +163,9 @@ def main():
                 if a.open_play_policy
                 else None,
                 steer_from_tick=a.steer_from_tick,
+                kickoff_replays=json.loads(a.replay_kickoffs.read_text())
+                if a.replay_kickoffs
+                else None,
                 placement_batch=json.loads(a.placement_batch.read_text())
                 if a.placement_batch
                 else None,
@@ -185,6 +206,10 @@ def main():
         subprocess.run(
             [*cmd, str(WORLD)], env=env, stdout=log, stderr=subprocess.STDOUT, check=True
         )
+    if a.replay_kickoffs:
+        if not (dest / "kickoff-replays.json").is_file():
+            raise RuntimeError(f"Missing kickoff replay report. See {dest}/webots.log")
+        return
     if a.placement_batch:
         if not (dest / "placement.json").is_file():
             raise RuntimeError(f"Missing placement report. See {dest}/webots.log")

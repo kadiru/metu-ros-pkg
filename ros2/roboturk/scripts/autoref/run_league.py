@@ -12,13 +12,19 @@ SEEDS = range(28300000, 28300004)
 ARMS = ("baseline", "steering")
 KICKOFF_SEEDS = range(29300000, 29300004)
 KICKOFF_ARMS = ("reset", "drive")
+PARALLEL_SEEDS = range(30300000, 30300004)
+PARALLEL_ARMS = ("current", "parallel")
 ACTOR = "policies/open_motion_v1/actor.json"
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("output", type=Path)
-    parser.add_argument(
+    comparison = parser.add_mutually_exclusive_group()
+    comparison.add_argument(
+        "--compare-parallel", action="store_true", help="Compare two driven kickoff planners"
+    )
+    comparison.add_argument(
         "--compare-kickoffs",
         action="store_true",
         help="Hold learned steering fixed and compare reset with driven formations",
@@ -35,6 +41,8 @@ def main():
     root = args.output.resolve()
     root.mkdir(parents=True, exist_ok=False)
     seeds, arms = (KICKOFF_SEEDS, KICKOFF_ARMS) if args.compare_kickoffs else (SEEDS, ARMS)
+    if args.compare_parallel:
+        seeds, arms = PARALLEL_SEEDS, PARALLEL_ARMS
     for index, seed in enumerate(seeds):
         pair = root / str(seed)
         pair.mkdir()
@@ -44,7 +52,14 @@ def main():
             )
             if args.compare_kickoffs:
                 spec.update(drive_kickoffs=arm == "drive", track_kickoffs=True, seconds=360)
-            if args.compare_kickoffs or arm == "steering":
+            if args.compare_parallel:
+                spec.update(
+                    drive_kickoffs=True,
+                    parallel_kickoffs=arm == "parallel",
+                    track_kickoffs=True,
+                    seconds=360,
+                )
+            if args.compare_parallel or args.compare_kickoffs or arm == "steering":
                 spec["open_play_policy"] = ACTOR
             file = pair / f"{arm}.json"
             file.write_text(json.dumps(spec, indent=2) + "\n")

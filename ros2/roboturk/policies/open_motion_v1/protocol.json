@@ -1,0 +1,15 @@
+{
+  "baseline_commit": "82b1f9ef4f33122c6ef71dea60cd81062b07cb08",
+  "incident_seed": 25500000,
+  "incidents": [
+    {"switch_tick": 8, "end_tick": 50, "blue": 2, "yellow": 3, "original_call_s": 0.88},
+    {"switch_tick": 116, "end_tick": 175, "blue": 4, "yellow": 2, "original_call_s": 5.52}
+  ],
+  "training_seeds": [27100000,27100001,27100002],
+  "development_seeds": [27200000,27200001,27200002,27200003],
+  "fresh_seeds_inclusive": [27300000,27300015],
+  "seconds_per_fresh_start": 60,
+  "design": "Sixteen paired native practice matches, four kickoffs per combination of serving team and field direction. Both colors use the same policy in each arm. Freeze weights before challenger evaluation. Score every start, require identical opening states. Reproduce both historical incidents independently from kickoff, with the baseline driving both arms until the switch.",
+  "outcomes": "All passive TIGERs unique and drawn crash reports on real open-play samples, measured completed passes to the intended receiver, and native whole-ball goals. Start a fresh detector at each practice kickoff to isolate discontinuous resets. Report totals and per-seed results. Use the first fresh pair for the uncut film.",
+  "acceptance": "Both original incidents avoided after switching, fewer official crash reports on the fresh panel. Report offensive tradeoffs. An attacking regression is grounds to keep the actor opt-in."
+}

@@ -61,7 +61,24 @@ def main():
     mode.add_argument("--watch", action="store_true")
     mode.add_argument("--record", action="store_true")
     p.add_argument("--placement-batch", type=Path, help="Native placement experiment specification")
+    p.add_argument("--open-play-policy", type=Path, help="Trained team-local steering checkpoint")
+    p.add_argument(
+        "--steer-from-tick",
+        type=int,
+        default=0,
+        help="Replay the released policy before this control tick",
+    )
+    p.add_argument(
+        "--motion-audit",
+        action="store_true",
+        help="Record measured ball heights and crossing states",
+    )
+    mode.add_argument(
+        "--frame-images", action="store_true", help="Save native JPEG samples at 12.5 Hz"
+    )
     a = p.parse_args()
+    if a.steer_from_tick < 0 or (a.steer_from_tick and not a.open_play_policy):
+        p.error("A delayed steering switch needs a policy and nonnegative tick")
     if a.seconds < 1:
         p.error("Use a positive duration")
     if a.tracker_output and not a.autoref_ci:
@@ -83,6 +100,12 @@ def main():
                 seed=a.seed,
                 seconds=a.seconds,
                 record=a.record,
+                frame_images=a.frame_images,
+                motion_audit=a.motion_audit,
+                open_play_policy=json.loads(a.open_play_policy.read_text())
+                if a.open_play_policy
+                else None,
+                steer_from_tick=a.steer_from_tick,
                 placement_batch=json.loads(a.placement_batch.read_text())
                 if a.placement_batch
                 else None,
@@ -117,7 +140,7 @@ def main():
         if a.watch or (a.referee == "ssl" and not a.placement_batch)
         else "--mode=fast",
     ]
-    if not (a.watch or a.record):
+    if not (a.watch or a.record or a.frame_images):
         cmd.extend(["--no-rendering", "--minimize"])
     with (dest / "webots.log").open("w") as log:
         subprocess.run(

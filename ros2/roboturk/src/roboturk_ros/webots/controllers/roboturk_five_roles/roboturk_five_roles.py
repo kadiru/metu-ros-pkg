@@ -15,6 +15,7 @@ from roboturk.continuous_backend import ContinuousWebotsBackend
 from roboturk.five_play import commands
 from roboturk.five_roles import Assignment, CFG, TEAMS, FiveRoles, kickoff
 from roboturk.model import Referee
+from roboturk.open_motion import Steering, observed_velocity, steer_team
 from roboturk.placement import PlacementRestart
 from roboturk.ssl_referee import RefereeSocket, RestartGate
 from roboturk.ssl_vision import (
@@ -96,12 +97,22 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             practice.packet_timestamp = round(stamp * 1e6)
         vision.send(world, stamp, backend.ball.getPosition()[2], packet)
 
+    policy = Steering(**cfg["open_play_policy"]) if cfg.get("open_play_policy") else None
+    previous_positions = {}
+    previous_restart = None
     capture_restart = cfg.get("stop_after_placement_reception", False)
-    if capture_restart and cfg["record"]:
+    frame_images = cfg.get("frame_images") or (capture_restart and cfg["record"])
+    if frame_images:
         (folder / "frames").mkdir()
     elif cfg["record"]:
         sim.movieStartRecording(str(folder / "native.mp4"), 1280, 720, 0, 85, 1, False)
     for tick in range(round(cfg["seconds"] / CFG.dt)):
+        if policy:
+            if previous_restart != restarts:
+                previous_positions = {}
+            measured = observed_velocity(w.robots, previous_positions, CFG.dt)
+            previous_positions = {r.key: (r.x, r.y) for r in w.robots}
+            previous_restart = restarts
         state = receiver.poll() if receiver else None
         restricted = ""
         if state:
@@ -174,14 +185,21 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                 phases[team] = phase
                 roles.update(side)
             out, planned = commands(w, roles, weights, sole, tactics)
-            out, _ = filter_commands(w, out)
+            if policy and tick >= cfg.get("steer_from_tick", 0):
+                raw = out
+                out = {}
+                for team in TEAMS:
+                    own = {k: c for k, c in raw.items() if k.team == team}
+                    out.update(steer_team(w.robots, team, own, measured, policy, CFG.dt))
+            else:
+                out, _ = filter_commands(w, out)
             if restricted:
                 out = {k: c for k, c in out.items() if k.team == restricted}
         else:
             roles = {r.key: Assignment("hold", (r.x, r.y)) for r in w.robots}
             phases = dict.fromkeys(TEAMS, w.referee.value.upper())
             out, planned = {}, {}
-        if (not cfg["record"] or receiver) and not capture_restart:
+        if (not cfg["record"] or receiver) and not capture_restart and not frame_images:
             hud(sim, w, keys, roles, phases, score, tick * CFG.dt)
             if state:
                 sim.setLabel(
@@ -216,7 +234,11 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                 target=restart.play.target,
                 placement_phase=restart.play.phase,
             )
-        if capture_restart and cfg["record"] and tick % 2 == 0:
+        if cfg.get("motion_audit"):
+            meta["ball_z"] = backend.ball.getPosition()[2]
+            if tick == 0:
+                meta["opening_velocities"] = [[r.vx, r.vy, r.omega] for r in w.robots]
+        if frame_images and tick % 2 == 0:
             sim.exportImage(str(folder / "frames" / f"{tick // 2:05d}.jpg"), 85)
         if vision:
             meta["vision_time"] = origin + (sim.getTime() - start_time) + camera_delay
@@ -270,6 +292,8 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                         team=TEAMS[scorer] if scorer is not None else None,
                     )
                 )
+                if cfg.get("motion_audit"):
+                    events[-1]["crossing_xyz"] = [b.x, b.y, backend.ball.getPosition()[2]]
                 if cfg.get("capture_exit") == restarts:
                     with (folder / "tail.pb").open("wb") as stream:
                         for index in range(round(1.0 / CFG.dt)):
@@ -302,7 +326,7 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                 break
         if cfg.get("capture_exit") == restarts:
             break
-    if cfg["record"] and not capture_restart:
+    if cfg["record"] and not frame_images:
         sim.movieStopRecording()
         deadline = time.monotonic() + 90
         while not sim.movieIsReady() and time.monotonic() < deadline:

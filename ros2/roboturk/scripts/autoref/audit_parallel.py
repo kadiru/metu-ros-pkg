@@ -97,6 +97,7 @@ def matches(root):
                 goals=report["final_score"],
                 passes=len(report["completed"]),
                 attempts=report["attempts"],
+                placement_failures=report["accepted_events"].get("PLACEMENT_FAILED", 0),
             )
         assert np.array_equal(*openings), f"Different first-action state on {seed}"
         pair["opening_max_difference"] = float(np.abs(openings[0] - openings[1]).max())

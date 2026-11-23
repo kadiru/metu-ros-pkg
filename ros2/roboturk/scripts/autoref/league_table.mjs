@@ -54,6 +54,11 @@ function action(match) {
     if (command.type !== "HALT") return ["HALT"];
     return [stage === "NORMAL_FIRST_HALF" ? "NEXT_STAGE" : "END_GAME"];
   }
+  // The event-only fixture does not feed a tracker to the GC timeout coordinator.
+  // Give a late TIGERs success time to arrive, then report expiry through the table.
+  if (command.type === "BALL_PLACEMENT" && parseFloat(match.currentActionTimeRemaining) < -2) {
+    return ["BALL_PLACEMENT_FAIL"];
+  }
   if (command.type === "HALT") return ["RESUME_FROM_HALT"];
   if (command.type === "KICKOFF") return ["NORMAL_START"];
   if (command.type !== "STOP" || !nextCommand) return;

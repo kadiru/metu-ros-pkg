@@ -1,16 +1,19 @@
 import math
 from dataclasses import replace
 
+import pytest
+
 from roboturk.kickoff_drive import KickoffDrive, ParallelKickoffDrive, SPEED, TOLERANCE
 from roboturk.model import Ball, Robot, RobotKey, World, world_vector
 
 
-def test_swap_occupied_kickoff_positions_by_driving_round_the_other_robot():
+@pytest.mark.parametrize("planner", [KickoffDrive, ParallelKickoffDrive])
+def test_swap_occupied_kickoff_positions_by_driving_round_the_other_robot(planner):
     blue = Robot(RobotKey("blue", 0), -1, 0)
     yellow = Robot(RobotKey("yellow", 0), 1, 0)
     world = World(0, (blue, yellow), Ball(0, 0))
     target = replace(world, robots=(replace(blue, x=1), replace(yellow, x=-1)))
-    drive = KickoffDrive(target)
+    drive = planner(target)
     dt = 0.04
     for _ in range(650):
         out, ready = drive.commands(world, dt)

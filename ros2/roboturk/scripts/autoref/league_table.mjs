@@ -17,7 +17,10 @@ let kickoffs = 0;
 ws.onmessage = ({ data }) => {
   const update = JSON.parse(data).matchState;
   if (!update) return;
-  if (update.command?.type === "KICKOFF" && (state?.command?.type !== "KICKOFF" || state.command.forTeam !== update.command.forTeam)) kickoffs++;
+  if (update.command?.type === "KICKOFF" &&
+      (state?.command?.type !== "KICKOFF" || state.command.forTeam !== update.command.forTeam)) {
+    kickoffs++;
+  }
   state = update;
   const view = JSON.stringify([
     state.stage, state.command, state.nextCommand,

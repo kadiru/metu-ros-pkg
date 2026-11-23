@@ -49,6 +49,9 @@ def formation_report(log, states, tracks, driven):
         n = f["restart"]
         # Include early open play for a short PREPARE so both variants get two seconds.
         window = gaps[start : min(len(frames), start + round(2 / log["dt"]))]
+        through_release = gaps[start : min(len(frames), stop + round(2 / log["dt"]))]
+        moving = jumps[start:stop] > 0.2 * log["dt"]
+        moving_errors = gaps[start:stop][moving]
         target = kickoff(log["seed"] + 101 * n, command.split("_")[-1].lower(), f["attack_sign"])
         target_xy = np.array([(r.x, r.y) for r in target.robots])
         assert [[r.key.team, r.key.id] for r in target.robots] == log["keys"]
@@ -61,6 +64,15 @@ def formation_report(log, states, tracks, driven):
             released=released,
             native_s=round((stop - start) * log["dt"], 2),
             max_step_m=float(jumps[start:stop].max()),
+            full_max_track_error_m=float(np.nanmax(through_release))
+            if np.isfinite(through_release).any()
+            else None,
+            full_tracked_samples=int(np.isfinite(through_release).sum()),
+            full_expected_samples=int(through_release.size),
+            full_robot_samples_error_over_30cm=int((through_release > 0.30).sum()),
+            moving_max_track_error_m=float(np.nanmax(moving_errors))
+            if np.isfinite(moving_errors).any()
+            else None,
             tracked_samples=int(np.isfinite(window).sum()),
             expected_samples=int(window.size),
             max_track_error_2s_m=float(np.nanmax(window)) if np.isfinite(window).any() else None,
@@ -86,7 +98,7 @@ def formation_report(log, states, tracks, driven):
 
 
 def measure(folder, driven):
-    r, opening, velocities = audit(folder)
+    r, opening, velocities = audit(folder, require_native_goals=False)
     log, states = read_game(folder / "match")
     tracks = tracked_positions(log)
     records, biggest = formation_report(log, states, tracks, driven)
@@ -146,15 +158,24 @@ def summarize(root):
                     passes=len(r["completed"]),
                     attempts=r["attempts"],
                     goals=len(r["goals"]),
+                    full_ball_goals=sum(g["crossing_tick"] is not None for g in r["goals"]),
+                    native_play_seconds=sum(h["running_native_s"] for h in r["official_halves"]),
                     kickoffs=len(formations),
                     released=sum(f["released"] for f in formations),
                     measurements=sum(f["tracked_samples"] for f in formations),
                     expected=sum(f["expected_samples"] for f in formations),
+                    through_release_samples=sum(f["full_tracked_samples"] for f in formations),
+                    through_release_expected=sum(f["full_expected_samples"] for f in formations),
+                    through_release_over_30cm=sum(
+                        f["full_robot_samples_error_over_30cm"] for f in formations
+                    ),
                     off_by_30cm=sum(f["robot_samples_error_over_30cm"] for f in formations),
                 )
             )
             pair[arm] = r
         pairs.append(pair)
+    for counts in totals.values():
+        counts["native_play_seconds"] = round(counts["native_play_seconds"], 2)
     return dict(pairs=pairs, totals=totals)
 
 
@@ -162,5 +183,14 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("root", type=Path)
     p.add_argument("output", type=Path)
+    p.add_argument(
+        "--controls",
+        action="store_true",
+        help="Verify the pilot and the close-approach control match",
+    )
     args = p.parse_args()
-    save(args.output, summarize(args.root))
+    if args.controls:
+        report = {name: measure(args.root / name, True)[0] for name in ("pilot", "positive")}
+    else:
+        report = summarize(args.root)
+    save(args.output, report)

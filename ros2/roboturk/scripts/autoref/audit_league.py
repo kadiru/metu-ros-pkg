@@ -94,7 +94,7 @@ def official_events(folder):
     return raw, official
 
 
-def verify_goals(frames, states, official):
+def verify_goals(frames, states, official, *, require_native=True):
     scoring = [e for e in official if e["type"] == "GOAL"]
     assert all(e["goal"].get("message") == "Valid and auto approved" for e in scoring)
     pending = []
@@ -124,10 +124,37 @@ def verify_goals(frames, states, official):
             and abs(states[j, 1]) < 0.4785
             and frames[j]["ball_z"] < 0.16
         ]
-        assert crossing, (team, i)
-        wire_goals.append(
-            dict(team=team, score_tick=i, crossing_tick=min(crossing), score=f["score"])
+        if require_native:
+            assert crossing, (team, i)
+        goal = dict(
+            team=team,
+            score_tick=i,
+            crossing_tick=min(crossing) if crossing else None,
+            score=f["score"],
         )
+        if not crossing:
+            # Preserve the official decision and expose the sampled trajectory on marginal shots.
+            center_crossings = []
+            for j in range(1, i + 1):
+                if any(
+                    frames[k]["restart"] != f["restart"] or frames[k]["stage"] != f["stage"]
+                    for k in (j - 1, j)
+                ):
+                    continue
+                x0, x1 = states[j - 1 : j + 1, 0] * direction
+                if x0 < 4.5 <= x1:
+                    part = (4.5 - x0) / (x1 - x0)
+                    center_crossings.append(
+                        dict(
+                            before_tick=j - 1,
+                            after_tick=j,
+                            interpolated_y_m=float(
+                                states[j - 1, 1] + part * (states[j, 1] - states[j - 1, 1])
+                            ),
+                        )
+                    )
+            goal["center_line_crossings"] = center_crossings
+        wire_goals.append(goal)
     assert [g["team"] for g in wire_goals] == [e["goal"]["byTeam"] for e in scoring]
     assert frames[-1]["score"] == [sum(g["team"] == t for g in wire_goals) for t in TEAMS]
 
@@ -199,12 +226,12 @@ def locate_crashes(log, states, raw, official):
     return crashes
 
 
-def audit(folder):
+def audit(folder, *, require_native_goals=True):
     log, states = read_game(folder / "match")
     frames = log["frames"]
     opening, half_info = verify_halves(log)
     raw, official = official_events(folder)
-    goals = verify_goals(frames, states, official)
+    goals = verify_goals(frames, states, official, require_native=require_native_goals)
     passes, attempts = verify_receptions(log, states)
     crashes = locate_crashes(log, states, raw, official)
     report = dict(

@@ -4,6 +4,12 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Watch the teams change ends
+
+The blue ring marks Blue 0 in Webots. The pink cross marks where TIGERs sees it. During a half-time reset they separate by over eight metres. Watch them stay together when the robots drive to their positions. On four fresh paired openings, the Game Controller accepted 3 crash calls with instant resets and 0 with driven kickoffs. Both teams kept their open-play policies frozen. [Full match](media/kickoff-drive/official-match.mp4) · [Passing, scoring and tracker measurements](media/kickoff-drive/README.md)
+
+[![Half-time comparison showing the Blue goalkeeper and its tracker estimate](media/kickoff-drive/changing-ends.gif)](media/kickoff-drive/changing-ends.mp4)
+
 ## A 5v5 match under the official referee
 
 Blue scores, Yellow takes the kickoff, and the teams switch ends for the second half. The SSL Game Controller kept time and awarded every goal across eight Webots games on four matched openings. Learned steering recorded 3 accepted crashes, 51 completed passes and 6 goals. Previous steering recorded 7, 43 and 8, respectively. A kickoff replay checks the distance between the players named in a crash report. [Uncut 2–0 match](media/official-league/official-match.mp4) · [Paired results and replay](media/official-league/README.md)

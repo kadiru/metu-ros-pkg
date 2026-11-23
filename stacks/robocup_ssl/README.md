@@ -13,7 +13,13 @@ The work spans hardware/software integration and path-planning experiments: how 
 
 ## Robot soccer in Webots
 
-In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/82b1f9ef4f33122c6ef71dea60cd81062b07cb08/ros2/roboturk)
+In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/3c5119662c40723e58a96bc93b113832618da85d/ros2/roboturk)
+
+### When two players cross paths
+
+Watch Blue 4 and Yellow 2. On the left, the referee calls a 1.61 m/s crash. On the right, each team steers using the other players' observed motion. On 16 fresh one-minute Webots starts the trained teams drew zero crash calls against 47 for the previous teams, completed 201 passes against 151, and scored 21 goals apiece across the two evaluations. [Both close encounters](https://github.com/kadiru/metu-ros-pkg/blob/3c5119662c40723e58a96bc93b113832618da85d/ros2/roboturk/media/open-motion/two-encounters.mp4) · [Watch Blue score](https://github.com/kadiru/metu-ros-pkg/blob/3c5119662c40723e58a96bc93b113832618da85d/ros2/roboturk/media/open-motion/first-goal.gif) · [Full match and results](https://github.com/kadiru/metu-ros-pkg/blob/3c5119662c40723e58a96bc93b113832618da85d/ros2/roboturk/policies/open_motion_v1/README.md)
+
+[![Blue 4 and Yellow 2 cross paths in matched Webots replays](../../docs/assets/roboturk-webots/open-motion.gif)](https://github.com/kadiru/metu-ros-pkg/blob/3c5119662c40723e58a96bc93b113832618da85d/ros2/roboturk/media/open-motion/two-encounters.mp4)
 
 ### Can Blue reach the ball without hitting Yellow?
 

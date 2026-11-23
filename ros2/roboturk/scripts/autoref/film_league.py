@@ -61,9 +61,9 @@ def show_reported_pair(rec, output):
     )
 
 
-def film(folder, output):
+def film(folder, output, *, halftime_clip=False):
     output.mkdir(parents=True, exist_ok=True)
-    report, _, _ = audit(folder)
+    report, _, _ = audit(folder, require_native_goals=not halftime_clip)
     rec = recording(folder / "match", report)
     show_reported_pair(rec, output)
     log = rec[0]
@@ -83,7 +83,8 @@ def film(folder, output):
         team, num = p["receiver"]
         marks.append((p["receive"], f"{team.title()} {num} receives"))
     for g in report["goals"]:
-        marks.append((g["crossing_tick"], "Ball crosses the goal line"))
+        if g["crossing_tick"] is not None:
+            marks.append((g["crossing_tick"], "Ball crosses the goal line"))
         marks.append((g["score_tick"], f"Official goal for {g['team'].title()}"))
     marks.sort()
     ticks = [m[0] for m in marks]
@@ -124,7 +125,19 @@ def film(folder, output):
             yield frame(len(frames) - 1)
 
     encode(movie, sampled(), fps)
-    if report["goals"]:
+    if halftime_clip:
+        half = next(
+            i
+            for i, f in enumerate(frames)
+            if f["stage"] == "NORMAL_SECOND_HALF_PRE"
+            and f["ssl_command"].startswith("PREPARE_KICKOFF")
+        )
+        release = next(
+            i for i in range(half, len(frames)) if frames[i]["ssl_command"] == "NORMAL_START"
+        )
+        start = max(0, half * log["dt"] - 0.4)
+        end = min(len(frames) * log["dt"], release * log["dt"] + 1.2)
+    elif report["goals"]:
         g = report["goals"][0]
         start = max(0, g["crossing_tick"] * log["dt"] - 5.0)
         end = min(len(frames) * log["dt"], g["score_tick"] * log["dt"] + 2.4)
@@ -150,7 +163,7 @@ def film(folder, output):
             "fps=12.5,scale=640:-2,split[a][b];[a]palettegen[p];[b][p]paletteuse=dither=bayer",
             "-loop",
             "0",
-            str(output / "match-highlight.gif"),
+            str(output / ("official-kickoff.gif" if halftime_clip else "match-highlight.gif")),
         ],
         check=True,
     )
@@ -160,5 +173,10 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("match", type=Path)
     p.add_argument("output", type=Path)
+    p.add_argument(
+        "--halftime-clip",
+        action="store_true",
+        help="Extract a real-time GIF from the half-time award through release",
+    )
     a = p.parse_args()
-    film(a.match, a.output)
+    film(a.match, a.output, halftime_clip=a.halftime_clip)

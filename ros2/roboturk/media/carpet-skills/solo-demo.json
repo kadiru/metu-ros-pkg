@@ -1,0 +1,44 @@
+{
+  "episodes": [
+    {
+      "is_success": true,
+      "reason": "goal",
+      "steps": 531,
+      "capture_seconds": 1.94,
+      "hold_steps": 430,
+      "backend": "webots_ideal_body_velocity",
+      "task": "capture_dribble_shoot.randomized.v1",
+      "moving": true,
+      "initial_distance": 0.9826004958901274,
+      "ball_speed": 0.28051874408697275,
+      "initial_heading": 1.6822128147823048,
+      "attack_sign": 1,
+      "target": [
+        4.5,
+        0.0
+      ],
+      "elapsed_seconds": 10.62,
+      "shot_seconds": 10.16,
+      "acquired": true,
+      "shot": true,
+      "applied_kicks": 1,
+      "target_distance": 0.07140252340322471,
+      "initial_target_distance": 6.115079756281395,
+      "carried_progress": 4.761139837783631,
+      "shot_distance": 1.2930475416687979,
+      "shot_heading_error": 0.026409950589326145,
+      "goal_crossing_y": -0.029574751279214405,
+      "possession_checks": 4110,
+      "lost_possession_checks": 0,
+      "max_mouth_error": 0.00914454197231318,
+      "seed": 32603000
+    }
+  ],
+  "source": "actual Webots movie recorder",
+  "policy_fallback": false,
+  "outcome_display_seconds": 0.6,
+  "possession_sample_seconds": 0.002,
+  "policy": "policies/capture_dribble_shoot_v2/policy.zip",
+  "checkpoint_sha256": "6558b977dcdeb0001e9590b01ca1cfb9f3ec3fd16da1f43d17b8c3e6c9f6cc11",
+  "checkpoint_manifest_sha256": "b0c64b87e0dc59d58ceacb82b975dce327ab423290321f1776d673a227a7be69"
+}

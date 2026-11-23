@@ -141,3 +141,29 @@ def test_play_memory_matches_transfer_monitor_and_handles_stops():
     )
     with pytest.raises(ValueError):
         play.observe([env.world], [])
+
+
+def test_local_receiver_changes_only_receiver_motion_after_a_nearby_pass():
+    from roboturk.team import TeamCheckpoint
+    from roboturk.team_contract import RECEIVER_CONTRACT
+
+    class FixedActor:
+        def predict(self, obs, deterministic):
+            return np.zeros(7), None
+
+    env = PassReceiveEnv()
+    env.reset(seed=4)
+    policy = TeamCheckpoint.__new__(TeamCheckpoint)
+    policy.contract, policy.model = RECEIVER_CONTRACT, FixedActor()
+    policy.receiver_weights = np.zeros((6, 3))
+    policy.receiver_weights[0] = [0.1, -0.2, 0.3]
+    receiver = env.world.robot(env.receiver)
+    near = replace(env.world, ball=Ball(receiver.x + 0.3, receiver.y))
+
+    def predict(w):
+        return policy.predict(w, env.passer, env.receiver, env.state, env.cfg)
+
+    np.testing.assert_array_equal(predict(near), np.zeros(7))
+    env.state.passed = True
+    np.testing.assert_array_equal(predict(env.world), np.zeros(7))
+    np.testing.assert_allclose(predict(near), [0, 0, 0, 0, 0.1, -0.2, 0.3])

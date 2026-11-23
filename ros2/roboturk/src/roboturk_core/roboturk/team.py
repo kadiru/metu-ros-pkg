@@ -6,6 +6,7 @@ coordination, not decentralized multi-agent RL. Physics is never reset on handof
 
 from dataclasses import dataclass, asdict
 import math
+import hashlib
 import json
 from pathlib import Path
 import gymnasium as gym
@@ -34,6 +35,9 @@ from .team_contract import (
     TEAM_CONTRACT,
     TEAM_CONTRACT_V1,
     PASS_SPEED,
+    RECEIVER_RANGE,
+    RECEIVER_CONTRACT,
+    receiver_features,
     team_action,
     team_commands,
     team_observation,
@@ -98,9 +102,23 @@ class TeamCheckpoint:
         if metadata["contract"] not in (
             TEAM_CONTRACT,
             TEAM_CONTRACT_V1,
+            RECEIVER_CONTRACT,
         ) or not compatible_policy_config(metadata["config"], cfg):
             raise ValueError("Team policy manifest does not match contract/config")
         self.contract = metadata["contract"]
+        self.receiver_weights = None
+        if self.contract == RECEIVER_CONTRACT:
+            if (
+                hashlib.sha256(Path(path).read_bytes()).hexdigest()
+                != metadata["base_checkpoint_sha256"]
+            ):
+                raise ValueError("Fitted receiver requires its original transfer actor")
+            if metadata["receiver_range_m"] != RECEIVER_RANGE:
+                raise ValueError("Local receiver range does not match the policy contract")
+            weights = np.asarray(metadata["receiver_weights"], dtype=float)
+            if weights.shape != (6, 3) or not np.isfinite(weights).all():
+                raise ValueError("Invalid local receiver weights")
+            self.receiver_weights = weights
         self.model = PPO.load(path, device="cpu")
 
     def initial_state(self, world, passer, receiver, cfg):
@@ -118,7 +136,12 @@ class TeamCheckpoint:
         obs = team_observation(world, passer, receiver, state, cfg)
         if self.contract == TEAM_CONTRACT_V1:
             obs = obs[:34]
-        return self.model.predict(obs, deterministic=True)[0]
+        action = self.model.predict(obs, deterministic=True)[0]
+        if self.receiver_weights is not None and state.passed:
+            features = receiver_features(world, receiver, cfg)
+            if features is not None:
+                action[4:] = np.clip(features @ self.receiver_weights, -1, 1)
+        return action
 
 
 class PassReceiveEnv(gym.Env):

@@ -4,6 +4,7 @@ from pathlib import Path
 import time
 from roboturk.model import Command, Intent, Skill
 from roboturk.team import evaluate_team
+from roboturk.team_contract import RECEIVER_CONTRACT
 
 
 class Recorder:
@@ -30,7 +31,12 @@ class Recorder:
         )
         self.label(
             5,
-            "Neural transfer + frozen neural scorer | scripted role handoff | approximate Webots physics",
+            (
+                "Fitted close-range receiver"
+                if self.policy.contract == RECEIVER_CONTRACT
+                else "Neural transfer"
+            )
+            + " | frozen neural scorer | scripted role handoff | Webots",
             0.95,
             0.03,
         )
@@ -107,6 +113,6 @@ def record(supervisor, env, policy, shooter, output, episodes=6, seed=460000):
         policy_fallback=False,
         scripted_role_handoff=True,
         outcome_display_seconds=0.6,
-        possession_sample_seconds=0.005,
+        possession_sample_seconds=supervisor.getBasicTimeStep() / 1000,
     )
     return result

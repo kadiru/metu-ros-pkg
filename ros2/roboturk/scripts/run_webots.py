@@ -68,6 +68,7 @@ def main():
             "defended-demo",
             "team-train",
             "team-upgrade",
+            "team-fit-receiver",
             "team-evaluate",
             "team-demo",
             "shoot-train",

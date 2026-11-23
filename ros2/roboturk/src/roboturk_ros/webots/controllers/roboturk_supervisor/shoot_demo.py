@@ -106,5 +106,5 @@ def record(supervisor, env, policy, output, episodes=6, seed=260000):
         "source": "actual Webots movie recorder",
         "policy_fallback": False,
         "outcome_display_seconds": 0.6,
-        "possession_sample_seconds": 0.005,
+        "possession_sample_seconds": supervisor.getBasicTimeStep() / 1000,
     }

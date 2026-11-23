@@ -1,0 +1,64 @@
+{
+  "backend": "webots_ideal_body_velocity",
+  "base_checkpoint_sha256": "317bbf99ac4e436ef43d4bb1140e1e328749d5fdb01930a572ab0ad9f2d157f3",
+  "base_manifest_sha256": "758874988e337d8fceaff0d1b0e8d2220c74aba8995faf7f5474ca3ea19b3284",
+  "config": {
+    "ball_mass": 0.046,
+    "ball_radius": 0.0215,
+    "dt": 0.02,
+    "goal_width": 1.0,
+    "length": 9.0,
+    "max_acceleration": 5.0,
+    "max_kick": 10.0,
+    "max_omega": 8.0,
+    "max_speed": 3.0,
+    "max_steps": 500,
+    "neighbors": 5,
+    "possession_x": 0.115,
+    "robot_radius": 0.09,
+    "width": 6.0
+  },
+  "contract": "roboturk.pass_receive.carpet_receiver.v1",
+  "method": "Frozen v2 transfer actor with a Webots imitation-fitted local receiver",
+  "pass_speed": 1.8,
+  "receiver_range_m": 0.65,
+  "receiver_training_seeds": [
+    32710000,
+    32710023
+  ],
+  "receiver_weights": [
+    [
+      -4.51235687456142e-07,
+      5.2234582272868e-06,
+      5.332727099655235e-06
+    ],
+    [
+      1.5999909700041173,
+      8.494134257212248e-05,
+      1.1681758117202553e-06
+    ],
+    [
+      8.714990185425676e-05,
+      1.583250969237649,
+      0.00024540625178142214
+    ],
+    [
+      0.3249977454829626,
+      4.098297190337665e-06,
+      -2.0359105131948516e-06
+    ],
+    [
+      -6.774610104691478e-06,
+      0.3259512230736401,
+      0.0005759485593617871
+    ],
+    [
+      1.9318565891901755e-06,
+      0.0009277332554010491,
+      0.6229030433692261
+    ]
+  ],
+  "skill": "pass_receive_team",
+  "task": "pass_receive.randomized.v1",
+  "validated_for_hardware": false
+}

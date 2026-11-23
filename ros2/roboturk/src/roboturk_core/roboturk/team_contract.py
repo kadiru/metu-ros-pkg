@@ -4,11 +4,28 @@ import math
 import numpy as np
 from .capture_contract import capture_observation
 from .shoot_contract import shoot_observation
-from .model import Command, Intent, Skill, bounded, skill_limits
+from .model import Command, Intent, Skill, bounded, skill_limits, body_vector
 
 TEAM_CONTRACT_V1 = "roboturk.pass_receive.v1"
 TEAM_CONTRACT = "roboturk.pass_receive.v2"
 PASS_SPEED = 1.8
+
+
+RECEIVER_CONTRACT = "roboturk.pass_receive.carpet_receiver.v1"
+RECEIVER_RANGE = 0.65  # Same local approach range as the transfer demonstration controller.
+
+
+def receiver_features(world, receiver, cfg):
+    r, b = world.robot(receiver), world.ball
+    bx, by = body_vector(b.x - r.x, b.y - r.y, r.yaw)
+    if math.hypot(bx, by) >= RECEIVER_RANGE:
+        return None
+    vx, vy = body_vector(b.vx, b.vy, r.yaw)
+    angle = math.atan2(by, bx)
+    facing = max(0.0, math.cos(angle)) ** 3
+    return np.array(
+        [1, facing * (bx - cfg.possession_x), facing * by, facing * vx, facing * vy, angle]
+    )
 
 
 def team_observation(world, passer, receiver, state, cfg):

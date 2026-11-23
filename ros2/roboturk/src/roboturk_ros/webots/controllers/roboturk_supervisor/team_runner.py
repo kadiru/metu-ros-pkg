@@ -11,7 +11,17 @@ def run(supervisor, backend, cfg, mode):
     env = PassReceiveEnv(cfg, backend)
     output = Path(os.environ.get("ROBOTURK_OUTPUT", "runs/team/result"))
     output.parent.mkdir(parents=True, exist_ok=True)
-    if mode == "team-upgrade":
+    if mode == "team-fit-receiver":
+        from roboturk.receiver_fit import fit_receiver
+
+        fit_receiver(
+            env,
+            os.environ["ROBOTURK_CHECKPOINT"],
+            output,
+            int(os.environ["ROBOTURK_EPISODES"]),
+            int(os.environ["ROBOTURK_SEED"]),
+        )
+    elif mode == "team-upgrade":
         from roboturk.team_upgrade import upgrade_team
 
         upgrade_team(
@@ -54,6 +64,9 @@ def run(supervisor, backend, cfg, mode):
         result["shooter"] = os.environ.get("ROBOTURK_SHOOT_CHECKPOINT")
         for label, path in [("checkpoint", checkpoint), ("shooting_checkpoint", result["shooter"])]:
             if path:
+                result[label + "_manifest_sha256"] = hashlib.sha256(
+                    Path(path).with_suffix(".json").read_bytes()
+                ).hexdigest()
                 result[label + "_sha256"] = hashlib.sha256(Path(path).read_bytes()).hexdigest()
         output.with_suffix(".json").write_text(json.dumps(result, indent=2) + "\n")
         print(json.dumps({k: v for k, v in result.items() if k != "episodes"}), flush=True)

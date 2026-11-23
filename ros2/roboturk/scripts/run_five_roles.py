@@ -102,17 +102,26 @@ def main():
         action="store_true",
         help="Save filtered TIGERs robot positions alongside native frames",
     )
-    p.add_argument(
+    planners = p.add_mutually_exclusive_group()
+    planners.add_argument(
+        "--team-kickoffs",
+        action="store_true",
+        help="Use a separate camera-based kickoff planner for each side",
+    )
+    planners.add_argument(
         "--parallel-kickoffs",
         action=argparse.BooleanOptionalAction,
         default=None,
-        help="Reserve concurrent kickoff routes by travel time (default for driven kickoffs)",
+        help="Use the shared planner with concurrent route reservations",
     )
     a = p.parse_args()
     if a.replay_kickoffs and (a.referee != "local" or a.until_post_game):
         p.error("--replay-kickoffs runs a native replay without a live referee")
     if a.parallel_kickoffs is None:
-        a.parallel_kickoffs = a.drive_kickoffs
+        a.team_kickoffs = a.team_kickoffs or a.drive_kickoffs
+        a.parallel_kickoffs = False
+    if a.team_kickoffs and not (a.drive_kickoffs or a.replay_kickoffs):
+        p.error("--team-kickoffs requires a driven match or kickoff replays")
     if a.parallel_kickoffs and not a.drive_kickoffs:
         p.error("--parallel-kickoffs requires --drive-kickoffs")
     if a.drive_kickoffs and not a.until_post_game:
@@ -156,6 +165,7 @@ def main():
                 until_post_game=a.until_post_game,
                 drive_kickoffs=a.drive_kickoffs,
                 parallel_kickoffs=a.parallel_kickoffs,
+                team_kickoffs=a.team_kickoffs,
                 track_kickoffs=a.track_kickoffs,
                 seconds=a.seconds,
                 record=a.record,

@@ -22,6 +22,10 @@ def recording(folder, result=None):
     if result is None:
         result = json.loads((folder / "official/result.json").read_text())
     images = sorted((folder / "frames").glob("*.jpg"))
+    return native_camera(log, states, result, images)
+
+
+def native_camera(log, states, result, images):
     assert len(images) == (len(states) + 1) // 2
     with Image.open(images[0]) as im:
         w, h = im.size

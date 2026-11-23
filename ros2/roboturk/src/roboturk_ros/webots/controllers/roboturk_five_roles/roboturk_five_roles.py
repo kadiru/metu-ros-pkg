@@ -15,6 +15,7 @@ from roboturk.continuous_backend import ContinuousWebotsBackend
 from roboturk.five_play import commands
 from roboturk.five_roles import Assignment, CFG, TEAMS, FiveRoles, kickoff
 from roboturk.kickoff_drive import KickoffDrive, ParallelKickoffDrive
+from roboturk.team_kickoff import IndependentKickoffs
 from roboturk.model import Referee
 from roboturk.open_motion import Steering, observed_velocity, steer_team
 from roboturk.placement import PlacementRestart
@@ -104,11 +105,13 @@ def match(sim, folder, cfg, receiver=None, vision=None):
     camera_delay = 0.0
     practice = practice_command(sign)
 
-    def send_camera(world):
+    def send_camera(world, frame=None):
         packet = (receiver.feed.packet if state.source else None) if receiver else practice
         stamp = origin + (sim.getTime() - start_time) + camera_delay
         if not receiver:
             practice.packet_timestamp = round(stamp * 1e6)
+        if frame is not None:
+            return vision.send_frame(frame, stamp, packet)
         return vision.send(world, stamp, backend.ball.getPosition()[2], packet)
 
     policy = Steering(**cfg["open_play_policy"]) if cfg.get("open_play_policy") else None
@@ -150,7 +153,9 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                     )
                 if drive:
                     planner = ParallelKickoffDrive if cfg.get("parallel_kickoffs") else KickoffDrive
-                    formation = planner(target)
+                    formation = (
+                        IndependentKickoffs(target) if cfg.get("team_kickoffs") else planner(target)
+                    )
                     ball_centered = False
                 else:
                     w = backend.reset(target)
@@ -216,8 +221,14 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             and state.command.startswith("PREPARE_KICKOFF_")
             and state.mode == Referee.STOP
         )
+        kickoff_frame = None
         if positioning:
-            out, arrived = formation.commands(w, CFG.dt)
+            if isinstance(formation, IndependentKickoffs):
+                stamp = origin + (sim.getTime() - start_time) + camera_delay
+                kickoff_frame = detection(w, tick, stamp, backend.ball.getPosition()[2])
+                out, arrived = formation.commands(w, CFG.dt, kickoff_frame.detection)
+            else:
+                out, arrived = formation.commands(w, CFG.dt)
             if arrived and not ball_centered:
                 backend.ball.getField("translation").setSFVec3f([0, 0, CFG.ball_radius])
                 backend.ball.resetPhysics()
@@ -310,7 +321,15 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             sim.exportImage(str(folder / "frames" / f"{tick // 2:05d}.jpg"), 85)
         if vision:
             meta["vision_time"] = origin + (sim.getTime() - start_time) + camera_delay
-            tracked = send_camera(w)
+            if kickoff_frame is not None and cfg.get("track_kickoffs"):
+                d = kickoff_frame.detection
+                meta["kickoff_camera_mm"] = [
+                    [team, b.robot_id, b.x, b.y]
+                    for team, bots in (("blue", d.robots_blue), ("yellow", d.robots_yellow))
+                    for b in bots
+                ]
+                meta["kickoff_commands"] = [[out[k].vx, out[k].vy, out[k].omega] for k in keys]
+            tracked = send_camera(w, kickoff_frame)
             if cfg.get("track_kickoffs") and tracked is not None:
                 meta["tracker_time"] = tracked.timestamp
                 meta["tracked_xy"] = [
@@ -454,7 +473,13 @@ try:
         if cfg.get("kickoff_replays") is not None:
             from kickoff_replay import run
 
-            run(sim, folder, cfg["kickoff_replays"])
+            run(
+                sim,
+                folder,
+                cfg["kickoff_replays"],
+                teams=cfg.get("team_kickoffs", False),
+                film=cfg.get("frame_images", False),
+            )
         elif cfg.get("placement_batch"):
             from placement_runner import run
 

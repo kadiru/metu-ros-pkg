@@ -178,12 +178,13 @@ def main():
             )
             if spec.get("drive_kickoffs"):
                 params.append("--drive-kickoffs")
-                # Historical saved fixture specifications used the group planner.
-                params.append(
-                    "--parallel-kickoffs"
-                    if spec.get("parallel_kickoffs")
-                    else "--no-parallel-kickoffs"
-                )
+                # Replay older specifications with their original shared planner.
+                if spec.get("team_kickoffs"):
+                    params.append("--team-kickoffs")
+                elif spec.get("parallel_kickoffs"):
+                    params.append("--parallel-kickoffs")
+                else:
+                    params.append("--no-parallel-kickoffs")
             if spec.get("track_kickoffs"):
                 params.append("--track-kickoffs")
             if spec.get("open_play_policy"):

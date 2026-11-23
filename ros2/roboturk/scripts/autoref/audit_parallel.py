@@ -9,9 +9,10 @@ import numpy as np
 
 from audit_kickoff import measure
 from roboturk.five_roles import CFG, kickoff
-from roboturk.model import wrap
+from roboturk.model import Robot, RobotKey, wrap
+from roboturk.team_kickoff import TeamKickoffPlanner
 from run_fixture import ROOT
-from run_league import ACTOR, PARALLEL_ARMS, PARALLEL_SEEDS
+from run_league import ACTOR, PARALLEL_ARMS, PARALLEL_SEEDS, TEAM_ARMS, TEAM_SEEDS
 from train_open_motion import read_game, save
 
 
@@ -39,14 +40,52 @@ def describe(values):
     )
 
 
-def matches(root):
+def verify_team_commands(log, states, formations):
+    """Rebuild every sent kickoff command using each side's permitted inputs alone."""
+    keys = [RobotKey(*k) for k in log["keys"]]
+    samples = 0
+    maximum = 0.0
+    for f in formations:
+        first = log["frames"][f["start"]]
+        targets = kickoff(
+            log["seed"] + 101 * f["restart"],
+            f["command"].split("_")[-1].lower(),
+            first["attack_sign"],
+        )
+        planners = {
+            team: TeamKickoffPlanner(tuple(r for r in targets.robots if r.key.team == team))
+            for team in ("blue", "yellow")
+        }
+        for tick in range(f["start"], f["end"]):
+            frame = log["frames"][tick]
+            xy = {RobotKey(team, n): (x, y) for team, n, x, y in frame["kickoff_camera_mm"]}
+            poses = states[tick, 4:].reshape(10, 3)
+            np.testing.assert_array_equal(
+                [xy[k] for k in keys], (poses[:, :2] * 1000).astype(np.float32)
+            )
+            own_states = tuple(Robot(k, *pose) for k, pose in zip(keys, poses, strict=True))
+            commands = {}
+            for team, planner in planners.items():
+                own = tuple(r for r in own_states if r.key.team == team)
+                opponents = {k: (x / 1000, y / 1000) for k, (x, y) in xy.items() if k.team != team}
+                out, _ = planner.commands(own, opponents, frame["vision_time"], log["dt"])
+                commands.update(out)
+            rebuilt = np.array([(commands[k].vx, commands[k].vy, commands[k].omega) for k in keys])
+            maximum = max(maximum, float(np.abs(rebuilt - frame["kickoff_commands"]).max()))
+            samples += len(keys)
+    assert samples and maximum < 1e-8, maximum
+    return dict(robot_commands=samples, max_component_error=maximum)
+
+
+def matches(root, *, teams=False):
+    seeds, arms = (TEAM_SEEDS, TEAM_ARMS) if teams else (PARALLEL_SEEDS, PARALLEL_ARMS)
     cases, pairs = [], []
     actor = json.loads((ROOT / ACTOR).read_text())
-    for seed in PARALLEL_SEEDS:
+    for seed in seeds:
         pair = {"seed": seed}
         openings = []
         referee_configs = []
-        for arm in PARALLEL_ARMS:
+        for arm in arms:
             path = root / str(seed) / arm
             spec = json.loads(path.with_suffix(".json").read_text())
             cfg = json.loads((path / "match/config.json").read_text())
@@ -59,8 +98,9 @@ def matches(root):
             assert (
                 cfg["open_play_policy"] == actor and cfg["drive_kickoffs"] and cfg["track_kickoffs"]
             )
-            assert cfg["parallel_kickoffs"] == (arm == "parallel")
-            assert cfg["frame_images"] == (seed == PARALLEL_SEEDS[0])
+            assert cfg["parallel_kickoffs"] == (arm in ("parallel", "shared"))
+            assert cfg.get("team_kickoffs", False) == (arm == "teams")
+            assert cfg["frame_images"] == (seed == seeds[0])
             report, state, velocity = measure(path, True)
             openings.append(np.concatenate((state, np.ravel(velocity))))
             log, states = read_game(path / "match")
@@ -77,7 +117,7 @@ def matches(root):
                     else "after goal"
                 )
                 f.update(motion(states[start : end + 1], log["dt"]))
-                if arm == "current" and f["restart"] > 1:
+                if arm == arms[0] and f["restart"] > 1:
                     cases.append(
                         dict(
                             seed=seed,
@@ -105,12 +145,14 @@ def matches(root):
                 attempts=report["attempts"],
                 placement_failures=report["accepted_events"].get("PLACEMENT_FAILED", 0),
             )
+            if arm == "teams":
+                pair[arm]["command_audit"] = verify_team_commands(log, states, formations)
         assert referee_configs[0] == referee_configs[1]
         assert np.array_equal(*openings), f"Different first-action state on {seed}"
         pair["opening_max_difference"] = float(np.abs(openings[0] - openings[1]).max())
         pairs.append(pair)
     totals = {}
-    for arm in PARALLEL_ARMS:
+    for arm in arms:
         rows = [p[arm] for p in pairs]
         formations = [f for r in rows for f in r["formations"]]
         travel = [f for f in formations if f["restart"] > 1 and f["released"]]
@@ -136,17 +178,18 @@ def matches(root):
     return dict(pairs=pairs, live_totals=totals), cases
 
 
-def replays(folder, cases):
+def replays(folder, cases, *, teams=False):
+    arms = TEAM_ARMS if teams else PARALLEL_ARMS
     manifest = json.loads((folder / "kickoff-replays.json").read_text())
     index = {(r["seed"], r["restart"], r["arm"]): r for r in manifest}
-    assert len(index) == len(manifest) == 2 * len(cases)
+    assert len(index) == len(manifest) == len(arms) * len(cases)
     rows = []
     with np.load(folder / "kickoff-traces.npz") as traces:
         for case in cases:
             opening = []
             row = {k: case[k] for k in ("seed", "restart", "kind")}
             target = kickoff(case["seed"] + 101 * case["restart"], case["serving"], case["sign"])
-            for arm in PARALLEL_ARMS:
+            for arm in arms:
                 r = index[case["seed"], case["restart"], arm]
                 states = traces[r["name"]]
                 opening.append(np.concatenate((states[0], np.ravel(r["initial_velocities"]))))
@@ -178,10 +221,8 @@ def replays(folder, cases):
             np.testing.assert_allclose(paired_delta, 0, rtol=0, atol=1e-9)
             row["opening_max_difference"] = float(np.abs(paired_delta).max())
             rows.append(row)
-    totals = {arm: describe([r[arm]["seconds"] for r in rows]) for arm in PARALLEL_ARMS}
-    totals["parallel_faster"] = sum(
-        r["parallel"]["seconds"] < r["current"]["seconds"] for r in rows
-    )
+    totals = {arm: describe([r[arm]["seconds"] for r in rows]) for arm in arms}
+    totals[arms[1] + "_faster"] = sum(r[arms[1]]["seconds"] < r[arms[0]]["seconds"] for r in rows)
     return dict(trials=rows, totals=totals)
 
 
@@ -191,10 +232,13 @@ if __name__ == "__main__":
     p.add_argument("output", type=Path)
     p.add_argument("--write-replay-cases", type=Path)
     p.add_argument("--replays", type=Path)
+    p.add_argument(
+        "--teams", action="store_true", help="Audit the shared versus independent comparison"
+    )
     args = p.parse_args()
-    report, cases = matches(args.fresh)
+    report, cases = matches(args.fresh, teams=args.teams)
     if args.write_replay_cases:
         save(args.write_replay_cases, cases)
     if args.replays:
-        report["matched_replays"] = replays(args.replays, cases)
+        report["matched_replays"] = replays(args.replays, cases, teams=args.teams)
     save(args.output, report)

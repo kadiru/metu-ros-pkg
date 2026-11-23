@@ -13,7 +13,13 @@ The work spans hardware/software integration and path-planning experiments: how 
 
 ## Robot soccer in Webots
 
-In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/3c5119662c40723e58a96bc93b113832618da85d/ros2/roboturk)
+In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/9a59cb0800a8fb9e755e27080c0385480fd3a8dc/ros2/roboturk)
+
+### Who gives the kickoff after a goal?
+
+Blue scores in a 5v5 Webots match. TIGERs sees the ball cross the line, the RoboCup SSL Game Controller puts the goal on the scoreboard, and Yellow gets the kickoff. The uncut film follows both teams through the side change and Blue’s 2–0 finish. [Watch both halves](https://github.com/kadiru/metu-ros-pkg/blob/9a59cb0800a8fb9e755e27080c0385480fd3a8dc/ros2/roboturk/media/official-league/official-match.mp4) · [Paired results and the kickoff tracking replay](https://github.com/kadiru/metu-ros-pkg/blob/9a59cb0800a8fb9e755e27080c0385480fd3a8dc/ros2/roboturk/media/official-league/README.md)
+
+[![Blue scores and the official referee awards Yellow the restart](../../docs/assets/roboturk-webots/official-5v5-goal.gif)](https://github.com/kadiru/metu-ros-pkg/blob/9a59cb0800a8fb9e755e27080c0385480fd3a8dc/ros2/roboturk/media/official-league/official-match.mp4)
 
 ### When two players cross paths
 

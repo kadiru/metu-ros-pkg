@@ -84,7 +84,21 @@ def main():
     p.add_argument(
         "--until-post-game", action="store_true", help="Finish on the official final whistle"
     )
+    p.add_argument(
+        "--drive-kickoffs",
+        action="store_true",
+        help="Drive the ten robots to their awarded kickoff positions",
+    )
+    p.add_argument(
+        "--track-kickoffs",
+        action="store_true",
+        help="Save filtered TIGERs robot positions alongside native frames",
+    )
     a = p.parse_args()
+    if a.drive_kickoffs and not a.until_post_game:
+        p.error("--drive-kickoffs requires the two-half official fixture")
+    if a.track_kickoffs and not a.autoref_ci:
+        p.error("--track-kickoffs requires a TIGERs CI connection")
     if a.until_post_game and a.referee != "ssl":
         p.error("--until-post-game requires the official referee")
     if a.until_post_game and any(
@@ -120,6 +134,8 @@ def main():
                 root=str(ROOT),
                 seed=a.seed,
                 until_post_game=a.until_post_game,
+                drive_kickoffs=a.drive_kickoffs,
+                track_kickoffs=a.track_kickoffs,
                 seconds=a.seconds,
                 record=a.record,
                 frame_images=a.frame_images,

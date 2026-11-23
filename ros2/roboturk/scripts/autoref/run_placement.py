@@ -159,6 +159,7 @@ def main():
                         str(dest / "match/referee-ready"),
                         ("BLUE", "YELLOW")[spec["seed"] % 2],
                         str(spec.get("kickoff_settle_ms", 450)),
+                        "drive" if spec.get("drive_kickoffs") else "reset",
                     ],
                     ROOT,
                     dest / "table.log",
@@ -175,6 +176,10 @@ def main():
                     str(spec.get("seconds", 240)),
                 ]
             )
+            if spec.get("drive_kickoffs"):
+                params.append("--drive-kickoffs")
+            if spec.get("track_kickoffs"):
+                params.append("--track-kickoffs")
             if spec.get("open_play_policy"):
                 params.extend(["--open-play-policy", str(ROOT / spec["open_play_policy"])])
             if spec.get("film"):

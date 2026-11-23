@@ -149,7 +149,7 @@ class VisionOutput:
         self.geometry = geometry()
 
     def send(self, world, seconds, height, referee):
-        self.send_frame(detection(world, self.sequence, seconds, height), seconds, referee)
+        return self.send_frame(detection(world, self.sequence, seconds, height), seconds, referee)
 
     def send_frame(self, frame, seconds, referee):
         frame.detection.frame_number = self.sequence
@@ -173,6 +173,8 @@ class VisionOutput:
                 self.datagrams.sendto(
                     output.tracker_wrapper_packet.SerializeToString(), self.tracker
                 )
+            if output.HasField("tracker_wrapper_packet"):
+                return output.tracker_wrapper_packet.tracked_frame
 
     def close(self):
         if self.stream:

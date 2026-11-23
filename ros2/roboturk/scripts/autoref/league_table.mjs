@@ -1,7 +1,8 @@
 // Operate the match table from official match state. TIGERs supplies event evidence.
+import { join, dirname } from "node:path";
 import { existsSync } from "node:fs";
 
-const [url, ready, firstKickoffTeam, settle = "450"] = process.argv.slice(2);
+const [url, ready, firstKickoffTeam, settle = "450", positioning = "reset"] = process.argv.slice(2);
 const kickoffDelayMs = Number(settle);
 if (!Number.isFinite(kickoffDelayMs) || kickoffDelayMs < 450) {
   throw new Error("Invalid kickoff settling time");
@@ -11,10 +12,12 @@ const ws = new WebSocket(url);
 const send = message => ws.send(JSON.stringify(message));
 let state, lastView, since;
 let lastSent = 0;
+let kickoffs = 0;
 
 ws.onmessage = ({ data }) => {
   const update = JSON.parse(data).matchState;
   if (!update) return;
+  if (update.command?.type === "KICKOFF" && (state?.command?.type !== "KICKOFF" || state.command.forTeam !== update.command.forTeam)) kickoffs++;
   state = update;
   const view = JSON.stringify([
     state.stage, state.command, state.nextCommand,
@@ -73,6 +76,10 @@ setInterval(() => {
   if (state.command.type === "KICKOFF" && now - since < kickoffDelayMs) return;
   const decision = action(state);
   if (!decision) return;
+  if (decision[0] === "NORMAL_START" && positioning === "drive") {
+    const placed = join(dirname(ready), `formation-${kickoffs}-${state.command.forTeam}.ready`);
+    if (!existsSync(placed)) return;
+  }
   const [type, forTeam = "UNKNOWN"] = decision;
   console.log(JSON.stringify({ stage: state.stage, remaining: state.stageTimeLeft, type, forTeam }));
   send({ continueAction: { type, forTeam } });

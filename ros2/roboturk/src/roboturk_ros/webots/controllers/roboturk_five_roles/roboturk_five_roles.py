@@ -14,6 +14,7 @@ from controller import Supervisor
 from roboturk.continuous_backend import ContinuousWebotsBackend
 from roboturk.five_play import commands
 from roboturk.five_roles import Assignment, CFG, TEAMS, FiveRoles, kickoff
+from roboturk.kickoff_drive import KickoffDrive
 from roboturk.model import Referee
 from roboturk.open_motion import Steering, observed_velocity, steer_team
 from roboturk.placement import PlacementRestart
@@ -62,7 +63,14 @@ def match(sim, folder, cfg, receiver=None, vision=None):
 
         boards(sim)
     backend = ContinuousWebotsBackend(sim, CFG)
-    w = backend.reset(kickoff(seed, serving, sign))
+    drive = cfg.get("drive_kickoffs", False)
+    formation = None
+    ball_centered = False
+    if drive:
+        # The league table starts Blue on the negative half and alternates first service.
+        w = backend.reset(kickoff(seed + 101, TEAMS[seed % 2], 1))
+    else:
+        w = backend.reset(kickoff(seed, serving, sign))
     keys = [r.key for r in w.robots]
     tactics = FiveRoles()
     gate = RestartGate()
@@ -101,7 +109,7 @@ def match(sim, folder, cfg, receiver=None, vision=None):
         stamp = origin + (sim.getTime() - start_time) + camera_delay
         if not receiver:
             practice.packet_timestamp = round(stamp * 1e6)
-        vision.send(world, stamp, backend.ball.getPosition()[2], packet)
+        return vision.send(world, stamp, backend.ball.getPosition()[2], packet)
 
     policy = Steering(**cfg["open_play_policy"]) if cfg.get("open_play_policy") else None
     previous_positions = {}
@@ -130,7 +138,12 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             ):
                 serving = state.command.split("_")[-1].lower()
                 restarts += 1
-                w = backend.reset(kickoff(seed + 101 * restarts, serving, sign, w.time))
+                target = kickoff(seed + 101 * restarts, serving, sign, w.time)
+                if drive:
+                    formation = KickoffDrive(target)
+                    ball_centered = False
+                else:
+                    w = backend.reset(target)
                 prepared_kickoff = kickoff_key
             if league and not started and state.command == "NORMAL_START" and state.restart_team:
                 # Equalize settling time at the first authorized action of the paired fixture.
@@ -188,7 +201,26 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             if capture_restart:
                 finish_tick = tick
 
-        if placement:
+        positioning = (
+            formation is not None
+            and state.command.startswith("PREPARE_KICKOFF_")
+            and state.mode == Referee.STOP
+        )
+        if positioning:
+            out, arrived = formation.commands(w, CFG.dt)
+            if arrived and not ball_centered:
+                backend.ball.getField("translation").setSFVec3f([0, 0, CFG.ball_radius])
+                backend.ball.resetPhysics()
+                ball_centered = True
+            elif arrived and abs(w.ball.x) + abs(w.ball.y) < 0.004:
+                marker = folder / f"formation-{restarts}-{serving.upper()}.ready"
+                if not marker.exists():
+                    marker.touch()
+                    events.append(dict(tick=tick, event="formation_ready", restart=restarts))
+            roles = {k: Assignment("kickoff", (r.x, r.y)) for k, r in formation.targets.items()}
+            phases = dict.fromkeys(TEAMS, "Kickoff")
+            planned = {}
+        elif placement:
             out, roles = placement
             phases = {t: "Restart" for t in TEAMS}
             planned = {}
@@ -268,7 +300,13 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             sim.exportImage(str(folder / "frames" / f"{tick // 2:05d}.jpg"), 85)
         if vision:
             meta["vision_time"] = origin + (sim.getTime() - start_time) + camera_delay
-            send_camera(w)
+            tracked = send_camera(w)
+            if cfg.get("track_kickoffs") and tracked is not None:
+                meta["tracker_time"] = tracked.timestamp
+                meta["tracked_xy"] = [
+                    [bot.robot_id.team, bot.robot_id.id, bot.pos.x, bot.pos.y]
+                    for bot in tracked.robots
+                ]
         steps.append(meta)
         states.append(snapshot(w))
         w = backend.step(out)

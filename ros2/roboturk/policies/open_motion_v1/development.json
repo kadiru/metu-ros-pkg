@@ -1,0 +1,82 @@
+{
+  "pairs": [
+    {
+      "seed": 27200000,
+      "prefix_frames": 1,
+      "baseline": {
+        "crashes": 0,
+        "passes": 2,
+        "goals": 1,
+        "attempts": 3
+      },
+      "candidate": {
+        "crashes": 0,
+        "passes": 2,
+        "goals": 0,
+        "attempts": 6
+      }
+    },
+    {
+      "seed": 27200001,
+      "prefix_frames": 1,
+      "baseline": {
+        "crashes": 1,
+        "passes": 1,
+        "goals": 0,
+        "attempts": 2
+      },
+      "candidate": {
+        "crashes": 0,
+        "passes": 7,
+        "goals": 0,
+        "attempts": 12
+      }
+    },
+    {
+      "seed": 27200002,
+      "prefix_frames": 1,
+      "baseline": {
+        "crashes": 2,
+        "passes": 5,
+        "goals": 0,
+        "attempts": 6
+      },
+      "candidate": {
+        "crashes": 0,
+        "passes": 0,
+        "goals": 0,
+        "attempts": 1
+      }
+    },
+    {
+      "seed": 27200003,
+      "prefix_frames": 1,
+      "baseline": {
+        "crashes": 4,
+        "passes": 4,
+        "goals": 1,
+        "attempts": 6
+      },
+      "candidate": {
+        "crashes": 0,
+        "passes": 3,
+        "goals": 0,
+        "attempts": 6
+      }
+    }
+  ],
+  "totals": {
+    "baseline": {
+      "crashes": 7,
+      "passes": 12,
+      "goals": 2,
+      "attempts": 17
+    },
+    "candidate": {
+      "crashes": 0,
+      "passes": 12,
+      "goals": 0,
+      "attempts": 25
+    }
+  }
+}

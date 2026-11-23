@@ -1,0 +1,210 @@
+{
+  "live": {
+    "baseline": {
+      "specification": {
+        "mode": "open_match",
+        "seed": 25500000,
+        "seconds": 8,
+        "adjudicate_crashes": true
+      },
+      "first_running_tick": 0,
+      "accepted_crashes": [
+        {
+          "id": "ea950220-99f9-43d4-a2a4-54ccff56c635",
+          "type": "BOT_CRASH_UNIQUE",
+          "origin": [
+            "TIGERs AutoRef",
+            "Engine"
+          ],
+          "createdTimestamp": "1795424934735274",
+          "botCrashUnique": {
+            "byTeam": "BLUE",
+            "violator": 2,
+            "victim": 3,
+            "location": {
+              "x": 0.27004096,
+              "y": 1.3362136
+            },
+            "crashSpeed": 1.543283,
+            "speedDiff": 0.5575328,
+            "crashAngle": 2.143209
+          }
+        },
+        {
+          "id": "b2d582b8-4c7d-4f12-a9a8-cf82298b15d2",
+          "type": "BOT_CRASH_DRAWN",
+          "origin": [
+            "TIGERs AutoRef",
+            "Engine"
+          ],
+          "createdTimestamp": "1795424940730111",
+          "botCrashDrawn": {
+            "botYellow": 2,
+            "botBlue": 4,
+            "location": {
+              "x": 2.9021885,
+              "y": -0.2585668
+            },
+            "crashSpeed": 1.6069642,
+            "speedDiff": 0.027621167,
+            "crashAngle": 1.8270746
+          }
+        }
+      ],
+      "detector_crashes": [
+        [
+          0.88,
+          {
+            "botCrashUnique": {
+              "byTeam": "BLUE",
+              "violator": 2,
+              "victim": 3,
+              "location": {
+                "x": 0.27004096,
+                "y": 1.3362136
+              },
+              "crashSpeed": 1.543283,
+              "speedDiff": 0.5575328,
+              "crashAngle": 2.143209
+            },
+            "type": "BOT_CRASH_UNIQUE"
+          }
+        ],
+        [
+          5.52,
+          {
+            "botCrashDrawn": {
+              "botYellow": 2,
+              "botBlue": 4,
+              "location": {
+                "x": 2.9021885,
+                "y": -0.2585668
+              },
+              "crashSpeed": 1.6069642,
+              "speedDiff": 0.027621167,
+              "crashAngle": 1.8270746
+            },
+            "type": "BOT_CRASH_DRAWN"
+          }
+        ]
+      ]
+    },
+    "candidate": {
+      "specification": {
+        "mode": "open_match",
+        "seed": 25500000,
+        "seconds": 8,
+        "adjudicate_crashes": true,
+        "open_play_policy": "policies/open_motion_v1/actor.json"
+      },
+      "first_running_tick": 1,
+      "accepted_crashes": [],
+      "detector_crashes": []
+    }
+  },
+  "paired-live": {
+    "baseline": {
+      "specification": {
+        "mode": "open_match",
+        "seed": 25500000,
+        "seconds": 8,
+        "adjudicate_crashes": true,
+        "await_force_start": true
+      },
+      "first_running_tick": 0,
+      "accepted_crashes": [
+        {
+          "id": "6c4a7e09-7ebd-4dec-a210-d8cd9bb9aef7",
+          "type": "BOT_CRASH_UNIQUE",
+          "origin": [
+            "TIGERs AutoRef",
+            "Engine"
+          ],
+          "createdTimestamp": "1795425045365782",
+          "botCrashUnique": {
+            "byTeam": "BLUE",
+            "violator": 2,
+            "victim": 3,
+            "location": {
+              "x": 0.270041,
+              "y": 1.3362136
+            },
+            "crashSpeed": 1.5432824,
+            "speedDiff": 0.55753267,
+            "crashAngle": 2.1432087
+          }
+        },
+        {
+          "id": "1e06e4e2-7d98-46a1-8973-bafb110d3d1f",
+          "type": "BOT_CRASH_DRAWN",
+          "origin": [
+            "TIGERs AutoRef",
+            "Engine"
+          ],
+          "createdTimestamp": "1795425051350384",
+          "botCrashDrawn": {
+            "botYellow": 2,
+            "botBlue": 4,
+            "location": {
+              "x": 2.9021885,
+              "y": -0.25856677
+            },
+            "crashSpeed": 1.6069655,
+            "speedDiff": 0.02762117,
+            "crashAngle": 1.8270748
+          }
+        }
+      ],
+      "detector_crashes": [
+        [
+          0.88,
+          {
+            "botCrashUnique": {
+              "byTeam": "BLUE",
+              "violator": 2,
+              "victim": 3,
+              "location": {
+                "x": 0.270041,
+                "y": 1.3362136
+              },
+              "crashSpeed": 1.5432824,
+              "speedDiff": 0.55753267,
+              "crashAngle": 2.1432087
+            },
+            "type": "BOT_CRASH_UNIQUE"
+          }
+        ],
+        [
+          5.52,
+          {
+            "botCrashDrawn": {
+              "botYellow": 2,
+              "botBlue": 4,
+              "location": {
+                "x": 2.9021885,
+                "y": -0.25856677
+              },
+              "crashSpeed": 1.6069655,
+              "speedDiff": 0.02762117,
+              "crashAngle": 1.8270748
+            },
+            "type": "BOT_CRASH_DRAWN"
+          }
+        ]
+      ]
+    },
+    "candidate": {
+      "specification": {
+        "mode": "open_match",
+        "seed": 25500000,
+        "seconds": 8,
+        "adjudicate_crashes": true,
+        "open_play_policy": "policies/open_motion_v1/actor.json",
+        "await_force_start": true
+      },
+      "first_running_tick": 0,
+      "accepted_crashes": [],
+      "detector_crashes": []
+    }
+  }
+}

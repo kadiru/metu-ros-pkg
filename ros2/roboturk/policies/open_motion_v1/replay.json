@@ -1,0 +1,14 @@
+{
+  "baseline": {
+    "frames": 1500,
+    "columns": 34,
+    "identical_native_states": true,
+    "identical_events_and_roles": true
+  },
+  "candidate": {
+    "frames": 1500,
+    "columns": 34,
+    "identical_native_states": true,
+    "identical_events_and_roles": true
+  }
+}

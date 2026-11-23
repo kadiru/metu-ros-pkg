@@ -45,10 +45,16 @@ def matches(root):
     for seed in PARALLEL_SEEDS:
         pair = {"seed": seed}
         openings = []
+        referee_configs = []
         for arm in PARALLEL_ARMS:
             path = root / str(seed) / arm
             spec = json.loads(path.with_suffix(".json").read_text())
             cfg = json.loads((path / "match/config.json").read_text())
+            config_dir = path / "gc/config"
+            engine = json.loads((config_dir / "engine.yaml").read_text())
+            # The upstream GC enumerates the team-name dropdown in arbitrary order.
+            engine["teams"] = sorted(engine.get("teams", []))
+            referee_configs.append((engine, (config_dir / "ssl-game-controller.yaml").read_bytes()))
             assert cfg["seed"] == spec["seed"] == seed and spec["half_seconds"] == 30
             assert (
                 cfg["open_play_policy"] == actor and cfg["drive_kickoffs"] and cfg["track_kickoffs"]
@@ -99,6 +105,7 @@ def matches(root):
                 attempts=report["attempts"],
                 placement_failures=report["accepted_events"].get("PLACEMENT_FAILED", 0),
             )
+        assert referee_configs[0] == referee_configs[1]
         assert np.array_equal(*openings), f"Different first-action state on {seed}"
         pair["opening_max_difference"] = float(np.abs(openings[0] - openings[1]).max())
         pairs.append(pair)
@@ -149,8 +156,27 @@ def replays(folder, cases):
                 assert np.linalg.norm(errors[:, :2], axis=1).max() <= 0.0041
                 assert all(abs(wrap(yaw)) < 0.015 for yaw in errors[:, 2])
                 row[arm] = dict(seconds=r["seconds"], **motion(states, CFG.dt))
-            np.testing.assert_allclose(*opening, rtol=0, atol=1e-9)
-            row["opening_max_difference"] = float(np.abs(opening[0] - opening[1]).max())
+            requested = np.concatenate(
+                (case["ball"], np.ravel(case["poses"]), np.ravel(case["velocities"]))
+            )
+            # Native reset flushes one physics substep. Report any planar settling relative
+            # to the source and compare the two actual post-reset states independently.
+            delta = opening[0] - requested
+            for yaw in range(6, 34, 3):
+                delta[yaw] = wrap(delta[yaw])
+            row["source_max_xy_difference_m"] = float(
+                np.linalg.norm(delta[4:34].reshape(10, 3)[:, :2], axis=1).max()
+            )
+            row["source_ball_xy_difference_m"] = float(np.linalg.norm(delta[:2]))
+            row["source_max_yaw_difference_rad"] = float(np.abs(delta[6:34:3]).max())
+            row["source_max_velocity_difference"] = float(
+                np.max(np.abs(np.r_[delta[2:4], delta[34:]]))
+            )
+            paired_delta = opening[0] - opening[1]
+            for yaw in range(6, 34, 3):
+                paired_delta[yaw] = wrap(paired_delta[yaw])
+            np.testing.assert_allclose(paired_delta, 0, rtol=0, atol=1e-9)
+            row["opening_max_difference"] = float(np.abs(paired_delta).max())
             rows.append(row)
     totals = {arm: describe([r[arm]["seconds"] for r in rows]) for arm in PARALLEL_ARMS}
     totals["parallel_faster"] = sum(

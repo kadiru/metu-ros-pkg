@@ -104,12 +104,15 @@ def main():
     )
     p.add_argument(
         "--parallel-kickoffs",
-        action="store_true",
-        help="Reserve concurrent kickoff routes by travel time",
+        action=argparse.BooleanOptionalAction,
+        default=None,
+        help="Reserve concurrent kickoff routes by travel time (default for driven kickoffs)",
     )
     a = p.parse_args()
     if a.replay_kickoffs and (a.referee != "local" or a.until_post_game):
         p.error("--replay-kickoffs runs a native replay without a live referee")
+    if a.parallel_kickoffs is None:
+        a.parallel_kickoffs = a.drive_kickoffs
     if a.parallel_kickoffs and not a.drive_kickoffs:
         p.error("--parallel-kickoffs requires --drive-kickoffs")
     if a.drive_kickoffs and not a.until_post_game:

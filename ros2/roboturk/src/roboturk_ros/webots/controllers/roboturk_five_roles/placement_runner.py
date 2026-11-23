@@ -134,6 +134,14 @@ def run(sim, folder, cfg, receiver, vision):
         from placement_official import official
 
         result = official(sim, backend, root, folder, spec, receiver, vision)
+    elif spec["mode"] == "natural_camera":
+        from natural_placement import camera
+
+        result = camera(backend, vision, spec)
+    elif spec["mode"] == "traffic_train":
+        from traffic_training import fit
+
+        result = fit(backend, root, folder, spec)
     elif spec["mode"] == "train":
         rng = np.random.default_rng(1719)
         mean = np.array([1.25, 0.65, 2.15, 0.035, 0.019])

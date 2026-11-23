@@ -7,6 +7,7 @@ from .carrier_motor import MOTOR, track_roller
 from .five_roles import Assignment, CFG, limit
 from .model import Command, possession, unit, wrap
 from .three_recipient import move
+from .placement_traffic import route
 
 
 def xy(entity):
@@ -57,7 +58,8 @@ def stop_formation(w):
 
 
 class PlacementPlay:
-    def __init__(self, world, team, target, weights):
+    def __init__(self, world, team, target, weights, traffic=None):
+        self.traffic = traffic
         self.team, self.target, self.weights = team, target, weights
         squad = [r for r in world.robots if r.key.team == team and r.key.id != 0]
         self.placer = min(squad, key=lambda r: math.dist(xy(r), xy(world.ball))).key
@@ -120,7 +122,7 @@ class PlacementPlay:
                 cmd = off_ball(bot, dest, ball)
             roles[bot.key] = Assignment(role, dest)
             out[bot.key] = cmd
-        return out, roles
+        return (route(w, out, self.traffic) if self.traffic else out), roles
 
     def free_kick(self, w):
         """Get behind the stationary ball, pass, and cushion the reception."""
@@ -167,7 +169,8 @@ class PlacementPlay:
 class PlacementRestart:
     """Track one placement and its subsequent awarded kick across referee heartbeats."""
 
-    def __init__(self, weights):
+    def __init__(self, weights, traffic=None):
+        self.traffic = traffic
         self.weights = weights
         self.key = None
         self.play = None
@@ -181,7 +184,7 @@ class PlacementRestart:
             key = state.source, state.counter, state.placement_team, state.placement_target
             if self.play is None or self.key != key:
                 self.play = PlacementPlay(
-                    w, state.placement_team, state.placement_target, self.weights
+                    w, state.placement_team, state.placement_target, self.weights, self.traffic
                 )
                 self.key = key
                 self.direct_since = None
@@ -194,7 +197,9 @@ class PlacementRestart:
             return None
         if state.command == "STOP":
             out = stop_formation(w)
-            return out, {r.key: Assignment("Stand clear", xy(r)) for r in w.robots}
+            return (route(w, out, self.traffic) if self.traffic else out), {
+                r.key: Assignment("Stand clear", xy(r)) for r in w.robots
+            }
         if state.command != "DIRECT_FREE_" + self.play.team.upper():
             self.play = None
             return None
@@ -211,6 +216,8 @@ class PlacementRestart:
             self.play = None
             return None
         out = self.play.free_kick(w)
+        if self.traffic:
+            out = route(w, out, self.traffic)
         roles = {r.key: Assignment("Stand clear", xy(r)) for r in w.robots}
         roles[self.play.placer] = Assignment("Pass", xy(w.ball))
         roles[self.play.receiver] = Assignment("Receive", self.play.outlet)

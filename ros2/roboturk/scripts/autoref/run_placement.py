@@ -11,7 +11,10 @@ from run_fixture import ROOT, service, observer, match
 from verify import load_events
 
 
-def audit(dest):
+CRASHES = {"BOT_CRASH_UNIQUE", "BOT_CRASH_DRAWN"}
+
+
+def audit(dest, strict=False):
     trials = json.loads((dest / "match/placement.json").read_text())
     store = dest / "gc/config/state-store.json.stream"
     changes = [json.loads(line)["change"] for line in store.read_text().splitlines()]
@@ -24,7 +27,9 @@ def audit(dest):
             for stamp, _, p in emitted
             if row["vision_start"] - 0.001 <= stamp <= row["vision_end"] + 0.001
         ]
-        row["observer_events"] = [p for p in detected if p["type"] in KEEP]
+        row["observer_events"] = [
+            p for p in detected if p["type"] in (KEEP | CRASHES if strict else KEEP)
+        ]
         additions = [
             e
             for e in official
@@ -53,6 +58,16 @@ def audit(dest):
         emitted_placements=sum(k == "placement_succeeded" for _, k, _ in emitted),
         total=len(trials),
     )
+    if strict:
+        report["crashes"] = sum(p["type"] in CRASHES for _, _, p in emitted)
+        report["controller_crashes"] = sum(e["type"] in CRASHES for e in official)
+        report["clean"] = sum(
+            row["accepted"]
+            and not any(
+                e["type"] in CRASHES | {"BOT_INTERFERED_PLACEMENT"} for e in row["observer_events"]
+            )
+            for row in trials
+        )
     (dest / "audit.json").write_text(json.dumps(report, indent=2) + "\n")
     print({k: v for k, v in report.items() if k != "trials"}, flush=True)
 
@@ -84,8 +99,11 @@ def main():
     (config / "ssl-game-controller.yaml").write_text(
         "network:\n  publish-address: 127.0.0.1:21903\n  publish-nif: 127.0.0.1\ngame:\n  default-division: DIV_B\n"
     )
+    spec = json.loads(args.spec.read_text())
+    strict = spec.get("adjudicate_crashes", False)
+    enabled = KEEP | CRASHES if strict else KEEP
     behavior = {
-        name: "BEHAVIOR_ACCEPT" if name in KEEP else "BEHAVIOR_IGNORE"
+        name: "BEHAVIOR_ACCEPT" if name in enabled else "BEHAVIOR_IGNORE"
         for name in GameEvent.Type.keys()
     }
     (config / "engine.yaml").write_text(
@@ -119,10 +137,10 @@ def main():
             "--autoref-ci",
             "127.0.0.1:21913",
         ]
-        if json.loads(args.spec.read_text())["mode"] == "demo":
+        if spec["mode"] == "demo":
             params.append("--record")
         match(args, dest / "match", *params)
-    audit(dest)
+    audit(dest, strict)
 
 
 if __name__ == "__main__":

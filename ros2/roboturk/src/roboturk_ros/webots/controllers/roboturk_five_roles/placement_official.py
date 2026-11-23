@@ -10,6 +10,7 @@ from roboturk.five_roles import CFG
 from roboturk.model import Ball, Command, possession
 from roboturk.placement import PlacementRestart, stop_formation, xy
 from placement_runner import scenario
+from traffic_training import crowded, nearest_pair
 
 
 def command(kind, team="UNKNOWN"):
@@ -22,6 +23,10 @@ def official(sim, backend, root, folder, spec, receiver, vision):
         or json.loads((root / "policies/placement_v1/actor.json").read_text())["weights"]
     )
     demo = spec["mode"] == "demo"
+    strict = spec.get("adjudicate_crashes", False)
+    traffic = None
+    if spec.get("actor") == "placement_v2":
+        traffic = json.loads((root / "policies/placement_v2/actor.json").read_text())["traffic"]
     if demo:
         (folder / "frames").mkdir()
     results = []
@@ -54,8 +59,21 @@ def official(sim, backend, root, folder, spec, receiver, vision):
             raise RuntimeError(f"Table broadcast {state.command} while waiting for {name}")
 
         starts = [(s, None) for s in spec.get("seeds", [])] + spec.get("archived", [])
+        natural = {}
+        if spec.get("starts") == "natural":
+            from natural_placement import restore
+
+            cases = json.loads((root / "policies/placement_v2/natural-starts.json").read_text())
+            natural = {(c["seed"], c["tick"]): c for c in cases}
+            starts = list(natural)
         for seed, crossing in starts:
-            world, team, target = scenario(root, seed, crossing)
+            if (seed, crossing) in natural:
+                c = natural[seed, crossing]
+                world, team, target = restore(seed, c["sign"], c["state"]), c["team"], c["target"]
+            elif spec.get("starts") == "crowded":
+                world, team, target = crowded(seed)
+            else:
+                world, team, target = scenario(root, seed, crossing)
             other = "yellow" if team == "blue" else "blue"
             if demo:
                 # Practice an overhit diagonal pass toward the right wing.
@@ -80,7 +98,7 @@ def official(sim, backend, root, folder, spec, receiver, vision):
             send(command("HALT"))
             await_command("HALT")
             w = backend.reset(world)
-            restart = PlacementRestart(weights)
+            restart = PlacementRestart(weights, traffic)
             for _ in range(35):
                 state = receiver.poll()
                 vision.send(
@@ -115,12 +133,38 @@ def official(sim, backend, root, folder, spec, receiver, vision):
                 flight_contacts=[],
                 opening_robots=[[r.key.team, r.key.id, r.x, r.y, r.yaw] for r in w.robots],
             )
+            if strict:
+                row["min_center_m"] = nearest_pair(w)
+                row["actor"] = spec.get("actor", "placement_v1")
+                row["opening_ball_velocity"] = [w.ball.vx, w.ball.vy]
             if demo:
                 row["opening_pass_to"] = [intended.team, intended.id]
             first = None
             active_play = None
             telemetry = []
+            # Reproduce the original film's physics times for the two table
+            # actions. The live officials still have to detect and award the exit.
+            timed = demo and spec.get("replay_film_timing", False)
+
+            def clock(t):
+                return abs(w.time - t) < CFG.dt / 2
+
             for i in range(1600 if demo else 752):
+                if timed and clock(4.4):
+                    await_command("STOP")
+                if timed and clock(4.64):
+                    packet = receiver.feed.packet
+                    if not any(
+                        e.WhichOneof("event") == "ball_left_field_touch_line"
+                        for e in packet.game_events
+                    ):
+                        raise RuntimeError(
+                            "Live official did not confirm the recorded touchline exit"
+                        )
+                    awarded = packet.Command.Name(packet.next_command).split("_")[-1]
+                    send({"continueAction": {"type": "BALL_PLACEMENT_START", "forTeam": awarded}})
+                    await_command("BALL_PLACEMENT_" + awarded)
+
                 state = receiver.poll()
                 packet = receiver.feed.packet
                 if state.command and (
@@ -134,6 +178,13 @@ def official(sim, backend, root, folder, spec, receiver, vision):
                         event_types[kind] = getattr(event, kind) if kind else None
                         if event.id and event.id not in row["event_ids"]:
                             row["event_ids"].append(event.id)
+                if (
+                    strict
+                    and {"bot_crash_unique", "bot_crash_drawn", "bot_interfered_placement"}
+                    & event_types.keys()
+                ):
+                    row["stopped_by_foul"] = True
+                    break
                 if state.placement_target is not None:
                     if first is None:
                         first = w.time
@@ -161,8 +212,8 @@ def official(sim, backend, root, folder, spec, receiver, vision):
                     if i >= 12:
                         out = {passer: Command(kick=1.05)}
                 if demo and state.command == "STOP" and first is None:
-                    out = stop_formation(w)
-                    if "ball_left_field_touch_line" in event_types and i % 10 == 0:
+                    out = stop_formation(w) if not timed or w.time >= 4.4 - 1e-8 else {}
+                    if not timed and "ball_left_field_touch_line" in event_types and i % 10 == 0:
                         awarded = (
                             "BLUE"
                             if event_types["ball_left_field_touch_line"].by_team == 1
@@ -211,6 +262,11 @@ def official(sim, backend, root, folder, spec, receiver, vision):
                     sim.exportImage(str(folder / "frames" / f"{frame:05d}.jpg"), 85)
                     frame += 1
                 w = backend.step(out)
+                if strict and first is not None:
+                    row["min_center_m"] = min(
+                        row["min_center_m"],
+                        *(nearest_pair(sample) for sample in backend.last_substep_worlds),
+                    )
                 restart.applied(backend.last_kick_events)
                 for k, at, v in backend.last_kick_events:
                     row["kicks"].append(

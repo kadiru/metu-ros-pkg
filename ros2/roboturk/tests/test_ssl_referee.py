@@ -140,3 +140,28 @@ def test_restart_retains_assignment_and_rejects_wrong_free_kick():
     assert actor.commands(w, send(feed, p, 1.7)) is not None
     assert actor.commands(w, send(feed, packet("DIRECT_FREE_YELLOW", 9, 12), 1.8)) is None
     assert actor.play is None
+
+
+def test_placement_traffic_steers_around_a_crossing_robot():
+    from roboturk.model import Command, Robot, RobotKey, World
+    from roboturk.placement_traffic import route, separation
+
+    retriever = Robot(RobotKey("blue", 3), 0, 0)
+    blocker = Robot(RobotKey("yellow", 2), 0.48, 0)
+    world = World(0, (retriever, blocker), Ball(1.4, 0))
+    request = {retriever.key: Command(1.5, 0, 0.7, 1), blocker.key: Command()}
+    sent = route(world, request, [0.5, 0.30, 0.55])
+    steer = sent[retriever.key]
+    assert separation(-0.48, 0, steer.vx, steer.vy, 0.5) > 0.21
+    assert steer.omega == 0.7 and steer.dribbler == 1
+    assert sent[blocker.key] == request[blocker.key]
+    clear = World(0, (retriever, Robot(blocker.key, 0, 2)), world.ball)
+    assert route(clear, request, [0.5, 0.30, 0.55]) == request
+
+
+def test_closest_approach_uses_relative_motion_and_horizon():
+    from roboturk.placement_traffic import separation
+
+    assert separation(0.8, 0, -1, 0, 0.3) == pytest.approx(0.5)
+    assert separation(0.8, 0, 1, 0, 0.4) == pytest.approx(0.8)
+    assert separation(0.8, 0.25, -2, 0, 0.6) == pytest.approx(0.25)

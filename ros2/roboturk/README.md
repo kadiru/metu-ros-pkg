@@ -4,6 +4,10 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## When a pass slows down
+
+On the same 200 fresh Webots openings the original receiver helped the team score 163 goals and the fitted receiver helped it score 200. In the replay, the original receiver backs away until the ball stops. The fitted receiver takes possession and shoots. [Watch the matched replay](media/carpet-skills/reception-replay.gif) · [Fresh demo and qualification results](media/carpet-skills/README.md)
+
 ## How far does a pass roll?
 
 A 2 m/s flat kick travels 3.98 m and stops in 5.48 s on the simulated Division B carpet. The same ground model handles the first skid, steady rolling and rest. All 25 Webots worlds share the measured field and collidable goals. [Watch the ball stop](media/ssl-physics/roll.gif) · [Dimensions, team sources and native measurements](media/ssl-physics/README.md)

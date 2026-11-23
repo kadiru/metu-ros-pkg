@@ -14,3 +14,7 @@ python scripts/run_webots.py --mode team-evaluate --checkpoint policies/carpet_r
 ```
 
 Reserved qualification uses seeds 32702000–32702199. The target is at least 190 full goals in 200 trials with zero recorded pre-kick losses or robot collisions. Demo seed 32703000 is separate. The passer starts in possession, both robots see native simulator state, and the goal is unguarded.
+
+## Qualification
+
+On 200 fresh openings the original team scored 163 goals and this team scored 200. The fitted team had 0 pre-kick loss trials and 0 collision trials. [Webots replays and paired results](../../media/carpet-skills/README.md)

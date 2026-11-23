@@ -1,0 +1,236 @@
+{
+  "published_training_reproduction": {
+    "policy.json": "b7e14c0f1b421871a0cd8ac5d7cd9c181f01f1fb015ea7bd0aa0350da6100445",
+    "policy.zip": "317bbf99ac4e436ef43d4bb1140e1e328749d5fdb01930a572ab0ad9f2d157f3",
+    "receiver-fit.json": "d30d27a5fcb79fb8d20898bb7ca4c90a5174bf21c5f43ea908e1eb0e90a2f151"
+  },
+  "shoot_physics_comparison": {
+    "checkpoint_hashes": {
+      "checkpoint_sha256": "6558b977dcdeb0001e9590b01ca1cfb9f3ec3fd16da1f43d17b8c3e6c9f6cc11"
+    },
+    "manifest_hashes_before_after": {
+      "checkpoint_manifest_sha256": [
+        "b0c64b87e0dc59d58ceacb82b975dce327ab423290321f1776d673a227a7be69",
+        "b0c64b87e0dc59d58ceacb82b975dce327ab423290321f1776d673a227a7be69"
+      ]
+    },
+    "old": {
+      "trials": 40,
+      "goals": 39,
+      "receptions": null,
+      "shooting_episodes": 40,
+      "valid_shots": 39,
+      "possession_loss_trials": 0,
+      "robot_collision_trials": 0,
+      "terminal_reasons": {
+        "goal": 39,
+        "invalid_shot": 1
+      },
+      "median_seconds_to_goal": 8.28,
+      "median_seconds_to_receive": null
+    },
+    "current": {
+      "trials": 40,
+      "goals": 39,
+      "receptions": null,
+      "shooting_episodes": 40,
+      "valid_shots": 39,
+      "possession_loss_trials": 0,
+      "robot_collision_trials": 0,
+      "terminal_reasons": {
+        "goal": 39,
+        "invalid_shot": 1
+      },
+      "median_seconds_to_goal": 8.38,
+      "median_seconds_to_receive": null
+    },
+    "outcome_pairs": {
+      "goal_to_goal": 39,
+      "miss_to_miss": 1
+    },
+    "median_paired_change_in_seconds_on_joint_goals": 0.14000000000000057
+  },
+  "team_physics_comparison": {
+    "checkpoint_hashes": {
+      "checkpoint_sha256": "317bbf99ac4e436ef43d4bb1140e1e328749d5fdb01930a572ab0ad9f2d157f3",
+      "shooting_checkpoint_sha256": "6558b977dcdeb0001e9590b01ca1cfb9f3ec3fd16da1f43d17b8c3e6c9f6cc11"
+    },
+    "manifest_hashes_before_after": {
+      "checkpoint_manifest_sha256": [
+        "758874988e337d8fceaff0d1b0e8d2220c74aba8995faf7f5474ca3ea19b3284",
+        "758874988e337d8fceaff0d1b0e8d2220c74aba8995faf7f5474ca3ea19b3284"
+      ],
+      "shooting_checkpoint_manifest_sha256": [
+        "b0c64b87e0dc59d58ceacb82b975dce327ab423290321f1776d673a227a7be69",
+        "b0c64b87e0dc59d58ceacb82b975dce327ab423290321f1776d673a227a7be69"
+      ]
+    },
+    "old": {
+      "trials": 40,
+      "goals": 40,
+      "receptions": 40,
+      "shooting_episodes": 40,
+      "valid_shots": 40,
+      "possession_loss_trials": 0,
+      "robot_collision_trials": 0,
+      "terminal_reasons": {
+        "goal": 40
+      },
+      "median_seconds_to_goal": 12.97,
+      "median_seconds_to_receive": 5.08
+    },
+    "current": {
+      "trials": 40,
+      "goals": 29,
+      "receptions": 29,
+      "shooting_episodes": 29,
+      "valid_shots": 29,
+      "possession_loss_trials": 0,
+      "robot_collision_trials": 0,
+      "terminal_reasons": {
+        "goal": 29,
+        "timeout": 11
+      },
+      "median_seconds_to_goal": 12.76,
+      "median_seconds_to_receive": 5.26
+    },
+    "outcome_pairs": {
+      "goal_to_goal": 29,
+      "goal_to_miss": 11
+    },
+    "median_paired_change_in_seconds_on_joint_goals": 0.16000000000000014
+  },
+  "team_repair_screen": {
+    "checkpoint_hashes": {
+      "checkpoint_sha256": "317bbf99ac4e436ef43d4bb1140e1e328749d5fdb01930a572ab0ad9f2d157f3",
+      "shooting_checkpoint_sha256": "6558b977dcdeb0001e9590b01ca1cfb9f3ec3fd16da1f43d17b8c3e6c9f6cc11"
+    },
+    "manifest_hashes_before_after": {
+      "checkpoint_manifest_sha256": [
+        "758874988e337d8fceaff0d1b0e8d2220c74aba8995faf7f5474ca3ea19b3284",
+        "b7e14c0f1b421871a0cd8ac5d7cd9c181f01f1fb015ea7bd0aa0350da6100445"
+      ],
+      "shooting_checkpoint_manifest_sha256": [
+        "b0c64b87e0dc59d58ceacb82b975dce327ab423290321f1776d673a227a7be69",
+        "b0c64b87e0dc59d58ceacb82b975dce327ab423290321f1776d673a227a7be69"
+      ]
+    },
+    "old": {
+      "trials": 40,
+      "goals": 29,
+      "receptions": 29,
+      "shooting_episodes": 29,
+      "valid_shots": 29,
+      "possession_loss_trials": 0,
+      "robot_collision_trials": 0,
+      "terminal_reasons": {
+        "goal": 29,
+        "timeout": 11
+      },
+      "median_seconds_to_goal": 12.76,
+      "median_seconds_to_receive": 5.26
+    },
+    "current": {
+      "trials": 40,
+      "goals": 40,
+      "receptions": 40,
+      "shooting_episodes": 40,
+      "valid_shots": 40,
+      "possession_loss_trials": 0,
+      "robot_collision_trials": 0,
+      "terminal_reasons": {
+        "goal": 40
+      },
+      "median_seconds_to_goal": 13.030000000000001,
+      "median_seconds_to_receive": 5.09
+    },
+    "outcome_pairs": {
+      "goal_to_goal": 29,
+      "miss_to_goal": 11
+    },
+    "median_paired_change_in_seconds_on_joint_goals": -0.03999999999999915
+  },
+  "solo_qualification": {
+    "trials": 200,
+    "goals": 198,
+    "receptions": null,
+    "shooting_episodes": 200,
+    "valid_shots": 198,
+    "possession_loss_trials": 0,
+    "robot_collision_trials": 0,
+    "terminal_reasons": {
+      "goal": 198,
+      "invalid_shot": 2
+    },
+    "median_seconds_to_goal": 8.19,
+    "median_seconds_to_receive": null,
+    "wilson_95": [
+      0.9642782382838231,
+      0.9972533418664555
+    ]
+  },
+  "team_qualification": {
+    "checkpoint_hashes": {
+      "checkpoint_sha256": "317bbf99ac4e436ef43d4bb1140e1e328749d5fdb01930a572ab0ad9f2d157f3",
+      "shooting_checkpoint_sha256": "6558b977dcdeb0001e9590b01ca1cfb9f3ec3fd16da1f43d17b8c3e6c9f6cc11"
+    },
+    "manifest_hashes_before_after": {
+      "checkpoint_manifest_sha256": [
+        "758874988e337d8fceaff0d1b0e8d2220c74aba8995faf7f5474ca3ea19b3284",
+        "b7e14c0f1b421871a0cd8ac5d7cd9c181f01f1fb015ea7bd0aa0350da6100445"
+      ],
+      "shooting_checkpoint_manifest_sha256": [
+        "b0c64b87e0dc59d58ceacb82b975dce327ab423290321f1776d673a227a7be69",
+        "b0c64b87e0dc59d58ceacb82b975dce327ab423290321f1776d673a227a7be69"
+      ]
+    },
+    "old": {
+      "trials": 200,
+      "goals": 163,
+      "receptions": 163,
+      "shooting_episodes": 163,
+      "valid_shots": 163,
+      "possession_loss_trials": 0,
+      "robot_collision_trials": 0,
+      "terminal_reasons": {
+        "goal": 163,
+        "timeout": 37
+      },
+      "median_seconds_to_goal": 12.420000000000002,
+      "median_seconds_to_receive": 4.84,
+      "wilson_95": [
+        0.7554293723884824,
+        0.8626980719938395
+      ]
+    },
+    "current": {
+      "trials": 200,
+      "goals": 200,
+      "receptions": 200,
+      "shooting_episodes": 200,
+      "valid_shots": 200,
+      "possession_loss_trials": 0,
+      "robot_collision_trials": 0,
+      "terminal_reasons": {
+        "goal": 200
+      },
+      "median_seconds_to_goal": 12.610000000000001,
+      "median_seconds_to_receive": 4.91,
+      "wilson_95": [
+        0.9811546736227335,
+        1.0
+      ]
+    },
+    "outcome_pairs": {
+      "goal_to_goal": 163,
+      "miss_to_goal": 37
+    },
+    "median_paired_change_in_seconds_on_joint_goals": 0.019999999999999574
+  },
+  "gates": {
+    "solo": true,
+    "fitted_team": true
+  },
+  "openings_sha256": "bcb87ceb13a9a4e9ba11797e009b576872c4b3088325883a9f59d270bbaf7dfa",
+  "final-openings_sha256": "0fbe29340273960cb803d91f13915c8df2de3e350d1f77adb1f9c7f60fa0fd75"
+}

@@ -5,8 +5,8 @@ from dataclasses import replace
 
 import numpy as np
 
-from placement_runner import boards
 from roboturk.continuous_backend import ContinuousWebotsBackend
+from roboturk.field import CARPET_MARGIN
 from roboturk.five_roles import CFG, kickoff
 from roboturk.kickoff_drive import KickoffDrive, ParallelKickoffDrive
 from roboturk.model import Ball, Robot
@@ -16,7 +16,6 @@ from roboturk.ssl_vision import detection
 
 
 def run(sim, folder, cases, *, teams=False, film=False):
-    boards(sim)
     backend = ContinuousWebotsBackend(sim, CFG)
     traces = {}
     manifest = []
@@ -64,6 +63,7 @@ def run(sim, folder, cases, *, teams=False, film=False):
                     restart=case["restart"],
                     ready=ready,
                     seconds=round(tick * CFG.dt, 2),
+                    carpet_length=CFG.length + 2 * CARPET_MARGIN,
                     initial_velocities=initial_velocities,
                 )
             )

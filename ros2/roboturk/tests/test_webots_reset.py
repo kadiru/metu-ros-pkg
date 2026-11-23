@@ -19,6 +19,8 @@ class DeferredPhysicsBall:
         self.position = [0.0, 0.0, 0.0215]
         self.velocity = [0.0] * 6
         self.pending_reset = False
+        self.forces = []
+        self.torques = []
 
     def getField(self, name):
         assert name == "translation"
@@ -29,6 +31,14 @@ class DeferredPhysicsBall:
 
     def setVelocity(self, values):
         self.velocity = list(values)
+
+    def addForce(self, values, relative):
+        assert not relative
+        self.forces.append(values)
+
+    def addTorque(self, values, relative):
+        assert not relative
+        self.torques.append(values)
 
     def getPosition(self):
         return self.position
@@ -70,6 +80,7 @@ def test_reset_does_not_erase_incoming_ball_velocity():
     assert result.time == 0 and result.ball.vx == 1.2
     result = backend.step({})
     assert result.ball.x > 0
+    assert supervisor.ball.forces[-1][0] < 0 and supervisor.ball.torques[-1][1] > 0
     result = backend.reset(replace(initial, ball=Ball(0, 0)))
     assert result.time == 0 and result.ball.vx == 0
     assert backend.step({}).ball.x == 0

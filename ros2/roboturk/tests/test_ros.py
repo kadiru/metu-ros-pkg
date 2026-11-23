@@ -38,7 +38,9 @@ def test_ros_watchdogs_and_reset():
         message.commands.append(command_message(key, Command(1, 0)))
         node.on_commands(message, "blue")
         node.step()
-        assert backend.world.robot(key).vx == 1
+        assert backend.world.robot(key).vx == pytest.approx(
+            backend.cfg.dt * backend.cfg.max_acceleration
+        )
         node.command_received["blue"] -= 1
         node.step()
         assert backend.world.robot(key).vx == 0
@@ -111,18 +113,50 @@ def test_official_udp_reaches_ros_actuator_gate():
     try:
         p.command, p.command_counter, p.command_timestamp = Packet.DIRECT_FREE_BLUE, 1, 1
         wait_for(Referee.RUNNING, True)
-        assert drive() == pytest.approx([1, 0])
+        increment = backend.cfg.dt * backend.cfg.max_acceleration
+        assert drive() == pytest.approx([increment, 0])
         p.command, p.command_counter = Packet.STOP, 2
         wait_for(Referee.STOP, True)
         assert drive() == [0, 0]
         p.command, p.command_counter = Packet.FORCE_START, 3
         wait_for(Referee.RUNNING, True)
-        assert drive() == pytest.approx([1, 1])
+        assert drive() == pytest.approx([increment, increment])
         wait_for(Referee.HALT, False)
         assert drive() == [0, 0]
     finally:
         sender.close()
         executor.shutdown()
         source.destroy_node()
+        bridge.destroy_node()
+        rclpy.shutdown()
+
+
+@pytest.mark.parametrize(("ssl_command", "limit"), [("", 10.0), ("FORCE_START", 6.5)])
+def test_ros_kick_ceiling(ssl_command, limit):
+    from dataclasses import replace
+    from roboturk.model import Ball
+
+    class Supervisor:
+        def getTime(self):
+            return 1.0
+
+    rclpy.init()
+    backend = ReferenceBackend()
+    bridge = Bridge(Supervisor(), backend, Config())
+    try:
+        key = RobotKey("blue", 1)
+        r = backend.world.robot(key)
+        backend.reset(replace(backend.world, ball=Ball(r.x + backend.cfg.possession_x, r.y)))
+        state = RefereeState(command="running", attack_sign=1, ssl_command=ssl_command)
+        set_stamp(state.header.stamp, 1)
+        bridge.on_referee(state)
+        commands = CommandArray()
+        commands.header.frame_id = "robot_body"
+        set_stamp(commands.header.stamp, 1)
+        commands.commands.append(command_message(key, Command(kick=20)))
+        bridge.on_commands(commands, "blue")
+        bridge.step()
+        assert [speed for _, _, speed in backend.last_kick_events] == [limit]
+    finally:
         bridge.destroy_node()
         rclpy.shutdown()

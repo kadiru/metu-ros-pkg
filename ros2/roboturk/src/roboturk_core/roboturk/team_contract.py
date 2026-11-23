@@ -4,7 +4,7 @@ import math
 import numpy as np
 from .capture_contract import capture_observation
 from .shoot_contract import shoot_observation
-from .model import Command, Intent, Skill, bounded
+from .model import Command, Intent, Skill, bounded, skill_limits
 
 TEAM_CONTRACT_V1 = "roboturk.pass_receive.v1"
 TEAM_CONTRACT = "roboturk.pass_receive.v2"
@@ -46,6 +46,7 @@ def augment_angles(observation):
 
 
 def team_commands(action, passer, receiver, passed, cfg):
+    cfg = skill_limits(cfg)
     a = np.asarray(action, dtype=np.float32)
     if a.shape != (7,) or not np.all(np.isfinite(a)):
         raise ValueError("Expected seven finite team actions")
@@ -78,6 +79,7 @@ def team_commands(action, passer, receiver, passed, cfg):
 
 
 def team_action(commands, passer, receiver, cfg):
+    cfg = skill_limits(cfg)
     p, r = commands[passer], commands[receiver]
     return np.asarray(
         [

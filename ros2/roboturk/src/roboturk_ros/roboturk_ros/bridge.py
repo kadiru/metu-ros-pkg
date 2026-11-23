@@ -7,7 +7,16 @@ import time
 import rclpy
 from rclpy.node import Node
 from rosgraph_msgs.msg import Clock
-from roboturk.model import Ball, Command, Referee, Robot, RobotKey, World, safe_command
+from roboturk.model import (
+    SSL_KICK_LIMIT,
+    Ball,
+    Command,
+    Referee,
+    Robot,
+    RobotKey,
+    World,
+    safe_command,
+)
 from roboturk.ssl_referee import RestartGate
 from roboturk_interfaces.msg import CommandArray, RefereeState, WorldState
 from roboturk_interfaces.srv import ResetEpisode
@@ -39,6 +48,7 @@ class Bridge(Node):
         self.referee_received = 0.0
         self.restart_gate = RestartGate()
         self.restart = ("", 0, "")
+        self.official_referee = False
         self.attack_sign = 1
         backend.reset(formation())
         self.world_pub = self.create_publisher(WorldState, "/roboturk/world", 1)
@@ -63,6 +73,7 @@ class Bridge(Node):
                 raise ValueError("Stale referee stamp")
             if message.restart_team not in ("", "blue", "yellow"):
                 raise ValueError("Invalid restart team")
+            self.official_referee = bool(message.ssl_command)
             self.restart = (message.source, message.command_counter, message.restart_team)
             self.referee = referee
             self.attack_sign = message.attack_sign
@@ -94,6 +105,7 @@ class Bridge(Node):
         self.referee_received = 0.0
         self.restart_gate = RestartGate()
         self.restart = ("", 0, "")
+        self.official_referee = False
         self.backend.reset(formation(request.seed))
         response.world = world_message(replace(self.backend.world, time=self.supervisor.getTime()))
         response.success = True
@@ -107,6 +119,9 @@ class Bridge(Node):
             self.backend.world, referee=referee, attack_sign=self.attack_sign
         )
         restricted = self.restart_gate.restricted_to(*self.restart, self.backend.world.ball)
+        limits = self.cfg
+        if self.official_referee:
+            limits = replace(limits, max_kick=min(limits.max_kick, SSL_KICK_LIMIT))
         commands = {}
         for robot in self.backend.world.robots:
             if restricted and robot.key.team != restricted:
@@ -115,7 +130,7 @@ class Bridge(Node):
                 self.backend.world,
                 robot.key,
                 self.commands.get(robot.key, Command()),
-                self.cfg,
+                limits,
                 state_age=now - self.command_received.get(robot.key.team, 0.0),
                 referee_age=referee_age,
             )

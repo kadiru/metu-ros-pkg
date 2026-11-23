@@ -2,7 +2,7 @@
 
 import numpy as np
 from .dribble_contract import dribble_observation
-from .model import Command, bounded
+from .model import Command, bounded, skill_limits
 
 SHOOT_CONTRACT_V1 = "roboturk.capture_dribble_shoot.v1"
 SHOOT_CONTRACT = "roboturk.capture_dribble_shoot.v2"
@@ -17,6 +17,7 @@ def shoot_observation(world, key, intent, cfg):
 
 
 def shoot_command(action, cfg):
+    cfg = skill_limits(cfg)
     action = np.asarray(action, dtype=np.float32)
     if action.shape != (4,) or not np.all(np.isfinite(action)):
         raise ValueError("Expected four finite shooting actions")
@@ -36,6 +37,7 @@ def shoot_command(action, cfg):
 
 
 def shoot_action(command, cfg):
+    cfg = skill_limits(cfg)
     c = bounded(command, cfg)
     return np.asarray(
         [

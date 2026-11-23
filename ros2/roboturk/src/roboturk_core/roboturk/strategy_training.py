@@ -12,7 +12,7 @@ from stable_baselines3.common.policies import ActorCriticPolicy
 from .strategy_options import StrategyMatch, OBSERVATIONS, ACTIONS, CONTRACT, MODES
 from .continuous import summary
 from .self_play_training import SelfPlayPPO, actor_hash
-from .model import Config
+from .model import Config, compatible_policy_config
 
 
 def write(path, value):
@@ -88,7 +88,7 @@ def load(path):
     path = Path(path)
     meta = json.loads(path.with_suffix(".json").read_text())
     assert meta["contract"] == CONTRACT and meta["checkpoint_sha256"] == digest(path)
-    assert meta["config"] == asdict(Config())
+    assert compatible_policy_config(meta["config"], Config())
     model = SelfPlayPPO.load(path, device="cpu")
     assert model.observation_space.shape == (OBSERVATIONS,) and model.action_space.shape == (
         ACTIONS,

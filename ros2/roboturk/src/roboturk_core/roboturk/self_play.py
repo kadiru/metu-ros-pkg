@@ -5,14 +5,14 @@ opponents have the entire field available, subject to actuator/referee limits.
 Tactical receiving/finishing targets remain explicit scripted attacking context.
 """
 
-from dataclasses import asdict, replace
+from dataclasses import replace
 import hashlib
 import json
 import math
 from pathlib import Path
 import gymnasium as gym
 import numpy as np
-from .model import Config, RobotKey, body_vector
+from .model import Config, RobotKey, body_vector, skill_limits, compatible_policy_config
 from .defended import (
     DEFENDER,
     DEFENDED_CONTRACT,
@@ -52,7 +52,11 @@ def load_model(path, role, cfg):
     from stable_baselines3 import PPO
 
     meta = json.loads(Path(path).with_suffix(".json").read_text())
-    if meta["contract"] != CONTRACTS[role] or meta["role"] != role or meta["config"] != asdict(cfg):
+    if (
+        meta["contract"] != CONTRACTS[role]
+        or meta["role"] != role
+        or not compatible_policy_config(meta["config"], cfg)
+    ):
         raise ValueError("Self-play manifest mismatch: " + role)
     model = PPO.load(path, device="cpu")
     check_shape(model, role)
@@ -69,7 +73,7 @@ def relative_robot(w, observer, target, cfg):
     r, other = w.robot(observer), w.robot(target)
     return [
         *(v / 3 for v in body_vector(other.x - r.x, other.y - r.y, r.yaw)),
-        *(v / cfg.max_speed for v in body_vector(other.vx, other.vy, r.yaw)),
+        *(v / skill_limits(cfg).max_speed for v in body_vector(other.vx, other.vy, r.yaw)),
     ]
 
 

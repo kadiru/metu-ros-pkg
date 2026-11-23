@@ -24,7 +24,7 @@ from .model import (
 
 
 def goal_crossed(previous: Ball, current: Ball, cfg: Config, sign=1) -> bool:
-    line = cfg.length / 2 + cfg.ball_radius  # whole ball must cross the line
+    line = cfg.ball_exit_x  # whole ball must cross the line
     before, after = sign * previous.x, sign * current.x
     if not before <= line < after:
         return False
@@ -152,7 +152,7 @@ class SkillEnv(gym.Env):
             abs(r.x) > cfg.length / 2 - cfg.robot_radius
             or abs(r.y) > cfg.width / 2 - cfg.robot_radius
             or abs(b.y) > cfg.width / 2
-            or abs(b.x) > cfg.length / 2 + cfg.ball_radius
+            or abs(b.x) > cfg.ball_exit_x
         )
         failure = collision or (out and not success)
         terminated = success or failure

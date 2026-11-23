@@ -9,7 +9,7 @@ import random
 import numpy as np
 from roboturk.continuous_backend import ContinuousWebotsBackend
 from roboturk.five_roles import CFG, TEAMS, kickoff
-from roboturk.model import Ball
+from roboturk.model import Ball, SSL_KICK_LIMIT
 from roboturk.placement import PlacementPlay, xy
 
 
@@ -72,22 +72,6 @@ def scenario(root, seed, crossing=None):
     return replace(world, ball=ball, robots=tuple(robots)), team, target
 
 
-def boards(sim):
-    for side in (-1, 1):
-        sim.getRoot().getField("children").importMFNodeFromString(
-            -1,
-            f'Solid {{ name "sideline board {side}" translation 0 {side * 3.48} 0.06 '
-            "children [ Shape { appearance PBRAppearance { baseColor .24 .25 .26 } "
-            "geometry Box { size 10 .035 .12 } } ] boundingObject Box { size 10 .035 .12 } }",
-        )
-        sim.getRoot().getField("children").importMFNodeFromString(
-            -1,
-            f'Solid {{ name "end board {side}" translation {side * 4.98} 0 0.06 '
-            "children [ Shape { appearance PBRAppearance { baseColor .24 .25 .26 } "
-            "geometry Box { size .035 7 .12 } } ] boundingObject Box { size .035 7 .12 } }",
-        )
-
-
 def rollout(backend, root, seed, weights, crossing=None):
     world, team, target = scenario(root, seed, crossing)
     w = backend.reset(world)
@@ -126,8 +110,9 @@ def rollout(backend, root, seed, weights, crossing=None):
 def run(sim, folder, cfg, receiver, vision):
     spec = cfg["placement_batch"]
     root = Path(cfg["root"])
-    backend = ContinuousWebotsBackend(sim, CFG)
-    boards(sim)
+    backend = ContinuousWebotsBackend(
+        sim, replace(CFG, max_kick=SSL_KICK_LIMIT) if receiver else CFG
+    )
     policy = root / "policies/placement_v1"
     protocol = json.loads((policy / "protocol.json").read_text())
     if spec["mode"] in ("official", "demo"):

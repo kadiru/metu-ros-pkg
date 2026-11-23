@@ -2,12 +2,13 @@
 
 import math
 import numpy as np
-from .model import Command, body_vector, bounded, possession
+from .model import Command, body_vector, bounded, possession, skill_limits
 
 CAPTURE_CONTRACT = "roboturk.capture.v1"
 
 
 def capture_observation(world, key, cfg):
+    cfg = skill_limits(cfg)
     robot, ball = world.robot(key), world.ball
     bx, by = body_vector(ball.x - robot.x, ball.y - robot.y, robot.yaw)
     distance = max(1e-6, math.hypot(bx, by))
@@ -36,6 +37,7 @@ def capture_observation(world, key, cfg):
 
 
 def capture_command(action, cfg):
+    cfg = skill_limits(cfg)
     action = np.asarray(action, dtype=np.float32)
     if action.shape != (4,) or not np.all(np.isfinite(action)):
         raise ValueError("Expected four finite capture actions")
@@ -53,6 +55,7 @@ def capture_command(action, cfg):
 
 
 def capture_action(command, cfg):
+    cfg = skill_limits(cfg)
     c = bounded(command, cfg)
     return np.asarray(
         [c.vx / cfg.max_speed, c.vy / cfg.max_speed, c.omega / cfg.max_omega, c.dribbler],

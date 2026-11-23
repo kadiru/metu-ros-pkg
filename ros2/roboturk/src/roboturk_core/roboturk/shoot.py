@@ -166,9 +166,7 @@ class ShootEnv(CaptureEnv):
         for w in samples:
             if goal_crossed(last, w.ball, self.cfg, self.world.direction(self.key.team)):
                 scored = True
-                line = self.world.direction(self.key.team) * (
-                    self.cfg.length / 2 + self.cfg.ball_radius
-                )
+                line = self.world.direction(self.key.team) * (self.cfg.ball_exit_x)
                 alpha = (line - last.x) / (w.ball.x - last.x)
                 self.goal_crossing_y = last.y + alpha * (w.ball.y - last.y)
             last = w.ball
@@ -178,7 +176,7 @@ class ShootEnv(CaptureEnv):
             abs(r.x) > self.cfg.length / 2 - self.cfg.robot_radius
             or abs(r.y) > self.cfg.width / 2 - self.cfg.robot_radius
             or abs(b.y) > self.cfg.width / 2
-            or abs(b.x) > self.cfg.length / 2 + self.cfg.ball_radius
+            or abs(b.x) > self.cfg.ball_exit_x
         )
         terminated = success or lost or invalid_shot or out
         truncated = self.steps >= self.episode_steps and not terminated

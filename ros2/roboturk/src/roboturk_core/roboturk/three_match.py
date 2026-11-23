@@ -290,10 +290,21 @@ class Game:
                             if self.flight_hold * self.backend.basic_ms >= 200
                             else "timeout"
                         )
-            b = self.world.ball
-            out = abs(b.x) > 4.5215 or abs(b.y) > 3.0215
+            b = next(
+                (
+                    s.ball
+                    for s in self.backend.last_substep_worlds
+                    if abs(s.ball.x) > CFG.ball_exit_x or abs(s.ball.y) > CFG.ball_exit_y
+                ),
+                None,
+            )
+            out = b is not None
             if out or (self.shot_clock and (self.tick - self.clock_start + 1) * DT >= 12):
-                goal = abs(b.x) > 4.5215 and abs(b.y) < 0.4785
+                goal = (
+                    out
+                    and abs(b.x) > CFG.ball_exit_x
+                    and abs(b.y) < CFG.goal_width / 2 - CFG.ball_radius
+                )
                 if goal:
                     self.score["blue" if b.x * self.sign > 0 else "yellow"] += 1
                 self.finish_pass("restart")

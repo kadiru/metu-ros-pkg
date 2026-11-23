@@ -4,6 +4,7 @@ from dataclasses import replace
 import math
 from .carrier_motor import track_roller
 from .counterpass import MOTOR, shot_window
+from . import field as pitch
 from .five_roles import CFG, Flight, limit
 from .model import wrap
 from .three_recipient import features, move
@@ -79,8 +80,14 @@ def commands(world, positions, weights, sole, tactics):
                     ball.y + (dist + CFG.possession_x) * dy,
                 )
                 angle = math.atan2(-dy, -dx)
-        if r.key.id and abs(ty) < 1.02 and sign * tx > 3.52 and role != "Receiver":
-            tx = 3.52 * sign
+        front = CFG.length / 2 - pitch.DEFENSE_DEPTH - CFG.robot_radius
+        if (
+            r.key.id
+            and abs(ty) < pitch.DEFENSE_WIDTH / 2 + CFG.robot_radius
+            and sign * tx > front
+            and role != "Receiver"
+        ):
+            tx = front * sign
         out[r.key] = move(r, limit(tx, 4.32), limit(ty, 2.76), angle, speed=1.75)
         if role == "Contain":
             out[r.key] = replace(out[r.key], dribbler=0)

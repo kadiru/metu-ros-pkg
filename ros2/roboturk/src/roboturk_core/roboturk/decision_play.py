@@ -4,14 +4,25 @@ No scripted target planner or reception-triggered handoff is called here. Physic
 memory is observed; the manager alone selects option, acting robot and targets.
 """
 
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from collections import Counter
 import json
 import math
 from pathlib import Path
 import gymnasium as gym
 import numpy as np
-from .model import Ball, Command, Config, Referee, Robot, RobotKey, World, possession, wrap
+from .model import (
+    Ball,
+    Command,
+    Config,
+    Referee,
+    Robot,
+    RobotKey,
+    World,
+    possession,
+    wrap,
+    compatible_policy_config,
+)
 from .defended import DEFENDER, defended_observation, lane_clearance
 from .keeper import KEEPER
 from .team import TransferState
@@ -232,7 +243,7 @@ def load_manager(path, cfg=Config()):
     from stable_baselines3 import PPO
 
     meta = json.loads(Path(path).with_suffix(".json").read_text())
-    if meta["contract"] != CONTRACT or meta["config"] != asdict(cfg):
+    if meta["contract"] != CONTRACT or not compatible_policy_config(meta["config"], cfg):
         raise ValueError("Tactical manager manifest mismatch")
     m = PPO.load(path, device="cpu")
     if m.observation_space.shape != (OBSERVATIONS,) or m.action_space.shape != (ACTIONS,):
@@ -416,7 +427,7 @@ class DecisionEnv(gym.Env):
         for w in samples:
             if goal_crossed(last, w.ball, cfg, w.attack_sign):
                 crossing = True
-                line = w.attack_sign * (cfg.length / 2 + cfg.ball_radius)
+                line = w.attack_sign * (cfg.ball_exit_x)
                 alpha = (line - last.x) / (w.ball.x - last.x)
                 self.goal_crossing_y = last.y + alpha * (w.ball.y - last.y)
                 self.goal_crossing_segment = [[last.x, last.y], [w.ball.x, w.ball.y]]
@@ -451,10 +462,7 @@ class DecisionEnv(gym.Env):
             reason = "goal"
         elif error:
             reason = error
-        elif (
-            abs(self.world.ball.y) > cfg.width / 2
-            or abs(self.world.ball.x) > cfg.length / 2 + cfg.ball_radius
-        ):
+        elif abs(self.world.ball.y) > cfg.width / 2 or abs(self.world.ball.x) > cfg.ball_exit_x:
             reason = "ball_out"
         elif self.steps >= 2000:
             reason = "timeout"

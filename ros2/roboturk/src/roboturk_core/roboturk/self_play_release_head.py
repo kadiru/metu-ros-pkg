@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 import numpy as np
 import torch
-from .model import Config
+from .model import Config, skill_limits
 from .self_play import ROLES, digest
 from .self_play_repair import means
 from .self_play_training import SelfPlayPPO, actor_hash, save_bundle, write
@@ -37,7 +37,9 @@ def labels(role, x, reference, cfg, shot_range=1.70):
     # Preserve the already-fired request while a free shot travels, as in the
     # existing teacher. The actuator's held-edge rule prevents another kick.
     travelling = (
-        ~held & (np.linalg.norm(x[:, 4:6], axis=1) * cfg.max_speed > 1.5) & (x[:, 16] * 5 < 2)
+        ~held
+        & (np.linalg.norm(x[:, 4:6], axis=1) * skill_limits(cfg).max_speed > 1.5)
+        & (x[:, 16] * 5 < 2)
     )
     return fire | travelling, held & ~fire
 

@@ -37,6 +37,7 @@ def main():
             "selfplay-demo",
             "evaluate",
             "suite",
+            "physics-check",
             "train",
             "ros",
             "capture-train",
@@ -102,6 +103,8 @@ def main():
     for name, value in vars(args).items():
         if name in ("mode", "skill", "episodes", "steps", "seed"):
             env["ROBOTURK_" + name.upper()] = str(value)
+    if args.mode == "physics-check" and args.render:
+        env["ROBOTURK_FILM_ROLL"] = "1"
     env["ROBOTURK_OUTPUT"] = str(Path(args.output).resolve())
     if args.checkpoint:
         env["ROBOTURK_CHECKPOINT"] = str(Path(args.checkpoint).resolve())

@@ -382,11 +382,14 @@ class ContinuousMatch:
                         0, w.direction(r.key.team) * (w.ball.x - prior.ball.x)
                     )
             for sign in (-1, 1):
-                line = sign * (4.5 + self.cfg.ball_radius)
+                line = sign * self.cfg.ball_exit_x
                 if sign * prior.ball.x < sign * line <= sign * w.ball.x:
                     alpha = (line - prior.ball.x) / (w.ball.x - prior.ball.x)
                     y = prior.ball.y + alpha * (w.ball.y - prior.ball.y)
-                    if abs(y) < 0.5 - self.cfg.ball_radius and not self.pending_restart:
+                    if (
+                        abs(y) < self.cfg.goal_width / 2 - self.cfg.ball_radius
+                        and not self.pending_restart
+                    ):
                         team = "blue" if sign == self.sign else "yellow"
                         self.scores[team] += 1
                         self.events.append(
@@ -402,7 +405,8 @@ class ContinuousMatch:
                         self.pending_restart = "goal"
             prior = w
         if not self.pending_restart and (
-            abs(self.world.ball.x) > 4.55 or abs(self.world.ball.y) > 3.05
+            abs(self.world.ball.x) > self.cfg.ball_exit_x
+            or abs(self.world.ball.y) > self.cfg.ball_exit_y
         ):
             self.pending_restart = "ball_out"
             self.events.append({"type": "ball_out", "step": self.steps})

@@ -12,11 +12,12 @@ import traceback
 import numpy as np
 from controller import Supervisor
 from roboturk.continuous_backend import ContinuousWebotsBackend
+from roboturk.field import CARPET_MARGIN
 from roboturk.five_play import commands
 from roboturk.five_roles import Assignment, CFG, TEAMS, FiveRoles, kickoff
 from roboturk.kickoff_drive import KickoffDrive, ParallelKickoffDrive
 from roboturk.team_kickoff import IndependentKickoffs
-from roboturk.model import Referee
+from roboturk.model import Referee, SSL_KICK_LIMIT
 from roboturk.open_motion import Steering, observed_velocity, steer_team
 from roboturk.placement import PlacementRestart
 from roboturk.ssl_referee import RefereeSocket, RestartGate
@@ -59,11 +60,9 @@ def match(sim, folder, cfg, receiver=None, vision=None):
     seed = cfg["seed"]
     sign = 1 if seed % 2 == 0 else -1
     serving = TEAMS[(seed // 2) % 2]
-    if receiver:
-        from placement_runner import boards
-
-        boards(sim)
-    backend = ContinuousWebotsBackend(sim, CFG)
+    backend = ContinuousWebotsBackend(
+        sim, replace(CFG, max_kick=SSL_KICK_LIMIT) if receiver else CFG
+    )
     drive = cfg.get("drive_kickoffs", False)
     formation = None
     ball_centered = False
@@ -363,11 +362,8 @@ def match(sim, folder, cfg, receiver=None, vision=None):
         scorer = None
         for sample in backend.last_substep_worlds:
             b = sample.ball
-            if abs(b.x) > 4.5 + CFG.ball_radius or abs(b.y) > 3 + CFG.ball_radius:
-                if (
-                    abs(b.x) > 4.5 + CFG.ball_radius
-                    and abs(b.y) < CFG.goal_width / 2 - CFG.ball_radius
-                ):
+            if abs(b.x) > CFG.ball_exit_x or abs(b.y) > CFG.ball_exit_y:
+                if abs(b.x) > CFG.ball_exit_x and abs(b.y) < CFG.goal_width / 2 - CFG.ball_radius:
                     scorer = 0 if b.x * sign > 0 else 1
                     score[scorer] += 1
                 serving = (
@@ -428,6 +424,7 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             raise RuntimeError("Webots recording failed")
     if folder is not None:
         log = dict(
+            carpet_length=CFG.length + 2 * CARPET_MARGIN,
             seed=seed,
             dt=CFG.dt,
             keys=[[k.team, k.id] for k in keys],

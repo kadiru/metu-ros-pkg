@@ -6,6 +6,8 @@ import socket
 
 from google.protobuf import descriptor_pb2, descriptor_pool, message_factory
 
+from . import field as pitch
+from .carpet import BALL_RADIUS, ROLL_DECEL, SLIDE_DECEL, SWITCH_RATIO
 from .ssl_referee import Packet
 
 pool = descriptor_pool.DescriptorPool()
@@ -31,23 +33,35 @@ GameEvent = message_type("GameEvent")
 def geometry():
     packet = Wrapper(source=1)
     field = packet.geometry.field
-    field.field_length, field.field_width = 9000, 6000
-    field.goal_width, field.goal_depth, field.goal_height = 1000, 190, 160
-    field.boundary_width = 500
-    field.line_thickness, field.center_circle_radius = 10, 500
-    field.penalty_area_depth, field.penalty_area_width = 950, 2000
-    field.ball_radius, field.max_robot_radius = 21.5, 90
-    for name, start, end in (
-        ("TopTouchLine", (-4500, 3000), (4500, 3000)),
-        ("BottomTouchLine", (-4500, -3000), (4500, -3000)),
-        ("LeftGoalLine", (-4500, -3000), (-4500, 3000)),
-        ("RightGoalLine", (4500, -3000), (4500, 3000)),
-        ("HalfwayLine", (0, -3000), (0, 3000)),
-    ):
-        line = field.field_lines.add(name=name, thickness=10)
-        line.p1.x, line.p1.y = start
-        line.p2.x, line.p2.y = end
-    arc = field.field_arcs.add(name="CenterCircle", radius=500, a1=0, a2=2 * math.pi, thickness=10)
+
+    def mm(value):
+        return round(1000 * value)
+
+    field.field_length, field.field_width = mm(pitch.LENGTH), mm(pitch.WIDTH)
+    field.goal_width = mm(pitch.GOAL_WIDTH)
+    field.goal_depth, field.goal_height = mm(pitch.GOAL_DEPTH), mm(pitch.GOAL_HEIGHT)
+    field.boundary_width = field.boundary_width_goal_line = mm(pitch.WALL_MARGIN)
+    field.line_thickness, field.center_circle_radius = mm(pitch.LINE_WIDTH), mm(pitch.CIRCLE_RADIUS)
+    field.penalty_area_depth, field.penalty_area_width = (
+        mm(pitch.DEFENSE_DEPTH),
+        mm(pitch.DEFENSE_WIDTH),
+    )
+    field.goal_center_to_penalty_mark = mm(pitch.GOAL_TO_PENALTY_MARK)
+    field.ball_radius, field.max_robot_radius = 1000 * BALL_RADIUS, 90
+    model = packet.geometry.models.straight_two_phase
+    model.acc_slide, model.acc_roll, model.k_switch = -SLIDE_DECEL, -ROLL_DECEL, SWITCH_RATIO
+    for name, start, end in pitch.field_lines():
+        line = field.field_lines.add(name=name, type=name, thickness=field.line_thickness)
+        line.p1.x, line.p1.y = map(mm, start)
+        line.p2.x, line.p2.y = map(mm, end)
+    arc = field.field_arcs.add(
+        name="CenterCircle",
+        type="CenterCircle",
+        radius=field.center_circle_radius,
+        a1=0,
+        a2=2 * math.pi,
+        thickness=field.line_thickness,
+    )
     arc.center.x = arc.center.y = 0
     # Ideal overhead pinhole with x right, field y up, optical axis down.
     packet.geometry.calib.add(

@@ -1,6 +1,13 @@
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field, replace
+from functools import lru_cache
 from enum import StrEnum
 import math
+
+from . import field as pitch
+from .carpet import BALL_RADIUS
+
+KICKER_LIMIT = 10.0
+SSL_KICK_LIMIT = 6.5
 
 
 class Skill(StrEnum):
@@ -52,20 +59,48 @@ class Ball:
 
 @dataclass(frozen=True)
 class Config:
-    # Training field defaults; not a complete implementation of SSL competition rules.
-    length: float = 9.0
-    width: float = 6.0
-    goal_width: float = 1.0
+    length: float = pitch.LENGTH
+    width: float = pitch.WIDTH
+    goal_width: float = pitch.GOAL_WIDTH
     robot_radius: float = 0.09
-    ball_radius: float = 0.0215
+    ball_radius: float = BALL_RADIUS
     ball_mass: float = 0.046
-    max_speed: float = 2.0
+    max_speed: float = 3.0
     max_omega: float = 8.0
-    max_kick: float = 5.0
+    max_kick: float = KICKER_LIMIT
     dt: float = 0.02
     max_steps: int = 500
     neighbors: int = 5
     possession_x: float = 0.115
+    max_acceleration: float = 5.0
+
+    def __post_init__(self):
+        if not math.isfinite(self.max_acceleration) or self.max_acceleration <= 0:
+            raise ValueError("max_acceleration must be finite and positive")
+
+    @property
+    def ball_exit_x(self):
+        return (self.length + pitch.LINE_WIDTH) / 2 + self.ball_radius
+
+    @property
+    def ball_exit_y(self):
+        return (self.width + pitch.LINE_WIDTH) / 2 + self.ball_radius
+
+
+@lru_cache(maxsize=64)
+def skill_limits(cfg):
+    """The published specialist actors encode 2 m/s robot and 5 m/s kick scales."""
+    return replace(cfg, max_speed=min(cfg.max_speed, 2.0), max_kick=min(cfg.max_kick, 5.0))
+
+
+def compatible_policy_config(saved, cfg):
+    if saved == asdict(cfg):
+        return True
+    # Older artifacts predate acceleration limiting. Preserve their input/output SI scales
+    # and continue to reject changes to geometry, control period or observation layout.
+    legacy = asdict(skill_limits(cfg))
+    del legacy["max_acceleration"]
+    return saved == legacy
 
 
 @dataclass(frozen=True)
@@ -125,6 +160,14 @@ def world_vector(x: float, y: float, yaw: float) -> tuple[float, float]:
     return body_vector(x, y, -yaw)
 
 
+def drive_velocity(robot, command, dt, cfg):
+    """Slew the bounded body request from measured world velocity, including braking."""
+    tx, ty = world_vector(command.vx, command.vy, robot.yaw)
+    dx, dy = tx - robot.vx, ty - robot.vy
+    scale = max(1.0, math.hypot(dx, dy) / (cfg.max_acceleration * dt))
+    return robot.vx + dx / scale, robot.vy + dy / scale
+
+
 def wrap(angle: float) -> float:
     return math.atan2(math.sin(angle), math.cos(angle))
 
@@ -150,7 +193,7 @@ def bounded(command: Command, cfg: Config) -> Command:
         command.vy / scale,
         max(-cfg.max_omega, min(cfg.max_omega, command.omega)),
         max(0.0, min(1.0, command.dribbler)),
-        max(0.0, min(cfg.max_kick, command.kick)),
+        max(0.0, min(KICKER_LIMIT, cfg.max_kick, command.kick)),
     )
 
 

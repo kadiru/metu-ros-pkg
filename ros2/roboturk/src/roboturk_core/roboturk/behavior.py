@@ -1,4 +1,3 @@
-from dataclasses import asdict
 import json
 import math
 from pathlib import Path
@@ -6,6 +5,7 @@ from typing import Protocol
 
 from .contract import CONTRACT_VERSION, decode_action, observe
 from .model import (
+    compatible_policy_config,
     Command,
     Config,
     Intent,
@@ -92,13 +92,14 @@ class CheckpointPolicy:
                 SHOOT_CONTRACT_V1,
             )
             or manifest["skill"] != skill.value
-            or manifest["config"] != asdict(cfg)
+            or not compatible_policy_config(manifest["config"], cfg)
             or (self.contract == CAPTURE_CONTRACT and skill != Skill.CHASE)
             or (self.contract == DRIBBLE_CONTRACT and skill != Skill.DRIBBLE)
             or (self.contract in (SHOOT_CONTRACT, SHOOT_CONTRACT_V1) and skill != Skill.SHOOT)
         ):
             raise ValueError("Policy manifest does not match the runtime contract/skill/config")
         self.skill = skill
+        self.policy_cfg = Config(**manifest["config"])
         self.model = PPO.load(path, device="cpu")
 
     def command(self, world, key, intent, cfg):
@@ -113,6 +114,7 @@ class CheckpointPolicy:
             shoot_observation,
         )
 
+        cfg = self.policy_cfg
         if self.contract in (SHOOT_CONTRACT, SHOOT_CONTRACT_V1):
             if not world.ball.visible or not world.robot(key).visible:
                 return Command()

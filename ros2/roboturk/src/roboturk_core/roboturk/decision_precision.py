@@ -9,6 +9,7 @@ from pathlib import Path
 import shutil
 import numpy as np
 import torch
+from .model import skill_limits
 from .decision_training import load, save
 from .decision_play import DecisionEnv, evaluate
 from .self_play import digest
@@ -64,8 +65,8 @@ def spacing_labels(observations, actions, cfg):
         distance = np.linalg.norm(away, axis=1)
         unit = away / np.maximum(distance[:, None], 1e-6)
         bvx, bvy = (
-            observations[:, start + 2] * cfg.max_speed,
-            observations[:, start + 3] * cfg.max_speed,
+            observations[:, start + 2] * skill_limits(cfg).max_speed,
+            observations[:, start + 3] * skill_limits(cfg).max_speed,
         )
         other_v = np.column_stack((cs * bvx - sn * bvy, sn * bvx + cs * bvy))
         velocity += 5 * np.maximum(0, 0.38 - distance[:, None]) * unit

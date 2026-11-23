@@ -4,7 +4,8 @@ from dataclasses import replace
 import math
 from typing import Protocol
 
-from .model import Command, Config, RobotKey, World, bounded, possession, world_vector, wrap
+from .carpet import SWITCH_RATIO, ground_step
+from .model import Command, Config, RobotKey, World, bounded, possession, drive_velocity, wrap
 
 
 class Backend(Protocol):
@@ -27,6 +28,7 @@ class ReferenceBackend:
 
     def reset(self, world):
         self.world = world
+        self.switch_speed = SWITCH_RATIO * math.hypot(world.ball.vx, world.ball.vy)
         self.kick_held.clear()
         return world
 
@@ -41,7 +43,7 @@ class ReferenceBackend:
         self.last_kick_events = []
         for robot in old.robots:
             c = bounded(commands.get(robot.key, Command()), cfg)
-            vx, vy = world_vector(c.vx, c.vy, robot.yaw)
+            vx, vy = drive_velocity(robot, c, cfg.dt, cfg)
             moved = replace(
                 robot,
                 x=robot.x + vx * cfg.dt,
@@ -57,11 +59,13 @@ class ReferenceBackend:
             if not held and possession(old, robot.key, cfg):
                 if c.kick > 0 and robot.key not in self.kick_held:
                     self.last_kick_events.append((robot.key, old, c.kick))
+                    self.switch_speed = SWITCH_RATIO * c.kick
                     ball = replace(
                         ball, vx=c.kick * math.cos(robot.yaw), vy=c.kick * math.sin(robot.yaw)
                     )
                     held = True
                 elif c.dribbler > 0.5:
+                    self.switch_speed = math.inf
                     ball = replace(
                         ball,
                         x=moved.x + cfg.possession_x * math.cos(moved.yaw),
@@ -70,18 +74,14 @@ class ReferenceBackend:
                         vy=vy,
                     )
                     held = True
-        if not held or any(
-            commands.get(r.key, Command()).kick > 0 and possession(old, r.key, cfg)
-            for r in old.robots
-        ):
-            damping = math.exp(-0.35 * cfg.dt)
-            ball = replace(
-                ball,
-                x=ball.x + ball.vx * cfg.dt,
-                y=ball.y + ball.vy * cfg.dt,
-                vx=ball.vx * damping,
-                vy=ball.vy * damping,
-            )
+        if not held or self.last_kick_events:
+            speed = math.hypot(ball.vx, ball.vy)
+            if speed:
+                travel, end = ground_step(speed, self.switch_speed, cfg.dt)
+                ux, uy = ball.vx / speed, ball.vy / speed
+                ball = replace(
+                    ball, x=ball.x + ux * travel, y=ball.y + uy * travel, vx=ux * end, vy=uy * end
+                )
         self.kick_held = next_kick_held
         # Simple rigid-disc ball contact; intentionally not a substitute for Webots physics.
         if not held:
@@ -90,6 +90,7 @@ class ReferenceBackend:
                 distance = math.hypot(dx, dy)
                 minimum = cfg.robot_radius + cfg.ball_radius
                 if 1e-9 < distance < minimum:
+                    self.switch_speed = math.inf
                     nx, ny = dx / distance, dy / distance
                     ball = replace(
                         ball,

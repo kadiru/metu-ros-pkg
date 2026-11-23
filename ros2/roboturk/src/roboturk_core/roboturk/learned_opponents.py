@@ -6,13 +6,12 @@ reaction delay and dribbler enable are fixed context. Teachers live in training.
 """
 
 from collections import deque
-from dataclasses import asdict
 import hashlib
 import json
 import math
 from pathlib import Path
 import numpy as np
-from .model import Command, Config, Referee, body_vector, possession, wrap
+from .model import Command, Config, Referee, body_vector, possession, wrap, compatible_policy_config
 from .defended import DEFENDER, DefendedBackend
 from .keeper import KEEPER, KeeperBackend, KeeperPlayEnv, KeeperFinishEnv
 
@@ -89,7 +88,7 @@ class OpponentController:
             if (
                 meta["contract"] != CONTRACT
                 or meta["role"] != role
-                or meta["config"] != asdict(cfg)
+                or not compatible_policy_config(meta["config"], cfg)
             ):
                 raise ValueError("Opponent manifest mismatch")
             model = PPO.load(path, device="cpu")

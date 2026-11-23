@@ -1,4 +1,4 @@
-"""Webots ODE contacts with an ideal body-velocity drive and a spring dribbler.
+"""Webots ODE contacts with isotropic carpet impulses and an acceleration-limited drive.
 
 This is a behavior-training prototype, NOT a calibrated omniwheel model.
 No ball teleportation is used during step. Reset is the only pose reset.
@@ -7,7 +7,8 @@ No ball teleportation is used during step. Reset is the only pose reset.
 from dataclasses import replace
 import math
 
-from .model import Ball, Command, Config, Robot, bounded, possession, world_vector
+from .carpet import carpet_velocity
+from .model import Ball, Command, Config, Robot, bounded, possession, drive_velocity
 
 
 class WebotsBackend:
@@ -90,6 +91,31 @@ class WebotsBackend:
             ball=Ball(p[0], p[1], v[0], v[1]),
         )
 
+    def advance_ball(self, launch):
+        if launch is None:
+            velocity = self.ball.getVelocity()
+        else:
+            speed, angle = launch
+            velocity = [speed * math.cos(angle), speed * math.sin(angle), 0.0, 0.0, 0.0, 0.0]
+            self.ball.setVelocity(velocity)
+        radius = self.cfg.ball_radius
+        if self.ball.getPosition()[2] > radius + 0.0001 or abs(velocity[2]) >= 0.03:
+            return
+        dt = self.basic_ms / 1000
+        target = carpet_velocity(velocity, dt, radius)
+        mass = self.cfg.ball_mass
+        inertia = 0.4 * mass * radius**2
+        # Apply the carpet impulse over the step. ODE combines it with robot,
+        # dribbler and goal contacts. A kick sets the actual pre-friction speed.
+        if target[:2] != velocity[:2]:
+            self.ball.addForce(
+                [(target[i] - velocity[i]) * mass / dt for i in (0, 1)] + [0.0], False
+            )
+        if target[3:5] != velocity[3:5]:
+            self.ball.addTorque(
+                [(target[i] - velocity[i]) * inertia / dt for i in (3, 4)] + [0.0], False
+            )
+
     def step(self, commands):
         if self.world is None:
             raise RuntimeError("reset must precede step")
@@ -100,17 +126,16 @@ class WebotsBackend:
         self.last_kick_events = []
         for _ in range(self.substeps):
             current = self.read()
+            launch = None
             for r in current.robots:
                 node = self.nodes[r.key]
                 c = commands.get(r.key, Command())
-                vx, vy = world_vector(c.vx, c.vy, r.yaw)
+                vx, vy = drive_velocity(r, c, self.basic_ms / 1000, cfg)
                 vertical = node.getVelocity()[2]
                 node.setVelocity([vx, vy, vertical, 0.0, 0.0, c.omega])
                 if possession(current, r.key, cfg):
                     if c.kick > 0 and r.key not in self.kick_held and r.key not in kicked:
-                        self.ball.setVelocity(
-                            [c.kick * math.cos(r.yaw), c.kick * math.sin(r.yaw), 0.0, 0.0, 0.0, 0.0]
-                        )
+                        launch = c.kick, r.yaw
                         kicked.add(r.key)
                         self.last_kick_events.append((r.key, current, c.kick))
                     elif c.dribbler > 0.5 and r.key not in kicked:
@@ -121,6 +146,7 @@ class WebotsBackend:
                         fy = 8.0 * (y - current.ball.y) + 0.15 * (vy - current.ball.vy)
                         norm = max(1.0, math.hypot(fx, fy) / 0.4)
                         self.ball.addForce([fx / norm, fy / norm, 0.0], False)
+            self.advance_ball(launch)
             if self.supervisor.step(self.basic_ms) == -1:
                 self.closed = True
                 raise RuntimeError("Webots simulation ended")

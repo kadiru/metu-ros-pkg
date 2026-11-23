@@ -2,12 +2,22 @@
 
 import json
 import math
-from dataclasses import asdict
 from pathlib import Path
 import gymnasium as gym
 import numpy as np
 from .backend import ReferenceBackend
-from .model import Ball, Command, Config, Referee, Robot, RobotKey, World, body_vector, possession
+from .model import (
+    Ball,
+    Command,
+    Config,
+    Referee,
+    Robot,
+    RobotKey,
+    World,
+    body_vector,
+    possession,
+    compatible_policy_config,
+)
 from .env import goal_crossed
 
 GUARD = RobotKey("yellow", 1)
@@ -272,9 +282,9 @@ class DefenseCheckpoint:
         if kind not in ("block", "cover"):
             raise ValueError("Assign a defense behavior kind")
         meta = json.loads(Path(path).with_suffix(".json").read_text())
-        if meta["contract"] != "roboturk." + kind + (".v2" if kind == "block" else ".v1") or meta[
-            "config"
-        ] != asdict(cfg):
+        if meta["contract"] != "roboturk." + kind + (
+            ".v2" if kind == "block" else ".v1"
+        ) or not compatible_policy_config(meta["config"], cfg):
             raise ValueError("Defense manifest mismatch")
         self.kind, self.cfg = kind, cfg
         self.model = PPO.load(path, device="cpu")

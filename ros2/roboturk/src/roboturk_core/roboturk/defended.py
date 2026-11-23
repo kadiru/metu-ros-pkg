@@ -5,13 +5,14 @@ It stays on its initial longitudinal line, patrols the initial passing lane, and
 tracks the predicted crossing of a rolling ball. It remains active after handoff.
 """
 
-from dataclasses import asdict
 import math
 import json
 from pathlib import Path
 import gymnasium as gym
 import numpy as np
 from .model import (
+    skill_limits,
+    compatible_policy_config,
     Ball,
     Command,
     Config,
@@ -52,7 +53,7 @@ def defended_observation(world, passer, receiver, state, cfg, contract=DEFENDED_
     for key in (passer, receiver):
         own = world.robot(key)
         extra.extend(v / 3 for v in body_vector(d.x - own.x, d.y - own.y, own.yaw))
-        extra.extend(v / cfg.max_speed for v in body_vector(d.vx, d.vy, own.yaw))
+        extra.extend(v / skill_limits(cfg).max_speed for v in body_vector(d.vx, d.vy, own.yaw))
     sign = world.direction(passer.team)
     extra.extend(
         [
@@ -82,7 +83,7 @@ def defended_observation(world, passer, receiver, state, cfg, contract=DEFENDED_
                 math.hypot(tx - r.x, ty - r.y) / 3,
                 sign * b.y / 3,
                 sign * r.y / 3,
-                math.hypot(r.vx, r.vy) / cfg.max_speed,
+                math.hypot(r.vx, r.vy) / skill_limits(cfg).max_speed,
             ],
         ]
     ).astype(np.float32)
@@ -409,7 +410,7 @@ class DefendedCheckpoint(TeamCheckpoint):
             DEFENDED_CONTRACT,
             DEFENDED_CONTRACT_V2,
             DEFENDED_CONTRACT_V1,
-        ) or metadata["config"] != asdict(cfg):
+        ) or not compatible_policy_config(metadata["config"], cfg):
             raise ValueError("Defended policy manifest mismatch")
         self.contract = metadata["contract"]
         self.model = PPO.load(path, device="cpu")

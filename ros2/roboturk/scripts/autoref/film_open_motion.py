@@ -31,7 +31,14 @@ def native_camera(log, states, result, images):
         w, h = im.size
         r, g, b = np.asarray(im)[h // 3].astype(float).T
         green = np.flatnonzero((g > 1.5 * r) & (g > 1.35 * b))
-    return log, states, result, images, ((w - 1) / 2, (h - 1) / 2, (green[-1] - green[0] + 1) / 10)
+    carpet_length = log.get("carpet_length", (result or {}).get("carpet_length", 10))
+    return (
+        log,
+        states,
+        result,
+        images,
+        ((w - 1) / 2, (h - 1) / 2, (green[-1] - green[0] + 1) / carpet_length),
+    )
 
 
 def pitch(rec, tick, center, field_width, shape, ids, trails=False):

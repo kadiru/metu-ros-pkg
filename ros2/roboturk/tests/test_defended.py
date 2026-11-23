@@ -147,7 +147,7 @@ def test_receiver_action_frames_and_offline_upgrade_agree():
         old = team_action(commands, env.passer, env.receiver, env.cfg)
         converted = upgrade_actions(obs[:52], old)
         np.testing.assert_allclose(converted, env.encode_commands(commands), atol=1e-7)
-        assert converted[4] == pytest.approx(sign * 0.3 / env.cfg.max_speed)
+        assert converted[4] == pytest.approx(sign * 0.3 / 2.0)
         result = env.decode_action(converted)[env.receiver]
         np.testing.assert_allclose(
             world_vector(result.vx, result.vy, r.yaw), [0.3, -0.7], atol=1e-7
@@ -169,7 +169,7 @@ def test_attack_frame_velocity_features_match_world_measurements():
         obs = defended_observation(w, env.passer, env.receiver, env.state, env.cfg)
         np.testing.assert_allclose(
             obs[52:56],
-            w.attack_sign * np.array([0.6, -0.2, -0.4, 0.3]) / env.cfg.max_speed,
+            w.attack_sign * np.array([0.6, -0.2, -0.4, 0.3]) / 2.0,
             atol=1e-7,
         )
 

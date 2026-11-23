@@ -17,14 +17,14 @@ PROTO SslRobot [
         geometry Cylinder { radius 0.09 height 0.15 subdivision 32 }
       }
       Pose {
-        translation 0.074 0 0.004
+        translation 0.071 0 0.004
         children [ Shape {
           appearance PBRAppearance { baseColor 0.1 0.1 0.1 roughness 1 metalness 0 }
           geometry Box { size 0.02 0.075 0.03 }
         } ]
       }
       Pose {
-        translation 0.04 0 0.077
+        translation 0.04 0 0.0735
         children [ Shape {
           appearance PBRAppearance { baseColor 1 1 1 roughness 1 metalness 0 }
           geometry Box { size 0.065 0.012 0.003 }

@@ -15,6 +15,22 @@ def main():
     cfg = Config()
     backend = WebotsBackend(supervisor, cfg)
     mode = os.environ.get("ROBOTURK_MODE", "evaluate")
+    if mode == "physics-check":
+        import traceback
+        from physics_check import audit, film_roll
+
+        try:
+            result = audit(supervisor, cfg)
+            dest = Path(os.environ["ROBOTURK_OUTPUT"])
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            dest.write_text(json.dumps(result, indent=2) + "\n")
+            if os.environ.get("ROBOTURK_FILM_ROLL"):
+                film_roll(supervisor, cfg, dest.with_suffix(".gif"))
+            supervisor.simulationQuit(0)
+        except Exception:
+            traceback.print_exc()
+            supervisor.simulationQuit(1)
+        return
     if mode.startswith(("keeper-", "micro-", "opponents-", "selfplay-", "decision-")):
         from keeper_runner import run as keeper_run
 

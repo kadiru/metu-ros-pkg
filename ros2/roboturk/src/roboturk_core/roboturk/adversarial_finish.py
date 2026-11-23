@@ -1,12 +1,11 @@
 """Closer, centered finish for the frozen learned-keeper curriculum."""
 
-from dataclasses import asdict
 import json
 import math
 from pathlib import Path
 from .keeper import FinishPlan, KeeperFinishEnv, FinishCheckpoint, finish_observation
 from .shoot_contract import shoot_command
-from .model import Config, possession, wrap
+from .model import Config, possession, wrap, compatible_policy_config
 
 PRESSURE_FINISH_CONTRACT = "roboturk.pressure_finish.v2"
 
@@ -72,8 +71,8 @@ class PressureFinishCheckpoint(FinishCheckpoint):
             from stable_baselines3 import PPO
 
             manifest = json.loads(Path(path).with_suffix(".json").read_text())
-            if manifest["contract"] != PRESSURE_FINISH_CONTRACT or manifest["config"] != asdict(
-                cfg
+            if manifest["contract"] != PRESSURE_FINISH_CONTRACT or not compatible_policy_config(
+                manifest["config"], cfg
             ):
                 raise ValueError("Pressure finish manifest mismatch")
             model = PPO.load(path, device="cpu")

@@ -11,7 +11,7 @@ from stable_baselines3 import PPO
 from .continuous import ContinuousMatch, CONTRACT, OBSERVATIONS, ACTIONS, summary
 from .continuous_teacher import ContinuousTeacher
 from .self_play_training import SelfPlayPPO, actor_hash, write
-from .model import Config
+from .model import Config, compatible_policy_config
 
 
 def digest(p):
@@ -22,7 +22,7 @@ def load(path):
     meta = json.loads(Path(path).with_suffix(".json").read_text())
     if meta["contract"] != CONTRACT:
         raise ValueError("Wrong continuous contract")
-    if meta["config"] != asdict(Config()):
+    if not compatible_policy_config(meta["config"], Config()):
         raise ValueError("Wrong continuous physics configuration")
     if "checkpoint_sha256" in meta and digest(path) != meta["checkpoint_sha256"]:
         raise ValueError("Changed checkpoint bytes")
@@ -190,7 +190,7 @@ def fit(output, seed, epochs, source=None, learning_rate=3e-4, all_heads=False):
             meta["contract"]
             not in (CONTRACT, "roboturk.continuous_robot.v2", "roboturk.continuous_robot.v3")
             or meta["actor_sha256"] != actor_hash(parent)
-            or meta["config"] != asdict(Config())
+            or not compatible_policy_config(meta["config"], Config())
             or parent.action_space.shape != (ACTIONS,)
         ):
             raise ValueError("Invalid training parent")

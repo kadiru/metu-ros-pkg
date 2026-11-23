@@ -13,6 +13,7 @@ import numpy as np
 from .backend import ReferenceBackend
 from .capture import CaptureTeacher
 from .model import (
+    compatible_policy_config,
     Ball,
     Command,
     Config,
@@ -94,9 +95,10 @@ class TeamCheckpoint:
         from stable_baselines3 import PPO
 
         metadata = json.loads(Path(path).with_suffix(".json").read_text())
-        if metadata["contract"] not in (TEAM_CONTRACT, TEAM_CONTRACT_V1) or metadata[
-            "config"
-        ] != asdict(cfg):
+        if metadata["contract"] not in (
+            TEAM_CONTRACT,
+            TEAM_CONTRACT_V1,
+        ) or not compatible_policy_config(metadata["config"], cfg):
             raise ValueError("Team policy manifest does not match contract/config")
         self.contract = metadata["contract"]
         self.model = PPO.load(path, device="cpu")

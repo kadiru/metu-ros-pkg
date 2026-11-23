@@ -9,6 +9,7 @@ import numpy as np
 import torch
 from stable_baselines3.common.monitor import Monitor
 from stable_baselines3.common.callbacks import BaseCallback
+from .model import compatible_policy_config
 from .dribble_refinement import AnchoredPPO
 from .tdp_options import CONTRACT, OBSERVATIONS, KINDS, BallOptionTeacher
 
@@ -43,7 +44,7 @@ def descriptor(path, model):
 def load(path, env):
     metadata = json.loads(Path(path).with_suffix(".json").read_text())
     assert metadata["contract"] == CONTRACT and metadata["kind"] == env.kind
-    assert metadata["config"] == asdict(env.cfg)
+    assert compatible_policy_config(metadata["config"], env.cfg)
     assert metadata["backend"] == "webots_ideal_body_velocity"
     model = AnchoredPPO.load(path, device="cpu")
     assert model.observation_space.shape == (OBSERVATIONS,) and model.action_space.shape == (4,)

@@ -4,6 +4,10 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## How far does a pass roll?
+
+A 2 m/s flat kick travels 3.98 m and stops in 5.48 s on the simulated Division B carpet. The same ground model handles the first skid, steady rolling and rest. All 25 Webots worlds share the measured field and collidable goals. [Watch the ball stop](media/ssl-physics/roll.gif) · [Dimensions, team sources and native measurements](media/ssl-physics/README.md)
+
 ## Each team plans its own kickoff
 
 Blue and Yellow observe one another’s motion and plan their own routes to formation. On 10 matched Webots restarts, median setup to robot readiness was 9.24 s for shared routes and 8.58 s for independent teams. Four fresh official matches per planner produced 0 and 0 accepted kickoff crash calls, respectively. [Watch Blue respond to Yellow](media/team-kickoff/observed-opponent.gif) · [Results and evidence](media/team-kickoff/README.md)
@@ -401,7 +405,7 @@ Add `--render` to display the field. On Linux, use `--webots /usr/local/webots/w
 
 Use `--mode suite` to evaluate all six analytic skill baselines serially. Set `ROBOTURK_TRACE=1` for per-episode trajectory samples in single-skill evaluation output.
 
-The Webots model uses ODE contacts, an **ideal body-velocity actuator**, a bounded spring/damper dribbler, and an edge-triggered ball-velocity kick. It does not teleport the ball during stepping. The robot body is a simplified cylinder; motor dynamics, rollers, battery, radio latency and physical dribbler/kicker geometry are not yet calibrated. The authored training field is 9 × 6 m with a 1 m goal mouth, a 90 mm robot radius and a 21.5 mm ball radius. These are prototype parameters, not a claim of full current SSL rule compliance.
+Webots uses native ODE contacts, carpet friction forces and torques, a planar drive limited to 3 m/s and 5 m/s², and a spring/damper dribbler. Flat kicks have a 10 m/s actuator ceiling and a 6.5 m/s ceiling in official matches. Robot wheel dynamics, carpet response and kicker transfer remain to be measured on RoboTurk hardware. Historical policy results were collected with the simulator revision pinned in each study. [Current physics and field measurements](media/ssl-physics/README.md)
 
 ## ROS 2 workspace
 

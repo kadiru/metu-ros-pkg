@@ -9,7 +9,7 @@ import json
 from pathlib import Path
 import numpy as np
 import torch
-from .model import Config
+from .model import Config, skill_limits
 from .self_play import ROLES, digest
 from .self_play_training import SelfPlayPPO, actor_hash, save_bundle, write
 
@@ -85,7 +85,9 @@ def repair(source, output, epochs=80, seed=337, clearance=0.28, radius=0.65):
         data = np.load(data_path)
         x, teacher = data["observations"], data["actions"]
         reference = means(model, x)
-        y, nearest = spacing_labels(x, teacher, reference, cfg.max_speed, clearance, radius)
+        y, nearest = spacing_labels(
+            x, teacher, reference, skill_limits(cfg).max_speed, clearance, radius
+        )
         near = np.flatnonzero(nearest < radius)
         if len(near) < 100:
             raise ValueError("Insufficient close-range training observations")

@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 import numpy as np
 import torch
-from .model import Config
+from .model import Config, skill_limits
 from .self_play import ROLES, digest
 from .self_play_repair import means
 from .self_play_training import SelfPlayPPO, actor_hash, save_bundle, write
@@ -28,10 +28,12 @@ def timing_labels(role, x, reference, cfg):
     near = (x[:, 11] > 0.5) & (x[:, 16] * 5 <= 1.68)
     angle = x[:, 23]
     omega = np.clip(16 * angle, -3, 3)
-    labels[near, 0] = 3 * (x[near, 0] * 3 - cfg.possession_x) / cfg.max_speed
-    labels[near, 1] = (-cfg.possession_x * omega[near] + 3 * x[near, 1] * 3) / cfg.max_speed
+    labels[near, 0] = 3 * (x[near, 0] * 3 - cfg.possession_x) / skill_limits(cfg).max_speed
+    labels[near, 1] = (-cfg.possession_x * omega[near] + 3 * x[near, 1] * 3) / skill_limits(
+        cfg
+    ).max_speed
     labels[near, 2] = omega[near] / cfg.max_omega
-    speed = np.linalg.norm(x[:, 6:8], axis=1) * cfg.max_speed
+    speed = np.linalg.norm(x[:, 6:8], axis=1) * skill_limits(cfg).max_speed
     firing = (
         near & (np.abs(angle) < 0.015) & (speed < 0.18) & (np.abs(x[:, 8] * cfg.max_omega) < 0.3)
     )

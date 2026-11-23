@@ -4,7 +4,7 @@ Opponent and phase/aim selection are analytic. The checkpoint alone produces
 attacker motion and kick timing. All progress is measured to the fixed goal center.
 """
 
-from dataclasses import asdict, replace
+from dataclasses import replace
 from collections import deque
 import json
 import math
@@ -12,6 +12,7 @@ from pathlib import Path
 import gymnasium as gym
 import numpy as np
 from .model import (
+    compatible_policy_config,
     Ball,
     Command,
     Config,
@@ -366,7 +367,9 @@ class FinishCheckpoint:
             from stable_baselines3 import PPO
 
             manifest = json.loads(Path(path).with_suffix(".json").read_text())
-            if manifest["contract"] != KEEPER_CONTRACT or manifest["config"] != asdict(cfg):
+            if manifest["contract"] != KEEPER_CONTRACT or not compatible_policy_config(
+                manifest["config"], cfg
+            ):
                 raise ValueError("Keeper finish manifest mismatch")
             model = PPO.load(path, device="cpu")
         if model.observation_space.shape != (32,) or model.action_space.shape != (4,):

@@ -3,11 +3,11 @@
 At most one kicker contacts the ball per physics sample. Of simultaneous eligible
 requests, the mouth closest to the ball acts. Exact distance ties defer the kick.
 This removes global robot/color iteration order from the contact decision.
-Motion and dribbler forces retain the same native ODE/ideal-velocity model.
+Both native backends share the same carpet and drive limits.
 """
 
 import math
-from .model import Command, bounded, possession, world_vector
+from .model import Command, bounded, possession, drive_velocity
 from .webots_backend import WebotsBackend
 
 
@@ -41,6 +41,7 @@ class ContinuousWebotsBackend(WebotsBackend):
         self.last_kick_arbitrations = []
         for _ in range(self.substeps):
             current = self.read()
+            launch = None
             winner, candidates = nearest_kicker(current, commands, cfg, self.kick_held | kicked)
             if len(candidates) > 1:
                 self.last_kick_arbitrations.append(
@@ -58,14 +59,12 @@ class ContinuousWebotsBackend(WebotsBackend):
             for r in current.robots:
                 node = self.nodes[r.key]
                 c = commands.get(r.key, Command())
-                vx, vy = world_vector(c.vx, c.vy, r.yaw)
+                vx, vy = drive_velocity(r, c, self.basic_ms / 1000, cfg)
                 vertical = node.getVelocity()[2]
                 node.setVelocity([vx, vy, vertical, 0.0, 0.0, c.omega])
                 if possession(current, r.key, cfg):
                     if r.key == winner:
-                        self.ball.setVelocity(
-                            [c.kick * math.cos(r.yaw), c.kick * math.sin(r.yaw), 0.0, 0.0, 0.0, 0.0]
-                        )
+                        launch = c.kick, r.yaw
                         kicked.add(r.key)
                         self.last_kick_events.append((r.key, current, c.kick))
                     elif c.dribbler > 0.5 and r.key not in kicked:
@@ -76,6 +75,7 @@ class ContinuousWebotsBackend(WebotsBackend):
                         fy = 8.0 * (y - current.ball.y) + 0.15 * (vy - current.ball.vy)
                         norm = max(1.0, math.hypot(fx, fy) / 0.4)
                         self.ball.addForce([fx / norm, fy / norm, 0.0], False)
+            self.advance_ball(launch)
             if self.supervisor.step(self.basic_ms) == -1:
                 self.closed = True
                 raise RuntimeError("Webots simulation ended")

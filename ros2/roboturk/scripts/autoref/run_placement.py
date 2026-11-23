@@ -158,6 +158,7 @@ def main():
                         "ws://127.0.0.1:21981/api/control",
                         str(dest / "match/referee-ready"),
                         ("BLUE", "YELLOW")[spec["seed"] % 2],
+                        str(spec.get("kickoff_settle_ms", 450)),
                     ],
                     ROOT,
                     dest / "table.log",

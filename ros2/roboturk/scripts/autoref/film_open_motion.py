@@ -17,9 +17,10 @@ BLUE = "#98d2ff"
 YELLOW = "#ffe184"
 
 
-def recording(folder):
+def recording(folder, result=None):
     log, states = read_game(folder)
-    result = json.loads((folder / "official/result.json").read_text())
+    if result is None:
+        result = json.loads((folder / "official/result.json").read_text())
     images = sorted((folder / "frames").glob("*.jpg"))
     assert len(images) == (len(states) + 1) // 2
     with Image.open(images[0]) as im:

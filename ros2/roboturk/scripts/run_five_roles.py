@@ -87,6 +87,15 @@ def main():
     a = p.parse_args()
     if a.until_post_game and a.referee != "ssl":
         p.error("--until-post-game requires the official referee")
+    if a.until_post_game and any(
+        (
+            a.await_force_start,
+            a.stop_after_goal_restart,
+            a.stop_after_placement_reception,
+            a.placement_batch,
+        )
+    ):
+        p.error("--until-post-game runs from the official kickoff to the final whistle")
     if a.await_force_start and a.referee != "ssl":
         p.error("--await-force-start requires the official referee")
     if a.steer_from_tick < 0 or (a.steer_from_tick and not a.open_play_policy):

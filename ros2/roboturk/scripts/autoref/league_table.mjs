@@ -1,35 +1,50 @@
 // Operate the match table from official match state. TIGERs supplies event evidence.
-import {existsSync} from "node:fs";
+import { existsSync } from "node:fs";
 
-const [url, ready, firstKickoffTeam] = process.argv.slice(2);
+const [url, ready, firstKickoffTeam, settle = "450"] = process.argv.slice(2);
+const kickoffDelayMs = Number(settle);
+if (!Number.isFinite(kickoffDelayMs) || kickoffDelayMs < 450) {
+  throw new Error("Invalid kickoff settling time");
+}
+
 const ws = new WebSocket(url);
-let state, lastView, since, lastSent = 0;
 const send = message => ws.send(JSON.stringify(message));
-ws.onmessage = ({data}) => {
+let state, lastView, since;
+let lastSent = 0;
+
+ws.onmessage = ({ data }) => {
   const update = JSON.parse(data).matchState;
   if (!update) return;
   state = update;
-  const view = JSON.stringify([state.stage, state.command, state.nextCommand,
-    state.gameEvents?.map(e => [e.type, e.id]), state.teamState?.BLUE?.goals, state.teamState?.YELLOW?.goals]);
+  const view = JSON.stringify([
+    state.stage, state.command, state.nextCommand,
+    state.gameEvents?.map(e => [e.type, e.id]),
+    state.teamState?.BLUE?.goals, state.teamState?.YELLOW?.goals,
+  ]);
   if (lastView !== view) {
     console.log(view);
     lastView = view;
     since = Date.now();
   }
 };
+
 ws.onopen = () => {
-  send({change:{updateConfigChange:{matchType:"GROUP_PHASE", firstKickoffTeam, maxRobotsPerTeam:5}}});
+  const config = { matchType: "GROUP_PHASE", firstKickoffTeam, maxRobotsPerTeam: 5 };
+  send({ change: { updateConfigChange: config } });
   console.log("TABLE_READY");
 };
 
-function action(s) {
-  const {stage, command, nextCommand} = s;
-  const remaining = parseFloat(s.stageTimeLeft);
-  const calls = (s.gameEvents ?? []).map(e => e.type);
+function action(match) {
+  const { stage, command, nextCommand } = match;
+  const expired = parseFloat(match.stageTimeLeft) < 0;
+  const events = match.gameEvents ?? [];
+  const calls = events.map(event => event.type);
   if (stage === "POST_GAME") return;
-  if (calls.includes("POSSIBLE_GOAL") && !calls.some(t => ["GOAL","INVALID_GOAL"].includes(t))) return;
-  if (stage === "NORMAL_HALF_TIME") return remaining < 0 && ["NEXT_STAGE"];
-  if (["NORMAL_FIRST_HALF","NORMAL_SECOND_HALF"].includes(stage) && remaining < 0) {
+  if (calls.includes("POSSIBLE_GOAL") && !calls.some(t => ["GOAL", "INVALID_GOAL"].includes(t))) {
+    return;
+  }
+  if (stage === "NORMAL_HALF_TIME") return expired && ["NEXT_STAGE"];
+  if (expired && ["NORMAL_FIRST_HALF", "NORMAL_SECOND_HALF"].includes(stage)) {
     if (command.type !== "HALT") return ["HALT"];
     return [stage === "NORMAL_FIRST_HALF" ? "NEXT_STAGE" : "END_GAME"];
   }
@@ -38,25 +53,28 @@ function action(s) {
   if (command.type !== "STOP" || !nextCommand) return;
   const team = nextCommand.forTeam;
   if (nextCommand.type === "KICKOFF") return ["NEXT_COMMAND", team];
-  if (nextCommand.type === "DIRECT") {
-    if (calls.includes("PLACEMENT_SUCCEEDED")) return ["NEXT_COMMAND", team];
-    const failures = (s.gameEvents ?? []).filter(e => e.type === "PLACEMENT_FAILED");
-    if (failures.length > 1) return;
-    const failed = failures[0]?.placementFailed?.byTeam;
-    return ["BALL_PLACEMENT_START", failed ? (failed === "BLUE" ? "YELLOW" : "BLUE") : team];
-  }
+  if (nextCommand.type !== "DIRECT") return;
+  if (calls.includes("PLACEMENT_SUCCEEDED")) return ["NEXT_COMMAND", team];
+  const failures = events.filter(event => event.type === "PLACEMENT_FAILED");
+  if (failures.length > 1) return;
+  const failed = failures[0]?.placementFailed?.byTeam;
+  const otherTeam = failed === "BLUE" ? "YELLOW" : "BLUE";
+  return ["BALL_PLACEMENT_START", failed ? otherTeam : team];
 }
+
 setInterval(() => {
-  if (!state || !existsSync(ready) || Date.now() - since < 450 || Date.now() - lastSent < 550) return;
+  const now = Date.now();
+  if (!state || !existsSync(ready) || now - since < 450 || now - lastSent < 550) return;
   if (state.stage === "NORMAL_HALF_TIME" && !state.teamState.BLUE.onPositiveHalf) {
-    send({change:{updateTeamStateChange:{forTeam:"BLUE", onPositiveHalf:true}}});
-    lastSent = Date.now();
+    send({ change: { updateTeamStateChange: { forTeam: "BLUE", onPositiveHalf: true } } });
+    lastSent = now;
     return;
   }
+  if (state.command.type === "KICKOFF" && now - since < kickoffDelayMs) return;
   const decision = action(state);
   if (!decision) return;
   const [type, forTeam = "UNKNOWN"] = decision;
-  console.log(JSON.stringify({stage:state.stage, remaining:state.stageTimeLeft, type, forTeam}));
-  send({continueAction:{type, forTeam}});
-  lastSent = Date.now();
+  console.log(JSON.stringify({ stage: state.stage, remaining: state.stageTimeLeft, type, forTeam }));
+  send({ continueAction: { type, forTeam } });
+  lastSent = now;
 }, 100);

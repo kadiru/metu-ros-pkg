@@ -9,11 +9,12 @@ from .five_roles import CFG, Flight, limit
 from .model import wrap
 from .open_motion import steer_team
 from .three_match import filter_commands
+from .timed_motion import PRIORITY, plan_team
 from .touchline import recovery_command
 from .three_recipient import features, move
 
 
-def commands(world, positions, weights, sole, tactics):
+def commands(world, positions, weights, sole, tactics, targets=None):
     ball = world.ball
     out = {}
     passes = {}
@@ -91,25 +92,33 @@ def commands(world, positions, weights, sole, tactics):
             and role != "Receiver"
         ):
             tx = front * sign
-        out[r.key] = move(r, limit(tx, 4.32), limit(ty, 2.76), angle, speed=1.75)
+        target = limit(tx, 4.32), limit(ty, 2.76)
+        if targets is not None and role in PRIORITY:
+            targets[r.key] = target
+        out[r.key] = move(r, *target, angle, speed=1.75)
         if role == "Contain":
             out[r.key] = replace(out[r.key], dribbler=0)
     return out, passes
 
 
-def open_play(world, tactics, weights, measured, policy, touchline=True):
+def open_play(
+    world, tactics, weights, measured, policy, touchline=True, trajectory=False, counts=None
+):
     """One open-play control tick shared by ordinary matches and paired replays."""
     sole = tactics.observe(world)
     roles, phases = {}, {}
     for team in ("blue", "yellow"):
         phases[team], side = tactics.assign(world, team)
         roles.update(side)
-    out, planned = commands(world, roles, weights, sole, tactics)
+    targets = {} if trajectory else None
+    out, planned = commands(world, roles, weights, sole, tactics, targets)
     recovering = set()
     if touchline:
         for r in world.robots:
             command = recovery_command(world, r, roles[r.key].role, sole)
             if command is not None:
+                if targets is not None:
+                    targets.pop(r.key, None)
                 recovering.add(r.key)
                 out[r.key] = command
                 planned.pop(r.key, None)
@@ -117,7 +126,12 @@ def open_play(world, tactics, weights, measured, policy, touchline=True):
         raw, out = out, {}
         for team in phases:
             own = {key: value for key, value in raw.items() if key.team == team}
-            out.update(steer_team(world.robots, team, own, measured, policy, CFG.dt, recovering))
+            steered = steer_team(world.robots, team, own, measured, policy, CFG.dt, recovering)
+            if trajectory:
+                steered = plan_team(
+                    world.robots, team, steered, targets, roles, measured, policy.clearance, counts
+                )
+            out.update(steered)
     else:
         out, _ = filter_commands(world, out, recovering)
     return out, planned, roles, phases

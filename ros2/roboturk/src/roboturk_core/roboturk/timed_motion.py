@@ -1,0 +1,199 @@
+"""Bounded, receding-horizon trajectory search for 5v5 off-ball navigation."""
+
+from dataclasses import dataclass, replace
+import math
+
+from . import field
+from .five_roles import CFG
+from .model import body_vector, world_vector
+from .placement_traffic import separation
+from .touchline import END_LIMIT
+
+# Splitting the budgets between axes bounds the planar norms even on diagonal moves.
+ACCEL = CFG.max_acceleration / math.sqrt(2)
+SPEED = 1.2 / math.sqrt(2)
+INTERVAL = 2 * CFG.dt
+TIMES = tuple(i * INTERVAL for i in range(16))
+SIDE = field.WIDTH / 2 - 0.15
+PRIORITY = (
+    "Outlet",
+    "Marker",
+    "Screen",
+    "Guard box",
+    "Block outlet",
+    "Cover",
+    "Anchor",
+    "Left wing",
+    "Right wing",
+)
+
+
+@dataclass(frozen=True)
+class Axis:
+    position: float
+    velocity: float
+    phases: tuple  # (duration, acceleration) from the measured state
+
+    def at(self, t):
+        p, v = self.position, self.velocity
+        for duration, a in self.phases:
+            step = min(t, duration)
+            p += step * (v + a * step / 2)
+            v += a * step
+            t -= step
+            if t <= 0:
+                break
+        return p, v
+
+    @property
+    def duration(self):
+        return sum(duration for duration, _ in self.phases)
+
+
+def axis_to(position, velocity, target):
+    """Time-optimal 1D acceleration, optional cruise, and braking to rest."""
+    p, v = position, velocity
+    phases = []
+    if abs(v) > SPEED:
+        capped = math.copysign(SPEED, v)
+        t = abs(v - capped) / ACCEL
+        phases.append((t, -math.copysign(ACCEL, v)))
+        p += (v + capped) * t / 2
+        v = capped
+    stop = p + v * abs(v) / (2 * ACCEL)
+    sign = 1 if target >= stop else -1
+    u, distance = sign * v, sign * (target - p)
+    peak = min(SPEED, math.sqrt(max(0, ACCEL * distance + u * u / 2)))
+    cruise_distance = distance - (2 * peak * peak - u * u) / (2 * ACCEL)
+    phases.extend(
+        [
+            (max(0, (peak - u) / ACCEL), sign * ACCEL),
+            (max(0, cruise_distance) / SPEED, 0),
+            (peak / ACCEL, -sign * ACCEL),
+        ]
+    )
+    return Axis(position, velocity, tuple(phases))
+
+
+@dataclass(frozen=True)
+class Leg:
+    x: Axis
+    y: Axis
+
+    @classmethod
+    def to(cls, start, velocity, target):
+        return cls(*(axis_to(p, v, g) for p, v, g in zip(start, velocity, target, strict=True)))
+
+    @property
+    def duration(self):
+        return max(self.x.duration, self.y.duration)
+
+    def position(self, t):
+        return self.x.at(t)[0], self.y.at(t)[0]
+
+    def velocity(self, t):
+        return self.x.at(t)[1], self.y.at(t)[1]
+
+
+def path_samples(first, second=None):
+    end = first.duration
+    return [second.position(t - end) if second and t > end else first.position(t) for t in TIMES]
+
+
+def inside(p):
+    x, y = map(abs, p)
+    return (
+        x <= END_LIMIT
+        and y <= SIDE
+        and (
+            x < field.LENGTH / 2 - field.DEFENSE_DEPTH - CFG.robot_radius
+            or y > field.DEFENSE_WIDTH / 2 + CFG.robot_radius
+        )
+    )
+
+
+def clear(path, tracks, clearance):
+    # Use the closest point on each relative chord. Allow for deviations from
+    # linear interpolation of two acceleration-bounded paths over one interval.
+    margin = CFG.max_acceleration * INTERVAL**2 / 4
+    for (x, y), (nx, ny) in zip(path, path[1:]):
+        # The bounding rectangle also covers a curved trajectory between samples.
+        if not inside((max(abs(x), abs(nx)) + margin, max(abs(y), abs(ny)) + margin)):
+            return False
+        min_y = 0 if ny * y <= 0 else min(abs(y), abs(ny))
+        if not inside((max(abs(x), abs(nx)) + margin, max(0, min_y - margin))):
+            return False
+    for other in tracks:
+        for (x, y), (nx, ny), (qx, qy), (nqx, nqy) in zip(path, path[1:], other, other[1:]):
+            if (
+                separation(x - qx, y - qy, nx - x - nqx + qx, ny - y - nqy + qy, 1)
+                < clearance + margin
+            ):
+                return False
+    return True
+
+
+def velocity_track(r, request):
+    """Extrapolate a teammate command with the same planar acceleration limit."""
+    vx, vy = r.vx, r.vy
+    dx, dy = request[0] - vx, request[1] - vy
+    ramp = math.hypot(dx, dy) / CFG.max_acceleration
+    points = []
+    for t in TIMES:
+        s = min(t, ramp)
+        blend = (s * s / (2 * ramp) if ramp else 0) + max(0, t - ramp)
+        points.append((r.x + t * vx + blend * dx, r.y + t * vy + blend * dy))
+    return points
+
+
+def choose(r, target, tracks, clearance):
+    start = (r.x, r.y)
+    direct = Leg.to(start, (r.vx, r.vy), target)
+    path = path_samples(direct)
+    if clear(path, tracks, clearance):
+        return direct.velocity(CFG.dt), path, "direct"
+    dx, dy = target[0] - r.x, target[1] - r.y
+    dist = math.hypot(dx, dy)
+    best = None
+    if dist > 0.02:
+        ux, uy = dx / dist, dy / dist
+        forward = min(0.65, 0.5 * dist)
+        for offset in (0.38, -0.38, 0.72, -0.72):
+            via = (r.x + forward * ux - offset * uy, r.y + forward * uy + offset * ux)
+            if not inside(via):
+                continue
+            first = Leg.to(start, (r.vx, r.vy), via)
+            second = Leg.to(via, (0, 0), target)
+            duration = first.duration + second.duration
+            if best and duration >= best[0]:
+                continue
+            path = path_samples(first, second)
+            if clear(path, tracks, clearance):
+                best = duration, first.velocity(CFG.dt), path
+    if best:
+        return best[1], best[2], "detour"
+    return (0, 0), velocity_track(r, (0, 0)), "brake"
+
+
+def plan_team(robots, team, commands, targets, roles, observed, clearance, counts=None):
+    """Reserve timed motion within one team. Opponents supply position history only."""
+    paths = {}
+    output = dict(commands)
+    for r in robots:
+        if r.key.team == team:
+            cmd = commands[r.key]
+            paths[r.key] = velocity_track(r, world_vector(cmd.vx, cmd.vy, r.yaw))
+        else:
+            vx, vy = observed[r.key]
+            paths[r.key] = [(r.x + t * vx, r.y + t * vy) for t in TIMES]
+    movers = [r for r in robots if r.key in commands and r.key in targets and inside((r.x, r.y))]
+    movers.sort(key=lambda r: (PRIORITY.index(roles[r.key].role), r.key.id))
+    for r in movers:
+        others = [p for k, p in paths.items() if k != r.key]
+        v, path, mode = choose(r, targets[r.key], others, clearance)
+        vx, vy = body_vector(*v, r.yaw)
+        output[r.key] = replace(output[r.key], vx=vx, vy=vy)
+        paths[r.key] = path
+        if counts is not None:
+            counts[mode] = counts.get(mode, 0) + 1
+    return output

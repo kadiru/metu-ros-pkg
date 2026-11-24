@@ -114,11 +114,18 @@ def main():
         default=None,
         help="Use the shared planner with concurrent route reservations",
     )
+    p.add_argument(
+        "--trajectory-planner",
+        action="store_true",
+        help="Search timed bang-bang trajectories for off-ball field players in open play",
+    )
     p.add_argument("--touchline-recovery", action=argparse.BooleanOptionalAction, default=True)
     batch.add_argument(
         "--touchline-trials", type=int, help="Run this many consecutive 5v5 touchline openings"
     )
     a = p.parse_args()
+    if a.trajectory_planner and not a.open_play_policy:
+        p.error("--trajectory-planner requires --open-play-policy")
     if a.touchline_trials is not None and (
         a.touchline_trials < 1 or a.referee != "local" or not a.open_play_policy
     ):
@@ -185,6 +192,7 @@ def main():
                 record=a.record,
                 touchline_trials=a.touchline_trials,
                 touchline_recovery=a.touchline_recovery,
+                trajectory_planner=a.trajectory_planner,
                 frame_images=a.frame_images,
                 motion_audit=a.motion_audit,
                 await_force_start=a.await_force_start,

@@ -4,6 +4,10 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Timed trajectories for 5v5 support players
+
+The first optional trajectory planner compares acceleration-limited routes and shares timed paths among teammates. [Crossing animation, matched Webots trials and reproduction commands](media/trajectory-search/README.md)
+
 ## Can a robot recover the ball from outside the touchline?
 
 The previous steering recovered 0 of 40 balls. The new steering recovered 37 of 40. [Native Webots comparison and clearance measurements](media/touchline/README.md) · [How SSL teams plan motion](docs/SSL_PATH_PLANNERS.md)

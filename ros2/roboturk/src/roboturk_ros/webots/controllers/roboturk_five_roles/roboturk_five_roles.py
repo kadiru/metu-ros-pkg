@@ -253,6 +253,7 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                 measured if active_policy else {},
                 active_policy,
                 cfg.get("touchline_recovery", True),
+                cfg.get("trajectory_planner", False),
             )
             if restricted:
                 out = {k: c for k, c in out.items() if k.team == restricted}

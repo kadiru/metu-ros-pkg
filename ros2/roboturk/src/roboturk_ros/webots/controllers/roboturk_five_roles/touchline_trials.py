@@ -84,6 +84,7 @@ def trial(sim, backend, cfg, seed, weights, policy, frames):
     low = dict(pair=10.0, board=10.0, goal=10.0)
     counts = dict.fromkeys(low, 0)
     active = set()
+    counts_planner = {}
     end = "timeout"
     for tick in range(round(cfg["seconds"] / CFG.dt)):
         if frames and tick % 2 == 0:
@@ -91,7 +92,14 @@ def trial(sim, backend, cfg, seed, weights, policy, frames):
         measured = observed_velocity(w.robots, previous, CFG.dt)
         previous = {r.key: (r.x, r.y) for r in w.robots}
         cmd, passes, _, _ = open_play(
-            w, tactics, weights, measured, policy, cfg["touchline_recovery"]
+            w,
+            tactics,
+            weights,
+            measured,
+            policy,
+            cfg["touchline_recovery"],
+            cfg.get("trajectory_planner", False),
+            counts_planner,
         )
         w = backend.step(cmd)
         for k, _, _ in backend.last_kick_events:
@@ -145,6 +153,7 @@ def trial(sim, backend, cfg, seed, weights, policy, frames):
         crossed=crossed,
         outside_hold=outside_hold,
         contacts=counts,
+        planner=counts_planner,
         min_gap_m=low,
         end=end,
     )

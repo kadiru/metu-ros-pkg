@@ -13,7 +13,13 @@ The work spans hardware/software integration and path-planning experiments: how 
 
 ## Robot soccer in Webots
 
-In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/a775a5ea0f6f7d7322d7b1e14ac088a5a4114972/ros2/roboturk)
+In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/20f60d763b89dea2a09fc84cabd2d755019a05ef/ros2/roboturk)
+
+### Can Blue get open behind the defenders?
+
+Follow the circled Blue robot to the gray disk, where a teammate could pass to it. On the left a Yellow defender blocks its usual routes. On the right Blue finds room around the defender and reaches the disk in three seconds. Over 40 paired 5v5 starts the extra search raised arrivals from 17 to 38. [Stalls, times and clearances](https://github.com/kadiru/metu-ros-pkg/blob/20f60d763b89dea2a09fc84cabd2d755019a05ef/ros2/roboturk/media/crowded-errt/README.md) · [A run both planners missed](https://github.com/kadiru/metu-ros-pkg/blob/20f60d763b89dea2a09fc84cabd2d755019a05ef/ros2/roboturk/media/crowded-errt/blocked-outlet.gif) · [Yellow taking the same route with either planner](https://github.com/kadiru/metu-ros-pkg/blob/20f60d763b89dea2a09fc84cabd2d755019a05ef/ros2/roboturk/media/crowded-errt/yellow-outlet.gif)
+
+[![Paired native Webots replay of Blue searching for an open passing position](../../docs/assets/roboturk-webots/crowded-outlet-errt.gif)](https://github.com/kadiru/metu-ros-pkg/blob/20f60d763b89dea2a09fc84cabd2d755019a05ef/ros2/roboturk/media/crowded-errt/blue-outlet.gif)
 
 ### Can Blue bring a live ball back from the touchline?
 

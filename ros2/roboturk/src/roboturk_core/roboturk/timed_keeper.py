@@ -9,7 +9,7 @@ from .goal_cover import GOAL_CHANNEL_HALF, SAVE_SPEED, GoalCover, intercept_ball
 from .model import possession
 from .three_recipient import move
 
-HANDOFF_DELAY = 3 * CFG.dt
+HANDOFF_WINDOW = 3 * CFG.dt
 
 
 def lane_arrival(displacement, speed):
@@ -42,42 +42,20 @@ def crossing(world, team):
 
 
 class TimedGoalCover(GoalCover):
-    def __init__(self):
-        super().__init__()
-        self.pending = {}
-
     def commands(self, world, presser, needed, preparing=False):
         team = presser.key.team
         risk = crossing(world, team)
         keeper = next(
             (r for r in world.robots if r.key.team == team and r.key.id == 0 and r.visible), None
         )
-        handoff = self.pending.get(team)
-        if handoff is not None and (
-            handoff[0] != presser.key
-            or not -1e-7 <= handoff[1] - world.time <= HANDOFF_DELAY + 1e-7
-        ):
-            self.pending.pop(team, None)
-            handoff = None
-        immediate = False
+        ready = False
         if risk is not None and keeper is not None and preparing:
             deadline, lane = risk
-            if deadline <= lane_arrival(lane - keeper.y, keeper.vy) + 2 * CFG.dt:
-                immediate = deadline <= HANDOFF_DELAY
-                if handoff is None and not immediate and team not in self.active:
-                    # Let the already vetted tackle finish its first few samples
-                    # while the keeper moves. Never wait on an unavailable tackle.
-                    handoff = presser.key, world.time + HANDOFF_DELAY
-                    self.pending[team] = handoff
-        due = handoff is not None and world.time >= handoff[1] - 1e-7
-        if due or needed or immediate:
-            self.pending.pop(team, None)
-        active = super().commands(
-            world,
-            presser,
-            needed or immediate or due,
-            preparing or handoff is not None,
-        )
+            eta = lane_arrival(lane - keeper.y, keeper.vy)
+            # Arm the keeper during a safe tackle. Yield before the crossing
+            # only when the keeper can actually arrive in time.
+            ready = eta + CFG.dt <= deadline <= eta + HANDOFF_WINDOW
+        active = super().commands(world, presser, needed or ready, preparing)
         if not active:
             return active
 
@@ -91,9 +69,9 @@ class TimedGoalCover(GoalCover):
         # Approach the lane on the goal side of the yielding presser. Hold an
         # intercept rail in front of the line until the lateral move completes.
         if lateral > 0.13:
-            depth = 4.46
+            depth = 4.49
         else:
-            depth = min(4.53, max(4.35, -sign * ball.x + 0.045))
+            depth = min(4.54, max(4.38, -sign * ball.x + 0.045))
         rival = opposing_holder(world, team)
         if presser.key in active and sign * presser.x < -PENALTY_FRONT + 0.05:
             # Release the keeper's approach lane promptly. Leave along the

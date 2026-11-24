@@ -179,7 +179,7 @@ def test_goal_cover_cannot_assign_a_parked_keeper_at_the_other_end():
     assert not GoalCover().commands(w, w.robot(PRESSER), needed=True)
 
 
-def test_timed_cover_hands_off_early_when_the_keeper_cannot_reach_the_lane_in_time():
+def test_timed_cover_arms_the_keeper_and_yields_only_when_it_can_meet_the_deadline():
     w = contest(0.23)
     keeper = RobotKey(PRESSER.team, 0)
     robots = tuple(
@@ -197,9 +197,13 @@ def test_timed_cover_hands_off_early_when_the_keeper_cannot_reach_the_lane_in_ti
     assert set(GoalCover().commands(w, w.robot(PRESSER), False, preparing=True)) == {keeper}
     cover = TimedGoalCover()
     assert set(cover.commands(w, w.robot(PRESSER), False, preparing=True)) == {keeper}
-    commands = cover.commands(
-        replace(w, time=3 * CFG.dt + 1e-9), w.robot(PRESSER), False, preparing=False
+    ready = replace(
+        w,
+        time=0.12,
+        ball=replace(w.ball, vx=0.66),
+        robots=tuple(replace(r, y=-0.15, vy=-0.4) if r.key == keeper else r for r in w.robots),
     )
+    commands = cover.commands(ready, ready.robot(PRESSER), False, preparing=True)
     assert set(commands) == {keeper, PRESSER}
     assert commands[PRESSER].dribbler == 0 and commands[keeper].dribbler == 1
     assert all(command.kick == 0 for command in commands.values())

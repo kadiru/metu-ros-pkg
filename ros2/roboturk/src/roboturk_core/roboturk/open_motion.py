@@ -57,14 +57,13 @@ def steer_team(
         carrier = challenges.get(r.key) if challenges else None
         yielding = keeper_handoffs.get(r.key) if keeper_handoffs else None
         intercepting = yielding is not None and r.key.id == 0
-        carrier_gap = 2 * CFG.robot_radius + 0.012 if intercepting else ROBOT_GAP
         x, y = world_vector(cmd.vx * scale, cmd.vy * scale, r.yaw)
         nearby = [
             (
                 r.x - q.x,
                 r.y - q.y,
                 *observed[q.key],
-                carrier_gap if carrier and q.key == carrier.key else policy.clearance,
+                ROBOT_GAP if carrier and q.key == carrier.key else policy.clearance,
                 min(policy.horizon, 0.20)
                 if yielding is not None
                 and (q.key == yielding or (carrier is not None and q.key == carrier.key))
@@ -103,7 +102,7 @@ def steer_team(
             # Bound closing speed with braking distance plus one control tick.
             # The handed-off keeper may travel at its save speed while there
             # is stopping room. The 0.32 m/s tackle cap is for close draws.
-            room = max(0, distance - carrier_gap)
+            room = max(0, distance - ROBOT_GAP)
             ceiling = SAVE_SPEED if intercepting else 0.32
             closing = min(ceiling, math.sqrt(4 * room) - 0.08)
             radial = (x - cx) * nx + (y - cy) * ny

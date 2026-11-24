@@ -13,13 +13,19 @@ The work spans hardware/software integration and path-planning experiments: how 
 
 ## Robot soccer in Webots
 
-In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/4b771f0c7a0cf9da9c077d11cb5d3d7621ad1ba2/ros2/roboturk)
+In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/6d0dbd737b830971d4724e3f4941de5e02604feb/ros2/roboturk)
 
 ### What happens when a pass slows down?
 
 Watch the cyan receiver. On the left it backs away until the ball stops. On the right it meets the same pass, dribbles upfield and scores. On 200 fresh unguarded openings using the same updated Webots carpet, the original team scored 163 and the team with the fitted receiver scored 200. [Watch a fresh goal](https://github.com/kadiru/metu-ros-pkg/blob/6ffee2604d0e5a454a8c1fedb4c9375755d9b7bc/ros2/roboturk/media/carpet-skills/fresh-demo.mp4) · [Paired trials and training details](https://github.com/kadiru/metu-ros-pkg/blob/6ffee2604d0e5a454a8c1fedb4c9375755d9b7bc/ros2/roboturk/media/carpet-skills/README.md)
 
 [![Two cyan receivers approach the same slowing pass. The fitted receiver reaches the ball and scores.](../../docs/assets/roboturk-webots/receiving-on-carpet.gif)](https://github.com/kadiru/metu-ros-pkg/blob/6ffee2604d0e5a454a8c1fedb4c9375755d9b7bc/ros2/roboturk/media/carpet-skills/reception-replay.gif)
+
+### Who gets to the pass first?
+
+Blue passes, Cyan receives and Yellow closes. Watch Cyan move toward the ball and cushion it at the roller. On 40 fresh openings against the same defender, the previous receiver secured 24 passes and scored 17 goals. The new receiver secured 35 and scored 32. [Full-speed Webots demo and paired trials](https://github.com/kadiru/metu-ros-pkg/blob/6d0dbd737b830971d4724e3f4941de5e02604feb/ros2/roboturk/media/secure-pass/README.md)
+
+[![Two synchronized native Webots views of the pressured receivers](../../docs/assets/roboturk-webots/securing-first-touch.gif)](https://github.com/kadiru/metu-ros-pkg/blob/6d0dbd737b830971d4724e3f4941de5e02604feb/ros2/roboturk/media/secure-pass/first-touch.gif)
 
 ### Can Cyan escape the marker?
 

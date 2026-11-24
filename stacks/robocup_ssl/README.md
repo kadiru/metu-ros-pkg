@@ -13,13 +13,13 @@ The work spans hardware/software integration and path-planning experiments: how 
 
 ## Robot soccer in Webots
 
-In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/5336484583126d815b6c47ad10c8fb1dfc75a4da/ros2/roboturk)
+In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/a775a5ea0f6f7d7322d7b1e14ac088a5a4114972/ros2/roboturk)
 
 ### Can Blue bring a live ball back from the touchline?
 
-Watch the white line and the orange ball. On the left, the previous robot stops short. On the right, Blue crosses the line, turns its roller inward and brings the ball back. Across 40 matched 5v5 starts the new steering recovered 37 balls, up from zero, with zero measured robot, board or goal contacts in either run. [Results and close-up replay](https://github.com/kadiru/metu-ros-pkg/blob/5336484583126d815b6c47ad10c8fb1dfc75a4da/ros2/roboturk/media/touchline/README.md) · [How 70 SSL team entries plan robot motion](https://github.com/kadiru/metu-ros-pkg/blob/5336484583126d815b6c47ad10c8fb1dfc75a4da/ros2/roboturk/docs/SSL_PATH_PLANNERS.md)
+Watch the white line and the orange ball. On the left, the previous robot stops short. On the right, Blue crosses the line, turns its roller inward and brings the ball back. Across 40 matched 5v5 starts the new steering recovered 37 balls, up from zero, with zero measured robot, board or goal contacts in either run. [Results and close-up replay](https://github.com/kadiru/metu-ros-pkg/blob/a775a5ea0f6f7d7322d7b1e14ac088a5a4114972/ros2/roboturk/media/touchline/README.md) · [How 70 SSL team entries plan robot motion](https://github.com/kadiru/metu-ros-pkg/blob/a775a5ea0f6f7d7322d7b1e14ac088a5a4114972/ros2/roboturk/docs/SSL_PATH_PLANNERS.md)
 
-[![Side-by-side Webots views show Blue retrieving a live ball between the white touchline and the black board](../../docs/assets/roboturk-webots/touchline-recovery.gif)](https://github.com/kadiru/metu-ros-pkg/blob/5336484583126d815b6c47ad10c8fb1dfc75a4da/ros2/roboturk/media/touchline/same-start.gif)
+[![Side-by-side Webots views show Blue retrieving a live ball between the white touchline and the black board](../../docs/assets/roboturk-webots/touchline-recovery.gif)](https://github.com/kadiru/metu-ros-pkg/blob/a775a5ea0f6f7d7322d7b1e14ac088a5a4114972/ros2/roboturk/media/touchline/same-start.gif)
 
 ### What happens when a pass slows down?
 

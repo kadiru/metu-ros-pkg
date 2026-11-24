@@ -30,6 +30,7 @@ from roboturk.ssl_vision import (
     read_delimited,
     write_delimited,
 )
+from roboturk.tackle import BallSideTackle
 from roboturk.three_match import snapshot
 
 
@@ -79,6 +80,7 @@ def match(sim, folder, cfg, receiver=None, vision=None):
         ERRTFallback(seed, commit_waypoints, early_release) if cfg.get("errt_fallback") else None
     )
     tactics = FiveRoles()
+    tackle = BallSideTackle(**cfg["tackle_policy"]) if cfg.get("tackle_policy") else None
     planner_counts = {} if cfg.get("trajectory_planner") else None
     gate = RestartGate()
     restart = (
@@ -239,6 +241,7 @@ def match(sim, folder, cfg, receiver=None, vision=None):
         )
         kickoff_frame = None
         planner_trace = {} if motion_audit else None
+        tackle_audit = {} if motion_audit and tackle else None
         if positioning:
             if isinstance(formation, IndependentKickoffs):
                 stamp = origin + (sim.getTime() - start_time) + camera_delay
@@ -276,6 +279,8 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                 fallback=fallback,
                 trace=planner_trace,
                 legal_off_ball=tick >= legal_off_ball_from,
+                tackle=tackle,
+                tackle_audit=tackle_audit,
             )
             if restricted:
                 out = {k: c for k, c in out.items() if k.team == restricted}
@@ -331,6 +336,10 @@ def match(sim, folder, cfg, receiver=None, vision=None):
         if cfg.get("motion_audit"):
             meta["ball_z"] = backend.ball.getPosition()[2]
             meta["motion"] = [planner_trace.get(k) for k in keys]
+            if tackle_audit is not None:
+                meta["tackle"] = [
+                    [keys.index(k), keys.index(r.key)] for k, r in tackle_audit.items()
+                ]
             if tick == 0 or opening:
                 meta["opening_velocities"] = [[r.vx, r.vy, r.omega] for r in w.robots]
         if (
@@ -509,7 +518,11 @@ try:
         else nullcontext()
     )
     with connection as receiver, camera as vision:
-        if cfg.get("crowded_trials"):
+        if cfg.get("tackle_trials"):
+            from tackle_trials import run
+
+            run(sim, folder, cfg)
+        elif cfg.get("crowded_trials"):
             from crowded_trials import run
 
             run(sim, folder, cfg)

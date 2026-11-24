@@ -5,10 +5,10 @@ import math
 from .carrier_motor import track_roller
 from .counterpass import MOTOR, shot_window
 from .five_roles import CFG, PENALTY_FRONT, PENALTY_HALF_WIDTH, TIMED_ROLES, Flight, limit
-from .model import wrap
+from .model import possession, wrap
 from .open_motion import steer_team
 from .three_match import filter_commands
-from .timed_motion import plan_team
+from .timed_motion import inside, plan_team
 from .touchline import recovery_command
 from .three_recipient import features, move
 
@@ -99,6 +99,20 @@ def commands(world, positions, weights, sole, tactics, targets=None):
     return out, passes
 
 
+def can_tackle(world, presser, carrier):
+    if presser.key.team == carrier.key.team or not inside((presser.x, presser.y)):
+        return False
+    if not inside((carrier.x, carrier.y)):
+        return False
+    if math.hypot(presser.x - carrier.x, presser.y - carrier.y) > 0.95:
+        return False
+    return all(
+        other.key in (presser.key, carrier.key)
+        or math.hypot(presser.x - other.x, presser.y - other.y) >= 0.38
+        for other in world.robots
+    )
+
+
 def open_play(
     world,
     tactics,
@@ -111,9 +125,29 @@ def open_play(
     fallback=None,
     trace=None,
     legal_off_ball=True,
+    tackle=None,
+    tackle_audit=None,
 ):
     """One open-play control tick shared by ordinary matches and paired replays."""
-    sole = tactics.observe(world)
+    carrier = None
+    tackling = None
+    if (
+        tackle
+        and policy
+        and tactics.control
+        and not tactics.flight
+        and possession(world, tactics.control, CFG)
+    ):
+        carrier = world.robot(tactics.control)
+        tackling = next(
+            (
+                r.key
+                for r in world.robots
+                if tactics.previous.get(r.key) == "Presser" and can_tackle(world, r, carrier)
+            ),
+            None,
+        )
+    sole = tactics.observe(world, tackling=tackling)
     roles, phases = {}, {}
     for team in ("blue", "yellow"):
         phases[team], side = tactics.assign(world, team, legal_off_ball=legal_off_ball)
@@ -131,10 +165,26 @@ def open_play(
                 out[r.key] = command
                 planned.pop(r.key, None)
     if policy:
+        challenges = {}
+        if carrier and tactics.control == carrier.key:
+            for r in world.robots:
+                if (
+                    roles[r.key].role == "Presser"
+                    and r.key not in recovering
+                    and can_tackle(world, r, carrier)
+                ):
+                    out[r.key] = tackle.command(
+                        world, r, carrier, measured, possession(world, r.key, CFG)
+                    )
+                    challenges[r.key] = carrier
+        if tackle_audit is not None:
+            tackle_audit.update(challenges)
         raw, out = out, {}
         for team in phases:
             own = {key: value for key, value in raw.items() if key.team == team}
-            steered = steer_team(world.robots, team, own, measured, policy, CFG.dt, recovering)
+            steered = steer_team(
+                world.robots, team, own, measured, policy, CFG.dt, recovering, challenges=challenges
+            )
             if trajectory:
                 steered = plan_team(
                     world.robots,

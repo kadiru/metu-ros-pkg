@@ -1,0 +1,93 @@
+{
+  "selected": "draw37",
+  "candidates": [
+    {
+      "name": "draw37",
+      "weights": {
+        "angle_deg": 37,
+        "mouth_offset": 0.108,
+        "draw_speed": 0.22,
+        "flank": 0
+      },
+      "starts": 8,
+      "clean_takeaways": 8,
+      "contacts": 0,
+      "median_clean_capture_s": 1.9670000000000005
+    },
+    {
+      "name": "draw47",
+      "weights": {
+        "angle_deg": 47,
+        "mouth_offset": 0.115,
+        "draw_speed": 0.25,
+        "flank": 0
+      },
+      "starts": 8,
+      "clean_takeaways": 8,
+      "contacts": 0,
+      "median_clean_capture_s": 2.210999999999995
+    },
+    {
+      "name": "draw54",
+      "weights": {
+        "angle_deg": 54,
+        "mouth_offset": 0.12,
+        "draw_speed": 0.23,
+        "flank": 0
+      },
+      "starts": 8,
+      "clean_takeaways": 8,
+      "contacts": 0,
+      "median_clean_capture_s": 2.372
+    },
+    {
+      "name": "draw37-flank",
+      "weights": {
+        "angle_deg": 37,
+        "mouth_offset": 0.108,
+        "draw_speed": 0.24,
+        "flank": 0.3
+      },
+      "starts": 8,
+      "clean_takeaways": 7,
+      "contacts": 0,
+      "median_clean_capture_s": 2.129999999999999
+    },
+    {
+      "name": "draw47-flank",
+      "weights": {
+        "angle_deg": 47,
+        "mouth_offset": 0.115,
+        "draw_speed": 0.24,
+        "flank": 0.3
+      },
+      "starts": 8,
+      "clean_takeaways": 8,
+      "contacts": 0,
+      "median_clean_capture_s": 2.2780000000000022
+    },
+    {
+      "name": "draw54-flank",
+      "weights": {
+        "angle_deg": 54,
+        "mouth_offset": 0.12,
+        "draw_speed": 0.24,
+        "flank": 0.3
+      },
+      "starts": 8,
+      "clean_takeaways": 8,
+      "contacts": 0,
+      "median_clean_capture_s": 2.361000000000004
+    }
+  ],
+  "training_seeds": [
+    38710000,
+    38710001,
+    38710002,
+    38710003,
+    38710004,
+    38710005,
+    38710006,
+    38710007
+  ]
+}

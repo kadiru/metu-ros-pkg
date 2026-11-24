@@ -1,6 +1,7 @@
 """Run or watch one seeded, native 5v5 match and save its role trace."""
 
 import argparse
+import gzip
 import json
 import os
 from pathlib import Path
@@ -163,16 +164,50 @@ def main():
         type=int,
         help="Record one seed within a consecutive crowded batch, including its prior reset history",
     )
+    p.add_argument("--tackle-policy", type=Path, help="Fitted ball-side tackle checkpoint")
+    p.add_argument("--tackle-sweep", type=Path, help="Named tackle profiles for native fitting")
+    batch.add_argument(
+        "--tackle-trials", type=int, help="Run isolated carrier challenges on the 5v5 field"
+    )
     a = p.parse_args()
+    if a.tackle_trials is not None and (
+        a.tackle_trials < 1
+        or a.referee != "local"
+        or not a.open_play_policy
+        or ((a.frame_images or a.record) and a.tackle_trials != 1)
+    ):
+        p.error(
+            "Tackle trials require a positive count, local referee and open-play policy. Record one start at a time."
+        )
+    if a.tackle_trials and a.record:
+        a.frame_images = True
+    if a.tackle_sweep and (a.tackle_trials is None or a.tackle_policy):
+        p.error("--tackle-sweep requires --tackle-trials and supplies its own policies")
+    tackle_sweep = json.loads(a.tackle_sweep.read_text()) if a.tackle_sweep else None
+    if a.tackle_sweep and (
+        not isinstance(tackle_sweep, dict)
+        or not tackle_sweep
+        or any(Path(name).name != name or name in ("", ".", "..") for name in tackle_sweep)
+    ):
+        p.error("--tackle-sweep must map simple directory names to profiles")
+    if a.tackle_policy and not a.open_play_policy:
+        p.error("--tackle-policy requires --open-play-policy")
     if a.legal_off_ball_from_tick < 0 or (
         a.legal_off_ball_from_tick
-        and (a.crowded_trials or a.touchline_trials or a.replay_kickoffs or a.placement_batch)
+        and (
+            a.crowded_trials
+            or a.touchline_trials
+            or a.tackle_trials
+            or a.replay_kickoffs
+            or a.placement_batch
+        )
     ):
         p.error("--legal-off-ball-from-tick requires a nonnegative tick in a normal match")
     if a.frame_window and (
         not a.frame_images
         or a.crowded_trials
         or a.touchline_trials
+        or a.tackle_trials
         or a.replay_kickoffs
         or a.placement_batch
         or not 0 <= a.frame_window[0] < a.frame_window[1] <= a.seconds
@@ -265,6 +300,9 @@ def main():
                 seconds=a.seconds,
                 record=a.record,
                 crowded_trials=a.crowded_trials,
+                tackle_trials=a.tackle_trials,
+                tackle_policy=json.loads(a.tackle_policy.read_text()) if a.tackle_policy else None,
+                tackle_sweep=tackle_sweep,
                 film_seed=a.film_seed,
                 errt_fallback=a.errt_fallback,
                 release_waypoint_early=a.release_waypoint_early,
@@ -324,6 +362,13 @@ def main():
         subprocess.run(
             [*cmd, str(WORLD)], env=env, stdout=log, stderr=subprocess.STDOUT, check=True
         )
+    if a.tackle_trials:
+        names = tackle_sweep or {"tackle" if a.tackle_policy else "current": None}
+        for name in names:
+            with gzip.open(dest / name / "trials.jsonl.gz", "rt") as logs:
+                if sum(1 for _ in logs) != a.tackle_trials:
+                    raise RuntimeError(f"Incomplete tackle trials. See {dest}/webots.log")
+        return
     if a.crowded_trials:
         report = dest / "crowded.json"
         if not report.is_file() or len(json.loads(report.read_text())) != a.crowded_trials:

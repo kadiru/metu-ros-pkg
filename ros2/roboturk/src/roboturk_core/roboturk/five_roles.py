@@ -101,13 +101,19 @@ class FiveRoles:
         self.contain = None
         self.contain_until = 0.0
 
-    def observe(self, world):
+    def observe(self, world, tackling=None):
         holders = [r.key for r in world.robots if possession(world, r.key, CFG)]
         both = len({k.team for k in holders}) == 2
         self.contested = self.contested + 1 if both else 0
         if self.contain and world.time >= self.contain_until:
             self.contain = None
-        if self.contested >= 4 and self.contain is None:
+        # Give an enabled tackle a bounded chance to resolve a shared ball.
+        # The existing containment rule still ends a prolonged double grip.
+        tackle_duel = tackling in holders and self.control in holders and tackling != self.control
+        hold_ticks = 20 if tackle_duel else 4
+        if both and tackle_duel and self.contested < hold_ticks:
+            self.last_touch = world.time
+        if self.contested >= hold_ticks and self.contain is None:
             # On a double touch, the field player with the worse grip drops goal-side
             # to contain the opponent. Contact geometry decides who disengages.
             def grip_error(key):

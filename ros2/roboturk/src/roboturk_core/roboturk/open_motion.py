@@ -6,6 +6,7 @@ import math
 from .touchline import END_LIMIT, SIDE_LIMIT, brake_axis
 from .model import body_vector, world_vector
 from .placement_traffic import separation
+from .tackle import ROBOT_GAP
 
 
 @dataclass(frozen=True)
@@ -31,7 +32,7 @@ def observed_velocity(robots, previous, dt):
     }
 
 
-def steer_team(robots, team, requests, observed, policy, dt, recovering=()):
+def steer_team(robots, team, requests, observed, policy, dt, recovering=(), challenges=None):
     """Translate this team's requests using only measured motion of surrounding players."""
     own = [r for r in robots if r.key.team == team]
     if set(requests) != {r.key for r in own}:
@@ -40,9 +41,15 @@ def steer_team(robots, team, requests, observed, policy, dt, recovering=()):
     out = {}
     for r in own:
         cmd = requests[r.key]
+        carrier = challenges.get(r.key) if challenges else None
         x, y = world_vector(cmd.vx * scale, cmd.vy * scale, r.yaw)
         nearby = [
-            (r.x - q.x, r.y - q.y, *observed[q.key])
+            (
+                r.x - q.x,
+                r.y - q.y,
+                *observed[q.key],
+                ROBOT_GAP if carrier and q.key == carrier.key else policy.clearance,
+            )
             for q in robots
             if q.key != r.key
             and math.hypot(r.x - q.x, r.y - q.y) < policy.clearance + 3.1 * policy.horizon
@@ -50,12 +57,12 @@ def steer_team(robots, team, requests, observed, policy, dt, recovering=()):
 
         def loss(vx, vy):
             cost = (vx - x) ** 2 + (vy - y) ** 2
-            for dx, dy, qx, qy in nearby:
+            for dx, dy, qx, qy, clearance in nearby:
                 gap = separation(dx, dy, vx - qx, vy - qy, policy.horizon)
-                cost += 420 * max(0, policy.clearance - gap) ** 2
+                cost += 420 * max(0, clearance - gap) ** 2
                 # When already inside the margin prefer to open a gap.
                 end = math.hypot(dx + (vx - qx) * 0.16, dy + (vy - qy) * 0.16)
-                cost += 120 * max(0, policy.clearance - end) ** 2
+                cost += 120 * max(0, clearance - end) ** 2
             return cost
 
         if nearby and loss(x, y) > 1e-8:
@@ -66,6 +73,17 @@ def steer_team(robots, team, requests, observed, policy, dt, recovering=()):
                     options.append((c * x - s * y, s * x + c * y))
             options.append((0, 0))
             x, y = min(options, key=lambda v: loss(*v))
+        if carrier:
+            dx, dy = r.x - carrier.x, r.y - carrier.y
+            distance = max(1e-9, math.hypot(dx, dy))
+            nx, ny = dx / distance, dy / distance
+            cx, cy = observed[carrier.key]
+            # Bound closing speed with braking distance plus one control tick.
+            room = max(0, distance - ROBOT_GAP)
+            closing = min(0.32, math.sqrt(4 * room) - 0.08)
+            radial = (x - cx) * nx + (y - cy) * ny
+            correction = max(0, -closing - radial)
+            x, y = x + correction * nx, y + correction * ny
         if r.key in recovering:
             x = brake_axis(r.x, x, END_LIMIT, dt)
             y = brake_axis(r.y, y, SIDE_LIMIT, dt)

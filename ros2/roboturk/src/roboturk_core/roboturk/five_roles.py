@@ -49,6 +49,15 @@ def legal_off_ball_target(target):
     return x, math.copysign(half, y)
 
 
+def keeper_target(world, keeper):
+    ball = world.ball
+    sign = world.direction(keeper.key.team)
+    if sign * ball.x < -3.57 and abs(ball.y) < 1.0:
+        angle = math.atan2(ball.y - keeper.y, ball.x - keeper.x)
+        return ball.x - 0.105 * math.cos(angle), ball.y - 0.105 * math.sin(angle)
+    return -4.23 * sign, limit(ball.y * 0.48, 0.49)
+
+
 def kickoff(seed, serving, direction, time=0.0):
     rng = random.Random(seed)
     robots = []
@@ -155,14 +164,7 @@ class FiveRoles:
             return sign * limit(x, 4.30), sign * limit(y, 2.73)
 
         keeper = players[0].key
-        positions = {keeper: Assignment("Keeper", field(-4.23, limit(by * 0.48, 0.49)))}
-        if bx < -3.57 and abs(by) < 1.0:
-            r = players[0]
-            angle = math.atan2(world.ball.y - r.y, world.ball.x - r.x)
-            positions[keeper] = Assignment(
-                "Keeper",
-                (world.ball.x - 0.105 * math.cos(angle), world.ball.y - 0.105 * math.sin(angle)),
-            )
+        positions = {keeper: Assignment("Keeper", keeper_target(world, players[0]))}
         team_in_control = (
             self.flight.team if self.flight else self.control.team if self.control else None
         )

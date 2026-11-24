@@ -177,9 +177,24 @@ def main():
         help="Choose and screen tackles for risky releases",
     )
     p.add_argument(
+        "--keeper-cover",
+        action="store_true",
+        help="Pair the presser and keeper after goal-side vetoes",
+    )
+    p.add_argument(
         "--tackle-panel",
-        choices=("midfield", "touchline", "own-goal"),
-        help="Compare the selector and all four fixed choices in matched tackle trials",
+        choices=("midfield", "touchline", "own-goal", "keeper-cover"),
+        help="Compare matched tackle choices or the shared keeper fallback",
+    )
+    p.add_argument(
+        "--parked-keeper",
+        action="store_true",
+        help="Preserve the archived keeper for the goal replay",
+    )
+    p.add_argument(
+        "--keeper-stress",
+        action="store_true",
+        help="Add goalward drift on half the fresh keeper starts",
     )
     p.add_argument(
         "--tackle-duel", action="store_true", help="Start tackle trials at close roller range"
@@ -206,13 +221,18 @@ def main():
         p.error("--pivot-fetch requires --tackle-policy")
     if a.tackle_selector and (not a.tackle_policy or a.tackle_trials):
         p.error("--tackle-selector requires a tackle checkpoint and an ordinary match")
+    if a.keeper_cover and not a.tackle_selector:
+        p.error("--keeper-cover requires --tackle-selector")
+    if a.parked_keeper and a.tackle_panel != "keeper-cover":
+        p.error("--parked-keeper requires --tackle-panel keeper-cover")
+    if a.keeper_stress and (a.tackle_panel != "keeper-cover" or a.parked_keeper):
+        p.error("--keeper-stress requires a keeper-cover panel with an active keeper")
     if a.tackle_panel and (
         not a.tackle_trials
         or not a.tackle_policy
         or a.tackle_duel
         or a.pivot_fetch
-        or a.frame_images
-        or a.record
+        or ((a.frame_images or a.record) and a.tackle_panel != "keeper-cover")
     ):
         p.error(
             "--tackle-panel requires tackle trials and a checkpoint without legacy modes or recording"
@@ -354,6 +374,9 @@ def main():
                 pivot_fetch=a.pivot_fetch,
                 tackle_selector=a.tackle_selector,
                 tackle_panel=a.tackle_panel,
+                keeper_cover=a.keeper_cover,
+                parked_keeper=a.parked_keeper,
+                keeper_stress=a.keeper_stress,
                 tackle_policy=json.loads(a.tackle_policy.read_text()) if a.tackle_policy else None,
                 tackle_sweep=tackle_sweep,
                 film_seed=a.film_seed,

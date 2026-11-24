@@ -5,6 +5,7 @@ import math
 from .carrier_motor import track_roller
 from .counterpass import MOTOR, shot_window
 from .five_roles import CFG, PENALTY_FRONT, PENALTY_HALF_WIDTH, TIMED_ROLES, Flight, limit
+from .goal_cover import opposing_holder
 from .model import possession, wrap
 from .open_motion import steer_team
 from .pivot_fetch import PivotFetch
@@ -168,6 +169,9 @@ def open_play(
                 planned.pop(r.key, None)
     if policy:
         challenges = {}
+        vetoed = set()
+        goal_vetoes = set()
+        cover_keepers = {}
         if carrier and tactics.control == carrier.key:
             for r in world.robots:
                 if (
@@ -178,10 +182,12 @@ def open_play(
                     out[r.key] = tackle.command(
                         world, r, carrier, measured, possession(world, r.key, CFG)
                     )
-                    if not isinstance(tackle, TackleSelector) or tackle.action(r.key) != CONTAIN:
+                    if isinstance(tackle, TackleSelector) and tackle.goal_veto(r.key):
+                        goal_vetoes.add(r.key)
+                    if isinstance(tackle, TackleSelector) and tackle.action(r.key) == CONTAIN:
+                        vetoed.add(r.key)
+                    else:
                         challenges[r.key] = carrier
-        if tackle_audit is not None:
-            tackle_audit.update(challenges)
         if isinstance(tackle, (PivotFetch, TackleSelector)) and sole is None and not tactics.flight:
             for r in world.robots:
                 if (
@@ -193,11 +199,57 @@ def open_play(
                     fetch = tackle.collect_loose(world, r)
                     if fetch is not None:
                         out[r.key] = fetch
+        if isinstance(tackle, TackleSelector) and tackle.cover is not None:
+            for team, phase in phases.items():
+                field_player = next(
+                    (
+                        r
+                        for r in world.robots
+                        if r.key.team == team
+                        and roles[r.key].role in ("Presser", "Guard box", "Contain", "Chaser")
+                    ),
+                    None,
+                )
+                if field_player is None:
+                    continue
+                key = field_player.key
+                guarded = roles[key].role in ("Guard box", "Contain")
+                blocked = (
+                    phase == "Defend"
+                    and key not in challenges
+                    and (guarded or (carrier is not None and carrier.key.team != team))
+                )
+                if key in recovering:
+                    continue
+                for actor, request in tackle.cover.commands(
+                    world, field_player, key in vetoed or blocked, preparing=key in goal_vetoes
+                ).items():
+                    if targets is not None:
+                        targets.pop(actor, None)
+                    out[actor] = request
+                    planned.pop(actor, None)
+                    challenges.pop(actor, None)
+                    if actor.id == 0:
+                        cover_keepers[actor] = -world.direction(team)
+        if tackle_audit is not None:
+            tackle_audit.update(challenges)
+        for keeper in cover_keepers:
+            rival = opposing_holder(world, keeper.team)
+            if rival is not None:
+                challenges[keeper] = rival
         raw, out = out, {}
         for team in phases:
             own = {key: value for key, value in raw.items() if key.team == team}
             steered = steer_team(
-                world.robots, team, own, measured, policy, CFG.dt, recovering, challenges=challenges
+                world.robots,
+                team,
+                own,
+                measured,
+                policy,
+                CFG.dt,
+                recovering,
+                challenges=challenges,
+                goal_cover=cover_keepers,
             )
             if trajectory:
                 steered = plan_team(

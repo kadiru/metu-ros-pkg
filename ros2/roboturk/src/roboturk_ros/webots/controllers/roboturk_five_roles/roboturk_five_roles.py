@@ -86,7 +86,7 @@ def match(sim, folder, cfg, receiver=None, vision=None):
     if tackle and cfg.get("pivot_fetch"):
         tackle = PivotFetch(tackle)
     if tackle and cfg.get("tackle_selector"):
-        tackle = TackleSelector(tackle)
+        tackle = TackleSelector(tackle, keeper_cover=cfg.get("keeper_cover", False))
     planner_counts = {} if cfg.get("trajectory_planner") else None
     gate = RestartGate()
     restart = (
@@ -509,6 +509,11 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                 dict(e, presser=keys.index(e["presser"]), carrier=keys.index(e["carrier"]))
                 for e in tackle.events
             ]
+            if tackle.cover is not None:
+                log["keeper_cover"] = [
+                    [stamp, keys.index(presser), keys.index(keeper)]
+                    for stamp, presser, keeper in tackle.cover.applied
+                ]
         if possession_audit:
             log["physics_dt"] = backend.basic_ms / 1000
             np.savez_compressed(

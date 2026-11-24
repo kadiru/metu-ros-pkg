@@ -11,6 +11,7 @@ from roboturk.open_motion import Steering
 from roboturk.pivot_fetch import PivotFetch
 from roboturk.tackle import BallSideTackle
 from roboturk.tackle_selector import TackleSelector, release_risks
+from roboturk.goal_cover import GoalCover
 
 CARRIER = RobotKey("blue", 1)
 PRESSER = RobotKey("yellow", 1)
@@ -145,3 +146,33 @@ def test_tackle_veto_preserves_an_inward_pull_that_can_counter_drift():
     ball = Ball(0, 2.95, vy=0.35)
     assert release_risks(ball, 1, (0, 1)) == ("touchline",)
     assert release_risks(ball, 1, (0, -1)) == ()
+
+
+def test_goal_cover_reserves_keeper_roller_and_releases_after_the_presser_yields():
+    w = contest(0.23)
+    keeper = RobotKey(PRESSER.team, 0)
+    robots = tuple(
+        replace(r, x=r.x + 4.16, y=0.08)
+        if r.key in (PRESSER, CARRIER)
+        else replace(r, x=4.24, y=0.44, yaw=math.pi)
+        if r.key == keeper
+        else r
+        for r in w.robots
+    )
+    w = replace(w, robots=robots, ball=Ball(4.275, 0.08, vx=0.15))
+    pair = GoalCover()
+    assert not pair.commands(w, w.robot(PRESSER), needed=False)
+    assert set(pair.commands(w, w.robot(PRESSER), needed=False, preparing=True)) == {keeper}
+    commands = pair.commands(w, w.robot(PRESSER), needed=True)
+    assert set(commands) == {keeper, PRESSER}
+    assert commands[keeper].dribbler == 1 and commands[PRESSER].dribbler == 0
+    assert all(command.kick == 0 for command in commands.values())
+    loose = replace(w, time=0.08, ball=Ball(4.40, 0.18, vx=0.18))
+    assert set(pair.commands(loose, loose.robot(PRESSER), needed=False)) == {keeper, PRESSER}
+    assert not pair.commands(replace(w, time=0.56), w.robot(PRESSER), needed=False)
+
+
+def test_goal_cover_cannot_assign_a_parked_keeper_at_the_other_end():
+    w = contest(0.23)
+    w = replace(w, ball=Ball(4.44, 0.2, vx=0.12))
+    assert not GoalCover().commands(w, w.robot(PRESSER), needed=True)

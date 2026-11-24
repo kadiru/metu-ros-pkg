@@ -4,6 +4,7 @@ from dataclasses import dataclass, replace
 import math
 
 from .five_roles import CFG, legal_off_ball_target
+from .goal_cover import GoalCover
 from .model import RobotKey, body_vector, possession, unit
 from .pivot_fetch import SWEEP_RADIANS, SWEEP_SECONDS, fetch_loose, sweep_command, sweep_pull
 from .three_recipient import move
@@ -67,10 +68,11 @@ class Contest:
 
 
 class TackleSelector:
-    def __init__(self, direct):
+    def __init__(self, direct, keeper_cover=False):
         self.direct = direct
         self.contests = {}
         self.events = []
+        self.cover = GoalCover() if keeper_cover else None
 
     def command(self, world, presser, carrier, observed, has_ball):
         now, key = world.time, presser.key
@@ -157,6 +159,9 @@ class TackleSelector:
 
     def action(self, key):
         return self.contests[key].last_decision[0]
+
+    def goal_veto(self, key):
+        return any("own_goal" in risks for _, risks in self.contests[key].last_decision[2])
 
     def collect_loose(self, world, presser):
         state = self.contests.get(presser.key)

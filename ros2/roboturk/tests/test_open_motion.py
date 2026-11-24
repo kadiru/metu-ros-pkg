@@ -25,3 +25,25 @@ def test_opponent_input_is_causal_position_history_only():
     with pytest.raises(ValueError):
         steer(robots, {**req, yellow.key: Command(-1, 0, 0)})
     assert all(v == (0, 0) for v in observed_velocity(robots, {}, 0.04).values())
+
+
+def test_keeper_mouth_access_requires_clearance_from_the_posts():
+    keeper = Robot(RobotKey("blue", 0), -4.35, 0.0)
+    policy = Steering(0.48, 0.305, 0.66)
+    request = {keeper.key: Command(-0.4, 0, 0, 1)}
+
+    def drive(robot, active):
+        return steer_team(
+            (robot,),
+            "blue",
+            request,
+            {robot.key: (0, 0)},
+            policy,
+            0.04,
+            goal_cover={robot.key: -1} if active else None,
+        )[robot.key]
+
+    assert drive(keeper, True).vx < 0
+    assert drive(keeper, False).vx == 0
+    assert drive(replace(keeper, y=0.40), True).vx == 0
+    assert drive(replace(keeper, y=0.32, vy=0.6), True).vx == 0

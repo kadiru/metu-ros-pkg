@@ -5,6 +5,8 @@ import math
 
 from .touchline import END_LIMIT, SIDE_LIMIT, brake_axis
 from .model import body_vector, world_vector
+from .five_roles import CFG
+from .goal_cover import GOAL_CENTER_LIMIT, GOAL_CHANNEL_HALF
 from .placement_traffic import separation
 from .tackle import ROBOT_GAP
 
@@ -32,7 +34,9 @@ def observed_velocity(robots, previous, dt):
     }
 
 
-def steer_team(robots, team, requests, observed, policy, dt, recovering=(), challenges=None):
+def steer_team(
+    robots, team, requests, observed, policy, dt, recovering=(), challenges=None, goal_cover=None
+):
     """Translate this team's requests using only measured motion of surrounding players."""
     own = [r for r in robots if r.key.team == team]
     if set(requests) != {r.key for r in own}:
@@ -84,12 +88,25 @@ def steer_team(robots, team, requests, observed, policy, dt, recovering=(), chal
             radial = (x - cx) * nx + (y - cy) * ny
             correction = max(0, -closing - radial)
             x, y = x + correction * nx, y + correction * ny
-        if r.key in recovering:
+        if goal_cover and r.key in goal_cover:
+            sign = goal_cover[r.key]
+            # Leave enough lateral braking room before passing between the posts.
+            brake = CFG.max_acceleration / math.sqrt(2)
+            safe_y = abs(r.y) + abs(r.vy) * dt + r.vy**2 / (2 * brake)
+            end = GOAL_CENTER_LIMIT if safe_y <= GOAL_CHANNEL_HALF else END_LIMIT
+            own_x = brake_axis(sign * r.x, sign * x, end, dt) if sign * x > 0 else sign * x
+            x = sign * max(own_x, (-END_LIMIT - sign * r.x) / dt)
+            y = brake_axis(
+                r.y, y, GOAL_CHANNEL_HALF if sign * r.x > 4.28 or own_x > 0 else 2.85, dt
+            )
+        elif r.key in recovering:
             x = brake_axis(r.x, x, END_LIMIT, dt)
             y = brake_axis(r.y, y, SIDE_LIMIT, dt)
         else:
             x = max(min(0, (-4.35 - r.x) / dt), min(max(0, (4.35 - r.x) / dt), x))
             y = max(min(0, (-2.85 - r.y) / dt), min(max(0, (2.85 - r.y) / dt), y))
+            if r.key.id == 0 and abs(r.x) > END_LIMIT:
+                y = brake_axis(r.y, y, GOAL_CHANNEL_HALF, dt)
         vx, vy = body_vector(x, y, r.yaw)
         out[r.key] = replace(cmd, vx=vx, vy=vy)
     return out

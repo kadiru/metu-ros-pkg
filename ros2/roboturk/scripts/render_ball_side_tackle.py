@@ -59,18 +59,22 @@ def panel(folder, label, row):
             )
         elif row["first_contact_s"] is not None and now >= row["first_contact_s"]:
             status += " · Body contact recorded"
+        elif tuple(control) == (True, True) and any(
+            0 <= now - t < 0.68 for t in row.get("sweep_times", [])
+        ):
+            status = "Presser pivots the roller sideways"
         draw.text((11, canvas.height - 28), status, font=font(15), fill="white")
         images.append(canvas)
     return images
 
 
-def render(current, trained, destination):
+def render(current, trained, destination, labels):
     baseline, candidate = rows(current / "trials.jsonl.gz"), rows(trained / "trials.jsonl.gz")
     if len(baseline) != 1 or starts(baseline) != starts(candidate):
         raise ValueError("Record the same single opening for both arms")
     left, right = (
-        panel(current, "Current Presser", baseline[0]),
-        panel(trained, "Trained ball-side tackle", candidate[0]),
+        panel(current, labels[0], baseline[0]),
+        panel(trained, labels[1], candidate[0]),
     )
     frames = []
     for first, second in zip(left, right, strict=True):
@@ -104,5 +108,6 @@ if __name__ == "__main__":
     p.add_argument("current", type=Path)
     p.add_argument("trained", type=Path)
     p.add_argument("output", type=Path)
+    p.add_argument("--labels", nargs=2, default=("Current Presser", "Trained ball-side tackle"))
     a = p.parse_args()
-    render(a.current, a.trained, a.output)
+    render(a.current, a.trained, a.output, a.labels)

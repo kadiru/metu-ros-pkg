@@ -9,7 +9,44 @@ from statistics import median
 from fit_tackle import rows, starts
 
 
-def audited(trials, events):
+def roller_sweeps(row):
+    """Report turn and ball motion relative to the carrier at release."""
+    robots = [r["key"] for r in row["initial"]["robots"]]
+    presser, carrier = (4 + 3 * robots.index(row[k]) for k in ("presser", "carrier"))
+
+    def measure(index):
+        state = row["trace"][index]
+        x, y, yaw = state[carrier : carrier + 3]
+        dx, dy = state[0] - x, state[1] - y
+        return (
+            dx * math.cos(yaw) + dy * math.sin(yaw),
+            -dx * math.sin(yaw) + dy * math.cos(yaw),
+            state[presser + 2],
+        )
+
+    results = []
+    for time in row["sweep_times"]:
+        start = round(time / 0.04)
+        end = min(len(row["control"]), start + round(0.68 / 0.04) + 1)
+        released = next((i for i in range(start + 1, end) if not row["control"][i][0]), None)
+        depth0, side0, yaw0 = measure(start)
+        depth, side, yaw = measure(released if released is not None else end - 1)
+        results.append(
+            dict(
+                start_s=round(time, 3),
+                release_s=None if released is None else round(released * 0.04, 3),
+                presser_kept_roller=released is not None
+                and all(s[1] for s in row["control"][start : released + 1]),
+                presser_turn_deg=round(math.degrees(math.remainder(yaw - yaw0, math.tau)), 2),
+                ball_lateral_displacement_m=round(side - side0, 4),
+                ball_lateral_at_release_m=round(side, 4) if released is not None else None,
+                ball_forward_displacement_m=round(depth - depth0, 4),
+            )
+        )
+    return results
+
+
+def audited(trials, events, duel=False):
     reports = json.loads(events.read_text())
     if [(r["seed"], len(r["trace"])) for r in trials] != [
         (r["seed"], r["frames"]) for r in reports
@@ -26,21 +63,24 @@ def audited(trials, events):
             challenged_control = any(
                 sample[0] for sample in row["control"][max(0, before_reach - 2) : before_reach + 1]
             )
-        result.append(
-            dict(
-                seed=row["seed"],
-                carrier=row["carrier"]["team"],
-                motion=("stationary", "forward", "lateral", "turning")[row["seed"] % 4],
-                clean_takeaway=row["clean_takeaway"] and challenged_control and crash == 0,
-                challenged_control=challenged_control,
-                capture_s=row["capture_s"],
-                roller_s=row["roller_s"],
-                contact=row["contact"],
-                first_contact_s=row["first_contact_s"],
-                min_gap_m=row["min_gap_m"],
-                crash_calls=crash,
-            )
+        trial = dict(
+            seed=row["seed"],
+            carrier=row["carrier"]["team"],
+            motion=("stationary", "reverse" if duel else "forward", "lateral", "turning")[
+                row["seed"] % 4
+            ],
+            clean_takeaway=row["clean_takeaway"] and challenged_control and crash == 0,
+            challenged_control=challenged_control,
+            capture_s=row["capture_s"],
+            roller_s=row["roller_s"],
+            contact=row["contact"],
+            first_contact_s=row["first_contact_s"],
+            min_gap_m=row["min_gap_m"],
+            crash_calls=crash,
         )
+        if duel:
+            trial["sweeps"] = roller_sweeps(row)
+        result.append(trial)
     return result
 
 
@@ -59,14 +99,22 @@ def summarize(trials):
     )
 
 
-def compare(old, new, old_events, new_events):
+def compare(old, new, old_events, new_events, duel=False):
     baseline, candidate = rows(old), rows(new)
     if not baseline or starts(baseline) != starts(candidate):
         raise ValueError("Released and trained branches must use the same native starts")
     if len({r["seed"] for r in baseline}) != len(baseline):
         raise ValueError("Use distinct Webots seeds")
-    a, b = audited(baseline, old_events), audited(candidate, new_events)
+    a, b = audited(baseline, old_events, duel), audited(candidate, new_events, duel)
     totals = dict(current=summarize(a), trained=summarize(b))
+    if duel:
+        for arm, data in (("current", a), ("trained", b)):
+            totals[arm]["starts_with_pivot"] = sum(bool(d["sweeps"]) for d in data)
+            totals[arm]["pivots_with_lateral_release"] = sum(
+                sweep["presser_kept_roller"] and abs(sweep["ball_lateral_at_release_m"]) >= 0.045
+                for d in data
+                for sweep in d["sweeps"]
+            )
     both = [
         x["seed"] for x, y in zip(a, b, strict=True) if x["clean_takeaway"] and y["clean_takeaway"]
     ]
@@ -89,9 +137,11 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ("current", "trained", "current_ref", "trained_ref"):
         parser.add_argument(name, type=Path)
+    parser.add_argument("--duel", action="store_true", help="Report close-range pivot mechanics")
     args = parser.parse_args()
     print(
         json.dumps(
-            compare(args.current, args.trained, args.current_ref, args.trained_ref), indent=2
+            compare(args.current, args.trained, args.current_ref, args.trained_ref, args.duel),
+            indent=2,
         )
     )

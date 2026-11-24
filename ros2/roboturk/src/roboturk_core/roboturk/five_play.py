@@ -7,6 +7,7 @@ from .counterpass import MOTOR, shot_window
 from .five_roles import CFG, PENALTY_FRONT, PENALTY_HALF_WIDTH, TIMED_ROLES, Flight, limit
 from .model import possession, wrap
 from .open_motion import steer_team
+from .pivot_fetch import PivotFetch
 from .three_match import filter_commands
 from .timed_motion import inside, plan_team
 from .touchline import recovery_command
@@ -179,6 +180,17 @@ def open_play(
                     challenges[r.key] = carrier
         if tackle_audit is not None:
             tackle_audit.update(challenges)
+        if isinstance(tackle, PivotFetch) and sole is None and not tactics.flight:
+            for r in world.robots:
+                if (
+                    roles[r.key].role in ("Chaser", "Presser")
+                    and r.key not in recovering
+                    and r.key not in challenges
+                    and inside((r.x, r.y))
+                ):
+                    fetch = tackle.collect_loose(world, r)
+                    if fetch is not None:
+                        out[r.key] = fetch
         raw, out = out, {}
         for team in phases:
             own = {key: value for key, value in raw.items() if key.team == team}

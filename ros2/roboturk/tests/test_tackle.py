@@ -8,6 +8,7 @@ from roboturk.five_play import open_play
 from roboturk.five_roles import CFG, FiveRoles, kickoff
 from roboturk.model import Ball, Command, RobotKey
 from roboturk.open_motion import Steering
+from roboturk.pivot_fetch import PivotFetch
 
 CARRIER = RobotKey("blue", 1)
 PRESSER = RobotKey("yellow", 1)
@@ -64,3 +65,31 @@ def test_double_grip_grants_one_bounded_window_for_a_tackle():
     for _ in range(16):
         fitted.observe(w, tackling=PRESSER)
     assert fitted.contain is not None
+
+
+def test_pivot_waits_for_shared_control_and_can_collect_a_nearby_loose_ball():
+    w = contest(0.23)
+    actor, carrier = w.robot(PRESSER), w.robot(CARRIER)
+    base = Command(vx=0.2, dribbler=1)
+    pivot = PivotFetch(SimpleNamespace(command=lambda *args: base))
+    for tick in range(7):
+        assert pivot.command(replace(w, time=tick * CFG.dt), actor, carrier, {}, True) == base
+    turn = pivot.command(replace(w, time=7 * CFG.dt), actor, carrier, {}, True)
+    assert turn.omega and turn.dribbler == 1 and not turn.kick
+    assert len(pivot.sweeps) == 1
+    assert pivot.collect_loose(replace(w, time=8 * CFG.dt), actor) is None
+    loose = replace(w, time=8 * CFG.dt, ball=Ball(0.115, 0.06))
+    fetch = pivot.collect_loose(loose, actor)
+    assert fetch.dribbler == 1 and not fetch.kick
+    assert pivot.collect_loose(replace(loose, time=24 * CFG.dt), actor) is None
+
+
+def test_interrupted_shared_grip_cannot_activate_the_pivot():
+    w = contest(0.23)
+    actor, carrier = w.robot(PRESSER), w.robot(CARRIER)
+    base = Command(vx=0.2, dribbler=1)
+    pivot = PivotFetch(SimpleNamespace(command=lambda *args: base))
+    for tick in range(20):
+        result = pivot.command(replace(w, time=tick * CFG.dt), actor, carrier, {}, tick % 4 != 3)
+        assert result == base
+    assert not pivot.sweeps

@@ -82,6 +82,9 @@ def main():
         action="store_true",
         help="Record robot targets and clearance, plus ball height and crossings",
     )
+    p.add_argument(
+        "--possession-audit", action="store_true", help="Save native 2 ms roller and contact masks"
+    )
     mode.add_argument(
         "--frame-images", action="store_true", help="Save native JPEG samples at 12.5 Hz"
     )
@@ -164,12 +167,34 @@ def main():
         type=int,
         help="Record one seed within a consecutive crowded batch, including its prior reset history",
     )
+    p.add_argument(
+        "--pivot-fetch", action="store_true", help="Enable a roller sweep after a stalled tackle"
+    )
+    p.add_argument(
+        "--tackle-duel", action="store_true", help="Start tackle trials at close roller range"
+    )
     p.add_argument("--tackle-policy", type=Path, help="Fitted ball-side tackle checkpoint")
     p.add_argument("--tackle-sweep", type=Path, help="Named tackle profiles for native fitting")
     batch.add_argument(
         "--tackle-trials", type=int, help="Run isolated carrier challenges on the 5v5 field"
     )
     a = p.parse_args()
+    if a.possession_audit:
+        if any(
+            (
+                a.replay_kickoffs,
+                a.placement_batch,
+                a.touchline_trials,
+                a.crowded_trials,
+                a.tackle_trials,
+            )
+        ):
+            p.error("--possession-audit applies to ordinary matches")
+        a.motion_audit = True
+    if a.pivot_fetch and not a.tackle_policy:
+        p.error("--pivot-fetch requires --tackle-policy")
+    if a.tackle_duel and not a.tackle_trials:
+        p.error("--tackle-duel requires --tackle-trials")
     if a.tackle_trials is not None and (
         a.tackle_trials < 1
         or a.referee != "local"
@@ -301,6 +326,8 @@ def main():
                 record=a.record,
                 crowded_trials=a.crowded_trials,
                 tackle_trials=a.tackle_trials,
+                tackle_duel=a.tackle_duel,
+                pivot_fetch=a.pivot_fetch,
                 tackle_policy=json.loads(a.tackle_policy.read_text()) if a.tackle_policy else None,
                 tackle_sweep=tackle_sweep,
                 film_seed=a.film_seed,
@@ -314,6 +341,7 @@ def main():
                 frame_window=a.frame_window,
                 legal_off_ball_from_tick=a.legal_off_ball_from_tick,
                 motion_audit=a.motion_audit,
+                possession_audit=a.possession_audit,
                 await_force_start=a.await_force_start,
                 open_play_policy=json.loads(a.open_play_policy.read_text())
                 if a.open_play_policy

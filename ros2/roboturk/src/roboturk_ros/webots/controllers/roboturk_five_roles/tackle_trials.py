@@ -10,6 +10,7 @@ from roboturk.continuous_backend import ContinuousWebotsBackend
 from roboturk.five_play import commands
 from roboturk.five_roles import Assignment, CFG, kickoff, TEAMS
 from roboturk.model import Ball, Command, RobotKey, possession
+from roboturk.pivot_fetch import PivotFetch
 from roboturk.open_motion import Steering, observed_velocity, steer_team
 from roboturk.tackle import BallSideTackle
 from roboturk.three_match import snapshot
@@ -17,7 +18,7 @@ from roboturk.three_match import snapshot
 SECONDS = 4.4
 
 
-def opening(seed):
+def opening(seed, duel=False):
     rng = random.Random(seed)
     team = TEAMS[(seed // 2) % 2]
     carrier = RobotKey(team, 1)
@@ -26,6 +27,9 @@ def opening(seed):
     x, y = rng.uniform(-0.55, 0.55), rng.uniform(-0.4, 0.4)
     direction = yaw + math.radians(rng.uniform(9, 72)) * rng.choice((-1, 1))
     gap = rng.uniform(0.46, 0.77)
+    if duel:
+        gap = rng.uniform(0.277, 0.318)
+        direction = yaw + math.radians(rng.uniform(8, 42)) * rng.choice((-1, 1))
     px, py = x + gap * math.cos(direction), y + gap * math.sin(direction)
     ball = Ball(x + CFG.possession_x * math.cos(yaw), y + CFG.possession_x * math.sin(yaw))
     w = kickoff(seed, team, 1 if seed % 2 == 0 else -1)
@@ -44,10 +48,15 @@ def opening(seed):
     return replace(w, robots=tuple(robots), ball=ball), carrier, presser
 
 
-def carrier_command(seed, t):
+def carrier_command(seed, t, duel=False):
     kind = seed % 4
     speed = (0, 0.16, 0.25, 0.17)[kind]
     direction = 1 if seed // 4 % 2 else -1
+    if duel:
+        speed = (0, -0.17, 0.19, 0.20)[kind]
+        turn = direction * (0.66 if kind == 3 else 0)
+        slide = direction * 0.19 * math.sin(2.2 * t) if kind == 2 else 0
+        return Command(vx=speed, vy=slide, omega=turn, dribbler=1)
     turn = direction * (0.27 if kind == 3 else 0)
     return Command(
         vx=speed,
@@ -58,7 +67,10 @@ def carrier_command(seed, t):
 
 
 def trial(sim, backend, policy, cfg, seed, tackle, frames):
-    opening_world, carrier, presser = opening(seed)
+    duel = cfg.get("tackle_duel", False)
+    opening_world, carrier, presser = opening(seed, duel)
+    if tackle and cfg.get("pivot_fetch"):
+        tackle = PivotFetch(tackle)
     w = backend.reset(opening_world)
     initial = asdict(w)
     assert possession(w, carrier, CFG) and not possession(w, presser, CFG)
@@ -85,8 +97,10 @@ def trial(sim, backend, policy, cfg, seed, tackle, frames):
         }
         has_ball = possession(w, presser, CFG)
         rival = w.robot(carrier)
+        player = w.robot(presser)
         if tackle:
-            request = tackle.command(w, w.robot(presser), rival, measured, has_ball)
+            fetch = tackle.collect_loose(w, player) if isinstance(tackle, PivotFetch) else None
+            request = fetch or tackle.command(w, player, rival, measured, has_ball)
         else:
             request = commands(w, roles, None, None, None)[0][presser]
         team_commands = {
@@ -103,7 +117,7 @@ def trial(sim, backend, policy, cfg, seed, tackle, frames):
             dt,
             challenges={presser: rival} if tackle else None,
         )
-        out[carrier] = carrier_command(seed, w.time)
+        out[carrier] = carrier_command(seed, w.time, duel)
         if samples is not None:
             samples.append(snapshot(w) + [backend.ball.getPosition()[2]])
             control.append([possession(w, carrier, CFG), has_ball])
@@ -138,6 +152,7 @@ def trial(sim, backend, policy, cfg, seed, tackle, frames):
         min_gap_m=min_gap,
         contact=bool(contacts),
         first_contact_s=first_contact,
+        sweep_times=[t for t, _, _ in tackle.sweeps] if isinstance(tackle, PivotFetch) else [],
         trace=samples,
         control=control or None,
     )

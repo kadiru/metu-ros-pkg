@@ -15,7 +15,7 @@ from verify import load_events
 CRASHES = {"bot_crash_unique", "bot_crash_drawn"}
 
 
-def judge(path, distribution, classes, java):
+def judge(path, distribution, classes, java, ci_port=21943):
     log, states = read_game(path)
     output = path / "official"
     output.mkdir()
@@ -38,13 +38,13 @@ def judge(path, distribution, classes, java):
             "--java",
             str(java),
             "--ci-port",
-            "21943",
+            str(ci_port),
             "--gc-port",
-            "21947",
+            str(ci_port + 4),
         ]
         log_path = base / "tigers.log"
         with service(cmd, ROOT, log_path, "SSL_READY"):
-            with closing(VisionOutput(None, ("127.0.0.1", 21943))) as vision:
+            with closing(VisionOutput(None, ("127.0.0.1", ci_port))) as vision:
                 wire = practice_command(log["sign"])
                 for i, frame in items:
                     state = states[i]
@@ -89,5 +89,12 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("match", type=Path)
     paths(p)
+    p.add_argument("--ci-port", type=int, default=21943)
     a = p.parse_args()
-    judge(a.match.resolve(), a.distribution.resolve(), a.classes.resolve(), a.java.resolve())
+    judge(
+        a.match.resolve(),
+        a.distribution.resolve(),
+        a.classes.resolve(),
+        a.java.resolve(),
+        a.ci_port,
+    )

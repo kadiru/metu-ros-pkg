@@ -21,6 +21,7 @@ from roboturk.team_kickoff import IndependentKickoffs
 from roboturk.model import Referee, SSL_KICK_LIMIT
 from roboturk.open_motion import Steering, observed_velocity
 from roboturk.placement import PlacementRestart
+from roboturk.pivot_fetch import PivotFetch
 from roboturk.ssl_referee import RefereeSocket, RestartGate
 from roboturk.ssl_vision import (
     VisionOutput,
@@ -81,6 +82,8 @@ def match(sim, folder, cfg, receiver=None, vision=None):
     )
     tactics = FiveRoles()
     tackle = BallSideTackle(**cfg["tackle_policy"]) if cfg.get("tackle_policy") else None
+    if tackle and cfg.get("pivot_fetch"):
+        tackle = PivotFetch(tackle)
     planner_counts = {} if cfg.get("trajectory_planner") else None
     gate = RestartGate()
     restart = (
@@ -93,6 +96,11 @@ def match(sim, folder, cfg, receiver=None, vision=None):
         else None
     )
     motion_audit = cfg.get("motion_audit")
+    possession_audit = cfg.get("possession_audit")
+    if possession_audit:
+        possession_masks, contact_masks = [], []
+        robot_bits = np.uint64(1) << np.arange(len(keys), dtype=np.uint64)
+        pair_bits = np.uint64(1) << np.arange(len(keys) * (len(keys) - 1) // 2, dtype=np.uint64)
     if motion_audit:
         pairs = np.triu_indices(len(keys), k=1)
         touching = np.zeros(len(pairs[0]), dtype=bool)
@@ -379,6 +387,18 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             previous_contacts = np.vstack([touching, contacts[:-1]])
             robot_contacts += int(np.count_nonzero(contacts & ~previous_contacts))
             touching = contacts[-1]
+        if possession_audit:
+            samples = backend.last_substep_worlds
+            balls = np.array([(s.ball.x, s.ball.y) for s in samples])
+            yaw = np.array([[r.yaw for r in s.robots] for s in samples])
+            offset = balls[:, None, :] - centers
+            dx, dy = offset[..., 0], offset[..., 1]
+            c, sn = np.cos(yaw), np.sin(yaw)
+            mouths = (abs(dx * c + dy * sn - CFG.possession_x) < 0.035) & (
+                abs(-dx * sn + dy * c) < 0.045
+            )
+            possession_masks.extend(np.sum(mouths * robot_bits, axis=1, dtype=np.uint64))
+            contact_masks.extend(np.sum(contacts * pair_bits, axis=1, dtype=np.uint64))
         if restart:
             restart.applied(backend.last_kick_events)
         for k, _, speed in backend.last_kick_events:
@@ -479,6 +499,15 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             events=events,
             seconds=len(steps) * CFG.dt,
         )
+        if isinstance(tackle, PivotFetch):
+            log["pivot_sweeps"] = [[t, keys.index(k), keys.index(c)] for t, k, c in tackle.sweeps]
+        if possession_audit:
+            log["physics_dt"] = backend.basic_ms / 1000
+            np.savez_compressed(
+                folder / "possession.npz",
+                rollers=np.array(possession_masks, dtype=np.uint16),
+                contacts=np.array(contact_masks, dtype=np.uint64),
+            )
         if planner_counts is not None:
             log["planner_decisions"] = planner_counts
         if motion_audit:

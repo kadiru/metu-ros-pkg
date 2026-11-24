@@ -1,0 +1,343 @@
+{
+  "first_seed": 34910000,
+  "count": 12,
+  "candidates": [
+    {
+      "profile": {
+        "speed": 1.5,
+        "avoidance": 1.4
+      },
+      "metrics": {
+        "trials": 12,
+        "valid_passes": 12,
+        "press_activations": 12,
+        "first_touches": 9,
+        "completed_passes": 8,
+        "valid_shots": 5,
+        "goals": 5,
+        "marker_robot_proximity_trials": 2,
+        "marker_ball_contact_or_possession_trials": 5,
+        "pre_kick_loss_trials": 0,
+        "median_marker_gap_at_stable_reception_m": 0.45727951901564995,
+        "terminal_phases": {
+          "carrying": 3,
+          "goal": 5,
+          "pass_in_flight": 3,
+          "securing_reception": 1
+        },
+        "outcomes": {
+          "defender_collision": 2,
+          "defender_interception": 5,
+          "goal": 5
+        }
+      }
+    },
+    {
+      "profile": {
+        "speed": 1.5,
+        "avoidance": 1.4,
+        "receive": {
+          "approach_speed": 0.6,
+          "cushion": 0.4,
+          "settle_gain": 4.0
+        }
+      },
+      "metrics": {
+        "trials": 12,
+        "valid_passes": 12,
+        "press_activations": 12,
+        "first_touches": 12,
+        "completed_passes": 10,
+        "valid_shots": 8,
+        "goals": 8,
+        "marker_robot_proximity_trials": 3,
+        "marker_ball_contact_or_possession_trials": 1,
+        "pre_kick_loss_trials": 0,
+        "median_marker_gap_at_stable_reception_m": 0.8421050355047488,
+        "terminal_phases": {
+          "carrying": 2,
+          "goal": 8,
+          "securing_reception": 2
+        },
+        "outcomes": {
+          "defender_collision": 3,
+          "defender_interception": 1,
+          "goal": 8
+        }
+      }
+    },
+    {
+      "profile": {
+        "speed": 1.5,
+        "avoidance": 1.4,
+        "receive": {
+          "approach_speed": 0.6,
+          "cushion": 0.4,
+          "settle_gain": 10.0
+        }
+      },
+      "metrics": {
+        "trials": 12,
+        "valid_passes": 12,
+        "press_activations": 12,
+        "first_touches": 12,
+        "completed_passes": 6,
+        "valid_shots": 5,
+        "goals": 5,
+        "marker_robot_proximity_trials": 3,
+        "marker_ball_contact_or_possession_trials": 4,
+        "pre_kick_loss_trials": 0,
+        "median_marker_gap_at_stable_reception_m": 0.697569424592609,
+        "terminal_phases": {
+          "carrying": 1,
+          "goal": 5,
+          "securing_reception": 6
+        },
+        "outcomes": {
+          "defender_collision": 3,
+          "defender_interception": 4,
+          "goal": 5
+        }
+      }
+    },
+    {
+      "profile": {
+        "speed": 1.5,
+        "avoidance": 1.4,
+        "receive": {
+          "approach_speed": 0.6,
+          "cushion": 0.9,
+          "settle_gain": 4.0
+        }
+      },
+      "metrics": {
+        "trials": 12,
+        "valid_passes": 12,
+        "press_activations": 12,
+        "first_touches": 11,
+        "completed_passes": 9,
+        "valid_shots": 8,
+        "goals": 8,
+        "marker_robot_proximity_trials": 3,
+        "marker_ball_contact_or_possession_trials": 1,
+        "pre_kick_loss_trials": 0,
+        "median_marker_gap_at_stable_reception_m": 0.7103605435736071,
+        "terminal_phases": {
+          "carrying": 1,
+          "goal": 8,
+          "pass_in_flight": 1,
+          "securing_reception": 2
+        },
+        "outcomes": {
+          "defender_collision": 3,
+          "defender_interception": 1,
+          "goal": 8
+        }
+      }
+    },
+    {
+      "profile": {
+        "speed": 1.5,
+        "avoidance": 1.4,
+        "receive": {
+          "approach_speed": 0.6,
+          "cushion": 0.9,
+          "settle_gain": 10.0
+        }
+      },
+      "metrics": {
+        "trials": 12,
+        "valid_passes": 12,
+        "press_activations": 12,
+        "first_touches": 12,
+        "completed_passes": 10,
+        "valid_shots": 8,
+        "goals": 8,
+        "marker_robot_proximity_trials": 3,
+        "marker_ball_contact_or_possession_trials": 1,
+        "pre_kick_loss_trials": 0,
+        "median_marker_gap_at_stable_reception_m": 0.9105950491538543,
+        "terminal_phases": {
+          "carrying": 2,
+          "goal": 8,
+          "securing_reception": 2
+        },
+        "outcomes": {
+          "defender_collision": 3,
+          "defender_interception": 1,
+          "goal": 8
+        }
+      }
+    },
+    {
+      "profile": {
+        "speed": 1.5,
+        "avoidance": 1.4,
+        "receive": {
+          "approach_speed": 1.3,
+          "cushion": 0.4,
+          "settle_gain": 4.0
+        }
+      },
+      "metrics": {
+        "trials": 12,
+        "valid_passes": 12,
+        "press_activations": 12,
+        "first_touches": 12,
+        "completed_passes": 11,
+        "valid_shots": 9,
+        "goals": 9,
+        "marker_robot_proximity_trials": 1,
+        "marker_ball_contact_or_possession_trials": 2,
+        "pre_kick_loss_trials": 0,
+        "median_marker_gap_at_stable_reception_m": 0.9212354319664099,
+        "terminal_phases": {
+          "carrying": 2,
+          "goal": 9,
+          "securing_reception": 1
+        },
+        "outcomes": {
+          "defender_collision": 1,
+          "defender_interception": 2,
+          "goal": 9
+        }
+      }
+    },
+    {
+      "profile": {
+        "speed": 1.5,
+        "avoidance": 1.4,
+        "receive": {
+          "approach_speed": 1.3,
+          "cushion": 0.4,
+          "settle_gain": 10.0
+        }
+      },
+      "metrics": {
+        "trials": 12,
+        "valid_passes": 12,
+        "press_activations": 12,
+        "first_touches": 12,
+        "completed_passes": 10,
+        "valid_shots": 7,
+        "goals": 7,
+        "marker_robot_proximity_trials": 1,
+        "marker_ball_contact_or_possession_trials": 4,
+        "pre_kick_loss_trials": 0,
+        "median_marker_gap_at_stable_reception_m": 0.703412463374843,
+        "terminal_phases": {
+          "carrying": 3,
+          "goal": 7,
+          "securing_reception": 2
+        },
+        "outcomes": {
+          "defender_collision": 1,
+          "defender_interception": 4,
+          "goal": 7
+        }
+      }
+    },
+    {
+      "profile": {
+        "speed": 1.5,
+        "avoidance": 1.4,
+        "receive": {
+          "approach_speed": 1.3,
+          "cushion": 0.9,
+          "settle_gain": 4.0
+        }
+      },
+      "metrics": {
+        "trials": 12,
+        "valid_passes": 12,
+        "press_activations": 12,
+        "first_touches": 12,
+        "completed_passes": 11,
+        "valid_shots": 9,
+        "goals": 9,
+        "marker_robot_proximity_trials": 2,
+        "marker_ball_contact_or_possession_trials": 1,
+        "pre_kick_loss_trials": 0,
+        "median_marker_gap_at_stable_reception_m": 0.9535697265890811,
+        "terminal_phases": {
+          "carrying": 2,
+          "goal": 9,
+          "securing_reception": 1
+        },
+        "outcomes": {
+          "defender_collision": 2,
+          "defender_interception": 1,
+          "goal": 9
+        }
+      }
+    },
+    {
+      "profile": {
+        "speed": 1.5,
+        "avoidance": 1.4,
+        "receive": {
+          "approach_speed": 1.3,
+          "cushion": 0.9,
+          "settle_gain": 10.0
+        }
+      },
+      "metrics": {
+        "trials": 12,
+        "valid_passes": 12,
+        "press_activations": 12,
+        "first_touches": 12,
+        "completed_passes": 9,
+        "valid_shots": 7,
+        "goals": 7,
+        "marker_robot_proximity_trials": 1,
+        "marker_ball_contact_or_possession_trials": 4,
+        "pre_kick_loss_trials": 0,
+        "median_marker_gap_at_stable_reception_m": 0.9253459130382813,
+        "terminal_phases": {
+          "carrying": 2,
+          "goal": 7,
+          "securing_reception": 3
+        },
+        "outcomes": {
+          "defender_collision": 1,
+          "defender_interception": 4,
+          "goal": 7
+        }
+      }
+    }
+  ],
+  "winner": {
+    "profile": {
+      "speed": 1.5,
+      "avoidance": 1.4,
+      "receive": {
+        "approach_speed": 1.3,
+        "cushion": 0.4,
+        "settle_gain": 4.0
+      }
+    },
+    "metrics": {
+      "trials": 12,
+      "valid_passes": 12,
+      "press_activations": 12,
+      "first_touches": 12,
+      "completed_passes": 11,
+      "valid_shots": 9,
+      "goals": 9,
+      "marker_robot_proximity_trials": 1,
+      "marker_ball_contact_or_possession_trials": 2,
+      "pre_kick_loss_trials": 0,
+      "median_marker_gap_at_stable_reception_m": 0.9212354319664099,
+      "terminal_phases": {
+        "carrying": 2,
+        "goal": 9,
+        "securing_reception": 1
+      },
+      "outcomes": {
+        "defender_collision": 1,
+        "defender_interception": 2,
+        "goal": 9
+      }
+    }
+  }
+}

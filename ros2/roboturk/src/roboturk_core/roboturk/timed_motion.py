@@ -4,7 +4,14 @@ from dataclasses import dataclass, replace
 import math
 
 from . import field
-from .five_roles import CFG
+from .five_roles import (
+    CFG,
+    INTERPOLATION_MARGIN as INTERPOLATION_MARGIN,
+    PENALTY_FRONT,
+    PENALTY_HALF_WIDTH,
+    TIMED_ROLES,
+    TRAJECTORY_SAMPLE_DT,
+)
 from .model import body_vector, world_vector
 from .placement_traffic import separation
 from .touchline import END_LIMIT
@@ -12,21 +19,9 @@ from .touchline import END_LIMIT
 # Splitting the budgets between axes bounds the planar norms even on diagonal moves.
 ACCEL = CFG.max_acceleration / math.sqrt(2)
 SPEED = 1.2 / math.sqrt(2)
-INTERVAL = 2 * CFG.dt
-INTERPOLATION_MARGIN = CFG.max_acceleration * INTERVAL**2 / 4
+INTERVAL = TRAJECTORY_SAMPLE_DT
 TIMES = tuple(i * INTERVAL for i in range(16))
 SIDE = field.WIDTH / 2 - 0.15
-PRIORITY = (
-    "Outlet",
-    "Marker",
-    "Screen",
-    "Guard box",
-    "Block outlet",
-    "Cover",
-    "Anchor",
-    "Left wing",
-    "Right wing",
-)
 
 
 @dataclass(frozen=True)
@@ -103,14 +98,7 @@ def path_samples(first, second=None):
 
 def inside(p):
     x, y = map(abs, p)
-    return (
-        x <= END_LIMIT
-        and y <= SIDE
-        and (
-            x < field.LENGTH / 2 - field.DEFENSE_DEPTH - CFG.robot_radius
-            or y > field.DEFENSE_WIDTH / 2 + CFG.robot_radius
-        )
-    )
+    return x <= END_LIMIT and y <= SIDE and (x < PENALTY_FRONT or y > PENALTY_HALF_WIDTH)
 
 
 def clear(path, tracks, clearance):
@@ -202,7 +190,7 @@ def plan_team(
     movers = [r for r in robots if r.key in commands and r.key in targets and inside((r.x, r.y))]
     if fallback is not None:
         fallback.retain_movers(team, movers)
-    movers.sort(key=lambda r: (PRIORITY.index(roles[r.key].role), r.key.id))
+    movers.sort(key=lambda r: (TIMED_ROLES.index(roles[r.key].role), r.key.id))
     for r in movers:
         others = [p for k, p in paths.items() if k != r.key]
         if fallback is None:

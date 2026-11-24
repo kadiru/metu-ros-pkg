@@ -1,6 +1,15 @@
 from dataclasses import replace
-from roboturk.five_roles import FiveRoles, Flight, TEAMS, kickoff
-from roboturk.model import RobotKey
+import pytest
+from roboturk.five_roles import (
+    OFF_BALL_ROLES,
+    TEAMS,
+    FiveRoles,
+    Flight,
+    kickoff,
+    legal_off_ball_target,
+)
+from roboturk.model import Ball, RobotKey
+from roboturk.timed_motion import clear, inside
 
 
 def test_ten_roles_and_goalkeeper_identity():
@@ -47,3 +56,31 @@ def test_assignment_moves_with_the_players_and_respects_attack_direction():
     for key, role in first.items():
         other = second[swapped.get(key, key)]
         assert other.role == role.role and other.target == tuple(-v for v in role.target)
+
+
+def test_off_ball_targets_clear_the_buffer_on_both_penalty_areas():
+    for side in (-1, 1):
+        front = legal_off_ball_target((side * 3.47, -0.31))
+        flank = legal_off_ball_target((side * 4.1, -1.0))
+        assert front == pytest.approx((side * 3.4, -0.31))
+        assert flank == pytest.approx((side * 4.1, -1.1))
+        for point in (front, flank):
+            assert inside(point) and clear([point, point], [], 0)
+        legal = (side * 3.9, 1.25)
+        assert legal_off_ball_target(legal) == legal
+
+
+def test_cover_targets_are_corrected_before_role_assignment_and_keeper_can_enter():
+    for sign in (-1, 1):
+        world = replace(kickoff(0, "blue", sign), ball=Ball(-3.08 * sign, -0.73 * sign))
+        for team in TEAMS:
+            _, roles = FiveRoles().assign(world, team)
+            assert not inside(roles[RobotKey(team, 0)].target)
+            for assignment in roles.values():
+                if assignment.role in OFF_BALL_ROLES:
+                    assert clear([assignment.target, assignment.target], [], 0)
+        _, released = FiveRoles().assign(world, "blue", legal_off_ball=False)
+        _, corrected = FiveRoles().assign(world, "blue")
+        for roster, legal in [(released, False), (corrected, True)]:
+            target = next(a.target for a in roster.values() if a.role == "Cover")
+            assert inside(target) is legal

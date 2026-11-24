@@ -5,14 +5,47 @@ from itertools import permutations
 import math
 import random
 
+from . import field as pitch
 from .model import Ball, Config, Referee, Robot, RobotKey, World, possession
 
 CFG = Config(dt=0.04)
 TEAMS = ("blue", "yellow")
+TRAJECTORY_SAMPLE_DT = 2 * CFG.dt
+INTERPOLATION_MARGIN = CFG.max_acceleration * TRAJECTORY_SAMPLE_DT**2 / 4
+PENALTY_FRONT = pitch.LENGTH / 2 - pitch.DEFENSE_DEPTH - CFG.robot_radius
+PENALTY_HALF_WIDTH = pitch.DEFENSE_WIDTH / 2 + CFG.robot_radius
+TIMED_ROLES = (
+    "Outlet",
+    "Marker",
+    "Screen",
+    "Guard box",
+    "Block outlet",
+    "Cover",
+    "Anchor",
+    "Left wing",
+    "Right wing",
+)
+OFF_BALL_ROLES = frozenset((*TIMED_ROLES, "Contain"))
 
 
 def limit(value, bound):
     return max(-bound, min(bound, value))
+
+
+def legal_off_ball_target(target):
+    """Move a support target to the nearest face outside either padded penalty area."""
+    x, y = target
+    # A strict margin lets the timed planner check even a stopped endpoint.
+    padding = INTERPOLATION_MARGIN + 0.002
+    front = PENALTY_FRONT - padding
+    half = PENALTY_HALF_WIDTH + padding
+    dx = abs(x) - front
+    dy = half - abs(y)
+    if dx <= 0 or dy <= 0:
+        return target
+    if dx <= dy:
+        return math.copysign(front, x), y
+    return x, math.copysign(half, y)
 
 
 def kickoff(seed, serving, direction, time=0.0):
@@ -104,7 +137,7 @@ class FiveRoles:
             self.control = None
         return sole
 
-    def assign(self, world, team):
+    def assign(self, world, team, legal_off_ball=True):
         players = sorted((r for r in world.robots if r.key.team == team), key=lambda r: r.key.id)
         if len(players) != 5 or players[0].key.id != 0:
             raise ValueError("Five-player teams require a designated goalkeeper with ID 0")
@@ -183,6 +216,11 @@ class FiveRoles:
                 **{n: p for n, p in roles.items() if n != primary},
             }
             forced = self.contain
+        if legal_off_ball:
+            roles = {
+                name: legal_off_ball_target(target) if name in OFF_BALL_ROLES else target
+                for name, target in roles.items()
+            }
         names = tuple(roles)
         # The small roster permits an exact minimum-cost bijection, with a travel
         # penalty for giving up a role. Possession and intended reception take priority.

@@ -131,6 +131,8 @@ def match(sim, folder, cfg, receiver=None, vision=None):
     previous_restart = None
     capture_restart = cfg.get("stop_after_placement_reception", False)
     frame_images = cfg.get("frame_images") or (capture_restart and cfg["record"])
+    frame_window = cfg.get("frame_window")
+    legal_off_ball_from = cfg.get("legal_off_ball_from_tick", 0)
     if frame_images:
         (folder / "frames").mkdir()
     elif cfg["record"]:
@@ -273,6 +275,7 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                 counts=planner_counts,
                 fallback=fallback,
                 trace=planner_trace,
+                legal_off_ball=tick >= legal_off_ball_from,
             )
             if restricted:
                 out = {k: c for k, c in out.items() if k.team == restricted}
@@ -330,7 +333,11 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             meta["motion"] = [planner_trace.get(k) for k in keys]
             if tick == 0 or opening:
                 meta["opening_velocities"] = [[r.vx, r.vy, r.omega] for r in w.robots]
-        if frame_images and tick % 2 == 0:
+        if (
+            frame_images
+            and tick % 2 == 0
+            and (not frame_window or frame_window[0] <= tick * CFG.dt < frame_window[1])
+        ):
             sim.exportImage(str(folder / "frames" / f"{tick // 2:05d}.jpg"), 85)
         if vision:
             meta["vision_time"] = origin + (sim.getTime() - start_time) + camera_delay

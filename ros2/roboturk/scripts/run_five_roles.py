@@ -85,6 +85,19 @@ def main():
         "--frame-images", action="store_true", help="Save native JPEG samples at 12.5 Hz"
     )
     p.add_argument(
+        "--frame-window",
+        type=float,
+        nargs=2,
+        metavar=("START", "END"),
+        help="Limit native match JPEG capture to these elapsed seconds",
+    )
+    p.add_argument(
+        "--legal-off-ball-from-tick",
+        type=int,
+        default=0,
+        help="Delay off-ball target projection to replay a matched branch",
+    )
+    p.add_argument(
         "--await-force-start",
         action="store_true",
         help="For paired live fixtures, hold the simulation clock until the first FORCE_START packet",
@@ -151,6 +164,22 @@ def main():
         help="Record one seed within a consecutive crowded batch, including its prior reset history",
     )
     a = p.parse_args()
+    if a.legal_off_ball_from_tick < 0 or (
+        a.legal_off_ball_from_tick
+        and (a.crowded_trials or a.touchline_trials or a.replay_kickoffs or a.placement_batch)
+    ):
+        p.error("--legal-off-ball-from-tick requires a nonnegative tick in a normal match")
+    if a.frame_window and (
+        not a.frame_images
+        or a.crowded_trials
+        or a.touchline_trials
+        or a.replay_kickoffs
+        or a.placement_batch
+        or not 0 <= a.frame_window[0] < a.frame_window[1] <= a.seconds
+    ):
+        p.error(
+            "--frame-window requires --frame-images and an increasing interval within the match"
+        )
     if a.film_seed is not None:
         if not a.crowded_trials or not a.seed <= a.film_seed < a.seed + a.crowded_trials:
             p.error("--film-seed must select a seed within --crowded-trials")
@@ -244,6 +273,8 @@ def main():
                 touchline_recovery=a.touchline_recovery,
                 trajectory_planner=a.trajectory_planner,
                 frame_images=a.frame_images,
+                frame_window=a.frame_window,
+                legal_off_ball_from_tick=a.legal_off_ball_from_tick,
                 motion_audit=a.motion_audit,
                 await_force_start=a.await_force_start,
                 open_play_policy=json.loads(a.open_play_policy.read_text())

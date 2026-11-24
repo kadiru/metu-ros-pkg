@@ -4,12 +4,11 @@ from dataclasses import replace
 import math
 from .carrier_motor import track_roller
 from .counterpass import MOTOR, shot_window
-from . import field as pitch
-from .five_roles import CFG, Flight, limit
+from .five_roles import CFG, PENALTY_FRONT, PENALTY_HALF_WIDTH, TIMED_ROLES, Flight, limit
 from .model import wrap
 from .open_motion import steer_team
 from .three_match import filter_commands
-from .timed_motion import PRIORITY, plan_team
+from .timed_motion import plan_team
 from .touchline import recovery_command
 from .three_recipient import features, move
 
@@ -84,16 +83,15 @@ def commands(world, positions, weights, sole, tactics, targets=None):
                     ball.y + (dist + CFG.possession_x) * dy,
                 )
                 angle = math.atan2(-dy, -dx)
-        front = CFG.length / 2 - pitch.DEFENSE_DEPTH - CFG.robot_radius
         if (
             r.key.id
-            and abs(ty) < pitch.DEFENSE_WIDTH / 2 + CFG.robot_radius
-            and sign * tx > front
+            and abs(ty) < PENALTY_HALF_WIDTH
+            and sign * tx > PENALTY_FRONT
             and role != "Receiver"
         ):
-            tx = front * sign
+            tx = PENALTY_FRONT * sign
         target = limit(tx, 4.32), limit(ty, 2.76)
-        if targets is not None and role in PRIORITY:
+        if targets is not None and role in TIMED_ROLES:
             targets[r.key] = target
         out[r.key] = move(r, *target, angle, speed=1.75)
         if role == "Contain":
@@ -112,12 +110,13 @@ def open_play(
     counts=None,
     fallback=None,
     trace=None,
+    legal_off_ball=True,
 ):
     """One open-play control tick shared by ordinary matches and paired replays."""
     sole = tactics.observe(world)
     roles, phases = {}, {}
     for team in ("blue", "yellow"):
-        phases[team], side = tactics.assign(world, team)
+        phases[team], side = tactics.assign(world, team, legal_off_ball=legal_off_ball)
         roles.update(side)
     targets = {} if trajectory else None
     out, planned = commands(world, roles, weights, sole, tactics, targets)

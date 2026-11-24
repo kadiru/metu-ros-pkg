@@ -13,13 +13,19 @@ The work spans hardware/software integration and path-planning experiments: how 
 
 ## Robot soccer in Webots
 
-In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/6d0dbd737b830971d4724e3f4941de5e02604feb/ros2/roboturk)
+In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/61e0f4f7a92ba8fe2571a85f640b16921ffebac4/ros2/roboturk)
 
 ### What happens when a pass slows down?
 
 Watch the cyan receiver. On the left it backs away until the ball stops. On the right it meets the same pass, dribbles upfield and scores. On 200 fresh unguarded openings using the same updated Webots carpet, the original team scored 163 and the team with the fitted receiver scored 200. [Watch a fresh goal](https://github.com/kadiru/metu-ros-pkg/blob/6ffee2604d0e5a454a8c1fedb4c9375755d9b7bc/ros2/roboturk/media/carpet-skills/fresh-demo.mp4) · [Paired trials and training details](https://github.com/kadiru/metu-ros-pkg/blob/6ffee2604d0e5a454a8c1fedb4c9375755d9b7bc/ros2/roboturk/media/carpet-skills/README.md)
 
 [![Two cyan receivers approach the same slowing pass. The fitted receiver reaches the ball and scores.](../../docs/assets/roboturk-webots/receiving-on-carpet.gif)](https://github.com/kadiru/metu-ros-pkg/blob/6ffee2604d0e5a454a8c1fedb4c9375755d9b7bc/ros2/roboturk/media/carpet-skills/reception-replay.gif)
+
+### Can Blue beat the Yellow goalkeeper?
+
+Blue keeps the trained receiver and learns where and when to release the shot. Yellow’s field defender chases the ball while its learned goalkeeper covers the goal. On 40 identical starts the previous Blue team scored 22 goals from 37 stable receptions. The new finish scored 33 from 37. [Full-speed Webots films and paired results](https://github.com/kadiru/metu-ros-pkg/blob/61e0f4f7a92ba8fe2571a85f640b16921ffebac4/ros2/roboturk/media/guarded-finish/README.md)
+
+[![Side-by-side Webots replay of Blue attacking Yellow’s goalkeeper](../../docs/assets/roboturk-webots/blue-guarded-shot.gif)](https://github.com/kadiru/metu-ros-pkg/blob/61e0f4f7a92ba8fe2571a85f640b16921ffebac4/ros2/roboturk/media/guarded-finish/shots.gif)
 
 ### Who gets to the pass first?
 

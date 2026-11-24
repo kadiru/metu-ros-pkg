@@ -64,6 +64,20 @@ def compare(baseline, trained):
             a, b = (left["transfer"], right["transfer"]) if event == "reception" else (left, right)
             groups[labels[a["is_success"], b["is_success"]]].append(left["seed"])
         pairs[event] = groups
+    flight_deltas, gap_deltas = [], []
+    for a, b in zip(baseline["episodes"], trained["episodes"], strict=True):
+        left, right = a["transfer"], b["transfer"]
+        first, second = left["first_receiver_touch"], right["first_receiver_touch"]
+        if first and second:
+            release_a = left["pass_step"] * left["elapsed_seconds"] / left["steps"]
+            release_b = right["pass_step"] * right["elapsed_seconds"] / right["steps"]
+            flight_deltas.append((second["seconds"] - release_b) - (first["seconds"] - release_a))
+            gap_deltas.append(second["marker_distance"] - first["marker_distance"])
+    result["shared_first_touches"] = {
+        "count": len(gap_deltas),
+        "median_delta_release_to_touch_s": median(flight_deltas) if flight_deltas else None,
+        "median_delta_marker_gap_m": median(gap_deltas) if gap_deltas else None,
+    }
     result["paired_seeds"] = pairs
     losses = set(result["baseline"]["touched_then_lost"]["seeds"])
     result["recovered_first_touch_losses"] = sorted(

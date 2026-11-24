@@ -4,6 +4,10 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Can Cyan secure the pass before Yellow arrives?
+
+On 40 fresh paired openings, the previous receiver secured 24 passes and scored 17 goals. The trained receiver secured 35 and scored 32. Watch Cyan step toward the pass, cushion it, then turn toward goal. [Paired Webots recordings, counts and training](media/secure-pass/README.md)
+
 ## Can the receiver escape a closing defender?
 
 Both receivers hold the same pass at 5.28 s. One turns in place and loses the ball. The other carries away from Yellow while turning and scores. This change raised scoring from 1 to 13 goals on 40 paired 2v1 starts. On 40 further paired starts the full-hold carry scored 20 and the earlier carry scored 17. [Watch the Webots replay](media/closing-press/closing-marker.gif) · [Matched results and training records](media/closing-press/README.md)

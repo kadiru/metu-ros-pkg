@@ -32,7 +32,7 @@ def summarize(rows):
         ),
         decisions={
             k: sum(r["decisions"].get(k, 0) for r in rows)
-            for k in ("direct", "detour", "errt", "escape", "hold", "brake")
+            for k in ("direct", "detour", "errt", "escape", "hold", "shortcut", "brake")
         },
     )
 

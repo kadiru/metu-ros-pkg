@@ -135,6 +135,11 @@ def main():
         choices=("on-conflict", "immediate"),
         help="Hold a safe ERRT waypoint after a route switch makes little progress, or immediately",
     )
+    p.add_argument(
+        "--release-waypoint-early",
+        action="store_true",
+        help="Release an ERRT waypoint after a faster direct route stays clear",
+    )
     batch.add_argument(
         "--crowded-trials",
         type=int,
@@ -150,6 +155,8 @@ def main():
         if not a.crowded_trials or not a.seed <= a.film_seed < a.seed + a.crowded_trials:
             p.error("--film-seed must select a seed within --crowded-trials")
         a.frame_images = True
+    if a.release_waypoint_early and not a.commit_waypoints:
+        p.error("--release-waypoint-early requires --commit-waypoints")
     if a.commit_waypoints and not a.errt_fallback:
         p.error("--commit-waypoints requires --errt-fallback")
     if a.errt_fallback and not a.trajectory_planner:
@@ -231,6 +238,7 @@ def main():
                 crowded_trials=a.crowded_trials,
                 film_seed=a.film_seed,
                 errt_fallback=a.errt_fallback,
+                release_waypoint_early=a.release_waypoint_early,
                 commit_waypoints=a.commit_waypoints,
                 touchline_trials=a.touchline_trials,
                 touchline_recovery=a.touchline_recovery,

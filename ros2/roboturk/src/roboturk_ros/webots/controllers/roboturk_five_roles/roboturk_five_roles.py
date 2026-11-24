@@ -73,8 +73,10 @@ def match(sim, folder, cfg, receiver=None, vision=None):
     else:
         w = backend.reset(kickoff(seed, serving, sign))
     keys = [r.key for r in w.robots]
+    commit_waypoints = cfg.get("commit_waypoints", False)
+    early_release = cfg.get("release_waypoint_early", False)
     fallback = (
-        ERRTFallback(seed, cfg.get("commit_waypoints", False)) if cfg.get("errt_fallback") else None
+        ERRTFallback(seed, commit_waypoints, early_release) if cfg.get("errt_fallback") else None
     )
     tactics = FiveRoles()
     planner_counts = {} if cfg.get("trajectory_planner") else None
@@ -198,7 +200,7 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             if referee_key != previous_referee:
                 tactics = FiveRoles()
                 if fallback is not None:
-                    fallback = ERRTFallback(seed + restarts, cfg.get("commit_waypoints", False))
+                    fallback = ERRTFallback(seed + restarts, commit_waypoints, early_release)
                 events.append(
                     dict(
                         tick=tick,
@@ -234,6 +236,7 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             and state.mode == Referee.STOP
         )
         kickoff_frame = None
+        planner_trace = {} if motion_audit else None
         if positioning:
             if isinstance(formation, IndependentKickoffs):
                 stamp = origin + (sim.getTime() - start_time) + camera_delay
@@ -269,6 +272,7 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                 cfg.get("trajectory_planner", False),
                 counts=planner_counts,
                 fallback=fallback,
+                trace=planner_trace,
             )
             if restricted:
                 out = {k: c for k, c in out.items() if k.team == restricted}
@@ -323,6 +327,7 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             )
         if cfg.get("motion_audit"):
             meta["ball_z"] = backend.ball.getPosition()[2]
+            meta["motion"] = [planner_trace.get(k) for k in keys]
             if tick == 0 or opening:
                 meta["opening_velocities"] = [[r.vx, r.vy, r.omega] for r in w.robots]
         if frame_images and tick % 2 == 0:
@@ -435,7 +440,7 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                 if motion_audit:
                     touching.fill(False)
                 if fallback is not None:
-                    fallback = ERRTFallback(seed + restarts, cfg.get("commit_waypoints", False))
+                    fallback = ERRTFallback(seed + restarts, commit_waypoints, early_release)
                 break
         if cfg.get("capture_exit") == restarts:
             break

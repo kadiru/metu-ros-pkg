@@ -2,18 +2,90 @@
 
 import argparse
 from collections import Counter
+from itertools import groupby
 import json
 from pathlib import Path
 
 import numpy as np
 
 from audit_five_roles import audit, load_match
+from roboturk.timed_motion import INTERPOLATION_MARGIN
 
 
-def summarize(folder, game):
+def profiled_motion(folder, game, states):
+    """Count braking and sustained stalls from per-robot native match telemetry."""
+    dt = game["dt"]
+    frames = game["frames"]
+    if states is None:
+        _, states = load_match(folder)
+    xy = states[:, 4:].reshape(len(frames), len(game["keys"]), 3)[..., :2]
+    config = json.loads((folder / "config.json").read_text())
+    clearance = config["open_play_policy"]["clearance"] + INTERPOLATION_MARGIN
+    brakes_by_robot, brakes_by_role, brakes_by_control = Counter(), Counter(), Counter()
+    planned_by_control, planned_by_role = Counter(), Counter()
+    inside_buffer = 0
+    stalls, shortcuts = [], []
+    counts = Counter()
+    for index, (team, number) in enumerate(game["keys"]):
+        jersey = f"{team} {number}"
+        labels = []
+        for tick, frame in enumerate(frames):
+            move = frame["motion"][index]
+            role = frame["roles"][index]
+            stalled = (
+                move
+                and move["speed_mps"] < 0.08
+                and np.linalg.norm(xy[tick, index] - move["target"]) > 0.15
+            )
+            labels.append((role, frame["restart"]) if stalled else None)
+            if move is None:
+                continue
+            counts[move["mode"]] += 1
+            control = frame["control"]
+            if control is None:
+                possession = "loose"
+            else:
+                possession = "own team" if game["keys"][control][0] == team else "opponent"
+            planned_by_control[possession] += 1
+            planned_by_role[role] += 1
+            if move["mode"] == "shortcut":
+                shortcuts.append(dict(tick=tick, robot=jersey, role=role))
+            if move["mode"] == "brake":
+                brakes_by_robot[jersey] += 1
+                brakes_by_role[role] += 1
+                brakes_by_control[possession] += 1
+                others = xy[tick, np.arange(len(game["keys"])) != index]
+                inside_buffer += int(
+                    np.any(np.linalg.norm(others - xy[tick, index], axis=1) < clearance)
+                )
+        for label, group in groupby(enumerate(labels), key=lambda item: item[1]):
+            if label is None:
+                continue
+            indices = [i for i, _ in group]
+            if len(indices) >= round(0.60 / dt):
+                stalls.append(
+                    dict(robot=jersey, role=label[0], start=indices[0], ticks=len(indices))
+                )
+    if counts != Counter(game["planner_decisions"]):
+        raise ValueError(f"Per-player planner counts do not match the summary in {folder}")
+    return dict(
+        confirmed_control_s=round(sum(f["control"] is not None for f in frames) * dt, 3),
+        brakes_by_robot=dict(brakes_by_robot),
+        brakes_by_role=dict(brakes_by_role),
+        brakes_by_control=dict(brakes_by_control),
+        planned_by_control=dict(planned_by_control),
+        planned_by_role=dict(planned_by_role),
+        brakes_inside_buffer=inside_buffer,
+        stalls=stalls,
+        stalled_robot_seconds=round(sum(row["ticks"] for row in stalls) * dt, 3),
+        shortcuts=shortcuts,
+    )
+
+
+def summarize(folder, game, states=None):
     report = audit(folder)
     clearance = game["robot_clearance"]
-    return dict(
+    summary = dict(
         score=game["score"],
         passes=report["passes"],
         completed_passes=len(report["confirmed_passes"]),
@@ -22,6 +94,9 @@ def summarize(folder, game):
         contact_episodes=clearance["contact_episodes"],
         min_robot_gap_m=clearance["min_gap_m"],
     )
+    if game["frames"] and "motion" in game["frames"][0]:
+        summary["motion"] = profiled_motion(folder, game, states)
+    return summary
 
 
 def compare(released, updated):
@@ -43,8 +118,8 @@ def compare(released, updated):
             dict(
                 seed=old["seed"],
                 seconds=old["seconds"],
-                released=summarize(folder, old),
-                updated=summarize(counterpart, new),
+                released=summarize(folder, old, before),
+                updated=summarize(counterpart, new, after),
             )
         )
     if not pairs or len({pair["seed"] for pair in pairs}) != len(pairs):
@@ -66,6 +141,16 @@ def compare(released, updated):
             min_robot_gap_m=min(row["min_robot_gap_m"] for row in rows),
             planner_decisions=dict(decisions),
         )
+        if all("motion" in row for row in rows):
+            totals[arm].update(
+                sustained_stalls=sum(len(row["motion"]["stalls"]) for row in rows),
+                stalled_robot_seconds=round(
+                    sum(row["motion"]["stalled_robot_seconds"] for row in rows), 3
+                ),
+                confirmed_control_s=round(
+                    sum(row["motion"]["confirmed_control_s"] for row in rows), 3
+                ),
+            )
     return dict(pairs=pairs, totals=totals)
 
 

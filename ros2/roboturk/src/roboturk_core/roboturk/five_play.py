@@ -111,6 +111,7 @@ def open_play(
     trajectory=False,
     counts=None,
     fallback=None,
+    trace=None,
 ):
     """One open-play control tick shared by ordinary matches and paired replays."""
     sole = tactics.observe(world)
@@ -146,6 +147,7 @@ def open_play(
                     policy.clearance,
                     counts,
                     fallback,
+                    trace=trace,
                 )
             out.update(steered)
     else:

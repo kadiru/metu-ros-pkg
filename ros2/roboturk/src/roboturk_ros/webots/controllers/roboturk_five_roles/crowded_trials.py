@@ -212,7 +212,11 @@ def run(sim, folder, cfg):
     rows = []
     for seed in range(cfg["seed"], cfg["seed"] + cfg["crowded_trials"]):
         fallback = (
-            ERRTFallback(seed, cfg.get("commit_waypoints", False)) if cfg["errt_fallback"] else None
+            ERRTFallback(
+                seed, cfg.get("commit_waypoints", False), cfg.get("release_waypoint_early", False)
+            )
+            if cfg["errt_fallback"]
+            else None
         )
         film = frames if cfg.get("film_seed") in (None, seed) else None
         rows.append(trial(sim, backend, policy, cfg, seed, film, fallback))

@@ -187,6 +187,7 @@ def plan_team(
     counts=None,
     fallback=None,
     modes=None,
+    trace=None,
 ):
     """Reserve timed motion within one team. Opponents supply position history only."""
     paths = {}
@@ -211,6 +212,16 @@ def plan_team(
         vx, vy = body_vector(*v, r.yaw)
         output[r.key] = replace(output[r.key], vx=vx, vy=vy)
         paths[r.key] = path
+        if trace is not None:
+            memo = fallback.memory.get(r.key) if fallback is not None else None
+            trace[r.key] = dict(
+                mode=mode,
+                target=targets[r.key],
+                speed_mps=math.hypot(r.vx, r.vy),
+                waypoint=memo.waypoints[0]
+                if memo and memo.waypoints and mode in ("errt", "escape", "hold")
+                else None,
+            )
         if modes is not None:
             modes[r.key] = mode
         if counts is not None:

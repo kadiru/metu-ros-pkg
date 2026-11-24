@@ -15,6 +15,7 @@ CAPTIONS = {
     "errt": "Choosing an ERRT waypoint",
     "escape": "Choosing an outward waypoint",
     "hold": "Following the waypoint",
+    "shortcut": "Releasing waypoint for direct route",
 }
 
 
@@ -50,7 +51,7 @@ def panel(folder, label):
     frames, trail = [], []
     team = row["runner"]["team"].title()
 
-    for file, step in zip(files, trace[::2], strict=True):
+    for index, (file, step) in enumerate(zip(files, trace[::2], strict=True)):
         with Image.open(file) as source:
             height = round(WIDTH * source.height / source.width)
             scene = ImageEnhance.Brightness(
@@ -87,6 +88,9 @@ def panel(folder, label):
         draw.text((442, 11), f"{step['t']:.1f} s", font=small, fill="white")
         outcome = row["arrival_s"]
         caption = CAPTIONS[step["mode"]]
+        recent = trace[max(0, 2 * index - 12) : 2 * index + 1]
+        if step["mode"] in ("direct", "shortcut") and any(s["mode"] == "shortcut" for s in recent):
+            caption = CAPTIONS["shortcut"]
         if outcome is not None and step["t"] >= outcome:
             caption = f"Reached outlet at {outcome:.2f} s"
         elif outcome is None and file == files[-1]:

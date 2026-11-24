@@ -19,6 +19,9 @@ from .timed_motion import (
 
 EXTENSIONS = 96
 STEP = 0.44
+DIRECT_CLEAR_TICKS = 4
+DIRECT_TIME_SAVING = 0.20
+DIRECT_EXTRA_CLEARANCE = 0.02
 
 
 @dataclass
@@ -32,6 +35,7 @@ class SearchMemory:
     restoring: bool = False
     entry: tuple | None = None
     interrupted: bool = False
+    direct_clear_ticks: int = 0
 
 
 def edge_clear(a, b, disks, radius):
@@ -88,9 +92,10 @@ def checked_leg(r, point, tracks, clearance, restoring=False):
 
 
 class ERRTFallback:
-    def __init__(self, seed, commit_waypoints=False):
+    def __init__(self, seed, commit_waypoints=False, early_release=False):
         self.seed = seed
         self.commit_waypoints = commit_waypoints
+        self.early_release = early_release
         self.memory = {}
 
     def retain_movers(self, team, movers):
@@ -104,6 +109,10 @@ class ERRTFallback:
         if self.commit_waypoints:
             held = self.resume(r, target, role, tracks, clearance)
             if held is not None:
+                if self.early_release:
+                    shortcut = self.release_to_direct(r, target, tracks, clearance)
+                    if shortcut is not None:
+                        return *shortcut, "shortcut"
                 return *held, "hold"
         velocity, path, mode = choose(r, target, tracks, clearance)
         if mode != "brake":
@@ -114,6 +123,29 @@ class ERRTFallback:
         if motion is None:
             return velocity, path, mode
         return *motion, ("escape" if self.memory[r.key].restoring else "errt")
+
+    def release_to_direct(self, r, target, tracks, clearance):
+        memo = self.memory[r.key]
+        if memo.restoring:
+            return None
+        start, velocity = (r.x, r.y), (r.vx, r.vy)
+        waypoint = memo.committed
+        direct = Leg.to(start, velocity, target)
+        via_waypoint = Leg.to(start, velocity, waypoint).duration
+        via_waypoint += Leg.to(waypoint, (0, 0), target).duration
+        path = path_samples(direct)
+        if direct.duration + DIRECT_TIME_SAVING > via_waypoint or not clear(
+            path, tracks, clearance + DIRECT_EXTRA_CLEARANCE
+        ):
+            memo.direct_clear_ticks = 0
+            return None
+        memo.direct_clear_ticks += 1
+        if memo.direct_clear_ticks < DIRECT_CLEAR_TICKS:
+            return None
+        memo.committed = None
+        memo.direct_clear_ticks = 0
+        memo.interrupted = True
+        return direct.velocity(CFG.dt), path
 
     def resume(self, r, target, role, tracks, clearance):
         memo = self.memory.get(r.key)
@@ -131,6 +163,7 @@ class ERRTFallback:
                 return motion
         memo.committed = None
         memo.restoring = False
+        memo.direct_clear_ticks = 0
         return None
 
     def search(self, r, target, role, tracks, clearance):

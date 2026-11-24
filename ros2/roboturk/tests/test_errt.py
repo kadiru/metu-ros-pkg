@@ -179,3 +179,30 @@ def test_stopped_runner_can_restore_clearance_inside_the_interpolation_margin():
         )[2]
         == "brake"
     )
+
+
+def test_early_release_requires_four_clear_updates_and_keeps_outward_recovery():
+    robot = Robot(RobotKey("blue", 1), 0, 0)
+    target, waypoint = (2, 0), (0, -1)
+    planner = ERRTFallback(42, commit_waypoints="on-conflict", early_release=True)
+    # Seed a held waypoint to focus this test on the replanning decision.
+    planner.search(robot, target, "Outlet", [[(0.39, 0)] * len(TIMES)], 0.305)
+    memo = planner.memory[robot.key]
+    memo.committed = waypoint
+    memo.waypoints = (waypoint,)
+
+    def mode(tracks=()):
+        return planner.plan(robot, target, "Outlet", tracks, 0.305)[2]
+
+    assert [mode() for _ in range(3)] == ["hold"] * 3
+    barely_clear = [[(0.6, 0.32)] * len(TIMES)]
+    assert choose(robot, target, barely_clear, 0.305)[2] == "direct"
+    assert mode(barely_clear) == "hold"
+    assert [mode() for _ in range(3)] == ["hold"] * 3
+    assert mode() == "shortcut"
+    assert memo.committed is None
+    assert mode() == "direct"
+
+    memo.committed = waypoint
+    memo.restoring = True
+    assert [mode() for _ in range(5)] == ["hold"] * 5

@@ -4,6 +4,10 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Finding a passing outlet in a crowded 5v5 defense
+
+On the same 40 fresh Webots starts, adding an extended RRT fallback increased on-time arrivals from 17 to 38 and reduced starts with a stall from 24 to 1. Neither planner recorded a contact. [Paired Webots demos, clearance and timing](media/crowded-errt/README.md)
+
 ## Timed trajectories for 5v5 support players
 
 The first optional trajectory planner compares acceleration-limited routes and shares timed paths among teammates. [Crossing animation, matched Webots trials and reproduction commands](media/trajectory-search/README.md)

@@ -123,7 +123,27 @@ def main():
     batch.add_argument(
         "--touchline-trials", type=int, help="Run this many consecutive 5v5 touchline openings"
     )
+    p.add_argument(
+        "--errt-fallback",
+        action="store_true",
+        help="Enable cache-biased RRT after all timed detours fail",
+    )
+    batch.add_argument(
+        "--crowded-trials",
+        type=int,
+        help="Run consecutive 5v5 outlet plays against a compact marking block",
+    )
     a = p.parse_args()
+    if a.errt_fallback and not a.trajectory_planner:
+        p.error("--errt-fallback requires --trajectory-planner")
+    if a.crowded_trials is not None and (
+        a.crowded_trials < 1 or a.referee != "local" or not a.trajectory_planner
+    ):
+        p.error("Crowded trials require a positive count, local referee and trajectory planner")
+    if a.crowded_trials and (a.frame_images or a.record):
+        if a.crowded_trials != 1:
+            p.error("Record a single crowded trial per directory")
+        a.frame_images = True
     if a.trajectory_planner and not a.open_play_policy:
         p.error("--trajectory-planner requires --open-play-policy")
     if a.touchline_trials is not None and (
@@ -190,6 +210,8 @@ def main():
                 track_kickoffs=a.track_kickoffs,
                 seconds=a.seconds,
                 record=a.record,
+                crowded_trials=a.crowded_trials,
+                errt_fallback=a.errt_fallback,
                 touchline_trials=a.touchline_trials,
                 touchline_recovery=a.touchline_recovery,
                 trajectory_planner=a.trajectory_planner,
@@ -243,6 +265,11 @@ def main():
         subprocess.run(
             [*cmd, str(WORLD)], env=env, stdout=log, stderr=subprocess.STDOUT, check=True
         )
+    if a.crowded_trials:
+        report = dest / "crowded.json"
+        if not report.is_file() or len(json.loads(report.read_text())) != a.crowded_trials:
+            raise RuntimeError(f"Incomplete crowded trials. See {dest}/webots.log")
+        return
     if a.touchline_trials:
         report = dest / "touchline.json"
         if not report.is_file() or len(json.loads(report.read_text())) != a.touchline_trials:

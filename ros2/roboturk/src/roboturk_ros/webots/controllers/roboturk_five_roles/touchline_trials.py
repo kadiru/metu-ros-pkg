@@ -10,6 +10,7 @@ import random
 
 import numpy as np
 from roboturk import field
+from roboturk.errt import ERRTFallback
 from roboturk.continuous_backend import ContinuousWebotsBackend
 from roboturk.five_play import open_play
 from roboturk.five_roles import CFG, TEAMS, FiveRoles, kickoff
@@ -76,6 +77,7 @@ def trial(sim, backend, cfg, seed, weights, policy, frames):
         camera = sim.getFromDef("CAMERA")
         camera.getField("position").setSFVec3f([w.ball.x, math.copysign(2.55, w.ball.y), 4.5])
     tactics = FiveRoles()
+    fallback = ERRTFallback(seed) if cfg.get("errt_fallback") else None
     previous = {}
     last_holder = None
     dwell = 0.0
@@ -100,6 +102,7 @@ def trial(sim, backend, cfg, seed, weights, policy, frames):
             cfg["touchline_recovery"],
             cfg.get("trajectory_planner", False),
             counts_planner,
+            fallback=fallback,
         )
         w = backend.step(cmd)
         for k, _, _ in backend.last_kick_events:

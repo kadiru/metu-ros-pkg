@@ -12,6 +12,7 @@ import traceback
 import numpy as np
 from controller import Supervisor
 from roboturk.continuous_backend import ContinuousWebotsBackend
+from roboturk.errt import ERRTFallback
 from roboturk.field import CARPET_MARGIN
 from roboturk.five_play import open_play
 from roboturk.five_roles import Assignment, CFG, TEAMS, FiveRoles, kickoff
@@ -72,7 +73,9 @@ def match(sim, folder, cfg, receiver=None, vision=None):
     else:
         w = backend.reset(kickoff(seed, serving, sign))
     keys = [r.key for r in w.robots]
+    fallback = ERRTFallback(seed) if cfg.get("errt_fallback") else None
     tactics = FiveRoles()
+    planner_counts = {} if cfg.get("trajectory_planner") else None
     gate = RestartGate()
     restart = (
         PlacementRestart(
@@ -186,6 +189,8 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             )
             if referee_key != previous_referee:
                 tactics = FiveRoles()
+                if fallback is not None:
+                    fallback = ERRTFallback(seed + restarts)
                 events.append(
                     dict(
                         tick=tick,
@@ -254,6 +259,8 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                 active_policy,
                 cfg.get("touchline_recovery", True),
                 cfg.get("trajectory_planner", False),
+                counts=planner_counts,
+                fallback=fallback,
             )
             if restricted:
                 out = {k: c for k, c in out.items() if k.team == restricted}
@@ -406,6 +413,8 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                     kickoff(seed + 101 * restarts, serving, sign, (tick + 1) * CFG.dt)
                 )
                 tactics = FiveRoles()
+                if fallback is not None:
+                    fallback = ERRTFallback(seed + restarts)
                 break
         if cfg.get("capture_exit") == restarts:
             break
@@ -428,6 +437,8 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             events=events,
             seconds=len(steps) * CFG.dt,
         )
+        if planner_counts is not None:
+            log["planner_decisions"] = planner_counts
         (folder / "roles.json.gz").write_bytes(
             gzip.compress(json.dumps(log, separators=(",", ":")).encode(), mtime=0)
         )
@@ -461,7 +472,11 @@ try:
         else nullcontext()
     )
     with connection as receiver, camera as vision:
-        if cfg.get("touchline_trials"):
+        if cfg.get("crowded_trials"):
+            from crowded_trials import run
+
+            run(sim, folder, cfg)
+        elif cfg.get("touchline_trials"):
             from touchline_trials import run
 
             run(sim, folder, cfg)

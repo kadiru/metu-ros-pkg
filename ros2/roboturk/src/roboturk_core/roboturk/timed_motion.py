@@ -175,7 +175,9 @@ def choose(r, target, tracks, clearance):
     return (0, 0), velocity_track(r, (0, 0)), "brake"
 
 
-def plan_team(robots, team, commands, targets, roles, observed, clearance, counts=None):
+def plan_team(
+    robots, team, commands, targets, roles, observed, clearance, counts=None, fallback=None
+):
     """Reserve timed motion within one team. Opponents supply position history only."""
     paths = {}
     output = dict(commands)
@@ -191,6 +193,11 @@ def plan_team(robots, team, commands, targets, roles, observed, clearance, count
     for r in movers:
         others = [p for k, p in paths.items() if k != r.key]
         v, path, mode = choose(r, targets[r.key], others, clearance)
+        if mode == "brake" and fallback is not None:
+            route = fallback.search(r, targets[r.key], roles[r.key].role, others, clearance)
+            if route is not None:
+                v, path = route
+                mode = "errt"
         vx, vy = body_vector(*v, r.yaw)
         output[r.key] = replace(output[r.key], vx=vx, vy=vy)
         paths[r.key] = path

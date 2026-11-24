@@ -102,7 +102,15 @@ def commands(world, positions, weights, sole, tactics, targets=None):
 
 
 def open_play(
-    world, tactics, weights, measured, policy, touchline=True, trajectory=False, counts=None
+    world,
+    tactics,
+    weights,
+    measured,
+    policy,
+    touchline=True,
+    trajectory=False,
+    counts=None,
+    fallback=None,
 ):
     """One open-play control tick shared by ordinary matches and paired replays."""
     sole = tactics.observe(world)
@@ -129,7 +137,15 @@ def open_play(
             steered = steer_team(world.robots, team, own, measured, policy, CFG.dt, recovering)
             if trajectory:
                 steered = plan_team(
-                    world.robots, team, steered, targets, roles, measured, policy.clearance, counts
+                    world.robots,
+                    team,
+                    steered,
+                    targets,
+                    roles,
+                    measured,
+                    policy.clearance,
+                    counts,
+                    fallback,
                 )
             out.update(steered)
     else:

@@ -13,7 +13,13 @@ The work spans hardware/software integration and path-planning experiments: how 
 
 ## Robot soccer in Webots
 
-In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/742eea7486c258d8cdaf8a27e2585bc5f8b5c520/ros2/roboturk)
+In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/7c9e8b17db9ebee4d23b5df0b222e8d747da363d/ros2/roboturk)
+
+### What happens when the direct route reopens?
+
+Follow the circled Blue runner to the gray disk. On the left it follows its waypoint around Yellow and arrives at 5.84 s. On the right it switches to a clear direct route and arrives at 4.00 s. [Matched outlet trials and 5v5 match audit](https://github.com/kadiru/metu-ros-pkg/blob/7c9e8b17db9ebee4d23b5df0b222e8d747da363d/ros2/roboturk/media/errt-shortcut/README.md)
+
+[![Blue takes the direct route after the lane opens in a paired Webots replay](../../docs/assets/roboturk-webots/blue-takes-the-direct-route.gif)](https://github.com/kadiru/metu-ros-pkg/blob/7c9e8b17db9ebee4d23b5df0b222e8d747da363d/ros2/roboturk/media/errt-shortcut/blue-direct-route.gif)
 
 ### Can Yellow get moving after it brakes?
 

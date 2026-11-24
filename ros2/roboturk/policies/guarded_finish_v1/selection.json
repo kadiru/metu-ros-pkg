@@ -1,0 +1,233 @@
+{
+  "seed": 36010000,
+  "episodes": 10,
+  "candidates": [
+    {
+      "profile": {
+        "speed": 1.5,
+        "avoidance": 1.4,
+        "receive": {
+          "approach_speed": 1.3,
+          "cushion": 0.4,
+          "settle_gain": 4.0
+        }
+      },
+      "metrics": {
+        "starts": 10,
+        "receptions": 9,
+        "shots": 9,
+        "saves_on_shots": 4,
+        "goals": 5,
+        "outcomes": {
+          "defender_collision": 1,
+          "goal": 5,
+          "keeper_save": 4
+        }
+      },
+      "total_goal_seconds": 45.44
+    },
+    {
+      "profile": {
+        "speed": 1.5,
+        "avoidance": 1.4,
+        "receive": {
+          "approach_speed": 1.3,
+          "cushion": 0.4,
+          "settle_gain": 4.0
+        },
+        "finish": {
+          "release_range": 0.7,
+          "corner_offset": 0.38,
+          "prediction": 0
+        }
+      },
+      "metrics": {
+        "starts": 10,
+        "receptions": 9,
+        "shots": 9,
+        "saves_on_shots": 1,
+        "goals": 8,
+        "outcomes": {
+          "defender_collision": 1,
+          "goal": 8,
+          "keeper_save": 1
+        }
+      },
+      "total_goal_seconds": 75.26
+    },
+    {
+      "profile": {
+        "speed": 1.5,
+        "avoidance": 1.4,
+        "receive": {
+          "approach_speed": 1.3,
+          "cushion": 0.4,
+          "settle_gain": 4.0
+        },
+        "finish": {
+          "release_range": 0.95,
+          "corner_offset": 0.42,
+          "prediction": 0.7
+        }
+      },
+      "metrics": {
+        "starts": 10,
+        "receptions": 9,
+        "shots": 9,
+        "saves_on_shots": 1,
+        "goals": 8,
+        "outcomes": {
+          "defender_collision": 1,
+          "goal": 8,
+          "keeper_save": 1
+        }
+      },
+      "total_goal_seconds": 74.22
+    },
+    {
+      "profile": {
+        "speed": 1.5,
+        "avoidance": 1.4,
+        "receive": {
+          "approach_speed": 1.3,
+          "cushion": 0.4,
+          "settle_gain": 4.0
+        },
+        "finish": {
+          "release_range": 1.3,
+          "corner_offset": 0.42,
+          "prediction": 0.7
+        }
+      },
+      "metrics": {
+        "starts": 10,
+        "receptions": 9,
+        "shots": 9,
+        "saves_on_shots": 1,
+        "goals": 8,
+        "outcomes": {
+          "defender_collision": 1,
+          "goal": 8,
+          "keeper_save": 1
+        }
+      },
+      "total_goal_seconds": 72.8
+    },
+    {
+      "profile": {
+        "speed": 1.5,
+        "avoidance": 1.4,
+        "receive": {
+          "approach_speed": 1.3,
+          "cushion": 0.4,
+          "settle_gain": 4.0
+        },
+        "finish": {
+          "release_range": 0.7,
+          "corner_offset": 0.44,
+          "prediction": 1
+        }
+      },
+      "metrics": {
+        "starts": 10,
+        "receptions": 9,
+        "shots": 9,
+        "saves_on_shots": 1,
+        "goals": 8,
+        "outcomes": {
+          "defender_collision": 1,
+          "goal": 8,
+          "keeper_save": 1
+        }
+      },
+      "total_goal_seconds": 75.48
+    },
+    {
+      "profile": {
+        "speed": 1.5,
+        "avoidance": 1.4,
+        "receive": {
+          "approach_speed": 1.3,
+          "cushion": 0.4,
+          "settle_gain": 4.0
+        },
+        "finish": {
+          "release_range": 1.15,
+          "corner_offset": 0.38,
+          "prediction": 0
+        }
+      },
+      "metrics": {
+        "starts": 10,
+        "receptions": 9,
+        "shots": 9,
+        "saves_on_shots": 1,
+        "goals": 8,
+        "outcomes": {
+          "defender_collision": 1,
+          "goal": 8,
+          "keeper_save": 1
+        }
+      },
+      "total_goal_seconds": 73.18
+    },
+    {
+      "profile": {
+        "speed": 1.5,
+        "avoidance": 1.4,
+        "receive": {
+          "approach_speed": 1.3,
+          "cushion": 0.4,
+          "settle_gain": 4.0
+        },
+        "finish": {
+          "release_range": 1.55,
+          "corner_offset": 0.44,
+          "prediction": 1
+        }
+      },
+      "metrics": {
+        "starts": 10,
+        "receptions": 9,
+        "shots": 9,
+        "saves_on_shots": 1,
+        "goals": 8,
+        "outcomes": {
+          "defender_collision": 1,
+          "goal": 8,
+          "keeper_save": 1
+        }
+      },
+      "total_goal_seconds": 71.9
+    }
+  ],
+  "selected": {
+    "profile": {
+      "speed": 1.5,
+      "avoidance": 1.4,
+      "receive": {
+        "approach_speed": 1.3,
+        "cushion": 0.4,
+        "settle_gain": 4.0
+      },
+      "finish": {
+        "release_range": 1.55,
+        "corner_offset": 0.44,
+        "prediction": 1
+      }
+    },
+    "metrics": {
+      "starts": 10,
+      "receptions": 9,
+      "shots": 9,
+      "saves_on_shots": 1,
+      "goals": 8,
+      "outcomes": {
+        "defender_collision": 1,
+        "goal": 8,
+        "keeper_save": 1
+      }
+    },
+    "total_goal_seconds": 71.9
+  }
+}

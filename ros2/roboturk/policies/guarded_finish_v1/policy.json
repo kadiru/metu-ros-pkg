@@ -1,0 +1,14 @@
+{
+  "speed": 1.5,
+  "avoidance": 1.4,
+  "receive": {
+    "approach_speed": 1.3,
+    "cushion": 0.4,
+    "settle_gain": 4.0
+  },
+  "finish": {
+    "release_range": 1.55,
+    "corner_offset": 0.44,
+    "prediction": 1
+  }
+}

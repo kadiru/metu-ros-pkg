@@ -1,0 +1,66 @@
+{
+  "seed": 38722001,
+  "seconds": 44.0,
+  "score": [
+    1,
+    0
+  ],
+  "robot_clearance": {
+    "min_gap_m": 0.03935221619958709,
+    "contact_episodes": 0
+  },
+  "keys": [
+    [
+      "blue",
+      0
+    ],
+    [
+      "blue",
+      1
+    ],
+    [
+      "blue",
+      2
+    ],
+    [
+      "blue",
+      3
+    ],
+    [
+      "blue",
+      4
+    ],
+    [
+      "yellow",
+      0
+    ],
+    [
+      "yellow",
+      1
+    ],
+    [
+      "yellow",
+      2
+    ],
+    [
+      "yellow",
+      3
+    ],
+    [
+      "yellow",
+      4
+    ]
+  ],
+  "keeper_cover": [
+    [
+      43.04,
+      7,
+      5
+    ],
+    [
+      43.08,
+      7,
+      5
+    ]
+  ]
+}

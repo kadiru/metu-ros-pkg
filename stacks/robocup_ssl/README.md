@@ -13,7 +13,17 @@ The work spans hardware/software integration and path-planning experiments: how 
 
 ## Robot soccer in Webots
 
-In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/15fa06657c1aa4ec46b0ce4efa33d717495f54c1/ros2/roboturk)
+In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/ba71026d0843d4057ab620798c725e4dd5078ecf/ros2/roboturk)
+
+### Winning the ball in a 5v5 match
+
+Follow the circled Blue 2 as it takes the ball from Yellow 1. Across four matched 90-second games per configuration, the trained tackle won the ball cleanly 19 times and the current Presser won it zero times. Both recorded zero body contacts and zero AutoRef crash calls. [Matched results and Webots traces](https://github.com/kadiru/metu-ros-pkg/blob/ba71026d0843d4057ab620798c725e4dd5078ecf/ros2/roboturk/media/live-tackle/README.md)
+
+[![Blue 2 challenges Yellow 1 and confirms a clean takeaway](../../docs/assets/roboturk-webots/5v5-takeaway.gif)](https://github.com/kadiru/metu-ros-pkg/blob/ba71026d0843d4057ab620798c725e4dd5078ecf/ros2/roboturk/media/live-tackle/5v5-takeaway.gif)
+
+In the close-up, the experimental pivot on the right turns the Blue robot and sweeps the ball sideways out of Yellow's dribbler. The direct tackle on the left wins the ball sooner on this start. [Pivot comparison](https://github.com/kadiru/metu-ros-pkg/blob/ba71026d0843d4057ab620798c725e4dd5078ecf/ros2/roboturk/media/live-tackle/README.md#pivot-fetch)
+
+[![Side-by-side native Webots replay of the direct tackle and rotating fetch](../../docs/assets/roboturk-webots/pivot-fetch.gif)](https://github.com/kadiru/metu-ros-pkg/blob/ba71026d0843d4057ab620798c725e4dd5078ecf/ros2/roboturk/media/live-tackle/pivot-fetch.gif)
 
 ### Can Blue take the ball from a moving carrier?
 

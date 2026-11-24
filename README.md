@@ -1,23 +1,27 @@
-# METU Robotics Research
+# From seeing the world to acting in it.
 
-**Affordance learning, grounded language, and robot-soccer systems**  
-Research software by **Kadir Fırat Uyanık**, with KOVAN / ROSSI and METU IEEE RAS collaborators.
+Two strands of robotics research at Middle East Technical University: **iCub learns what actions mean; RoboTurk coordinates a team on the soccer field.** This repository preserves the collaborative ROS research archive and provides an entry point to the ongoing RoboTurk ROS 2/Webots successor.
 
-[![Robots that learn what is possible — perception, affordances, planning and action](docs/assets/affordance-hero.svg)](stacks/affordance_learning/README.md)
+## Choose a project
 
-## Explore the two ROS stacks
-
-| Stack | Research and engineering | Landing page |
+| Project | Core question | Explore |
 | --- | --- | --- |
-| **Affordance learning** · KOVAN / ROSSI · 2011–2013 | iCub perception, behavior-effect prediction, language grounding, human interaction and multi-step planning | **[Explore affordance learning →](stacks/affordance_learning/README.md)** |
-| **RoboTurk robot soccer** · METU IEEE RAS · 2009–2011 | Omnidirectional robots, ROS interfaces, collision-aware planning and Webots simulation | **[Explore robot soccer →](stacks/robocup_ssl/README.md)** |
+| **RoboTurk — robot soccer** | How do robots perceive a shared field, find space, win the ball and coordinate a play? | [Demo, results and code map](stacks/robocup_ssl/README.md) |
+| **iCub — affordances and language** | Can a robot ground words and plans in the effects of its actions and the help a person can provide? | [Research story, demonstration and papers](stacks/affordance_learning/README.md) |
 
-Each stack has its own illustrated overview, architecture diagrams, code-reading guide, research references and archival demo links. The two directories are parts of this repository, not separate repositories.
+[![A Webots match: Blue 2 challenges Yellow and takes the ball](docs/assets/roboturk-webots/5v5-takeaway.gif)](stacks/robocup_ssl/README.md)
 
-## Research archive
+*RoboTurk's modern Webots simulation. [Matched trial record and control boundaries](https://github.com/kadiru/metu-ros-pkg/blob/ba71026d0843d4057ab620798c725e4dd5078ecf/ros2/roboturk/media/live-tackle/README.md). Historical hardware and modern simulation are documented separately.*
 
-These are historical **ROS 1 / rosbuild-era** sources, not a ROS 2 distribution or a currently validated installation. The documentation distinguishes published experiments, inspected implementation, and unfinished development snapshots. No modern build, benchmark, or hardware reproduction is claimed.
+## My contribution
 
-[Research sources and diagram attribution](docs/RESEARCH_SOURCES.md) · [Original code-history analytics](https://www.openhub.net/p/metu-ros-pkg)
+I co-founded and led the METU IEEE RAS RoboCup team, working across distributed C++ autonomy, multi-camera perception, state estimation, planning, robot communication and Webots simulation. In KOVAN / EU FP7 ROSSI, I built iCub perception, data collection and learning/planning components for affordance and language research.
 
-Code and bundled third-party dependencies retain their existing, file-specific licenses and copyright notices. No new repository-wide software license is imposed by these documentation pages.
+This was team research. Paper author lists, original source authors and per-file licenses remain the authority for attribution. [Research sources and credits](docs/RESEARCH_SOURCES.md)
+
+## Know which version you are reading
+
+- **`stacks/` on the default branch:** historical ROS 1 / rosbuild-era code, including multiple experimental versions. A current build is not validated.
+- **[RoboTurk ROS 2 successor](https://github.com/kadiru/metu-ros-pkg/tree/codex/roboturk-ros2/ros2/roboturk):** active work on a separate branch and [draft PR](https://github.com/kadiru/metu-ros-pkg/pull/1). Its guide contains current setup and evaluation details.
+
+For a quick review, follow one project page into its demonstration, a named result and the corresponding source file. Reproducing the archive requires restoring legacy dependencies; the modern successor is the appropriate starting point for new RoboTurk experiments.

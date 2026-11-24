@@ -1,0 +1,194 @@
+{
+  "summary": {
+    "midfield": {
+      "direct": {
+        "starts": 8,
+        "clean": 6,
+        "out": 0,
+        "goalward": 0,
+        "own_goal": 0,
+        "contact": 0,
+        "median_clean_capture_s": 0.659
+      },
+      "pivot_left": {
+        "starts": 8,
+        "clean": 4,
+        "out": 0,
+        "goalward": 0,
+        "own_goal": 0,
+        "contact": 4,
+        "median_clean_capture_s": 0.5839999999999997
+      },
+      "pivot_right": {
+        "starts": 8,
+        "clean": 4,
+        "out": 0,
+        "goalward": 0,
+        "own_goal": 0,
+        "contact": 4,
+        "median_clean_capture_s": 0.5750000000000006
+      },
+      "contain": {
+        "starts": 8,
+        "clean": 0,
+        "out": 0,
+        "goalward": 0,
+        "own_goal": 0,
+        "contact": 0,
+        "median_clean_capture_s": null
+      },
+      "selector": {
+        "starts": 8,
+        "clean": 6,
+        "out": 0,
+        "goalward": 0,
+        "own_goal": 0,
+        "contact": 0,
+        "median_clean_capture_s": 0.6590000000000003
+      }
+    },
+    "touchline": {
+      "direct": {
+        "starts": 8,
+        "clean": 6,
+        "out": 1,
+        "goalward": 0,
+        "own_goal": 0,
+        "contact": 0,
+        "median_clean_capture_s": 0.6549999999999987
+      },
+      "pivot_left": {
+        "starts": 8,
+        "clean": 3,
+        "out": 3,
+        "goalward": 0,
+        "own_goal": 0,
+        "contact": 2,
+        "median_clean_capture_s": 0.5879999999999999
+      },
+      "pivot_right": {
+        "starts": 8,
+        "clean": 3,
+        "out": 2,
+        "goalward": 0,
+        "own_goal": 0,
+        "contact": 3,
+        "median_clean_capture_s": 0.5680000000000005
+      },
+      "contain": {
+        "starts": 8,
+        "clean": 0,
+        "out": 1,
+        "goalward": 0,
+        "own_goal": 0,
+        "contact": 0,
+        "median_clean_capture_s": null
+      },
+      "selector": {
+        "starts": 8,
+        "clean": 5,
+        "out": 1,
+        "goalward": 0,
+        "own_goal": 0,
+        "contact": 1,
+        "median_clean_capture_s": 0.6559999999999988
+      }
+    },
+    "own-goal": {
+      "direct": {
+        "starts": 8,
+        "clean": 6,
+        "out": 0,
+        "goalward": 0,
+        "own_goal": 0,
+        "contact": 0,
+        "median_clean_capture_s": 0.5709999999999997
+      },
+      "pivot_left": {
+        "starts": 8,
+        "clean": 6,
+        "out": 0,
+        "goalward": 0,
+        "own_goal": 0,
+        "contact": 2,
+        "median_clean_capture_s": 0.5830000000000001
+      },
+      "pivot_right": {
+        "starts": 8,
+        "clean": 4,
+        "out": 0,
+        "goalward": 0,
+        "own_goal": 1,
+        "contact": 2,
+        "median_clean_capture_s": 0.5810000000000004
+      },
+      "contain": {
+        "starts": 8,
+        "clean": 0,
+        "out": 0,
+        "goalward": 0,
+        "own_goal": 1,
+        "contact": 1,
+        "median_clean_capture_s": null
+      },
+      "selector": {
+        "starts": 8,
+        "clean": 2,
+        "out": 0,
+        "goalward": 0,
+        "own_goal": 1,
+        "contact": 1,
+        "median_clean_capture_s": 0.6170000000000009
+      }
+    }
+  },
+  "selector": {
+    "midfield": {
+      "first_actions": {
+        "direct": 8
+      },
+      "starts_using": {
+        "direct": 8,
+        "pivot_left": 2
+      },
+      "starts_with_veto": {},
+      "direct_unsafe_selector_safe": []
+    },
+    "touchline": {
+      "first_actions": {
+        "direct": 7,
+        "pivot_right": 1
+      },
+      "starts_using": {
+        "contain": 2,
+        "direct": 7,
+        "pivot_left": 3,
+        "pivot_right": 2
+      },
+      "starts_with_veto": {
+        "touchline": 8
+      },
+      "direct_unsafe_selector_safe": []
+    },
+    "own-goal": {
+      "first_actions": {
+        "contain": 3,
+        "direct": 1,
+        "pivot_left": 1,
+        "pivot_right": 3
+      },
+      "starts_using": {
+        "contain": 5,
+        "direct": 2,
+        "pivot_left": 2,
+        "pivot_right": 3
+      },
+      "starts_with_veto": {
+        "endline": 6,
+        "own_goal": 8
+      },
+      "direct_unsafe_selector_safe": []
+    }
+  },
+  "starts": 24
+}

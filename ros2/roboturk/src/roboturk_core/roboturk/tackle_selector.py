@@ -13,6 +13,7 @@ CONTAIN = "contain"
 # Left and right refer to the ball's release side in the carrier's frame.
 PIVOT_SIDES = {"pivot_left": 1, "pivot_right": -1}
 ACTIONS = (DIRECT, *PIVOT_SIDES, CONTAIN)
+STALL_TICKS = 12
 
 
 def contain_command(world, presser):
@@ -27,20 +28,21 @@ def release_risks(ball, sign, pull):
     """Bound a possible release with measured drift and a short pull in the candidate direction."""
     px, py = unit(*pull)
     reasons = set()
-    # Check the current drift on its own as well as drift plus the commanded pull.
-    # This conservative envelope is a geometric screen, without a contact simulation.
-    for travel in (0.0, 0.20):
-        dx = 0.32 * ball.vx + travel * px
-        dy = 0.32 * ball.vy + travel * py
+    # Drift can cross a line before the roller responds. After that reaction
+    # window, allow an inward pull to counter measured outward drift.
+    for seconds, travel, margin in ((2 * CFG.dt, 0.0, 0.0), (0.32, 0.16, 0.025)):
+        dx = seconds * ball.vx + travel * px
+        dy = seconds * ball.vy + travel * py
         goal_distance = CFG.length / 2 + sign * ball.x
         toward_goal = -sign * dx
-        if 0 <= goal_distance <= 0.80 and toward_goal > 0.015:
+        goal_lookahead = 0.80 if travel else toward_goal
+        if 0 <= goal_distance <= goal_lookahead and toward_goal > 0.015:
             goal_y = ball.y + goal_distance / toward_goal * dy
             if abs(goal_y) <= CFG.goal_width / 2 + 0.17:
                 reasons.add("own_goal")
-        if abs(ball.y + dy) > abs(ball.y) and abs(ball.y + dy) >= CFG.ball_exit_y - 0.055:
+        if abs(ball.y + dy) > abs(ball.y) and abs(ball.y + dy) >= CFG.ball_exit_y - margin:
             reasons.add("touchline")
-        if abs(ball.x + dx) > abs(ball.x) and abs(ball.x + dx) >= CFG.ball_exit_x - 0.055:
+        if abs(ball.x + dx) > abs(ball.x) and abs(ball.x + dx) >= CFG.ball_exit_x - margin:
             reasons.add("endline")
     return tuple(sorted(reasons))
 
@@ -104,8 +106,8 @@ class TackleSelector:
             state.initial_error = error
 
         # Give the direct draw time while the ball is progressing out of the carrier's mouth.
-        stalled = state.samples >= 8 and error - state.initial_error < 0.25
-        if state.samples >= 8 and not stalled:
+        stalled = state.samples >= STALL_TICKS and error - state.initial_error < 0.25
+        if state.samples >= STALL_TICKS and not stalled:
             state.samples = 1
             state.initial_error = error
         if not state.active and shared and (stalled or DIRECT in vetoes):

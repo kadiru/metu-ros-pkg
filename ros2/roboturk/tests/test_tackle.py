@@ -128,14 +128,20 @@ def test_selector_tries_direct_then_uses_the_inward_pivot_in_a_stalled_duel():
     )
     selector = TackleSelector(BallSideTackle(37, 0.108, 0.22, 0))
     observed = {r.key: (0, 0) for r in w.robots}
-    for tick in range(8):
+    for tick in range(12):
         command = selector.command(
             replace(w, time=tick * CFG.dt), w.robot(PRESSER), w.robot(CARRIER), observed, True
         )
-        assert selector.action(PRESSER) == ("direct" if tick < 7 else "pivot_right")
+        assert selector.action(PRESSER) == ("direct" if tick < 11 else "pivot_right")
         assert command.kick == 0
     assert selector.events[-1]["vetoes"] == {"pivot_left": ("touchline",)}
-    drifting = replace(w, time=8 * CFG.dt, ball=replace(w.ball, vy=0.6))
+    drifting = replace(w, time=12 * CFG.dt, ball=replace(w.ball, vy=1.8))
     command = selector.command(drifting, w.robot(PRESSER), w.robot(CARRIER), observed, True)
     assert selector.action(PRESSER) == "contain"
     assert command.dribbler == 0
+
+
+def test_tackle_veto_preserves_an_inward_pull_that_can_counter_drift():
+    ball = Ball(0, 2.95, vy=0.35)
+    assert release_risks(ball, 1, (0, 1)) == ("touchline",)
+    assert release_risks(ball, 1, (0, -1)) == ()

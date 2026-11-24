@@ -2,6 +2,7 @@
 
 import argparse
 from collections import Counter
+import gzip
 import json
 from pathlib import Path
 from statistics import median
@@ -21,8 +22,15 @@ def verdict(result):
     }
 
 
+def read_rows(path):
+    if path.suffix == ".gz":
+        with gzip.open(path, "rt") as stream:
+            return json.load(stream)
+    return json.loads(path.read_text())
+
+
 def compare(paths):
-    rows = [row for path in paths for row in json.loads(path.read_text())]
+    rows = [row for path in paths for row in read_rows(path)]
     pairs = {(row["zone"], row["seed"]) for row in rows}
     if not rows or len(rows) != len(pairs):
         raise ValueError("Use unique native start IDs for each zone")
@@ -45,18 +53,22 @@ def compare(paths):
         if any(event["action"] in event["vetoes"] for log in events for event in log):
             raise ValueError(f"The selector used a vetoed action in {zone}")
         policy[zone] = dict(
-            first_actions=dict(Counter(log[0]["action"] for log in events)),
-            starts_using=dict(Counter(m for log in events for m in {e["action"] for e in log})),
+            first_actions=dict(sorted(Counter(log[0]["action"] for log in events).items())),
+            starts_using=dict(
+                sorted(Counter(m for log in events for m in {e["action"] for e in log}).items())
+            ),
             starts_with_veto=dict(
-                Counter(
-                    reason
-                    for log in events
-                    for reason in {
+                sorted(
+                    Counter(
                         reason
-                        for e in log
-                        for reasons in e["vetoes"].values()
-                        for reason in reasons
-                    }
+                        for log in events
+                        for reason in {
+                            reason
+                            for e in log
+                            for reasons in e["vetoes"].values()
+                            for reason in reasons
+                        }
+                    ).items()
                 )
             ),
             direct_unsafe_selector_safe=[

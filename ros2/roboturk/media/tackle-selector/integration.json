@@ -1,0 +1,99 @@
+{
+  "seed": 38722001,
+  "seconds": 18.0,
+  "score": [
+    0,
+    0
+  ],
+  "robot_clearance": {
+    "min_gap_m": 0.05464644136657476,
+    "contact_episodes": 0
+  },
+  "keys": [
+    [
+      "blue",
+      0
+    ],
+    [
+      "blue",
+      1
+    ],
+    [
+      "blue",
+      2
+    ],
+    [
+      "blue",
+      3
+    ],
+    [
+      "blue",
+      4
+    ],
+    [
+      "yellow",
+      0
+    ],
+    [
+      "yellow",
+      1
+    ],
+    [
+      "yellow",
+      2
+    ],
+    [
+      "yellow",
+      3
+    ],
+    [
+      "yellow",
+      4
+    ]
+  ],
+  "tackle_decisions": [
+    {
+      "time": 0.12,
+      "presser": 9,
+      "carrier": 4,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 2.3600000000000003,
+      "presser": 4,
+      "carrier": 9,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 4.840000000000001,
+      "presser": 6,
+      "carrier": 1,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 9.44,
+      "presser": 9,
+      "carrier": 1,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 16.32,
+      "presser": 6,
+      "carrier": 4,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    }
+  ],
+  "decision_changes_by_action": {
+    "direct": 5
+  }
+}

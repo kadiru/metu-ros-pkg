@@ -8,7 +8,12 @@ from roboturk.team import PassReceiveEnv, TeamCheckpoint, TransferTeacher, evalu
 
 
 def run(supervisor, backend, cfg, mode):
-    env = PassReceiveEnv(cfg, backend)
+    if mode.startswith("team-closing-"):
+        from roboturk.closing_press import ClosingPassEnv
+
+        env = ClosingPassEnv(cfg, backend)
+    else:
+        env = PassReceiveEnv(cfg, backend)
     output = Path(os.environ.get("ROBOTURK_OUTPUT", "runs/team/result"))
     output.parent.mkdir(parents=True, exist_ok=True)
     if mode == "team-fit-receiver":
@@ -48,11 +53,16 @@ def run(supervisor, backend, cfg, mode):
             if os.environ.get("ROBOTURK_SHOOT_CHECKPOINT")
             else None
         )
+        profile = os.environ.get("ROBOTURK_CARRY_PROFILE")
+        if profile:
+            from roboturk.closing_press import ClosingCarry
+
+            shooter = ClosingCarry(shooter, **json.loads(Path(profile).read_text()))
         episodes, seed = (
             int(os.environ.get("ROBOTURK_EPISODES", "200")),
             int(os.environ.get("ROBOTURK_SEED", "450000")),
         )
-        if mode == "team-demo":
+        if mode in ("team-demo", "team-closing-demo"):
             if not checkpoint or shooter is None:
                 raise ValueError("Demo requires both learned transfer and scoring checkpoints")
             from team_demo import record
@@ -60,6 +70,9 @@ def run(supervisor, backend, cfg, mode):
             result = record(supervisor, env, policy, shooter, output, episodes, seed)
         else:
             result = evaluate_team(env, policy, episodes, seed, shooter)
+        if profile:
+            result["carry_profile"] = json.loads(Path(profile).read_text())
+            result["carry_profile_sha256"] = hashlib.sha256(Path(profile).read_bytes()).hexdigest()
         result["policy"] = checkpoint or "analytic_demonstration_teacher"
         result["shooter"] = os.environ.get("ROBOTURK_SHOOT_CHECKPOINT")
         for label, path in [("checkpoint", checkpoint), ("shooting_checkpoint", result["shooter"])]:

@@ -42,6 +42,8 @@ class Recorder:
         )
         env.backend.nodes[env.passer].getField("color").setSFColor([0.05, 0.25, 0.95])
         env.backend.nodes[env.receiver].getField("color").setSFColor([0.05, 0.85, 0.85])
+        if env.task_version == "pass_receive.closing_marker.v1":
+            self.label(4, "Blue passes | Cyan receives | Yellow closes on the ball", 0.90, 0.042)
         self.camera(env, None)
 
     def camera(self, env, shot):
@@ -70,7 +72,7 @@ class Recorder:
             phase = "GOAL" if info["is_success"] else "SHOT" if shot.shot else "RECEIVER DRIBBLING"
             total = env.steps * env.cfg.dt + info["elapsed_seconds"]
             detail = f"Controlled carry {info['carried_progress']:.2f} m | goal distance {info['target_distance']:.2f} m"
-        if (env.finished if shot is None else shot.finished) and not info["is_success"]:
+        if not info["is_success"] and info["reason"] not in ("running", "shot"):
             phase = "FAILED: " + info["reason"]
         self.label(2, f"{phase} | {total:.2f} s", 0.16, 0.045, 0x68FFB0)
         self.label(3, detail, 0.22, 0.035)

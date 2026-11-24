@@ -209,3 +209,44 @@ def test_tactical_target_matches_play_reset_and_legacy_contract_remains_availabl
     old = DefendedEnv(contract=DEFENDED_CONTRACT_V2)
     obs, _ = old.reset(seed=12)
     assert obs.shape == (56,) and old.state.receiver_target is None
+
+
+def test_closing_marker_preserves_teammate_openings_and_reacts_to_visible_ball_motion():
+    from roboturk.closing_press import ClosingPassEnv
+    from roboturk.team import PassReceiveEnv
+
+    opposed, original = ClosingPassEnv(), PassReceiveEnv()
+    original.reset(seed=18)
+    _, first = opposed.reset(seed=18)
+    assert opposed.world.robots[:2] == original.world.robots
+    assert opposed.world.ball == original.world.ball
+    assert opposed.reset(seed=18)[1] == first
+    marker = opposed.backend.defender
+    waiting = marker.command(opposed.world)
+    assert (waiting.vx, waiting.vy) == (0, 0) and marker.press_start is None
+    moving = replace(opposed.world, time=1.5, ball=replace(opposed.world.ball, vx=1.4))
+    command = marker.command(moving)
+    assert 0 < math.hypot(command.vx, command.vy) <= marker.speed + 1e-9
+    command = marker.command(replace(opposed.world, time=3.0))
+    assert marker.press_start == 1.5 and math.hypot(command.vx, command.vy) > 0
+
+
+def test_carry_returns_to_the_frozen_scorer_in_finishing_range():
+    from roboturk.closing_press import ClosingCarry, ClosingPassEnv
+    from roboturk.model import Intent, Skill
+
+    env = ClosingPassEnv()
+    env.reset(seed=7)
+    r = env.world.robot(env.receiver)
+    world = replace(
+        env.world, ball=Ball(r.x + 0.115 * math.cos(r.yaw), r.y + 0.115 * math.sin(r.yaw))
+    )
+
+    class Scorer:
+        def command(self, world, key, intent, cfg):
+            return Command(kick=3.5)
+
+    carry = ClosingCarry(Scorer(), 1.25, 0.85)
+    for distance, kick in [(3.0, 0), (1.5, 3.5)]:
+        intent = Intent(Skill.SHOOT, (world.ball.x + distance, world.ball.y))
+        assert carry.command(world, r.key, intent, env.cfg).kick == kick

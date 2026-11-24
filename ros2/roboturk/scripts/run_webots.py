@@ -71,6 +71,8 @@ def main():
             "team-fit-receiver",
             "team-evaluate",
             "team-demo",
+            "team-closing-evaluate",
+            "team-closing-demo",
             "shoot-train",
             "shoot-upgrade",
             "shoot-evaluate",
@@ -86,6 +88,7 @@ def main():
     parser.add_argument("--seed", type=int, default=1000)
     parser.add_argument("--output", default="runs/webots/result")
     parser.add_argument("--checkpoint")
+    parser.add_argument("--carry-profile", help="Closing-marker carry parameters (JSON)")
     parser.add_argument("--shoot-checkpoint", help="Frozen scoring policy for the two-robot play")
     parser.add_argument("--defender-checkpoint")
     parser.add_argument("--keeper-checkpoint")
@@ -107,6 +110,12 @@ def main():
     if args.mode == "physics-check" and args.render:
         env["ROBOTURK_FILM_ROLL"] = "1"
     env["ROBOTURK_OUTPUT"] = str(Path(args.output).resolve())
+    if args.carry_profile:
+        if not args.mode.startswith("team-closing-") or not args.shoot_checkpoint:
+            parser.error("--carry-profile requires a team-closing mode and --shoot-checkpoint")
+        env["ROBOTURK_CARRY_PROFILE"] = str(Path(args.carry_profile).resolve())
+    else:
+        env.pop("ROBOTURK_CARRY_PROFILE", None)
     if args.checkpoint:
         env["ROBOTURK_CHECKPOINT"] = str(Path(args.checkpoint).resolve())
     if args.shoot_checkpoint:

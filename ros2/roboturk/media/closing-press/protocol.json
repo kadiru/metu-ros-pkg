@@ -1,0 +1,33 @@
+{
+  "prior_release": "6ffee2604d0e5a454a8c1fedb4c9375755d9b7bc",
+  "development_starts": [
+    33800000,
+    33800003
+  ],
+  "fresh_paired_starts": [
+    33802000,
+    33802039
+  ],
+  "independent_demo_seed": 33803000,
+  "policies": [
+    "pass_receive_v2",
+    "carpet_receive_v1"
+  ],
+  "scorer": "capture_dribble_shoot_v2",
+  "criteria": [
+    "valid pass",
+    "0.40 s stable reception",
+    "goal",
+    "terminal phase",
+    "opponent proximity and possession events"
+  ],
+  "scenario": "Two attackers and one lateral marker. The marker starts pursuing once it observes ball speed >=0.9 m/s and stays active through the shot. No goalkeeper.",
+  "post_reception_training": {
+    "training_starts": [
+      33810000,
+      33810007
+    ],
+    "selection": "most goals, then fewest defender contacts with robots, then fewest possession losses, then greatest total carry progress",
+    "comparison": "Freeze one profile before evaluating it on the same 40 shared starts."
+  }
+}

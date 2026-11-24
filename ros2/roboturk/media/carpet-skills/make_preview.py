@@ -26,7 +26,9 @@ def read_trial(movie):
         events.append((transfer["elapsed_seconds"], "Received · carrying to goal"))
         if shot["shot"]:
             events.append((transfer["elapsed_seconds"] + shot["shot_seconds"], "Shooting"))
-    outcome = {"goal": "Goal", "timeout": "Timed out"}.get(row["reason"], row["reason"])
+    outcome = {"goal": "Goal", "timeout": "Timed out"}.get(
+        row["reason"], row["reason"].replace("_", " ").capitalize()
+    )
     events.append((row["elapsed_seconds"], f"{outcome} at {row['elapsed_seconds']:.2f} s"))
     return row, events
 
@@ -58,7 +60,7 @@ def mark_ball(frame):
         ImageDraw.Draw(frame).ellipse((cx - 8, cy - 8, cx + 8, cy + 8), outline="#ffcc63", width=2)
 
 
-def preview(movie, output, baseline=None):
+def preview(movie, output, baseline=None, labels=("Original receiver", "Fitted receiver")):
     movies = [baseline, movie] if baseline else [movie]
     width = 480 if baseline else 800
     trials = [read_trial(path) for path in movies]
@@ -85,11 +87,7 @@ def preview(movie, output, baseline=None):
                 panel = Image.new("RGB", (width, scene.height + 65), "#10212b")
                 panel.paste(scene, (0, 65))
                 draw = ImageDraw.Draw(panel)
-                title = (
-                    ("Original receiver" if i == 0 else "Fitted receiver")
-                    if baseline
-                    else "Pass, receive and score"
-                )
+                title = labels[i] if baseline else "Pass, receive and score"
                 draw.text((12, 6), title, font=font, fill="white")
                 phase = next(
                     label for start_time, label in reversed(events) if seconds >= start_time
@@ -117,5 +115,6 @@ if __name__ == "__main__":
     parser.add_argument("movie", type=Path)
     parser.add_argument("gif", type=Path)
     parser.add_argument("--baseline", type=Path)
+    parser.add_argument("--labels", nargs=2, default=("Original receiver", "Fitted receiver"))
     args = parser.parse_args()
-    preview(args.movie, args.gif, args.baseline)
+    preview(args.movie, args.gif, args.baseline, args.labels)

@@ -246,7 +246,23 @@ class DefendedBackend:
         }
 
 
-class DefendedEnv(PassReceiveEnv):
+class OpposedPassEnv(PassReceiveEnv):
+    def info(self, success, reason):
+        return {**super().info(success, reason), **self.backend.evidence()}
+
+    def step(self, action):
+        obs, reward, done, truncated, info = super().step(action)
+        error = self.opponent_failure()
+        if error:
+            self.finished = True
+            return obs, -25.0, True, False, self.info(False, error)
+        return obs, reward, done, truncated, info
+
+    def opponent_failure(self):
+        return self.backend.failure
+
+
+class DefendedEnv(OpposedPassEnv):
     task_version = "defended_pass_receive.randomized.v1"
     episode_steps = 1000
 
@@ -331,22 +347,10 @@ class DefendedEnv(PassReceiveEnv):
     def info(self, success, reason):
         return {
             **super().info(success, reason),
-            **self.backend.evidence(),
             "receiver_lateral_displacement": abs(
                 self.world.robot(self.receiver).y - self.initial_receiver[1]
             ),
         }
-
-    def step(self, action):
-        obs, reward, done, truncated, info = super().step(action)
-        error = self.opponent_failure()
-        if error:
-            self.finished = True
-            return obs, -25.0, True, False, self.info(False, error)
-        return obs, reward, done, truncated, info
-
-    def opponent_failure(self):
-        return self.backend.failure
 
 
 class DefendedTeacher:

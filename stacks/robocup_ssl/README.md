@@ -13,7 +13,13 @@ The work spans hardware/software integration and path-planning experiments: how 
 
 ## Robot soccer in Webots
 
-In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/7c9e8b17db9ebee4d23b5df0b222e8d747da363d/ros2/roboturk)
+In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/023c26d13b59f94db02a216406d71bb0c6509b40/ros2/roboturk)
+
+### Why did Blue 2 stop at the penalty area?
+
+The red diamond is a target that would put part of the robot across the penalty-area line. At 48.80 s the right-hand replay moves the target outside the robot-center clearance shown by the dashed line. Blue 2 drives into position 0.44 s later. [Full-field replay](https://github.com/kadiru/metu-ros-pkg/blob/023c26d13b59f94db02a216406d71bb0c6509b40/ros2/roboturk/media/legal-off-ball-targets/blue-2-full-field.gif) · [Matched 5v5 results](https://github.com/kadiru/metu-ros-pkg/blob/023c26d13b59f94db02a216406d71bb0c6509b40/ros2/roboturk/media/legal-off-ball-targets/README.md)
+
+[![Blue 2 stays stopped with its original target and reaches the corrected Cover position](../../docs/assets/roboturk-webots/blue-2-cover.gif)](https://github.com/kadiru/metu-ros-pkg/blob/023c26d13b59f94db02a216406d71bb0c6509b40/ros2/roboturk/media/legal-off-ball-targets/blue-2-cover.gif)
 
 ### What happens when the direct route reopens?
 

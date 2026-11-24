@@ -4,6 +4,10 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Breaking a shared keeper grip
+
+The keeper sweeps the ball fieldward while the presser clears the lane for an outlet. The new cover recovered the ball cleanly on all five shared misses. Across 48 fresh matched starts it reduced own goals from six to one, with nine clean takeaways in each arm and two additional body-contact episodes. [Native replays and matched results](media/goal-lane/README.md)
+
 ## Timing the presser’s handoff to the keeper
 
 The timed cover kept the shared replay miss out of the net. On 48 fresh pairs it conceded five own goals, matching current cover, and recorded nine clean takeaways against ten. [Native replays and matched results](media/keeper-timing/README.md)

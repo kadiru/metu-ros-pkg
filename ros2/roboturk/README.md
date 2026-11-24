@@ -4,6 +4,10 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Keeping off-ball targets outside the penalty areas
+
+A matched native replay shows Blue 2 reaching its Cover position 0.44 s after its stalled target moves outside the penalty area. [Two-view Webots demo and matched 5v5 results](media/legal-off-ball-targets/README.md)
+
 ## Taking the direct route when it reopens
 
 In a paired Webots replay, Blue reached its outlet in 4.00 s after releasing its waypoint early, compared with 5.84 s through the waypoint. [Native replay, per-robot brake audit and matched games](media/errt-shortcut/README.md)

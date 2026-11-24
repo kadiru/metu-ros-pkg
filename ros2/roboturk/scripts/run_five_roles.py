@@ -79,7 +79,7 @@ def main():
     p.add_argument(
         "--motion-audit",
         action="store_true",
-        help="Record measured ball heights and crossing states",
+        help="Record robot targets and clearance, plus ball height and crossings",
     )
     mode.add_argument(
         "--frame-images", action="store_true", help="Save native JPEG samples at 12.5 Hz"

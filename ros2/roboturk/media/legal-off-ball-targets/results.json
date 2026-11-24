@@ -1,0 +1,1430 @@
+{
+  "replay": {
+    "seed": 38644000,
+    "switch_tick": 1220,
+    "switch_seconds": 48.800000000000004,
+    "old_target": [
+      -3.4674151574100387,
+      -0.30699086571478745
+    ],
+    "corrected_target": [
+      -3.382,
+      -0.30699086571478745
+    ],
+    "stall_start_s": 47.52,
+    "historical_stall_s": 72.48,
+    "seconds_to_cover": 0.44,
+    "move_distance_m": 0.16039476606248532
+  },
+  "match_comparison": {
+    "pairs": [
+      {
+        "seed": 38644000,
+        "seconds": 120.0,
+        "released": {
+          "score": [
+            0,
+            1
+          ],
+          "passes": 10,
+          "completed_passes": 5,
+          "receptions": [
+            {
+              "kick": 27,
+              "receive": 48,
+              "passer": 2,
+              "receiver": 3
+            },
+            {
+              "kick": 262,
+              "receive": 283,
+              "passer": 3,
+              "receiver": 4
+            },
+            {
+              "kick": 341,
+              "receive": 383,
+              "passer": 9,
+              "receiver": 7
+            },
+            {
+              "kick": 769,
+              "receive": 786,
+              "passer": 2,
+              "receiver": 1
+            },
+            {
+              "kick": 1116,
+              "receive": 1144,
+              "passer": 7,
+              "receiver": 8
+            }
+          ],
+          "planner_decisions": {
+            "direct": 14597,
+            "detour": 884,
+            "errt": 157,
+            "brake": 2236,
+            "escape": 11,
+            "hold": 107
+          },
+          "contact_episodes": 0,
+          "min_robot_gap_m": 0.09858647599207604,
+          "motion": {
+            "confirmed_control_s": 21.2,
+            "brakes_by_robot": {
+              "blue 1": 152,
+              "blue 2": 1941,
+              "blue 3": 35,
+              "blue 4": 47,
+              "yellow 1": 19,
+              "yellow 2": 3,
+              "yellow 4": 39
+            },
+            "brakes_by_role": {
+              "Cover": 2030,
+              "Anchor": 48,
+              "Screen": 53,
+              "Right wing": 39,
+              "Marker": 16,
+              "Left wing": 45,
+              "Block outlet": 5
+            },
+            "brakes_by_control": {
+              "opponent": 89,
+              "loose": 2083,
+              "own team": 64
+            },
+            "planned_by_control": {
+              "loose": 14811,
+              "own team": 1586,
+              "opponent": 1595
+            },
+            "planned_by_role": {
+              "Right wing": 5196,
+              "Cover": 5213,
+              "Anchor": 787,
+              "Screen": 787,
+              "Left wing": 5209,
+              "Marker": 787,
+              "Guard box": 8,
+              "Block outlet": 5
+            },
+            "brakes_inside_buffer": 65,
+            "brakes_with_out_of_bounds_target": 2177,
+            "targets_outside_buffered_field": 2412,
+            "stalls": [
+              {
+                "robot": "blue 1",
+                "role": "Cover",
+                "start": 626,
+                "ticks": 26
+              },
+              {
+                "robot": "blue 1",
+                "role": "Cover",
+                "start": 664,
+                "ticks": 21
+              },
+              {
+                "robot": "blue 1",
+                "role": "Cover",
+                "start": 690,
+                "ticks": 55
+              },
+              {
+                "robot": "blue 2",
+                "role": "Anchor",
+                "start": 772,
+                "ticks": 28
+              },
+              {
+                "robot": "blue 2",
+                "role": "Cover",
+                "start": 856,
+                "ticks": 17
+              },
+              {
+                "robot": "blue 2",
+                "role": "Cover",
+                "start": 1188,
+                "ticks": 1812
+              },
+              {
+                "robot": "blue 4",
+                "role": "Screen",
+                "start": 691,
+                "ticks": 15
+              }
+            ],
+            "stalled_robot_seconds": 78.96,
+            "shortcuts": []
+          }
+        },
+        "updated": {
+          "score": [
+            0,
+            0
+          ],
+          "passes": 6,
+          "completed_passes": 3,
+          "receptions": [
+            {
+              "kick": 27,
+              "receive": 48,
+              "passer": 2,
+              "receiver": 3
+            },
+            {
+              "kick": 262,
+              "receive": 283,
+              "passer": 3,
+              "receiver": 4
+            },
+            {
+              "kick": 341,
+              "receive": 383,
+              "passer": 9,
+              "receiver": 7
+            }
+          ],
+          "planner_decisions": {
+            "direct": 17392,
+            "detour": 397,
+            "errt": 85,
+            "brake": 39,
+            "escape": 9,
+            "hold": 74
+          },
+          "contact_episodes": 0,
+          "min_robot_gap_m": 0.09858647599207604,
+          "motion": {
+            "confirmed_control_s": 9.4,
+            "brakes_by_robot": {
+              "blue 2": 9,
+              "blue 3": 5,
+              "blue 4": 2,
+              "yellow 1": 10,
+              "yellow 4": 13
+            },
+            "brakes_by_role": {
+              "Right wing": 16,
+              "Screen": 2,
+              "Marker": 2,
+              "Left wing": 19
+            },
+            "brakes_by_control": {
+              "loose": 33,
+              "own team": 4,
+              "opponent": 2
+            },
+            "planned_by_control": {
+              "loose": 16590,
+              "own team": 701,
+              "opponent": 705
+            },
+            "planned_by_role": {
+              "Right wing": 5605,
+              "Cover": 5605,
+              "Anchor": 395,
+              "Left wing": 5601,
+              "Marker": 395,
+              "Screen": 395
+            },
+            "brakes_inside_buffer": 15,
+            "brakes_with_out_of_bounds_target": 0,
+            "targets_outside_buffered_field": 0,
+            "stalls": [],
+            "stalled_robot_seconds": 0.0,
+            "shortcuts": []
+          }
+        }
+      },
+      {
+        "seed": 38644001,
+        "seconds": 120.0,
+        "released": {
+          "score": [
+            2,
+            2
+          ],
+          "passes": 31,
+          "completed_passes": 16,
+          "receptions": [
+            {
+              "kick": 9,
+              "receive": 56,
+              "passer": 1,
+              "receiver": 4
+            },
+            {
+              "kick": 57,
+              "receive": 96,
+              "passer": 4,
+              "receiver": 2
+            },
+            {
+              "kick": 690,
+              "receive": 721,
+              "passer": 2,
+              "receiver": 1
+            },
+            {
+              "kick": 726,
+              "receive": 763,
+              "passer": 1,
+              "receiver": 4
+            },
+            {
+              "kick": 767,
+              "receive": 805,
+              "passer": 4,
+              "receiver": 1
+            },
+            {
+              "kick": 809,
+              "receive": 857,
+              "passer": 1,
+              "receiver": 4
+            },
+            {
+              "kick": 1034,
+              "receive": 1059,
+              "passer": 4,
+              "receiver": 3
+            },
+            {
+              "kick": 1132,
+              "receive": 1177,
+              "passer": 8,
+              "receiver": 7
+            },
+            {
+              "kick": 1179,
+              "receive": 1226,
+              "passer": 7,
+              "receiver": 6
+            },
+            {
+              "kick": 2001,
+              "receive": 2033,
+              "passer": 4,
+              "receiver": 2
+            },
+            {
+              "kick": 2034,
+              "receive": 2073,
+              "passer": 2,
+              "receiver": 1
+            },
+            {
+              "kick": 2076,
+              "receive": 2103,
+              "passer": 1,
+              "receiver": 4
+            },
+            {
+              "kick": 2508,
+              "receive": 2524,
+              "passer": 9,
+              "receiver": 8
+            },
+            {
+              "kick": 2544,
+              "receive": 2590,
+              "passer": 8,
+              "receiver": 7
+            },
+            {
+              "kick": 2809,
+              "receive": 2850,
+              "passer": 3,
+              "receiver": 1
+            },
+            {
+              "kick": 2855,
+              "receive": 2901,
+              "passer": 1,
+              "receiver": 2
+            }
+          ],
+          "planner_decisions": {
+            "direct": 13980,
+            "detour": 2299,
+            "errt": 435,
+            "brake": 907,
+            "hold": 395,
+            "escape": 45
+          },
+          "contact_episodes": 0,
+          "min_robot_gap_m": 0.047793954373790554,
+          "motion": {
+            "confirmed_control_s": 46.8,
+            "brakes_by_robot": {
+              "blue 1": 89,
+              "blue 2": 96,
+              "blue 3": 49,
+              "blue 4": 322,
+              "yellow 1": 147,
+              "yellow 2": 79,
+              "yellow 3": 92,
+              "yellow 4": 33
+            },
+            "brakes_by_role": {
+              "Marker": 141,
+              "Screen": 63,
+              "Left wing": 68,
+              "Right wing": 72,
+              "Cover": 437,
+              "Block outlet": 22,
+              "Guard box": 20,
+              "Anchor": 84
+            },
+            "brakes_by_control": {
+              "opponent": 221,
+              "loose": 571,
+              "own team": 115
+            },
+            "planned_by_control": {
+              "own team": 3501,
+              "loose": 11045,
+              "opponent": 3515
+            },
+            "planned_by_role": {
+              "Left wing": 3889,
+              "Right wing": 3898,
+              "Marker": 2102,
+              "Screen": 2102,
+              "Cover": 3898,
+              "Anchor": 2102,
+              "Block outlet": 39,
+              "Guard box": 31
+            },
+            "brakes_inside_buffer": 197,
+            "brakes_with_out_of_bounds_target": 654,
+            "targets_outside_buffered_field": 1069,
+            "stalls": [
+              {
+                "robot": "blue 2",
+                "role": "Cover",
+                "start": 1482,
+                "ticks": 28
+              },
+              {
+                "robot": "blue 2",
+                "role": "Cover",
+                "start": 1534,
+                "ticks": 19
+              },
+              {
+                "robot": "blue 4",
+                "role": "Cover",
+                "start": 1832,
+                "ticks": 38
+              },
+              {
+                "robot": "blue 4",
+                "role": "Cover",
+                "start": 1929,
+                "ticks": 63
+              },
+              {
+                "robot": "blue 4",
+                "role": "Cover",
+                "start": 2615,
+                "ticks": 23
+              },
+              {
+                "robot": "blue 4",
+                "role": "Anchor",
+                "start": 2697,
+                "ticks": 54
+              },
+              {
+                "robot": "yellow 1",
+                "role": "Cover",
+                "start": 198,
+                "ticks": 46
+              },
+              {
+                "robot": "yellow 1",
+                "role": "Cover",
+                "start": 830,
+                "ticks": 22
+              },
+              {
+                "robot": "yellow 1",
+                "role": "Cover",
+                "start": 861,
+                "ticks": 19
+              },
+              {
+                "robot": "yellow 2",
+                "role": "Cover",
+                "start": 2232,
+                "ticks": 20
+              },
+              {
+                "robot": "yellow 3",
+                "role": "Marker",
+                "start": 834,
+                "ticks": 17
+              }
+            ],
+            "stalled_robot_seconds": 13.96,
+            "shortcuts": []
+          }
+        },
+        "updated": {
+          "score": [
+            2,
+            0
+          ],
+          "passes": 26,
+          "completed_passes": 16,
+          "receptions": [
+            {
+              "kick": 9,
+              "receive": 56,
+              "passer": 1,
+              "receiver": 4
+            },
+            {
+              "kick": 57,
+              "receive": 96,
+              "passer": 4,
+              "receiver": 2
+            },
+            {
+              "kick": 481,
+              "receive": 509,
+              "passer": 4,
+              "receiver": 1
+            },
+            {
+              "kick": 516,
+              "receive": 557,
+              "passer": 1,
+              "receiver": 2
+            },
+            {
+              "kick": 581,
+              "receive": 607,
+              "passer": 4,
+              "receiver": 2
+            },
+            {
+              "kick": 1185,
+              "receive": 1209,
+              "passer": 5,
+              "receiver": 7
+            },
+            {
+              "kick": 1236,
+              "receive": 1279,
+              "passer": 7,
+              "receiver": 6
+            },
+            {
+              "kick": 1299,
+              "receive": 1330,
+              "passer": 6,
+              "receiver": 9
+            },
+            {
+              "kick": 1624,
+              "receive": 1670,
+              "passer": 1,
+              "receiver": 3
+            },
+            {
+              "kick": 1918,
+              "receive": 1960,
+              "passer": 1,
+              "receiver": 3
+            },
+            {
+              "kick": 2123,
+              "receive": 2149,
+              "passer": 9,
+              "receiver": 8
+            },
+            {
+              "kick": 2154,
+              "receive": 2201,
+              "passer": 8,
+              "receiver": 6
+            },
+            {
+              "kick": 2315,
+              "receive": 2345,
+              "passer": 2,
+              "receiver": 1
+            },
+            {
+              "kick": 2503,
+              "receive": 2523,
+              "passer": 4,
+              "receiver": 2
+            },
+            {
+              "kick": 2598,
+              "receive": 2616,
+              "passer": 1,
+              "receiver": 4
+            },
+            {
+              "kick": 2648,
+              "receive": 2689,
+              "passer": 4,
+              "receiver": 2
+            }
+          ],
+          "planner_decisions": {
+            "direct": 14336,
+            "detour": 2064,
+            "errt": 365,
+            "brake": 1369,
+            "hold": 308,
+            "escape": 32
+          },
+          "contact_episodes": 0,
+          "min_robot_gap_m": 0.06034703346155537,
+          "motion": {
+            "confirmed_control_s": 47.04,
+            "brakes_by_robot": {
+              "blue 1": 49,
+              "blue 2": 8,
+              "blue 3": 63,
+              "blue 4": 26,
+              "yellow 1": 54,
+              "yellow 2": 19,
+              "yellow 3": 1107,
+              "yellow 4": 43
+            },
+            "brakes_by_role": {
+              "Marker": 100,
+              "Right wing": 31,
+              "Cover": 590,
+              "Anchor": 482,
+              "Block outlet": 30,
+              "Left wing": 54,
+              "Screen": 15,
+              "Guard box": 60,
+              "Outlet": 7
+            },
+            "brakes_by_control": {
+              "opponent": 142,
+              "own team": 429,
+              "loose": 798
+            },
+            "planned_by_control": {
+              "own team": 3757,
+              "loose": 11150,
+              "opponent": 3567
+            },
+            "planned_by_role": {
+              "Left wing": 4139,
+              "Right wing": 4138,
+              "Marker": 1861,
+              "Screen": 1861,
+              "Guard box": 98,
+              "Cover": 4139,
+              "Anchor": 1861,
+              "Block outlet": 147,
+              "Outlet": 230
+            },
+            "brakes_inside_buffer": 128,
+            "brakes_with_out_of_bounds_target": 0,
+            "targets_outside_buffered_field": 0,
+            "stalls": [
+              {
+                "robot": "blue 3",
+                "role": "Marker",
+                "start": 2220,
+                "ticks": 22
+              },
+              {
+                "robot": "yellow 1",
+                "role": "Cover",
+                "start": 229,
+                "ticks": 15
+              },
+              {
+                "robot": "yellow 3",
+                "role": "Guard box",
+                "start": 914,
+                "ticks": 29
+              },
+              {
+                "robot": "yellow 3",
+                "role": "Anchor",
+                "start": 976,
+                "ticks": 241
+              },
+              {
+                "robot": "yellow 3",
+                "role": "Cover",
+                "start": 1217,
+                "ticks": 19
+              },
+              {
+                "robot": "yellow 3",
+                "role": "Anchor",
+                "start": 1236,
+                "ticks": 42
+              },
+              {
+                "robot": "yellow 3",
+                "role": "Anchor",
+                "start": 1279,
+                "ticks": 59
+              },
+              {
+                "robot": "yellow 3",
+                "role": "Anchor",
+                "start": 1350,
+                "ticks": 42
+              },
+              {
+                "robot": "yellow 3",
+                "role": "Cover",
+                "start": 1392,
+                "ticks": 18
+              },
+              {
+                "robot": "yellow 3",
+                "role": "Anchor",
+                "start": 1410,
+                "ticks": 77
+              },
+              {
+                "robot": "yellow 3",
+                "role": "Cover",
+                "start": 1487,
+                "ticks": 504
+              }
+            ],
+            "stalled_robot_seconds": 42.72,
+            "shortcuts": []
+          }
+        }
+      }
+    ],
+    "totals": {
+      "released": {
+        "goals": 5,
+        "passes": 41,
+        "completed_passes": 21,
+        "contact_episodes": 0,
+        "matches_with_contact": 0,
+        "min_robot_gap_m": 0.047793954373790554,
+        "planner_decisions": {
+          "direct": 28577,
+          "detour": 3183,
+          "errt": 592,
+          "brake": 3143,
+          "escape": 56,
+          "hold": 502
+        },
+        "sustained_stalls": 18,
+        "targets_outside_buffered_field": 3481,
+        "stalled_robot_seconds": 92.92,
+        "confirmed_control_s": 68.0
+      },
+      "updated": {
+        "goals": 2,
+        "passes": 32,
+        "completed_passes": 19,
+        "contact_episodes": 0,
+        "matches_with_contact": 0,
+        "min_robot_gap_m": 0.06034703346155537,
+        "planner_decisions": {
+          "direct": 31728,
+          "detour": 2461,
+          "errt": 450,
+          "brake": 1408,
+          "escape": 41,
+          "hold": 382
+        },
+        "sustained_stalls": 11,
+        "targets_outside_buffered_field": 0,
+        "stalled_robot_seconds": 42.72,
+        "confirmed_control_s": 56.44
+      }
+    }
+  },
+  "initial_buffer_comparison": {
+    "pairs": [
+      {
+        "seed": 38644000,
+        "seconds": 120.0,
+        "released": {
+          "score": [
+            0,
+            1
+          ],
+          "passes": 10,
+          "completed_passes": 5,
+          "receptions": [
+            {
+              "kick": 27,
+              "receive": 48,
+              "passer": 2,
+              "receiver": 3
+            },
+            {
+              "kick": 262,
+              "receive": 283,
+              "passer": 3,
+              "receiver": 4
+            },
+            {
+              "kick": 341,
+              "receive": 383,
+              "passer": 9,
+              "receiver": 7
+            },
+            {
+              "kick": 769,
+              "receive": 786,
+              "passer": 2,
+              "receiver": 1
+            },
+            {
+              "kick": 1116,
+              "receive": 1144,
+              "passer": 7,
+              "receiver": 8
+            }
+          ],
+          "planner_decisions": {
+            "direct": 14597,
+            "detour": 884,
+            "errt": 157,
+            "brake": 2236,
+            "escape": 11,
+            "hold": 107
+          },
+          "contact_episodes": 0,
+          "min_robot_gap_m": 0.09858647599207604,
+          "motion": {
+            "confirmed_control_s": 21.2,
+            "brakes_by_robot": {
+              "blue 1": 152,
+              "blue 2": 1941,
+              "blue 3": 35,
+              "blue 4": 47,
+              "yellow 1": 19,
+              "yellow 2": 3,
+              "yellow 4": 39
+            },
+            "brakes_by_role": {
+              "Cover": 2030,
+              "Anchor": 48,
+              "Screen": 53,
+              "Right wing": 39,
+              "Marker": 16,
+              "Left wing": 45,
+              "Block outlet": 5
+            },
+            "brakes_by_control": {
+              "opponent": 89,
+              "loose": 2083,
+              "own team": 64
+            },
+            "planned_by_control": {
+              "loose": 14811,
+              "own team": 1586,
+              "opponent": 1595
+            },
+            "planned_by_role": {
+              "Right wing": 5196,
+              "Cover": 5213,
+              "Anchor": 787,
+              "Screen": 787,
+              "Left wing": 5209,
+              "Marker": 787,
+              "Guard box": 8,
+              "Block outlet": 5
+            },
+            "brakes_inside_buffer": 65,
+            "brakes_with_out_of_bounds_target": 2177,
+            "targets_outside_buffered_field": 2412,
+            "stalls": [
+              {
+                "robot": "blue 1",
+                "role": "Cover",
+                "start": 626,
+                "ticks": 26
+              },
+              {
+                "robot": "blue 1",
+                "role": "Cover",
+                "start": 664,
+                "ticks": 21
+              },
+              {
+                "robot": "blue 1",
+                "role": "Cover",
+                "start": 690,
+                "ticks": 55
+              },
+              {
+                "robot": "blue 2",
+                "role": "Anchor",
+                "start": 772,
+                "ticks": 28
+              },
+              {
+                "robot": "blue 2",
+                "role": "Cover",
+                "start": 856,
+                "ticks": 17
+              },
+              {
+                "robot": "blue 2",
+                "role": "Cover",
+                "start": 1188,
+                "ticks": 1812
+              },
+              {
+                "robot": "blue 4",
+                "role": "Screen",
+                "start": 691,
+                "ticks": 15
+              }
+            ],
+            "stalled_robot_seconds": 78.96,
+            "shortcuts": []
+          }
+        },
+        "updated": {
+          "score": [
+            0,
+            1
+          ],
+          "passes": 11,
+          "completed_passes": 5,
+          "receptions": [
+            {
+              "kick": 27,
+              "receive": 48,
+              "passer": 2,
+              "receiver": 3
+            },
+            {
+              "kick": 262,
+              "receive": 283,
+              "passer": 3,
+              "receiver": 4
+            },
+            {
+              "kick": 341,
+              "receive": 383,
+              "passer": 9,
+              "receiver": 7
+            },
+            {
+              "kick": 1259,
+              "receive": 1299,
+              "passer": 4,
+              "receiver": 1
+            },
+            {
+              "kick": 1302,
+              "receive": 1341,
+              "passer": 1,
+              "receiver": 3
+            }
+          ],
+          "planner_decisions": {
+            "direct": 14818,
+            "detour": 837,
+            "errt": 214,
+            "brake": 2004,
+            "escape": 16,
+            "hold": 111
+          },
+          "contact_episodes": 0,
+          "min_robot_gap_m": 0.04363038413695425,
+          "motion": {
+            "confirmed_control_s": 21.8,
+            "brakes_by_robot": {
+              "blue 1": 18,
+              "blue 2": 1877,
+              "blue 3": 18,
+              "blue 4": 34,
+              "yellow 1": 13,
+              "yellow 2": 20,
+              "yellow 3": 11,
+              "yellow 4": 13
+            },
+            "brakes_by_role": {
+              "Anchor": 167,
+              "Cover": 1714,
+              "Marker": 27,
+              "Left wing": 41,
+              "Right wing": 33,
+              "Screen": 22
+            },
+            "brakes_by_control": {
+              "own team": 90,
+              "loose": 1898,
+              "opponent": 16
+            },
+            "planned_by_control": {
+              "loose": 14731,
+              "own team": 1631,
+              "opponent": 1638
+            },
+            "planned_by_role": {
+              "Right wing": 5131,
+              "Cover": 5131,
+              "Anchor": 869,
+              "Left wing": 5127,
+              "Marker": 869,
+              "Screen": 869,
+              "Block outlet": 4
+            },
+            "brakes_inside_buffer": 36,
+            "brakes_with_out_of_bounds_target": 0,
+            "targets_outside_buffered_field": 0,
+            "stalls": [
+              {
+                "robot": "blue 2",
+                "role": "Cover",
+                "start": 1139,
+                "ticks": 92
+              },
+              {
+                "robot": "blue 2",
+                "role": "Anchor",
+                "start": 1231,
+                "ticks": 40
+              },
+              {
+                "robot": "blue 2",
+                "role": "Anchor",
+                "start": 1279,
+                "ticks": 108
+              },
+              {
+                "robot": "blue 2",
+                "role": "Cover",
+                "start": 1387,
+                "ticks": 1613
+              }
+            ],
+            "stalled_robot_seconds": 74.12,
+            "shortcuts": []
+          }
+        }
+      },
+      {
+        "seed": 38644001,
+        "seconds": 120.0,
+        "released": {
+          "score": [
+            2,
+            2
+          ],
+          "passes": 31,
+          "completed_passes": 16,
+          "receptions": [
+            {
+              "kick": 9,
+              "receive": 56,
+              "passer": 1,
+              "receiver": 4
+            },
+            {
+              "kick": 57,
+              "receive": 96,
+              "passer": 4,
+              "receiver": 2
+            },
+            {
+              "kick": 690,
+              "receive": 721,
+              "passer": 2,
+              "receiver": 1
+            },
+            {
+              "kick": 726,
+              "receive": 763,
+              "passer": 1,
+              "receiver": 4
+            },
+            {
+              "kick": 767,
+              "receive": 805,
+              "passer": 4,
+              "receiver": 1
+            },
+            {
+              "kick": 809,
+              "receive": 857,
+              "passer": 1,
+              "receiver": 4
+            },
+            {
+              "kick": 1034,
+              "receive": 1059,
+              "passer": 4,
+              "receiver": 3
+            },
+            {
+              "kick": 1132,
+              "receive": 1177,
+              "passer": 8,
+              "receiver": 7
+            },
+            {
+              "kick": 1179,
+              "receive": 1226,
+              "passer": 7,
+              "receiver": 6
+            },
+            {
+              "kick": 2001,
+              "receive": 2033,
+              "passer": 4,
+              "receiver": 2
+            },
+            {
+              "kick": 2034,
+              "receive": 2073,
+              "passer": 2,
+              "receiver": 1
+            },
+            {
+              "kick": 2076,
+              "receive": 2103,
+              "passer": 1,
+              "receiver": 4
+            },
+            {
+              "kick": 2508,
+              "receive": 2524,
+              "passer": 9,
+              "receiver": 8
+            },
+            {
+              "kick": 2544,
+              "receive": 2590,
+              "passer": 8,
+              "receiver": 7
+            },
+            {
+              "kick": 2809,
+              "receive": 2850,
+              "passer": 3,
+              "receiver": 1
+            },
+            {
+              "kick": 2855,
+              "receive": 2901,
+              "passer": 1,
+              "receiver": 2
+            }
+          ],
+          "planner_decisions": {
+            "direct": 13980,
+            "detour": 2299,
+            "errt": 435,
+            "brake": 907,
+            "hold": 395,
+            "escape": 45
+          },
+          "contact_episodes": 0,
+          "min_robot_gap_m": 0.047793954373790554,
+          "motion": {
+            "confirmed_control_s": 46.8,
+            "brakes_by_robot": {
+              "blue 1": 89,
+              "blue 2": 96,
+              "blue 3": 49,
+              "blue 4": 322,
+              "yellow 1": 147,
+              "yellow 2": 79,
+              "yellow 3": 92,
+              "yellow 4": 33
+            },
+            "brakes_by_role": {
+              "Marker": 141,
+              "Screen": 63,
+              "Left wing": 68,
+              "Right wing": 72,
+              "Cover": 437,
+              "Block outlet": 22,
+              "Guard box": 20,
+              "Anchor": 84
+            },
+            "brakes_by_control": {
+              "opponent": 221,
+              "loose": 571,
+              "own team": 115
+            },
+            "planned_by_control": {
+              "own team": 3501,
+              "loose": 11045,
+              "opponent": 3515
+            },
+            "planned_by_role": {
+              "Left wing": 3889,
+              "Right wing": 3898,
+              "Marker": 2102,
+              "Screen": 2102,
+              "Cover": 3898,
+              "Anchor": 2102,
+              "Block outlet": 39,
+              "Guard box": 31
+            },
+            "brakes_inside_buffer": 197,
+            "brakes_with_out_of_bounds_target": 654,
+            "targets_outside_buffered_field": 1069,
+            "stalls": [
+              {
+                "robot": "blue 2",
+                "role": "Cover",
+                "start": 1482,
+                "ticks": 28
+              },
+              {
+                "robot": "blue 2",
+                "role": "Cover",
+                "start": 1534,
+                "ticks": 19
+              },
+              {
+                "robot": "blue 4",
+                "role": "Cover",
+                "start": 1832,
+                "ticks": 38
+              },
+              {
+                "robot": "blue 4",
+                "role": "Cover",
+                "start": 1929,
+                "ticks": 63
+              },
+              {
+                "robot": "blue 4",
+                "role": "Cover",
+                "start": 2615,
+                "ticks": 23
+              },
+              {
+                "robot": "blue 4",
+                "role": "Anchor",
+                "start": 2697,
+                "ticks": 54
+              },
+              {
+                "robot": "yellow 1",
+                "role": "Cover",
+                "start": 198,
+                "ticks": 46
+              },
+              {
+                "robot": "yellow 1",
+                "role": "Cover",
+                "start": 830,
+                "ticks": 22
+              },
+              {
+                "robot": "yellow 1",
+                "role": "Cover",
+                "start": 861,
+                "ticks": 19
+              },
+              {
+                "robot": "yellow 2",
+                "role": "Cover",
+                "start": 2232,
+                "ticks": 20
+              },
+              {
+                "robot": "yellow 3",
+                "role": "Marker",
+                "start": 834,
+                "ticks": 17
+              }
+            ],
+            "stalled_robot_seconds": 13.96,
+            "shortcuts": []
+          }
+        },
+        "updated": {
+          "score": [
+            0,
+            1
+          ],
+          "passes": 14,
+          "completed_passes": 5,
+          "receptions": [
+            {
+              "kick": 9,
+              "receive": 56,
+              "passer": 1,
+              "receiver": 4
+            },
+            {
+              "kick": 57,
+              "receive": 96,
+              "passer": 4,
+              "receiver": 2
+            },
+            {
+              "kick": 540,
+              "receive": 584,
+              "passer": 1,
+              "receiver": 2
+            },
+            {
+              "kick": 819,
+              "receive": 866,
+              "passer": 4,
+              "receiver": 2
+            },
+            {
+              "kick": 1379,
+              "receive": 1409,
+              "passer": 6,
+              "receiver": 7
+            }
+          ],
+          "planner_decisions": {
+            "direct": 15702,
+            "detour": 1590,
+            "errt": 391,
+            "brake": 194,
+            "hold": 329,
+            "escape": 9
+          },
+          "contact_episodes": 0,
+          "min_robot_gap_m": 0.07620105186824638,
+          "motion": {
+            "confirmed_control_s": 75.92,
+            "brakes_by_robot": {
+              "blue 1": 22,
+              "blue 2": 10,
+              "blue 3": 12,
+              "blue 4": 28,
+              "yellow 1": 64,
+              "yellow 2": 14,
+              "yellow 3": 18,
+              "yellow 4": 26
+            },
+            "brakes_by_role": {
+              "Right wing": 27,
+              "Screen": 17,
+              "Guard box": 6,
+              "Left wing": 21,
+              "Marker": 30,
+              "Block outlet": 26,
+              "Cover": 67
+            },
+            "brakes_by_control": {
+              "loose": 137,
+              "own team": 11,
+              "opponent": 46
+            },
+            "planned_by_control": {
+              "own team": 5703,
+              "loose": 6789,
+              "opponent": 5723
+            },
+            "planned_by_role": {
+              "Left wing": 3671,
+              "Right wing": 3680,
+              "Marker": 2314,
+              "Screen": 2314,
+              "Guard box": 96,
+              "Cover": 3686,
+              "Anchor": 2314,
+              "Block outlet": 117,
+              "Outlet": 23
+            },
+            "brakes_inside_buffer": 30,
+            "brakes_with_out_of_bounds_target": 0,
+            "targets_outside_buffered_field": 0,
+            "stalls": [
+              {
+                "robot": "yellow 1",
+                "role": "Cover",
+                "start": 229,
+                "ticks": 15
+              },
+              {
+                "robot": "yellow 1",
+                "role": "Cover",
+                "start": 852,
+                "ticks": 20
+              }
+            ],
+            "stalled_robot_seconds": 1.4,
+            "shortcuts": []
+          }
+        }
+      }
+    ],
+    "totals": {
+      "released": {
+        "goals": 5,
+        "passes": 41,
+        "completed_passes": 21,
+        "contact_episodes": 0,
+        "matches_with_contact": 0,
+        "min_robot_gap_m": 0.047793954373790554,
+        "planner_decisions": {
+          "direct": 28577,
+          "detour": 3183,
+          "errt": 592,
+          "brake": 3143,
+          "escape": 56,
+          "hold": 502
+        },
+        "sustained_stalls": 18,
+        "targets_outside_buffered_field": 3481,
+        "stalled_robot_seconds": 92.92,
+        "confirmed_control_s": 68.0
+      },
+      "updated": {
+        "goals": 2,
+        "passes": 25,
+        "completed_passes": 10,
+        "contact_episodes": 0,
+        "matches_with_contact": 0,
+        "min_robot_gap_m": 0.04363038413695425,
+        "planner_decisions": {
+          "direct": 30520,
+          "detour": 2427,
+          "errt": 605,
+          "brake": 2198,
+          "escape": 25,
+          "hold": 440
+        },
+        "sustained_stalls": 6,
+        "targets_outside_buffered_field": 0,
+        "stalled_robot_seconds": 75.52,
+        "confirmed_control_s": 97.72
+      }
+    }
+  },
+  "target_geometry": {
+    "released": {
+      "38644000": 2412,
+      "38644001": 1069
+    },
+    "initial_buffer": {
+      "38644000": 0,
+      "38644001": 0
+    },
+    "qualified": {
+      "38644000": 0,
+      "38644001": 0
+    }
+  }
+}

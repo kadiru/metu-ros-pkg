@@ -9,7 +9,7 @@ from pathlib import Path
 import numpy as np
 
 from audit_five_roles import audit, load_match
-from roboturk.timed_motion import INTERPOLATION_MARGIN, inside
+from roboturk.timed_motion import INTERPOLATION_MARGIN, clear, inside
 
 
 def profiled_motion(folder, game, states):
@@ -23,7 +23,7 @@ def profiled_motion(folder, game, states):
     clearance = config["open_play_policy"]["clearance"] + INTERPOLATION_MARGIN
     brakes_by_robot, brakes_by_role, brakes_by_control = Counter(), Counter(), Counter()
     planned_by_control, planned_by_role = Counter(), Counter()
-    inside_buffer = outside_limits = 0
+    inside_buffer = outside_limits = target_violations = 0
     stalls, shortcuts = [], []
     counts = Counter()
     for index, (team, number) in enumerate(game["keys"]):
@@ -41,6 +41,8 @@ def profiled_motion(folder, game, states):
             if move is None:
                 continue
             counts[move["mode"]] += 1
+            target = move["target"]
+            target_violations += int(not clear([target, target], [], 0))
             control = frame["control"]
             if control is None:
                 possession = "loose"
@@ -78,6 +80,7 @@ def profiled_motion(folder, game, states):
         planned_by_role=dict(planned_by_role),
         brakes_inside_buffer=inside_buffer,
         brakes_with_out_of_bounds_target=outside_limits,
+        targets_outside_buffered_field=target_violations,
         stalls=stalls,
         stalled_robot_seconds=round(sum(row["ticks"] for row in stalls) * dt, 3),
         shortcuts=shortcuts,
@@ -146,6 +149,9 @@ def compare(released, updated):
         if all("motion" in row for row in rows):
             totals[arm].update(
                 sustained_stalls=sum(len(row["motion"]["stalls"]) for row in rows),
+                targets_outside_buffered_field=sum(
+                    row["motion"]["targets_outside_buffered_field"] for row in rows
+                ),
                 stalled_robot_seconds=round(
                     sum(row["motion"]["stalled_robot_seconds"] for row in rows), 3
                 ),

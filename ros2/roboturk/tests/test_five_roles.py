@@ -62,8 +62,8 @@ def test_off_ball_targets_clear_the_buffer_on_both_penalty_areas():
     for side in (-1, 1):
         front = legal_off_ball_target((side * 3.47, -0.31))
         flank = legal_off_ball_target((side * 4.1, -1.0))
-        assert front == pytest.approx((side * 3.4, -0.31))
-        assert flank == pytest.approx((side * 4.1, -1.1))
+        assert front == pytest.approx((side * 3.382, -0.31))
+        assert flank == pytest.approx((side * 4.1, -1.118))
         for point in (front, flank):
             assert inside(point) and clear([point, point], [], 0)
         legal = (side * 3.9, 1.25)

@@ -14,6 +14,7 @@ TRAJECTORY_SAMPLE_DT = 2 * CFG.dt
 INTERPOLATION_MARGIN = CFG.max_acceleration * TRAJECTORY_SAMPLE_DT**2 / 4
 PENALTY_FRONT = pitch.LENGTH / 2 - pitch.DEFENSE_DEPTH - CFG.robot_radius
 PENALTY_HALF_WIDTH = pitch.DEFENSE_WIDTH / 2 + CFG.robot_radius
+OFF_BALL_TRACKING_MARGIN = 0.02
 TIMED_ROLES = (
     "Outlet",
     "Marker",
@@ -35,8 +36,8 @@ def limit(value, bound):
 def legal_off_ball_target(target):
     """Move a support target to the nearest face outside either padded penalty area."""
     x, y = target
-    # A strict margin lets the timed planner check even a stopped endpoint.
-    padding = INTERPOLATION_MARGIN + 0.002
+    # Leave room for the timed clearance check and braking overshoot.
+    padding = INTERPOLATION_MARGIN + OFF_BALL_TRACKING_MARGIN
     front = PENALTY_FRONT - padding
     half = PENALTY_HALF_WIDTH + padding
     dx = abs(x) - front

@@ -10,6 +10,7 @@ from PIL import Image, ImageDraw, ImageEnhance
 
 from audit_five_roles import load_match
 from render_waypoint_replay import font
+from roboturk.five_roles import PENALTY_FRONT, PENALTY_HALF_WIDTH
 from roboturk.timed_motion import inside
 
 WIDTH = 510
@@ -56,6 +57,28 @@ def panel(folder, game, states, robot, label, view, switch_tick=None):
 
         trail.append(pixel(robot_positions[tick], 0.15))
         draw = ImageDraw.Draw(scene)
+        for sign in (-1, 1):
+            box = [
+                (sign * 4.5, -PENALTY_HALF_WIDTH),
+                (sign * PENALTY_FRONT, -PENALTY_HALF_WIDTH),
+                (sign * PENALTY_FRONT, PENALTY_HALF_WIDTH),
+                (sign * 4.5, PENALTY_HALF_WIDTH),
+            ]
+            for start, end in zip(box, box[1:]):
+                ax, ay = pixel(start)
+                bx, by = pixel(end)
+                length = math.hypot(bx - ax, by - ay)
+                for offset in range(0, math.ceil(length), 10):
+                    u, v = offset / length, min(1, (offset + 5) / length)
+                    draw.line(
+                        (
+                            ax + u * (bx - ax),
+                            ay + u * (by - ay),
+                            ax + v * (bx - ax),
+                            ay + v * (by - ay),
+                        ),
+                        fill="#bed9d6",
+                    )
         if len(trail) > 1:
             draw.line(trail, fill="#abdbff", width=2)
         x, y = trail[-1]
@@ -72,11 +95,17 @@ def panel(folder, game, states, robot, label, view, switch_tick=None):
                 fill=color,
                 outline="white",
             )
-            caption += (
-                f" · {'target outside legal area' if not target_ok else motion['mode'].title()}"
-            )
-        if switch_tick is not None and switch_tick <= tick < switch_tick + 25:
-            caption = f"Target projected outside the box · {meta['roles'][player]}"
+            if not target_ok:
+                caption += " · Target overlaps clearance zone"
+            elif (
+                math.dist(robot_positions[tick], motion["target"]) < 0.03
+                and motion["speed_mps"] < 0.08
+            ):
+                caption += " · In position"
+            else:
+                caption += f" · {motion['mode'].title()}"
+        if switch_tick is not None and switch_tick <= tick < switch_tick + 15:
+            caption = f"Target shifted to legal edge · {meta['roles'][player]}"
 
         canvas = Image.new("RGB", (WIDTH, height + 78), BACKGROUND)
         canvas.paste(scene, (0, 39))

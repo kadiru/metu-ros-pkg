@@ -48,12 +48,28 @@ class Recorder:
         env.backend.nodes[env.receiver].getField("color").setSFColor([0.05, 0.85, 0.85])
         if env.task_version == "pass_receive.closing_marker.v1":
             self.label(4, "Blue passes | Cyan receives | Yellow closes on the ball", 0.90, 0.042)
+        if env.task_version == "pass_receive.closing_marker_learned_keeper.v1":
+            env.backend.nodes[env.receiver].getField("color").setSFColor([0.10, 0.32, 1.0])
+            self.label(
+                4,
+                f"Blue #{env.passer.id} passes | Blue #{env.receiver.id} finishes | Yellow #0 presses, #1 keeps",
+                0.90,
+                0.037,
+            )
+            self.label(
+                5, "Frozen receiver and learned Yellow goalkeeper | native Webots", 0.95, 0.032
+            )
         self.camera(env, None)
 
     def camera(self, env, shot):
         p, r = env.world.robot(env.passer), env.world.robot(env.receiver)
         if shot is None:
             x, y, z = (p.x + r.x) / 2, (p.y + r.y) / 2, max(7.5, (abs(p.x - r.x) + 1.5) * 2.3)
+        elif env.task_version == "pass_receive.closing_marker_learned_keeper.v1":
+            # Keep the approaching finisher and goalkeeper in frame through the shot.
+            goal_x = shot.intent.target[0]
+            x, y = (r.x + goal_x) / 2, r.y / 2
+            z = max(4.4, 2.8 * abs(goal_x - r.x) + 1.5, 3.0 * abs(r.y) + 2)
         elif shot.shot:
             x, y, z = (r.x + shot.intent.target[0]) / 2, 0, 6.5
         else:

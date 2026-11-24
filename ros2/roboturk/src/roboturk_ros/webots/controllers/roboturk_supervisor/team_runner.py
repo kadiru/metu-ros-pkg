@@ -8,7 +8,13 @@ from roboturk.team import PassReceiveEnv, TeamCheckpoint, TransferTeacher, evalu
 
 
 def run(supervisor, backend, cfg, mode):
-    if mode.startswith("team-closing-"):
+    if mode.startswith("team-guarded-"):
+        from roboturk.guarded_finish import GuardedPassEnv
+        from roboturk.learned_opponents import OpponentController
+
+        keeper = OpponentController("keeper", cfg, path=os.environ["ROBOTURK_KEEPER_CHECKPOINT"])
+        env = GuardedPassEnv(cfg, backend, keeper)
+    elif mode.startswith("team-closing-"):
         from roboturk.closing_press import ClosingPassEnv
 
         env = ClosingPassEnv(cfg, backend)
@@ -61,7 +67,20 @@ def run(supervisor, backend, cfg, mode):
             settings = json.loads(Path(profile).read_text())
             first_touch_steps = settings.pop("first_touch_steps", None)
             receive = settings.pop("receive", None)
+            finish = settings.pop("finish", None)
             shooter = ClosingCarry(shooter, **settings)
+            if finish is not None:
+                from roboturk.guarded_finish import FinishProfile, GuardedFinish
+
+                if (
+                    not mode.startswith("team-guarded-")
+                    or receive is None
+                    or first_touch_steps is not None
+                ):
+                    raise ValueError(
+                        "The guarded finish requires a secure receiver and a goalkeeper"
+                    )
+                shooter = GuardedFinish(shooter, FinishProfile(**finish))
         if receive is not None:
             from roboturk.secure_receive import ReceiveProfile, SecureTransfer
 
@@ -78,7 +97,7 @@ def run(supervisor, backend, cfg, mode):
             int(os.environ.get("ROBOTURK_EPISODES", "200")),
             int(os.environ.get("ROBOTURK_SEED", "450000")),
         )
-        if mode in ("team-demo", "team-closing-demo"):
+        if mode in ("team-demo", "team-closing-demo", "team-guarded-demo"):
             if not checkpoint or shooter is None:
                 raise ValueError("Demo requires both learned transfer and scoring checkpoints")
             from team_demo import record

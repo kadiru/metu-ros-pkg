@@ -33,7 +33,7 @@ class ClosingDefender:
 
 class ClosingBackend(DefendedBackend):
     def reset(self, world):
-        passer, receiver = world.robots
+        receiver = world.robots[1]
         side = int(self.rng.choice([-1, 1]))
         distance = self.rng.uniform(1.2, 2.25)
         if abs(receiver.y + side * distance) > self.cfg.width / 2 - 0.25:
@@ -43,7 +43,7 @@ class ClosingBackend(DefendedBackend):
         self.defender = ClosingDefender(float(self.rng.uniform(0.45, 1.05)))
         self.receiver = receiver.key
         self.first_touch = None
-        world = replace(world, robots=(passer, receiver, marker))
+        world = replace(world, robots=(*world.robots, marker))
         self.opening = asdict(world)
         return super().reset(world)
 

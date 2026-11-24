@@ -158,3 +158,46 @@ def test_open_corner_can_fire_directly_and_covered_corner_changes_aim():
         target = plan.target
         plan.update(covered, key, cfg)
         assert plan.target == target  # Re-reading the same frame is idempotent.
+
+
+def test_guarded_approach_preserves_marker_opening_and_ticks_keeper():
+    from roboturk.closing_press import ClosingPassEnv
+    from roboturk.guarded_finish import GuardedPassEnv
+
+    cfg = Config()
+    keeper = OpponentController("keeper", cfg, model=ConstantModel([0.0, 0.3, 0.0]))
+    guarded = GuardedPassEnv(cfg, ReferenceBackend(cfg), keeper)
+    current = ClosingPassEnv(cfg)
+    for seed in (110, 111):
+        guarded.reset(seed=seed)
+        current.reset(seed=seed)
+        assert {r.key: r for r in guarded.world.robots if r.key != KEEPER} == {
+            r.key: r for r in current.world.robots
+        }
+        assert guarded.world.ball == current.world.ball
+        assert guarded.backend.base.defender.speed == current.backend.defender.speed
+        for _ in range(3):
+            guarded.backend.step({})
+        assert guarded.backend.evidence()["keeper_policy_calls"] == 3
+
+
+@pytest.mark.parametrize("sign", [-1, 1])
+def test_guarded_finish_aims_away_from_keeper_and_kicks_once(sign):
+    from roboturk.guarded_finish import GuardedFinish, FinishProfile
+    from roboturk.model import Command, Intent, RobotKey, Skill
+
+    cfg = Config()
+    key = RobotKey("blue", 0)
+    gx, bx = sign * 4.5, sign * 3.75
+    yaw = math.atan2(-0.42, gx - bx)
+    actor = Robot(
+        key, bx - cfg.possession_x * math.cos(yaw), -cfg.possession_x * math.sin(yaw), yaw
+    )
+    w = World(1, (actor, Robot(KEEPER, sign * 4.32, 0.27)), Ball(bx, 0), Referee.RUNNING, sign)
+    finish = GuardedFinish(None, FinishProfile(0.95, 0.42, 0.7))
+    intent = Intent(Skill.SHOOT, (gx, 0))
+    assert finish.command(w, key, intent, cfg).kick == 3.5
+    assert finish.side == -1
+    assert finish.command(w, key, intent, cfg) == Command()
+    finish.reset()
+    assert finish.side is None and not finish.fired

@@ -1,0 +1,10 @@
+{
+  "reference": "6d0dbd737b830971d4724e3f4941de5e02604feb",
+  "training": [36010000,36010009],
+  "fresh_paired_qualification": [36012000,36012039],
+  "independent_demo": 36013000,
+  "matched_replay": "First ascending qualification seed with a baseline keeper save and a trained goal, otherwise first new goal",
+  "goal": "Blue scores after a stable 0.40 s reception and a valid 3.5 m/s kick",
+  "opponents": "Scripted closing field defender and frozen learned goalkeeper throughout",
+  "comparison": "Identical generated four-player starts and opponent parameters; count all 40 in both arms"
+}

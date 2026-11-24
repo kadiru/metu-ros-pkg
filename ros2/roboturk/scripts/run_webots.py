@@ -73,6 +73,8 @@ def main():
             "team-demo",
             "team-closing-evaluate",
             "team-closing-demo",
+            "team-guarded-evaluate",
+            "team-guarded-demo",
             "shoot-train",
             "shoot-upgrade",
             "shoot-evaluate",
@@ -110,9 +112,18 @@ def main():
     if args.mode == "physics-check" and args.render:
         env["ROBOTURK_FILM_ROLL"] = "1"
     env["ROBOTURK_OUTPUT"] = str(Path(args.output).resolve())
+    if args.mode.startswith("team-guarded-") and not all(
+        (args.keeper_checkpoint, args.carry_profile, args.checkpoint, args.shoot_checkpoint)
+    ):
+        parser.error("A guarded team requires the keeper, transfer, scorer and carry profile")
     if args.carry_profile:
-        if not args.mode.startswith("team-closing-") or not args.shoot_checkpoint:
-            parser.error("--carry-profile requires a team-closing mode and --shoot-checkpoint")
+        if (
+            not args.mode.startswith(("team-closing-", "team-guarded-"))
+            or not args.shoot_checkpoint
+        ):
+            parser.error(
+                "--carry-profile requires a team-closing or team-guarded mode and --shoot-checkpoint"
+            )
         env["ROBOTURK_CARRY_PROFILE"] = str(Path(args.carry_profile).resolve())
     else:
         env.pop("ROBOTURK_CARRY_PROFILE", None)

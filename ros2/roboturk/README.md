@@ -4,6 +4,10 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Presser and keeper cover after a tackle veto
+
+A goalward veto lets the keeper move early. If the Presser has to contain, it clears the keeper's approach. The ready-keeper replay stayed out of the net with cover enabled. The 24 fresh pairs produced the same own-goal and clean-takeaway counts. [Webots GIFs and matched results](media/keeper-cover/README.md)
+
 ## Choosing a tackle near a touchline or our goal
 
 The 5v5 Presser can use a selector that checks the ball's release direction before choosing a direct draw, either pivot, or contain. [Matched Webots comparison and hazard replays](media/tackle-selector/README.md)

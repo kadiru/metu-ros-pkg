@@ -1,0 +1,26 @@
+{
+  "starts": 24,
+  "totals": {
+    "selector": {
+      "own_goals": 1,
+      "clean_takeaways": 6,
+      "clean_keeper_takeaways": 0,
+      "starts_with_body_contact": 4,
+      "starts_with_cover": 0,
+      "starts_with_early_positioning": 0
+    },
+    "keeper-cover": {
+      "own_goals": 1,
+      "clean_takeaways": 6,
+      "clean_keeper_takeaways": 0,
+      "starts_with_body_contact": 4,
+      "starts_with_cover": 15,
+      "starts_with_early_positioning": 16
+    }
+  },
+  "prevented": [],
+  "introduced": [],
+  "conceded_by_both": [
+    38724515
+  ]
+}

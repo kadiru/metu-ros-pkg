@@ -22,6 +22,18 @@ def panel(folder, row, arm, historical):
         else ("Current selector" if arm == "selector" else "Presser + keeper")
     )
     scale = WIDTH / (2 * 3.25 * math.tan(math.pi / 8))
+    early = (
+        next(
+            (
+                decision["time"]
+                for decision in result["decisions"]
+                if any("own_goal" in risks for risks in decision["vetoes"].values())
+            ),
+            None,
+        )
+        if result.get("keeper_ready_ticks", 0)
+        else None
+    )
     frames = []
     # The zoom applies on the Webots step after the first sample.
     for sample in result["film"][1:]:
@@ -46,8 +58,10 @@ def panel(folder, row, arm, historical):
         text.text((10, 7), title, font=font(21, True), fill="white")
         text.text((WIDTH - 78, 9), f"{t:.2f} s", font=font(17), fill="white")
         status = "Keeper parked in the opposite half" if historical else "P  Presser     K  Keeper"
+        if early is not None and t >= early:
+            status = "Keeper moves early after a goalward veto"
         if result["first_cover_s"] is not None and t >= result["first_cover_s"]:
-            status = "Presser clears the keeper’s lane"
+            status = "Keeper handoff activated"
         goal = result["own_goal_s"]
         capture = result["capture_s"]
         if goal is not None and t >= goal:

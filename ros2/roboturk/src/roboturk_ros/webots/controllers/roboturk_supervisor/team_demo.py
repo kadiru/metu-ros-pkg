@@ -29,10 +29,14 @@ class Recorder:
             0.90,
             0.035,
         )
+        from roboturk.secure_receive import SecureTransfer
+
         self.label(
             5,
             (
-                "Fitted close-range receiver"
+                "Trained pressured receiver"
+                if isinstance(self.policy, SecureTransfer)
+                else "Fitted close-range receiver"
                 if self.policy.contract == RECEIVER_CONTRACT
                 else "Neural transfer"
             )

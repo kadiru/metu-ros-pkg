@@ -54,13 +54,21 @@ def run(supervisor, backend, cfg, mode):
         )
         profile = os.environ.get("ROBOTURK_CARRY_PROFILE")
         first_touch_steps = None
+        receive = None
         if profile:
             from roboturk.closing_press import ClosingCarry
 
             settings = json.loads(Path(profile).read_text())
             first_touch_steps = settings.pop("first_touch_steps", None)
+            receive = settings.pop("receive", None)
             shooter = ClosingCarry(shooter, **settings)
-        if first_touch_steps is None:
+        if receive is not None:
+            from roboturk.secure_receive import ReceiveProfile, SecureTransfer
+
+            if first_touch_steps is not None:
+                raise ValueError("Secure reception requires the full hold before carrying")
+            policy = SecureTransfer(checkpoint, cfg, ReceiveProfile(**receive))
+        elif first_touch_steps is None:
             policy = TeamCheckpoint(checkpoint, cfg) if checkpoint else TransferTeacher()
         else:
             from roboturk.closing_press import FirstTouchTransfer

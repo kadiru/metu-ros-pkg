@@ -1,0 +1,765 @@
+{
+  "fresh": {
+    "current_planner": {
+      "starts": 40,
+      "arrivals": 40,
+      "timeouts": 0,
+      "starts_with_stall": 0,
+      "stall_episodes": 0,
+      "total_stalled_s": 0.0,
+      "median_arrival_among_successes_s": 3.06,
+      "mean_time_capped_at_deadline_s": 3.139,
+      "min_gap_m": {
+        "runner": 0.0674693820364125,
+        "robot": 0.0674693820364125,
+        "board": 0.5300000000000001,
+        "goal": 0.4149999999999999
+      },
+      "median_trial_min_gap_m": {
+        "runner": 0.14067005056878534,
+        "robot": 0.14067005056878534,
+        "board": 0.5300000000000001,
+        "goal": 0.4149999999999999
+      },
+      "starts_with_robot_contact": 0,
+      "starts_with_board_or_goal_contact": 0,
+      "decisions": {
+        "direct": 23038,
+        "detour": 702,
+        "errt": 158,
+        "escape": 4,
+        "hold": 72,
+        "brake": 26
+      }
+    },
+    "errt_fallback": {
+      "starts": 40,
+      "arrivals": 40,
+      "timeouts": 0,
+      "starts_with_stall": 0,
+      "stall_episodes": 0,
+      "total_stalled_s": 0.0,
+      "median_arrival_among_successes_s": 3.06,
+      "mean_time_capped_at_deadline_s": 3.139,
+      "min_gap_m": {
+        "runner": 0.0674693820364125,
+        "robot": 0.0674693820364125,
+        "board": 0.5300000000000001,
+        "goal": 0.4149999999999999
+      },
+      "median_trial_min_gap_m": {
+        "runner": 0.14067005056878534,
+        "robot": 0.14067005056878534,
+        "board": 0.5300000000000001,
+        "goal": 0.4149999999999999
+      },
+      "starts_with_robot_contact": 0,
+      "starts_with_board_or_goal_contact": 0,
+      "decisions": {
+        "direct": 23038,
+        "detour": 702,
+        "errt": 158,
+        "escape": 4,
+        "hold": 72,
+        "brake": 26
+      }
+    },
+    "both_arrived_median_s": [
+      3.06,
+      3.06
+    ],
+    "paired": {
+      "both": [
+        38642000,
+        38642001,
+        38642002,
+        38642003,
+        38642004,
+        38642005,
+        38642006,
+        38642007,
+        38642008,
+        38642009,
+        38642010,
+        38642011,
+        38642012,
+        38642013,
+        38642014,
+        38642015,
+        38642016,
+        38642017,
+        38642018,
+        38642019,
+        38642020,
+        38642021,
+        38642022,
+        38642023,
+        38642024,
+        38642025,
+        38642026,
+        38642027,
+        38642028,
+        38642029,
+        38642030,
+        38642031,
+        38642032,
+        38642033,
+        38642034,
+        38642035,
+        38642036,
+        38642037,
+        38642038,
+        38642039
+      ],
+      "errt_only": [],
+      "previous_only": [],
+      "neither": []
+    }
+  },
+  "historical_replay": {
+    "current_planner": {
+      "starts": 1,
+      "arrivals": 0,
+      "timeouts": 1,
+      "starts_with_stall": 1,
+      "stall_episodes": 1,
+      "total_stalled_s": 6.12,
+      "median_arrival_among_successes_s": null,
+      "mean_time_capped_at_deadline_s": 8,
+      "min_gap_m": {
+        "runner": 0.12546308368726555,
+        "robot": 0.12546308368726555,
+        "board": 0.5300000000000001,
+        "goal": 0.4149999999999999
+      },
+      "median_trial_min_gap_m": {
+        "runner": 0.12546308368726555,
+        "robot": 0.12546308368726555,
+        "board": 0.5300000000000001,
+        "goal": 0.4149999999999999
+      },
+      "starts_with_robot_contact": 0,
+      "starts_with_board_or_goal_contact": 0,
+      "decisions": {
+        "direct": 414,
+        "detour": 28,
+        "errt": 0,
+        "escape": 0,
+        "hold": 0,
+        "brake": 158
+      }
+    },
+    "errt_fallback": {
+      "starts": 1,
+      "arrivals": 1,
+      "timeouts": 0,
+      "starts_with_stall": 0,
+      "stall_episodes": 0,
+      "total_stalled_s": 0.0,
+      "median_arrival_among_successes_s": 3.32,
+      "mean_time_capped_at_deadline_s": 3.32,
+      "min_gap_m": {
+        "runner": 0.12546308368726555,
+        "robot": 0.12546308368726555,
+        "board": 0.5300000000000001,
+        "goal": 0.4149999999999999
+      },
+      "median_trial_min_gap_m": {
+        "runner": 0.12546308368726555,
+        "robot": 0.12546308368726555,
+        "board": 0.5300000000000001,
+        "goal": 0.4149999999999999
+      },
+      "starts_with_robot_contact": 0,
+      "starts_with_board_or_goal_contact": 0,
+      "decisions": {
+        "direct": 554,
+        "detour": 28,
+        "errt": 0,
+        "escape": 1,
+        "hold": 11,
+        "brake": 6
+      }
+    },
+    "both_arrived_median_s": [
+      null,
+      null
+    ],
+    "paired": {
+      "both": [],
+      "errt_only": [
+        38622023
+      ],
+      "previous_only": [],
+      "neither": []
+    }
+  },
+  "matches": {
+    "pairs": [
+      {
+        "seed": 38644000,
+        "seconds": 120.0,
+        "released": {
+          "score": [
+            0,
+            1
+          ],
+          "passes": 21,
+          "completed_passes": 12,
+          "receptions": [
+            {
+              "kick": 27,
+              "receive": 48,
+              "passer": 2,
+              "receiver": 3
+            },
+            {
+              "kick": 262,
+              "receive": 283,
+              "passer": 3,
+              "receiver": 4
+            },
+            {
+              "kick": 659,
+              "receive": 696,
+              "passer": 7,
+              "receiver": 6
+            },
+            {
+              "kick": 799,
+              "receive": 822,
+              "passer": 9,
+              "receiver": 7
+            },
+            {
+              "kick": 912,
+              "receive": 923,
+              "passer": 7,
+              "receiver": 9
+            },
+            {
+              "kick": 1073,
+              "receive": 1088,
+              "passer": 4,
+              "receiver": 3
+            },
+            {
+              "kick": 1605,
+              "receive": 1633,
+              "passer": 7,
+              "receiver": 6
+            },
+            {
+              "kick": 1850,
+              "receive": 1898,
+              "passer": 1,
+              "receiver": 3
+            },
+            {
+              "kick": 1908,
+              "receive": 1928,
+              "passer": 3,
+              "receiver": 2
+            },
+            {
+              "kick": 1933,
+              "receive": 1967,
+              "passer": 2,
+              "receiver": 4
+            },
+            {
+              "kick": 2303,
+              "receive": 2333,
+              "passer": 6,
+              "receiver": 7
+            },
+            {
+              "kick": 2337,
+              "receive": 2378,
+              "passer": 7,
+              "receiver": 6
+            }
+          ],
+          "planner_decisions": {
+            "direct": 13927,
+            "detour": 1936,
+            "errt": 254,
+            "brake": 1584,
+            "escape": 16,
+            "hold": 161
+          },
+          "contact_episodes": 0,
+          "min_robot_gap_m": 0.08295841956459965
+        },
+        "updated": {
+          "score": [
+            0,
+            1
+          ],
+          "passes": 10,
+          "completed_passes": 5,
+          "receptions": [
+            {
+              "kick": 27,
+              "receive": 48,
+              "passer": 2,
+              "receiver": 3
+            },
+            {
+              "kick": 262,
+              "receive": 283,
+              "passer": 3,
+              "receiver": 4
+            },
+            {
+              "kick": 341,
+              "receive": 383,
+              "passer": 9,
+              "receiver": 7
+            },
+            {
+              "kick": 769,
+              "receive": 786,
+              "passer": 2,
+              "receiver": 1
+            },
+            {
+              "kick": 1116,
+              "receive": 1144,
+              "passer": 7,
+              "receiver": 8
+            }
+          ],
+          "planner_decisions": {
+            "direct": 14597,
+            "detour": 884,
+            "errt": 157,
+            "brake": 2236,
+            "escape": 11,
+            "hold": 107
+          },
+          "contact_episodes": 0,
+          "min_robot_gap_m": 0.09858647599207604
+        }
+      },
+      {
+        "seed": 38644001,
+        "seconds": 120.0,
+        "released": {
+          "score": [
+            2,
+            0
+          ],
+          "passes": 15,
+          "completed_passes": 5,
+          "receptions": [
+            {
+              "kick": 9,
+              "receive": 56,
+              "passer": 1,
+              "receiver": 4
+            },
+            {
+              "kick": 57,
+              "receive": 96,
+              "passer": 4,
+              "receiver": 2
+            },
+            {
+              "kick": 888,
+              "receive": 913,
+              "passer": 4,
+              "receiver": 3
+            },
+            {
+              "kick": 1504,
+              "receive": 1542,
+              "passer": 2,
+              "receiver": 1
+            },
+            {
+              "kick": 1600,
+              "receive": 1623,
+              "passer": 2,
+              "receiver": 4
+            }
+          ],
+          "planner_decisions": {
+            "direct": 14978,
+            "detour": 2022,
+            "errt": 204,
+            "brake": 408,
+            "hold": 460,
+            "escape": 13
+          },
+          "contact_episodes": 0,
+          "min_robot_gap_m": 0.05552569724336143
+        },
+        "updated": {
+          "score": [
+            2,
+            2
+          ],
+          "passes": 31,
+          "completed_passes": 16,
+          "receptions": [
+            {
+              "kick": 9,
+              "receive": 56,
+              "passer": 1,
+              "receiver": 4
+            },
+            {
+              "kick": 57,
+              "receive": 96,
+              "passer": 4,
+              "receiver": 2
+            },
+            {
+              "kick": 690,
+              "receive": 721,
+              "passer": 2,
+              "receiver": 1
+            },
+            {
+              "kick": 726,
+              "receive": 763,
+              "passer": 1,
+              "receiver": 4
+            },
+            {
+              "kick": 767,
+              "receive": 805,
+              "passer": 4,
+              "receiver": 1
+            },
+            {
+              "kick": 809,
+              "receive": 857,
+              "passer": 1,
+              "receiver": 4
+            },
+            {
+              "kick": 1034,
+              "receive": 1059,
+              "passer": 4,
+              "receiver": 3
+            },
+            {
+              "kick": 1132,
+              "receive": 1177,
+              "passer": 8,
+              "receiver": 7
+            },
+            {
+              "kick": 1179,
+              "receive": 1226,
+              "passer": 7,
+              "receiver": 6
+            },
+            {
+              "kick": 2001,
+              "receive": 2033,
+              "passer": 4,
+              "receiver": 2
+            },
+            {
+              "kick": 2034,
+              "receive": 2073,
+              "passer": 2,
+              "receiver": 1
+            },
+            {
+              "kick": 2076,
+              "receive": 2103,
+              "passer": 1,
+              "receiver": 4
+            },
+            {
+              "kick": 2508,
+              "receive": 2524,
+              "passer": 9,
+              "receiver": 8
+            },
+            {
+              "kick": 2544,
+              "receive": 2590,
+              "passer": 8,
+              "receiver": 7
+            },
+            {
+              "kick": 2809,
+              "receive": 2850,
+              "passer": 3,
+              "receiver": 1
+            },
+            {
+              "kick": 2855,
+              "receive": 2901,
+              "passer": 1,
+              "receiver": 2
+            }
+          ],
+          "planner_decisions": {
+            "direct": 13980,
+            "detour": 2299,
+            "errt": 435,
+            "brake": 907,
+            "hold": 395,
+            "escape": 45
+          },
+          "contact_episodes": 0,
+          "min_robot_gap_m": 0.047793954373790554
+        }
+      },
+      {
+        "seed": 38644002,
+        "seconds": 120.0,
+        "released": {
+          "score": [
+            0,
+            0
+          ],
+          "passes": 15,
+          "completed_passes": 7,
+          "receptions": [
+            {
+              "kick": 2224,
+              "receive": 2251,
+              "passer": 6,
+              "receiver": 9
+            },
+            {
+              "kick": 2257,
+              "receive": 2293,
+              "passer": 9,
+              "receiver": 8
+            },
+            {
+              "kick": 2404,
+              "receive": 2417,
+              "passer": 1,
+              "receiver": 4
+            },
+            {
+              "kick": 2490,
+              "receive": 2500,
+              "passer": 8,
+              "receiver": 9
+            },
+            {
+              "kick": 2551,
+              "receive": 2581,
+              "passer": 9,
+              "receiver": 8
+            },
+            {
+              "kick": 2682,
+              "receive": 2709,
+              "passer": 9,
+              "receiver": 8
+            },
+            {
+              "kick": 2926,
+              "receive": 2949,
+              "passer": 1,
+              "receiver": 2
+            }
+          ],
+          "planner_decisions": {
+            "direct": 15456,
+            "detour": 1758,
+            "errt": 215,
+            "brake": 181,
+            "hold": 368,
+            "escape": 7
+          },
+          "contact_episodes": 0,
+          "min_robot_gap_m": 0.07188277694129569
+        },
+        "updated": {
+          "score": [
+            0,
+            0
+          ],
+          "passes": 12,
+          "completed_passes": 5,
+          "receptions": [
+            {
+              "kick": 2224,
+              "receive": 2251,
+              "passer": 6,
+              "receiver": 9
+            },
+            {
+              "kick": 2257,
+              "receive": 2293,
+              "passer": 9,
+              "receiver": 8
+            },
+            {
+              "kick": 2404,
+              "receive": 2417,
+              "passer": 1,
+              "receiver": 4
+            },
+            {
+              "kick": 2731,
+              "receive": 2752,
+              "passer": 2,
+              "receiver": 4
+            },
+            {
+              "kick": 2931,
+              "receive": 2961,
+              "passer": 6,
+              "receiver": 8
+            }
+          ],
+          "planner_decisions": {
+            "direct": 15553,
+            "detour": 1588,
+            "errt": 196,
+            "brake": 198,
+            "hold": 385,
+            "escape": 11
+          },
+          "contact_episodes": 0,
+          "min_robot_gap_m": 0.05880155470226056
+        }
+      },
+      {
+        "seed": 38644003,
+        "seconds": 120.0,
+        "released": {
+          "score": [
+            0,
+            1
+          ],
+          "passes": 9,
+          "completed_passes": 6,
+          "receptions": [
+            {
+              "kick": 307,
+              "receive": 335,
+              "passer": 9,
+              "receiver": 7
+            },
+            {
+              "kick": 381,
+              "receive": 402,
+              "passer": 2,
+              "receiver": 3
+            },
+            {
+              "kick": 827,
+              "receive": 855,
+              "passer": 2,
+              "receiver": 1
+            },
+            {
+              "kick": 1241,
+              "receive": 1266,
+              "passer": 6,
+              "receiver": 9
+            },
+            {
+              "kick": 1295,
+              "receive": 1333,
+              "passer": 9,
+              "receiver": 8
+            },
+            {
+              "kick": 1353,
+              "receive": 1387,
+              "passer": 8,
+              "receiver": 6
+            }
+          ],
+          "planner_decisions": {
+            "direct": 16482,
+            "detour": 1152,
+            "errt": 125,
+            "brake": 224,
+            "escape": 11,
+            "hold": 80
+          },
+          "contact_episodes": 0,
+          "min_robot_gap_m": 0.07020796021315256
+        },
+        "updated": {
+          "score": [
+            0,
+            1
+          ],
+          "passes": 7,
+          "completed_passes": 3,
+          "receptions": [
+            {
+              "kick": 307,
+              "receive": 335,
+              "passer": 9,
+              "receiver": 7
+            },
+            {
+              "kick": 381,
+              "receive": 402,
+              "passer": 2,
+              "receiver": 3
+            },
+            {
+              "kick": 827,
+              "receive": 855,
+              "passer": 2,
+              "receiver": 1
+            }
+          ],
+          "planner_decisions": {
+            "direct": 16482,
+            "detour": 1006,
+            "errt": 90,
+            "brake": 276,
+            "escape": 10,
+            "hold": 122
+          },
+          "contact_episodes": 0,
+          "min_robot_gap_m": 0.07020796021315256
+        }
+      }
+    ],
+    "totals": {
+      "released": {
+        "goals": 4,
+        "passes": 60,
+        "completed_passes": 30,
+        "contact_episodes": 0,
+        "matches_with_contact": 0,
+        "min_robot_gap_m": 0.05552569724336143,
+        "planner_decisions": {
+          "direct": 60843,
+          "detour": 6868,
+          "errt": 798,
+          "brake": 2397,
+          "escape": 47,
+          "hold": 1069
+        }
+      },
+      "updated": {
+        "goals": 6,
+        "passes": 60,
+        "completed_passes": 29,
+        "contact_episodes": 0,
+        "matches_with_contact": 0,
+        "min_robot_gap_m": 0.047793954373790554,
+        "planner_decisions": {
+          "direct": 60612,
+          "detour": 5777,
+          "errt": 878,
+          "brake": 3617,
+          "escape": 77,
+          "hold": 1009
+        }
+      }
+    }
+  }
+}

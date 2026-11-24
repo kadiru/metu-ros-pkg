@@ -4,6 +4,10 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Reopening clearance for a stalled 5v5 runner
+
+On the remaining timeout replay, the runner opened space and reached its passing position in 3.32 s. The updated planner reached 40 of 40 fresh outlets, compared with 40 for the release. [Native Webots replay, paired outlet trials and full-match results](media/errt-clearance/README.md)
+
 ## Following a waypoint through a crowded defense
 
 Blue and Yellow reached the outlet on both previously timed-out plays. On an independent set of 40 starts, the released planner reached 37 outlets and selective waypoint commitment reached 40. [Native Webots replays, stalls, arrival times and clearance](media/errt-waypoints/README.md)

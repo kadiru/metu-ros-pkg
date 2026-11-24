@@ -22,6 +22,7 @@ from roboturk.model import Referee, SSL_KICK_LIMIT
 from roboturk.open_motion import Steering, observed_velocity
 from roboturk.placement import PlacementRestart
 from roboturk.pivot_fetch import PivotFetch
+from roboturk.tackle_selector import TackleSelector
 from roboturk.ssl_referee import RefereeSocket, RestartGate
 from roboturk.ssl_vision import (
     VisionOutput,
@@ -84,6 +85,8 @@ def match(sim, folder, cfg, receiver=None, vision=None):
     tackle = BallSideTackle(**cfg["tackle_policy"]) if cfg.get("tackle_policy") else None
     if tackle and cfg.get("pivot_fetch"):
         tackle = PivotFetch(tackle)
+    if tackle and cfg.get("tackle_selector"):
+        tackle = TackleSelector(tackle)
     planner_counts = {} if cfg.get("trajectory_planner") else None
     gate = RestartGate()
     restart = (
@@ -501,6 +504,11 @@ def match(sim, folder, cfg, receiver=None, vision=None):
         )
         if isinstance(tackle, PivotFetch):
             log["pivot_sweeps"] = [[t, keys.index(k), keys.index(c)] for t, k, c in tackle.sweeps]
+        if isinstance(tackle, TackleSelector):
+            log["tackle_decisions"] = [
+                dict(e, presser=keys.index(e["presser"]), carrier=keys.index(e["carrier"]))
+                for e in tackle.events
+            ]
         if possession_audit:
             log["physics_dt"] = backend.basic_ms / 1000
             np.savez_compressed(
@@ -547,7 +555,11 @@ try:
         else nullcontext()
     )
     with connection as receiver, camera as vision:
-        if cfg.get("tackle_trials"):
+        if cfg.get("tackle_panel"):
+            from selector_trials import run
+
+            run(sim, folder, cfg)
+        elif cfg.get("tackle_trials"):
             from tackle_trials import run
 
             run(sim, folder, cfg)

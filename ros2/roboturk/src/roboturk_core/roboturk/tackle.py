@@ -24,6 +24,12 @@ class BallSideTackle:
         ):
             raise ValueError("Ball-side tackle profile outside the fitted motor range")
 
+    def draw_direction(self, presser, carrier):
+        nx, ny = math.cos(carrier.yaw), math.sin(carrier.yaw)
+        x, y = presser.x - carrier.x, presser.y - carrier.y
+        side = math.copysign(1, nx * y - ny * x)
+        return nx - side * self.flank * ny, ny + side * self.flank * nx
+
     def command(self, world, presser, carrier, observed, has_ball):
         ball = world.ball
         nx, ny = math.cos(carrier.yaw), math.sin(carrier.yaw)
@@ -39,11 +45,8 @@ class BallSideTackle:
             omega = max(-4.2, min(4.2, 7 * wrap(anchor - presser.yaw)))
             # Drag across the carrier's narrower forward roller boundary.
             # Limit stretch in both directions of our own roller.
-            mx, my = body_vector(
-                0.047 * (nx - side * self.flank * ny),
-                0.047 * (ny + side * self.flank * nx),
-                presser.yaw,
-            )
+            dx, dy = self.draw_direction(presser, carrier)
+            mx, my = body_vector(0.047 * dx, 0.047 * dy, presser.yaw)
             mx = max(-0.030, min(0.030, mx))
             my = max(-0.040, min(0.040, my))
             err_x, err_y = body_vector(ball.x - presser.x, ball.y - presser.y, presser.yaw)

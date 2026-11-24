@@ -167,8 +167,19 @@ def main():
         type=int,
         help="Record one seed within a consecutive crowded batch, including its prior reset history",
     )
-    p.add_argument(
+    tackles = p.add_mutually_exclusive_group()
+    tackles.add_argument(
         "--pivot-fetch", action="store_true", help="Enable a roller sweep after a stalled tackle"
+    )
+    tackles.add_argument(
+        "--tackle-selector",
+        action="store_true",
+        help="Choose and screen tackles for risky releases",
+    )
+    p.add_argument(
+        "--tackle-panel",
+        choices=("midfield", "touchline", "own-goal"),
+        help="Compare the selector and all four fixed choices in matched tackle trials",
     )
     p.add_argument(
         "--tackle-duel", action="store_true", help="Start tackle trials at close roller range"
@@ -193,6 +204,19 @@ def main():
         a.motion_audit = True
     if a.pivot_fetch and not a.tackle_policy:
         p.error("--pivot-fetch requires --tackle-policy")
+    if a.tackle_selector and (not a.tackle_policy or a.tackle_trials):
+        p.error("--tackle-selector requires a tackle checkpoint and an ordinary match")
+    if a.tackle_panel and (
+        not a.tackle_trials
+        or not a.tackle_policy
+        or a.tackle_duel
+        or a.pivot_fetch
+        or a.frame_images
+        or a.record
+    ):
+        p.error(
+            "--tackle-panel requires tackle trials and a checkpoint without legacy modes or recording"
+        )
     if a.tackle_duel and not a.tackle_trials:
         p.error("--tackle-duel requires --tackle-trials")
     if a.tackle_trials is not None and (
@@ -328,6 +352,8 @@ def main():
                 tackle_trials=a.tackle_trials,
                 tackle_duel=a.tackle_duel,
                 pivot_fetch=a.pivot_fetch,
+                tackle_selector=a.tackle_selector,
+                tackle_panel=a.tackle_panel,
                 tackle_policy=json.loads(a.tackle_policy.read_text()) if a.tackle_policy else None,
                 tackle_sweep=tackle_sweep,
                 film_seed=a.film_seed,
@@ -391,6 +417,11 @@ def main():
             [*cmd, str(WORLD)], env=env, stdout=log, stderr=subprocess.STDOUT, check=True
         )
     if a.tackle_trials:
+        if a.tackle_panel:
+            report = dest / "tackle-panel.json"
+            if not report.is_file() or len(json.loads(report.read_text())) != a.tackle_trials:
+                raise RuntimeError(f"Incomplete matched tackle panel. See {dest}/webots.log")
+            return
         names = tackle_sweep or {"tackle" if a.tackle_policy else "current": None}
         for name in names:
             with gzip.open(dest / name / "trials.jsonl.gz", "rt") as logs:

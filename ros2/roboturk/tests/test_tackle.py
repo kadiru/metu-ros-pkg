@@ -9,6 +9,8 @@ from roboturk.five_roles import CFG, FiveRoles, kickoff
 from roboturk.model import Ball, Command, RobotKey
 from roboturk.open_motion import Steering
 from roboturk.pivot_fetch import PivotFetch
+from roboturk.tackle import BallSideTackle
+from roboturk.tackle_selector import TackleSelector, release_risks
 
 CARRIER = RobotKey("blue", 1)
 PRESSER = RobotKey("yellow", 1)
@@ -105,3 +107,35 @@ def test_brief_role_interruptions_do_not_reset_attempt_budget():
             pivot.command(replace(w, time=tick * CFG.dt), actor, carrier, {}, True)
     assert len(pivot.sweeps) == 2
     assert pivot.duels[PRESSER].attempts == 2
+
+
+def test_tackle_release_veto_mirrors_both_touchlines_and_both_goals():
+    for side in (-1, 1):
+        ball = Ball(0, 2.90 * side)
+        assert release_risks(ball, 1, (0, side)) == ("touchline",)
+        assert release_risks(ball, 1, (0, -side)) == ()
+        ball = Ball(-4.38 * side, 0.1)
+        assert "own_goal" in release_risks(ball, side, (-side, 0))
+        assert release_risks(ball, side, (side, 0)) == ()
+
+
+def test_selector_tries_direct_then_uses_the_inward_pivot_in_a_stalled_duel():
+    w = contest(0.23)
+    w = replace(
+        w,
+        ball=replace(w.ball, y=2.9),
+        robots=tuple(replace(r, y=2.9) if r.key in (PRESSER, CARRIER) else r for r in w.robots),
+    )
+    selector = TackleSelector(BallSideTackle(37, 0.108, 0.22, 0))
+    observed = {r.key: (0, 0) for r in w.robots}
+    for tick in range(8):
+        command = selector.command(
+            replace(w, time=tick * CFG.dt), w.robot(PRESSER), w.robot(CARRIER), observed, True
+        )
+        assert selector.action(PRESSER) == ("direct" if tick < 7 else "pivot_right")
+        assert command.kick == 0
+    assert selector.events[-1]["vetoes"] == {"pivot_left": ("touchline",)}
+    drifting = replace(w, time=8 * CFG.dt, ball=replace(w.ball, vy=0.6))
+    command = selector.command(drifting, w.robot(PRESSER), w.robot(CARRIER), observed, True)
+    assert selector.action(PRESSER) == "contain"
+    assert command.dribbler == 0

@@ -8,6 +8,7 @@ from .five_roles import CFG, PENALTY_FRONT, PENALTY_HALF_WIDTH, TIMED_ROLES, Fli
 from .model import possession, wrap
 from .open_motion import steer_team
 from .pivot_fetch import PivotFetch
+from .tackle_selector import CONTAIN, TackleSelector
 from .three_match import filter_commands
 from .timed_motion import inside, plan_team
 from .touchline import recovery_command
@@ -177,10 +178,11 @@ def open_play(
                     out[r.key] = tackle.command(
                         world, r, carrier, measured, possession(world, r.key, CFG)
                     )
-                    challenges[r.key] = carrier
+                    if not isinstance(tackle, TackleSelector) or tackle.action(r.key) != CONTAIN:
+                        challenges[r.key] = carrier
         if tackle_audit is not None:
             tackle_audit.update(challenges)
-        if isinstance(tackle, PivotFetch) and sole is None and not tactics.flight:
+        if isinstance(tackle, (PivotFetch, TackleSelector)) and sole is None and not tactics.flight:
             for r in world.robots:
                 if (
                     roles[r.key].role in ("Chaser", "Presser")

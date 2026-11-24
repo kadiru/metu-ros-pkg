@@ -1,0 +1,94 @@
+{
+  "previous": {
+    "openings": 40,
+    "recoveries": 0,
+    "recovery_teams": {
+      "blue": 0,
+      "yellow": 0
+    },
+    "median_recovery_seconds": null,
+    "crossed_live": 0,
+    "sole_control_outside": 0,
+    "ball_out_before_recovery": 0,
+    "contacts": {
+      "pair": 0,
+      "board": 0,
+      "goal": 0
+    },
+    "minimum_clearance_m": {
+      "pair": 0.08361133886645905,
+      "board": 0.35554149170312666,
+      "goal": 0.18518175811960322
+    }
+  },
+  "current": {
+    "openings": 40,
+    "recoveries": 37,
+    "recovery_teams": {
+      "blue": 22,
+      "yellow": 15
+    },
+    "median_recovery_seconds": 3.12,
+    "crossed_live": 40,
+    "sole_control_outside": 40,
+    "ball_out_before_recovery": 0,
+    "contacts": {
+      "pair": 0,
+      "board": 0,
+      "goal": 0
+    },
+    "minimum_clearance_m": {
+      "pair": 0.05031510641789386,
+      "board": 0.003986147407877588,
+      "goal": 0.14879001421802837
+    }
+  },
+  "outcomes": {
+    "both": [],
+    "previous_only": [],
+    "current_only": [
+      37112000,
+      37112001,
+      37112002,
+      37112003,
+      37112004,
+      37112006,
+      37112007,
+      37112008,
+      37112009,
+      37112010,
+      37112011,
+      37112012,
+      37112013,
+      37112014,
+      37112015,
+      37112016,
+      37112017,
+      37112018,
+      37112019,
+      37112020,
+      37112021,
+      37112022,
+      37112023,
+      37112024,
+      37112025,
+      37112026,
+      37112027,
+      37112028,
+      37112029,
+      37112031,
+      37112032,
+      37112033,
+      37112034,
+      37112036,
+      37112037,
+      37112038,
+      37112039
+    ],
+    "neither": [
+      37112005,
+      37112030,
+      37112035
+    ]
+  }
+}

@@ -9,6 +9,7 @@ import numpy as np
 import torch
 
 from .continuous import SPEED, OMEGA
+from .touchline import END_LIMIT, SIDE_LIMIT, brake_axis
 from .model import body_vector, world_vector
 from .model import Ball, Command, Config, Referee, Robot, RobotKey, World, possession, wrap
 from .strategy_pass import observation
@@ -59,7 +60,7 @@ def layout(rng, team, sign):
     )
 
 
-def filter_commands(world, commands):
+def filter_commands(world, commands, recovering=()):
     """Limit inward velocity along robot pairs and field edges over one control step."""
     velocities = {}
     for r in world.robots:
@@ -85,8 +86,12 @@ def filter_commands(world, commands):
     scale = 1.0
     for r in world.robots:
         v = velocities[r.key]
-        for j, (pos, bound) in enumerate([(r.x, 4.35), (r.y, 2.85)]):
-            v[j] = max(min(0, (-bound - pos) / DT), min(max(0, (bound - pos) / DT), v[j]))
+        if r.key in recovering:
+            v[0] = brake_axis(r.x, v[0], END_LIMIT, DT)
+            v[1] = brake_axis(r.y, v[1], SIDE_LIMIT, DT)
+        else:
+            for j, (pos, bound) in enumerate([(r.x, 4.35), (r.y, 2.85)]):
+                v[j] = max(min(0, (-bound - pos) / DT), min(max(0, (bound - pos) / DT), v[j]))
         scale = min(scale, 1.2 / max(1.2, math.hypot(*v)))
     for va, vb, ux, uy, budget in pairs:
         closing = (vb[0] - va[0]) * ux + (vb[1] - va[1]) * uy

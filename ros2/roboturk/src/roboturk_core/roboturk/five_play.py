@@ -7,6 +7,9 @@ from .counterpass import MOTOR, shot_window
 from . import field as pitch
 from .five_roles import CFG, Flight, limit
 from .model import wrap
+from .open_motion import steer_team
+from .three_match import filter_commands
+from .touchline import recovery_command
 from .three_recipient import features, move
 
 
@@ -92,3 +95,29 @@ def commands(world, positions, weights, sole, tactics):
         if role == "Contain":
             out[r.key] = replace(out[r.key], dribbler=0)
     return out, passes
+
+
+def open_play(world, tactics, weights, measured, policy, touchline=True):
+    """One open-play control tick shared by ordinary matches and paired replays."""
+    sole = tactics.observe(world)
+    roles, phases = {}, {}
+    for team in ("blue", "yellow"):
+        phases[team], side = tactics.assign(world, team)
+        roles.update(side)
+    out, planned = commands(world, roles, weights, sole, tactics)
+    recovering = set()
+    if touchline:
+        for r in world.robots:
+            command = recovery_command(world, r, roles[r.key].role, sole)
+            if command is not None:
+                recovering.add(r.key)
+                out[r.key] = command
+                planned.pop(r.key, None)
+    if policy:
+        raw, out = out, {}
+        for team in phases:
+            own = {key: value for key, value in raw.items() if key.team == team}
+            out.update(steer_team(world.robots, team, own, measured, policy, CFG.dt, recovering))
+    else:
+        out, _ = filter_commands(world, out, recovering)
+    return out, planned, roles, phases

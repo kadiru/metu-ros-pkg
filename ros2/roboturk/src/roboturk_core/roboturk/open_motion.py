@@ -3,6 +3,7 @@
 from dataclasses import dataclass, replace
 import math
 
+from .touchline import END_LIMIT, SIDE_LIMIT, brake_axis
 from .model import body_vector, world_vector
 from .placement_traffic import separation
 
@@ -30,7 +31,7 @@ def observed_velocity(robots, previous, dt):
     }
 
 
-def steer_team(robots, team, requests, observed, policy, dt):
+def steer_team(robots, team, requests, observed, policy, dt, recovering=()):
     """Translate this team's requests using only measured motion of surrounding players."""
     own = [r for r in robots if r.key.team == team]
     if set(requests) != {r.key for r in own}:
@@ -65,8 +66,12 @@ def steer_team(robots, team, requests, observed, policy, dt):
                     options.append((c * x - s * y, s * x + c * y))
             options.append((0, 0))
             x, y = min(options, key=lambda v: loss(*v))
-        x = max(min(0, (-4.35 - r.x) / dt), min(max(0, (4.35 - r.x) / dt), x))
-        y = max(min(0, (-2.85 - r.y) / dt), min(max(0, (2.85 - r.y) / dt), y))
+        if r.key in recovering:
+            x = brake_axis(r.x, x, END_LIMIT, dt)
+            y = brake_axis(r.y, y, SIDE_LIMIT, dt)
+        else:
+            x = max(min(0, (-4.35 - r.x) / dt), min(max(0, (4.35 - r.x) / dt), x))
+            y = max(min(0, (-2.85 - r.y) / dt), min(max(0, (2.85 - r.y) / dt), y))
         vx, vy = body_vector(x, y, r.yaw)
         out[r.key] = replace(cmd, vx=vx, vy=vy)
     return out

@@ -4,6 +4,10 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Can a robot recover the ball from outside the touchline?
+
+The previous steering recovered 0 of 40 balls. The new steering recovered 37 of 40. [Native Webots comparison and clearance measurements](media/touchline/README.md) · [How SSL teams plan motion](docs/SSL_PATH_PLANNERS.md)
+
 ## Can Blue beat the goalkeeper after receiving under pressure?
 
 In 40 matched 2v2 Webots openings, the previous Blue team secured 37 passes and scored 22 goals. The keeper-aware finish secured 37 and scored 33. [Paired GIFs, native recordings and training](media/guarded-finish/README.md)

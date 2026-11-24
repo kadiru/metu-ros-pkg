@@ -114,7 +114,21 @@ def main():
         default=None,
         help="Use the shared planner with concurrent route reservations",
     )
+    p.add_argument("--touchline-recovery", action=argparse.BooleanOptionalAction, default=True)
+    batch.add_argument(
+        "--touchline-trials", type=int, help="Run this many consecutive 5v5 touchline openings"
+    )
     a = p.parse_args()
+    if a.touchline_trials is not None and (
+        a.touchline_trials < 1 or a.referee != "local" or not a.open_play_policy
+    ):
+        p.error(
+            "Touchline trials need a positive count, local referee and open-play steering policy"
+        )
+    if a.touchline_trials and (a.frame_images or a.record):
+        if a.touchline_trials != 1:
+            p.error("Record a single touchline trial per directory")
+        a.frame_images = True
     if a.replay_kickoffs and (a.referee != "local" or a.until_post_game):
         p.error("--replay-kickoffs runs a native replay without a live referee")
     if a.parallel_kickoffs is None:
@@ -169,6 +183,8 @@ def main():
                 track_kickoffs=a.track_kickoffs,
                 seconds=a.seconds,
                 record=a.record,
+                touchline_trials=a.touchline_trials,
+                touchline_recovery=a.touchline_recovery,
                 frame_images=a.frame_images,
                 motion_audit=a.motion_audit,
                 await_force_start=a.await_force_start,
@@ -219,6 +235,11 @@ def main():
         subprocess.run(
             [*cmd, str(WORLD)], env=env, stdout=log, stderr=subprocess.STDOUT, check=True
         )
+    if a.touchline_trials:
+        report = dest / "touchline.json"
+        if not report.is_file() or len(json.loads(report.read_text())) != a.touchline_trials:
+            raise RuntimeError(f"Missing touchline report. See {dest}/webots.log")
+        return
     if a.replay_kickoffs:
         if not (dest / "kickoff-replays.json").is_file():
             raise RuntimeError(f"Missing kickoff replay report. See {dest}/webots.log")

@@ -13,12 +13,12 @@ import numpy as np
 from controller import Supervisor
 from roboturk.continuous_backend import ContinuousWebotsBackend
 from roboturk.field import CARPET_MARGIN
-from roboturk.five_play import commands
+from roboturk.five_play import open_play
 from roboturk.five_roles import Assignment, CFG, TEAMS, FiveRoles, kickoff
 from roboturk.kickoff_drive import KickoffDrive, ParallelKickoffDrive
 from roboturk.team_kickoff import IndependentKickoffs
 from roboturk.model import Referee, SSL_KICK_LIMIT
-from roboturk.open_motion import Steering, observed_velocity, steer_team
+from roboturk.open_motion import Steering, observed_velocity
 from roboturk.placement import PlacementRestart
 from roboturk.ssl_referee import RefereeSocket, RestartGate
 from roboturk.ssl_vision import (
@@ -29,7 +29,7 @@ from roboturk.ssl_vision import (
     read_delimited,
     write_delimited,
 )
-from roboturk.three_match import filter_commands, snapshot
+from roboturk.three_match import snapshot
 
 
 def hud(sim, w, keys, roles, phases, score, seconds):
@@ -245,22 +245,15 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             phases = {t: "Restart" for t in TEAMS}
             planned = {}
         elif w.referee == Referee.RUNNING:
-            sole = tactics.observe(w)
-            roles = {}
-            phases = {}
-            for team in TEAMS:
-                phase, side = tactics.assign(w, team)
-                phases[team] = phase
-                roles.update(side)
-            out, planned = commands(w, roles, weights, sole, tactics)
-            if policy and tick >= cfg.get("steer_from_tick", 0):
-                raw = out
-                out = {}
-                for team in TEAMS:
-                    own = {k: c for k, c in raw.items() if k.team == team}
-                    out.update(steer_team(w.robots, team, own, measured, policy, CFG.dt))
-            else:
-                out, _ = filter_commands(w, out)
+            active_policy = policy if tick >= cfg.get("steer_from_tick", 0) else None
+            out, planned, roles, phases = open_play(
+                w,
+                tactics,
+                weights,
+                measured if active_policy else {},
+                active_policy,
+                cfg.get("touchline_recovery", True),
+            )
             if restricted:
                 out = {k: c for k, c in out.items() if k.team == restricted}
         else:
@@ -467,7 +460,11 @@ try:
         else nullcontext()
     )
     with connection as receiver, camera as vision:
-        if cfg.get("kickoff_replays") is not None:
+        if cfg.get("touchline_trials"):
+            from touchline_trials import run
+
+            run(sim, folder, cfg)
+        elif cfg.get("kickoff_replays") is not None:
             from kickoff_replay import run
 
             run(

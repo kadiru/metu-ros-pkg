@@ -250,3 +250,22 @@ def test_carry_returns_to_the_frozen_scorer_in_finishing_range():
     for distance, kick in [(3.0, 0), (1.5, 3.5)]:
         intent = Intent(Skill.SHOOT, (world.ball.x + distance, world.ball.y))
         assert carry.command(world, r.key, intent, env.cfg).kick == kick
+
+
+def test_first_touch_motion_requires_a_pass_and_measured_dwell():
+    from roboturk.closing_press import ClosingPassEnv, FirstTouchTransfer
+
+    class Carry:
+        def motion(self, world, receiver, target, cfg):
+            return Command(vy=0.7, dribbler=1)
+
+    env = ClosingPassEnv()
+    env.reset(seed=5)
+    actor = FirstTouchTransfer.__new__(FirstTouchTransfer)
+    actor.carry, actor.first_touch_steps = Carry(), 4
+    for passed, dwell, expected in [(False, 4, 0.0), (True, 3, 0.0), (True, 4, 0.7)]:
+        env.state.passed, env.state.receiver_dwell = passed, dwell
+        cmd = actor.decode_action(
+            np.zeros(7), env.world, env.passer, env.receiver, env.state, env.cfg
+        )[env.receiver]
+        assert cmd.vy == expected and cmd.kick == 0 and not env.state.received

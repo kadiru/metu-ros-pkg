@@ -1,0 +1,53 @@
+{
+  "first_seed": 33820000,
+  "episodes_per_profile": 8,
+  "candidates": [
+    {
+      "profile": {
+        "speed": 1.5,
+        "avoidance": 1.4
+      },
+      "goals": 5,
+      "collisions": 2,
+      "loss_trials": 0,
+      "carry_progress": 15.013377757586927
+    },
+    {
+      "profile": {
+        "speed": 1.5,
+        "avoidance": 1.4,
+        "first_touch_steps": 1
+      },
+      "goals": 5,
+      "collisions": 3,
+      "loss_trials": 0,
+      "carry_progress": 6.762145590777452
+    },
+    {
+      "profile": {
+        "speed": 1.5,
+        "avoidance": 1.4,
+        "first_touch_steps": 4
+      },
+      "goals": 1,
+      "collisions": 5,
+      "loss_trials": 0,
+      "carry_progress": 1.151758703939301
+    },
+    {
+      "profile": {
+        "speed": 1.5,
+        "avoidance": 1.4,
+        "first_touch_steps": 10
+      },
+      "goals": 0,
+      "collisions": 5,
+      "loss_trials": 0,
+      "carry_progress": 0
+    }
+  ],
+  "selected": {
+    "speed": 1.5,
+    "avoidance": 1.4
+  }
+}

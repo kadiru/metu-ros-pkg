@@ -9,6 +9,7 @@ from .backend import ReferenceBackend
 from .carrier_motor import MOTOR, track_roller
 from .defended import DEFENDER, DefendedBackend, OpposedPassEnv
 from .model import Command, Config, Robot, possession, unit, wrap
+from .team import TeamCheckpoint
 from .three_recipient import move
 
 
@@ -94,11 +95,16 @@ class ClosingCarry:
         self.scorer, self.speed, self.avoidance = scorer, speed, avoidance
 
     def command(self, world, key, intent, cfg):
+        return self.motion(world, key, intent.target, cfg) or self.scorer.command(
+            world, key, intent, cfg
+        )
+
+    def motion(self, world, key, target, cfg):
         b, actor, marker = world.ball, world.robot(key), world.robot(DEFENDER)
-        dx, dy = intent.target[0] - b.x, intent.target[1] - b.y
+        dx, dy = target[0] - b.x, target[1] - b.y
         distance = math.hypot(dx, dy)
         if distance <= 1.55 or not possession(world, key, cfg):
-            return self.scorer.command(world, key, intent, cfg)
+            return None
         gx, gy = unit(dx, dy)
         mx, my = b.x - marker.x, b.y - marker.y
         gap = math.hypot(mx, my)
@@ -108,3 +114,22 @@ class ClosingCarry:
         speed = min(self.speed, 0.45 + 1.4 * (distance - 1.55))
         omega = max(-2.3, min(2.3, 3.2 * wrap(math.atan2(dy, dx) - actor.yaw)))
         return track_roller(world, actor, (speed * vx, speed * vy), omega, MOTOR)
+
+
+class FirstTouchTransfer(TeamCheckpoint):
+    """Start carrying during the measured hold. Only the scorer can request a shot."""
+
+    def __init__(self, checkpoint, cfg, carry, first_touch_steps):
+        super().__init__(checkpoint, cfg)
+        if not isinstance(first_touch_steps, int) or not 1 <= first_touch_steps < 20:
+            raise ValueError("First-touch delay must be 1 to 19 control steps")
+        self.carry, self.first_touch_steps = carry, first_touch_steps
+
+    def decode_action(self, action, world, passer, receiver, state, cfg):
+        commands = super().decode_action(action, world, passer, receiver, state, cfg)
+        if state.passed and state.receiver_dwell >= self.first_touch_steps:
+            goal = (world.direction(receiver.team) * cfg.length / 2, 0.0)
+            motion = self.carry.motion(world, receiver, goal, cfg)
+            if motion is not None:
+                commands[receiver] = motion
+        return commands

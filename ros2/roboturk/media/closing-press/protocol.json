@@ -29,5 +29,19 @@
     ],
     "selection": "most goals, then fewest defender contacts with robots, then fewest possession losses, then greatest total carry progress",
     "comparison": "Freeze one profile before evaluating it on the same 40 shared starts."
+  },
+  "first_touch_experiment": {
+    "reason": "12 of 37 fitted first touches on the initial 40 starts did not become a stable reception.",
+    "training": [
+      33820000,
+      33820007
+    ],
+    "fresh_paired_starts": [
+      33822000,
+      33822039
+    ],
+    "timing_candidates": "full hold vs 1, 4 or 10 stable 20-ms ticks; same frozen carry parameters and full scoring checks",
+    "demo": 33823000,
+    "challenger_rule": "Compare the best of the three earlier timings with the full hold on 40 new starts, including when the full hold ranks first in training. Report the overall training winner separately."
   }
 }

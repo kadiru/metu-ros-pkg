@@ -62,12 +62,55 @@ def summarize(rows):
     )
 
 
+def check_openings(reference_arm, arm):
+    rows = reference_arm["episodes"]
+    seeds = [r["seed"] for r in rows]
+    if not seeds or len(seeds) != len(set(seeds)):
+        raise ValueError("Expected unique opening seeds")
+    if [r["seed"] for r in arm["episodes"]] != seeds:
+        raise ValueError("Different opening seeds")
+    for reference, candidate in zip(rows, arm["episodes"], strict=True):
+        a, b = reference["transfer"], candidate["transfer"]
+        if any(
+            a[k] != b[k] for k in ("opening", "defender_speed_limit", "passer_id", "receiver_id")
+        ):
+            raise ValueError(f"Different opening at {candidate['seed']}")
+
+
+def timing_comparison(delayed, early):
+    check_openings(delayed, early)
+    for field in (
+        "checkpoint_sha256",
+        "checkpoint_manifest_sha256",
+        "shooting_checkpoint_sha256",
+        "shooting_checkpoint_manifest_sha256",
+    ):
+        if delayed[field] != early[field]:
+            raise ValueError(f"Different frozen policies: {field}")
+    base = {k: v for k, v in early["carry_profile"].items() if k != "first_touch_steps"}
+    if base != delayed["carry_profile"]:
+        raise ValueError("Different carry motion parameters")
+    result = {
+        "after_hold": summarize(delayed["episodes"]),
+        "selected_timing": summarize(early["episodes"]),
+    }
+    for key in ("receipt", "goal"):
+        pairs = Counter()
+        for a, b in zip(delayed["episodes"], early["episodes"], strict=True):
+            if key == "receipt":
+                a, b = a["transfer"], b["transfer"]
+            pairs[a["is_success"], b["is_success"]] += 1
+        result[key + "_pairs"] = {
+            "both": pairs[True, True],
+            "selected_only": pairs[False, True],
+            "after_hold_only": pairs[True, False],
+            "neither": pairs[False, False],
+        }
+    return result
+
+
 def compare(original, fitted, adapted):
     arms = {"original": original, "fitted": fitted, "adapted": adapted}
-    rows = original["episodes"]
-    seeds = [r["seed"] for r in rows]
-    if not rows or len(set(seeds)) != len(rows):
-        raise ValueError("Expected unique opening seeds")
     for key in (
         "checkpoint_sha256",
         "shooting_checkpoint_sha256",
@@ -82,15 +125,7 @@ def compare(original, fitted, adapted):
     if any(d.get("carry_profile_sha256") for d in (original, fitted)):
         raise ValueError("Both reference arms require the unmodified scorer")
     for arm in arms.values():
-        if [r["seed"] for r in arm["episodes"]] != seeds:
-            raise ValueError("Different opening seeds")
-        for reference, candidate in zip(rows, arm["episodes"], strict=True):
-            a, b = reference["transfer"], candidate["transfer"]
-            if any(
-                a[k] != b[k]
-                for k in ("opening", "defender_speed_limit", "passer_id", "receiver_id")
-            ):
-                raise ValueError(f"Different opening at {candidate['seed']}")
+        check_openings(original, arm)
     result = {arm: summarize(d["episodes"]) for arm, d in arms.items()}
     # The solver clock and tiny contact differences can vary after unequal previous episode lengths.
     result["transfer_outcome_disagreements"] = [
@@ -115,15 +150,13 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     for key in ("original", "fitted", "adapted"):
         parser.add_argument(key, type=Path)
+    parser.add_argument("--timing", type=Path, nargs=2, metavar=("DELAYED", "SELECTED"))
     args = parser.parse_args()
-    print(
-        json.dumps(
-            compare(
-                *(
-                    json.loads(path.read_text())
-                    for path in (args.original, args.fitted, args.adapted)
-                )
-            ),
-            indent=2,
-        )
+    result = compare(
+        *(json.loads(path.read_text()) for path in (args.original, args.fitted, args.adapted))
     )
+    if args.timing:
+        result["fresh_timing_comparison"] = timing_comparison(
+            *(json.loads(path.read_text()) for path in args.timing)
+        )
+    print(json.dumps(result, indent=2))

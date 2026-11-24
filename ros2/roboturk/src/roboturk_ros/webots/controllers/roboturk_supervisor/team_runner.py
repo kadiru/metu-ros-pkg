@@ -47,17 +47,25 @@ def run(supervisor, backend, cfg, mode):
         )
     else:
         checkpoint = os.environ.get("ROBOTURK_CHECKPOINT")
-        policy = TeamCheckpoint(checkpoint, cfg) if checkpoint else TransferTeacher()
         shooter = (
             CheckpointPolicy(os.environ["ROBOTURK_SHOOT_CHECKPOINT"], Skill.SHOOT, cfg)
             if os.environ.get("ROBOTURK_SHOOT_CHECKPOINT")
             else None
         )
         profile = os.environ.get("ROBOTURK_CARRY_PROFILE")
+        first_touch_steps = None
         if profile:
             from roboturk.closing_press import ClosingCarry
 
-            shooter = ClosingCarry(shooter, **json.loads(Path(profile).read_text()))
+            settings = json.loads(Path(profile).read_text())
+            first_touch_steps = settings.pop("first_touch_steps", None)
+            shooter = ClosingCarry(shooter, **settings)
+        if first_touch_steps is None:
+            policy = TeamCheckpoint(checkpoint, cfg) if checkpoint else TransferTeacher()
+        else:
+            from roboturk.closing_press import FirstTouchTransfer
+
+            policy = FirstTouchTransfer(checkpoint, cfg, shooter, first_touch_steps)
         episodes, seed = (
             int(os.environ.get("ROBOTURK_EPISODES", "200")),
             int(os.environ.get("ROBOTURK_SEED", "450000")),

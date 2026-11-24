@@ -1,0 +1,705 @@
+{
+  "current": [
+    {
+      "seed": 38722600,
+      "carrier": "blue",
+      "motion": "stationary",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 1.054,
+      "roller_s": 0.4,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.0605896867507795,
+      "crash_calls": 0,
+      "sweeps": []
+    },
+    {
+      "seed": 38722601,
+      "carrier": "blue",
+      "motion": "reverse",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 0.9420000000000002,
+      "roller_s": 0.44200000000000017,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.07173996445731651,
+      "crash_calls": 0,
+      "sweeps": []
+    },
+    {
+      "seed": 38722602,
+      "carrier": "yellow",
+      "motion": "lateral",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 0.9339999999999993,
+      "roller_s": 0.31400000000000006,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.05383373339712971,
+      "crash_calls": 0,
+      "sweeps": []
+    },
+    {
+      "seed": 38722603,
+      "carrier": "yellow",
+      "motion": "turning",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 1.0980000000000008,
+      "roller_s": 0.37599999999999945,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.06147180081549625,
+      "crash_calls": 0,
+      "sweeps": []
+    },
+    {
+      "seed": 38722604,
+      "carrier": "blue",
+      "motion": "stationary",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 1.1560000000000024,
+      "roller_s": 0.5480000000000018,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.0639370686427651,
+      "crash_calls": 0,
+      "sweeps": []
+    },
+    {
+      "seed": 38722605,
+      "carrier": "blue",
+      "motion": "reverse",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 0.9540000000000006,
+      "roller_s": 0.5219999999999985,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.0752513404963352,
+      "crash_calls": 0,
+      "sweeps": []
+    },
+    {
+      "seed": 38722606,
+      "carrier": "yellow",
+      "motion": "lateral",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 0.9480000000000004,
+      "roller_s": 0.2779999999999987,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.057026782365674794,
+      "crash_calls": 0,
+      "sweeps": []
+    },
+    {
+      "seed": 38722607,
+      "carrier": "yellow",
+      "motion": "turning",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 0.8820000000000014,
+      "roller_s": 0.1280000000000001,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.06173703876965633,
+      "crash_calls": 0,
+      "sweeps": []
+    },
+    {
+      "seed": 38722608,
+      "carrier": "blue",
+      "motion": "stationary",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 0.8919999999999959,
+      "roller_s": 0.24199999999999733,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.0611974068502843,
+      "crash_calls": 0,
+      "sweeps": []
+    },
+    {
+      "seed": 38722609,
+      "carrier": "blue",
+      "motion": "reverse",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 0.9160000000000039,
+      "roller_s": 0.4940000000000069,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.0774527523334908,
+      "crash_calls": 0,
+      "sweeps": []
+    },
+    {
+      "seed": 38722610,
+      "carrier": "yellow",
+      "motion": "lateral",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 0.828000000000003,
+      "roller_s": 0.18599999999999994,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.05688732346086878,
+      "crash_calls": 0,
+      "sweeps": []
+    },
+    {
+      "seed": 38722611,
+      "carrier": "yellow",
+      "motion": "turning",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 0.8980000000000032,
+      "roller_s": 0.18200000000000216,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.056128522666292036,
+      "crash_calls": 0,
+      "sweeps": []
+    },
+    {
+      "seed": 38722612,
+      "carrier": "blue",
+      "motion": "stationary",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 1.0459999999999994,
+      "roller_s": 0.42200000000000415,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.06392998526792437,
+      "crash_calls": 0,
+      "sweeps": []
+    },
+    {
+      "seed": 38722613,
+      "carrier": "blue",
+      "motion": "reverse",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 0.6679999999999993,
+      "roller_s": 0.20199999999999818,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.06507202155463299,
+      "crash_calls": 0,
+      "sweeps": []
+    },
+    {
+      "seed": 38722614,
+      "carrier": "yellow",
+      "motion": "lateral",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 2.073999999999998,
+      "roller_s": 1.4159999999999968,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.05390243674038728,
+      "crash_calls": 0,
+      "sweeps": []
+    },
+    {
+      "seed": 38722615,
+      "carrier": "yellow",
+      "motion": "turning",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 1.088000000000008,
+      "roller_s": 0.4300000000000068,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.04402206019187352,
+      "crash_calls": 0,
+      "sweeps": []
+    }
+  ],
+  "trained": [
+    {
+      "seed": 38722600,
+      "carrier": "blue",
+      "motion": "stationary",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 1.254,
+      "roller_s": 0.4,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.0605896867507795,
+      "crash_calls": 0,
+      "sweeps": [
+        {
+          "start_s": 0.68,
+          "release_s": 1.04,
+          "presser_kept_roller": true,
+          "presser_turn_deg": 46.0,
+          "ball_lateral_displacement_m": -0.0425,
+          "ball_lateral_at_release_m": -0.0501,
+          "ball_forward_displacement_m": 0.0053
+        }
+      ]
+    },
+    {
+      "seed": 38722601,
+      "carrier": "blue",
+      "motion": "reverse",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 0.9420000000000002,
+      "roller_s": 0.44200000000000017,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.07173996445735514,
+      "crash_calls": 0,
+      "sweeps": []
+    },
+    {
+      "seed": 38722602,
+      "carrier": "yellow",
+      "motion": "lateral",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 1.161999999999999,
+      "roller_s": 0.31400000000000006,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.05383373339712916,
+      "crash_calls": 0,
+      "sweeps": [
+        {
+          "start_s": 0.6,
+          "release_s": 0.96,
+          "presser_kept_roller": true,
+          "presser_turn_deg": 46.0,
+          "ball_lateral_displacement_m": -0.0611,
+          "ball_lateral_at_release_m": -0.056,
+          "ball_forward_displacement_m": 0.0021
+        }
+      ]
+    },
+    {
+      "seed": 38722603,
+      "carrier": "yellow",
+      "motion": "turning",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 1.3559999999999999,
+      "roller_s": 0.37599999999999945,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.06147180081548445,
+      "crash_calls": 0,
+      "sweeps": [
+        {
+          "start_s": 0.68,
+          "release_s": 1.12,
+          "presser_kept_roller": true,
+          "presser_turn_deg": 47.18,
+          "ball_lateral_displacement_m": -0.0523,
+          "ball_lateral_at_release_m": -0.0451,
+          "ball_forward_displacement_m": 0.0044
+        }
+      ]
+    },
+    {
+      "seed": 38722604,
+      "carrier": "blue",
+      "motion": "stationary",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 1.4040000000000001,
+      "roller_s": 0.542,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.0647101266922328,
+      "crash_calls": 0,
+      "sweeps": [
+        {
+          "start_s": 0.84,
+          "release_s": 1.2,
+          "presser_kept_roller": true,
+          "presser_turn_deg": -46.0,
+          "ball_lateral_displacement_m": 0.0503,
+          "ball_lateral_at_release_m": 0.0535,
+          "ball_forward_displacement_m": -0.0044
+        }
+      ]
+    },
+    {
+      "seed": 38722605,
+      "carrier": "blue",
+      "motion": "reverse",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 0.9540000000000006,
+      "roller_s": 0.5220000000000002,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.07525289398807183,
+      "crash_calls": 0,
+      "sweeps": []
+    },
+    {
+      "seed": 38722606,
+      "carrier": "yellow",
+      "motion": "lateral",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 1.1339999999999986,
+      "roller_s": 0.2779999999999987,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.057026782367339185,
+      "crash_calls": 0,
+      "sweeps": [
+        {
+          "start_s": 0.56,
+          "release_s": 0.92,
+          "presser_kept_roller": true,
+          "presser_turn_deg": -46.0,
+          "ball_lateral_displacement_m": 0.054,
+          "ball_lateral_at_release_m": 0.0513,
+          "ball_forward_displacement_m": 0.0102
+        }
+      ]
+    },
+    {
+      "seed": 38722607,
+      "carrier": "yellow",
+      "motion": "turning",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 1.138,
+      "roller_s": 0.1280000000000001,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.061737038769642816,
+      "crash_calls": 0,
+      "sweeps": [
+        {
+          "start_s": 0.44,
+          "release_s": 0.92,
+          "presser_kept_roller": true,
+          "presser_turn_deg": -47.47,
+          "ball_lateral_displacement_m": 0.0531,
+          "ball_lateral_at_release_m": 0.0464,
+          "ball_forward_displacement_m": 0.0065
+        }
+      ]
+    },
+    {
+      "seed": 38722608,
+      "carrier": "blue",
+      "motion": "stationary",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 1.096,
+      "roller_s": 0.24,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.06226146005794042,
+      "crash_calls": 0,
+      "sweeps": [
+        {
+          "start_s": 0.52,
+          "release_s": 0.88,
+          "presser_kept_roller": true,
+          "presser_turn_deg": 46.0,
+          "ball_lateral_displacement_m": -0.042,
+          "ball_lateral_at_release_m": -0.0494,
+          "ball_forward_displacement_m": 0.0051
+        }
+      ]
+    },
+    {
+      "seed": 38722609,
+      "carrier": "blue",
+      "motion": "reverse",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 0.9160000000000004,
+      "roller_s": 0.4939999999999998,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.07745187632198391,
+      "crash_calls": 0,
+      "sweeps": []
+    },
+    {
+      "seed": 38722610,
+      "carrier": "yellow",
+      "motion": "lateral",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 1.0599999999999987,
+      "roller_s": 0.18599999999999994,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.056887323473677254,
+      "crash_calls": 0,
+      "sweeps": [
+        {
+          "start_s": 0.48,
+          "release_s": 0.84,
+          "presser_kept_roller": true,
+          "presser_turn_deg": 46.0,
+          "ball_lateral_displacement_m": -0.0512,
+          "ball_lateral_at_release_m": -0.0491,
+          "ball_forward_displacement_m": 0.0038
+        }
+      ]
+    },
+    {
+      "seed": 38722611,
+      "carrier": "yellow",
+      "motion": "turning",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 1.17,
+      "roller_s": 0.18200000000000038,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.05612852266627119,
+      "crash_calls": 0,
+      "sweeps": [
+        {
+          "start_s": 0.48,
+          "release_s": 0.96,
+          "presser_kept_roller": true,
+          "presser_turn_deg": 47.47,
+          "ball_lateral_displacement_m": -0.0536,
+          "ball_lateral_at_release_m": -0.0477,
+          "ball_forward_displacement_m": 0.0064
+        }
+      ]
+    },
+    {
+      "seed": 38722612,
+      "carrier": "blue",
+      "motion": "stationary",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 1.288,
+      "roller_s": 0.424,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.06370876752691718,
+      "crash_calls": 0,
+      "sweeps": [
+        {
+          "start_s": 0.72,
+          "release_s": 1.08,
+          "presser_kept_roller": true,
+          "presser_turn_deg": -46.0,
+          "ball_lateral_displacement_m": 0.0469,
+          "ball_lateral_at_release_m": 0.0523,
+          "ball_forward_displacement_m": -0.0048
+        }
+      ]
+    },
+    {
+      "seed": 38722613,
+      "carrier": "blue",
+      "motion": "reverse",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 0.6680000000000001,
+      "roller_s": 0.20199999999999996,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.06507202154981068,
+      "crash_calls": 0,
+      "sweeps": []
+    },
+    {
+      "seed": 38722614,
+      "carrier": "yellow",
+      "motion": "lateral",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 2.321999999999999,
+      "roller_s": 1.4159999999999986,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.0539024367403837,
+      "crash_calls": 0,
+      "sweeps": [
+        {
+          "start_s": 1.72,
+          "release_s": 2.12,
+          "presser_kept_roller": true,
+          "presser_turn_deg": 46.72,
+          "ball_lateral_displacement_m": -0.0492,
+          "ball_lateral_at_release_m": -0.0533,
+          "ball_forward_displacement_m": 0.003
+        }
+      ]
+    },
+    {
+      "seed": 38722615,
+      "carrier": "yellow",
+      "motion": "turning",
+      "clean_takeaway": true,
+      "challenged_control": true,
+      "capture_s": 1.266,
+      "roller_s": 0.4299999999999997,
+      "contact": false,
+      "first_contact_s": null,
+      "min_gap_m": 0.04402206019187019,
+      "crash_calls": 0,
+      "sweeps": [
+        {
+          "start_s": 0.72,
+          "release_s": 1.04,
+          "presser_kept_roller": true,
+          "presser_turn_deg": 44.87,
+          "ball_lateral_displacement_m": -0.0378,
+          "ball_lateral_at_release_m": -0.0481,
+          "ball_forward_displacement_m": -0.0064
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "current": {
+      "starts": 16,
+      "clean_takeaways": 16,
+      "presser_roller_reaches": 16,
+      "possession_wins_including_contact": 16,
+      "starts_with_body_contact": 0,
+      "starts_with_ref_crash": 0,
+      "ref_crash_calls": 0,
+      "median_clean_takeaway_s": 0.9450000000000003,
+      "min_gap_m": 0.04402206019187352,
+      "starts_with_pivot": 0,
+      "pivots_with_lateral_release": 0
+    },
+    "trained": {
+      "starts": 16,
+      "clean_takeaways": 16,
+      "presser_roller_reaches": 16,
+      "possession_wins_including_contact": 16,
+      "starts_with_body_contact": 0,
+      "starts_with_ref_crash": 0,
+      "ref_crash_calls": 0,
+      "median_clean_takeaway_s": 1.1499999999999995,
+      "min_gap_m": 0.04402206019187019,
+      "starts_with_pivot": 12,
+      "pivots_with_lateral_release": 12
+    }
+  },
+  "both": [
+    38722600,
+    38722601,
+    38722602,
+    38722603,
+    38722604,
+    38722605,
+    38722606,
+    38722607,
+    38722608,
+    38722609,
+    38722610,
+    38722611,
+    38722612,
+    38722613,
+    38722614,
+    38722615
+  ],
+  "new_takeaways": [],
+  "lost_takeaways": [],
+  "live_integration": {
+    "seed": 38722001,
+    "seconds": 18.0,
+    "sweeps": [
+      [
+        3.24,
+        4,
+        9
+      ],
+      [
+        4.24,
+        4,
+        9
+      ]
+    ],
+    "goals": 1,
+    "score": [
+      1,
+      0
+    ],
+    "ref_crash_calls": 0,
+    "body_contact_episodes": 0,
+    "min_gap_m": 0.02116785598067286,
+    "clean_takeaways": 3,
+    "clean_presser_takeaways": 3,
+    "clean_trained_takeaways": 3,
+    "direct_transfers": 3,
+    "tackle_ticks": 188,
+    "transfers": [
+      {
+        "actor": [
+          "blue",
+          4
+        ],
+        "carrier": [
+          "yellow",
+          4
+        ],
+        "presser": true,
+        "trained_tackle": true,
+        "contact": false,
+        "ref_crash": false,
+        "clean": true,
+        "reach_s": 2.936,
+        "confirmed_s": 4.524
+      },
+      {
+        "actor": [
+          "yellow",
+          4
+        ],
+        "carrier": [
+          "blue",
+          4
+        ],
+        "presser": true,
+        "trained_tackle": true,
+        "contact": false,
+        "ref_crash": false,
+        "clean": true,
+        "reach_s": 4.586,
+        "confirmed_s": 5.07
+      },
+      {
+        "actor": [
+          "blue",
+          4
+        ],
+        "carrier": [
+          "yellow",
+          4
+        ],
+        "presser": true,
+        "trained_tackle": true,
+        "contact": false,
+        "ref_crash": false,
+        "clean": true,
+        "reach_s": 5.166,
+        "confirmed_s": 5.744
+      }
+    ],
+    "crashes": []
+  }
+}

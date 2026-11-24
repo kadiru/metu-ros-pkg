@@ -87,6 +87,8 @@ def render(current, trained, destination, labels):
         # Include the exchange and half a second of protected carry while both
         # players are still visible in the fixed close-up.
         frames = frames[: math.floor((captured + 0.50) / 0.08) + 1]
+    # Webots applies the close camera after the first exported image.
+    frames = frames[1:]
     sample = frames[::5]
     strip = Image.new("RGB", (frames[0].width, frames[0].height * len(sample)))
     for i, frame in enumerate(sample):

@@ -4,6 +4,10 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Can the tackle win the ball in a full 5v5 lineup?
+
+On four matched 90-second Webots starts, the trained tackle recorded 19 clean takeaways and the current Presser recorded zero. Both recorded zero body contacts and zero TIGERs AutoRef crash calls. A separate close-up shows an experimental pivot that sweeps the ball sideways out of the opposing roller. [Webots GIFs, results, and reproduction commands](media/live-tackle/README.md)
+
 ## Can the Presser take the ball from a moving carrier?
 
 The fitted ball-side tackle won 24 of 24 matched fresh Webots challenges with zero body contacts. The current Presser won 0 clean challenges. [Native Webots replays, training and AutoRef comparison](media/ball-side-tackle/README.md)

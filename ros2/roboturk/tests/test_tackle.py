@@ -93,3 +93,15 @@ def test_interrupted_shared_grip_cannot_activate_the_pivot():
         result = pivot.command(replace(w, time=tick * CFG.dt), actor, carrier, {}, tick % 4 != 3)
         assert result == base
     assert not pivot.sweeps
+
+
+def test_brief_role_interruptions_do_not_reset_attempt_budget():
+    w = contest(0.23)
+    actor, carrier = w.robot(PRESSER), w.robot(CARRIER)
+    base = Command(vx=0.2, dribbler=1)
+    pivot = PivotFetch(SimpleNamespace(command=lambda *args: base))
+    for start in (0, 12, 24):
+        for tick in range(start, start + 9):
+            pivot.command(replace(w, time=tick * CFG.dt), actor, carrier, {}, True)
+    assert len(pivot.sweeps) == 2
+    assert pivot.duels[PRESSER].attempts == 2

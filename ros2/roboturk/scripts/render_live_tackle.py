@@ -61,13 +61,20 @@ def render(recording, benchmark, reach, output):
             )
         scene = ImageEnhance.Brightness(scene).enhance(1.35)
         draw = ImageDraw.Draw(scene)
+
+        def display_point(x, y, z):
+            scale = px_per_m * 16.5 / (16.5 - z)
+            return (
+                (width / 2 + x * scale - crop[0]) * WIDTH / (crop[2] - crop[0]),
+                (height / 2 - y * scale - crop[1]) * HEIGHT / (crop[3] - crop[1]),
+            )
+
         for index in (carrier, actor):
             color = "#ffe798" if keys[index][0] == "yellow" else "#acedff"
-            x, y = robot[tick, index, :2]
-            scale = px_per_m * 16.5 / (16.5 - 0.15)
-            x = (width / 2 + x * scale - crop[0]) * WIDTH / (crop[2] - crop[0])
-            y = (height / 2 - y * scale - crop[1]) * HEIGHT / (crop[3] - crop[1])
+            x, y = display_point(*robot[tick, index, :2], 0.15)
             draw.ellipse((x - 22, y - 22, x + 22, y + 22), outline=color, width=3)
+        x, y = display_point(*states[tick, :2], game["frames"][tick]["ball_z"])
+        draw.ellipse((x - 5, y - 5, x + 5, y + 5), outline="#ffbc6d", width=2)
         canvas = Image.new("RGB", (WIDTH, HEIGHT + 81), "#10202b")
         canvas.paste(scene, (0, 43))
         draw = ImageDraw.Draw(canvas)

@@ -30,12 +30,13 @@ class PivotFetch:
         key = presser.key
         now = world.time
         duel = self.duels.get(key)
-        if (
-            duel is None
-            or duel.carrier != carrier.key
-            or not 0 < now - duel.last_time <= 1.5 * CFG.dt
-        ):
+        if duel is None or duel.carrier != carrier.key or not 0 < now - duel.last_time <= 1.0:
             duel = self.duels[key] = Duel(carrier.key, now)
+        elif now - duel.last_time > 1.5 * CFG.dt:
+            # A brief role interruption breaks the shared grip without
+            # granting the same challenge another two attempts.
+            duel.shared_ticks = 0
+            duel.started = None
         duel.last_time = now
         if not has_ball or not possession(world, carrier.key, CFG):
             duel.shared_ticks = 0

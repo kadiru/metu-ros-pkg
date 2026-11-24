@@ -6,6 +6,7 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageEnhance
 
+from compare_keeper_cover import ARMS, TIMED_ARMS
 from compare_tackle_selector import read_rows
 from render_waypoint_replay import font
 
@@ -16,11 +17,16 @@ def panel(folder, row, arm, historical):
     result = row["outcomes"][arm]
     side_name = result["decisions"][0]["presser"]["team"]
     sign = row["initial"]["attack_sign"] * (1 if side_name == "blue" else -1)
-    title = (
-        "Archived selector"
-        if historical
-        else ("Current selector" if arm == "selector" else "Presser + keeper")
-    )
+    if row["zone"] == "keeper-timing":
+        title = "Current cover" if arm == "keeper-cover" else "Timed interception"
+    else:
+        title = (
+            "Archived selector"
+            if historical
+            else "Current selector"
+            if arm == "selector"
+            else "Presser + keeper"
+        )
     scale = WIDTH / (2 * 3.25 * math.tan(math.pi / 8))
     early = (
         next(
@@ -79,7 +85,7 @@ def panel(folder, row, arm, historical):
 
 def render(folder, destination, historical=False):
     (row,) = read_rows(folder / "tackle-panel.json")
-    arms = ("selector",) if historical else ("selector", "keeper-cover")
+    arms = TIMED_ARMS if row["zone"] == "keeper-timing" else ("selector",) if historical else ARMS
     panels = [panel(folder, row, arm, historical) for arm in arms]
     frames = []
     for i in range(max(map(len, panels))):

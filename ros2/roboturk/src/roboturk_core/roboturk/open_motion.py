@@ -6,7 +6,7 @@ import math
 from .touchline import END_LIMIT, SIDE_LIMIT, brake_axis
 from .model import body_vector, world_vector
 from .five_roles import CFG
-from .goal_cover import GOAL_CENTER_LIMIT, GOAL_CHANNEL_HALF
+from .goal_cover import GOAL_CENTER_LIMIT, GOAL_CHANNEL_HALF, SAVE_SPEED
 from .placement_traffic import separation
 from .tackle import ROBOT_GAP
 
@@ -35,7 +35,16 @@ def observed_velocity(robots, previous, dt):
 
 
 def steer_team(
-    robots, team, requests, observed, policy, dt, recovering=(), challenges=None, goal_cover=None
+    robots,
+    team,
+    requests,
+    observed,
+    policy,
+    dt,
+    recovering=(),
+    challenges=None,
+    goal_cover=None,
+    keeper_handoffs=None,
 ):
     """Translate this team's requests using only measured motion of surrounding players."""
     own = [r for r in robots if r.key.team == team]
@@ -46,13 +55,20 @@ def steer_team(
     for r in own:
         cmd = requests[r.key]
         carrier = challenges.get(r.key) if challenges else None
+        yielding = keeper_handoffs.get(r.key) if keeper_handoffs else None
+        intercepting = yielding is not None and r.key.id == 0
+        carrier_gap = 2 * CFG.robot_radius + 0.012 if intercepting else ROBOT_GAP
         x, y = world_vector(cmd.vx * scale, cmd.vy * scale, r.yaw)
         nearby = [
             (
                 r.x - q.x,
                 r.y - q.y,
                 *observed[q.key],
-                ROBOT_GAP if carrier and q.key == carrier.key else policy.clearance,
+                carrier_gap if carrier and q.key == carrier.key else policy.clearance,
+                min(policy.horizon, 0.20)
+                if yielding is not None
+                and (q.key == yielding or (carrier is not None and q.key == carrier.key))
+                else policy.horizon,
             )
             for q in robots
             if q.key != r.key
@@ -61,8 +77,10 @@ def steer_team(
 
         def loss(vx, vy):
             cost = (vx - x) ** 2 + (vy - y) ** 2
-            for dx, dy, qx, qy, clearance in nearby:
-                gap = separation(dx, dy, vx - qx, vy - qy, policy.horizon)
+            for dx, dy, qx, qy, clearance, horizon in nearby:
+                # Both partners update their crossing plans every tick. Keep the
+                # same clearances while limiting extrapolation of the handoff.
+                gap = separation(dx, dy, vx - qx, vy - qy, horizon)
                 cost += 420 * max(0, clearance - gap) ** 2
                 # When already inside the margin prefer to open a gap.
                 end = math.hypot(dx + (vx - qx) * 0.16, dy + (vy - qy) * 0.16)
@@ -83,8 +101,11 @@ def steer_team(
             nx, ny = dx / distance, dy / distance
             cx, cy = observed[carrier.key]
             # Bound closing speed with braking distance plus one control tick.
-            room = max(0, distance - ROBOT_GAP)
-            closing = min(0.32, math.sqrt(4 * room) - 0.08)
+            # The handed-off keeper may travel at its save speed while there
+            # is stopping room. The 0.32 m/s tackle cap is for close draws.
+            room = max(0, distance - carrier_gap)
+            ceiling = SAVE_SPEED if intercepting else 0.32
+            closing = min(ceiling, math.sqrt(4 * room) - 0.08)
             radial = (x - cx) * nx + (y - cy) * ny
             correction = max(0, -closing - radial)
             x, y = x + correction * nx, y + correction * ny

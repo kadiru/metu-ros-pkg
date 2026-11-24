@@ -12,6 +12,7 @@ from roboturk.pivot_fetch import PivotFetch
 from roboturk.tackle import BallSideTackle
 from roboturk.tackle_selector import TackleSelector, release_risks
 from roboturk.goal_cover import GoalCover
+from roboturk.timed_keeper import TimedGoalCover, crossing, lane_arrival
 
 CARRIER = RobotKey("blue", 1)
 PRESSER = RobotKey("yellow", 1)
@@ -176,3 +177,31 @@ def test_goal_cover_cannot_assign_a_parked_keeper_at_the_other_end():
     w = contest(0.23)
     w = replace(w, ball=Ball(4.44, 0.2, vx=0.12))
     assert not GoalCover().commands(w, w.robot(PRESSER), needed=True)
+
+
+def test_timed_cover_hands_off_early_when_the_keeper_cannot_reach_the_lane_in_time():
+    w = contest(0.23)
+    keeper = RobotKey(PRESSER.team, 0)
+    robots = tuple(
+        replace(r, x=r.x + 4.29, y=-0.26)
+        if r.key in (PRESSER, CARRIER)
+        else replace(r, x=4.24, y=0.29, yaw=math.pi)
+        if r.key == keeper
+        else r
+        for r in w.robots
+    )
+    w = replace(w, robots=robots, ball=Ball(4.405, -0.26, vx=0.34))
+    deadline, lane = crossing(w, PRESSER.team)
+    assert lane_arrival(lane - w.robot(keeper).y, 0) > deadline
+    assert lane_arrival(-0.5, -0.6) < lane_arrival(-0.5, 0.6)
+    assert set(GoalCover().commands(w, w.robot(PRESSER), False, preparing=True)) == {keeper}
+    cover = TimedGoalCover()
+    assert set(cover.commands(w, w.robot(PRESSER), False, preparing=True)) == {keeper}
+    commands = cover.commands(
+        replace(w, time=3 * CFG.dt + 1e-9), w.robot(PRESSER), False, preparing=False
+    )
+    assert set(commands) == {keeper, PRESSER}
+    assert commands[PRESSER].dribbler == 0 and commands[keeper].dribbler == 1
+    assert all(command.kick == 0 for command in commands.values())
+    assert set(TimedGoalCover().commands(w, w.robot(PRESSER), True)) == {keeper, PRESSER}
+    assert not TimedGoalCover().commands(w, w.robot(PRESSER), False)

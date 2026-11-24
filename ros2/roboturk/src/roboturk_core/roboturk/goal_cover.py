@@ -11,6 +11,7 @@ from .three_recipient import move
 
 GOAL_CENTER_LIMIT = field.LENGTH / 2 + 0.056
 GOAL_CHANNEL_HALF = field.GOAL_WIDTH / 2 - CFG.robot_radius - field.GOAL_WALL - 0.025
+SAVE_SPEED = 1.16
 
 
 def goal_threat(world, team):
@@ -42,7 +43,7 @@ def intercept_ball(world, keeper):
             limit(x - CFG.possession_x * math.cos(angle), 4.35),
             y - CFG.possession_x * math.sin(angle),
         )
-    return target, move(keeper, *target, angle, speed=1.16)
+    return target, move(keeper, *target, angle, speed=SAVE_SPEED)
 
 
 def opposing_holder(world, team):

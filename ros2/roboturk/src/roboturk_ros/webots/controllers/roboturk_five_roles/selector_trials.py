@@ -99,8 +99,10 @@ def trial(
     assert all(possession(world, key, CFG) for key in (carrier, presser))
     initial = asdict(world)
     selector = (
-        TackleSelector(profile, keeper_cover=mode == "keeper-cover")
-        if mode in ("selector", "keeper-cover")
+        TackleSelector(
+            profile, keeper_cover=mode != "selector", keeper_timing=mode == "keeper-timing"
+        )
+        if mode in ("selector", "keeper-cover", "keeper-timing")
         else None
     )
     keeper = RobotKey(presser.team, 0)
@@ -176,12 +178,15 @@ def trial(
                 else move(goalie, limit(tx, 4.32), limit(ty, 2.76), angle, speed=1.75)
             )
         cover = {}
+        handoffs = {}
         challenges = {presser: rival} if action != CONTAIN and rival_holds else {}
         if selector and selector.cover:
             pair = selector.cover.commands(world, player, action == CONTAIN, preparing=goal_veto)
             if pair:
                 players.update(pair)
                 cover[keeper] = -sign
+                if mode == "keeper-timing":
+                    handoffs[keeper] = presser
                 if presser in pair:
                     cover_times.append(world.time)
                     challenges.pop(presser, None)
@@ -199,6 +204,7 @@ def trial(
             recovering=(presser,) if zone == "touchline" else (),
             challenges=challenges,
             goal_cover=cover,
+            keeper_handoffs=handoffs,
         )
         commands[carrier] = hold_carrier(seed, world.time)
         world = backend.step(commands)
@@ -276,7 +282,14 @@ def run(sim, folder, cfg):
     profile = BallSideTackle(**cfg["tackle_policy"])
     backend = ContinuousWebotsBackend(sim, CFG)
     zone = cfg["tackle_panel"]
-    keepers = zone == "keeper-cover"
+    keepers = zone in ("keeper-cover", "keeper-timing")
+    modes = (
+        ("keeper-cover", "keeper-timing")
+        if zone == "keeper-timing"
+        else ("selector", "keeper-cover")
+        if keepers
+        else PANEL_ACTIONS
+    )
     keeper_live = keepers and not cfg.get("parked_keeper")
     output = []
     for seed in range(cfg["seed"], cfg["seed"] + cfg["tackle_trials"]):
@@ -310,7 +323,7 @@ def run(sim, folder, cfg):
                 keeper_live=keeper_live,
                 frames=folder / "frames" / mode if cfg.get("frame_images") else None,
             )
-            for mode in (("selector", "keeper-cover") if keepers else PANEL_ACTIONS)
+            for mode in modes
         }
         initial = next(iter(outcomes.values()))["initial"]
         if any(r.pop("initial") != initial for r in outcomes.values()):

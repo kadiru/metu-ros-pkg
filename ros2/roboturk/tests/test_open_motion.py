@@ -47,3 +47,28 @@ def test_keeper_mouth_access_requires_clearance_from_the_posts():
     assert drive(keeper, False).vx == 0
     assert drive(replace(keeper, y=0.40), True).vx == 0
     assert drive(replace(keeper, y=0.32, vy=0.6), True).vx == 0
+
+
+def test_handed_off_keeper_can_approach_quickly_and_still_brakes_at_roller_range():
+    keeper = Robot(RobotKey("blue", 0), 0, 0)
+    presser = Robot(RobotKey("blue", 1), 0, 1)
+    rival = Robot(RobotKey("yellow", 1), 0.76, 0)
+    policy = Steering(0.48, 0.305, 0.66)
+    observed = {r.key: (0, 0) for r in (keeper, presser, rival)}
+    commands = {keeper.key: Command(1.16, 0, 0, 1), presser.key: Command()}
+
+    def approach(other, timed):
+        return steer_team(
+            (keeper, presser, other),
+            "blue",
+            commands,
+            observed,
+            policy,
+            0.04,
+            challenges={keeper.key: other},
+            keeper_handoffs={keeper.key: presser.key} if timed else None,
+        )[keeper.key].vx
+
+    assert approach(rival, timed=False) == pytest.approx(0.32)
+    assert approach(rival, timed=True) > 0.9
+    assert approach(replace(rival, x=0.202), timed=True) < 0.13

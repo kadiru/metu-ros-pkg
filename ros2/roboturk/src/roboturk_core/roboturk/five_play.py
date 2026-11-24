@@ -10,6 +10,7 @@ from .model import possession, wrap
 from .open_motion import steer_team
 from .pivot_fetch import PivotFetch
 from .tackle_selector import CONTAIN, TackleSelector
+from .timed_keeper import TimedGoalCover
 from .three_match import filter_commands
 from .timed_motion import inside, plan_team
 from .touchline import recovery_command
@@ -172,6 +173,7 @@ def open_play(
         vetoed = set()
         goal_vetoes = set()
         cover_keepers = {}
+        keeper_handoffs = {}
         if carrier and tactics.control == carrier.key:
             for r in world.robots:
                 if (
@@ -221,9 +223,10 @@ def open_play(
                 )
                 if key in recovering:
                     continue
-                for actor, request in tackle.cover.commands(
+                cover = tackle.cover.commands(
                     world, field_player, key in vetoed or blocked, preparing=key in goal_vetoes
-                ).items():
+                )
+                for actor, request in cover.items():
                     if targets is not None:
                         targets.pop(actor, None)
                     out[actor] = request
@@ -231,6 +234,8 @@ def open_play(
                     challenges.pop(actor, None)
                     if actor.id == 0:
                         cover_keepers[actor] = -world.direction(team)
+                        if isinstance(tackle.cover, TimedGoalCover):
+                            keeper_handoffs[actor] = key
         if tackle_audit is not None:
             tackle_audit.update(challenges)
         for keeper in cover_keepers:
@@ -250,6 +255,7 @@ def open_play(
                 recovering,
                 challenges=challenges,
                 goal_cover=cover_keepers,
+                keeper_handoffs=keeper_handoffs,
             )
             if trajectory:
                 steered = plan_team(

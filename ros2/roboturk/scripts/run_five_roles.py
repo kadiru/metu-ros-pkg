@@ -182,8 +182,13 @@ def main():
         help="Pair the presser and keeper after goal-side vetoes",
     )
     p.add_argument(
+        "--keeper-timing",
+        action="store_true",
+        help="Use the timed keeper arrival and presser handoff",
+    )
+    p.add_argument(
         "--tackle-panel",
-        choices=("midfield", "touchline", "own-goal", "keeper-cover"),
+        choices=("midfield", "touchline", "own-goal", "keeper-cover", "keeper-timing"),
         help="Compare matched tackle choices or the shared keeper fallback",
     )
     p.add_argument(
@@ -223,16 +228,19 @@ def main():
         p.error("--tackle-selector requires a tackle checkpoint and an ordinary match")
     if a.keeper_cover and not a.tackle_selector:
         p.error("--keeper-cover requires --tackle-selector")
+    if a.keeper_timing and not a.keeper_cover:
+        p.error("--keeper-timing requires --keeper-cover in ordinary play")
+    keeper_panel = a.tackle_panel in ("keeper-cover", "keeper-timing")
     if a.parked_keeper and a.tackle_panel != "keeper-cover":
         p.error("--parked-keeper requires --tackle-panel keeper-cover")
-    if a.keeper_stress and (a.tackle_panel != "keeper-cover" or a.parked_keeper):
-        p.error("--keeper-stress requires a keeper-cover panel with an active keeper")
+    if a.keeper_stress and (not keeper_panel or a.parked_keeper):
+        p.error("--keeper-stress requires a keeper panel with an active keeper")
     if a.tackle_panel and (
         not a.tackle_trials
         or not a.tackle_policy
         or a.tackle_duel
         or a.pivot_fetch
-        or ((a.frame_images or a.record) and a.tackle_panel != "keeper-cover")
+        or ((a.frame_images or a.record) and not keeper_panel)
     ):
         p.error(
             "--tackle-panel requires tackle trials and a checkpoint without legacy modes or recording"
@@ -375,6 +383,7 @@ def main():
                 tackle_selector=a.tackle_selector,
                 tackle_panel=a.tackle_panel,
                 keeper_cover=a.keeper_cover,
+                keeper_timing=a.keeper_timing,
                 parked_keeper=a.parked_keeper,
                 keeper_stress=a.keeper_stress,
                 tackle_policy=json.loads(a.tackle_policy.read_text()) if a.tackle_policy else None,

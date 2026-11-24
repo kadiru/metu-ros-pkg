@@ -86,7 +86,11 @@ def match(sim, folder, cfg, receiver=None, vision=None):
     if tackle and cfg.get("pivot_fetch"):
         tackle = PivotFetch(tackle)
     if tackle and cfg.get("tackle_selector"):
-        tackle = TackleSelector(tackle, keeper_cover=cfg.get("keeper_cover", False))
+        tackle = TackleSelector(
+            tackle,
+            keeper_cover=cfg.get("keeper_cover", False),
+            keeper_timing=cfg.get("keeper_timing", False),
+        )
     planner_counts = {} if cfg.get("trajectory_planner") else None
     gate = RestartGate()
     restart = (

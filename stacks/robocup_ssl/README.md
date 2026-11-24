@@ -13,7 +13,13 @@ The work spans hardware/software integration and path-planning experiments: how 
 
 ## Robot soccer in Webots
 
-In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/a858aec053a616a89b81bb678ff72dead47652b3/ros2/roboturk)
+In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/742eea7486c258d8cdaf8a27e2585bc5f8b5c520/ros2/roboturk)
+
+### Can Yellow get moving after it brakes?
+
+Follow the circled Yellow robot. On the left it stops near a Blue defender and stays there until time runs out. On the right it follows the diamond to open space, then reaches the gray passing position in 3.32 s. [Matched starts, completed passes and goals](https://github.com/kadiru/metu-ros-pkg/blob/742eea7486c258d8cdaf8a27e2585bc5f8b5c520/ros2/roboturk/media/errt-clearance/README.md)
+
+[![The Yellow runner stays put on the left and takes a clearance-opening step on the right](../../docs/assets/roboturk-webots/yellow-reopens-clearance.gif)](https://github.com/kadiru/metu-ros-pkg/blob/742eea7486c258d8cdaf8a27e2585bc5f8b5c520/ros2/roboturk/media/errt-clearance/recovered-outlet.gif)
 
 ### Can Blue stick with a route around Yellow?
 

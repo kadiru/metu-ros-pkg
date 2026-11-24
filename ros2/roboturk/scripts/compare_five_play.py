@@ -9,7 +9,7 @@ from pathlib import Path
 import numpy as np
 
 from audit_five_roles import audit, load_match
-from roboturk.timed_motion import INTERPOLATION_MARGIN
+from roboturk.timed_motion import INTERPOLATION_MARGIN, inside
 
 
 def profiled_motion(folder, game, states):
@@ -23,7 +23,7 @@ def profiled_motion(folder, game, states):
     clearance = config["open_play_policy"]["clearance"] + INTERPOLATION_MARGIN
     brakes_by_robot, brakes_by_role, brakes_by_control = Counter(), Counter(), Counter()
     planned_by_control, planned_by_role = Counter(), Counter()
-    inside_buffer = 0
+    inside_buffer = outside_limits = 0
     stalls, shortcuts = [], []
     counts = Counter()
     for index, (team, number) in enumerate(game["keys"]):
@@ -54,6 +54,7 @@ def profiled_motion(folder, game, states):
                 brakes_by_robot[jersey] += 1
                 brakes_by_role[role] += 1
                 brakes_by_control[possession] += 1
+                outside_limits += int(not inside(move["target"]))
                 others = xy[tick, np.arange(len(game["keys"])) != index]
                 inside_buffer += int(
                     np.any(np.linalg.norm(others - xy[tick, index], axis=1) < clearance)
@@ -76,6 +77,7 @@ def profiled_motion(folder, game, states):
         planned_by_control=dict(planned_by_control),
         planned_by_role=dict(planned_by_role),
         brakes_inside_buffer=inside_buffer,
+        brakes_with_out_of_bounds_target=outside_limits,
         stalls=stalls,
         stalled_robot_seconds=round(sum(row["ticks"] for row in stalls) * dt, 3),
         shortcuts=shortcuts,

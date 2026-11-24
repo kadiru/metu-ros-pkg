@@ -75,7 +75,12 @@ def panel(folder, label):
             draw.polygon(
                 [(x, y - 6), (x + 6, y), (x, y + 6), (x - 6, y)], fill="#d755ab", outline="white"
             )
-        canvas = Image.new("RGB", (WIDTH, height + 77), "#10202b")
+        # Webots windows can differ by a few native pixels. Keep the common
+        # horizontal field of view and center the scene in a 16:9 viewport.
+        display_height = round(WIDTH * 9 / 16)
+        top = (scene.height - display_height) // 2
+        scene = scene.crop((0, top, WIDTH, top + display_height))
+        canvas = Image.new("RGB", (WIDTH, display_height + 77), "#10202b")
         canvas.paste(scene, (0, 39))
         draw = ImageDraw.Draw(canvas)
         draw.text((11, 7), label, font=large, fill="white")
@@ -100,8 +105,6 @@ def render(previous, committed, output):
         raise ValueError("Recordings must use identical starts, runners, targets and deadlines")
     frames = []
     for lframe, rframe in zip(left, right, strict=True):
-        if lframe.size != rframe.size:
-            raise ValueError("Use the same native camera aspect ratio for both recordings")
         frame = Image.new("RGB", (WIDTH * 2 + 3, lframe.height), "#acb6be")
         frame.paste(lframe)
         frame.paste(rframe, (WIDTH + 3, 0))

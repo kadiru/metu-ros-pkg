@@ -73,7 +73,9 @@ def match(sim, folder, cfg, receiver=None, vision=None):
     else:
         w = backend.reset(kickoff(seed, serving, sign))
     keys = [r.key for r in w.robots]
-    fallback = ERRTFallback(seed) if cfg.get("errt_fallback") else None
+    fallback = (
+        ERRTFallback(seed, cfg.get("commit_waypoints", False)) if cfg.get("errt_fallback") else None
+    )
     tactics = FiveRoles()
     planner_counts = {} if cfg.get("trajectory_planner") else None
     gate = RestartGate()
@@ -190,7 +192,7 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             if referee_key != previous_referee:
                 tactics = FiveRoles()
                 if fallback is not None:
-                    fallback = ERRTFallback(seed + restarts)
+                    fallback = ERRTFallback(seed + restarts, cfg.get("commit_waypoints", False))
                 events.append(
                     dict(
                         tick=tick,
@@ -414,7 +416,7 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                 )
                 tactics = FiveRoles()
                 if fallback is not None:
-                    fallback = ERRTFallback(seed + restarts)
+                    fallback = ERRTFallback(seed + restarts, cfg.get("commit_waypoints", False))
                 break
         if cfg.get("capture_exit") == restarts:
             break

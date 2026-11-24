@@ -77,7 +77,9 @@ def trial(sim, backend, cfg, seed, weights, policy, frames):
         camera = sim.getFromDef("CAMERA")
         camera.getField("position").setSFVec3f([w.ball.x, math.copysign(2.55, w.ball.y), 4.5])
     tactics = FiveRoles()
-    fallback = ERRTFallback(seed) if cfg.get("errt_fallback") else None
+    fallback = (
+        ERRTFallback(seed, cfg.get("commit_waypoints", False)) if cfg.get("errt_fallback") else None
+    )
     previous = {}
     last_holder = None
     dwell = 0.0

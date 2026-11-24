@@ -176,7 +176,16 @@ def choose(r, target, tracks, clearance):
 
 
 def plan_team(
-    robots, team, commands, targets, roles, observed, clearance, counts=None, fallback=None
+    robots,
+    team,
+    commands,
+    targets,
+    roles,
+    observed,
+    clearance,
+    counts=None,
+    fallback=None,
+    modes=None,
 ):
     """Reserve timed motion within one team. Opponents supply position history only."""
     paths = {}
@@ -189,18 +198,20 @@ def plan_team(
             vx, vy = observed[r.key]
             paths[r.key] = [(r.x + t * vx, r.y + t * vy) for t in TIMES]
     movers = [r for r in robots if r.key in commands and r.key in targets and inside((r.x, r.y))]
+    if fallback is not None:
+        fallback.retain_movers(team, movers)
     movers.sort(key=lambda r: (PRIORITY.index(roles[r.key].role), r.key.id))
     for r in movers:
         others = [p for k, p in paths.items() if k != r.key]
-        v, path, mode = choose(r, targets[r.key], others, clearance)
-        if mode == "brake" and fallback is not None:
-            route = fallback.search(r, targets[r.key], roles[r.key].role, others, clearance)
-            if route is not None:
-                v, path = route
-                mode = "errt"
+        if fallback is None:
+            v, path, mode = choose(r, targets[r.key], others, clearance)
+        else:
+            v, path, mode = fallback.plan(r, targets[r.key], roles[r.key].role, others, clearance)
         vx, vy = body_vector(*v, r.yaw)
         output[r.key] = replace(output[r.key], vx=vx, vy=vy)
         paths[r.key] = path
+        if modes is not None:
+            modes[r.key] = mode
         if counts is not None:
             counts[mode] = counts.get(mode, 0) + 1
     return output

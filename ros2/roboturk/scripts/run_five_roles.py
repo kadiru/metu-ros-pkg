@@ -128,12 +128,30 @@ def main():
         action="store_true",
         help="Enable cache-biased RRT after all timed detours fail",
     )
+    p.add_argument(
+        "--commit-waypoints",
+        nargs="?",
+        const="on-conflict",
+        choices=("on-conflict", "immediate"),
+        help="Hold a safe ERRT waypoint after a route switch makes little progress, or immediately",
+    )
     batch.add_argument(
         "--crowded-trials",
         type=int,
         help="Run consecutive 5v5 outlet plays against a compact marking block",
     )
+    p.add_argument(
+        "--film-seed",
+        type=int,
+        help="Record one seed within a consecutive crowded batch, including its prior reset history",
+    )
     a = p.parse_args()
+    if a.film_seed is not None:
+        if not a.crowded_trials or not a.seed <= a.film_seed < a.seed + a.crowded_trials:
+            p.error("--film-seed must select a seed within --crowded-trials")
+        a.frame_images = True
+    if a.commit_waypoints and not a.errt_fallback:
+        p.error("--commit-waypoints requires --errt-fallback")
     if a.errt_fallback and not a.trajectory_planner:
         p.error("--errt-fallback requires --trajectory-planner")
     if a.crowded_trials is not None and (
@@ -141,8 +159,8 @@ def main():
     ):
         p.error("Crowded trials require a positive count, local referee and trajectory planner")
     if a.crowded_trials and (a.frame_images or a.record):
-        if a.crowded_trials != 1:
-            p.error("Record a single crowded trial per directory")
+        if a.crowded_trials != 1 and a.film_seed is None:
+            p.error("Select one crowded trial with --film-seed")
         a.frame_images = True
     if a.trajectory_planner and not a.open_play_policy:
         p.error("--trajectory-planner requires --open-play-policy")
@@ -211,7 +229,9 @@ def main():
                 seconds=a.seconds,
                 record=a.record,
                 crowded_trials=a.crowded_trials,
+                film_seed=a.film_seed,
                 errt_fallback=a.errt_fallback,
+                commit_waypoints=a.commit_waypoints,
                 touchline_trials=a.touchline_trials,
                 touchline_recovery=a.touchline_recovery,
                 trajectory_planner=a.trajectory_planner,

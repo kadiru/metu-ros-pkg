@@ -82,6 +82,8 @@ def trial(sim, backend, policy, cfg, seed, frames, fallback):
     arrival = None
     near = slow = stalls = stall_ticks = 0
     counts = {}
+    trace = []
+    modes = {} if frames else None
     gaps = dict(robot=20.0, runner=20.0, board=20.0, goal=20.0)
     contact_pairs = set()
     for tick in range(round(cfg["seconds"] / CFG.dt)):
@@ -127,6 +129,29 @@ def trial(sim, backend, policy, cfg, seed, frames, fallback):
                     policy.clearance,
                     counts if team == runner.team else None,
                     fallback=fallback if team == runner.team else None,
+                    modes=modes,
+                )
+            )
+        if frames:
+            r = w.robot(runner)
+            nearest = min(
+                math.hypot(r.x - other.x, r.y - other.y)
+                for other in w.robots
+                if other.key != runner
+            )
+            memo = fallback.memory.get(runner) if fallback else None
+            waypoint = (
+                memo.waypoints[0]
+                if memo and memo.waypoints and modes[runner] in ("errt", "escape", "hold")
+                else None
+            )
+            trace.append(
+                dict(
+                    t=w.time,
+                    xy=(r.x, r.y),
+                    mode=modes[runner],
+                    nearest_m=nearest,
+                    waypoint=waypoint,
                 )
             )
         w = backend.step(out)
@@ -162,6 +187,7 @@ def trial(sim, backend, policy, cfg, seed, frames, fallback):
                 gaps["goal"] = min(gaps["goal"], frame_gap(bot))
     if frames:
         sim.getFromDef("OUTLET_MARKER").remove()
+        (frames.parent / "runner-trace.json").write_text(json.dumps(trace) + "\n")
     return dict(
         seed=seed,
         initial=initial_state,
@@ -185,6 +211,9 @@ def run(sim, folder, cfg):
         frames.mkdir()
     rows = []
     for seed in range(cfg["seed"], cfg["seed"] + cfg["crowded_trials"]):
-        fallback = ERRTFallback(seed) if cfg["errt_fallback"] else None
-        rows.append(trial(sim, backend, policy, cfg, seed, frames, fallback))
+        fallback = (
+            ERRTFallback(seed, cfg.get("commit_waypoints", False)) if cfg["errt_fallback"] else None
+        )
+        film = frames if cfg.get("film_seed") in (None, seed) else None
+        rows.append(trial(sim, backend, policy, cfg, seed, film, fallback))
         (folder / "crowded.json").write_text(json.dumps(rows, indent=2) + "\n")

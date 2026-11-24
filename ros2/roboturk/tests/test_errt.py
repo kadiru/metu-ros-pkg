@@ -1,6 +1,7 @@
 from dataclasses import replace
+import math
 
-from roboturk.errt import ERRTFallback, edge_clear
+from roboturk.errt import ERRTFallback, edge_clear, opens_clearance
 from roboturk.five_roles import Assignment
 from roboturk.model import Command, Robot, RobotKey
 from roboturk.timed_motion import TIMES, choose, clear, plan_team
@@ -69,3 +70,91 @@ def test_geometric_search_respects_exclusions_and_sweeps_through_disks():
     assert not edge_clear((0, 2.6), (0, 3.02), [], 0.3)
     assert not edge_clear((-1, 0), (1, 0), [(0, 0.2)], 0.3)
     assert edge_clear((-1, 0), (1, 0), [(0, 0.4)], 0.3)
+
+
+def test_hold_survives_a_new_detour_but_releases_when_blocked_reassigned_or_reached():
+    r = Robot(RobotKey("blue", 1), 0, 0)
+    target = (2, 0)
+    q = Robot(RobotKey("yellow", 1), 0.39, 0)
+    planner = ERRTFallback(42, commit_waypoints=True)
+
+    def tick(pos, role="Outlet", targets=None):
+        modes = {}
+        plan_team(
+            (r, replace(q, x=pos)),
+            "blue",
+            {r.key: Command()},
+            {r.key: target} if targets is None else targets,
+            {r.key: Assignment(role, target)},
+            {q.key: (0, 0)},
+            0.305,
+            fallback=planner,
+            modes=modes,
+        )
+        return modes.get(r.key)
+
+    assert tick(0.39) == "errt"
+    point = planner.memory[r.key].committed
+    assert choose(r, target, [[(0.60, 0)] * len(TIMES)], 0.305)[2] == "detour"
+    assert tick(0.60) == "hold" and planner.memory[r.key].committed == point
+    crossing = [(point[0], point[1] + 1.2 - t) for t in TIMES]
+    assert planner.resume(r, target, "Outlet", [crossing], 0.305) is None
+    assert planner.memory[r.key].committed is None
+    assert tick(0.39) == "errt"
+    assert tick(0.60, "Cover") == "detour"
+    assert tick(0.39) == "errt"
+    assert planner.resume(r, (-2, 0), "Outlet", [], 0.305) is None
+    assert tick(0.39) == "errt"
+    point = planner.memory[r.key].committed
+    assert planner.resume(replace(r, x=point[0], y=point[1]), target, "Outlet", [], 0.305) is None
+    assert tick(0.39) == "errt"
+    assert tick(0.39, targets={}) is None and r.key not in planner.memory
+
+
+def test_outward_waypoint_restores_the_buffer_and_checks_all_obstacles():
+    r = Robot(RobotKey("yellow", 1), 0, 0)
+    close = [(-0.27, 0)] * len(TIMES)
+    planner = ERRTFallback(1, commit_waypoints=True)
+    out = planner.search(r, (2, 0), "Outlet", [close], 0.305)
+    path = out[1]
+    assert planner.memory[r.key].restoring and opens_clearance(path, [close], 0.305)
+    assert math.dist(path[-1], close[-1]) > 0.305
+    assert not opens_clearance(path[::-1], [close], 0.305)
+    assert not opens_clearance(path, [close, [path[-1]] * len(TIMES)], 0.305)
+    assert not opens_clearance(path, [[(-0.18, 0)] * len(TIMES)], 0.305)
+    assert not opens_clearance([(0, 0)] * len(TIMES), [close], 0.305)
+    assert planner.search(replace(r, vx=0.25), (2, 0), "Outlet", [close], 0.305) is None
+    assert ERRTFallback(1).search(r, (2, 0), "Outlet", [close], 0.305) is None
+
+
+def test_selective_commitment_requires_a_return_with_little_progress():
+    r = Robot(RobotKey("blue", 1), 0, 0)
+    q = Robot(RobotKey("yellow", 2), 0.39, 0)
+    goal = (2, 0)
+
+    def scenario(x):
+        planner = ERRTFallback(42, commit_waypoints="on-conflict")
+
+        def tick(robot, opponent):
+            modes = {}
+            plan_team(
+                (robot, opponent),
+                "blue",
+                {r.key: Command()},
+                {r.key: goal},
+                {r.key: Assignment("Outlet", goal)},
+                {q.key: (0, 0)},
+                0.305,
+                fallback=planner,
+                modes=modes,
+            )
+            return modes[r.key]
+
+        assert tick(r, q) == tick(r, q) == "errt"
+        assert planner.memory[r.key].committed is None
+        assert tick(r, replace(q, x=0.6)) == "detour"
+        assert tick(replace(r, x=x), replace(q, x=x + 0.39)) == "errt"
+        return planner.memory[r.key].committed
+
+    assert scenario(0.02) is not None
+    assert scenario(0.20) is None

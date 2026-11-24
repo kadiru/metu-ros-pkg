@@ -4,6 +4,10 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Can the Presser take the ball from a moving carrier?
+
+The fitted ball-side tackle won 24 of 24 matched fresh Webots challenges with zero body contacts. The current Presser won 0 clean challenges. [Native Webots replays, training and AutoRef comparison](media/ball-side-tackle/README.md)
+
 ## Keeping off-ball targets outside the penalty areas
 
 A matched native replay shows Blue 2 reaching its Cover position 0.44 s after its stalled target moves outside the penalty area. [Two-view Webots demo and matched 5v5 results](media/legal-off-ball-targets/README.md)

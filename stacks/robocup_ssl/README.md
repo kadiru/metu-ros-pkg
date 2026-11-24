@@ -13,7 +13,13 @@ The work spans hardware/software integration and path-planning experiments: how 
 
 ## Robot soccer in Webots
 
-In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/023c26d13b59f94db02a216406d71bb0c6509b40/ros2/roboturk)
+In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/15fa06657c1aa4ec46b0ce4efa33d717495f54c1/ros2/roboturk)
+
+### Can Blue take the ball from a moving carrier?
+
+Follow the circled Blue Presser. On the left it reaches the carrier and makes body contact. On the right it approaches from the side and carries the ball clear. The trained tackle won all 24 matched Webots challenges with zero body contacts. [Stationary-carrier replay](https://github.com/kadiru/metu-ros-pkg/blob/15fa06657c1aa4ec46b0ce4efa33d717495f54c1/ros2/roboturk/media/ball-side-tackle/stationary-carrier.gif) · [Training and referee results](https://github.com/kadiru/metu-ros-pkg/blob/15fa06657c1aa4ec46b0ce4efa33d717495f54c1/ros2/roboturk/media/ball-side-tackle/README.md)
+
+[![The trained Blue Presser takes the ball from Yellow in a paired Webots replay](../../docs/assets/roboturk-webots/ball-side-tackle.gif)](https://github.com/kadiru/metu-ros-pkg/blob/15fa06657c1aa4ec46b0ce4efa33d717495f54c1/ros2/roboturk/media/ball-side-tackle/moving-carrier.gif)
 
 ### Why did Blue 2 stop at the penalty area?
 

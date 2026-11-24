@@ -6,7 +6,6 @@ import math
 from types import SimpleNamespace
 
 import numpy as np
-import torch
 
 from .continuous import SPEED, OMEGA
 from .touchline import END_LIMIT, SIDE_LIMIT, brake_axis
@@ -149,6 +148,8 @@ class Game:
             self.flight_hold = 0
 
     def motor_command(self, carrier, mate):
+        import torch
+
         world = self.world
         # Original pass encoder reads the first other teammate. Present the chosen
         # receiver there and retain all three opponents for contested possession.

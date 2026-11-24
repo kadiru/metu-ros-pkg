@@ -94,20 +94,26 @@ def trial(
     mode,
     keeper_live=False,
     frames=None,
+    motion_audit=False,
 ):
     world = backend.reset(start)
     assert all(possession(world, key, CFG) for key in (carrier, presser))
     initial = asdict(world)
     selector = (
         TackleSelector(
-            profile, keeper_cover=mode != "selector", keeper_timing=mode == "keeper-timing"
+            profile,
+            keeper_cover=mode != "selector",
+            keeper_timing=mode == "keeper-timing",
+            keeper_lane=mode == "keeper-lane",
         )
-        if mode in ("selector", "keeper-cover", "keeper-timing")
+        if mode in ("selector", "keeper-cover", "keeper-timing", "keeper-lane")
         else None
     )
     keeper = RobotKey(presser.team, 0)
     gap = 10.0
     contact = False
+    contact_episodes = 0
+    previous_contacts = set()
     goalward = out = own_goal = capture = last_sweep = None
     dwell = 0
     previous = {}
@@ -117,6 +123,7 @@ def trial(
     confirmation = round(0.24 / physics_dt)
     cover_times = []
     film = []
+    motion = []
     captured_by = dwell_owner = None
     if frames is not None:
         frames.mkdir(parents=True)
@@ -179,13 +186,14 @@ def trial(
             )
         cover = {}
         handoffs = {}
+        pair = {}
         challenges = {presser: rival} if action != CONTAIN and rival_holds else {}
         if selector and selector.cover:
             pair = selector.cover.commands(world, player, action == CONTAIN, preparing=goal_veto)
             if pair:
                 players.update(pair)
                 cover[keeper] = -sign
-                if mode == "keeper-timing":
+                if mode in ("keeper-timing", "keeper-lane"):
                     handoffs[keeper] = presser
                 if presser in pair:
                     cover_times.append(world.time)
@@ -207,21 +215,47 @@ def trial(
             keeper_handoffs=handoffs,
         )
         commands[carrier] = hold_carrier(seed, world.time)
+        if motion_audit:
+            ball = world.ball
+            motion.append(
+                dict(
+                    time=world.time,
+                    ball=(ball.x, ball.y, ball.vx, ball.vy),
+                    action=action,
+                    cover=bool(cover),
+                    yielding=presser in pair,
+                    robots=[
+                        [
+                            asdict(r.key),
+                            r.x,
+                            r.y,
+                            r.yaw,
+                            r.vx,
+                            r.vy,
+                            possession(world, r.key, CFG),
+                            asdict(commands[r.key]),
+                        ]
+                        for r in (player, goalie, rival)
+                    ],
+                )
+            )
         world = backend.step(commands)
         for state in backend.last_substep_worlds:
             b = state.ball
             participants = (presser, keeper) if keeper_live or cover_times else (presser,)
+            touching = set()
             for key in participants:
                 r = state.robot(key)
-                gap = min(
-                    gap,
-                    *(
-                        math.hypot(r.x - q.x, r.y - q.y) - 2 * CFG.robot_radius
-                        for q in state.robots
-                        if r.key != q.key
-                    ),
-                )
-            contact |= gap <= 0.001
+                for q in state.robots:
+                    if q.key == key:
+                        continue
+                    clearance = math.hypot(r.x - q.x, r.y - q.y) - 2 * CFG.robot_radius
+                    gap = min(gap, clearance)
+                    if clearance <= 0.001:
+                        touching.add(frozenset((key, q.key)))
+            contact |= bool(touching)
+            contact_episodes += len(touching - previous_contacts)
+            previous_contacts = touching
             holders = [
                 key
                 for key in participants
@@ -257,6 +291,7 @@ def trial(
         first_cover_s=cover_times[0] if cover_times else None,
         keeper_ready_ticks=len(selector.cover.prepared) if selector and selector.cover else 0,
         film=film,
+        motion=motion,
         retained=dwell >= confirmation,
         clean_retained=dwell >= confirmation
         and not contact
@@ -264,6 +299,7 @@ def trial(
         and own_goal is None
         and (goalward is None or keeper_live),
         body_contact=contact,
+        body_contact_episodes=contact_episodes,
         min_gap_m=gap,
         ball_out_s=out,
         own_goal_s=own_goal,
@@ -282,10 +318,10 @@ def run(sim, folder, cfg):
     profile = BallSideTackle(**cfg["tackle_policy"])
     backend = ContinuousWebotsBackend(sim, CFG)
     zone = cfg["tackle_panel"]
-    keepers = zone in ("keeper-cover", "keeper-timing")
+    keepers = zone in ("keeper-cover", "keeper-timing", "keeper-lane")
     modes = (
-        ("keeper-cover", "keeper-timing")
-        if zone == "keeper-timing"
+        ("keeper-cover", zone)
+        if zone in ("keeper-timing", "keeper-lane")
         else ("selector", "keeper-cover")
         if keepers
         else PANEL_ACTIONS
@@ -322,6 +358,7 @@ def run(sim, folder, cfg):
                 mode,
                 keeper_live=keeper_live,
                 frames=folder / "frames" / mode if cfg.get("frame_images") else None,
+                motion_audit=cfg.get("motion_audit", False),
             )
             for mode in modes
         }

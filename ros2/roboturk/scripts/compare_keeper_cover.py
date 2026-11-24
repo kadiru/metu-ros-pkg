@@ -8,6 +8,8 @@ from compare_tackle_selector import read_rows
 
 ARMS = ("selector", "keeper-cover")
 TIMED_ARMS = ("keeper-cover", "keeper-timing")
+LANE_ARMS = ("keeper-cover", "keeper-lane")
+PANELS = {"keeper-cover": ARMS, "keeper-timing": TIMED_ARMS, "keeper-lane": LANE_ARMS}
 
 
 def compare(paths):
@@ -15,10 +17,8 @@ def compare(paths):
     if not rows or len({r["seed"] for r in rows}) != len(rows):
         raise ValueError("Use distinct keeper-panel starts")
     zone = rows[0]["zone"]
-    arms = TIMED_ARMS if zone == "keeper-timing" else ARMS
-    if zone not in ("keeper-cover", "keeper-timing") or any(
-        r["zone"] != zone or set(r["outcomes"]) != set(arms) for r in rows
-    ):
+    arms = PANELS.get(zone)
+    if arms is None or any(r["zone"] != zone or set(r["outcomes"]) != set(arms) for r in rows):
         raise ValueError("Expected two matched keeper-cover arms")
     totals, goal_seeds = {}, {}
     for arm in arms:
@@ -34,6 +34,8 @@ def compare(paths):
             starts_with_cover=sum(r["cover_ticks"] > 0 for r in samples),
             starts_with_early_positioning=sum(r.get("keeper_ready_ticks", 0) > 0 for r in samples),
         )
+        if all("body_contact_episodes" in r for r in samples):
+            totals[arm]["body_contact_episodes"] = sum(r["body_contact_episodes"] for r in samples)
     a, b = (goal_seeds[k] for k in arms)
     return dict(
         starts=len(rows),

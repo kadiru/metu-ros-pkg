@@ -12,6 +12,8 @@ from roboturk.pivot_fetch import PivotFetch
 from roboturk.tackle import BallSideTackle
 from roboturk.tackle_selector import TackleSelector, release_risks
 from roboturk.goal_cover import GoalCover
+from roboturk.goal_lane import GoalLaneCover
+from roboturk.model import world_vector
 from roboturk.timed_keeper import TimedGoalCover, crossing, lane_arrival
 
 CARRIER = RobotKey("blue", 1)
@@ -209,3 +211,26 @@ def test_timed_cover_arms_the_keeper_and_yields_only_when_it_can_meet_the_deadli
     assert all(command.kick == 0 for command in commands.values())
     assert set(TimedGoalCover().commands(w, w.robot(PRESSER), True)) == {keeper, PRESSER}
     assert not TimedGoalCover().commands(w, w.robot(PRESSER), False)
+
+
+def test_keeper_sweeps_a_shared_ball_upfield_while_the_presser_keeps_its_roller_off():
+    w = contest(0.23)
+    keeper = RobotKey(PRESSER.team, 0)
+    poses = {
+        CARRIER: (4.42, -0.30, math.pi / 2),
+        keeper: (4.42, -0.07, -math.pi / 2),
+        PRESSER: (3.25, -0.30, 0.0),
+    }
+    robots = tuple(
+        replace(r, x=poses[r.key][0], y=poses[r.key][1], yaw=poses[r.key][2])
+        if r.key in poses
+        else r
+        for r in w.robots
+    )
+    w = replace(w, ball=Ball(4.42, -0.185), robots=robots)
+    pair = GoalLaneCover().commands(w, w.robot(PRESSER), needed=True)
+    assert set(pair) == {keeper, PRESSER}
+    dx, dy = world_vector(pair[keeper].vx, pair[keeper].vy, w.robot(keeper).yaw)
+    assert dx < 0 and dy > 0
+    assert pair[keeper].dribbler == 1 and pair[PRESSER].dribbler == 0
+    assert all(command.kick == 0 for command in pair.values())

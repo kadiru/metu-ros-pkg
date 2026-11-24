@@ -5,6 +5,7 @@ import math
 
 from .five_roles import CFG, legal_off_ball_target
 from .goal_cover import GoalCover
+from .goal_lane import GoalLaneCover
 from .timed_keeper import TimedGoalCover
 from .model import RobotKey, body_vector, possession, unit
 from .pivot_fetch import SWEEP_RADIANS, SWEEP_SECONDS, fetch_loose, sweep_command, sweep_pull
@@ -69,11 +70,11 @@ class Contest:
 
 
 class TackleSelector:
-    def __init__(self, direct, keeper_cover=False, keeper_timing=False):
+    def __init__(self, direct, keeper_cover=False, keeper_timing=False, keeper_lane=False):
         self.direct = direct
         self.contests = {}
         self.events = []
-        cover = TimedGoalCover if keeper_timing else GoalCover
+        cover = GoalLaneCover if keeper_lane else TimedGoalCover if keeper_timing else GoalCover
         self.cover = cover() if keeper_cover else None
 
     def command(self, world, presser, carrier, observed, has_ball):

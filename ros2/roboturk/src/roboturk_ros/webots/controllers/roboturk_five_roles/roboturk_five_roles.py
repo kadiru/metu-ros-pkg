@@ -90,6 +90,7 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             tackle,
             keeper_cover=cfg.get("keeper_cover", False),
             keeper_timing=cfg.get("keeper_timing", False),
+            keeper_lane=cfg.get("keeper_lane", False),
         )
     planner_counts = {} if cfg.get("trajectory_planner") else None
     gate = RestartGate()

@@ -4,7 +4,7 @@ import math
 from roboturk.errt import ERRTFallback, edge_clear, opens_clearance
 from roboturk.five_roles import Assignment
 from roboturk.model import Command, Robot, RobotKey
-from roboturk.timed_motion import TIMES, choose, clear, plan_team
+from roboturk.timed_motion import INTERPOLATION_MARGIN, TIMES, choose, clear, plan_team
 
 
 def test_blocked_detours_get_a_seeded_time_checked_route_and_reuse_its_cache():
@@ -158,3 +158,24 @@ def test_selective_commitment_requires_a_return_with_little_progress():
 
     assert scenario(0.02) is not None
     assert scenario(0.20) is None
+
+
+def test_stopped_runner_can_restore_clearance_inside_the_interpolation_margin():
+    r = Robot(RobotKey("yellow", 1), 0, 0)
+    target = (2, 0)
+    clearance = 0.305
+    gap = clearance + INTERPOLATION_MARGIN / 2
+    tracks = [[(gap, 0)] * len(TIMES)]
+    assert ERRTFallback(1).plan(r, target, "Outlet", tracks, clearance)[2] == "brake"
+    planner = ERRTFallback(1, commit_waypoints="on-conflict")
+    motion, path, mode = planner.plan(r, target, "Outlet", tracks, clearance)
+    assert mode == "escape" and math.hypot(*motion) > 0
+    assert opens_clearance(path, tracks, clearance)
+    assert math.dist(path[-1], tracks[0][-1]) >= clearance + INTERPOLATION_MARGIN
+    blocked = [*tracks, [(-0.18, 0)] * len(TIMES)]
+    assert (
+        ERRTFallback(1, commit_waypoints="on-conflict").plan(
+            r, target, "Outlet", blocked, clearance
+        )[2]
+        == "brake"
+    )

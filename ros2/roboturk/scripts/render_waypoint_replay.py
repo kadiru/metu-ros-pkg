@@ -96,11 +96,11 @@ def panel(folder, label):
     return row, frames
 
 
-def render(previous, committed, output):
-    a, left = panel(previous, "Released ERRT")
+def render(previous, committed, output, previous_label="Released ERRT", updated_label=None):
+    a, left = panel(previous, previous_label)
     mode = read_json(committed / "config.json")["commit_waypoints"]
     label = "Selective commitment" if mode == "on-conflict" else "Immediate commitment"
-    b, right = panel(committed, label)
+    b, right = panel(committed, updated_label or label)
     if any(a[k] != b[k] for k in ("seed", "initial", "runner", "target", "limit_s")):
         raise ValueError("Recordings must use identical starts, runners, targets and deadlines")
     frames = []
@@ -124,5 +124,7 @@ if __name__ == "__main__":
     p.add_argument("previous", type=Path)
     p.add_argument("committed", type=Path)
     p.add_argument("output", type=Path)
+    p.add_argument("--previous-label", default="Released ERRT")
+    p.add_argument("--updated-label")
     args = p.parse_args()
-    render(args.previous, args.committed, args.output)
+    render(args.previous, args.committed, args.output, args.previous_label, args.updated_label)

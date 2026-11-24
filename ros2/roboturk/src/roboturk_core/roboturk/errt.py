@@ -6,7 +6,16 @@ import random
 
 from .five_roles import CFG
 from .placement_traffic import separation
-from .timed_motion import END_LIMIT, INTERVAL, SIDE, Leg, choose, clear, inside, path_samples
+from .timed_motion import (
+    END_LIMIT,
+    INTERPOLATION_MARGIN,
+    SIDE,
+    Leg,
+    choose,
+    clear,
+    inside,
+    path_samples,
+)
 
 EXTENSIONS = 96
 STEP = 0.44
@@ -43,7 +52,7 @@ def edge_clear(a, b, disks, radius):
 
 def opens_clearance(path, tracks, clearance):
     """Recover planning clearance without moving closer to any encroaching robot."""
-    margin = CFG.max_acceleration * INTERVAL**2 / 4
+    margin = INTERPOLATION_MARGIN
     clear_tracks = []
     for track in tracks:
         initial = math.dist(path[0], track[0])
@@ -136,7 +145,8 @@ class ERRTFallback:
             memo = self.memory[key] = SearchMemory(rng, role, target)
         memo.goal = target
 
-        if any(math.dist(start, p) < clearance for p in disks):
+        threshold = clearance + INTERPOLATION_MARGIN if self.commit_waypoints else clearance
+        if any(math.dist(start, p) < threshold for p in disks):
             if not self.commit_waypoints or math.hypot(r.vx, r.vy) > 0.08:
                 return None
             # A brake can leave a stopped runner inside the nominal buffer.

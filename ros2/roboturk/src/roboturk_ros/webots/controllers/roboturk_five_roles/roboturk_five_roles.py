@@ -88,6 +88,12 @@ def match(sim, folder, cfg, receiver=None, vision=None):
         if receiver
         else None
     )
+    motion_audit = cfg.get("motion_audit")
+    if motion_audit:
+        pairs = np.triu_indices(len(keys), k=1)
+        touching = np.zeros(len(pairs[0]), dtype=bool)
+        robot_contacts = 0
+        minimum_robot_gap = float("inf")
     previous_referee = None
     prepared_kickoff = None
     awaiting_team = None
@@ -341,6 +347,17 @@ def match(sim, folder, cfg, receiver=None, vision=None):
         steps.append(meta)
         states.append(snapshot(w))
         w = backend.step(out)
+        if motion_audit:
+            centers = np.array(
+                [[(r.x, r.y) for r in sample.robots] for sample in backend.last_substep_worlds]
+            )
+            delta = centers[:, pairs[0]] - centers[:, pairs[1]]
+            gaps = np.hypot(delta[..., 0], delta[..., 1]) - 2 * CFG.robot_radius
+            minimum_robot_gap = min(minimum_robot_gap, float(gaps.min()))
+            contacts = gaps <= 0.001
+            previous_contacts = np.vstack([touching, contacts[:-1]])
+            robot_contacts += int(np.count_nonzero(contacts & ~previous_contacts))
+            touching = contacts[-1]
         if restart:
             restart.applied(backend.last_kick_events)
         for k, _, speed in backend.last_kick_events:
@@ -415,6 +432,8 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                     kickoff(seed + 101 * restarts, serving, sign, (tick + 1) * CFG.dt)
                 )
                 tactics = FiveRoles()
+                if motion_audit:
+                    touching.fill(False)
                 if fallback is not None:
                     fallback = ERRTFallback(seed + restarts, cfg.get("commit_waypoints", False))
                 break
@@ -441,6 +460,10 @@ def match(sim, folder, cfg, receiver=None, vision=None):
         )
         if planner_counts is not None:
             log["planner_decisions"] = planner_counts
+        if motion_audit:
+            log["robot_clearance"] = dict(
+                min_gap_m=minimum_robot_gap, contact_episodes=robot_contacts
+            )
         (folder / "roles.json.gz").write_bytes(
             gzip.compress(json.dumps(log, separators=(",", ":")).encode(), mtime=0)
         )

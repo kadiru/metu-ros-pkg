@@ -13,6 +13,7 @@ from .touchline import END_LIMIT
 ACCEL = CFG.max_acceleration / math.sqrt(2)
 SPEED = 1.2 / math.sqrt(2)
 INTERVAL = 2 * CFG.dt
+INTERPOLATION_MARGIN = CFG.max_acceleration * INTERVAL**2 / 4
 TIMES = tuple(i * INTERVAL for i in range(16))
 SIDE = field.WIDTH / 2 - 0.15
 PRIORITY = (
@@ -115,7 +116,7 @@ def inside(p):
 def clear(path, tracks, clearance):
     # Use the closest point on each relative chord. Allow for deviations from
     # linear interpolation of two acceleration-bounded paths over one interval.
-    margin = CFG.max_acceleration * INTERVAL**2 / 4
+    margin = INTERPOLATION_MARGIN
     for (x, y), (nx, ny) in zip(path, path[1:]):
         # The bounding rectangle also covers a curved trajectory between samples.
         if not inside((max(abs(x), abs(nx)) + margin, max(abs(y), abs(ny)) + margin)):

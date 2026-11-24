@@ -13,7 +13,13 @@ The work spans hardware/software integration and path-planning experiments: how 
 
 ## Robot soccer in Webots
 
-In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/20f60d763b89dea2a09fc84cabd2d755019a05ef/ros2/roboturk)
+In the modern ROS 2 successor to this stack, the 3v3 teams train through self-play and the 5v5 teams assign field roles as possession changes. These clips show what changes when a robot learns how to win the ball, where to pass, and how to keep a defender from taking it back. [Modern project and training results](https://github.com/kadiru/metu-ros-pkg/tree/a858aec053a616a89b81bb678ff72dead47652b3/ros2/roboturk)
+
+### Can Blue stick with a route around Yellow?
+
+The white ring follows Blue. On the left it changes routes 100 times and ends just 2 cm from where it started. On the right it follows the diamond around Yellow and reaches its passing position, the gray disk, at 5.84 s. [Yellow recovering from a different timeout](https://github.com/kadiru/metu-ros-pkg/blob/a858aec053a616a89b81bb678ff72dead47652b3/ros2/roboturk/media/errt-waypoints/yellow-waypoint.gif) · [Stalls, arrival times and clearance across three sets of 40 starts](https://github.com/kadiru/metu-ros-pkg/blob/a858aec053a616a89b81bb678ff72dead47652b3/ros2/roboturk/media/errt-waypoints/README.md)
+
+[![Side-by-side Webots replays show Blue oscillating on the left and holding a waypoint on the right](../../docs/assets/roboturk-webots/blue-holds-waypoint.gif)](https://github.com/kadiru/metu-ros-pkg/blob/a858aec053a616a89b81bb678ff72dead47652b3/ros2/roboturk/media/errt-waypoints/blue-waypoint.gif)
 
 ### Can Blue get open behind the defenders?
 

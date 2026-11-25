@@ -27,6 +27,9 @@ class Policy(Protocol):
 class AnalyticPolicy:
     """Small baseline controller, without obstacle avoidance or competition guarantees."""
 
+    def __init__(self, *, full_power_shots=False):
+        self.full_power_shots = full_power_shots
+
     def command(self, world, key, intent, cfg):
         r, ball = world.robot(key), world.ball
         if intent.skill == Skill.HOLD or (intent.skill != Skill.MOVE and not ball.visible):
@@ -49,6 +52,8 @@ class AnalyticPolicy:
                 if abs(wrap(facing - r.yaw)) < tolerance:
                     distance = math.hypot(intent.target[0] - ball.x, intent.target[1] - ball.y)
                     kick = min(cfg.max_kick, max(1.2, 1.5 * math.sqrt(distance)))
+                    if self.full_power_shots and intent.skill == Skill.SHOOT:
+                        kick = cfg.max_kick
                     dribbler = 0.0
         elif intent.skill == Skill.RECEIVE:
             facing = math.atan2(ball.y - r.y, ball.x - r.x)

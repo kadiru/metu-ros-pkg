@@ -67,7 +67,8 @@ def action_events(events, keys):
             yield [tick, f"{name(actor)} passes to {name(receiver)}", "pass", keys[actor][0]]
         elif kind in STARTS:
             actor = event["actor"]
-            yield [tick, f"{name(actor)} {STARTS[kind]}", kind.split("_")[0], keys[actor][0]]
+            speed = f" · {event['speed']:g} m/s" if kind == "shot" and "speed" in event else ""
+            yield [tick, f"{name(actor)} {STARTS[kind]}{speed}", kind.split("_")[0], keys[actor][0]]
         elif kind == "referee_placement" and event.get("team"):
             team = event["team"].lower()
             yield [tick, f"{team.title()} ball placed", "restart", team]

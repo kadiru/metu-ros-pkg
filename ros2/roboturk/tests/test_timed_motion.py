@@ -39,6 +39,18 @@ def test_crossing_depends_on_arrival_time():
     assert choose(robot, target, [[(0, 0)] * len(TIMES)], 0.25)[2] == "brake"
 
 
+def test_timed_leg_uses_the_shared_practice_speed_and_acceleration():
+    start, velocity, target = (-2, -2), (0, 0), (2, 2)
+    legacy = Leg.to(start, velocity, target)
+    cfg = replace(CFG, max_speed=4, max_acceleration=10)
+    tuned = Leg.to(start, velocity, target, cfg=cfg)
+
+    assert tuned.duration < legacy.duration
+    assert math.hypot(*tuned.velocity(0.2)) == pytest.approx(2)
+    assert math.hypot(*tuned.velocity(0.6)) == pytest.approx(4)
+    assert tuned.position(tuned.duration) == pytest.approx(target)
+
+
 def test_swept_separation_and_static_obstacles():
     assert not clear([(-0.3, 0), (0.3, 0)], [[(0.3, 0), (-0.3, 0)]], 0.2)
     assert not clear([(3, 0), (4, 0)], [], 0.2)

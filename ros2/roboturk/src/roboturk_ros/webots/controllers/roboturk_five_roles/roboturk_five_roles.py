@@ -397,6 +397,7 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                 task_audit=tasks,
                 strategies=strategies,
                 motion_configs=motion_configs,
+                practice_pace=limit_feed is not None,
             )
             if restricted:
                 out = {k: c for k, c in out.items() if k.team == restricted}
@@ -436,6 +437,8 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                 role = roles[key]
                 item = allocation.get(key, {"basis": "referee"})
                 item.update(target=role.target, task=tasks.get(key), command=None)
+                robot = w.robot(key)
+                item["measured_speed"] = round(math.hypot(robot.vx, robot.vy), 4)
                 if cmd is not None:
                     cmd = bounded(cmd, motion_configs[key.team])
                     item["command"] = [

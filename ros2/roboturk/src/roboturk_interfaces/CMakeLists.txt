@@ -6,6 +6,7 @@ find_package(std_msgs REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/RobotState.msg" "msg/BallState.msg" "msg/WorldState.msg"
   "msg/RobotCommand.msg" "msg/CommandArray.msg" "msg/RefereeState.msg"
+  "msg/MotionLimits.msg"
   "srv/ResetEpisode.srv"
   DEPENDENCIES std_msgs
 )

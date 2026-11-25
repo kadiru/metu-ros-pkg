@@ -404,6 +404,9 @@ function updateGauges(audit) {
   needle.style.setProperty("--angle", `${direction}rad`);
   byId("speed").textContent = `${speed.toFixed(2)} m/s`;
   byId("speed-scale").textContent = `Ring at ${maxSpeed} m/s`;
+  const measured = byId("measured-speed");
+  measured.hidden = audit.measured_speed == null;
+  if (!measured.hidden) measured.textContent = `Measured ${audit.measured_speed.toFixed(2)} m/s`;
   byId("translation").setAttribute("aria-label",
     `Commanded forward velocity ${forward.toFixed(2)} and leftward velocity ${lateral.toFixed(2)} meters per second`);
   const turnLabel = `${turn > .005 ? "Left " : turn < -.005 ? "Right " : ""}${Math.abs(turn).toFixed(2)} rad/s`;

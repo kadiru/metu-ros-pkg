@@ -11,6 +11,7 @@ from .placement_traffic import separation
 from .tackle import ROBOT_GAP
 
 FETCH_SPEED = 0.42
+QUALIFIED_PACE = 1.2
 
 
 @dataclass(frozen=True)
@@ -65,13 +66,17 @@ def steer_team(
     keeper_handoffs=None,
     fetching=(),
     cfg=CFG,
+    expand_pace=False,
 ):
     """Translate this team's requests using only measured motion of surrounding players."""
     own = [r for r in robots if r.key.team == team]
     if set(requests) != {r.key for r in own}:
         raise ValueError("Expected exactly one team's velocity requests")
-    speed = min(1.2, cfg.max_speed)
-    scale = speed / max(speed, *(math.hypot(c.vx, c.vy) for c in requests.values()))
+    speed = min(QUALIFIED_PACE, cfg.max_speed)
+    group_scale = speed / max(speed, *(math.hypot(c.vx, c.vy) for c in requests.values()))
+    reach = 3.1
+    if expand_pace:
+        reach = max(reach, cfg.max_speed + max(math.hypot(*v) for v in observed.values()))
     out = {}
     for r in own:
         cmd = requests[r.key]
@@ -79,6 +84,11 @@ def steer_team(
         yielding = keeper_handoffs.get(r.key) if keeper_handoffs else None
         intercepting = yielding is not None and r.key.id == 0
         fetch = r.key in fetching
+        scale = (
+            cfg.max_speed / max(cfg.max_speed, math.hypot(cmd.vx, cmd.vy))
+            if expand_pace
+            else group_scale
+        )
         x, y = world_vector(cmd.vx * scale, cmd.vy * scale, r.yaw)
         if fetch:
             reduce = FETCH_SPEED / max(FETCH_SPEED, math.hypot(x, y))
@@ -99,8 +109,22 @@ def steer_team(
             )
             for q in robots
             if q.key != r.key
-            and math.hypot(r.x - q.x, r.y - q.y) < policy.clearance + 3.1 * policy.horizon
+            and math.hypot(r.x - q.x, r.y - q.y) < policy.clearance + reach * policy.horizon
         ]
+
+        def fast_lane_clear(vx, vy):
+            if not expand_pace or math.hypot(vx, vy) <= QUALIFIED_PACE:
+                return True
+            for dx, dy, qx, qy, clearance, horizon in nearby:
+                distance = math.hypot(dx, dy)
+                relative = vx - qx, vy - qy
+                if separation(dx, dy, *relative, horizon) < clearance:
+                    return False
+                # One reaction tick plus braking room at the proposed closing speed.
+                closing = max(0, -(dx * relative[0] + dy * relative[1]) / max(distance, 1e-8))
+                if closing * dt + closing**2 / cfg.max_acceleration > max(0, distance - clearance):
+                    return False
+            return True
 
         def loss(vx, vy):
             cost = (vx - x) ** 2 + (vy - y) ** 2
@@ -114,13 +138,15 @@ def steer_team(
                 cost += 120 * max(0, clearance - end) ** 2
             return cost
 
-        if nearby and (fetch or loss(x, y) > 1e-8):
+        if nearby and (fetch or loss(x, y) > 1e-8 or not fast_lane_clear(x, y)):
             options = [(x, y)]
             for speed in (1.0, 0.65, 0.30):
                 for turn in (policy.turn, -policy.turn, 2 * policy.turn, -2 * policy.turn, 0):
                     c, s = math.cos(turn) * speed, math.sin(turn) * speed
                     options.append((c * x - s * y, s * x + c * y))
             options.append((0, 0))
+            if expand_pace:
+                options = [v for v in options if fast_lane_clear(*v)]
             if fetch:
                 options = [
                     v
@@ -169,6 +195,9 @@ def steer_team(
         elif r.key in recovering:
             x = brake_axis(r.x, x, END_LIMIT, dt, acceleration=cfg.max_acceleration)
             y = brake_axis(r.y, y, SIDE_LIMIT, dt, acceleration=cfg.max_acceleration)
+        elif expand_pace:
+            x = brake_axis(r.x, x, END_LIMIT, dt, acceleration=cfg.max_acceleration)
+            y = brake_axis(r.y, y, 2.85, dt, acceleration=cfg.max_acceleration)
         else:
             x = max(min(0, (-4.35 - r.x) / dt), min(max(0, (4.35 - r.x) / dt), x))
             y = max(min(0, (-2.85 - r.y) / dt), min(max(0, (2.85 - r.y) / dt), y))

@@ -118,7 +118,9 @@ def main():
     if mode == "ros":
         from roboturk_ros.bridge import run
 
-        run(supervisor, backend, cfg)
+        practice = os.environ.get("ROBOTURK_PRACTICE", "").lower() in ("true", "1")
+        limits_file = os.environ.get("ROBOTURK_PRACTICE_LIMITS") if practice else None
+        run(supervisor, backend, cfg, limits_file)
         return
     from roboturk.behavior import AnalyticPolicy, CheckpointPolicy
     from roboturk.cli import evaluate, train

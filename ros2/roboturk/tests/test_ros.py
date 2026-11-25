@@ -12,11 +12,60 @@ from roboturk_interfaces.msg import CommandArray, RefereeState
 from roboturk_interfaces.srv import ResetEpisode
 from roboturk_ros.bridge import Bridge, formation
 from roboturk_ros.conversions import command_message, from_world_message, set_stamp, world_message
+from roboturk_ros.strategy_node import StrategyNode
 
 
 def test_ros_world_roundtrip():
     w = formation(12)
     assert from_world_message(world_message(w)) == w
+
+
+def test_ros_practice_limits_reach_the_actuator_and_strategy(tmp_path):
+    import json
+    from types import SimpleNamespace
+
+    from roboturk.match_limits import GAME_LIMITS, limit_values
+
+    class Supervisor:
+        def getTime(self):
+            return 1.0
+
+    limits_file = tmp_path / "motion-limits.json"
+    config = dict(GAME_LIMITS, max_speed=4, max_acceleration=10, max_kick=10)
+    limits_file.write_text(json.dumps(config))
+    rclpy.init()
+    backend = ReferenceBackend()
+    bridge = Bridge(Supervisor(), backend, Config(), limits_file)
+    strategy = StrategyNode()
+    received = []
+    bridge.world_pub = SimpleNamespace(publish=received.append)
+    try:
+        referee = RefereeState(command="running", attack_sign=1)
+        set_stamp(referee.header.stamp, 1)
+        bridge.on_referee(referee)
+        bridge.step()
+        strategy.on_world(received[-1])
+        assert limit_values(backend.cfg) == limit_values(strategy.cfg) == config
+        assert strategy.library.fallback.full_power_shots
+
+        updated = dict(config, max_speed=1.4, max_omega=4, max_acceleration=2.0, max_kick=2.5)
+        temporary = limits_file.with_suffix(".tmp")
+        temporary.write_text(json.dumps(updated))
+        temporary.replace(limits_file)
+        bridge.step()
+        strategy.on_world(received[-1])
+        assert limit_values(backend.cfg) == limit_values(strategy.strategy.cfg) == updated
+
+        referee.ssl_command = "FORCE_START"
+        bridge.on_referee(referee)
+        bridge.step()
+        strategy.on_world(received[-1])
+        assert limit_values(backend.cfg) == limit_values(strategy.cfg) == GAME_LIMITS
+        assert not strategy.library.fallback.full_power_shots
+    finally:
+        strategy.destroy_node()
+        bridge.destroy_node()
+        rclpy.shutdown()
 
 
 def test_ros_watchdogs_and_reset():

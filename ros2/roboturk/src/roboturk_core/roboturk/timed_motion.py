@@ -18,7 +18,9 @@ from .touchline import END_LIMIT
 
 # Splitting the budgets between axes bounds the planar norms even on diagonal moves.
 ACCEL = CFG.max_acceleration / math.sqrt(2)
-SPEED = 1.2 / math.sqrt(2)
+QUALIFIED_PACE = 1.2
+TRAVEL_CFG = replace(CFG, max_speed=QUALIFIED_PACE)
+SPEED = QUALIFIED_PACE / math.sqrt(2)
 INTERVAL = TRAJECTORY_SAMPLE_DT
 TIMES = tuple(i * INTERVAL for i in range(16))
 SIDE = field.WIDTH / 2 - 0.15
@@ -77,8 +79,8 @@ class Leg:
     y: Axis
 
     @classmethod
-    def to(cls, start, velocity, target, *, cfg=CFG):
-        speed = min(SPEED, cfg.max_speed / math.sqrt(2))
+    def to(cls, start, velocity, target, *, cfg=TRAVEL_CFG):
+        speed = cfg.max_speed / math.sqrt(2)
         accel = cfg.max_acceleration / math.sqrt(2)
         return cls(
             *(
@@ -146,7 +148,7 @@ def velocity_track(r, request, *, cfg=CFG):
     return points
 
 
-def choose(r, target, tracks, clearance, *, cfg=CFG):
+def choose(r, target, tracks, clearance, *, cfg=TRAVEL_CFG):
     start = (r.x, r.y)
     margin = interpolation_margin(cfg)
     direct = Leg.to(start, (r.vx, r.vy), target, cfg=cfg)
@@ -188,7 +190,7 @@ def plan_team(
     fallback=None,
     modes=None,
     trace=None,
-    cfg=CFG,
+    cfg=TRAVEL_CFG,
 ):
     """Reserve timed motion within one team. Opponents supply position history only."""
     paths = {}

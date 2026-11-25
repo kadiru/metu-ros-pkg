@@ -15,13 +15,20 @@ def generate_launch_description():
     simulator = ExecuteProcess(
         cmd=[LaunchConfiguration("webots"), "--mode=realtime", "--stdout", "--stderr", str(world)],
         output="screen",
-        additional_env={"ROBOTURK_MODE": "ros"},
+        additional_env={
+            "ROBOTURK_MODE": "ros",
+            "ROBOTURK_PRACTICE": LaunchConfiguration("practice"),
+            "ROBOTURK_PRACTICE_LIMITS": LaunchConfiguration("practice_limits_file"),
+        },
     )
     return LaunchDescription(
         [
             DeclareLaunchArgument("webots", default_value="webots"),
             DeclareLaunchArgument(
                 "practice", default_value="false", description="Enable practice referee heartbeat"
+            ),
+            DeclareLaunchArgument(
+                "practice_limits_file", default_value="", description="Shared Practice limits JSON"
             ),
             DeclareLaunchArgument("referee_address", default_value="224.5.23.1"),
             DeclareLaunchArgument("referee_port", default_value="10003"),

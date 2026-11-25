@@ -1,11 +1,38 @@
 from dataclasses import replace
+from math import hypot
 
 import pytest
 
 from roboturk.five_play import crowded_chaser
-from roboturk.five_roles import Assignment, FiveRoles
+from roboturk.five_roles import Assignment, CFG, FiveRoles
 from roboturk.model import Ball, Command, Robot, RobotKey, World
 from roboturk.open_motion import FETCH_SPEED, Steering, observed_velocity, steer_team
+
+
+def test_practice_steering_uses_the_speed_limit_when_the_lane_is_clear():
+    runner = Robot(RobotKey("blue", 2), 0, 0)
+    rival = Robot(RobotKey("yellow", 3), 0.7, 0)
+    policy = Steering(0.48, 0.305, 0.66)
+    cfg = replace(CFG, max_speed=4, max_acceleration=10)
+
+    def drive(robots, practice):
+        commands = steer_team(
+            robots,
+            "blue",
+            {runner.key: Command(4, 0)},
+            {r.key: (0, 0) for r in robots},
+            policy,
+            cfg.dt,
+            cfg=cfg,
+            expand_pace=practice,
+        )
+        return commands[runner.key]
+
+    assert drive((runner,), False).vx == pytest.approx(1.2)
+    assert drive((runner,), True).vx == pytest.approx(4)
+    detour = drive((runner, rival), True)
+    assert detour.vx < 4
+    assert hypot(detour.vx, detour.vy) <= 4
 
 
 def test_opponent_input_is_causal_position_history_only():

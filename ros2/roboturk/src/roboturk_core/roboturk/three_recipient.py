@@ -74,8 +74,8 @@ def train_update(weights, decisions, rate=0.4):
     return weights + rate * np.mean(gradients, axis=0)
 
 
-def move(robot, x, y, angle, speed=1.1):
+def move(robot, x, y, angle, speed=1.1, *, turn_limit=5):
     dx, dy = x - robot.x, y - robot.y
     scale = min(3.8, speed / max(0.001, math.hypot(dx, dy)))
     vx, vy = body_vector(dx * scale, dy * scale, robot.yaw)
-    return Command(vx, vy, max(-5, min(5, 5 * wrap(angle - robot.yaw))), 1)
+    return Command(vx, vy, max(-turn_limit, min(turn_limit, 5 * wrap(angle - robot.yaw))), 1)

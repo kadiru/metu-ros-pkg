@@ -10,6 +10,7 @@ from .timed_motion import (
     END_LIMIT,
     INTERPOLATION_MARGIN,
     SIDE,
+    TRAVEL_CFG,
     Leg,
     choose,
     clear,
@@ -82,7 +83,7 @@ def opens_clearance(path, tracks, clearance, *, margin=INTERPOLATION_MARGIN):
     return clear(path, clear_tracks, clearance, margin=margin)
 
 
-def checked_leg(r, point, tracks, clearance, restoring=False, *, cfg=CFG):
+def checked_leg(r, point, tracks, clearance, restoring=False, *, cfg=TRAVEL_CFG):
     leg = Leg.to((r.x, r.y), (r.vx, r.vy), point, cfg=cfg)
     path = path_samples(leg)
     admissible = opens_clearance if restoring else clear
@@ -105,7 +106,7 @@ class ERRTFallback:
                 if key.team == team and key not in eligible:
                     del self.memory[key]
 
-    def plan(self, r, target, role, tracks, clearance, *, cfg=CFG):
+    def plan(self, r, target, role, tracks, clearance, *, cfg=TRAVEL_CFG):
         if self.commit_waypoints:
             held = self.resume(r, target, role, tracks, clearance, cfg=cfg)
             if held is not None:
@@ -124,7 +125,7 @@ class ERRTFallback:
             return velocity, path, mode
         return *motion, ("escape" if self.memory[r.key].restoring else "errt")
 
-    def release_to_direct(self, r, target, tracks, clearance, *, cfg=CFG):
+    def release_to_direct(self, r, target, tracks, clearance, *, cfg=TRAVEL_CFG):
         memo = self.memory[r.key]
         if memo.restoring:
             return None
@@ -147,7 +148,7 @@ class ERRTFallback:
         memo.interrupted = True
         return direct.velocity(cfg.dt), path
 
-    def resume(self, r, target, role, tracks, clearance, *, cfg=CFG):
+    def resume(self, r, target, role, tracks, clearance, *, cfg=TRAVEL_CFG):
         memo = self.memory.get(r.key)
         if memo is None:
             return None
@@ -166,7 +167,7 @@ class ERRTFallback:
         memo.direct_clear_ticks = 0
         return None
 
-    def search(self, r, target, role, tracks, clearance, *, cfg=CFG):
+    def search(self, r, target, role, tracks, clearance, *, cfg=TRAVEL_CFG):
         start = (r.x, r.y)
         disks = [p[0] for p in tracks]
         if not inside(target):

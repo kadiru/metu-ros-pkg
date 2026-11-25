@@ -7,6 +7,7 @@ import time
 import rclpy
 from rclpy.node import Node
 from rosgraph_msgs.msg import Clock
+from roboturk.match_limits import PracticeLimitFeed
 from roboturk.model import (
     SSL_KICK_LIMIT,
     Ball,
@@ -39,7 +40,7 @@ def formation(seed=0):
 
 
 class Bridge(Node):
-    def __init__(self, supervisor, backend, cfg):
+    def __init__(self, supervisor, backend, cfg, practice_limits_file=None):
         super().__init__("webots_bridge")
         self.supervisor, self.backend, self.cfg = supervisor, backend, cfg
         self.commands = {}
@@ -49,6 +50,11 @@ class Bridge(Node):
         self.restart_gate = RestartGate()
         self.restart = ("", 0, "")
         self.official_referee = False
+        self.practice_limits = (
+            PracticeLimitFeed(practice_limits_file) if practice_limits_file else None
+        )
+        if self.practice_limits:
+            self.practice_limits.poll()
         self.attack_sign = 1
         backend.reset(formation())
         self.world_pub = self.create_publisher(WorldState, "/roboturk/world", 1)
@@ -107,9 +113,22 @@ class Bridge(Node):
         self.restart = ("", 0, "")
         self.official_referee = False
         self.backend.reset(formation(request.seed))
-        response.world = world_message(replace(self.backend.world, time=self.supervisor.getTime()))
+        limits, tuning = self.motion_limits()
+        response.world = world_message(
+            replace(self.backend.world, time=self.supervisor.getTime()),
+            limits,
+            practice_tuning=tuning,
+        )
         response.success = True
         return response
+
+    def motion_limits(self):
+        if self.official_referee:
+            return replace(self.cfg, max_kick=min(self.cfg.max_kick, SSL_KICK_LIMIT)), False
+        if self.practice_limits:
+            self.practice_limits.poll()
+            return replace(self.cfg, **self.practice_limits.values), True
+        return self.cfg, False
 
     def step(self):
         now = time.monotonic()
@@ -119,9 +138,8 @@ class Bridge(Node):
             self.backend.world, referee=referee, attack_sign=self.attack_sign
         )
         restricted = self.restart_gate.restricted_to(*self.restart, self.backend.world.ball)
-        limits = self.cfg
-        if self.official_referee:
-            limits = replace(limits, max_kick=min(limits.max_kick, SSL_KICK_LIMIT))
+        limits, tuning = self.motion_limits()
+        self.backend.cfg = limits
         commands = {}
         for robot in self.backend.world.robots:
             if restricted and robot.key.team != restricted:
@@ -140,12 +158,12 @@ class Bridge(Node):
         clock = Clock()
         set_stamp(clock.clock, world.time)
         self.clock_pub.publish(clock)
-        self.world_pub.publish(world_message(world))
+        self.world_pub.publish(world_message(world, limits, practice_tuning=tuning))
 
 
-def run(supervisor, backend, cfg):
+def run(supervisor, backend, cfg, practice_limits_file=None):
     rclpy.init()
-    node = Bridge(supervisor, backend, cfg)
+    node = Bridge(supervisor, backend, cfg, practice_limits_file)
     try:
         while rclpy.ok():
             rclpy.spin_once(node, timeout_sec=0.0)

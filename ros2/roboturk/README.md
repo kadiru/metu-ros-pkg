@@ -523,11 +523,13 @@ The launch listens for the official referee and starts in HALT until a fresh com
 ros2 launch roboturk_ros soccer.launch.py webots:=/usr/local/webots/webots practice:=true
 ```
 
+To share live slider values with the ROS 2 Practice launch, also set `practice_limits_file:=/absolute/path/to/motion-limits.json` to the file for that viewer session. The bridge applies the limits to its actuators and includes them in each world message. Both strategy nodes use those values for planning and command generation. Trained checkpoints keep the scales they were trained with. The browser's 5v5 match runs directly in the Webots Supervisor and reads the same file format.
+
 The launch starts the simulator, both strategy nodes and one referee source. The default source listens on 224.5.23.1 port 10003. For a different endpoint, set the launch arguments `referee_address`, `referee_port` and `referee_interface`. This is a custom Supervisor/rclpy bridge; it does not depend on `webots_ros2_driver`. ROS uses a single simulation owner and monotonic `/clock`. Training runs directly inside the Supervisor so each action advances an exact number of physics steps without ROS callback timing in the learning loop.
 
 | Interface | Meaning |
 | --- | --- |
-| `/roboturk/world` | Typed field-frame robot/ball state and effective referee state |
+| `/roboturk/world` | Typed field-frame robot/ball state, effective referee state and active motion limits |
 | `/roboturk/blue/commands`, `/roboturk/yellow/commands` | Full team snapshots of body-frame commands |
 | `/roboturk/referee` | Effective motion gate, original SSL command, stage, source, counter, score, restart team and blue attack direction |
 | `/roboturk/reset` | Seeded practice formation reset; clears commands and enters HALT |

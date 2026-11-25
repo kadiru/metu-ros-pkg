@@ -1,5 +1,8 @@
-from roboturk.model import Ball, Command, Referee, Robot, RobotKey, World
-from roboturk_interfaces.msg import BallState, RobotCommand, RobotState, WorldState
+from dataclasses import replace
+
+from roboturk.match_limits import PRACTICE_RANGES, limit_values, validate_limits
+from roboturk.model import Ball, Command, Config, Referee, Robot, RobotKey, World
+from roboturk_interfaces.msg import BallState, MotionLimits, RobotCommand, RobotState, WorldState
 
 
 def set_stamp(stamp, seconds):
@@ -11,12 +14,14 @@ def stamp_seconds(stamp):
     return stamp.sec + stamp.nanosec / 1e9
 
 
-def world_message(world):
+def world_message(world, cfg=Config(), *, practice_tuning=False):
     message = WorldState()
     message.header.frame_id = "field"
     set_stamp(message.header.stamp, world.time)
     message.attack_sign = world.attack_sign
     message.referee = world.referee.value
+    values = {key: float(value) for key, value in limit_values(cfg).items()}
+    message.motion_limits = MotionLimits(**values, practice_tuning=practice_tuning)
     for robot in world.robots:
         item = RobotState()
         item.team, item.robot_id = robot.key.team, robot.key.id
@@ -32,6 +37,12 @@ def world_message(world):
         visible=world.ball.visible,
     )
     return message
+
+
+def config_from_world_message(message, cfg):
+    values = message.motion_limits
+    overrides = validate_limits({key: getattr(values, key) for key in PRACTICE_RANGES})
+    return replace(cfg, **overrides)
 
 
 def from_world_message(message):

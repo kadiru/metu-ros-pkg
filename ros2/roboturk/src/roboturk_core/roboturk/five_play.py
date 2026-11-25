@@ -14,7 +14,7 @@ from .pivot_fetch import PivotFetch
 from .tackle_selector import CONTAIN, TackleSelector
 from .timed_keeper import TimedGoalCover
 from .three_match import filter_commands
-from .timed_motion import inside, plan_team
+from .timed_motion import QUALIFIED_PACE, inside, plan_team
 from .touchline import recovery_command
 from .three_recipient import features, move
 
@@ -30,12 +30,14 @@ def commands(
     smooth_carry=False,
     tasks=None,
     strategies=None,
+    practice_motion=None,
 ):
     ball = world.ball
     out = {}
     passes = {}
     for r in world.robots:
         team = r.key.team
+        motion = practice_motion[team] if practice_motion else None
         sign = world.direction(team)
         role = positions[r.key].role
         tx, ty = positions[r.key].target
@@ -98,6 +100,8 @@ def commands(
                 if receive and pass_now:
                     # Preserve range on long links and deliver a slower ball on short passes.
                     kick = min(2.6, 1.70 + 0.23 * math.hypot(gx - ball.x, gy - ball.y))
+                if shoot and motion:
+                    kick = motion.max_kick
                 cmd = replace(cmd, kick=kick)
                 if pass_now:
                     passes[r.key] = Flight(
@@ -131,7 +135,15 @@ def commands(
         target = limit(tx, 4.32), limit(ty, 2.76)
         if targets is not None and role in TIMED_ROLES:
             targets[r.key] = target
-        out[r.key] = move(r, *target, angle, speed=1.75)
+        speed = 1.75
+        turn_limit = 5
+        if motion and r.key.id and role not in ("Receiver", "Contain"):
+            speed = motion.max_speed
+            turn_limit = motion.max_omega
+            if role in ("Chaser", "Presser", "Carrier"):
+                room = max(0, math.hypot(r.x - ball.x, r.y - ball.y) - 0.65)
+                speed = min(speed, math.sqrt(1.0 + motion.max_acceleration * room))
+        out[r.key] = move(r, *target, angle, speed=speed, turn_limit=turn_limit)
         if role == "Contain":
             out[r.key] = replace(out[r.key], dribbler=0)
     return out, passes
@@ -221,6 +233,7 @@ def open_play(
     task_audit=None,
     strategies=None,
     motion_configs=None,
+    practice_pace=False,
 ):
     """One open-play control tick shared by ordinary matches and paired replays."""
     carrier = None
@@ -254,7 +267,17 @@ def open_play(
         roles.update(side)
     targets = {} if trajectory else None
     out, planned = commands(
-        world, roles, weights, sole, tactics, targets, receive, smooth_carry, task_audit, strategies
+        world,
+        roles,
+        weights,
+        sole,
+        tactics,
+        targets,
+        receive,
+        smooth_carry,
+        task_audit,
+        strategies,
+        motion_configs if practice_pace else None,
     )
     recovering = set()
     if touchline:
@@ -385,6 +408,7 @@ def open_play(
                 keeper_handoffs=keeper_handoffs,
                 fetching=fetching,
                 cfg=motion,
+                expand_pace=practice_pace,
             )
             if trajectory:
                 steered = plan_team(
@@ -398,7 +422,9 @@ def open_play(
                     counts,
                     fallback,
                     trace=trace,
-                    cfg=motion,
+                    cfg=motion
+                    if practice_pace
+                    else replace(motion, max_speed=min(QUALIFIED_PACE, motion.max_speed)),
                 )
             out.update(steered)
     else:

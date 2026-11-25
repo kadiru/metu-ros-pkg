@@ -3,11 +3,11 @@ import time
 
 import rclpy
 from rclpy.node import Node
-from roboturk.behavior import BehaviorLibrary, CheckpointPolicy
+from roboturk.behavior import AnalyticPolicy, BehaviorLibrary, CheckpointPolicy
 from roboturk.model import Command, Config, Skill, constrain_skill, safe_command
 from roboturk.strategy import TeamStrategy
 from roboturk_interfaces.msg import CommandArray, WorldState
-from .conversions import command_message, from_world_message
+from .conversions import command_message, config_from_world_message, from_world_message
 
 
 class StrategyNode(Node):
@@ -19,6 +19,7 @@ class StrategyNode(Node):
         self.cfg = Config()
         self.strategy = TeamStrategy(team, self.cfg)
         self.library = BehaviorLibrary()
+        self.practice_tuning = False
         # JSON mapping makes individual policies replaceable without changing team play.
         paths = json.loads(self.declare_parameter("policies", "{}").value)
         for skill, path in paths.items():
@@ -32,9 +33,15 @@ class StrategyNode(Node):
     def on_world(self, message):
         try:
             world = from_world_message(message)
+            cfg = config_from_world_message(message, self.cfg)
             if self.world is not None and world.time < self.world.time:
                 self.strategy.reset()
             self.world, self.received = world, time.monotonic()
+            self.cfg = self.strategy.cfg = cfg
+            tuning = message.motion_limits.practice_tuning
+            if tuning != self.practice_tuning:
+                self.library.fallback = AnalyticPolicy(full_power_shots=tuning)
+                self.practice_tuning = tuning
         except (ValueError, KeyError) as error:
             self.get_logger().error(f"Rejected world state: {error}")
 

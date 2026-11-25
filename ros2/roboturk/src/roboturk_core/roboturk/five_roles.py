@@ -8,6 +8,7 @@ import random
 from . import field as pitch
 from .five_strategy import BALANCED
 from .model import Ball, Config, Referee, Robot, RobotKey, World, possession
+from .spin_release import SpinRelease
 
 CFG = Config(dt=0.04)
 TEAMS = ("blue", "yellow")
@@ -116,6 +117,7 @@ class FiveRoles:
         self.contain_until = 0.0
         self.fetch_stalls = {}
         self.fetcher = None
+        self.spin = SpinRelease()
 
     def observe(self, world, tackling=None):
         holders = [r.key for r in world.robots if possession(world, r.key, CFG)]
@@ -145,6 +147,7 @@ class FiveRoles:
                 self.contain_until = world.time + 0.72
                 self.contested = 0
         sole = holders[0] if len(holders) == 1 else None
+        self.spin.observe(world, holders, sole)
         self.samples = self.samples + 1 if sole == self.candidate else 1
         self.candidate = sole
         if sole and self.samples >= 3:
@@ -178,6 +181,7 @@ class FiveRoles:
             self.flight.team if self.flight else self.control.team if self.control else None
         )
         forced = None
+        spin_outlet = None
         if team_in_control == team:
             phase = "Attack"
             if self.flight:
@@ -197,6 +201,11 @@ class FiveRoles:
                 "Right wing": field(bx + attacking_wing, min(-0.80, -wing_width + 0.34 * by)),
                 "Anchor": field(bx - 1.35, by * 0.48),
             }
+            turn = self.spin.turn
+            if turn and turn.actor == forced and turn.receiver:
+                spin_outlet = turn.receiver
+                del roles["Anchor"]
+                roles["Spin outlet"] = turn.target
         elif team_in_control is not None:
             phase = "Defend"
             rivals = [
@@ -249,7 +258,10 @@ class FiveRoles:
             for name, target in roles.items()
         }
         allowed = (
-            order for order in permutations(players[1:]) if forced is None or order[0].key == forced
+            order
+            for order in permutations(players[1:])
+            if (forced is None or order[0].key == forced)
+            and (spin_outlet is None or order[-1].key == spin_outlet)
         )
         match = min(allowed, key=lambda order: sum(costs[r.key, n] for r, n in zip(order, names)))
         positions.update({r.key: Assignment(n, roles[n]) for r, n in zip(match, names)})
@@ -259,7 +271,11 @@ class FiveRoles:
             for r, name in zip(match, names, strict=True):
                 previous = self.previous.get(r.key)
                 audit[r.key] = dict(
-                    basis=name.lower() if r.key == forced else "roster_cost",
+                    basis="spin_outlet"
+                    if r.key == spin_outlet
+                    else name.lower()
+                    if r.key == forced
+                    else "roster_cost",
                     allocator_previous=previous,
                     distance_m=round(math.dist((r.x, r.y), roles[name]), 4),
                     switch_cost=ROLE_SWITCH_COST if previous and previous != name else 0,

@@ -401,12 +401,16 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                 motion_configs=motion_configs,
                 practice_pace=limit_feed is not None,
                 chip_passes=not restricted and (not kickoff_kick or kickoff_kick.second_touch),
+                spin_releases=cfg.get("spin_releases", True)
+                and not restricted
+                and (not kickoff_kick or kickoff_kick.second_touch),
             )
             if restricted:
                 out = {k: c for k, c in out.items() if k.team == restricted}
             if kickoff_kick and not kickoff_kick.second_touch:
                 out.pop(kickoff_kick.kicker, None)
         else:
+            tactics.spin.turn = None
             roles = {r.key: Assignment("hold", (r.x, r.y)) for r in w.robots}
             phases = dict.fromkeys(TEAMS, w.referee.value.upper())
             out, planned = {}, {}
@@ -451,6 +455,9 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                         item["kick_elevation"] = cmd.kick_elevation
                 if key in planned and cmd is not None and cmd.kick:
                     item["pass_to"] = keys.index(planned[key].receiver)
+                turn = tactics.spin.turn
+                if turn and turn.actor == key:
+                    item["spin_turn"] = turn.describe()
                 details.append(item)
             meta.update(
                 allocation=details,
@@ -580,6 +587,9 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                 event.update(event="pass", receiver=keys.index(planned[k].receiver))
             else:
                 tactics.flight = None
+            if tactics.spin.turn and tactics.spin.turn.actor == k:
+                event["spin_turn"] = tactics.spin.turn.describe()
+                tactics.spin.turn = None
             events.append(event)
             kick_trace.start(event, launch, events)
         for sample in backend.last_substep_worlds:

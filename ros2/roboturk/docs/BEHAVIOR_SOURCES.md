@@ -1,5 +1,10 @@
 # Behavior ideas and their provenance
 
+[Reverse-spin passes and shots](../media/spin-release/README.md) adapt
+CMDragons' dribbler-controlled turning kick and short-or-long turn selection.
+[2015 ETDP, §4](https://www.cs.cmu.edu/~coral/cmdragons/multimedia/cmdragons2015_etdp.pdf) ·
+[2016 coordination paper, §4.1](https://www.cs.cmu.edu/~mmv/papers/16aaai-cmdragons.pdf)
+
 November 20 update: the [new TDP study and trained skill pack](TDP_SKILL_PACK.md)
 adds CMDragons 2016 coordination, Thai Skuba 2013 play/role/skill decomposition and
 TIGERs 2025 stop/redirect contracts. Receive-stop 197/200, redirect 200/200, and defensive

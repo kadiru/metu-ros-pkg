@@ -137,7 +137,13 @@ def action_events(events, keys):
             yield [tick, "", kind, keys[event["actor"]][0], event]
             continue
         details = [event] if "origin" in event else []
-        if kind == "pass" and event.get("elevation", 0) > 0:
+        if event.get("spin_turn") and kind in ("pass", "shot"):
+            actor = event["actor"]
+            move = "Reverse spin" if event["spin_turn"]["reverse"] else "Spin"
+            action = f"pass to {name(event['receiver'])}" if kind == "pass" else "shot"
+            label = f"{name(actor)} · {move.lower()} {action} · {event['speed']:.1f} m/s"
+            yield [tick, label, kind, keys[actor][0], *details]
+        elif kind == "pass" and event.get("elevation", 0) > 0:
             actor, receiver = event["actor"], event["receiver"]
             label = f"{name(actor)} chips to {name(receiver)} · {event['speed']:.1f} m/s"
             yield [tick, label, "chip", keys[actor][0], *details]

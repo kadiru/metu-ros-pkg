@@ -31,6 +31,7 @@ const roleTasks = {
   Presser: "Close down the opposing ball carrier.",
   Carrier: "Control the ball and advance the attack.",
   Receiver: "Move into the passing lane and bring the pass under control.",
+  "Spin outlet": "Hold the outlet for the spin pass.",
   "Left wing": "Offer an outlet on the left side of the attack.",
   "Right wing": "Offer an outlet on the right side of the attack.",
   Anchor: "Hold a deeper support position behind the ball.",
@@ -57,7 +58,7 @@ const motionNames = {
 };
 const roleColors = {
   Keeper: "#b4b6f1", Chaser: "#84dec5", Presser: "#ffae94",
-  Carrier: "#ace38c", Receiver: "#86d4fa", "Left wing": "#8cb0ff", "Right wing": "#b7a3f4",
+  Carrier: "#ace38c", Receiver: "#86d4fa", "Spin outlet": "#86d4fa", "Left wing": "#8cb0ff", "Right wing": "#b7a3f4",
   Anchor: "#c1d69f", Marker: "#efbf87", Screen: "#ebd18f", Cover: "#edb1a0",
   "Guard box": "#d0a9cf", "Block outlet": "#d9b29b", Contain: "#f8a19e", Outlet: "#97dfb2",
   kickoff: "#b8c7d5", Kickoff: "#9ec5e9", "Stand clear": "#9daebc",
@@ -271,6 +272,10 @@ function robotTask(frame, robot) {
   const audit = frame.allocation?.[robot];
   const role = frame.roles[robot];
   if (audit && !audit.command) return "Hold for the referee.";
+  if (audit?.spin_turn && audit.command?.[4] > 0) {
+    const action = audit.pass_to != null ? `pass to ${robotName(audit.pass_to)}` : "shot at goal";
+    return `${audit.spin_turn.reverse ? "Reverse spin" : "Spin"} ${action}.`;
+  }
   if (audit?.pass_to != null) {
     return `${audit.kick_elevation > 0 ? "Chip" : "Pass"} to ${robotName(audit.pass_to)}.`;
   }
@@ -313,6 +318,7 @@ function explain(frame, role, audit) {
   const team = teams[keys[selected][0]].label;
   if (audit?.basis === "keeper" || role === "Keeper") return "Robot 0 is the designated goalkeeper.";
   if (audit?.basis === "receiver" || role === "Receiver") return "This robot is the intended receiver. The allocator reserves it for the pass.";
+  if (role === "Spin outlet") return "The carrier has selected this robot for the spin pass.";
   if (audit?.basis === "carrier" || role === "Carrier") return "This robot has confirmed possession and is assigned to carry the attack.";
   if (audit?.basis === "contain" || role === "Contain") return "The robots shared a grip on the ball. This field player was assigned to drop goal-side.";
   if (audit?.basis === "roster_cost") {
@@ -715,7 +721,11 @@ function drawOverlays(frame, points) {
       ctx.fillStyle = color;
       ctx.fillText(`${result.speed.toFixed(2)} m/s`, x + dx, y - 7);
     }
-    let detail = `${robotName(launch.actor)} ${lofted ? "chip" : launch.kind === "shot" ? "shot" : "kick"} · ${launch.speed.toFixed(1)} m/s launch`;
+    const turn = launch.spin_turn;
+    const action = lofted ? "chip" : launch.kind === "shot" ? "shot" : turn ? "pass" : "kick";
+    const spin = turn ? `${turn.reverse ? "reverse " : ""}spin ` : "";
+    let detail = `${robotName(launch.actor)} ${spin}${action} · ${launch.speed.toFixed(1)} m/s launch`;
+    if (turn) detail += ` · ${turn.degrees.toFixed(0)}° ${turn.direction}`;
     if (goal || result?.outcome === "wide") detail += ` · ${result.speed.toFixed(2)} m/s at goal line · ${Math.abs(result.point[1]).toFixed(2)} m from center · ${result.point[2].toFixed(2)} m high${goal ? "" : " · wide"}`;
     else if (lofted && result) detail += ` · ${result.peak_z.toFixed(2)} m peak`;
     descriptions.push(detail);

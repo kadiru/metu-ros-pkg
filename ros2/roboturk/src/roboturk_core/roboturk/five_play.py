@@ -2,14 +2,15 @@
 
 from dataclasses import replace
 import math
+from .carpet import SWITCH_RATIO, ground_step
 from .carrier_motor import track_roller
 from .chip import chip_pass
-from .counterpass import MOTOR, shot_window
+from .counterpass import MOTOR, clearance, shot_window
 from .five_receive import carrying
 from .five_roles import CFG, PENALTY_FRONT, PENALTY_HALF_WIDTH, TIMED_ROLES, Flight, limit
 from .five_strategy import BALANCED
 from .goal_cover import opposing_holder
-from .model import possession, unit, wrap
+from .model import Command, possession, unit, wrap
 from .open_motion import steer_team
 from .pivot_fetch import PivotFetch
 from .tackle_selector import CONTAIN, TackleSelector
@@ -18,6 +19,69 @@ from .three_match import filter_commands
 from .timed_motion import QUALIFIED_PACE, inside, plan_team
 from .touchline import recovery_command
 from .three_recipient import features, move
+
+
+def pass_target(mate):
+    return limit(mate.x + 0.16 * mate.vx, 4.22), limit(mate.y + 0.16 * mate.vy, 2.68)
+
+
+def pass_speed(ball, target, receive):
+    distance = math.hypot(target[0] - ball.x, target[1] - ball.y)
+    return min(2.6, 1.70 + 0.23 * distance) if receive else 2.6
+
+
+def turn_release(
+    world, r, spin, target, receiver, cfg, observed, margin, receive, shot_speed, can_kick
+):
+    ball = world.ball
+    turn = spin.turn
+    if turn:
+        receiver = turn.receiver
+        target = turn.target
+    if target is None:
+        return None
+    kick = pass_speed(ball, target, receive) if receiver else shot_speed
+    kick = min(kick, cfg.max_kick)
+    distance = math.dist((ball.x, ball.y), target)
+    others = [
+        replace(q, vx=observed.get(q.key, (0, 0))[0], vy=observed.get(q.key, (0, 0))[1])
+        for q in world.robots
+        if q.visible and q.key not in (r.key, receiver)
+    ]
+    clear_lane = (
+        clearance(ball.x, ball.y, *target, others, kick)
+        >= cfg.robot_radius + cfg.ball_radius + 0.028
+        and ground_step(kick, SWITCH_RATIO * kick, 60.0)[0] >= distance + 0.04
+    )
+    if receiver:
+        clear_lane = (
+            clear_lane and world.robot(receiver).visible and inside(target) and 0.7 < distance < 4.1
+        )
+    if turn is None:
+        if not clear_lane:
+            return None
+        turn = spin.start(world, r, target, receiver, cfg, observed, margin)
+        if turn is None:
+            return None
+    control = spin.step(world, r, target, cfg, observed, margin) if clear_lane else None
+    if control is None:
+        spin.turn = None
+        return Command(dribbler=1), None, "Hold the ball after a blocked turn"
+    cmd, ready = control
+    if receiver and math.dist((world.robot(receiver).x, world.robot(receiver).y), target) > 0.34:
+        ready = False
+    direction = "left" if turn.sweep > 0 else "right"
+    if not ready or not can_kick:
+        description = f"Turn {direction} for a {'pass' if receiver else 'shot'}"
+        if turn.reverse:
+            description = f"Reverse turn {direction} for a {'pass' if receiver else 'shot'}"
+        return cmd, None, description
+    flight = (
+        Flight(r.key.team, receiver, target, world.time + (2.15 if receive else 1.65))
+        if receiver
+        else None
+    )
+    return replace(cmd, kick=kick), flight, "Spin pass" if receiver else "Spin shot"
 
 
 def commands(
@@ -33,6 +97,9 @@ def commands(
     strategies=None,
     practice_motion=None,
     chip_motion=None,
+    spin_motion=None,
+    observed=None,
+    spin_clearance=0.31,
 ):
     ball = world.ball
     out = {}
@@ -44,6 +111,11 @@ def commands(
         role = positions[r.key].role
         tx, ty = positions[r.key].target
         angle = math.atan2(ball.y - r.y, ball.x - r.x)
+        if role == "Spin outlet":
+            out[r.key] = move(r, tx, ty, angle, speed=0.85)
+            if tasks is not None:
+                tasks[r.key] = "Hold the outlet for the spin pass"
+            continue
         if receive and role == "Receiver" and tactics.flight and tactics.flight.receiver == r.key:
             if ball.z > CFG.ball_radius + 0.035:
                 x, y = tactics.flight.target
@@ -86,13 +158,35 @@ def commands(
                 and strategy.pass_is_available(role == "Keeper", pressure, sign * (mate.x - r.x))
             )
             if pass_now:
-                gx = limit(mate.x + 0.16 * mate.vx, 4.22)
-                gy = limit(mate.y + 0.16 * mate.vy, 2.68)
+                gx, gy = pass_target(mate)
             chip = (
                 chip_pass(world, r.key, mate.key, (gx, gy), chip_motion[team])
                 if chip_motion and pass_now and inside((gx, gy))
                 else None
             )
+            if spin_motion and not tactics.flight:
+                target = (gx, gy) if (shoot or pass_now) and not chip else None
+                outcome = turn_release(
+                    world,
+                    r,
+                    tactics.spin,
+                    target,
+                    mate.key if pass_now else None,
+                    spin_motion[team],
+                    observed or {},
+                    spin_clearance,
+                    receive,
+                    motion.max_kick if motion else 4.0,
+                    tactics.control == r.key,
+                )
+                if outcome:
+                    cmd, flight, task = outcome
+                    out[r.key] = cmd
+                    if flight:
+                        passes[r.key] = flight
+                    if tasks is not None:
+                        tasks[r.key] = task
+                    continue
             aim = math.atan2(gy - ball.y, gx - ball.x)
             advance = 0.22 if pass_now else 1.0
             if smooth_carry and shoot:
@@ -119,10 +213,7 @@ def commands(
                 and abs(wrap(aim - r.yaw)) < tolerance
                 and (shoot or pass_now)
             ):
-                kick = 2.6 if pass_now else 4.0
-                if receive and pass_now:
-                    # Preserve range on long links and deliver a slower ball on short passes.
-                    kick = min(2.6, 1.70 + 0.23 * math.hypot(gx - ball.x, gy - ball.y))
+                kick = pass_speed(ball, (gx, gy), receive) if pass_now else 4.0
                 if shoot and motion:
                     kick = motion.max_kick
                 cmd = (
@@ -262,6 +353,7 @@ def open_play(
     motion_configs=None,
     practice_pace=False,
     chip_passes=False,
+    spin_releases=False,
 ):
     """One open-play control tick shared by ordinary matches and paired replays."""
     carrier = None
@@ -283,6 +375,8 @@ def open_play(
             None,
         )
     sole = tactics.observe(world, tackling=tackling)
+    if not spin_releases:
+        tactics.spin.turn = None
     roles, phases = {}, {}
     for team in ("blue", "yellow"):
         phases[team], side = tactics.assign(
@@ -294,6 +388,7 @@ def open_play(
         )
         roles.update(side)
     targets = {} if trajectory else None
+    spin_margin = max(0.24, policy.clearance + 0.009) if policy else 0.31
     out, planned = commands(
         world,
         roles,
@@ -307,6 +402,9 @@ def open_play(
         strategies,
         motion_configs if practice_pace else None,
         motion_configs if chip_passes else None,
+        (motion_configs or dict.fromkeys(phases, CFG)) if spin_releases else None,
+        measured,
+        spin_margin,
     )
     recovering = set()
     if touchline:
@@ -318,6 +416,8 @@ def open_play(
                 recovering.add(r.key)
                 out[r.key] = command
                 planned.pop(r.key, None)
+                if tactics.spin.turn and tactics.spin.turn.actor == r.key:
+                    tactics.spin.turn = None
                 if task_audit is not None:
                     task_audit[r.key] = "Recover along the touchline"
     if policy:
@@ -438,6 +538,7 @@ def open_play(
                 fetching=fetching,
                 cfg=motion,
                 expand_pace=practice_pace,
+                turning=(tactics.spin.turn.actor,) if tactics.spin.turn else (),
             )
             if trajectory:
                 steered = plan_team(
@@ -457,5 +558,15 @@ def open_play(
                 )
             out.update(steered)
     else:
+        raw = out
         out, _ = filter_commands(world, out, recovering)
+    if tactics.spin.turn:
+        key = tactics.spin.turn.actor
+        requested, sent = raw[key], out[key]
+        if math.hypot(requested.vx - sent.vx, requested.vy - sent.vy) > 0.13:
+            tactics.spin.turn = None
+            out[key] = replace(sent, kick=0, omega=0)
+            planned.pop(key, None)
+            if task_audit is not None:
+                task_audit[key] = "Brake for clearance"
     return out, planned, roles, phases

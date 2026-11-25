@@ -10,6 +10,12 @@ Set each team's playbook in Practice and tune the shared motion limits from the 
 
 [![RoboTurk Practice viewer showing the four shared sliders in the top bar](media/match-viewer/preview.png)](media/match-viewer/README.md)
 
+## Reverse-spin passes and shots
+
+B1 keeps the ball on the dribbler, takes the longer turn away from a defender, then passes to B4 or shoots. [Native Webots tests and both replays](media/spin-release/README.md)
+
+[![B1 reverse-turns and scores in Webots](media/spin-release/reverse-spin-shot.gif)](media/spin-release/README.md)
+
 ## Softer first touches in 5v5
 
 The fitted receiver secured 30 of 30 fresh passes in the matched Webots panel. The previous receiver secured 18. Both colors have clear heading stripes, and the damped carry motor reduces steering oscillation. [One-minute match, paired replay, and results](media/five-receive/README.md)

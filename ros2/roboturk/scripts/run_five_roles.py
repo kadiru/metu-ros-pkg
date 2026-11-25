@@ -90,6 +90,12 @@ def main():
     p.add_argument("--receive-profile", type=Path, help="Fitted 5v5 first-touch profile")
     p.add_argument("--smooth-carry", action="store_true", help="Use the damped 5v5 dribble motor")
     p.add_argument(
+        "--spin-releases",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Allow controlled spin passes and shots in open play",
+    )
+    p.add_argument(
         "--crowded-fetch", action="store_true", help="Use a close approach for crowded loose balls"
     )
     p.add_argument(
@@ -431,6 +437,7 @@ def main():
                 if a.receive_profile
                 else None,
                 smooth_carry=a.smooth_carry,
+                spin_releases=a.spin_releases,
                 tackle_trials=a.tackle_trials,
                 tackle_duel=a.tackle_duel,
                 pivot_fetch=a.pivot_fetch,

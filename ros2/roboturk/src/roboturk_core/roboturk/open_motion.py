@@ -67,6 +67,7 @@ def steer_team(
     fetching=(),
     cfg=CFG,
     expand_pace=False,
+    turning=(),
 ):
     """Translate this team's requests using only measured motion of surrounding players."""
     own = [r for r in robots if r.key.team == team]
@@ -87,6 +88,8 @@ def steer_team(
         scale = (
             cfg.max_speed / max(cfg.max_speed, math.hypot(cmd.vx, cmd.vy))
             if expand_pace
+            else speed / max(speed, math.hypot(cmd.vx, cmd.vy))
+            if r.key in turning
             else group_scale
         )
         x, y = world_vector(cmd.vx * scale, cmd.vy * scale, r.yaw)
@@ -103,8 +106,11 @@ def steer_team(
                 or (fetch and math.hypot(*observed[q.key]) <= 0.45)
                 else policy.clearance,
                 min(policy.horizon, 0.20)
-                if yielding is not None
-                and (q.key == yielding or (carrier is not None and q.key == carrier.key))
+                if r.key in turning
+                or (
+                    yielding is not None
+                    and (q.key == yielding or (carrier is not None and q.key == carrier.key))
+                )
                 else policy.horizon,
             )
             for q in robots

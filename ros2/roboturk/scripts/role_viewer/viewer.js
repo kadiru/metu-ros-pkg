@@ -11,6 +11,7 @@ const canvas = byId("pitch");
 const ctx = canvas.getContext("2d");
 const scrub = byId("scrub");
 const playButton = byId("play");
+const playbackRateSelect = byId("playback-rate");
 const previousButton = byId("prev");
 const nextButton = byId("next");
 const liveButton = byId("go-live");
@@ -88,6 +89,7 @@ let solo = false;
 let eventWindowStart = null;
 let eventStamp = "";
 let playing = false;
+let playbackRate = Number(playbackRateSelect.value);
 let playbackStart = 0;
 let animationStart = 0;
 let animationFrame = 0;
@@ -598,6 +600,7 @@ function render() {
   updateLimitControls();
   const frame = frames[frameIndex];
   playButton.disabled = !frame || (livePage && following && !finished);
+  playbackRateSelect.disabled = playButton.disabled;
   scrub.disabled = !frame;
   previousButton.disabled = nextButton.disabled = !frame;
   if (!frame) {
@@ -848,11 +851,15 @@ function pause() {
   playButton.textContent = "Play";
 }
 
+function playbackTime(now) {
+  return playbackStart + (now - animationStart) * playbackRate / 1000;
+}
+
 function animate(now) {
   if (!playing) return;
-  const realTime = playbackStart + (now - animationStart) / 1000;
+  const replayPosition = playbackTime(now);
   let next = frameIndex;
-  while (next + 1 < frames.length && frames[next + 1].t <= realTime) next += 1;
+  while (next + 1 < frames.length && frames[next + 1].t <= replayPosition) next += 1;
   if (next !== frameIndex) goTo(next);
   if (next >= frames.length - 1) pause();
   else animationFrame = window.requestAnimationFrame(animate);
@@ -867,6 +874,23 @@ playButton.addEventListener("click", () => {
   animationStart = performance.now();
   playButton.textContent = "Pause";
   animationFrame = window.requestAnimationFrame(animate);
+});
+
+playbackRateSelect.addEventListener("change", () => {
+  if (playing) {
+    const now = performance.now();
+    playbackStart = playbackTime(now);
+    animationStart = now;
+  }
+  playbackRate = Number(playbackRateSelect.value);
+});
+
+const fieldInfo = byId("field-info");
+document.addEventListener("click", (event) => {
+  if (fieldInfo.open && !fieldInfo.contains(event.target)) fieldInfo.open = false;
+});
+fieldInfo.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") fieldInfo.open = false;
 });
 
 scrub.addEventListener("input", () => seek(Number(scrub.value)));

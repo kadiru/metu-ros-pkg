@@ -17,6 +17,7 @@ const nextButton = byId("next");
 const liveButton = byId("go-live");
 const eventScroll = byId("event-scroll");
 const eventTrack = byId("event-track");
+const robotSelect = byId("robot-select");
 const roleWindowSelect = byId("role-window");
 const motionSettings = byId("motion-settings");
 const teams = {
@@ -202,10 +203,16 @@ function filterButton(parent, label, name, callback) {
 
 function initializeTeams() {
   const groups = {};
+  const robotOptions = {};
+  robotSelect.replaceChildren();
   for (const [team, { label }] of Object.entries(teams)) {
     const group = document.createElement("div");
     group.className = `filter-group ${team}`;
     groups[team] = group;
+    const options = document.createElement("optgroup");
+    options.label = label;
+    robotOptions[team] = options;
+    robotSelect.append(options);
     const plan = byId(`${team}-plan`);
     plan.append(byId("team-plan-template").content.cloneNode(true));
     teamPlans[team] = {
@@ -232,6 +239,7 @@ function initializeTeams() {
     });
   }
   keys.forEach(([team, number], robot) => {
+    robotOptions[team].append(new Option(robotName(robot), String(robot)));
     histories.push([]);
     robotEnabled.push(true);
     lineup.push(makeRosterButton(team, number, robot));
@@ -245,6 +253,7 @@ function initializeTeams() {
       render();
     }));
   });
+  robotSelect.disabled = !keys.length;
 }
 
 function isVisible(robot) {
@@ -375,8 +384,8 @@ function updateHistory(now) {
     chip.style.setProperty("--role-color", roleColor(role));
     chip.title = `${roleName(role)} · ${replayTime(frames[tick].t)}`;
     chip.setAttribute("aria-label", chip.title);
-    if (length >= 12) chip.textContent = roleName(role);
     if (index === current) chip.setAttribute("aria-current", "true");
+    else if (length >= 12) chip.textContent = roleName(role);
     chip.addEventListener("click", () => seek(tick));
     segments.append(chip);
   }
@@ -385,7 +394,7 @@ function updateHistory(now) {
   const recent = history.slice(first, current + 1);
   const changeCount = recent
     .filter(({ tick, previous }) => previous !== null && frames[tick].t >= start).length;
-  byId("role-duration").textContent = `${roleName(history[current].role)} for ${elapsed.toFixed(1)} s`;
+  byId("role-duration").textContent = `${elapsed.toFixed(1)} s`;
   byId("role-change-count").textContent = changeCount;
   const list = byId("role-changes");
   const listStamp = `${selected}/${first}/${current}`;
@@ -393,11 +402,12 @@ function updateHistory(now) {
   const scrollTop = list.dataset.robot === String(selected) ? list.scrollTop : 0;
   list.dataset.stamp = listStamp;
   list.dataset.robot = selected;
+  recent.pop();  // The current role has its own card above the history.
+  list.hidden = !recent.length;
   list.replaceChildren(...recent.reverse().map(({ tick, role }) => {
     const button = document.createElement("button");
     button.type = "button";
     button.style.setProperty("--role-color", roleColor(role));
-    if (tick === history[current].tick) button.setAttribute("aria-current", "true");
     const time = document.createElement("time");
     time.textContent = replayTime(frames[tick].t);
     const label = document.createElement("strong");
@@ -475,16 +485,21 @@ function updateGauges(audit) {
   const direction = Math.atan2(-forward, -lateral);
   const needle = byId("vector-needle");
   needle.hidden = requested < .01;
-  needle.style.setProperty("--length", `${14 * Math.min(requested / maxSpeed, 1)}px`);
+  needle.style.setProperty("--length", `${9 * Math.min(requested / maxSpeed, 1)}px`);
   needle.style.setProperty("--angle", `${direction}rad`);
-  byId("speed-label").textContent = measured == null ? "Speed command" : "Travel speed";
+  const speedLabel = byId("speed-label");
+  speedLabel.textContent = measured == null ? "Drive" : "Travel";
+  speedLabel.title = measured == null ? "Drive speed command" : "Measured travel speed";
   byId("speed").textContent = `${(measured ?? requested).toFixed(2)} m/s`;
   const translation = byId("translation");
   translation.title = `Drive command ${requested.toFixed(2)} m/s`;
   translation.setAttribute("aria-label",
     `Commanded velocity, ${forward.toFixed(2)} forward and ${lateral.toFixed(2)} left, in meters per second`);
-  const turnLabel = `${turn > .005 ? "Left " : turn < -.005 ? "Right " : ""}${Math.abs(turn).toFixed(2)} rad/s`;
-  byId("turn").textContent = turnLabel;
+  const turnValue = `${Math.abs(turn).toFixed(2)} rad/s`;
+  const turnLabel = `${turn > .005 ? "Left " : turn < -.005 ? "Right " : ""}${turnValue}`;
+  const turnReadout = byId("turn");
+  turnReadout.textContent = `${turn > .005 ? "↶ " : turn < -.005 ? "↷ " : ""}${turnValue}`;
+  turnReadout.title = turnLabel;
   byId("rotation").setAttribute("aria-label", `Commanded rotation ${turnLabel}`);
   const shift = -50 * Math.max(-1, Math.min(turn / maxTurn, 1));
   byId("yaw-fill").style.setProperty("--start", `${50 + Math.min(0, shift)}%`);
@@ -568,18 +583,13 @@ function updateInspector(frame) {
   const role = frame.roles[selected];
   const audit = frame.allocation?.[selected];
   const command = audit?.command;
-  const last = histories[selected][historyIndex(selected)].previous;
-  const jersey = byId("jersey");
-  const previous = byId("previous");
-  const current = byId("role");
-  jersey.className = `jersey ${keys[selected][0]}`;
-  jersey.textContent = robotName(selected);
-  jersey.hidden = false;
-  current.textContent = roleName(role);
-  previous.textContent = last === null ? "—" : roleName(last);
+  if (robotSelect.value !== String(selected)) robotSelect.value = selected;
+  const team = keys[selected][0];
+  if (!robotSelect.classList.contains(team)) robotSelect.className = `robot-picker ${team}`;
+  const current = byId("current-role-card");
+  current.hidden = false;
   current.style.setProperty("--role-color", roleColor(role));
-  byId("role-transition").setAttribute("aria-label",
-    `${jersey.textContent}. Previous role ${last === null ? "unassigned" : roleName(last)}. Current role ${roleName(role)}.`);
+  byId("role").textContent = roleName(role);
   const assignment = explain(frame, role, audit);
   const reason = byId("reason");
   reason.textContent = audit?.decision ? `${assignment} ${audit.decision}` : assignment;
@@ -912,6 +922,7 @@ for (const disclosure of [byId("field-info"), motionSettings]) {
 }
 
 scrub.addEventListener("input", () => seek(Number(scrub.value)));
+robotSelect.addEventListener("change", () => choose(Number(robotSelect.value)));
 roleWindowSelect.addEventListener("change", () => {
   if (frames[frameIndex]) updateHistory(frames[frameIndex].t);
 });

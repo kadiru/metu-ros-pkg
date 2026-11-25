@@ -46,13 +46,12 @@ def place_ball(backend, target):
     backend.ball.resetPhysics()
 
 
-def paint_goals(field, sign):
-    colors = ((0.07, 0.23, 1), (1, 0.8, 0.03))
+def mark_goal_teams(field, sign):
+    colors = ((0.07, 0.26, 1), (1, 0.79, 0.05))
     if sign < 0:
         colors = colors[::-1]
     for side, color in zip(("left", "right"), colors, strict=True):
-        for part in ("Wall", "Inner"):
-            field.getField(f"{side}Goal{part}Color").setSFColor(list(color))
+        field.getField(f"{side}GoalMarkerColor").setSFColor(list(color))
 
 
 def hud(sim, w, keys, roles, phases, score, seconds):
@@ -101,7 +100,7 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
     kickoff_kick = None
     placed = None
     goal_field = sim.getFromDef("FIELD")
-    painted_sign = None
+    marked_sign = None
     if drive:
         # The league table starts Blue on the negative half and alternates first service.
         w = backend.reset(kickoff(seed + 101, TEAMS[seed % 2], 1, referee_placement=referee_places))
@@ -301,9 +300,9 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                 )
                 print(f"Referee {state.command or 'NO SIGNAL'} -> {state.mode.value}", flush=True)
                 previous_referee = referee_key
-        if sign != painted_sign:
-            paint_goals(goal_field, sign)
-            painted_sign = sign
+        if sign != marked_sign:
+            mark_goal_teams(goal_field, sign)
+            marked_sign = sign
         if referee_places and state.placement_target is not None:
             spot = state.placement_target
             award = (state.source, state.counter, spot)

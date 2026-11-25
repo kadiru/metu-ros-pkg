@@ -26,13 +26,13 @@ WorldInfo {
 }
 DEF CAMERA Viewpoint { orientation -0.577350269 0.577350269 0.577350269 2.094395102 position 0 0 16.5 }
 Background { skyColor [ 0.08 0.1 0.14 ] }
-DirectionalLight { direction -0.2 -0.3 -1 intensity 1 }
-DEF FIELD SslDivisionBField {
-  leftGoalWallColor 0.07 0.23 1
-  leftGoalInnerColor 0.07 0.23 1
-  rightGoalWallColor 1 0.8 0.03
-  rightGoalInnerColor 1 0.8 0.03
+DirectionalLight {
+  direction -0.35 -0.4 -1
+  intensity 0.92
+  ambientIntensity 0.26
+  castShadows TRUE
 }
+DEF FIELD SslDivisionBField { }
 DEF BALL SslBall { }
 DEF BLUE_0 SslRobot { name "BLUE_0" translation -4.18 0 0.075 color 0.05 0.25 0.95 }
 DEF BLUE_1 SslRobot { name "BLUE_1" translation -0.6 0 0.075 color 0.05 0.25 0.95 }

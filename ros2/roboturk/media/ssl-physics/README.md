@@ -31,7 +31,11 @@ A two-team probe measured Blue at 2.2 m/s, 6 rad/s, 3 m/s² for both acceleratio
 
 ## Division B geometry
 
+![Native Webots overhead view of the striped Division B carpet and marked goals](division-b-field.jpg)
+
 All 25 source worlds use one field PROTO. The generator and the SSL-Vision geometry packet share the nominal league dimensions. The native probe reads the collider faces on both goals, the carpet size and every straight painted marking, then checks them against the specification or the wire packet. A full-power ball crossed the goal line and hit the back of each goal. [Official field and goal drawings, sections 2.1.1–2.1.4](https://robocup-ssl.github.io/ssl-rules/sslrules.html#_field_setup) · [Generator](../../scripts/build_ssl_field.py)
+
+The rendered carpet has subtle alternating green bands, a darker runoff, and high-contrast white markings. The two goals have black exterior panels and white inner liners. Separate blue and yellow strips behind the boundary boards follow the defending team when ends switch. The carpet texture and team strips are visual surfaces. [Native goal close-up](division-b-goal.jpg)
 
 | Feature | Nominal simulated dimensions |
 | --- | --- |
@@ -40,7 +44,7 @@ All 25 source worlds use one field PROTO. The generator and the SSL-Vision geome
 | Goals | 1.00 m clear mouth, 0.18 m clear depth, 0.16 m height, 0.02 m wall thickness |
 | Goal mounting | Leading edge touches the outside edge of the 10 mm goal stripe. Side walls extend to the outside board. Black solids with white inside faces and low-rebound ball contact. |
 | Defense areas | 2.00 m wide and 1.00 m deep |
-| Markings | 10 mm lines, 0.50 m center-circle radius, halfway and goal-to-goal lines, penalty location 6.00 m from the target goal |
+| Markings | 10 mm lines, 0.50 m center-circle radius, halfway and goal-to-goal lines, and penalty marks 6.00 m from the target goal |
 
 ## Match and reproduction
 

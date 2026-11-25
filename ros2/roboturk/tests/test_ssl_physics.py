@@ -4,6 +4,7 @@ from dataclasses import asdict, replace
 import math
 from pathlib import Path
 import runpy
+from struct import unpack
 
 import pytest
 
@@ -67,7 +68,13 @@ def test_old_specialist_keeps_its_command_scale():
 
 def test_every_world_loads_the_pitch_advertised_on_ssl_vision():
     build = runpy.run_path(str(ROOT / "scripts/build_ssl_field.py"))
-    assert build["PROTO"].read_text() == build["field_proto"]()
+    proto = build["PROTO"].read_text()
+    assert proto == build["field_proto"]()
+    carpet = build["CARPET_TEXTURE"]
+    assert f'url [ "{carpet.name}" ]' in proto
+    header = carpet.read_bytes()[:24]
+    assert header[:8] == b"\x89PNG\r\n\x1a\n"
+    assert unpack(">II", header[16:]) == (2048, 1024)
     for p in (ROOT / "src/roboturk_ros/webots/worlds").glob("*.wbt"):
         s = p.read_text()
         assert "DEF FIELD SslDivisionBField {" in s and "basicTimeStep 2" in s, p

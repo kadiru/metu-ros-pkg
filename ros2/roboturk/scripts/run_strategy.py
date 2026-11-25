@@ -80,6 +80,7 @@ def main():
     sources = list((ROOT / "src/roboturk_core/roboturk").glob("*.py"))
     sources += list((ROOT / "src/roboturk_ros/webots/controllers/roboturk_strategy").glob("*.py"))
     sources += list((ROOT / "src/roboturk_ros/webots/protos").glob("*.proto"))
+    sources.append(ROOT / "src/roboturk_ros/webots/protos/division_b_carpet.png")
     sources += [Path(__file__).resolve(), ROOT / "src/roboturk_ros/webots/worlds/ssl_strategy.wbt"]
     receipt.parent.mkdir(parents=True, exist_ok=True)
     receipt.write_text(

@@ -107,6 +107,10 @@ def audit(sim, cfg):
         touch_margin = sign * touch[1] - touch_size[1] / 2 - geometry_mm.field_width / 2000
         measured = [mouth, depth, rear_size[2], rear_size[0], entry, end_margin, touch_margin]
         assert math.dist(measured, [1, 0.18, 0.16, 0.02, 4.505, 0.30, 0.30]) < 1e-6
+        penalty = field.getFromProtoDef(side + "_PENALTY_MARK").getPosition()
+        distance = geometry_mm.field_length / 2000 + sign * penalty[0]
+        assert abs(distance - geometry_mm.goal_center_to_penalty_mark / 1000) < 1e-6
+        assert abs(penalty[1]) < 1e-6
         ends[side] = dict(
             zip(
                 (

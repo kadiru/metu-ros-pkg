@@ -127,6 +127,7 @@ def main():
             ROOT / "src/roboturk_core/roboturk/lead_audit.py",
             ROOT / "src/roboturk_ros/webots/protos/SslBall.proto",
             ROOT / "src/roboturk_ros/webots/protos/SslDivisionBField.proto",
+            ROOT / "src/roboturk_ros/webots/protos/division_b_carpet.png",
             ROOT / "src/roboturk_ros/webots/protos/SslRobot.proto",
             ROOT / "src/roboturk_core/roboturk/recovery_attack.py",
             ROOT / "scripts/compare_lead_openings.py",

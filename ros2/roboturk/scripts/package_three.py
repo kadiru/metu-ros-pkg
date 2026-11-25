@@ -77,6 +77,7 @@ def freeze():
         ROOT / "src/roboturk_ros/webots/protos/SslRobot.proto",
         ROOT / "src/roboturk_ros/webots/protos/SslBall.proto",
         ROOT / "src/roboturk_ros/webots/protos/SslDivisionBField.proto",
+        ROOT / "src/roboturk_ros/webots/protos/division_b_carpet.png",
     ]
     dependencies.extend((ROOT / "src/roboturk_core/roboturk").glob("*.py"))
     motor = ROOT / "policies/strategy_self_play_v1/preparation/pass-motor-v5/policy.pt"

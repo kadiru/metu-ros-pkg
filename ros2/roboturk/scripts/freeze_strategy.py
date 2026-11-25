@@ -111,6 +111,7 @@ def freeze(pass_motor=None):
     files = list((ROOT / "src/roboturk_core/roboturk").glob("*.py"))
     files += list((ROOT / "src/roboturk_ros/webots/controllers/roboturk_strategy").glob("*.py"))
     files += list((ROOT / "src/roboturk_ros/webots/protos").glob("*.proto"))
+    files.append(ROOT / "src/roboturk_ros/webots/protos/division_b_carpet.png")
     files += [
         ROOT / "src/roboturk_ros/webots/worlds/ssl_strategy.wbt",
         ROOT / "requirements-macos-validation.txt",

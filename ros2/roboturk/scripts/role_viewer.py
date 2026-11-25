@@ -162,9 +162,18 @@ class SessionRequest(ViewerRequest):
         if len(parts) != 4 or parts[1] != "matches":
             self.send_error(404)
             return
-        session = self.sessions.sessions.get(parts[2])
+        match_id = parts[2]
+        session = self.sessions.sessions.get(match_id)
         if session is None:
-            self.send_error(404)
+            if parts[3] or len(match_id) != 12 or any(c not in "0123456789abcdef" for c in match_id):
+                self.send_error(404)
+                return
+            archived = self.sessions.root / match_id / "run"
+            if not (archived / "viewer.html").is_file():
+                self.send_error(404)
+                return
+            data = build_data(archived)
+            self.respond(page(dict(data, setup_url="/")).encode(), "text/html; charset=utf-8")
         elif parts[3] == "":
             html = page(
                 dict(

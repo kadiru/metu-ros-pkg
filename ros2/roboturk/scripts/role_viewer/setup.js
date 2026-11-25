@@ -99,3 +99,5 @@ form.addEventListener("submit", async (event) => {
 });
 
 updateMode();
+byId("setup-offline").hidden = true;
+byId("setup-app").hidden = false;

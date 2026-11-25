@@ -12,6 +12,8 @@ python scripts/role_viewer.py --setup media/match-viewer/match-spec.json runs/vi
 
 Open [the local setup page](http://127.0.0.1:8765/). Use **Match timing** to choose one period or two halves and set the playing time per period before launch. Both modes use the SSL Game Controller and TIGERs AutoRef for 5v5 Webots play. The session saves a replay under its `run/viewer.html` path. Use `--port` to pick a different port and Ctrl-C to stop the service. Set `"realtime": true` in the preset to also show the native Webots window.
 
+Open setup at the address printed by the viewer service. The `scripts/role_viewer/setup.html` template offers a link to the default live address when opened from disk. Saved match URLs under the same session directory reopen as replays after a service restart.
+
 | Mode | Match setup |
 | --- | --- |
 | Practice | Choose each team's decision controller, playbook, and passing preference. The four top-bar sliders control all ten robots. |

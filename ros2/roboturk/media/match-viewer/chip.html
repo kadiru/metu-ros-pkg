@@ -96,22 +96,15 @@ button.primary:hover { background: #c1eed3; }
 #go-live { margin-left: auto; }
 .inspector { display: flex; flex-direction: column; padding: 0 15px 9px; min-width: 0; min-height: 0; contain: size; overflow-y: auto; }
 .inspector > :not(.role-history) { flex-shrink: 0; }
-.inspect-heading { padding: 10px 0; }
-.jersey { display: inline-block; font-size: 12px; font-weight: 700; color: var(--team); background: color-mix(in srgb, var(--team) 13%, transparent); padding: 4px 8px; border-radius: 5px; }
-.robot-overview { display: grid; grid-template-columns: minmax(0, 1fr) clamp(146px, 47%, 174px); gap: 9px; margin-bottom: 11px; }
-.role-pair { display: grid; grid-template-rows: 1fr 1fr; gap: 7px; }
-.role-card { min-width: 0; display: grid; align-content: center; gap: 4px; border: 1px solid var(--line); border-radius: 7px; padding: 8px 10px; background: var(--panel2); }
-.role-card strong { font-size: clamp(14px, 1.7vw, 18px); line-height: 1.1; letter-spacing: -.025em; overflow-wrap: anywhere; }
-.active-role { color: var(--role-color); background: color-mix(in srgb, var(--role-color) 18%, var(--panel)); border-color: color-mix(in srgb, var(--role-color) 40%, var(--line)); }
-.prior-role { border-left: 2px solid color-mix(in srgb, var(--role-color) 60%, var(--line)); }
-.prior-role strong { color: var(--muted); }
-.inspector-section { border-top: 1px solid var(--line); padding: 11px 0; }
-.inspector-section p { font-size: 13px; line-height: 1.42; }
-.inspector-section p.target { color: var(--muted); font-size: 12px; margin-top: 4px; }
-.costs { display: flex; flex-wrap: wrap; gap: 6px 12px; margin: 8px 0 0; font-variant-numeric: tabular-nums; }
-.costs div { display: grid; gap: 2px; }
-.costs dt { font-size: 11px; color: var(--muted); }
-.costs dd { margin: 0; font-size: 13px; font-weight: 650; }
+.role-transition { display: flex; align-items: center; gap: 7px; min-height: 45px; font-size: 13px; white-space: nowrap; }
+.jersey { flex: none; font-size: 12px; font-weight: 700; color: var(--team); background: color-mix(in srgb, var(--team) 13%, transparent); padding: 4px 8px; border-radius: 5px; }
+.previous-role, .role-arrow { color: var(--muted); }
+.previous-role, .current-role { overflow: hidden; text-overflow: ellipsis; }
+.current-role { color: var(--role-color); background: color-mix(in srgb, var(--role-color) 13%, var(--panel)); padding: 4px 7px; border-radius: 5px; }
+.role-summary { display: grid; gap: 6px; padding: 7px 0; border-top: 1px solid var(--line); }
+.role-note { display: grid; grid-template-columns: 70px minmax(0, 1fr); align-items: baseline; gap: 8px; }
+.role-note h3 { font-size: 11px; margin: 0; }
+.role-note p { font-size: 12px; line-height: 1.35; min-height: 2lh; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
 .team-plan { padding: 0 10px 9px; }
 .plan-chain { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin: 0; padding: 0; list-style: none; }
 .plan-chain li { position: relative; display: grid; align-content: start; gap: 4px; padding: 6px; color: var(--muted); background: #111e29; border: 1px solid var(--line); border-radius: 6px; font-size: 10px; line-height: 1.25; }
@@ -120,26 +113,16 @@ button.primary:hover { background: #c1eed3; }
 .plan-chain li > span, .plan-chain small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .plan-chain strong { block-size: 2lh; font-size: 12px; color: var(--text); }
 .plan-chain small { block-size: 1lh; font-size: 10px; }
-.motion-card { aspect-ratio: 1; width: 100%; min-width: 0; min-height: 0; align-self: start; display: flex; flex-direction: column; padding: 6px 8px; background: #121c25; border: 1px solid var(--line); border-radius: 8px; font-variant-numeric: tabular-nums; }
-.motion-card h3 { color: var(--text); margin-bottom: 3px; }
-.motion-card strong { color: var(--text); font-size: 12px; white-space: nowrap; }
-#command-unavailable { margin: auto 0; color: var(--muted); font-size: 11px; }
-#command-details { display: grid; grid-template-rows: auto 6px auto minmax(0, 1fr) auto; gap: 2px; flex: 1; min-width: 0; }
-.turn-heading, .motion-foot { color: var(--muted); font-size: 10px; line-height: 1.15; }
-.turn-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 3px; }
-.turn-heading strong { font-size: 11px; }
-.motion-foot { display: grid; grid-template-columns: 1fr auto; gap: 1px 4px; }
-#kick-command { grid-column: 1 / -1; color: var(--text); }
-.translation-row { display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: center; gap: 5px; }
-.speed-readout { display: grid; gap: 2px; color: var(--muted); font-size: 10px; line-height: 1.15; }
-#measured-speed { display: grid; margin-top: 2px; }
-#measured-value { white-space: nowrap; }
-.vector-gauge { position: relative; width: 64px; height: 55px; display: grid; place-items: end center; }
-.vector-gauge > span { position: absolute; color: var(--muted); font-size: 9px; }
-.forward-axis { top: 0; }
-.left-axis { left: 0; top: 30px; }
-.right-axis { right: 0; top: 30px; }
-.vector-dial { width: 46px; height: 46px; border-radius: 50%; border: 1px solid #637684; position: relative; background: repeating-radial-gradient(circle, transparent 0 9px, #293d49 10px 11px, transparent 12px 22px); }
+.motion-band { display: grid; min-height: 50px; align-content: center; margin: 2px 0 9px; padding: 5px 8px; background: #121c25; border: 1px solid var(--line); border-radius: 7px; font-variant-numeric: tabular-nums; }
+.motion-band strong { font-size: 12px; white-space: nowrap; }
+#command-unavailable { color: var(--muted); font-size: 11px; }
+#command-details { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 9px; align-items: center; }
+.translation-row { display: flex; align-items: center; gap: 7px; }
+.speed-readout, .turn-readout { display: grid; gap: 2px; line-height: 1.2; }
+.motion-band .label { font-size: 10px; }
+.turn-readout { border-left: 1px solid var(--line); padding-left: 8px; }
+.vector-dial { flex: 0 0 34px; height: 34px; border-radius: 50%; border: 1px solid #637684; position: relative; background: repeating-radial-gradient(circle, transparent 0 6px, #293d49 7px 8px, transparent 9px 16px); }
+.vector-dial > span { position: absolute; inset: 0 0 auto; z-index: 1; text-align: center; color: var(--muted); font-size: 7px; }
 .vector-dial::before, .vector-dial::after { content: ""; position: absolute; background: #3c5260; left: 50%; top: 50%; transform: translate(-50%, -50%); }
 .vector-dial::before { width: 100%; height: 1px; }
 .vector-dial::after { width: 1px; height: 100%; }
@@ -147,26 +130,27 @@ button.primary:hover { background: #c1eed3; }
 .vector-dial i { border-radius: 50%; width: 5px; height: 5px; transform: translate(-50%, -50%); }
 #vector-needle { width: var(--length, 0px); height: 2px; transform-origin: left center; transform: translateY(-50%) rotate(var(--angle, 0rad)); }
 #vector-needle::after { content: ""; position: absolute; right: 0; top: 50%; width: 0; height: 0; border: 4px solid transparent; border-left-color: var(--mint); border-right: 0; transform: translate(1px, -50%); }
-.yaw-track { position: relative; border-radius: 3px; background: #2b3a45; overflow: hidden; }
+.yaw-track { position: relative; height: 4px; border-radius: 3px; background: #2b3a45; overflow: hidden; }
 .yaw-track::after { content: ""; position: absolute; inset: 0 auto 0 50%; width: 1px; background: #e5f1fa99; }
 #yaw-fill { position: absolute; inset: 0 auto 0 var(--start, 50%); width: var(--size, 0%); background: var(--mint); }
-.yaw-labels { display: flex; justify-content: space-between; gap: 2px; color: var(--muted); font-size: 10px; }
-.role-history { flex: 1; display: flex; flex-direction: column; min-height: 160px; padding-bottom: 2px; }
-.role-history > :not(.role-changes) { flex-shrink: 0; }
-.timeline-heading, .axis-labels { display: flex; justify-content: space-between; gap: 6px; color: var(--muted); font-size: 10px; }
-.role-track { display: flex; height: 47px; border-radius: 6px; background: #111b24; overflow: hidden; }
-.role-segment { min-height: 0; min-width: 0; padding: 0; overflow: hidden; text-wrap: balance; font-size: 11px; line-height: 1.15; border-radius: 0; border-width: 0 1px 0 0; border-color: #111b24; background: var(--role-color); color: #101723; cursor: pointer; }
+.role-history { flex: 1; display: flex; flex-direction: column; min-height: 225px; border-top: 1px solid var(--line); padding: 8px 0 2px; }
+.role-history > :not(.history-columns) { flex-shrink: 0; }
+.timeline-heading { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.timeline-heading h3 { margin: 0; color: var(--text); }
+.timeline-heading select { font-size: 11px; min-height: 25px; padding: 3px 6px; }
+.history-columns { flex: 1; display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 8px; min-height: 0; max-height: 26rem; margin-top: 7px; }
+.history-axis { min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 4px; justify-items: center; color: var(--muted); font-size: 10px; }
+.role-track { display: flex; flex-direction: column; width: 22px; border-radius: 5px; background: #111b24; overflow: hidden; }
+.role-segment { min-height: 0; width: 100%; padding: 0; border-radius: 0; border: 0; background: var(--role-color); cursor: pointer; }
 .role-segment:hover { background: color-mix(in srgb, var(--role-color) 72%, white); }
 .role-segment:focus-visible { z-index: 1; outline-offset: -3px; outline-color: #101723; }
-.axis-labels { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 4px; }
-.axis-labels span:nth-child(2) { text-align: center; }
-.axis-labels span:last-child { text-align: right; }
-.role-duration { color: var(--muted); margin-top: 9px; }
-.role-changes { display: grid; align-content: start; gap: 4px; min-height: 0; margin-top: 6px; overflow-y: auto; }
-.role-changes button { display: grid; grid-template-columns: 45px minmax(65px, .75fr) minmax(0, 1.5fr); gap: 7px; align-items: baseline; padding: 5px 6px; text-align: left; background: #131e28; border-color: var(--line); font-size: 11px; min-height: 26px; }
+.role-duration { color: var(--muted); margin-top: 5px; font-size: 12px; line-height: 1.4; }
+.role-changes { display: grid; grid-auto-rows: max-content; align-content: start; gap: 4px; min-height: 0; padding: 2px; overflow-y: auto; }
+.role-changes button { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 2px 6px; align-items: baseline; padding: 5px 6px; text-align: left; background: #131e28; border-color: var(--line); font-size: 11px; min-height: 26px; }
+.role-changes button[aria-current="true"] { border-color: color-mix(in srgb, var(--role-color) 45%, var(--line)); }
 .role-changes time { color: var(--muted); font-variant-numeric: tabular-nums; }
 .role-changes strong { color: var(--role-color); }
-.role-changes span { color: var(--muted); }
+.role-changes span { grid-column: 2; color: var(--muted); }
 .lineups { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
 .lineup { min-width: 0; }
 .team-overlay { min-height: 27px; padding: 2px 7px; margin-left: -7px; color: var(--team); font: inherit; background: transparent; border-color: transparent; }
@@ -206,14 +190,19 @@ button.primary:hover { background: #c1eed3; }
 .setup form { display: grid; gap: 18px; }
 .setup fieldset { min-width: 0; border: 1px solid var(--line); border-radius: var(--round); background: var(--panel); padding: 12px; margin: 0; }
 .setup legend { font-weight: 650; font-size: 12px; padding: 0 5px; letter-spacing: .02em; }
-.mode-picker, .practice-options, .team-picker { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.mode-picker, .practice-options, .team-picker, .match-timing { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.match-timing label { min-width: 0; display: grid; gap: 4px; font-size: 12px; color: var(--muted); }
+.match-timing input { min-width: 0; font: inherit; font-size: 13px; color: var(--text); border: 1px solid #384b5c; border-radius: 7px; background: var(--panel2); padding: 7px 10px; }
+.match-timing input:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
 .mode-picker label, .team-picker label { display: flex; align-items: start; gap: 9px; padding: 12px; border: 1px solid var(--line); background: #111b24; border-radius: 8px; cursor: pointer; }
 .mode-picker label:has(input:checked), .team-picker label:has(input:checked) { border-color: var(--team, var(--mint)); background: color-mix(in srgb, var(--team, var(--mint)) 10%, #111b24); }
 .setup input[type="radio"] { accent-color: var(--team, var(--mint)); }
 .mode-picker small { display: block; font-size: 12px; color: var(--muted); margin-top: 4px; }
 .setup-team { display: grid; gap: 6px; }
 .setup-team label { font-size: 12px; color: var(--muted); }
-.strategy-preview { margin: 2px 0 8px; color: var(--muted); min-height: 2.6em; font-size: 13px; }
+.practice-guide { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: 13px; }
+.practice-guide strong { color: var(--text); }
+.setup-preview { margin: 2px 0 8px; color: var(--muted); min-height: 2.6em; font-size: 13px; }
 .start-row { display: flex; align-items: center; gap: 10px; }
 .setup a { color: var(--mint); }
 #setup-error:empty { display: none; }
@@ -224,7 +213,7 @@ button.primary:hover { background: #c1eed3; }
   .workspace { grid-template-columns: 1fr; }
   .scoreboard { flex-wrap: wrap; gap: 10px 18px; }
   .inspector { contain: none; overflow: visible; }
-  .role-changes { max-height: 26rem; }
+  .history-columns { min-height: 10rem; }
 }
 @media (max-width: 530px) {
   .app { padding-top: 15px; }
@@ -312,41 +301,43 @@ button.primary:hover { background: #c1eed3; }
       </div>
 
       <section class="inspector" aria-label="Selected robot">
-        <div class="section-heading inspect-heading"><h2>Robot detail</h2><span id="jersey" class="jersey"></span></div>
-        <div class="robot-overview">
-          <div class="role-pair">
-            <div class="role-card active-role" id="current-card"><span class="label">Current role</span><strong id="role">—</strong></div>
-            <div class="role-card prior-role" id="prior-card"><span class="label">Previous role</span><strong id="previous">—</strong></div>
-          </div>
-          <section class="motion-card" aria-labelledby="motion-title">
-            <h3 id="motion-title">Motion command</h3>
-            <p id="command-unavailable">Waiting for robot commands.</p>
-            <div id="command-details" hidden>
-              <div class="turn-heading"><span>Rotation</span><strong id="turn">0.00 rad/s</strong></div>
-              <div class="yaw-track" id="rotation" role="img"><i id="yaw-fill"></i></div>
-              <div class="yaw-labels"><span id="turn-left">↶</span><span>0</span><span id="turn-right">↷</span></div>
-              <div class="translation-row">
-                <div class="vector-gauge" id="translation" role="img">
-                  <span class="forward-axis">Fwd</span><span class="left-axis">L</span><span class="right-axis">R</span>
-                  <div class="vector-dial"><div id="vector-needle"></div><i></i></div>
-                </div>
-                <div class="speed-readout">
-                  <span class="label">Speed</span><strong id="speed">0.00 m/s</strong>
-                  <span id="measured-speed" hidden><span>Measured</span><span id="measured-value"></span></span>
-                </div>
-              </div>
-              <div class="motion-foot"><span id="speed-scale"></span><span id="ball-command"></span><span id="kick-command" hidden></span></div>
-            </div>
-          </section>
+        <h2 class="role-transition" id="role-transition">
+          <span id="jersey" class="jersey" hidden></span><span id="previous" class="previous-role">—</span>
+          <span class="role-arrow" aria-hidden="true">→</span><strong id="role" class="current-role">—</strong>
+        </h2>
+        <div class="role-summary">
+          <div class="role-note"><h3>Role detail</h3><p id="task">Waiting for role assignments.</p></div>
+          <div class="role-note"><h3>Role reason</h3><p id="reason">—</p></div>
         </div>
-        <div class="inspector-section"><p id="task"></p><p class="target" id="target" hidden></p></div>
-        <div class="inspector-section"><h3>Why this role</h3><p id="reason"></p><dl id="costs" class="costs" hidden></dl></div>
+        <section class="motion-band" aria-label="Robot motion">
+          <p id="command-unavailable">Waiting for motion data.</p>
+          <div id="command-details" hidden>
+            <div class="translation-row">
+              <div class="vector-dial" id="translation" role="img"><span aria-hidden="true">F</span><div id="vector-needle"></div><i></i></div>
+              <div class="speed-readout"><span class="label" id="speed-label">Travel speed</span><strong id="speed">—</strong></div>
+            </div>
+            <div class="turn-readout">
+              <span class="label">Turn command</span><strong id="turn">—</strong>
+              <div class="yaw-track" id="rotation" role="img"><i id="yaw-fill"></i></div>
+            </div>
+          </div>
+        </section>
         <div class="inspector-section role-history">
-          <div class="timeline-heading"><h3>Role timeline</h3><span>Last 10 s</span></div>
-          <div id="role-track" class="role-track" aria-label="Role changes in the last 10 seconds"></div>
-          <div class="axis-labels"><span>−10 s</span><span>−5 s</span><span>Selected time</span></div>
+          <div class="timeline-heading">
+            <h3>Role timeline</h3>
+            <select id="role-window" aria-label="Role timeline window">
+              <option value="5">Last 5 s</option><option value="10" selected>Last 10 s</option>
+              <option value="15">Last 15 s</option><option value="30">Last 30 s</option><option value="60">Last 60 s</option>
+            </select>
+          </div>
           <p id="role-duration" class="role-duration"></p>
-          <div id="role-changes" class="role-changes" role="group" aria-label="Recent assignment details" tabindex="0"></div>
+          <div class="history-columns">
+            <div class="history-axis">
+              <span>Selected</span><div id="role-track" class="role-track" role="group" aria-label="Role changes in the last 10 seconds"></div>
+              <span id="role-window-start">−10 s</span>
+            </div>
+            <div id="role-changes" class="role-changes" role="group" aria-label="Recent assignment details" tabindex="0"></div>
+          </div>
         </div>
       </section>
     </div>
@@ -421,7 +412,6 @@ const match = JSON.parse(document.getElementById("match-data").textContent);
 const { frames = [], keys = [], positions = [], events = [] } = match;
 const livePage = match.live === true;
 const ownTeam = match.session?.team;
-const roleWindow = 10;
 const kickFlightLimit = 2;
 const kickResultWindow = 1.25;
 const byId = (id) => document.getElementById(id);
@@ -434,6 +424,7 @@ const nextButton = byId("next");
 const liveButton = byId("go-live");
 const eventScroll = byId("event-scroll");
 const eventTrack = byId("event-track");
+const roleWindowSelect = byId("role-window");
 const teams = {
   blue: { label: "Blue", solid: "#639bff", pale: "#bcd3ff", ink: "#0b264c" },
   yellow: { label: "Yellow", solid: "#f5cd58", pale: "#ffe5a1", ink: "#382c0a" },
@@ -739,31 +730,24 @@ function updateLineup(frame) {
 function explain(frame, role, audit) {
   const team = teams[keys[selected][0]].label;
   if (audit?.basis === "keeper" || role === "Keeper") return "Robot 0 is the designated goalkeeper.";
-  if (audit?.basis === "receiver" || role === "Receiver") return "This robot is the intended receiver. The allocator reserves it for the pass.";
+  if (audit?.basis === "receiver" || role === "Receiver") return "The pass targets this robot, so the controller reserves it.";
   if (role === "Spin outlet") return "The carrier has selected this robot for the spin pass.";
-  if (audit?.basis === "carrier" || role === "Carrier") return "This robot has confirmed possession and is assigned to carry the attack.";
-  if (audit?.basis === "contain" || role === "Contain") return "The robots shared a grip on the ball. This field player was assigned to drop goal-side.";
-  if (audit?.basis === "roster_cost") {
+  if (audit?.basis === "carrier" || role === "Carrier") return "This robot has confirmed possession.";
+  if (audit?.basis === "contain" || role === "Contain") return "Both robots gripped the ball, so this player drops goal-side.";
+  if (audit?.basis === "roster_cost" || audit?.basis === "role_priority") {
     const phase = frame.phases[keys[selected][0] === "blue" ? 0 : 1];
     const switchNote = audit.switch_cost > 0 && audit.allocator_previous
       ? ` Switching from ${roleName(audit.allocator_previous)} added ${audit.switch_cost.toFixed(2)} to the cost.` : "";
-    return `${phaseReasons[phase] || `${team} is in ${phase.toLowerCase()}.`} The allocator picked the lowest-cost eligible lineup using travel distance and a switch penalty.${switchNote}`;
+    const assignment = audit.basis === "role_priority"
+      ? "Roles fill in order by travel and switch cost."
+      : "The lineup minimizes travel and role changes.";
+    return `${assignment} ${phaseReasons[phase] || `${team} is in ${phase.toLowerCase()}.`}${switchNote}`;
   }
-  if (role === "kickoff" || role === "Kickoff") return "The referee awarded a kickoff. The restart controller set the formation and nominated a taker.";
-  if (role === "hold" || role === "Stand clear" || frame.mode !== "running") return "The current referee command limits movement while the game is stopped or being restarted.";
+  if (role === "kickoff" || role === "Kickoff") return "The referee awarded a kickoff. This robot has a restart assignment.";
+  if (role === "hold" || role === "Stand clear" || frame.mode !== "running") return "The referee limits movement during this stoppage or restart.";
   if (role === "Pass" || role === "Receive") return "The free-kick controller chose the passer and a receiving outlet.";
   const phase = frame.phases[keys[selected][0] === "blue" ? 0 : 1];
   return `Recorded role in ${team}’s ${phase.toLowerCase()} phase. The roster is assigned using target distance and a penalty for switching roles.`;
-}
-
-function costDetail(label, value) {
-  const field = document.createElement("div");
-  const dt = document.createElement("dt");
-  const dd = document.createElement("dd");
-  dt.textContent = label;
-  dd.textContent = value;
-  field.append(dt, dd);
-  return field;
 }
 
 function updateHistory(now) {
@@ -771,18 +755,19 @@ function updateHistory(now) {
   const current = historyIndex(selected);
   previousButton.disabled = current <= 0;
   nextButton.disabled = current + 1 >= history.length;
-  const start = now - roleWindow;
+  const roleWindow = Number(roleWindowSelect.value);
+  const start = Number((now - roleWindow).toFixed(6));
   const first = Math.max(0, history.findLastIndex(({ tick }, index) =>
     index <= current && frames[tick].t <= start));
   const beganBeforeWindow = frames[history[first].tick].t < start;
-  const stamp = `${selected}/${first}/${current}/${beganBeforeWindow}/${Math.floor(now * 5)}`;
+  const stamp = `${selected}/${roleWindow}/${first}/${current}/${beganBeforeWindow}/${Math.floor(now * 5)}`;
   if (stamp === historyStamp) return;
   historyStamp = stamp;
   const track = byId("role-track");
-  const blank = document.createElement("span");
-  blank.style.flexBasis = `${Math.max(0, frames[history[first].tick].t - start) / roleWindow * 100}%`;
-  track.replaceChildren(blank);
-  for (let index = first; index <= current; index += 1) {
+  track.setAttribute("aria-label", `Role changes in the last ${roleWindow} seconds`);
+  byId("role-window-start").textContent = `−${roleWindow} s`;
+  const segments = document.createDocumentFragment();
+  for (let index = current; index >= first; index -= 1) {
     const { tick, role } = history[index];
     const begin = Math.max(start, frames[tick].t);
     const end = index === current ? now : frames[history[index + 1].tick].t;
@@ -794,10 +779,11 @@ function updateHistory(now) {
     chip.style.setProperty("--role-color", roleColor(role));
     chip.title = `${roleName(role)} · ${replayTime(frames[tick].t)}`;
     chip.setAttribute("aria-label", chip.title);
-    if (fraction > .10) chip.textContent = roleName(role);
+    if (index === current) chip.setAttribute("aria-current", "true");
     chip.addEventListener("click", () => seek(tick));
-    track.append(chip);
+    segments.append(chip);
   }
+  track.replaceChildren(segments);
   const elapsed = now - frames[history[current].tick].t;
   const recent = history.slice(first, current + 1);
   const changeCount = recent
@@ -813,6 +799,7 @@ function updateHistory(now) {
     const button = document.createElement("button");
     button.type = "button";
     button.style.setProperty("--role-color", roleColor(role));
+    if (tick === history[current].tick) button.setAttribute("aria-current", "true");
     const time = document.createElement("time");
     time.textContent = replayTime(frames[tick].t);
     const label = document.createElement("strong");
@@ -879,36 +866,30 @@ function updateGauges(audit) {
   byId("command-details").hidden = !values;
   byId("command-unavailable").hidden = !!values;
   if (!values) {
-    byId("command-unavailable").textContent = "Commands are unavailable for this recording.";
+    byId("command-unavailable").textContent = "Motion data is unavailable for this recording.";
     return;
   }
-  const [forward, lateral, turn, roller, kick] = values;
+  const [forward, lateral, turn] = values;
   const { max_speed: maxSpeed, max_omega: maxTurn } = limits[keys[selected][0]];
-  const speed = Math.hypot(forward, lateral);
+  const requested = Math.hypot(forward, lateral);
+  const measured = audit.measured_speed;
   const direction = Math.atan2(-forward, -lateral);
   const needle = byId("vector-needle");
-  needle.hidden = speed < .01;
-  needle.style.setProperty("--length", `${21 * Math.min(speed / maxSpeed, 1)}px`);
+  needle.hidden = requested < .01;
+  needle.style.setProperty("--length", `${14 * Math.min(requested / maxSpeed, 1)}px`);
   needle.style.setProperty("--angle", `${direction}rad`);
-  byId("speed").textContent = `${speed.toFixed(2)} m/s`;
-  byId("speed-scale").textContent = `Ring ${maxSpeed} m/s`;
-  const measured = byId("measured-speed");
-  measured.hidden = audit.measured_speed == null;
-  if (!measured.hidden) byId("measured-value").textContent = `${audit.measured_speed.toFixed(2)} m/s`;
-  byId("translation").setAttribute("aria-label",
-    `Commanded forward velocity ${forward.toFixed(2)} and leftward velocity ${lateral.toFixed(2)} meters per second`);
+  byId("speed-label").textContent = measured == null ? "Speed command" : "Travel speed";
+  byId("speed").textContent = `${(measured ?? requested).toFixed(2)} m/s`;
+  const translation = byId("translation");
+  translation.title = `Drive command ${requested.toFixed(2)} m/s`;
+  translation.setAttribute("aria-label",
+    `Commanded velocity, ${forward.toFixed(2)} forward and ${lateral.toFixed(2)} left, in meters per second`);
   const turnLabel = `${turn > .005 ? "Left " : turn < -.005 ? "Right " : ""}${Math.abs(turn).toFixed(2)} rad/s`;
   byId("turn").textContent = turnLabel;
-  byId("turn-left").textContent = `↶ ${maxTurn}`;
-  byId("turn-right").textContent = `${maxTurn} ↷`;
   byId("rotation").setAttribute("aria-label", `Commanded rotation ${turnLabel}`);
   const shift = -50 * Math.max(-1, Math.min(turn / maxTurn, 1));
   byId("yaw-fill").style.setProperty("--start", `${50 + Math.min(0, shift)}%`);
   byId("yaw-fill").style.setProperty("--size", `${Math.abs(shift)}%`);
-  byId("ball-command").textContent = `Roller ${roller > 0 ? "on" : "off"}`;
-  const kickCommand = byId("kick-command");
-  kickCommand.hidden = kick <= 0;
-  if (!kickCommand.hidden) kickCommand.textContent = `Kick ${kick.toFixed(2)} m/s`;
 }
 
 function updateEventTrack(now) {
@@ -990,28 +971,30 @@ function updateInspector(frame) {
   const command = audit?.command;
   const last = histories[selected][historyIndex(selected)].previous;
   const jersey = byId("jersey");
+  const previous = byId("previous");
+  const current = byId("role");
   jersey.className = `jersey ${keys[selected][0]}`;
   jersey.textContent = robotName(selected);
-  byId("role").textContent = roleName(role);
-  byId("previous").textContent = last === null ? "—" : roleName(last);
-  byId("current-card").style.setProperty("--role-color", roleColor(role));
-  byId("prior-card").style.setProperty("--role-color", roleColor(last));
-  byId("reason").textContent = explain(frame, role, audit);
+  jersey.hidden = false;
+  current.textContent = roleName(role);
+  previous.textContent = last === null ? "—" : roleName(last);
+  current.style.setProperty("--role-color", roleColor(role));
+  byId("role-transition").setAttribute("aria-label",
+    `${jersey.textContent}. Previous role ${last === null ? "unassigned" : roleName(last)}. Current role ${roleName(role)}.`);
+  const assignment = explain(frame, role, audit);
+  const reason = byId("reason");
+  reason.textContent = audit?.decision ? `${assignment} ${audit.decision}` : assignment;
+  reason.title = reason.textContent;
+  if (audit?.distance_m != null) {
+    reason.title += `\nTravel ${audit.distance_m.toFixed(2)} m · Switch cost ${audit.switch_cost.toFixed(2)} · Lineup cost ${audit.roster_cost.toFixed(2)}`;
+  }
   let task = robotTask(frame, selected);
   const motion = frame.motion?.[selected];
   if (command && motion in motionNames) task += ` ${motionNames[motion]}.`;
-  byId("task").textContent = task;
-  const target = byId("target");
-  target.hidden = !audit?.target || !command || role === "hold" || role === "Stand clear";
-  if (!target.hidden) target.textContent = `Role target ${audit.target.map((v) => v.toFixed(2)).join(", ")} m`;
-  const costs = byId("costs");
-  costs.hidden = audit?.distance_m == null;
-  if (!costs.hidden) {
-    costs.replaceChildren(
-      costDetail("Travel", `${audit.distance_m.toFixed(2)} m`),
-      costDetail("Role switch", audit.switch_cost.toFixed(2)),
-      costDetail("Lineup cost", audit.roster_cost.toFixed(2)),
-    );
+  const detail = byId("task");
+  detail.textContent = detail.title = task;
+  if (audit?.target && command && role !== "hold" && role !== "Stand clear") {
+    detail.title += `\nRole target ${audit.target.map((v) => v.toFixed(2)).join(", ")} m`;
   }
   updateGauges(audit);
   updateHistory(frame.t);
@@ -1295,6 +1278,9 @@ playButton.addEventListener("click", () => {
 });
 
 scrub.addEventListener("input", () => seek(Number(scrub.value)));
+roleWindowSelect.addEventListener("change", () => {
+  if (frames[frameIndex]) updateHistory(frames[frameIndex].t);
+});
 previousButton.addEventListener("click", () => {
   const index = historyIndex(selected);
   if (index > 0) seek(histories[selected][index - 1].tick);

@@ -1,6 +1,6 @@
 # RoboTurk Match Viewer
 
-![B4's shot command, both team plans, and the selected robot's role history](preview.png)
+![The match viewer with the field, team plans, and the robot inspector](preview.png)
 
 ## Start a live match
 
@@ -30,7 +30,7 @@ Set **Speed**, **Turn**, **Accel**, and **Kick** in the top bar before kickoff o
 
 Practice starts with the Game limits. The open-play planner uses the selected speed and acceleration for travel and braking. Clear, lined-up shots request the selected kick speed. Passes keep their reception-tuned speeds, and restarts, close challenges, and ball control still use slower approaches. The SSL rulebook sets the 6.5 m/s ball-speed cap. The 5 m/s² drive setting comes from RoboTurk's motion model. [SSL ball-speed rule](https://robocup-ssl.github.io/ssl-rules/sslrules.html#_ball_speed) · [RoboTurk drive and kicker tests](../ssl-physics/README.md#drive-and-kicker)
 
-Each lineup shows its team's strategy, play, and current step, plus every robot's role and task. Select a robot on the field or a lineup to inspect its assignment. The inspector stacks the current and previous roles beside a square gauge with the rotation bar above the translation vector. The gauge also shows measured speed when available. The **10-second role timeline** lists every assignment change in the window. Click a role change or an entry in the **60-second match-event timeline** to jump to that moment. **Go live** catches up. Team and player filters control which robots the viewer draws.
+Each lineup shows its team's strategy, play, and current step, plus every robot's role and task. Select a robot on the field or in a lineup to see its previous role, current role, task, and assignment reason. The motion band shows measured travel speed when available, the requested drive vector, and the signed turn command. Older recordings with command data use a labeled speed command when measured speed is unavailable. The vertical **Role timeline** shows the last 10 seconds by default. Its dropdown also offers 5, 15, 30, and 60 seconds. Click a role change or an entry in the match-event timeline to jump to that moment. **Go live** catches up. Team and player filters control which robots the viewer draws.
 
 Click any number of robot IDs in the lineups to show their movement targets and kicks. Click **Blue** or **Yellow** above its lineup to switch the whole team's overlays on or off. Solid trails show flat kicks. Dotted, raised trails show chips. The trail clears when the kick ends or a new kick starts. The goal-mouth marker and crossing speed stay visible briefly after the trail clears. Use the match events to revisit a kick or goal. Goal-line markers record a physical crossing. The scoreboard uses the referee's decision. Older replays can still show assigned movement targets.
 

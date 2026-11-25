@@ -77,41 +77,43 @@
       </div>
 
       <section class="inspector" aria-label="Selected robot">
-        <div class="section-heading inspect-heading"><h2>Robot detail</h2><span id="jersey" class="jersey"></span></div>
-        <div class="robot-overview">
-          <div class="role-pair">
-            <div class="role-card active-role" id="current-card"><span class="label">Current role</span><strong id="role">—</strong></div>
-            <div class="role-card prior-role" id="prior-card"><span class="label">Previous role</span><strong id="previous">—</strong></div>
-          </div>
-          <section class="motion-card" aria-labelledby="motion-title">
-            <h3 id="motion-title">Motion command</h3>
-            <p id="command-unavailable">Waiting for robot commands.</p>
-            <div id="command-details" hidden>
-              <div class="turn-heading"><span>Rotation</span><strong id="turn">0.00 rad/s</strong></div>
-              <div class="yaw-track" id="rotation" role="img"><i id="yaw-fill"></i></div>
-              <div class="yaw-labels"><span id="turn-left">↶</span><span>0</span><span id="turn-right">↷</span></div>
-              <div class="translation-row">
-                <div class="vector-gauge" id="translation" role="img">
-                  <span class="forward-axis">Fwd</span><span class="left-axis">L</span><span class="right-axis">R</span>
-                  <div class="vector-dial"><div id="vector-needle"></div><i></i></div>
-                </div>
-                <div class="speed-readout">
-                  <span class="label">Speed</span><strong id="speed">0.00 m/s</strong>
-                  <span id="measured-speed" hidden><span>Measured</span><span id="measured-value"></span></span>
-                </div>
-              </div>
-              <div class="motion-foot"><span id="speed-scale"></span><span id="ball-command"></span><span id="kick-command" hidden></span></div>
-            </div>
-          </section>
+        <h2 class="role-transition" id="role-transition">
+          <span id="jersey" class="jersey" hidden></span><span id="previous" class="previous-role">—</span>
+          <span class="role-arrow" aria-hidden="true">→</span><strong id="role" class="current-role">—</strong>
+        </h2>
+        <div class="role-summary">
+          <div class="role-note"><h3>Role detail</h3><p id="task">Waiting for role assignments.</p></div>
+          <div class="role-note"><h3>Role reason</h3><p id="reason">—</p></div>
         </div>
-        <div class="inspector-section"><p id="task"></p><p class="target" id="target" hidden></p></div>
-        <div class="inspector-section"><h3>Why this role</h3><p id="reason"></p><dl id="costs" class="costs" hidden></dl></div>
+        <section class="motion-band" aria-label="Robot motion">
+          <p id="command-unavailable">Waiting for motion data.</p>
+          <div id="command-details" hidden>
+            <div class="translation-row">
+              <div class="vector-dial" id="translation" role="img"><span aria-hidden="true">F</span><div id="vector-needle"></div><i></i></div>
+              <div class="speed-readout"><span class="label" id="speed-label">Travel speed</span><strong id="speed">—</strong></div>
+            </div>
+            <div class="turn-readout">
+              <span class="label">Turn command</span><strong id="turn">—</strong>
+              <div class="yaw-track" id="rotation" role="img"><i id="yaw-fill"></i></div>
+            </div>
+          </div>
+        </section>
         <div class="inspector-section role-history">
-          <div class="timeline-heading"><h3>Role timeline</h3><span>Last 10 s</span></div>
-          <div id="role-track" class="role-track" aria-label="Role changes in the last 10 seconds"></div>
-          <div class="axis-labels"><span>−10 s</span><span>−5 s</span><span>Selected time</span></div>
+          <div class="timeline-heading">
+            <h3>Role timeline</h3>
+            <select id="role-window" aria-label="Role timeline window">
+              <option value="5">Last 5 s</option><option value="10" selected>Last 10 s</option>
+              <option value="15">Last 15 s</option><option value="30">Last 30 s</option><option value="60">Last 60 s</option>
+            </select>
+          </div>
           <p id="role-duration" class="role-duration"></p>
-          <div id="role-changes" class="role-changes" role="group" aria-label="Recent assignment details" tabindex="0"></div>
+          <div class="history-columns">
+            <div class="history-axis">
+              <span>Selected</span><div id="role-track" class="role-track" role="group" aria-label="Role changes in the last 10 seconds"></div>
+              <span id="role-window-start">−10 s</span>
+            </div>
+            <div id="role-changes" class="role-changes" role="group" aria-label="Recent assignment details" tabindex="0"></div>
+          </div>
         </div>
       </section>
     </div>

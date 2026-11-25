@@ -4,7 +4,6 @@ const match = JSON.parse(document.getElementById("match-data").textContent);
 const { frames = [], keys = [], positions = [], events = [] } = match;
 const livePage = match.live === true;
 const ownTeam = match.session?.team;
-const roleWindow = 10;
 const kickFlightLimit = 2;
 const kickResultWindow = 1.25;
 const byId = (id) => document.getElementById(id);
@@ -17,6 +16,7 @@ const nextButton = byId("next");
 const liveButton = byId("go-live");
 const eventScroll = byId("event-scroll");
 const eventTrack = byId("event-track");
+const roleWindowSelect = byId("role-window");
 const teams = {
   blue: { label: "Blue", solid: "#639bff", pale: "#bcd3ff", ink: "#0b264c" },
   yellow: { label: "Yellow", solid: "#f5cd58", pale: "#ffe5a1", ink: "#382c0a" },
@@ -322,34 +322,24 @@ function updateLineup(frame) {
 function explain(frame, role, audit) {
   const team = teams[keys[selected][0]].label;
   if (audit?.basis === "keeper" || role === "Keeper") return "Robot 0 is the designated goalkeeper.";
-  if (audit?.basis === "receiver" || role === "Receiver") return "This robot is the intended receiver. The allocator reserves it for the pass.";
+  if (audit?.basis === "receiver" || role === "Receiver") return "The pass targets this robot, so the controller reserves it.";
   if (role === "Spin outlet") return "The carrier has selected this robot for the spin pass.";
-  if (audit?.basis === "carrier" || role === "Carrier") return "This robot has confirmed possession and is assigned to carry the attack.";
-  if (audit?.basis === "contain" || role === "Contain") return "The robots shared a grip on the ball. This field player was assigned to drop goal-side.";
+  if (audit?.basis === "carrier" || role === "Carrier") return "This robot has confirmed possession.";
+  if (audit?.basis === "contain" || role === "Contain") return "Both robots gripped the ball, so this player drops goal-side.";
   if (audit?.basis === "roster_cost" || audit?.basis === "role_priority") {
     const phase = frame.phases[keys[selected][0] === "blue" ? 0 : 1];
     const switchNote = audit.switch_cost > 0 && audit.allocator_previous
       ? ` Switching from ${roleName(audit.allocator_previous)} added ${audit.switch_cost.toFixed(2)} to the cost.` : "";
     const assignment = audit.basis === "role_priority"
-      ? "The allocator filled roles in order using travel distance and a switch penalty."
-      : "The allocator picked the lowest-cost eligible lineup using travel distance and a switch penalty.";
-    return `${phaseReasons[phase] || `${team} is in ${phase.toLowerCase()}.`} ${assignment}${switchNote}`;
+      ? "Roles fill in order by travel and switch cost."
+      : "The lineup minimizes travel and role changes.";
+    return `${assignment} ${phaseReasons[phase] || `${team} is in ${phase.toLowerCase()}.`}${switchNote}`;
   }
-  if (role === "kickoff" || role === "Kickoff") return "The referee awarded a kickoff. The restart controller set the formation and nominated a taker.";
-  if (role === "hold" || role === "Stand clear" || frame.mode !== "running") return "The current referee command limits movement while the game is stopped or being restarted.";
+  if (role === "kickoff" || role === "Kickoff") return "The referee awarded a kickoff. This robot has a restart assignment.";
+  if (role === "hold" || role === "Stand clear" || frame.mode !== "running") return "The referee limits movement during this stoppage or restart.";
   if (role === "Pass" || role === "Receive") return "The free-kick controller chose the passer and a receiving outlet.";
   const phase = frame.phases[keys[selected][0] === "blue" ? 0 : 1];
   return `Recorded role in ${team}’s ${phase.toLowerCase()} phase. The roster is assigned using target distance and a penalty for switching roles.`;
-}
-
-function costDetail(label, value) {
-  const field = document.createElement("div");
-  const dt = document.createElement("dt");
-  const dd = document.createElement("dd");
-  dt.textContent = label;
-  dd.textContent = value;
-  field.append(dt, dd);
-  return field;
 }
 
 function updateHistory(now) {
@@ -357,18 +347,19 @@ function updateHistory(now) {
   const current = historyIndex(selected);
   previousButton.disabled = current <= 0;
   nextButton.disabled = current + 1 >= history.length;
-  const start = now - roleWindow;
+  const roleWindow = Number(roleWindowSelect.value);
+  const start = Number((now - roleWindow).toFixed(6));
   const first = Math.max(0, history.findLastIndex(({ tick }, index) =>
     index <= current && frames[tick].t <= start));
   const beganBeforeWindow = frames[history[first].tick].t < start;
-  const stamp = `${selected}/${first}/${current}/${beganBeforeWindow}/${Math.floor(now * 5)}`;
+  const stamp = `${selected}/${roleWindow}/${first}/${current}/${beganBeforeWindow}/${Math.floor(now * 5)}`;
   if (stamp === historyStamp) return;
   historyStamp = stamp;
   const track = byId("role-track");
-  const blank = document.createElement("span");
-  blank.style.flexBasis = `${Math.max(0, frames[history[first].tick].t - start) / roleWindow * 100}%`;
-  track.replaceChildren(blank);
-  for (let index = first; index <= current; index += 1) {
+  track.setAttribute("aria-label", `Role changes in the last ${roleWindow} seconds`);
+  byId("role-window-start").textContent = `−${roleWindow} s`;
+  const segments = document.createDocumentFragment();
+  for (let index = current; index >= first; index -= 1) {
     const { tick, role } = history[index];
     const begin = Math.max(start, frames[tick].t);
     const end = index === current ? now : frames[history[index + 1].tick].t;
@@ -380,10 +371,11 @@ function updateHistory(now) {
     chip.style.setProperty("--role-color", roleColor(role));
     chip.title = `${roleName(role)} · ${replayTime(frames[tick].t)}`;
     chip.setAttribute("aria-label", chip.title);
-    if (fraction > .10) chip.textContent = roleName(role);
+    if (index === current) chip.setAttribute("aria-current", "true");
     chip.addEventListener("click", () => seek(tick));
-    track.append(chip);
+    segments.append(chip);
   }
+  track.replaceChildren(segments);
   const elapsed = now - frames[history[current].tick].t;
   const recent = history.slice(first, current + 1);
   const changeCount = recent
@@ -399,6 +391,7 @@ function updateHistory(now) {
     const button = document.createElement("button");
     button.type = "button";
     button.style.setProperty("--role-color", roleColor(role));
+    if (tick === history[current].tick) button.setAttribute("aria-current", "true");
     const time = document.createElement("time");
     time.textContent = replayTime(frames[tick].t);
     const label = document.createElement("strong");
@@ -465,36 +458,30 @@ function updateGauges(audit) {
   byId("command-details").hidden = !values;
   byId("command-unavailable").hidden = !!values;
   if (!values) {
-    byId("command-unavailable").textContent = "Commands are unavailable for this recording.";
+    byId("command-unavailable").textContent = "Motion data is unavailable for this recording.";
     return;
   }
-  const [forward, lateral, turn, roller, kick] = values;
+  const [forward, lateral, turn] = values;
   const { max_speed: maxSpeed, max_omega: maxTurn } = limits[keys[selected][0]];
-  const speed = Math.hypot(forward, lateral);
+  const requested = Math.hypot(forward, lateral);
+  const measured = audit.measured_speed;
   const direction = Math.atan2(-forward, -lateral);
   const needle = byId("vector-needle");
-  needle.hidden = speed < .01;
-  needle.style.setProperty("--length", `${21 * Math.min(speed / maxSpeed, 1)}px`);
+  needle.hidden = requested < .01;
+  needle.style.setProperty("--length", `${14 * Math.min(requested / maxSpeed, 1)}px`);
   needle.style.setProperty("--angle", `${direction}rad`);
-  byId("speed").textContent = `${speed.toFixed(2)} m/s`;
-  byId("speed-scale").textContent = `Ring ${maxSpeed} m/s`;
-  const measured = byId("measured-speed");
-  measured.hidden = audit.measured_speed == null;
-  if (!measured.hidden) byId("measured-value").textContent = `${audit.measured_speed.toFixed(2)} m/s`;
-  byId("translation").setAttribute("aria-label",
-    `Commanded forward velocity ${forward.toFixed(2)} and leftward velocity ${lateral.toFixed(2)} meters per second`);
+  byId("speed-label").textContent = measured == null ? "Speed command" : "Travel speed";
+  byId("speed").textContent = `${(measured ?? requested).toFixed(2)} m/s`;
+  const translation = byId("translation");
+  translation.title = `Drive command ${requested.toFixed(2)} m/s`;
+  translation.setAttribute("aria-label",
+    `Commanded velocity, ${forward.toFixed(2)} forward and ${lateral.toFixed(2)} left, in meters per second`);
   const turnLabel = `${turn > .005 ? "Left " : turn < -.005 ? "Right " : ""}${Math.abs(turn).toFixed(2)} rad/s`;
   byId("turn").textContent = turnLabel;
-  byId("turn-left").textContent = `↶ ${maxTurn}`;
-  byId("turn-right").textContent = `${maxTurn} ↷`;
   byId("rotation").setAttribute("aria-label", `Commanded rotation ${turnLabel}`);
   const shift = -50 * Math.max(-1, Math.min(turn / maxTurn, 1));
   byId("yaw-fill").style.setProperty("--start", `${50 + Math.min(0, shift)}%`);
   byId("yaw-fill").style.setProperty("--size", `${Math.abs(shift)}%`);
-  byId("ball-command").textContent = `Roller ${roller > 0 ? "on" : "off"}`;
-  const kickCommand = byId("kick-command");
-  kickCommand.hidden = kick <= 0;
-  if (!kickCommand.hidden) kickCommand.textContent = `Kick ${kick.toFixed(2)} m/s`;
 }
 
 function updateEventTrack(now) {
@@ -576,29 +563,30 @@ function updateInspector(frame) {
   const command = audit?.command;
   const last = histories[selected][historyIndex(selected)].previous;
   const jersey = byId("jersey");
+  const previous = byId("previous");
+  const current = byId("role");
   jersey.className = `jersey ${keys[selected][0]}`;
   jersey.textContent = robotName(selected);
-  byId("role").textContent = roleName(role);
-  byId("previous").textContent = last === null ? "—" : roleName(last);
-  byId("current-card").style.setProperty("--role-color", roleColor(role));
-  byId("prior-card").style.setProperty("--role-color", roleColor(last));
+  jersey.hidden = false;
+  current.textContent = roleName(role);
+  previous.textContent = last === null ? "—" : roleName(last);
+  current.style.setProperty("--role-color", roleColor(role));
+  byId("role-transition").setAttribute("aria-label",
+    `${jersey.textContent}. Previous role ${last === null ? "unassigned" : roleName(last)}. Current role ${roleName(role)}.`);
   const assignment = explain(frame, role, audit);
-  byId("reason").textContent = audit?.decision ? `${assignment} ${audit.decision}` : assignment;
+  const reason = byId("reason");
+  reason.textContent = audit?.decision ? `${assignment} ${audit.decision}` : assignment;
+  reason.title = reason.textContent;
+  if (audit?.distance_m != null) {
+    reason.title += `\nTravel ${audit.distance_m.toFixed(2)} m · Switch cost ${audit.switch_cost.toFixed(2)} · Lineup cost ${audit.roster_cost.toFixed(2)}`;
+  }
   let task = robotTask(frame, selected);
   const motion = frame.motion?.[selected];
   if (command && motion in motionNames) task += ` ${motionNames[motion]}.`;
-  byId("task").textContent = task;
-  const target = byId("target");
-  target.hidden = !audit?.target || !command || role === "hold" || role === "Stand clear";
-  if (!target.hidden) target.textContent = `Role target ${audit.target.map((v) => v.toFixed(2)).join(", ")} m`;
-  const costs = byId("costs");
-  costs.hidden = audit?.distance_m == null;
-  if (!costs.hidden) {
-    costs.replaceChildren(
-      costDetail("Travel", `${audit.distance_m.toFixed(2)} m`),
-      costDetail("Role switch", audit.switch_cost.toFixed(2)),
-      costDetail("Lineup cost", audit.roster_cost.toFixed(2)),
-    );
+  const detail = byId("task");
+  detail.textContent = detail.title = task;
+  if (audit?.target && command && role !== "hold" && role !== "Stand clear") {
+    detail.title += `\nRole target ${audit.target.map((v) => v.toFixed(2)).join(", ")} m`;
   }
   updateGauges(audit);
   updateHistory(frame.t);
@@ -882,6 +870,9 @@ playButton.addEventListener("click", () => {
 });
 
 scrub.addEventListener("input", () => seek(Number(scrub.value)));
+roleWindowSelect.addEventListener("change", () => {
+  if (frames[frameIndex]) updateHistory(frames[frameIndex].t);
+});
 previousButton.addEventListener("click", () => {
   const index = historyIndex(selected);
   if (index > 0) seek(histories[selected][index - 1].tick);

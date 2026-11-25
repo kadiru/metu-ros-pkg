@@ -5,6 +5,8 @@ const { frames = [], keys = [], positions = [], events = [] } = match;
 const livePage = match.live === true;
 const ownTeam = match.session?.team;
 const roleWindow = 10;
+const kickFlightLimit = 2;
+const kickResultWindow = 1.25;
 const byId = (id) => document.getElementById(id);
 const canvas = byId("pitch");
 const ctx = canvas.getContext("2d");
@@ -657,24 +659,51 @@ function strokePath(points, color, width, dash = []) {
   ctx.setLineDash([]);
 }
 
-function drawOverlays(frame, points) {
-  const shots = new Map();
-  const results = new Map();
+function currentKickOverlay(frame) {
+  let launch;
+  let result;
   for (const [tick, , kind, team, details] of events) {
-    if (!details || tick > frameIndex || frames[tick]?.t < frame.t - 10) continue;
-    const robot = details.actor;
-    if (!overlayEnabled.has(robot) || !isVisible(robot)) continue;
-    if (kind === "kick_trace") results.set(`${robot}:${details.kick_tick}`, details);
-    else if (details.origin) {
-      const lane = `${robot}:${kind === "chip" ? "chip" : "flat"}`;
-      if (kind === "shot" || kind === "chip" || shots.get(lane)?.kind !== "shot") {
-        shots.set(lane, { tick, kind, team, ...details });
-      }
+    if (!details || tick > frameIndex || frames[tick]?.t < frame.t - kickFlightLimit - kickResultWindow) continue;
+    if (kind === "kick_trace") {
+      if (launch?.tick === details.kick_tick && launch.actor === details.actor) result = details;
+    } else if (details.origin) {
+      launch = { ...details, tick, kind, team };
+      result = undefined;
     }
   }
+  // The latest kick replaces the previous flight even when the new kicker's overlay is off.
+  if (!launch || !overlayEnabled.has(launch.actor) || !isVisible(launch.actor)) return null;
+  const showTrail = result ? frameIndex === result.tick : frame.t - frames[launch.tick].t <= kickFlightLimit;
+  const showResult = result && frame.t - frames[result.tick].t <= kickResultWindow
+    && (result.outcome === "goal mouth" || result.outcome === "wide" || launch.elevation > 0);
+  return showTrail || showResult ? { launch, result, showTrail } : null;
+}
+
+function drawKickTrail(launch, result, color) {
+  const track = [launch.origin];
+  for (let i = launch.tick + 1; i <= frameIndex; i += 1) {
+    track.push([positions[i][0], positions[i][1], frames[i].ball_z ?? 0]);
+  }
+  if (result) track.push(result.point);
+  const path = track.map(([x, y]) => project(x, y));
+  if (launch.elevation > 0) {
+    strokePath(path, "#101b1aaa", 2, [2, 4]);
+    strokePath(track.map(([x, y, z]) => {
+      const [px, py] = project(x, y);
+      return [px, py - Math.max(0, z - 0.022) * scale() * 0.65];
+    }), color, 2.1, [2, 4]);
+  } else {
+    strokePath(path, "#14201b", 4);
+    strokePath(path, color, 2);
+  }
+  traceCircle(...path[0], 3, null, color, 1.4);
+}
+
+function drawOverlays(frame, points) {
   for (const robot of overlayEnabled) {
     const audit = frame.allocation?.[robot];
-    if (!isVisible(robot) || !audit?.target || !audit.command || frame.roles[robot] === "Stand clear") continue;
+    if (!isVisible(robot) || !audit?.target || !audit.command
+      || ["hold", "Stand clear"].includes(frame.roles[robot])) continue;
     const offset = 2 + 3 * robot;
     const origin = project(points[offset], points[offset + 1]);
     const target = project(...audit.target);
@@ -683,32 +712,16 @@ function drawOverlays(frame, points) {
     strokePath([origin, target], `${color}a0`, 1.3, [5, 5]);
     traceCircle(...target, 4, null, color, 1.4);
   }
-  const descriptions = [];
-  for (const launch of shots.values()) {
-    const result = results.get(`${launch.actor}:${launch.tick}`);
-    const end = Math.min(result?.tick ?? frameIndex, launch.tick + Math.ceil(2 / (match.dt || .04)));
-    const track = [launch.origin];
-    for (let i = launch.tick + 1; i <= end; i += 1) {
-      track.push([positions[i][0], positions[i][1], frames[i].ball_z ?? 0]);
-    }
-    if (result) track.push(result.point);
-    const path = track.map(([x, y]) => project(x, y));
+  let text = "";
+  const overlay = currentKickOverlay(frame);
+  if (overlay) {
+    const { launch, result, showTrail } = overlay;
     const color = teams[launch.team].pale;
     const lofted = launch.elevation > 0;
-    if (lofted) {
-      strokePath(path, "#101b1aaa", 2, [2, 4]);
-      strokePath(track.map(([x, y, z]) => {
-        const [px, py] = project(x, y);
-        return [px, py - Math.max(0, z - 0.022) * scale() * 0.65];
-      }), color, 2.1, [2, 4]);
-    } else {
-      strokePath(path, "#14201b", 4);
-      strokePath(path, color, 2);
-    }
-    traceCircle(...path[0], 3, null, color, 1.4);
+    if (showTrail) drawKickTrail(launch, result, color);
     const goal = result?.outcome === "goal mouth";
     if (goal) {
-      const [x, y] = path.at(-1);
+      const [x, y] = project(...result.point);
       traceCircle(x, y, 6, "#13241d", color, 1.8);
       traceCircle(x, y, 2.2, color);
       ctx.font = "700 11px system-ui";
@@ -724,14 +737,12 @@ function drawOverlays(frame, points) {
     const turn = launch.spin_turn;
     const action = lofted ? "chip" : launch.kind === "shot" ? "shot" : turn ? "pass" : "kick";
     const spin = turn ? `${turn.reverse ? "reverse " : ""}spin ` : "";
-    let detail = `${robotName(launch.actor)} ${spin}${action} · ${launch.speed.toFixed(1)} m/s launch`;
-    if (turn) detail += ` · ${turn.degrees.toFixed(0)}° ${turn.direction}`;
-    if (goal || result?.outcome === "wide") detail += ` · ${result.speed.toFixed(2)} m/s at goal line · ${Math.abs(result.point[1]).toFixed(2)} m from center · ${result.point[2].toFixed(2)} m high${goal ? "" : " · wide"}`;
-    else if (lofted && result) detail += ` · ${result.peak_z.toFixed(2)} m peak`;
-    descriptions.push(detail);
+    text = `${robotName(launch.actor)} ${spin}${action} · ${launch.speed.toFixed(1)} m/s launch`;
+    if (turn) text += ` · ${turn.degrees.toFixed(0)}° ${turn.direction}`;
+    if (goal || result?.outcome === "wide") text += ` · ${result.speed.toFixed(2)} m/s at goal line · ${Math.abs(result.point[1]).toFixed(2)} m from center · ${result.point[2].toFixed(2)} m high${goal ? "" : " · wide"}`;
+    else if (lofted && result) text += ` · ${result.peak_z.toFixed(2)} m peak`;
   }
   const readout = byId("kick-readout");
-  const text = descriptions.join("  |  ");
   if (readout.textContent !== text) readout.textContent = text;
   readout.hidden = !text;
 }

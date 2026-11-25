@@ -5,7 +5,19 @@ import math
 from typing import Protocol
 
 from .carpet import SWITCH_RATIO, ground_step
-from .model import Command, Config, RobotKey, World, bounded, possession, drive_velocity, wrap
+from .model import (
+    GRAVITY,
+    ROBOT_HEIGHT,
+    Command,
+    Config,
+    RobotKey,
+    World,
+    bounded,
+    possession,
+    drive_velocity,
+    launch_velocity,
+    wrap,
+)
 
 
 class Backend(Protocol):
@@ -59,10 +71,9 @@ class ReferenceBackend:
             if not held and possession(old, robot.key, cfg):
                 if c.kick > 0 and robot.key not in self.kick_held:
                     self.last_kick_events.append((robot.key, old, c.kick))
-                    self.switch_speed = SWITCH_RATIO * c.kick
-                    ball = replace(
-                        ball, vx=c.kick * math.cos(robot.yaw), vy=c.kick * math.sin(robot.yaw)
-                    )
+                    vx, vy, vz = launch_velocity(c.kick, robot.yaw, c.kick_elevation)
+                    self.switch_speed = SWITCH_RATIO * math.hypot(vx, vy)
+                    ball = replace(ball, vx=vx, vy=vy, vz=vz)
                     held = True
                 elif c.dribbler > 0.5:
                     self.switch_speed = math.inf
@@ -74,7 +85,16 @@ class ReferenceBackend:
                         vy=vy,
                     )
                     held = True
-        if not held or self.last_kick_events:
+        if ball.z > cfg.ball_radius or ball.vz > 0:
+            height = ball.z + ball.vz * cfg.dt - GRAVITY * cfg.dt**2 / 2
+            ball = replace(
+                ball,
+                x=ball.x + ball.vx * cfg.dt,
+                y=ball.y + ball.vy * cfg.dt,
+                z=max(cfg.ball_radius, height),
+                vz=ball.vz - GRAVITY * cfg.dt if height > cfg.ball_radius else 0.0,
+            )
+        elif not held or self.last_kick_events:
             speed = math.hypot(ball.vx, ball.vy)
             if speed:
                 travel, end = ground_step(speed, self.switch_speed, cfg.dt)
@@ -84,7 +104,7 @@ class ReferenceBackend:
                 )
         self.kick_held = next_kick_held
         # Simple rigid-disc ball contact; intentionally not a substitute for Webots physics.
-        if not held:
+        if not held and ball.z <= ROBOT_HEIGHT + cfg.ball_radius:
             for r in robots:
                 dx, dy = ball.x - r.x, ball.y - r.y
                 distance = math.hypot(dx, dy)

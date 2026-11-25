@@ -2,6 +2,7 @@
 
 # ruff: noqa: E402 -- generated ROS imports must follow importorskip on non-ROS hosts.
 import pytest
+from dataclasses import replace
 
 rclpy = pytest.importorskip("rclpy")
 pytest.importorskip("roboturk_interfaces.msg")
@@ -11,13 +12,22 @@ from roboturk.model import Command, Config, Referee, RobotKey
 from roboturk_interfaces.msg import CommandArray, RefereeState
 from roboturk_interfaces.srv import ResetEpisode
 from roboturk_ros.bridge import Bridge, formation
-from roboturk_ros.conversions import command_message, from_world_message, set_stamp, world_message
+from roboturk_ros.conversions import (
+    command_message,
+    from_command_message,
+    from_world_message,
+    set_stamp,
+    world_message,
+)
 from roboturk_ros.strategy_node import StrategyNode
 
 
 def test_ros_world_roundtrip():
     w = formation(12)
+    w = replace(w, ball=replace(w.ball, z=0.35, vz=1.2))
     assert from_world_message(world_message(w)) == w
+    key, chip = RobotKey("blue", 1), Command(kick=4.1, kick_elevation=0.6)
+    assert from_command_message(command_message(key, chip)) == (key, chip)
 
 
 def test_ros_practice_limits_reach_the_actuator_and_strategy(tmp_path):

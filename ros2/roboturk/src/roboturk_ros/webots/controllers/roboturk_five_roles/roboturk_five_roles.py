@@ -22,11 +22,11 @@ from roboturk.five_strategy import decode_strategies, describe_play
 from roboturk.kickoff_drive import KickoffDrive, ParallelKickoffDrive
 from roboturk.match_limits import PracticeLimitFeed, limit_values, shared_configs, team_configs
 from roboturk.team_kickoff import IndependentKickoffs
-from roboturk.model import Referee, SSL_KICK_LIMIT, bounded
+from roboturk.model import Referee, SSL_KICK_LIMIT, bounded, possession
 from roboturk.open_motion import Steering, observed_velocity
 from roboturk.placement import KickoffKick, PlacementRestart, xy
 from roboturk.pivot_fetch import PivotFetch
-from roboturk.role_telemetry import RoleTelemetry
+from roboturk.role_telemetry import KickTrace, NORMAL_GOAL_HEIGHT, RoleTelemetry, xyz
 from roboturk.tackle_selector import TackleSelector
 from roboturk.ssl_referee import RefereeSocket, RestartGate
 from roboturk.ssl_vision import (
@@ -197,6 +197,8 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
     started = False
     if league:
         (folder / "referee-ready").touch()
+    kick_trace = KickTrace(CFG)
+    goal_heights = dict.fromkeys(TEAMS, CFG.ball_radius)
     for tick in range(round(cfg["seconds"] / CFG.dt)):
         limit_change = limit_feed.poll() if limit_feed else None
         if limit_change:
@@ -217,6 +219,7 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
             ):
                 serving = state.command.split("_")[-1].lower()
                 restarts += 1
+                kick_trace.finish(tick, w.ball, events)
                 target = kickoff(
                     seed + 101 * restarts, serving, sign, w.time, referee_placement=referee_places
                 )
@@ -398,6 +401,7 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                 strategies=strategies,
                 motion_configs=motion_configs,
                 practice_pace=limit_feed is not None,
+                chip_passes=not restricted and (not kickoff_kick or kickoff_kick.second_touch),
             )
             if restricted:
                 out = {k: c for k, c in out.items() if k.team == restricted}
@@ -444,6 +448,8 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                     item["command"] = [
                         round(v, 4) for v in (cmd.vx, cmd.vy, cmd.omega, cmd.dribbler, cmd.kick)
                     ]
+                    if cmd.kick_elevation > 0:
+                        item["kick_elevation"] = cmd.kick_elevation
                 if key in planned and cmd is not None and cmd.kick:
                     item["pass_to"] = keys.index(planned[key].receiver)
                 details.append(item)
@@ -487,8 +493,8 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                 target=restart.play.target,
                 placement_phase=restart.play.phase,
             )
+        meta["ball_z"] = round(w.ball.z, 4)
         if cfg.get("motion_audit"):
-            meta["ball_z"] = backend.ball.getPosition()[2]
             meta["motion"] = [planner_trace.get(k) for k in keys]
             if tackle_audit is not None:
                 meta["tackle"] = [
@@ -521,6 +527,8 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                 ]
         steps.append(meta)
         states.append(snapshot(w))
+        if tactics.control and possession(w, tactics.control, CFG):
+            goal_heights[tactics.control.team] = w.ball.z
         w = backend.step(out)
         if motion_audit:
             centers = np.array(
@@ -547,8 +555,17 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
             contact_masks.extend(np.sum(contacts * pair_bits, axis=1, dtype=np.uint64))
         if restart:
             restart.applied(backend.last_kick_events)
-        for k, _, speed in backend.last_kick_events:
-            event = dict(tick=tick, event="shot", actor=keys.index(k), speed=speed)
+        for k, launch, speed in backend.last_kick_events:
+            command = bounded(out[k], motion_configs[k.team])
+            event = dict(
+                tick=tick,
+                event="shot",
+                actor=keys.index(k),
+                speed=speed,
+                origin=xyz(launch.ball),
+                elevation=command.kick_elevation,
+            )
+            goal_heights[k.team] = launch.ball.z
             if kickoff_kick and not kickoff_kick.kicked and k == kickoff_kick.kicker:
                 kickoff_kick.kicked = True
                 event["event"] = "kickoff_kick"
@@ -565,6 +582,9 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
             else:
                 tactics.flight = None
             events.append(event)
+            kick_trace.start(event, launch, events)
+        for sample in backend.last_substep_worlds:
+            kick_trace.sample(tick, sample, events)
         if kickoff_kick and kickoff_kick.kicked and not kickoff_kick.second_touch:
             kickoff_kick.observe(backend.last_substep_worlds)
         if telemetry is not None:
@@ -576,10 +596,14 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
         scorer = None
         for sample in backend.last_substep_worlds:
             b = sample.ball
+            for team in TEAMS:
+                goal_heights[team] = max(goal_heights[team], b.z)
             if abs(b.x) > CFG.ball_exit_x or abs(b.y) > CFG.ball_exit_y:
                 if abs(b.x) > CFG.ball_exit_x and abs(b.y) < CFG.goal_width / 2 - CFG.ball_radius:
-                    scorer = 0 if b.x * sign > 0 else 1
-                    score[scorer] += 1
+                    attack = 0 if b.x * sign > 0 else 1
+                    if goal_heights[TEAMS[attack]] <= NORMAL_GOAL_HEIGHT:
+                        scorer = attack
+                        score[scorer] += 1
                 serving = (
                     TEAMS[1 - scorer]
                     if scorer is not None
@@ -596,7 +620,7 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                     )
                 )
                 if cfg.get("motion_audit"):
-                    events[-1]["crossing_xyz"] = [b.x, b.y, backend.ball.getPosition()[2]]
+                    events[-1]["crossing_xyz"] = xyz(b)
                 if cfg.get("capture_exit") == restarts:
                     with (folder / "tail.pb").open("wb") as stream:
                         for index in range(round(1.0 / CFG.dt)):
@@ -625,6 +649,8 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                 w = backend.reset(
                     kickoff(seed + 101 * restarts, serving, sign, (tick + 1) * CFG.dt)
                 )
+                kick_trace.finish(tick, b, events)
+                goal_heights = dict.fromkeys(TEAMS, CFG.ball_radius)
                 tactics = FiveRoles()
                 if motion_audit:
                     touching.fill(False)

@@ -7,7 +7,7 @@ Both native backends share the same carpet and drive limits.
 """
 
 import math
-from .model import Command, Config, bounded, possession, drive_velocity
+from .model import Command, Config, bounded, possession, drive_velocity, launch_velocity
 from .webots_backend import WebotsBackend
 
 
@@ -43,13 +43,18 @@ class ContinuousWebotsBackend(WebotsBackend):
         cfg = self.cfg
         commands = {k: bounded(c, self.config_for(k)) for k, c in commands.items()}
         kicked = set()
+        chipped = False
         self.last_substep_worlds = []
         self.last_kick_events = []
         self.last_kick_arbitrations = []
         for _ in range(self.substeps):
             current = self.read()
             launch = None
-            winner, candidates = nearest_kicker(current, commands, cfg, self.kick_held | kicked)
+            winner, candidates = (
+                (None, [])
+                if chipped
+                else nearest_kicker(current, commands, cfg, self.kick_held | kicked)
+            )
             if len(candidates) > 1:
                 self.last_kick_arbitrations.append(
                     {
@@ -69,9 +74,10 @@ class ContinuousWebotsBackend(WebotsBackend):
                 vx, vy = drive_velocity(r, c, self.basic_ms / 1000, self.config_for(r.key))
                 vertical = node.getVelocity()[2]
                 node.setVelocity([vx, vy, vertical, 0.0, 0.0, c.omega])
-                if possession(current, r.key, cfg):
+                if not chipped and possession(current, r.key, cfg):
                     if r.key == winner:
-                        launch = c.kick, r.yaw
+                        launch = launch_velocity(c.kick, r.yaw, c.kick_elevation)
+                        chipped = c.kick_elevation > 0
                         kicked.add(r.key)
                         self.last_kick_events.append((r.key, current, c.kick))
                     elif c.dribbler > 0.5 and r.key not in kicked:

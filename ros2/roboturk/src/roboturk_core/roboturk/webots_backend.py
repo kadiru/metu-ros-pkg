@@ -8,7 +8,16 @@ from dataclasses import replace
 import math
 
 from .carpet import carpet_velocity
-from .model import Ball, Command, Config, Robot, bounded, possession, drive_velocity
+from .model import (
+    Ball,
+    Command,
+    Config,
+    Robot,
+    bounded,
+    possession,
+    drive_velocity,
+    launch_velocity,
+)
 
 
 class WebotsBackend:
@@ -56,7 +65,7 @@ class WebotsBackend:
             node.getField("rotation").setSFRotation([0.0, 0.0, 1.0, r.yaw])
             node.resetPhysics()
         self.ball.getField("translation").setSFVec3f(
-            [world.ball.x, world.ball.y, self.cfg.ball_radius]
+            [world.ball.x, world.ball.y, max(world.ball.z, self.cfg.ball_radius)]
         )
         self.ball.resetPhysics()
         # Flush pending pose/physics resets before setting velocities: Webots otherwise
@@ -65,7 +74,7 @@ class WebotsBackend:
             raise RuntimeError("Webots ended during reset")
         for r in world.robots:
             self.nodes[r.key].setVelocity([r.vx, r.vy, 0.0, 0.0, 0.0, r.omega])
-        self.ball.setVelocity([world.ball.vx, world.ball.vy, 0.0, 0.0, 0.0, 0.0])
+        self.ball.setVelocity([world.ball.vx, world.ball.vy, world.ball.vz, 0.0, 0.0, 0.0])
         if self.supervisor.step(0) == -1:
             raise RuntimeError("Webots ended during reset")
         self.epoch = self.supervisor.getTime() - world.time
@@ -88,15 +97,14 @@ class WebotsBackend:
             self.world,
             time=self.supervisor.getTime() - self.epoch,
             robots=tuple(robots),
-            ball=Ball(p[0], p[1], v[0], v[1]),
+            ball=Ball(p[0], p[1], v[0], v[1], z=p[2], vz=v[2]),
         )
 
     def advance_ball(self, launch):
         if launch is None:
             velocity = self.ball.getVelocity()
         else:
-            speed, angle = launch
-            velocity = [speed * math.cos(angle), speed * math.sin(angle), 0.0, 0.0, 0.0, 0.0]
+            velocity = [*launch, 0.0, 0.0, 0.0]
             self.ball.setVelocity(velocity)
         radius = self.cfg.ball_radius
         if self.ball.getPosition()[2] > radius + 0.0001 or abs(velocity[2]) >= 0.03:
@@ -122,6 +130,7 @@ class WebotsBackend:
         cfg = self.cfg
         commands = {k: bounded(c, cfg) for k, c in commands.items()}
         kicked = set()
+        ball_launched = False
         self.last_substep_worlds = []
         self.last_kick_events = []
         for _ in range(self.substeps):
@@ -133,9 +142,10 @@ class WebotsBackend:
                 vx, vy = drive_velocity(r, c, self.basic_ms / 1000, cfg)
                 vertical = node.getVelocity()[2]
                 node.setVelocity([vx, vy, vertical, 0.0, 0.0, c.omega])
-                if possession(current, r.key, cfg):
+                if not ball_launched and possession(current, r.key, cfg):
                     if c.kick > 0 and r.key not in self.kick_held and r.key not in kicked:
-                        launch = c.kick, r.yaw
+                        launch = launch_velocity(c.kick, r.yaw, c.kick_elevation)
+                        ball_launched = c.kick_elevation > 0
                         kicked.add(r.key)
                         self.last_kick_events.append((r.key, current, c.kick))
                     elif c.dribbler > 0.5 and r.key not in kicked:

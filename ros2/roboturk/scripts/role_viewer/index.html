@@ -42,6 +42,8 @@
           <div class="focus-controls"><button id="solo" type="button" aria-pressed="false">Solo selected</button><button id="show-all" type="button">Show all</button></div>
         </div>
         <div class="pitch"><canvas id="pitch" aria-label="Recorded robot and ball positions. Select a robot here or in the lineup."></canvas></div>
+        <div class="overlay-key"><span class="target-key">Movement target</span><span class="flat-key">Flat kick</span><span class="chip-key">Chip</span><span class="mouth-key">Goal-line crossing</span></div>
+        <p id="kick-readout" class="kick-readout" hidden></p>
         <div class="playback">
           <div class="scrub-label"><label for="scrub">Match timeline</label><span id="replay-time"></span></div>
           <input id="scrub" type="range" min="0" max="0" value="0">
@@ -54,8 +56,8 @@
         </div>
       </section>
       <section class="lineups" aria-label="Team lineups">
-        <section class="lineup blue" aria-labelledby="blue-lineup"><div class="section-heading"><h2 id="blue-lineup">Blue lineup</h2><span id="blue-strategy-label">Current / previous</span></div><div id="blue-roster" class="roster"></div></section>
-        <section class="lineup yellow" aria-labelledby="yellow-lineup"><div class="section-heading"><h2 id="yellow-lineup">Yellow lineup</h2><span id="yellow-strategy-label">Current / previous</span></div><div id="yellow-roster" class="roster"></div></section>
+        <section class="lineup blue" aria-labelledby="blue-lineup"><div class="section-heading"><h2 id="blue-lineup"><button type="button" class="team-overlay" id="blue-overlay" aria-label="Toggle Blue overlays" aria-pressed="false" disabled>Blue</button></h2><span id="blue-strategy-label">Current / previous</span></div><div id="blue-roster" class="roster"></div></section>
+        <section class="lineup yellow" aria-labelledby="yellow-lineup"><div class="section-heading"><h2 id="yellow-lineup"><button type="button" class="team-overlay" id="yellow-overlay" aria-label="Toggle Yellow overlays" aria-pressed="false" disabled>Yellow</button></h2><span id="yellow-strategy-label">Current / previous</span></div><div id="yellow-roster" class="roster"></div></section>
       </section>
       </div>
 

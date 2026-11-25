@@ -1,6 +1,6 @@
 # RoboTurk Match Viewer
 
-![Practice match showing the shared motion sliders in the top bar](preview.png)
+![B4's shot trail and speed at the goal line in the match viewer](preview.png)
 
 ## Start a live match
 
@@ -30,6 +30,8 @@ Practice starts with the Game limits. The open-play planner uses the selected sp
 
 Select a robot on the field or a lineup to inspect its assignment. The inspector shows the strategy, play and current step, the current and previous roles, and the requested motion. New recordings show measured Webots speed below the translation command and kick speed on shot events. The colored **10-second role timeline** and **60-second match-event timeline** let you jump to earlier moments. **Go live** catches up. Team and player filters change what the viewer draws. They leave the active robots on the simulated field.
 
+Click any number of robot IDs in the lineups to show their movement targets and recent ball paths. Click **Blue** or **Yellow** above its lineup to switch the whole team's overlays on or off. Solid trails show flat kicks. Dotted, raised trails show chips. A circle in the goal mouth marks the measured crossing point. The readout lists launch speed, speed at the goal line, and the ball's location or peak height. Goal-line markers record a physical crossing. The scoreboard uses the referee's decision. Older replays can still show assigned movement targets.
+
 ## Initial 5v5 playbooks
 
 | Strategy | On-ball attack play | Effect |
@@ -40,11 +42,15 @@ Select a robot on the field or a lineup to inspect its assignment. The inspector
 
 **Passing preference** adjusts when an eligible receiver is used relative to the selected playbook. The shot-opening requirement, receiver eligibility checks, referee restrictions, and motion planner still apply.
 
+During open play a carrier can chip to its chosen teammate when an opponent blocks the flat pass and the predicted arc clears the players in the lane. The controller picks the launch speed for a bounce short of the receiver. Webots applies the upward velocity and simulates gravity, contact, and bounce. The receiver moves to its outlet while the ball is airborne. This is a rule-based skill.
+
+The 2026 SSL rules cap ball speed at 6.5 m/s in 3D and disallow a normal goal if the ball exceeded 0.15 m after the scoring team's last touch. The penalty-kick and shoot-out procedures have separate scoring conditions. A robot may not use its dribbler to lift the ball or chip the ball over the field boundary. [Ball speed](https://robocup-ssl.github.io/ssl-rules/sslrules.html#_ball_speed) · [Scoring goals](https://robocup-ssl.github.io/ssl-rules/sslrules.html#_scoring_goals) · [Boundary crossing](https://robocup-ssl.github.io/ssl-rules/sslrules.html#_boundary_crossing) · [Dribbling device](https://robocup-ssl.github.io/ssl-rules/sslrules.html#_dribbling_device)
+
 The CMDragons system selects team plays using applicability conditions and fills the play's robot roles dynamically. Its Skills, Tactics and Plays paper calls the coordinated actions *steps* in a sequence of role tactics. RoboTurk uses possession and referee state to select a play, and shows the observed step such as lining up a pass or receiving it. The initial strategy presets are rule-based and use the existing skill controllers. Full synchronized tactic sequences are a future extension. [Original STP paper](https://www.cs.cmu.edu/~mmv/papers/05STP-IEEE.pdf) · [CMDragons 2016 team description](https://ssl.robocup.org/wp-content/uploads/2019/01/2016_ETDP_CMDragons.pdf)
 
 ## Play a recording
 
-[Download the standalone match viewer](https://raw.githubusercontent.com/kadiru/metu-ros-pkg/codex/roboturk-ros2/ros2/roboturk/media/match-viewer/index.html) and open it in a browser. Scrub across 0:08 in the Practice example to see the shared limits change.
+[Download the goal replay](https://raw.githubusercontent.com/kadiru/metu-ros-pkg/codex/roboturk-ros2/ros2/roboturk/media/match-viewer/index.html) or the [blocked-lane chip replay](https://raw.githubusercontent.com/kadiru/metu-ros-pkg/codex/roboturk-ros2/ros2/roboturk/media/match-viewer/chip.html) and open it in a browser. Both are native Webots recordings. The chip replay starts with B1's pass over Y1 and B4 securing it shortly afterward.
 
 ```sh
 python scripts/role_viewer.py runs/viewer-sessions/SESSION/run runs/viewer-sessions/SESSION/run/viewer.html

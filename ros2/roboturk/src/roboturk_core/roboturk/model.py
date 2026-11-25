@@ -8,6 +8,9 @@ from .carpet import BALL_RADIUS
 
 KICKER_LIMIT = 10.0
 SSL_KICK_LIMIT = 6.5
+MAX_KICK_ELEVATION = math.pi / 4
+GRAVITY = 9.81
+ROBOT_HEIGHT = 0.15
 
 
 class Skill(StrEnum):
@@ -55,6 +58,8 @@ class Ball:
     vx: float = 0.0
     vy: float = 0.0
     visible: bool = True
+    z: float = BALL_RADIUS  # height of the center above the carpet, m
+    vz: float = 0.0
 
 
 @dataclass(frozen=True)
@@ -130,7 +135,8 @@ class Command:
     vy: float = 0.0
     omega: float = 0.0
     dribbler: float = 0.0  # duty 0..1
-    kick: float = 0.0  # target ball speed m/s, edge-triggered by backend
+    kick: float = 0.0  # total 3D launch speed in m/s, edge-triggered by backend
+    kick_elevation: float = 0.0  # launch angle above the carpet, radians
 
 
 @dataclass(frozen=True)
@@ -172,19 +178,32 @@ def wrap(angle: float) -> float:
     return math.atan2(math.sin(angle), math.cos(angle))
 
 
+def launch_velocity(speed, yaw, elevation):
+    planar = speed * math.cos(elevation)
+    return planar * math.cos(yaw), planar * math.sin(yaw), speed * math.sin(elevation)
+
+
 def possession(world: World, key: RobotKey, cfg: Config) -> bool:
     robot = world.robot(key)
     bx, by = body_vector(world.ball.x - robot.x, world.ball.y - robot.y, robot.yaw)
     return (
         robot.visible
         and world.ball.visible
+        and world.ball.z <= cfg.ball_radius + 0.012
         and abs(bx - cfg.possession_x) < 0.035
         and abs(by) < 0.045
     )
 
 
 def bounded(command: Command, cfg: Config) -> Command:
-    values = (command.vx, command.vy, command.omega, command.dribbler, command.kick)
+    values = (
+        command.vx,
+        command.vy,
+        command.omega,
+        command.dribbler,
+        command.kick,
+        command.kick_elevation,
+    )
     if not all(math.isfinite(v) for v in values):
         return Command()
     scale = max(1.0, math.hypot(command.vx, command.vy) / cfg.max_speed)
@@ -194,6 +213,7 @@ def bounded(command: Command, cfg: Config) -> Command:
         max(-cfg.max_omega, min(cfg.max_omega, command.omega)),
         max(0.0, min(1.0, command.dribbler)),
         max(0.0, min(KICKER_LIMIT, cfg.max_kick, command.kick)),
+        max(0.0, min(MAX_KICK_ELEVATION, command.kick_elevation)) if command.kick > 0 else 0.0,
     )
 
 
@@ -203,7 +223,12 @@ def constrain_skill(command: Command, skill: Skill) -> Command:
         return Command()
     kick = command.kick if skill in (Skill.PASS, Skill.SHOOT) else 0.0
     dribbler = command.dribbler if skill != Skill.MOVE else 0.0
-    return Command(command.vx, command.vy, command.omega, dribbler, kick)
+    return replace(
+        command,
+        dribbler=dribbler,
+        kick=kick,
+        kick_elevation=command.kick_elevation if kick else 0.0,
+    )
 
 
 def safe_command(

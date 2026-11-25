@@ -6,3 +6,5 @@ float64 vy
 float64 omega
 float64 dribbler
 float64 kick
+# Launch angle above the carpet in radians. Zero is a flat kick.
+float64 kick_elevation

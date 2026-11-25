@@ -1,6 +1,7 @@
 """Compact match telemetry shared by the Webots stream and replay exporter."""
 
 import json
+import math
 
 from .match_limits import TEAMS, limit_values
 
@@ -13,6 +14,75 @@ STAGES = {
     "POST_GAME": "Full time",
 }
 STARTS = {"kickoff_kick": "kicks off", "shot": "shoots"}
+NORMAL_GOAL_HEIGHT = 0.15
+
+
+def xyz(ball):
+    return [ball.x, ball.y, ball.z]
+
+
+def ball_speed(ball):
+    return math.hypot(ball.vx, ball.vy, ball.vz)
+
+
+class KickTrace:
+    """Observe one kick until the ball crosses a line, stops, or is deflected."""
+
+    def __init__(self, cfg):
+        self.cfg = cfg
+        self.kick = None
+
+    def start(self, event, state, events):
+        self.finish(event["tick"], state.ball, events)
+        self.kick = event
+        self.start_time = state.time
+        self.previous = state.ball
+        self.peak = state.ball.z
+
+    def sample(self, tick, sample, events):
+        if self.kick is None or sample.time <= self.start_time:
+            return
+        b, p = sample.ball, self.previous
+        self.peak = max(self.peak, b.z)
+        self.previous = b
+        crossings = []
+        for axis, limit in (("x", self.cfg.ball_exit_x), ("y", self.cfg.ball_exit_y)):
+            last, now = getattr(p, axis), getattr(b, axis)
+            if abs(last) < limit <= abs(now):
+                crossings.append(((math.copysign(limit, now) - last) / (now - last), axis))
+        if crossings:
+            fraction, axis = min(crossings)
+            point = [a + fraction * (z - a) for a, z in zip(xyz(p), xyz(b), strict=True)]
+            mouth = axis == "x" and abs(point[1]) < self.cfg.goal_width / 2 - self.cfg.ball_radius
+            outcome = "goal mouth" if mouth else "wide" if axis == "x" else "touchline"
+            self.finish(
+                tick,
+                b,
+                events,
+                outcome,
+                point,
+                ball_speed(p) + fraction * (ball_speed(b) - ball_speed(p)),
+            )
+        elif math.hypot(b.vx - p.vx, b.vy - p.vy) > 0.65 and sample.time - self.start_time > 0.012:
+            self.finish(tick, b, events, "deflected")
+        elif sample.time - self.start_time >= 2 or ball_speed(b) < 0.13:
+            self.finish(tick, b, events)
+
+    def finish(self, tick, ball, events, outcome="ended", point=None, speed=None):
+        if self.kick is not None:
+            events.append(
+                dict(
+                    event="kick_trace",
+                    tick=tick,
+                    kick_tick=self.kick["tick"],
+                    actor=self.kick["actor"],
+                    point=point if point is not None else xyz(ball),
+                    speed=speed if speed is not None else ball_speed(ball),
+                    outcome=outcome,
+                    peak_z=self.peak,
+                )
+            )
+            self.kick = None
 
 
 def viewer_header(keys, seed, cfg, limits=None):
@@ -38,6 +108,7 @@ def compact_frame(frame, tick, dt, sign):
         plays=frame.get("plays"),
         limits=frame.get("limits"),
         motion=[m.get("mode") if m else None for m in motions] if motions else None,
+        ball_z=frame.get("ball_z"),
     )
 
 
@@ -62,13 +133,33 @@ def action_events(events, keys):
 
     for event in events:
         tick, kind = event["tick"], event["event"]
-        if kind in ("pass", "restart_pass"):
+        if kind == "kick_trace":
+            yield [tick, "", kind, keys[event["actor"]][0], event]
+            continue
+        details = [event] if "origin" in event else []
+        if kind == "pass" and event.get("elevation", 0) > 0:
             actor, receiver = event["actor"], event["receiver"]
-            yield [tick, f"{name(actor)} passes to {name(receiver)}", "pass", keys[actor][0]]
+            label = f"{name(actor)} chips to {name(receiver)} · {event['speed']:.1f} m/s"
+            yield [tick, label, "chip", keys[actor][0], *details]
+        elif kind in ("pass", "restart_pass"):
+            actor, receiver = event["actor"], event["receiver"]
+            yield [
+                tick,
+                f"{name(actor)} passes to {name(receiver)}",
+                "pass",
+                keys[actor][0],
+                *details,
+            ]
         elif kind in STARTS:
             actor = event["actor"]
             speed = f" · {event['speed']:g} m/s" if kind == "shot" and "speed" in event else ""
-            yield [tick, f"{name(actor)} {STARTS[kind]}{speed}", kind.split("_")[0], keys[actor][0]]
+            yield [
+                tick,
+                f"{name(actor)} {STARTS[kind]}{speed}",
+                kind.split("_")[0],
+                keys[actor][0],
+                *details,
+            ]
         elif kind == "referee_placement" and event.get("team"):
             team = event["team"].lower()
             yield [tick, f"{team.title()} ball placed", "restart", team]

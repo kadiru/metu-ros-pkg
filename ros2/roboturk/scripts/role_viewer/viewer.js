@@ -64,7 +64,7 @@ const roleColors = {
   Pass: "#9fcce6", Receive: "#95dcea", hold: "#a0afc4",
 };
 const eventColors = {
-  goal: "#b2e58b", shot: "#ffbd89", pass: "#9dabee",
+  goal: "#b2e58b", shot: "#ffbd89", pass: "#9dabee", chip: "#c9b2ff",
   kickoff: "#90d0b6", restart: "#eac575", period: "#b7bfcf",
 };
 
@@ -93,6 +93,7 @@ let canvasWidth = 0;
 let canvasHeight = 0;
 const teamEnabled = { blue: true, yellow: true };
 const robotEnabled = [];
+const overlayEnabled = new Set(match.intro?.overlays ?? []);
 const histories = [];
 const lineup = [];
 const filterButtons = [];
@@ -171,7 +172,11 @@ function makeRosterButton(team, number, robot) {
   const previous = document.createElement("span");
   previous.className = "roster-previous";
   element.append(id, role, previous);
-  element.addEventListener("click", () => choose(robot));
+  element.addEventListener("click", () => {
+    if (overlayEnabled.has(robot)) overlayEnabled.delete(robot);
+    else overlayEnabled.add(robot);
+    choose(robot);
+  });
   byId(`${team}-roster`).append(element);
   return { element, role, previous };
 }
@@ -193,6 +198,15 @@ function initializeTeams() {
     const group = document.createElement("div");
     group.className = `filter-group ${team}`;
     groups[team] = group;
+    byId(`${team}-overlay`).addEventListener("click", () => {
+      const roster = keys.flatMap(([color], robot) => color === team ? [robot] : []);
+      const all = roster.every((robot) => overlayEnabled.has(robot));
+      roster.forEach((robot) => {
+        if (all) overlayEnabled.delete(robot);
+        else overlayEnabled.add(robot);
+      });
+      render();
+    });
     byId("field-filters").append(group);
     teamButtons[team] = filterButton(group, label, `Show ${label} team`, () => {
       exitSoloForFilter();
@@ -246,13 +260,22 @@ function updateFilters() {
 }
 
 function updateLineup(frame) {
+  for (const team of Object.keys(teams)) {
+    const button = byId(`${team}-overlay`);
+    const roster = keys.flatMap(([color], robot) => color === team ? [robot] : []);
+    const enabled = roster.filter((robot) => overlayEnabled.has(robot)).length;
+    button.disabled = !roster.length;
+    button.setAttribute("aria-pressed", enabled === 0 ? "false" : enabled === roster.length ? "true" : "mixed");
+  }
   lineup.forEach(({ element, role, previous }, robot) => {
     const current = roleName(frame.roles[robot]);
     const last = histories[robot][historyIndex(robot)].previous;
     role.textContent = current;
     previous.textContent = last === null ? "—" : roleName(last);
     element.setAttribute("aria-label", `${robotName(robot)}, ${current}, previous role ${previous.textContent}`);
-    element.setAttribute("aria-pressed", String(selected === robot));
+    element.setAttribute("aria-pressed", String(overlayEnabled.has(robot)));
+    if (selected === robot) element.setAttribute("aria-current", "true");
+    else element.removeAttribute("aria-current");
   });
 }
 
@@ -447,7 +470,7 @@ function updateEventTrack(now) {
     nodes.append(line);
   }
   const lanes = [];
-  const visible = events.filter(([tick]) => start <= frames[tick].t && frames[tick].t <= end);
+  const visible = events.filter(([tick, , kind]) => kind !== "kick_trace" && frames[tick] && start <= frames[tick].t && frames[tick].t <= end);
   for (const [tick, label, kind, team] of visible) {
     const time = replayTime(frames[tick].t);
     const left = xAt(frames[tick].t);
@@ -518,6 +541,7 @@ function updateInspector(frame) {
   let task = audit?.task || roleTasks[role] || roleName(role);
   if (audit && !command) task = "Hold for the current referee instruction.";
   else if (audit?.pass_to != null) task = `Pass to ${robotName(audit.pass_to)}.`;
+  else if (audit?.kick_elevation > 0) task = "Chip to the receiver.";
   else if (command?.[4] > 0 && audit?.task === "Line up a shot") task = "Shoot at goal.";
   const motion = frame.motion?.[selected];
   if (command && motion in motionNames) task += ` ${motionNames[motion]}.`;
@@ -589,6 +613,93 @@ function traceCircle(x, y, radius, fill, stroke, width = 1) {
   if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = width; ctx.stroke(); }
 }
 
+function strokePath(points, color, width, dash = []) {
+  if (points.length < 2) return;
+  ctx.beginPath();
+  ctx.moveTo(...points[0]);
+  for (const point of points.slice(1)) ctx.lineTo(...point);
+  ctx.strokeStyle = color;
+  ctx.lineWidth = width;
+  ctx.setLineDash(dash);
+  ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+function drawOverlays(frame, points) {
+  const shots = new Map();
+  const results = new Map();
+  for (const [tick, , kind, team, details] of events) {
+    if (!details || tick > frameIndex || frames[tick]?.t < frame.t - 10) continue;
+    const robot = details.actor;
+    if (!overlayEnabled.has(robot) || !isVisible(robot)) continue;
+    if (kind === "kick_trace") results.set(`${robot}:${details.kick_tick}`, details);
+    else if (details.origin) {
+      const lane = `${robot}:${kind === "chip" ? "chip" : "flat"}`;
+      if (kind === "shot" || kind === "chip" || shots.get(lane)?.kind !== "shot") {
+        shots.set(lane, { tick, kind, team, ...details });
+      }
+    }
+  }
+  for (const robot of overlayEnabled) {
+    const audit = frame.allocation?.[robot];
+    if (!isVisible(robot) || !audit?.target || !audit.command || frame.roles[robot] === "Stand clear") continue;
+    const offset = 2 + 3 * robot;
+    const origin = project(points[offset], points[offset + 1]);
+    const target = project(...audit.target);
+    if (Math.hypot(target[0] - origin[0], target[1] - origin[1]) <= 12) continue;
+    const color = teams[keys[robot][0]].pale;
+    strokePath([origin, target], `${color}a0`, 1.3, [5, 5]);
+    traceCircle(...target, 4, null, color, 1.4);
+  }
+  const descriptions = [];
+  for (const launch of shots.values()) {
+    const result = results.get(`${launch.actor}:${launch.tick}`);
+    const end = Math.min(result?.tick ?? frameIndex, launch.tick + Math.ceil(2 / (match.dt || .04)));
+    const track = [launch.origin];
+    for (let i = launch.tick + 1; i <= end; i += 1) {
+      track.push([positions[i][0], positions[i][1], frames[i].ball_z ?? 0]);
+    }
+    if (result) track.push(result.point);
+    const path = track.map(([x, y]) => project(x, y));
+    const color = teams[launch.team].pale;
+    const lofted = launch.elevation > 0;
+    if (lofted) {
+      strokePath(path, "#101b1aaa", 2, [2, 4]);
+      strokePath(track.map(([x, y, z]) => {
+        const [px, py] = project(x, y);
+        return [px, py - Math.max(0, z - 0.022) * scale() * 0.65];
+      }), color, 2.1, [2, 4]);
+    } else {
+      strokePath(path, "#14201b", 4);
+      strokePath(path, color, 2);
+    }
+    traceCircle(...path[0], 3, null, color, 1.4);
+    const goal = result?.outcome === "goal mouth";
+    if (goal) {
+      const [x, y] = path.at(-1);
+      traceCircle(x, y, 6, "#13241d", color, 1.8);
+      traceCircle(x, y, 2.2, color);
+      ctx.font = "700 11px system-ui";
+      ctx.textAlign = result.point[0] > 0 ? "right" : "left";
+      ctx.textBaseline = "bottom";
+      const dx = result.point[0] > 0 ? -10 : 10;
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = "#13241d";
+      ctx.strokeText(`${result.speed.toFixed(2)} m/s`, x + dx, y - 7);
+      ctx.fillStyle = color;
+      ctx.fillText(`${result.speed.toFixed(2)} m/s`, x + dx, y - 7);
+    }
+    let detail = `${robotName(launch.actor)} ${lofted ? "chip" : launch.kind === "shot" ? "shot" : "kick"} · ${launch.speed.toFixed(1)} m/s launch`;
+    if (goal || result?.outcome === "wide") detail += ` · ${result.speed.toFixed(2)} m/s at goal line · ${Math.abs(result.point[1]).toFixed(2)} m from center · ${result.point[2].toFixed(2)} m high${goal ? "" : " · wide"}`;
+    else if (lofted && result) detail += ` · ${result.peak_z.toFixed(2)} m peak`;
+    descriptions.push(detail);
+  }
+  const readout = byId("kick-readout");
+  const text = descriptions.join("  |  ");
+  if (readout.textContent !== text) readout.textContent = text;
+  readout.hidden = !text;
+}
+
 function drawField() {
   if (!canvasWidth || !canvasHeight) return;
   const k = scale();
@@ -633,22 +744,7 @@ function drawField() {
     ctx.stroke();
   }
   if (!frame) return;
-  const target = frame.allocation?.[selected]?.target;
-  if (isVisible(selected) && target && frame.allocation[selected].command && frame.roles[selected] !== "Stand clear") {
-    const [tx, ty] = project(...target);
-    const [rx, ry] = project(points[2 + 3 * selected], points[3 + 3 * selected]);
-    if (Math.hypot(tx - rx, ty - ry) > 12) {
-      ctx.strokeStyle = teams[keys[selected][0]].pale;
-      ctx.lineWidth = 1.5;
-      ctx.setLineDash([4, 5]);
-      ctx.beginPath();
-      ctx.moveTo(rx, ry);
-      ctx.lineTo(tx, ty);
-      ctx.stroke();
-      ctx.setLineDash([]);
-      traceCircle(tx, ty, 4, null, teams[keys[selected][0]].pale, 1.4);
-    }
-  }
+  drawOverlays(frame, points);
   keys.forEach(([team], robot) => {
     if (!isVisible(robot)) return;
     const offset = 2 + 3 * robot;
@@ -672,7 +768,9 @@ function drawField() {
     ctx.fillText(robotName(robot), x - dx * 1.5, y - dy * 1.5);
   });
   const [bx, by] = project(points[0], points[1]);
-  traceCircle(bx, by, Math.max(3.4, .058 * k), "#ffa95f", "#492a15", 1);
+  const lift = Math.max(0, (frame.ball_z ?? 0) - .022);
+  if (lift > .02) traceCircle(bx, by, 3, "#0e1f22aa");
+  traceCircle(bx, by - lift * k * .65, Math.max(3.4, .058 * k), "#ffa95f", "#492a15", 1);
 }
 
 function resizeCanvas() {

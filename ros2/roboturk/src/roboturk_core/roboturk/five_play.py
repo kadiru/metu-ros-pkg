@@ -3,12 +3,13 @@
 from dataclasses import replace
 import math
 from .carrier_motor import track_roller
+from .chip import chip_pass
 from .counterpass import MOTOR, shot_window
 from .five_receive import carrying
 from .five_roles import CFG, PENALTY_FRONT, PENALTY_HALF_WIDTH, TIMED_ROLES, Flight, limit
 from .five_strategy import BALANCED
 from .goal_cover import opposing_holder
-from .model import possession, wrap
+from .model import possession, unit, wrap
 from .open_motion import steer_team
 from .pivot_fetch import PivotFetch
 from .tackle_selector import CONTAIN, TackleSelector
@@ -31,6 +32,7 @@ def commands(
     tasks=None,
     strategies=None,
     practice_motion=None,
+    chip_motion=None,
 ):
     ball = world.ball
     out = {}
@@ -43,7 +45,16 @@ def commands(
         tx, ty = positions[r.key].target
         angle = math.atan2(ball.y - r.y, ball.x - r.x)
         if receive and role == "Receiver" and tactics.flight and tactics.flight.receiver == r.key:
-            out[r.key] = receive.command(world, r, tactics.flight.target)
+            if ball.z > CFG.ball_radius + 0.035:
+                x, y = tactics.flight.target
+                ux, uy = unit(ball.vx, ball.vy)
+                along = max(0, (x - ball.x) * ux + (y - ball.y) * uy) + CFG.possession_x
+                heading = math.atan2(-uy, -ux)
+                out[r.key] = move(
+                    r, ball.x + along * ux, ball.y + along * uy, heading, speed=1.55, turn_limit=8
+                )
+            else:
+                out[r.key] = receive.command(world, r, tactics.flight.target)
             if tasks is not None:
                 tasks[r.key] = "Cushion the pass"
             continue
@@ -77,6 +88,11 @@ def commands(
             if pass_now:
                 gx = limit(mate.x + 0.16 * mate.vx, 4.22)
                 gy = limit(mate.y + 0.16 * mate.vy, 2.68)
+            chip = (
+                chip_pass(world, r.key, mate.key, (gx, gy), chip_motion[team])
+                if chip_motion and pass_now and inside((gx, gy))
+                else None
+            )
             aim = math.atan2(gy - ball.y, gx - ball.x)
             advance = 0.22 if pass_now else 1.0
             if smooth_carry and shoot:
@@ -89,20 +105,31 @@ def commands(
             )
             if tasks is not None:
                 tasks[r.key] = (
-                    "Line up a pass"
+                    "Line up a chip pass"
+                    if chip
+                    else "Line up a pass"
                     if pass_now
                     else "Line up a shot"
                     if shoot
                     else "Carry the ball"
                 )
-            if tactics.control == r.key and abs(wrap(aim - r.yaw)) < 0.07 and (shoot or pass_now):
+            tolerance = 0.035 if chip else 0.07
+            if (
+                tactics.control == r.key
+                and abs(wrap(aim - r.yaw)) < tolerance
+                and (shoot or pass_now)
+            ):
                 kick = 2.6 if pass_now else 4.0
                 if receive and pass_now:
                     # Preserve range on long links and deliver a slower ball on short passes.
                     kick = min(2.6, 1.70 + 0.23 * math.hypot(gx - ball.x, gy - ball.y))
                 if shoot and motion:
                     kick = motion.max_kick
-                cmd = replace(cmd, kick=kick)
+                cmd = (
+                    replace(cmd, kick=chip.speed, kick_elevation=chip.elevation)
+                    if chip
+                    else replace(cmd, kick=kick)
+                )
                 if pass_now:
                     passes[r.key] = Flight(
                         team, mate.key, (gx, gy), world.time + (2.15 if receive else 1.65)
@@ -234,6 +261,7 @@ def open_play(
     strategies=None,
     motion_configs=None,
     practice_pace=False,
+    chip_passes=False,
 ):
     """One open-play control tick shared by ordinary matches and paired replays."""
     carrier = None
@@ -278,6 +306,7 @@ def open_play(
         task_audit,
         strategies,
         motion_configs if practice_pace else None,
+        motion_configs if chip_passes else None,
     )
     recovering = set()
     if touchline:

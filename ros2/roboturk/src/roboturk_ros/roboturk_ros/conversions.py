@@ -35,6 +35,8 @@ def world_message(world, cfg=Config(), *, practice_tuning=False):
         vx=float(world.ball.vx),
         vy=float(world.ball.vy),
         visible=world.ball.visible,
+        z=float(world.ball.z),
+        vz=float(world.ball.vz),
     )
     return message
 
@@ -53,7 +55,13 @@ def from_world_message(message):
             for r in message.robots
         ),
         Ball(
-            message.ball.x, message.ball.y, message.ball.vx, message.ball.vy, message.ball.visible
+            message.ball.x,
+            message.ball.y,
+            message.ball.vx,
+            message.ball.vy,
+            message.ball.visible,
+            message.ball.z,
+            message.ball.vz,
         ),
         Referee(message.referee),
         message.attack_sign,
@@ -69,10 +77,16 @@ def command_message(key, command):
         omega=float(command.omega),
         dribbler=float(command.dribbler),
         kick=float(command.kick),
+        kick_elevation=float(command.kick_elevation),
     )
 
 
 def from_command_message(message):
     return RobotKey(message.team, message.robot_id), Command(
-        message.vx, message.vy, message.omega, message.dribbler, message.kick
+        message.vx,
+        message.vy,
+        message.omega,
+        message.dribbler,
+        message.kick,
+        message.kick_elevation,
     )

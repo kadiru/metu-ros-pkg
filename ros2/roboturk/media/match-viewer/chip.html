@@ -766,13 +766,14 @@ function updateHistory(now) {
   const current = historyIndex(selected);
   previousButton.disabled = current <= 0;
   nextButton.disabled = current + 1 >= history.length;
-  const stamp = `${selected}/${current}/${Math.floor(now * 5)}`;
-  if (stamp === historyStamp) return;
-  historyStamp = stamp;
   const start = now - roleWindow;
-  const track = byId("role-track");
   const first = Math.max(0, history.findLastIndex(({ tick }, index) =>
     index <= current && frames[tick].t <= start));
+  const beganBeforeWindow = frames[history[first].tick].t < start;
+  const stamp = `${selected}/${first}/${current}/${beganBeforeWindow}/${Math.floor(now * 5)}`;
+  if (stamp === historyStamp) return;
+  historyStamp = stamp;
+  const track = byId("role-track");
   const blank = document.createElement("span");
   blank.style.flexBasis = `${Math.max(0, frames[history[first].tick].t - start) / roleWindow * 100}%`;
   track.replaceChildren(blank);
@@ -793,19 +794,17 @@ function updateHistory(now) {
     track.append(chip);
   }
   const elapsed = now - frames[history[current].tick].t;
-  const changeCount = history.slice(first, current + 1)
+  const recent = history.slice(first, current + 1);
+  const changeCount = recent
     .filter(({ tick, previous }) => previous !== null && frames[tick].t >= start).length;
   byId("role-duration").textContent = `${roleName(history[current].role)} for ${elapsed.toFixed(1)} s · ${changeCount} role ${changeCount === 1 ? "change" : "changes"}`;
-  const recent = history.slice(first, current + 1)
-    .filter(({ tick }) => frames[tick].t >= start || tick === history[current].tick)
-    .reverse();
   const list = byId("role-changes");
-  const listStamp = `${selected}/${history[current].tick}/${recent.at(-1).tick}`;
+  const listStamp = `${selected}/${first}/${current}`;
   if (list.dataset.stamp === listStamp) return;
   const scrollTop = list.dataset.robot === String(selected) ? list.scrollTop : 0;
   list.dataset.stamp = listStamp;
   list.dataset.robot = selected;
-  list.replaceChildren(...recent.map(({ tick, role }) => {
+  list.replaceChildren(...recent.reverse().map(({ tick, role }) => {
     const button = document.createElement("button");
     button.type = "button";
     button.style.setProperty("--role-color", roleColor(role));

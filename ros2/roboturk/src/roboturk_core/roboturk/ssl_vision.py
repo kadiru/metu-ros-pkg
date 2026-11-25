@@ -2,6 +2,7 @@
 
 from importlib.resources import files
 import math
+from select import select
 import socket
 
 from google.protobuf import descriptor_pb2, descriptor_pool, message_factory
@@ -28,6 +29,14 @@ Wrapper = message_type("SSL_WrapperPacket")
 CiInput = message_type("AutoRefCiInput")
 CiOutput = message_type("AutoRefCiOutput")
 GameEvent = message_type("GameEvent")
+
+# Timestamp-only subset of the official SSL Game Controller CiInput.
+clock_schema = descriptor_pb2.FileDescriptorProto(name="game_controller_clock.proto")
+clock_schema.message_type.add(name="GameControllerTick").field.add(
+    name="timestamp", number=1, type=descriptor_pb2.FieldDescriptorProto.TYPE_INT64
+)
+pool.Add(clock_schema)
+GameControllerTick = message_type("GameControllerTick")
 
 
 def geometry():
@@ -147,8 +156,26 @@ def read_delimited(stream, cls):
     raise ValueError("Invalid AutoRef frame length")
 
 
+class GameControllerClock:
+    def __init__(self, address):
+        self.socket = socket.create_connection(address, timeout=5)
+        self.socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+        self.stream = self.socket.makefile("wb")
+
+    def send(self, seconds):
+        # Referee packets still arrive over UDP. Drain the CI copy so that
+        # the Game Controller can keep publishing on both transports.
+        if select([self.socket], [], [], 0)[0] and not self.socket.recv(65536):
+            raise ConnectionError("Game Controller clock disconnected")
+        write_delimited(self.stream, GameControllerTick(timestamp=round(seconds * 1e9)))
+
+    def close(self):
+        self.stream.close()
+        self.socket.close()
+
+
 class VisionOutput:
-    def __init__(self, udp, ci, tracker=None):
+    def __init__(self, udp, ci, tracker=None, *, gc_clock=None):
         self.udp = tuple(udp) if udp else None
         self.tracker = tuple(tracker) if tracker else None
         self.datagrams = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -161,11 +188,14 @@ class VisionOutput:
         self.ci_started = False
         self.sequence = 0
         self.geometry = geometry()
+        self.gc_clock = GameControllerClock(gc_clock) if gc_clock else None
 
     def send(self, world, seconds, height, referee):
         return self.send_frame(detection(world, self.sequence, seconds, height), seconds, referee)
 
     def send_frame(self, frame, seconds, referee):
+        if self.gc_clock:
+            self.gc_clock.send(seconds)
         frame.detection.frame_number = self.sequence
         frame.detection.t_capture = frame.detection.t_sent = seconds
         send_geometry = self.sequence % 25 == 0
@@ -193,4 +223,6 @@ class VisionOutput:
     def close(self):
         if self.stream:
             self.stream.close()
+        if self.gc_clock:
+            self.gc_clock.close()
         self.datagrams.close()

@@ -560,8 +560,15 @@ try:
         else nullcontext()
     )
     camera = (
-        closing(VisionOutput(cfg.get("vision"), cfg.get("autoref_ci"), cfg.get("tracker")))
-        if cfg.get("vision") or cfg.get("autoref_ci")
+        closing(
+            VisionOutput(
+                cfg.get("vision"),
+                cfg.get("autoref_ci"),
+                cfg.get("tracker"),
+                gc_clock=cfg.get("gc_clock"),
+            )
+        )
+        if cfg.get("vision") or cfg.get("autoref_ci") or cfg.get("gc_clock")
         else nullcontext()
     )
     with connection as receiver, camera as vision:

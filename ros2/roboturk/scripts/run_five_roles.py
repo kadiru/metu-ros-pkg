@@ -39,6 +39,7 @@ def main():
     p.add_argument("--referee-port", type=int, default=10003)
     p.add_argument("--referee-interface", default="0.0.0.0")
     p.add_argument("--ssl-vision", type=endpoint, help="UDP destination for SSL-Vision packets")
+    p.add_argument("--gc-clock", type=endpoint, help="TCP Game Controller simulator clock")
     p.add_argument("--autoref-ci", type=endpoint, help="TIGERs lockstep vision input")
     p.add_argument("--tracker-output", type=endpoint, help="Forward TIGERs filtered tracker UDP")
     p.add_argument(
@@ -354,6 +355,8 @@ def main():
         p.error("--track-kickoffs requires a TIGERs CI connection")
     if a.until_post_game and a.referee != "ssl":
         p.error("--until-post-game requires the official referee")
+    if a.gc_clock and not a.until_post_game:
+        p.error("--gc-clock requires the two-half official fixture")
     if a.until_post_game and any(
         (
             a.await_force_start,
@@ -436,6 +439,7 @@ def main():
                 exit_tails=str(a.exit_tails.resolve()) if a.exit_tails else None,
                 vision=a.ssl_vision,
                 autoref_ci=a.autoref_ci,
+                gc_clock=a.gc_clock,
                 tracker=a.tracker_output,
                 referee_address=a.referee_address,
                 referee_port=a.referee_port,

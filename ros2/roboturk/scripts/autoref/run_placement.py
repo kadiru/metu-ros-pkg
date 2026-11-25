@@ -98,6 +98,7 @@ def main():
     config.mkdir(parents=True)
     spec = json.loads(args.spec.read_text())
     league = spec["mode"] == "league_match"
+    simulation_clock = league and spec.get("simulation_clock", False)
     timing = ""
     if league:
         half = int(spec["half_seconds"])
@@ -136,6 +137,8 @@ def main():
         "-ciAddress",
         "127.0.0.1:21909",
     ]
+    if simulation_clock:
+        cmd.extend(["-timeAcquisitionMode", "ci"])
     with ExitStack() as stack:
         stack.enter_context(service(cmd, dest / "gc", dest / "gc.log", "UI is available"))
         stack.enter_context(observer(args, dest, True))
@@ -149,6 +152,8 @@ def main():
             "--autoref-ci",
             "127.0.0.1:21913",
         ]
+        if simulation_clock:
+            params.extend(["--gc-clock", "127.0.0.1:21909"])
         if league:
             stack.enter_context(
                 service(
@@ -189,6 +194,20 @@ def main():
                 params.append("--track-kickoffs")
             if spec.get("open_play_policy"):
                 params.extend(["--open-play-policy", str(ROOT / spec["open_play_policy"])])
+            if spec.get("tackle_policy"):
+                params.extend(["--tackle-policy", str(ROOT / spec["tackle_policy"])])
+            for option in (
+                "trajectory_planner",
+                "errt_fallback",
+                "commit_waypoints",
+                "release_waypoint_early",
+                "tackle_selector",
+                "keeper_cover",
+                "keeper_lane",
+                "possession_audit",
+            ):
+                if spec.get(option):
+                    params.append("--" + option.replace("_", "-"))
             if spec.get("film"):
                 params.append("--frame-images")
         elif spec["mode"] == "open_match":

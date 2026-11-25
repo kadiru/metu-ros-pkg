@@ -4,6 +4,12 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Two one-minute halves in Webots
+
+Blue beats Yellow 2–1 under the official SSL Game Controller. The game includes a halftime side switch, 16 completed passes, 10 clean takeaways and zero crash reports. [Uncut game, match settings and evidence](media/two-minute-5v5/README.md)
+
+[![Blue scores the winning goal against Yellow](media/two-minute-5v5/match-highlight.gif)](media/two-minute-5v5/official-match.mp4)
+
 ## Breaking a shared keeper grip
 
 The keeper sweeps the ball fieldward while the presser clears the lane for an outlet. The new cover recovered the ball cleanly on all five shared misses. Across 48 fresh matched starts it reduced goals conceded from six to one, with nine clean takeaways in each arm and two additional body-contact episodes. [Goal-labelled replays and matched results](media/goal-lane/README.md) · [Keeper pivot comparison](media/keeper-pivot/README.md)

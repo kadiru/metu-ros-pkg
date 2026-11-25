@@ -100,11 +100,18 @@ def film(folder, output, *, halftime_clip=False):
         period = STAGES[f["stage"]]
         clock = f["stage_seconds"]
         if clock is not None and f["stage"] in ("NORMAL_FIRST_HALF", "NORMAL_SECOND_HALF"):
-            period += f"    0:{max(0, math.ceil(clock)):02d}"
+            minutes, seconds = divmod(max(0, math.ceil(clock)), 60)
+            period += f"    {minutes}:{seconds:02d}"
         draw.text((24, 59), period, font=FONTS(23), fill=WHITE)
         draw.text((600, 57), f"Blue   {f['score'][0]}", anchor="ra", font=FONTS(24), fill=BLUE)
         draw.text((776, 57), f"Yellow   {f['score'][1]}", anchor="ra", font=FONTS(24), fill=YELLOW)
         base.paste(pitch(rec, t, (0, 0), 10, (800, 492), range(10)), (0, 96))
+        goals = [("BLUE", BLUE), ("YELLOW", YELLOW)]
+        if f["attack_sign"] < 0:
+            goals.reverse()
+        for x, (team, color) in zip((39, 761), goals, strict=True):
+            draw.rounded_rectangle((x - 32, 274, x + 32, 297), radius=4, fill=BG)
+            draw.text((x, 286), team, anchor="mm", font=FONTS(14), fill=color)
         command = (f["ssl_command"] or "Awaiting broadcast").replace("_", " ").title()
         i = bisect_right(ticks, t) - 1
         msg = ""

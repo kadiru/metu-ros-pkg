@@ -58,14 +58,17 @@ def keeper_target(world, keeper):
     return -4.23 * sign, limit(ball.y * 0.48, 0.49)
 
 
-def kickoff(seed, serving, direction, time=0.0):
+def kickoff(seed, serving, direction, time=0.0, *, referee_placement=False):
     rng = random.Random(seed)
     robots = []
     for team in TEAMS:
         sign = direction if team == "blue" else -direction
+        kicker_x = -0.115 if team == serving else -0.62
+        if referee_placement:
+            kicker_x = -0.20 if team == serving else -0.74
         positions = [
             (-4.18, 0),
-            (-0.115 if team == serving else -0.62, 0),
+            (kicker_x, 0),
             (-0.75, 1.55),
             (-1.14, -1.45),
             (-2.45, 0.1),

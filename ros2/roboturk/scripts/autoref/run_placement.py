@@ -205,6 +205,7 @@ def main():
                 "keeper_cover",
                 "keeper_lane",
                 "possession_audit",
+                "referee_placement",
             ):
                 if spec.get(option):
                     params.append("--" + option.replace("_", "-"))

@@ -4,6 +4,12 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Painted goals and automatic restarts
+
+The Webots goal walls follow the defending team when the teams switch ends. After a goal, the virtual referee centers the ball and the conceding team kicks off. Ball-out restarts use the spot awarded by the official SSL Game Controller. [Match replay and restart verification](media/referee-restarts/README.md)
+
+[![Blue scores and Yellow restarts at center](media/referee-restarts/goal-to-kickoff.gif)](media/referee-restarts/official-match.mp4)
+
 ## Two one-minute halves in Webots
 
 Blue beats Yellow 2–1 under the official SSL Game Controller. The game includes a halftime side switch, 16 completed passes, 10 clean takeaways and zero crash reports. [Uncut game, match settings and evidence](media/two-minute-5v5/README.md)

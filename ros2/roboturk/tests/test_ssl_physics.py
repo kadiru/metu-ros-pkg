@@ -70,7 +70,7 @@ def test_every_world_loads_the_pitch_advertised_on_ssl_vision():
     assert build["PROTO"].read_text() == build["field_proto"]()
     for p in (ROOT / "src/roboturk_ros/webots/worlds").glob("*.wbt"):
         s = p.read_text()
-        assert "DEF FIELD SslDivisionBField { }" in s and "basicTimeStep 2" in s, p
+        assert "DEF FIELD SslDivisionBField {" in s and "basicTimeStep 2" in s, p
         assert "coulombFriction [ 0 ] rollingFriction 0 0 0" in s
     packet = geometry()
     assert packet.IsInitialized()

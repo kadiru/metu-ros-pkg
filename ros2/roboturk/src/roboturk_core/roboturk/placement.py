@@ -51,10 +51,40 @@ def clear_path(r, start, end, margin=0.75):
     return limit(options[0][0], 4.4), limit(options[0][1], 3.24)
 
 
-def stop_formation(w):
-    return {
-        r.key: off_ball(r, clear_path(r, xy(w.ball), xy(w.ball), 0.68), w.ball) for r in w.robots
-    }
+def stop_formation(w, target=None):
+    ball = xy(w.ball)
+    end = ball if target is None else target
+    return {r.key: off_ball(r, clear_path(r, ball, end, 0.68), w.ball) for r in w.robots}
+
+
+class KickoffKick:
+    """Stage one kicker and keep it clear until another robot touches the ball."""
+
+    def __init__(self, kicker):
+        self.kicker = kicker
+        self.kicked = False
+        self.second_touch = False
+
+    def commands(self, world):
+        r = world.robot(self.kicker)
+        sign = world.direction(self.kicker.team)
+        ball = world.ball
+        aim = 0.0 if sign > 0 else math.pi
+        cmd = replace(move(r, ball.x - sign * CFG.possession_x, ball.y, aim, 0.40), dribbler=0)
+        if possession(world, self.kicker, CFG) and abs(wrap(aim - r.yaw)) < 0.06:
+            cmd = Command(kick=2.6)
+        return {self.kicker: cmd}
+
+    def observe(self, worlds):
+        self.second_touch |= any(
+            r.key != self.kicker
+            and (
+                possession(world, r.key, CFG)
+                or math.dist(xy(world.ball), xy(r)) <= CFG.robot_radius + CFG.ball_radius
+            )
+            for world in worlds
+            for r in world.robots
+        )
 
 
 def withdrawal(w, placer, fallback, margin):
@@ -200,8 +230,9 @@ class PlacementPlay:
 class PlacementRestart:
     """Track one placement and its subsequent awarded kick across referee heartbeats."""
 
-    def __init__(self, weights, traffic=None, clear_retreat=False):
+    def __init__(self, weights, traffic=None, clear_retreat=False, *, referee_places=False):
         self.clear_retreat = clear_retreat
+        self.referee_places = referee_places
         self.traffic = traffic
         self.weights = weights
         self.key = None
@@ -215,8 +246,12 @@ class PlacementRestart:
         if state.placement_target is not None and state.mode == Referee.STOP:
             key = state.source, state.counter, state.placement_team, state.placement_target
             if self.play is None or self.key != key:
+                placement_world = w
+                if self.referee_places:
+                    x, y = state.placement_target
+                    placement_world = replace(w, ball=replace(w.ball, x=x, y=y))
                 self.play = PlacementPlay(
-                    w,
+                    placement_world,
                     state.placement_team,
                     state.placement_target,
                     self.weights,
@@ -226,6 +261,8 @@ class PlacementRestart:
                 self.key = key
                 self.direct_since = None
                 self.received = 0
+            if self.referee_places:
+                return self.stand_clear(w, state.placement_target)
             return self.play.place(w)
         if self.play is None:
             return None
@@ -233,10 +270,7 @@ class PlacementRestart:
             self.play = None
             return None
         if state.command == "STOP":
-            out = stop_formation(w)
-            return (route(w, out, self.traffic) if self.traffic else out), {
-                r.key: Assignment("Stand clear", xy(r)) for r in w.robots
-            }
+            return self.stand_clear(w)
         if state.command != "DIRECT_FREE_" + self.play.team.upper():
             self.play = None
             return None
@@ -259,6 +293,11 @@ class PlacementRestart:
         roles[self.play.placer] = Assignment("Pass", xy(w.ball))
         roles[self.play.receiver] = Assignment("Receive", self.play.outlet)
         return out, roles
+
+    def stand_clear(self, world, target=None):
+        out = stop_formation(world, target)
+        roles = {r.key: Assignment("Stand clear", xy(r)) for r in world.robots}
+        return (route(world, out, self.traffic) if self.traffic else out), roles
 
     def applied(self, kicks):
         if self.play and self.direct_since is not None:

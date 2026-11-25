@@ -4,6 +4,7 @@ from contextlib import closing, nullcontext
 from dataclasses import replace
 import gzip
 import json
+import math
 import os
 from pathlib import Path
 import time
@@ -20,7 +21,7 @@ from roboturk.kickoff_drive import KickoffDrive, ParallelKickoffDrive
 from roboturk.team_kickoff import IndependentKickoffs
 from roboturk.model import Referee, SSL_KICK_LIMIT
 from roboturk.open_motion import Steering, observed_velocity
-from roboturk.placement import PlacementRestart
+from roboturk.placement import KickoffKick, PlacementRestart, xy
 from roboturk.pivot_fetch import PivotFetch
 from roboturk.tackle_selector import TackleSelector
 from roboturk.ssl_referee import RefereeSocket, RestartGate
@@ -34,6 +35,20 @@ from roboturk.ssl_vision import (
 )
 from roboturk.tackle import BallSideTackle
 from roboturk.three_match import snapshot
+
+
+def place_ball(backend, target):
+    backend.ball.getField("translation").setSFVec3f([*target, CFG.ball_radius])
+    backend.ball.resetPhysics()
+
+
+def paint_goals(field, sign):
+    colors = ((0.07, 0.23, 1), (1, 0.8, 0.03))
+    if sign < 0:
+        colors = colors[::-1]
+    for side, color in zip(("left", "right"), colors, strict=True):
+        for part in ("Wall", "Inner"):
+            field.getField(f"{side}Goal{part}Color").setSFColor(list(color))
 
 
 def hud(sim, w, keys, roles, phases, score, seconds):
@@ -68,11 +83,16 @@ def match(sim, folder, cfg, receiver=None, vision=None):
         sim, replace(CFG, max_kick=SSL_KICK_LIMIT) if receiver else CFG
     )
     drive = cfg.get("drive_kickoffs", False)
+    referee_places = cfg.get("referee_placement", False)
     formation = None
     ball_centered = False
+    kickoff_kick = None
+    placed = None
+    goal_field = sim.getFromDef("FIELD")
+    painted_sign = None
     if drive:
         # The league table starts Blue on the negative half and alternates first service.
-        w = backend.reset(kickoff(seed + 101, TEAMS[seed % 2], 1))
+        w = backend.reset(kickoff(seed + 101, TEAMS[seed % 2], 1, referee_placement=referee_places))
     else:
         w = backend.reset(kickoff(seed, serving, sign))
     keys = [r.key for r in w.robots]
@@ -99,6 +119,7 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             json.loads((root / "policies/placement_v1/actor.json").read_text())["weights"],
             json.loads((root / "policies/placement_v2/actor.json").read_text())["traffic"],
             clear_retreat=True,
+            referee_places=referee_places,
         )
         if receiver
         else None
@@ -173,7 +194,15 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             ):
                 serving = state.command.split("_")[-1].lower()
                 restarts += 1
-                target = kickoff(seed + 101 * restarts, serving, sign, w.time)
+                target = kickoff(
+                    seed + 101 * restarts, serving, sign, w.time, referee_placement=referee_places
+                )
+                if referee_places:
+                    kicker = min(
+                        (r for r in target.robots if r.key.team == serving),
+                        key=lambda r: math.hypot(r.x, r.y),
+                    )
+                    kickoff_kick = KickoffKick(kicker.key)
                 if drive and cfg.get("track_kickoffs"):
                     events.append(
                         dict(
@@ -194,7 +223,10 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                 prepared_kickoff = kickoff_key
             if league and not started and state.command == "NORMAL_START" and state.restart_team:
                 # Equalize settling time at the first authorized action of the paired fixture.
-                w = backend.reset(kickoff(seed + 101 * restarts, state.restart_team, sign, w.time))
+                if not referee_places:
+                    w = backend.reset(
+                        kickoff(seed + 101 * restarts, state.restart_team, sign, w.time)
+                    )
                 previous_positions = {}
                 started = opening = True
             backend.world = w = replace(w, referee=state.mode, attack_sign=sign)
@@ -204,6 +236,12 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                         awaiting_team = TEAMS[1 - idx]
             score[:] = state.score
             restricted = gate.restricted_to(state.source, state.counter, state.restart_team, w.ball)
+            if (
+                kickoff_kick
+                and state.mode != Referee.RUNNING
+                and not state.command.startswith("PREPARE_KICKOFF_")
+            ):
+                kickoff_kick = None
             if awaiting_team and state.command == "NORMAL_START":
                 if restricted == awaiting_team:
                     saw_restart = True
@@ -235,6 +273,20 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                 )
                 print(f"Referee {state.command or 'NO SIGNAL'} -> {state.mode.value}", flush=True)
                 previous_referee = referee_key
+        if sign != painted_sign:
+            paint_goals(goal_field, sign)
+            painted_sign = sign
+        if referee_places and state.placement_target is not None:
+            spot = state.placement_target
+            award = (state.source, state.counter, spot)
+            if award != placed and all(math.dist(xy(r), spot) >= 0.60 for r in w.robots):
+                place_ball(backend, spot)
+                placed = award
+                events.append(
+                    dict(
+                        tick=tick, event="referee_placement", team=state.placement_team, target=spot
+                    )
+                )
         if policy:
             if previous_restart != restarts:
                 previous_positions = {}
@@ -266,10 +318,18 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             else:
                 out, arrived = formation.commands(w, CFG.dt)
             if arrived and not ball_centered:
-                backend.ball.getField("translation").setSFVec3f([0, 0, CFG.ball_radius])
-                backend.ball.resetPhysics()
-                ball_centered = True
-            elif arrived and abs(w.ball.x) + abs(w.ball.y) < 0.004:
+                if not referee_places or all(math.hypot(r.x, r.y) > 0.12 for r in w.robots):
+                    place_ball(backend, (0, 0))
+                    ball_centered = True
+                    if referee_places:
+                        events.append(
+                            dict(tick=tick, event="referee_center", restart=restarts, team=serving)
+                        )
+            elif (
+                arrived
+                and abs(w.ball.x) + abs(w.ball.y) < 0.004
+                and (not referee_places or math.hypot(w.ball.vx, w.ball.vy) < 0.01)
+            ):
                 marker = folder / f"formation-{restarts}-{serving.upper()}.ready"
                 if not marker.exists():
                     marker.touch()
@@ -280,6 +340,12 @@ def match(sim, folder, cfg, receiver=None, vision=None):
         elif placement:
             out, roles = placement
             phases = {t: "Restart" for t in TEAMS}
+            planned = {}
+        elif kickoff_kick and not kickoff_kick.kicked and state.command == "NORMAL_START":
+            out = kickoff_kick.commands(w)
+            roles = {r.key: Assignment("Stand clear", xy(r)) for r in w.robots}
+            roles[kickoff_kick.kicker] = Assignment("Kickoff", (0, 0))
+            phases = dict.fromkeys(TEAMS, "Kickoff")
             planned = {}
         elif w.referee == Referee.RUNNING:
             active_policy = policy if tick >= cfg.get("steer_from_tick", 0) else None
@@ -300,6 +366,8 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             )
             if restricted:
                 out = {k: c for k, c in out.items() if k.team == restricted}
+            if kickoff_kick and not kickoff_kick.second_touch:
+                out.pop(kickoff_kick.kicker, None)
         else:
             roles = {r.key: Assignment("hold", (r.x, r.y)) for r in w.robots}
             phases = dict.fromkeys(TEAMS, w.referee.value.upper())
@@ -411,6 +479,9 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             restart.applied(backend.last_kick_events)
         for k, _, speed in backend.last_kick_events:
             event = dict(tick=tick, event="shot", actor=keys.index(k), speed=speed)
+            if kickoff_kick and not kickoff_kick.kicked and k == kickoff_kick.kicker:
+                kickoff_kick.kicked = True
+                event["event"] = "kickoff_kick"
             if (
                 restart
                 and restart.play
@@ -424,6 +495,8 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             else:
                 tactics.flight = None
             events.append(event)
+        if kickoff_kick and kickoff_kick.kicked and not kickoff_kick.second_touch:
+            kickoff_kick.observe(backend.last_substep_worlds)
         if tick == finish_tick or (league and state.stage == "POST_GAME"):
             break
         if receiver:

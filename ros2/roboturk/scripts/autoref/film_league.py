@@ -70,10 +70,16 @@ def film(folder, output, *, halftime_clip=False):
     frames = log["frames"]
     marks = []
     for e in log["events"]:
-        if e["event"] in ("pass", "shot", "restart_pass"):
+        if e["event"] == "referee_center":
+            marks.append((e["tick"], "Referee places the ball at center"))
+        elif e["event"] == "referee_placement":
+            marks.append((e["tick"], "Referee places the ball for the free kick"))
+        elif e["event"] in ("pass", "shot", "restart_pass", "kickoff_kick"):
             team, num = log["keys"][e["actor"]]
             if e["event"] == "shot":
                 msg = f"{team.title()} {num} shoots"
+            elif e["event"] == "kickoff_kick":
+                msg = f"{team.title()} {num} kicks off"
             else:
                 msg = (
                     f"{team.title()} {num} passes to {team.title()} {log['keys'][e['receiver']][1]}"

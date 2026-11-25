@@ -1,7 +1,8 @@
 "use strict";
 
 const match = JSON.parse(document.getElementById("match-data").textContent);
-const { frames, keys, positions } = match;
+const { frames = [], keys = [], positions = [], events = [] } = match;
+const livePage = match.live === true;
 const byId = (id) => document.getElementById(id);
 const canvas = byId("pitch");
 const ctx = canvas.getContext("2d");
@@ -9,7 +10,9 @@ const scrub = byId("scrub");
 const playButton = byId("play");
 const previousButton = byId("prev");
 const nextButton = byId("next");
-const eventMenu = byId("events");
+const liveButton = byId("go-live");
+const eventScroll = byId("event-scroll");
+const eventTrack = byId("event-track");
 const teams = {
   blue: { label: "Blue", solid: "#639bff", pale: "#bcd3ff", ink: "#0b264c" },
   yellow: { label: "Yellow", solid: "#f5cd58", pale: "#ffe5a1", ink: "#382c0a" },
@@ -50,9 +53,28 @@ const motionNames = {
   escape: "Clearing a blocked route",
   detour: "Collision-avoiding detour",
 };
+const roleColors = {
+  Keeper: "#b4b6f1", Chaser: "#84dec5", Presser: "#ffae94",
+  Carrier: "#ace38c", Receiver: "#86d4fa", "Left wing": "#8cb0ff", "Right wing": "#b7a3f4",
+  Anchor: "#c1d69f", Marker: "#efbf87", Screen: "#ebd18f", Cover: "#edb1a0",
+  "Guard box": "#d0a9cf", "Block outlet": "#d9b29b", Contain: "#f8a19e", Outlet: "#97dfb2",
+  kickoff: "#b8c7d5", Kickoff: "#9ec5e9", "Stand clear": "#9daebc",
+  Pass: "#9fcce6", Receive: "#95dcea", hold: "#a0afc4",
+};
+const eventColors = {
+  goal: "#b2e58b", shot: "#ffbd89", pass: "#9dabee",
+  kickoff: "#90d0b6", restart: "#eac575", period: "#b7bfcf",
+};
 
-let frameIndex = match.intro.frame;
-let selected = match.intro.robot;
+let frameIndex = match.intro?.frame ?? 0;
+let selected = match.intro?.robot ?? 0;
+let limits = match.limits;
+let following = livePage;
+let finished = false;
+let feedError = false;
+let solo = false;
+let eventWindowStart = null;
+let eventStamp = "";
 let playing = false;
 let playbackStart = 0;
 let animationStart = 0;
@@ -60,6 +82,12 @@ let animationFrame = 0;
 let historyStamp = "";
 let canvasWidth = 0;
 let canvasHeight = 0;
+const teamEnabled = { blue: true, yellow: true };
+const robotEnabled = [];
+const histories = [];
+const lineup = [];
+const filterButtons = [];
+const teamButtons = {};
 
 function robotName(index) {
   const [team, number] = keys[index];
@@ -94,17 +122,13 @@ function commandName(command) {
   return command.toLowerCase().replaceAll("_", " ");
 }
 
-const histories = keys.map((_, robot) => {
-  let previous = null;
-  const changes = [];
-  frames.forEach((frame, tick) => {
-    const role = frame.roles[robot];
-    if (role === previous) return;
-    changes.push({ tick, role, previous });
-    previous = role;
+function addRoleSample(frame, tick) {
+  frame.roles.forEach((role, robot) => {
+    const history = histories[robot];
+    const previous = history.at(-1)?.role ?? null;
+    if (role !== previous) history.push({ tick, role, previous });
   });
-  return changes;
-});
+}
 
 function historyIndex(robot) {
   return histories[robot].findLastIndex((entry) => entry.tick <= frameIndex);
@@ -115,12 +139,18 @@ function goTo(index) {
   render();
 }
 
+function seek(index) {
+  following = false;
+  pause();
+  goTo(index);
+}
+
 function choose(robot) {
   selected = robot;
   render();
 }
 
-const lineup = keys.map(([team, number], robot) => {
+function makeRosterButton(team, number, robot) {
   const element = document.createElement("button");
   element.type = "button";
   const id = document.createElement("span");
@@ -133,7 +163,76 @@ const lineup = keys.map(([team, number], robot) => {
   element.addEventListener("click", () => choose(robot));
   byId(`${team}-roster`).append(element);
   return { element, role, previous };
-});
+}
+
+function filterButton(parent, label, name, callback) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.textContent = label;
+  button.title = name;
+  button.setAttribute("aria-label", name);
+  button.addEventListener("click", callback);
+  parent.append(button);
+  return button;
+}
+
+function initializeTeams() {
+  const groups = {};
+  for (const [team, { label }] of Object.entries(teams)) {
+    const group = document.createElement("div");
+    group.className = `filter-group ${team}`;
+    groups[team] = group;
+    byId("field-filters").append(group);
+    teamButtons[team] = filterButton(group, label, `Show ${label} team`, () => {
+      exitSoloForFilter();
+      teamEnabled[team] = !teamVisible(team);
+      if (teamEnabled[team] && !keys.some(([color], robot) => color === team && robotEnabled[robot])) {
+        keys.forEach(([color], robot) => { if (color === team) robotEnabled[robot] = true; });
+      }
+      render();
+    });
+  }
+  keys.forEach(([team, number], robot) => {
+    histories.push([]);
+    robotEnabled.push(true);
+    lineup.push(makeRosterButton(team, number, robot));
+    filterButtons.push(filterButton(groups[team], String(number), `Show ${robotName(robot)}`, () => {
+      exitSoloForFilter();
+      if (!teamEnabled[team]) {
+        keys.forEach(([color], index) => { if (color === team) robotEnabled[index] = false; });
+        teamEnabled[team] = true;
+      }
+      robotEnabled[robot] = !robotEnabled[robot];
+      render();
+    }));
+  });
+}
+
+function isVisible(robot) {
+  if (solo) return robot === selected;
+  return teamEnabled[keys[robot][0]] && robotEnabled[robot];
+}
+
+function teamVisible(team) {
+  return keys.some(([color], robot) => color === team && isVisible(robot));
+}
+
+function exitSoloForFilter() {
+  if (!solo) return;
+  robotEnabled.forEach((_, robot) => { robotEnabled[robot] = robot === selected; });
+  teamEnabled.blue = teamEnabled.yellow = true;
+  solo = false;
+}
+
+function updateFilters() {
+  for (const [team, button] of Object.entries(teamButtons)) {
+    button.setAttribute("aria-pressed", String(teamVisible(team)));
+  }
+  filterButtons.forEach((button, robot) => button.setAttribute("aria-pressed", String(isVisible(robot))));
+  byId("solo").setAttribute("aria-pressed", String(solo));
+  byId("solo").disabled = !frames.length;
+  byId("show-all").disabled = !frames.length || keys.every((_, robot) => isVisible(robot));
+}
 
 function updateLineup(frame) {
   lineup.forEach(({ element, role, previous }, robot) => {
@@ -175,28 +274,144 @@ function costDetail(label, value) {
   return field;
 }
 
-function updateHistory() {
+function updateHistory(now) {
+  const history = histories[selected];
   const current = historyIndex(selected);
   previousButton.disabled = current <= 0;
-  nextButton.disabled = current + 1 >= histories[selected].length;
-  const stamp = `${selected}/${current}`;
+  nextButton.disabled = current + 1 >= history.length;
+  const stamp = `${selected}/${current}/${Math.floor(now * 5)}`;
   if (stamp === historyStamp) return;
   historyStamp = stamp;
-  const list = byId("history");
-  list.replaceChildren();
-  for (const change of histories[selected].slice(Math.max(0, current - 3), current + 1).reverse()) {
-    const li = document.createElement("li");
-    const button = document.createElement("button");
-    button.type = "button";
-    const name = document.createElement("span");
-    name.textContent = roleName(change.role);
-    const time = document.createElement("time");
-    time.textContent = replayTime(frames[change.tick].t);
-    button.append(name, time);
-    button.addEventListener("click", () => { pause(); goTo(change.tick); });
-    li.append(button);
-    list.append(li);
+  const start = now - 30;
+  const track = byId("role-track");
+  const first = Math.max(0, history.findLastIndex(({ tick }, index) =>
+    index <= current && frames[tick].t <= start));
+  const blank = document.createElement("span");
+  blank.style.flexBasis = `${Math.max(0, frames[history[first].tick].t - start) / 30 * 100}%`;
+  track.replaceChildren(blank);
+  for (let index = first; index <= current; index += 1) {
+    const { tick, role } = history[index];
+    const begin = Math.max(start, frames[tick].t);
+    const end = index === current ? now : frames[history[index + 1].tick].t;
+    const fraction = Math.max(.001, (end - begin) / 30);
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "role-segment";
+    chip.style.flex = `0 0 ${100 * fraction}%`;
+    chip.style.setProperty("--role-color", roleColor(role));
+    chip.title = `${roleName(role)} · ${replayTime(frames[tick].t)}`;
+    chip.setAttribute("aria-label", chip.title);
+    if (fraction > .12) chip.textContent = roleName(role);
+    chip.addEventListener("click", () => seek(tick));
+    track.append(chip);
   }
+}
+
+function roleColor(role) {
+  return roleColors[role] || "#a6b5c5";
+}
+
+function updateGauges(audit) {
+  const values = audit?.command ?? (audit ? [0, 0, 0, 0, 0] : null);
+  byId("command-details").hidden = !values;
+  byId("command-unavailable").hidden = !!values;
+  if (!values) {
+    byId("command-unavailable").textContent = "Commands are unavailable for this recording.";
+    return;
+  }
+  const [forward, lateral, turn, roller, kick] = values;
+  const [maxSpeed, maxTurn] = limits;
+  const speed = Math.hypot(forward, lateral);
+  const direction = Math.atan2(-forward, -lateral);
+  const needle = byId("vector-needle");
+  needle.hidden = speed < .01;
+  needle.style.setProperty("--length", `${29 * Math.min(speed / maxSpeed, 1)}px`);
+  needle.style.setProperty("--angle", `${direction}rad`);
+  byId("speed").textContent = `${speed.toFixed(2)} m/s`;
+  byId("speed-scale").textContent = `Ring at ${maxSpeed} m/s`;
+  byId("translation").setAttribute("aria-label",
+    `Commanded forward velocity ${forward.toFixed(2)} and leftward velocity ${lateral.toFixed(2)} meters per second`);
+  const turnLabel = `${turn > .005 ? "Left " : turn < -.005 ? "Right " : ""}${Math.abs(turn).toFixed(2)} rad/s`;
+  byId("turn").textContent = turnLabel;
+  byId("turn-left").textContent = `↶ ${maxTurn}`;
+  byId("turn-right").textContent = `${maxTurn} ↷`;
+  byId("rotation").setAttribute("aria-label", `Commanded rotation ${turnLabel}`);
+  const shift = -50 * Math.max(-1, Math.min(turn / maxTurn, 1));
+  byId("yaw-fill").style.setProperty("--start", `${50 + Math.min(0, shift)}%`);
+  byId("yaw-fill").style.setProperty("--size", `${Math.abs(shift)}%`);
+  byId("ball-command").textContent = `Roller ${roller > 0 ? "on" : "off"}${kick > 0 ? ` · Kick ${kick.toFixed(2)} m/s` : ""}`;
+}
+
+function updateEventTrack(now) {
+  const end = livePage ? now : Math.min(frames.at(-1)?.t ?? 0, Math.max(60, now));
+  const stamp = `${Math.floor(end * 5)}/${events.length}/${eventScroll.clientWidth}`;
+  if (stamp === eventStamp) {
+    eventTrack.querySelector("[aria-current]")?.removeAttribute("aria-current");
+    eventTrack.querySelector(`[data-tick="${frameIndex}"]`)?.setAttribute("aria-current", "true");
+    return;
+  }
+  eventStamp = stamp;
+  const start = Math.max(0, end - 60);
+  const pixelsPerSecond = 28;
+  const wasAtRight = eventWindowStart === null ? livePage
+    : eventTrack.offsetWidth - eventScroll.clientWidth - eventScroll.scrollLeft < 12;
+  const previousAnchor = eventScroll.scrollLeft + ((eventWindowStart ?? start) - start) * pixelsPerSecond;
+  eventWindowStart = start;
+  const nodes = document.createDocumentFragment();
+  const xAt = (time) => 8 + (time - start) * pixelsPerSecond;
+  for (let mark = Math.ceil(start / 10) * 10; mark <= end; mark += 10) {
+    const line = document.createElement("div");
+    line.className = "event-gridline";
+    line.style.left = `${xAt(mark)}px`;
+    const label = document.createElement("time");
+    label.textContent = replayTime(mark);
+    line.append(label);
+    nodes.append(line);
+  }
+  const lanes = [];
+  const visible = events.filter(([tick]) => start <= frames[tick].t && frames[tick].t <= end);
+  for (const [tick, label, kind, team] of visible) {
+    const time = replayTime(frames[tick].t);
+    const left = xAt(frames[tick].t);
+    const free = lanes.findIndex((end) => end <= left);
+    const lane = free < 0 ? lanes.length : free;
+    const caption = kind === "pass" ? label.replace(" passes to ", " → ") : label;
+    lanes[lane] = left + Math.min(164, 54 + caption.length * 6) + 6;
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "event-chip";
+    chip.title = `${time} · ${label}`;
+    chip.setAttribute("aria-label", chip.title);
+    chip.dataset.tick = tick;
+    if (tick === frameIndex) chip.setAttribute("aria-current", "true");
+    chip.style.left = `${left}px`;
+    chip.style.top = `${7 + lane * 30}px`;
+    chip.style.setProperty("--event-color",
+      kind === "goal" || kind === "kickoff" ? teams[team]?.pale || eventColors[kind]
+        : eventColors[kind] || eventColors.period);
+    const clock = document.createElement("time");
+    clock.textContent = time;
+    chip.append(clock, `  ${caption}`);
+    chip.addEventListener("click", () => seek(tick));
+    nodes.append(chip);
+  }
+  if (!visible.length) {
+    const empty = document.createElement("span");
+    empty.className = "event-empty";
+    empty.textContent = frames.length ? "No match events in this window." : "Waiting for the first match event.";
+    nodes.append(empty);
+  }
+  eventTrack.style.width = `${Math.max(eventScroll.clientWidth, xAt(end) + 172)}px`;
+  eventTrack.style.height = `${Math.max(72, 30 * lanes.length + 25)}px`;
+  eventTrack.replaceChildren(nodes);
+  eventScroll.scrollLeft = wasAtRight ? eventTrack.offsetWidth - eventScroll.clientWidth : previousAnchor;
+  updateEventNavigation();
+}
+
+function updateEventNavigation() {
+  byId("earlier-events").disabled = eventScroll.scrollLeft <= 1;
+  byId("later-events").disabled =
+    eventScroll.scrollLeft >= eventScroll.scrollWidth - eventScroll.clientWidth - 1;
 }
 
 function updateInspector(frame) {
@@ -209,6 +424,8 @@ function updateInspector(frame) {
   jersey.textContent = robotName(selected);
   byId("role").textContent = roleName(role);
   byId("previous").textContent = last === null ? "—" : roleName(last);
+  byId("current-card").style.setProperty("--role-color", roleColor(role));
+  byId("prior-card").style.setProperty("--role-color", roleColor(last));
   byId("reason").textContent = explain(frame, role, audit);
   let task = audit?.task || roleTasks[role] || roleName(role);
   if (audit && !command) task = "Hold for the current referee instruction.";
@@ -229,17 +446,22 @@ function updateInspector(frame) {
       costDetail("Lineup cost", audit.roster_cost.toFixed(2)),
     );
   }
-  const commandDetail = byId("command-details");
-  commandDetail.hidden = !command;
-  if (command) {
-    const [forward, lateral, turn, roller, kick] = command;
-    byId("command").textContent = `Forward ${forward.toFixed(2)} m/s · Lateral ${lateral.toFixed(2)} m/s · Turn ${turn.toFixed(2)} rad/s · Roller ${roller > 0 ? "on" : "off"}${kick > 0 ? ` · Kick ${kick.toFixed(2)} m/s` : ""}`;
-  }
-  updateHistory();
+  updateGauges(audit);
+  updateHistory(frame.t);
 }
 
 function render() {
+  updateFeed();
+  updateFilters();
   const frame = frames[frameIndex];
+  playButton.disabled = !frame || (livePage && following && !finished);
+  scrub.disabled = !frame;
+  previousButton.disabled = nextButton.disabled = !frame;
+  if (!frame) {
+    updateEventTrack(0);
+    drawField();
+    return;
+  }
   byId("blue-score").textContent = frame.score[0];
   byId("yellow-score").textContent = frame.score[1];
   byId("clock").textContent = frame.left === null ? "—" : clockText(frame.left);
@@ -251,10 +473,12 @@ function render() {
   byId("blue-phase").textContent = `Blue · ${frame.phases[0]}`;
   byId("yellow-phase").textContent = `Yellow · ${frame.phases[1]}`;
   byId("replay-time").textContent = `${replayTime(frame.t)} / ${replayTime(frames.at(-1).t)}`;
+  scrub.max = frames.length - 1;
   scrub.value = frameIndex;
   scrub.setAttribute("aria-valuetext", `${replayTime(frame.t)} elapsed`);
   updateInspector(frame);
   updateLineup(frame);
+  updateEventTrack(frame.t);
   drawField();
 }
 
@@ -306,7 +530,7 @@ function drawField() {
     const [x, y] = project(sign < 0 ? -4.5 : 3.5, 1);
     ctx.strokeStyle = "#bad6cbaa";
     ctx.strokeRect(x, y, k, 2 * k);
-    const goalTeam = sign === -frame.sign ? "blue" : "yellow";
+    const goalTeam = sign === -(frame?.sign ?? 1) ? "blue" : "yellow";
     const [gx, gy] = project(sign * 4.5, .5);
     ctx.strokeStyle = teams[goalTeam].solid;
     ctx.lineWidth = 2;
@@ -317,8 +541,9 @@ function drawField() {
     ctx.lineTo(gx, gy + k);
     ctx.stroke();
   }
+  if (!frame) return;
   const target = frame.allocation?.[selected]?.target;
-  if (target && frame.allocation[selected].command && frame.roles[selected] !== "Stand clear") {
+  if (isVisible(selected) && target && frame.allocation[selected].command && frame.roles[selected] !== "Stand clear") {
     const [tx, ty] = project(...target);
     const [rx, ry] = project(points[2 + 3 * selected], points[3 + 3 * selected]);
     if (Math.hypot(tx - rx, ty - ry) > 12) {
@@ -334,6 +559,7 @@ function drawField() {
     }
   }
   keys.forEach(([team, number], robot) => {
+    if (!isVisible(robot)) return;
     const offset = 2 + 3 * robot;
     const [x, y] = project(points[offset], points[offset + 1]);
     const yaw = points[offset + 2];
@@ -370,10 +596,12 @@ function resizeCanvas() {
 }
 
 canvas.addEventListener("click", (event) => {
+  if (!frames.length) return;
   const rect = canvas.getBoundingClientRect();
   let closest = null;
   let closestDistance = 20;
   keys.forEach((_, index) => {
+    if (!isVisible(index)) return;
     const offset = 2 + 3 * index;
     const [x, y] = project(positions[frameIndex][offset], positions[frameIndex][offset + 1]);
     const distance = Math.hypot(event.clientX - rect.left - x, event.clientY - rect.top - y);
@@ -399,6 +627,7 @@ function animate(now) {
 }
 
 playButton.addEventListener("click", () => {
+  if (!frames.length) return;
   if (playing) { pause(); return; }
   if (frameIndex >= frames.length - 1) goTo(0);
   playing = true;
@@ -408,29 +637,85 @@ playButton.addEventListener("click", () => {
   animationFrame = window.requestAnimationFrame(animate);
 });
 
-scrub.max = frames.length - 1;
-scrub.addEventListener("input", () => { pause(); goTo(Number(scrub.value)); });
+scrub.addEventListener("input", () => seek(Number(scrub.value)));
 previousButton.addEventListener("click", () => {
-  pause();
   const index = historyIndex(selected);
-  if (index > 0) goTo(histories[selected][index - 1].tick);
+  if (index > 0) seek(histories[selected][index - 1].tick);
 });
 nextButton.addEventListener("click", () => {
-  pause();
   const next = histories[selected][historyIndex(selected) + 1];
-  if (next) goTo(next.tick);
+  if (next) seek(next.tick);
 });
-for (const [tick, label] of match.events) {
-  const option = document.createElement("option");
-  option.value = tick;
-  option.textContent = `${replayTime(frames[tick].t)} · ${label}`;
-  eventMenu.append(option);
-}
-eventMenu.addEventListener("change", () => {
-  if (eventMenu.value === "") return;
+liveButton.addEventListener("click", () => {
   pause();
-  goTo(Number(eventMenu.value));
-  eventMenu.value = "";
+  following = true;
+  eventWindowStart = null;
+  eventStamp = "";
+  goTo(frames.length - 1);
 });
+byId("solo").addEventListener("click", () => { solo = !solo; render(); });
+byId("show-all").addEventListener("click", () => {
+  solo = false;
+  teamEnabled.blue = teamEnabled.yellow = true;
+  robotEnabled.fill(true);
+  render();
+});
+for (const [id, direction] of [["earlier-events", -1], ["later-events", 1]]) {
+  byId(id).addEventListener("click", () => eventScroll.scrollBy(direction * eventScroll.clientWidth * .75, 0));
+}
+eventScroll.addEventListener("scroll", updateEventNavigation, { passive: true });
+
+function updateFeed() {
+  if (!livePage) return;
+  let [state, label] = ["waiting", "Waiting for Webots"];
+  if (finished) [state, label] = ["replay", "Match finished"];
+  else if (feedError) [state, label] = ["offline", "Reconnecting"];
+  else if (frames.length) [state, label] = following ? ["live", "Live · Webots"] : ["review", "Reviewing live match"];
+  byId("feed-state").dataset.state = state;
+  byId("feed-label").textContent = label;
+  liveButton.hidden = !frames.length || (finished && frameIndex === frames.length - 1);
+  liveButton.disabled = following && !finished;
+  liveButton.textContent = finished ? "Jump to end" : following ? "Following live" : "Go live";
+}
+
+async function poll(offset = 0) {
+  try {
+    const response = await fetch(`/telemetry?offset=${offset}`);
+    if (!response.ok) throw new Error("Telemetry request failed");
+    const batch = await response.text();
+    for (const line of batch.trimEnd().split("\n")) {
+      if (!line) continue;
+      const item = JSON.parse(line);
+      if (item.header) {
+        keys.push(...item.header.keys);
+        limits = item.header.limits;
+        initializeTeams();
+      } else if (item.done) {
+        finished = true;
+      } else {
+        addRoleSample(item.frame, frames.length);
+        frames.push(item.frame);
+        positions.push(item.position);
+        events.push(...item.events);
+      }
+    }
+    offset = Number(response.headers.get("X-Telemetry-Offset"));
+    feedError = false;
+    if (following && frames.length) frameIndex = frames.length - 1;
+    if (batch || !frames.length) render();
+    else updateFeed();
+  } catch {
+    feedError = true;
+    updateFeed();
+  }
+  if (!finished) setTimeout(() => poll(offset), 125);
+}
+
+if (livePage) poll();
+else {
+  initializeTeams();
+  frames.forEach(addRoleSample);
+}
 new ResizeObserver(resizeCanvas).observe(canvas);
+new ResizeObserver(() => updateEventTrack(frames[frameIndex]?.t ?? 0)).observe(eventScroll);
 render();

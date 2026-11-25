@@ -66,6 +66,9 @@ def main():
     )
     mode = p.add_mutually_exclusive_group()
     mode.add_argument("--watch", action="store_true")
+    p.add_argument(
+        "--live-viewer", action="store_true", help="Stream the role audit to telemetry.jsonl"
+    )
     mode.add_argument("--record", action="store_true")
     batch = p.add_mutually_exclusive_group()
     batch.add_argument(
@@ -445,7 +448,8 @@ def main():
                 legal_off_ball_from_tick=a.legal_off_ball_from_tick,
                 motion_audit=a.motion_audit,
                 possession_audit=a.possession_audit,
-                role_audit=a.role_audit,
+                role_audit=a.role_audit or a.live_viewer,
+                live_viewer=a.live_viewer,
                 await_force_start=a.await_force_start,
                 open_play_policy=json.loads(a.open_play_policy.read_text())
                 if a.open_play_policy

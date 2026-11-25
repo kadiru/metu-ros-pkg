@@ -24,6 +24,7 @@ from roboturk.model import Referee, SSL_KICK_LIMIT
 from roboturk.open_motion import Steering, observed_velocity
 from roboturk.placement import KickoffKick, PlacementRestart, xy
 from roboturk.pivot_fetch import PivotFetch
+from roboturk.role_telemetry import RoleTelemetry
 from roboturk.tackle_selector import TackleSelector
 from roboturk.ssl_referee import RefereeSocket, RestartGate
 from roboturk.ssl_vision import (
@@ -73,7 +74,7 @@ def hud(sim, w, keys, roles, phases, score, seconds):
         label(32 + i, str(k.id), 0.5 + r.x * 0.073, 0.485 - r.y * 0.13, 0.030, color)
 
 
-def match(sim, folder, cfg, receiver=None, vision=None):
+def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
     root = Path(cfg["root"])
     weights = json.loads((root / "policies/recipient_3v3_v1/selectors.json").read_text())
     weights = {t: np.array(weights[str(901 + i)]) for i, t in enumerate(TEAMS)}
@@ -98,6 +99,11 @@ def match(sim, folder, cfg, receiver=None, vision=None):
     else:
         w = backend.reset(kickoff(seed, serving, sign))
     keys = [r.key for r in w.robots]
+    telemetry = (
+        RoleTelemetry(telemetry_stream, [(k.team, k.id) for k in keys], seed, CFG)
+        if telemetry_stream is not None
+        else None
+    )
     commit_waypoints = cfg.get("commit_waypoints", False)
     early_release = cfg.get("release_waypoint_early", False)
     fallback = (
@@ -521,6 +527,8 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             events.append(event)
         if kickoff_kick and kickoff_kick.kicked and not kickoff_kick.second_touch:
             kickoff_kick.observe(backend.last_substep_worlds)
+        if telemetry is not None:
+            telemetry.sample(tick, meta, states[-1], events, sign)
         if tick == finish_tick or (league and state.stage == "POST_GAME"):
             break
         if receiver:
@@ -635,6 +643,8 @@ def match(sim, folder, cfg, receiver=None, vision=None):
         np.savez_compressed(folder / "positions.npz", states=np.array(states))
         if league and (not started or state.stage != "POST_GAME"):
             raise RuntimeError("Fixture ended before official kickoff or POST_GAME")
+    if telemetry is not None:
+        telemetry.finish()
 
 
 sim = Supervisor()
@@ -700,7 +710,11 @@ try:
 
             run(sim, folder, cfg, receiver, vision)
         else:
-            match(sim, folder, cfg, receiver, vision)
+            telemetry_file = (
+                (folder / "telemetry.jsonl").open("w") if cfg.get("live_viewer") else nullcontext()
+            )
+            with telemetry_file as stream:
+                match(sim, folder, cfg, receiver, vision, stream)
     if folder:
         sim.simulationQuit(0)
     else:

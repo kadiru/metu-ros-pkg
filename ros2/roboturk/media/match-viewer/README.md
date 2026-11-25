@@ -1,20 +1,29 @@
 # RoboTurk Match Viewer
 
-[Download the standalone viewer](https://raw.githubusercontent.com/kadiru/metu-ros-pkg/codex/roboturk-ros2/ros2/roboturk/media/match-viewer/index.html) and open it in a browser. The match is embedded in the file and plays offline. Yellow won this Webots game 1–0 under the SSL Game Controller, with two 30-second halves.
+![Match viewer showing Blue 3's reception task, motion gauges, and role timeline](preview.png)
 
-![Match viewer showing the field, teams, referee state, and selected robot audit](preview.png)
+## Watch a live match
 
-- Select any robot on the field or in the lineup. The inspector shows its current task, previous distinct role, recent role changes, and the command issued at that moment. The dashed line marks its assigned target.
-- Use the timeline or a match event to jump to a moment. The score, referee phase, ball state, and team lineups follow the recording.
-- The assignment reason comes from the controller trace. For a cost-based assignment, it shows the robot's distance to the target, the 0.42 cost added for switching an existing role, and the winning lineup's combined cost across the four field robots. A fixed keeper or a robot reserved for an active pass or possession shows the recorded rule.
-
-## Record another match
-
-Run these commands from the RoboTurk stack root with the Webots and AutoRef setup described in the project README. The preset enables the role audit.
+From the RoboTurk stack root, use the project's Python environment and the Webots and AutoRef setup in the [project README](../../README.md#watch-the-official-referee-control-a-5v5-match).
 
 ```sh
-python scripts/autoref/run_placement.py media/match-viewer/match-spec.json runs/new-role-match
-python scripts/role_viewer.py runs/new-role-match runs/new-role-match/viewer.html
+python scripts/role_viewer.py --play media/match-viewer/match-spec.json runs/my-live-match
 ```
 
-Older match folders with `roles.json.gz` and `positions.npz` also export. They show role history and general role descriptions. Detailed per-tick assignment reasons and commands require the role audit.
+Open [the local viewer](http://127.0.0.1:8765/) as soon as the command prints the address. The match has two 30-second halves. Use a fresh directory for each run. Use `--port` to pick another port. Set `"realtime": true` in the match spec to also show the native Webots window.
+
+- Select a robot on the field or in a lineup. Its current and previous roles appear side by side with its task, target, and assignment reason. Use the team and robot buttons to change what appears on the field. **Solo selected** shows the selected robot and the ball. The teams continue playing with their full lineups.
+- The translation dial shows commanded velocity in the robot frame, with forward at the top and the drive speed limit at the outer ring. The rotation bar shows left and right turns around zero and marks the controller's turn limits. The gauges show requested motion.
+- Click a colored segment in the **30-second role timeline** or an event in the **60-second match timeline** to review that moment. Use the timeline arrows to scroll through events and **Go live** to catch up. Score, game clock, and referee commands update with play.
+
+The viewer listens on loopback. It saves an offline replay as `runs/my-live-match/viewer.html` at full time. Press Ctrl-C in the terminal when you finish watching.
+
+## Play a recording
+
+[Download the standalone viewer](https://raw.githubusercontent.com/kadiru/metu-ros-pkg/codex/roboturk-ros2/ros2/roboturk/media/match-viewer/index.html) and open it in a browser. The example contains a two-half Webots match under the SSL Game Controller. Yellow won 1–0.
+
+```sh
+python scripts/role_viewer.py runs/my-live-match runs/my-live-match/viewer.html
+```
+
+Older match folders with `roles.json.gz` and `positions.npz` also export. Detailed assignment reasons and motion commands require a role audit. An audited assignment shows the recorded rule for a reserved robot, or target travel distance, a 0.42 cost for switching an existing role, and the winning lineup's combined cost across the four field robots.

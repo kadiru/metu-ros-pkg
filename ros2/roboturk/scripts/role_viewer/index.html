@@ -11,7 +11,7 @@
     <header class="masthead">
       <div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></div>
       <div><span class="brand">RoboTurk</span><h1>Match viewer</h1></div>
-      <span class="replay-label"><span></span> Webots replay</span>
+      <span class="feed-state" id="feed-state" data-state="replay"><i></i><span id="feed-label">Webots replay</span></span>
     </header>
 
     <section class="scoreboard" aria-label="Game state">
@@ -32,6 +32,10 @@
           <h2>Field</h2>
           <div class="phases"><span class="blue" id="blue-phase"></span><span class="yellow" id="yellow-phase"></span></div>
         </div>
+        <div class="field-controls" aria-label="Field visibility">
+          <div class="field-filters" id="field-filters"></div>
+          <div class="focus-controls"><button id="solo" type="button" aria-pressed="false">Solo selected</button><button id="show-all" type="button">Show all</button></div>
+        </div>
         <div class="pitch"><canvas id="pitch" aria-label="Recorded robot and ball positions. Select a robot here or in the lineup."></canvas></div>
         <div class="playback">
           <div class="scrub-label"><label for="scrub">Match timeline</label><span id="replay-time"></span></div>
@@ -40,25 +44,61 @@
             <button class="primary" id="play" type="button">Play</button>
             <button id="prev" type="button" title="Previous role change" aria-label="Previous role change">‹</button>
             <button id="next" type="button" title="Next role change" aria-label="Next role change">›</button>
-            <label class="event-control"><span class="sr-only">Jump to match event</span><select id="events"><option value="">Match events</option></select></label>
+            <button id="go-live" type="button" hidden>Go live</button>
           </div>
         </div>
       </section>
 
       <section class="inspector" aria-label="Selected robot">
         <div class="section-heading inspect-heading"><h2>Robot detail</h2><span id="jersey" class="jersey"></span></div>
-        <div class="current-role"><span class="label">Current role</span><strong id="role">—</strong></div>
-        <div class="previous-role"><span class="label">Previous role</span><span id="previous">—</span></div>
+        <div class="role-pair">
+          <div class="role-card active-role" id="current-card"><span class="label">Current role</span><strong id="role">—</strong></div>
+          <div class="role-card prior-role" id="prior-card"><span class="label">Previous role</span><strong id="previous">—</strong></div>
+        </div>
         <div class="inspector-section"><h3>What it’s doing</h3><p id="task"></p><p class="target" id="target" hidden></p></div>
         <div class="inspector-section"><h3>Why this role</h3><p id="reason"></p><dl id="costs" class="costs" hidden></dl></div>
-        <details class="command-details" id="command-details" hidden><summary>Motion command</summary><p id="command"></p></details>
-        <div class="inspector-section history-section"><h3>Recent roles</h3><ol id="history" class="history"></ol></div>
+        <div class="inspector-section motion-section">
+          <h3>Motion command</h3>
+          <p id="command-unavailable">Waiting for robot commands.</p>
+          <div id="command-details" hidden>
+            <div class="gauges">
+              <div class="linear-gauge">
+                <span class="label">Translation</span>
+                <div class="vector-gauge" id="translation" role="img">
+                  <span class="forward-axis">Fwd</span><span class="left-axis">L</span><span class="right-axis">R</span>
+                  <div class="vector-dial"><div id="vector-needle"></div><i></i></div>
+                </div>
+                <strong id="speed">0.00 m/s</strong><span class="gauge-scale" id="speed-scale"></span>
+              </div>
+              <div class="yaw-gauge">
+                <span class="label">Rotation</span><strong id="turn">0.00 rad/s</strong>
+                <div class="yaw-track" id="rotation" role="img"><i id="yaw-fill"></i></div>
+                <div class="yaw-labels"><span id="turn-left">↶</span><span>0</span><span id="turn-right">↷</span></div>
+                <span class="gauge-scale" id="ball-command"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="inspector-section role-history">
+          <div class="timeline-heading"><h3>Role timeline</h3><span>Last 30 s</span></div>
+          <div id="role-track" class="role-track" aria-label="Role changes in the last 30 seconds"></div>
+          <div class="axis-labels"><span>−30 s</span><span>−15 s</span><span>Selected time</span></div>
+        </div>
       </section>
     </div>
 
     <section class="lineups" aria-label="Team lineups">
       <section class="lineup blue" aria-labelledby="blue-lineup"><div class="section-heading"><h2 id="blue-lineup">Blue lineup</h2><span>Current / previous</span></div><div id="blue-roster" class="roster"></div></section>
       <section class="lineup yellow" aria-labelledby="yellow-lineup"><div class="section-heading"><h2 id="yellow-lineup">Yellow lineup</h2><span>Current / previous</span></div><div id="yellow-roster" class="roster"></div></section>
+    </section>
+    <section class="event-panel" aria-labelledby="events-title">
+      <div class="section-heading">
+        <h2 id="events-title">Match events</h2>
+        <div class="event-navigation"><span class="label">Last 60 s</span><button id="earlier-events" type="button" aria-label="Scroll to earlier events">‹</button><button id="later-events" type="button" aria-label="Scroll to later events">›</button></div>
+      </div>
+      <div class="event-scroll" id="event-scroll" tabindex="0" aria-label="Scrollable match events timeline">
+        <div id="event-track" class="event-track"></div>
+      </div>
     </section>
   </main>
   <script id="match-data" type="application/json"><!-- MATCH_DATA --></script>

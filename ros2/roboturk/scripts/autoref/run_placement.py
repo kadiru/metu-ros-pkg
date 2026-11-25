@@ -91,13 +91,18 @@ def main():
         "--java", default=str(ROOT.parent / "runtime/java-autoref/Contents/Home/bin/java")
     )
     p.add_argument("--webots", type=Path)
+    p.add_argument(
+        "--live-viewer", action="store_true", help="Stream match state for the role viewer"
+    )
     args = p.parse_args()
+    spec = json.loads(args.spec.read_text())
+    league = spec["mode"] == "league_match"
+    if args.live_viewer and not league:
+        p.error("--live-viewer requires a league match spec")
     dest = args.output.resolve()
     dest.mkdir(parents=True, exist_ok=False)
     config = dest / "gc/config"
     config.mkdir(parents=True)
-    spec = json.loads(args.spec.read_text())
-    league = spec["mode"] == "league_match"
     simulation_clock = league and spec.get("simulation_clock", False)
     timing = ""
     if league:
@@ -155,6 +160,8 @@ def main():
         if simulation_clock:
             params.extend(["--gc-clock", "127.0.0.1:21909"])
         if league:
+            if args.live_viewer:
+                params.append("--live-viewer")
             stack.enter_context(
                 service(
                     [

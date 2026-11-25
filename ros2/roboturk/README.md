@@ -4,11 +4,11 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
-## Follow each robot's role during a match
+## Watch each robot's role live
 
-Replay a one-minute Webots match and select any robot to see its current task, previous role, assignment reason, and most recent motion and ball commands. The viewer also shows the referee state, match clock, score, and passing events. [Open or reproduce the match viewer](media/match-viewer/README.md)
+Follow a Webots match live or review it offline. Hide teams or individual robots, solo a player, and inspect the player's current task, role history, and motion command. The match event timeline tracks passes, shots, and referee decisions. [Run the match viewer](media/match-viewer/README.md)
 
-[![RoboTurk match viewer showing Blue 1's transition from right wing to receiver](media/match-viewer/preview.png)](media/match-viewer/README.md)
+[![RoboTurk match viewer showing a receiver's motion gauges and role timeline](media/match-viewer/preview.png)](media/match-viewer/README.md)
 
 ## Softer first touches in 5v5
 

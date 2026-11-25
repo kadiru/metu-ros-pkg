@@ -3,15 +3,21 @@
 import math
 from dataclasses import replace
 
-from .five_roles import CFG, PENALTY_FRONT, legal_off_ball_target
+from .five_roles import CFG, PENALTY_FRONT, legal_off_ball_target, limit
 from .goal_cover import opposing_holder
-from .model import possession
+from .model import possession, wrap
 from .pivot_fetch import sweep_command, sweep_pull
 from .three_recipient import move
 from .timed_keeper import TimedGoalCover
 
 
 class GoalLaneCover(TimedGoalCover):
+    def __init__(self, pivot=False):
+        super().__init__()
+        self.pivot = pivot
+        self.pivots = {}
+        self.pivot_samples = []
+
     def commands(self, world, presser, needed, preparing=False):
         commands = super().commands(world, presser, needed, preparing)
         if not commands:
@@ -28,7 +34,32 @@ class GoalLaneCover(TimedGoalCover):
         side = max((-1, 1), key=lambda side: sign * sweep_pull(rival, side)[0])
         if sign * sweep_pull(rival, side)[0] <= 0:
             return commands
-        commands[keeper_key] = sweep_command(world, keeper, rival, side, keeper.yaw)
+        yaw_target = keeper.yaw
+        if self.pivot:
+            previous = self.pivots.get(keeper_key)
+            if (
+                previous is None
+                or previous[0] != rival.key
+                or not 0 < world.time - previous[1] <= 1.5 * CFG.dt
+            ):
+                upfield = 0.0 if sign > 0 else math.pi
+                yaw_target += limit(wrap(upfield - keeper.yaw), math.radians(28))
+                start_yaw = keeper.yaw
+            else:
+                _, _, start_yaw, yaw_target = previous
+            self.pivots[keeper_key] = rival.key, world.time, start_yaw, yaw_target
+        command = sweep_command(world, keeper, rival, side, yaw_target)
+        commands[keeper_key] = command
+        if self.pivot:
+            self.pivot_samples.append(
+                dict(
+                    time=world.time,
+                    start_yaw=start_yaw,
+                    yaw=keeper.yaw,
+                    target_yaw=yaw_target,
+                    commanded_omega=command.omega,
+                )
+            )
         if presser.key in commands and sign * presser.x >= -PENALTY_FRONT + 0.04:
             # Stay fieldward of the breakout and keep the second roller off
             # until ordinary possession or recovery selects the next action.

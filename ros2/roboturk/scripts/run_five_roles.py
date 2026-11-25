@@ -199,6 +199,7 @@ def main():
             "keeper-cover",
             "keeper-timing",
             "keeper-lane",
+            "keeper-pivot",
         ),
         help="Compare matched tackle choices or the shared keeper fallback",
     )
@@ -241,7 +242,12 @@ def main():
         p.error("--keeper-cover requires --tackle-selector")
     if (a.keeper_timing or a.keeper_lane) and not a.keeper_cover:
         p.error("--keeper-timing and --keeper-lane require --keeper-cover in ordinary play")
-    keeper_panel = a.tackle_panel in ("keeper-cover", "keeper-timing", "keeper-lane")
+    keeper_panel = a.tackle_panel in (
+        "keeper-cover",
+        "keeper-timing",
+        "keeper-lane",
+        "keeper-pivot",
+    )
     if a.parked_keeper and a.tackle_panel != "keeper-cover":
         p.error("--parked-keeper requires --tackle-panel keeper-cover")
     if a.keeper_stress and (not keeper_panel or a.parked_keeper):

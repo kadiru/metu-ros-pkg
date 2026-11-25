@@ -104,9 +104,10 @@ def trial(
             profile,
             keeper_cover=mode != "selector",
             keeper_timing=mode == "keeper-timing",
-            keeper_lane=mode == "keeper-lane",
+            keeper_lane=mode in ("keeper-lane", "keeper-pivot"),
+            keeper_pivot=mode == "keeper-pivot",
         )
-        if mode in ("selector", "keeper-cover", "keeper-timing", "keeper-lane")
+        if mode in ("selector", "keeper-cover", "keeper-timing", "keeper-lane", "keeper-pivot")
         else None
     )
     keeper = RobotKey(presser.team, 0)
@@ -193,7 +194,7 @@ def trial(
             if pair:
                 players.update(pair)
                 cover[keeper] = -sign
-                if mode in ("keeper-timing", "keeper-lane"):
+                if mode in ("keeper-timing", "keeper-lane", "keeper-pivot"):
                     handoffs[keeper] = presser
                 if presser in pair:
                     cover_times.append(world.time)
@@ -292,6 +293,7 @@ def trial(
         keeper_ready_ticks=len(selector.cover.prepared) if selector and selector.cover else 0,
         film=film,
         motion=motion,
+        pivot_samples=selector.cover.pivot_samples if mode == "keeper-pivot" else [],
         retained=dwell >= confirmation,
         clean_retained=dwell >= confirmation
         and not contact
@@ -318,9 +320,11 @@ def run(sim, folder, cfg):
     profile = BallSideTackle(**cfg["tackle_policy"])
     backend = ContinuousWebotsBackend(sim, CFG)
     zone = cfg["tackle_panel"]
-    keepers = zone in ("keeper-cover", "keeper-timing", "keeper-lane")
+    keepers = zone in ("keeper-cover", "keeper-timing", "keeper-lane", "keeper-pivot")
     modes = (
-        ("keeper-cover", zone)
+        ("keeper-lane", "keeper-pivot")
+        if zone == "keeper-pivot"
+        else ("keeper-cover", zone)
         if zone in ("keeper-timing", "keeper-lane")
         else ("selector", "keeper-cover")
         if keepers

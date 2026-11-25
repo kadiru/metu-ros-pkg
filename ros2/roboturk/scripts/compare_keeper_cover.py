@@ -9,7 +9,13 @@ from compare_tackle_selector import read_rows
 ARMS = ("selector", "keeper-cover")
 TIMED_ARMS = ("keeper-cover", "keeper-timing")
 LANE_ARMS = ("keeper-cover", "keeper-lane")
-PANELS = {"keeper-cover": ARMS, "keeper-timing": TIMED_ARMS, "keeper-lane": LANE_ARMS}
+PIVOT_ARMS = ("keeper-lane", "keeper-pivot")
+PANELS = {
+    "keeper-cover": ARMS,
+    "keeper-timing": TIMED_ARMS,
+    "keeper-lane": LANE_ARMS,
+    "keeper-pivot": PIVOT_ARMS,
+}
 
 
 def compare(paths):

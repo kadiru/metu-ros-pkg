@@ -4,9 +4,11 @@ All five shared misses from the previous benchmark reached a two-roller contest.
 
 The new cover keeps the timed handoff. When both rollers reach the ball, the keeper sweeps across the opponent's exposed flank toward the field. It selects the fieldward sweep using the carrier's observed orientation and keeps the existing collision steering and post limits. The presser clears the keeper's path and stays available on the field side of the box, with its roller off while the keeper breaks the shared grip. Ordinary possession and recovery take over after the release.
 
+Blue attacks and Yellow defends in these six clips. The yellow outline and **YELLOW GOAL** marker identify the defended net. The replay measures goals conceded when the ball crosses that line. The archived `own_goal_s` field records this crossing without assigning the last touch. [Keeper pivot comparison on the same five starts](../keeper-pivot/README.md)
+
 ## Five archived misses
 
-| Archived seed | Current cover own goal | Fieldward breakout keeper recovery |
+| Archived seed | Goal conceded with current cover | Fieldward breakout keeper recovery |
 | --- | ---: | ---: |
 | 38725035 | 1.134 s | 1.420 s |
 | 38725059 | 1.368 s | 1.482 s |
@@ -26,13 +28,13 @@ The 32 varied starts mirror the goalmouth setups across both goals. The 16 addit
 
 A clean takeaway requires exclusive defending-team possession for the last 240 ms with no body contact or ball out. A body contact is a distinct robot-pair encounter, measured at each 2 ms physics step. Starts with contact are also counted so repeated contacts in one trial are visible.
 
-| Fresh panel | Current own goals | Breakout own goals | Current clean takeaways | Breakout clean takeaways | Current body contacts | Breakout body contacts |
+| Fresh panel | Goals conceded with current cover | Goals conceded with breakout | Current clean takeaways | Breakout clean takeaways | Current body contacts | Breakout body contacts |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | Varied, 32 | 1 | 0 | 7 | 5 | 7 | 7 |
 | Near-line, 16 | 5 | 1 | 2 | 4 | 8 | 10 |
 | **Combined, 48** | **6** | **1** | **9** | **9** | **15** | **17** |
 
-The breakout prevented five of the baseline's six own goals and introduced none. It remains opt-in because contact episodes rose from 15 to 17. The regular 44-second 5v5 smoke run reached two keeper-cover ticks and recorded zero body contacts.
+The breakout prevented five of the baseline's six goals conceded and introduced none. It remains opt-in because contact episodes rose from 15 to 17. The regular 44-second 5v5 smoke run reached two keeper-cover ticks and recorded zero body contacts.
 
 On fresh seed 38725675, current cover concedes at 0.984 s. The breakout version keeps the ball out and the presser secures it at 0.742 s.
 

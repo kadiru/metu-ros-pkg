@@ -70,12 +70,16 @@ class Contest:
 
 
 class TackleSelector:
-    def __init__(self, direct, keeper_cover=False, keeper_timing=False, keeper_lane=False):
+    def __init__(
+        self, direct, keeper_cover=False, keeper_timing=False, keeper_lane=False, keeper_pivot=False
+    ):
         self.direct = direct
         self.contests = {}
         self.events = []
-        cover = GoalLaneCover if keeper_lane else TimedGoalCover if keeper_timing else GoalCover
-        self.cover = cover() if keeper_cover else None
+        cover = TimedGoalCover if keeper_timing else GoalCover
+        self.cover = None
+        if keeper_cover:
+            self.cover = GoalLaneCover(pivot=keeper_pivot) if keeper_lane else cover()
 
     def command(self, world, presser, carrier, observed, has_ball):
         now, key = world.time, presser.key

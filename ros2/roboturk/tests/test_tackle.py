@@ -232,5 +232,20 @@ def test_keeper_sweeps_a_shared_ball_upfield_while_the_presser_keeps_its_roller_
     assert set(pair) == {keeper, PRESSER}
     dx, dy = world_vector(pair[keeper].vx, pair[keeper].vy, w.robot(keeper).yaw)
     assert dx < 0 and dy > 0
+    assert pair[keeper].omega == 0
     assert pair[keeper].dribbler == 1 and pair[PRESSER].dribbler == 0
     assert all(command.kick == 0 for command in pair.values())
+
+    pivot = GoalLaneCover(pivot=True)
+    pivot_commands = pivot.commands(w, w.robot(PRESSER), needed=True)
+    assert pivot_commands[keeper].omega < 0 and pivot_commands[keeper].kick == 0
+    keeper_robot = w.robot(keeper)
+    turned = replace(
+        w,
+        time=CFG.dt,
+        robots=tuple(replace(r, yaw=r.yaw - 0.10) if r.key == keeper else r for r in w.robots),
+    )
+    pivot.commands(turned, turned.robot(PRESSER), needed=True)
+    first, second = pivot.pivot_samples
+    assert first["target_yaw"] == second["target_yaw"]
+    assert math.isclose(first["target_yaw"], keeper_robot.yaw - math.radians(28))

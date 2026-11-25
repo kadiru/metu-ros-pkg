@@ -6,7 +6,7 @@ A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 pla
 
 ## Breaking a shared keeper grip
 
-The keeper sweeps the ball fieldward while the presser clears the lane for an outlet. The new cover recovered the ball cleanly on all five shared misses. Across 48 fresh matched starts it reduced own goals from six to one, with nine clean takeaways in each arm and two additional body-contact episodes. [Native replays and matched results](media/goal-lane/README.md)
+The keeper sweeps the ball fieldward while the presser clears the lane for an outlet. The new cover recovered the ball cleanly on all five shared misses. Across 48 fresh matched starts it reduced goals conceded from six to one, with nine clean takeaways in each arm and two additional body-contact episodes. [Goal-labelled replays and matched results](media/goal-lane/README.md) · [Keeper pivot comparison](media/keeper-pivot/README.md)
 
 ## Timing the presser’s handoff to the keeper
 

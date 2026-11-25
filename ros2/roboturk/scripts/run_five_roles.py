@@ -75,6 +75,7 @@ def main():
     p.add_argument(
         "--team-limits", type=json.loads, help="JSON drive and kick limits for Blue and Yellow"
     )
+    p.add_argument("--practice-limits-file", type=Path, help="Live, shared Practice limits (JSON)")
     mode.add_argument("--record", action="store_true")
     batch = p.add_mutually_exclusive_group()
     batch.add_argument(
@@ -458,6 +459,9 @@ def main():
                 live_viewer=a.live_viewer,
                 team_strategies=a.team_strategies,
                 team_limits=a.team_limits,
+                practice_limits_file=str(a.practice_limits_file.resolve())
+                if a.practice_limits_file
+                else None,
                 await_force_start=a.await_force_start,
                 open_play_policy=json.loads(a.open_play_policy.read_text())
                 if a.open_play_policy

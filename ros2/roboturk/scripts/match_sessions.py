@@ -11,8 +11,7 @@ from threading import Lock, Thread
 from uuid import uuid4
 
 from roboturk.five_strategy import decode_strategies
-from roboturk.match_limits import team_configs
-from roboturk.model import Config
+from roboturk.match_limits import GAME_LIMITS, PRACTICE_RANGES, validate_limits
 
 
 def session_options(request):
@@ -26,9 +25,7 @@ def session_options(request):
             raise ValueError("In Practice mode, choose a playbook for each team.")
         decode_strategies(request["strategies"])
         if "limits" in request:
-            if request["limits"] is None:
-                raise ValueError("Set motion limits for both teams.")
-            team_configs(Config(), officiated=True, practice=request["limits"])
+            validate_limits(request["limits"])
     else:
         raise ValueError("Choose Practice or Game.")
     return request
@@ -49,10 +46,24 @@ class MatchSession:
     def url(self):
         return f"/matches/{self.directory.name}/"
 
+    @property
+    def limit_path(self):
+        return self.directory / "motion-limits.json" if self.options["mode"] == "practice" else None
+
+
+def write_limits(path, values):
+    temporary = path.with_suffix(".tmp")
+    temporary.write_text(json.dumps(values) + "\n")
+    temporary.replace(path)
+
 
 class MatchRunning(Exception):
     def __init__(self, url):
         self.url = url
+
+
+class LimitsLocked(Exception):
+    pass
 
 
 class MatchSessions:
@@ -71,12 +82,17 @@ class MatchSessions:
         spec = dict(self.spec)
         # Game mode always runs the shipped playbooks.
         spec["team_strategies"] = options.get("strategies")
-        spec["team_limits"] = options.get("limits")
+        spec["team_limits"] = None
+        spec["practice_limits_file"] = None
         with self.lock:
             if self.active and self.active.process.poll() is None:
                 raise MatchRunning(self.active.url)
             directory = self.root / uuid4().hex[:12]
             directory.mkdir(parents=True)
+            if options["mode"] == "practice":
+                limit_path = directory / "motion-limits.json"
+                write_limits(limit_path, options.get("limits", GAME_LIMITS))
+                spec["practice_limits_file"] = str(limit_path)
             spec_file = directory / "spec.json"
             spec_file.write_text(json.dumps(spec, indent=2) + "\n")
             with (directory / "launch.log").open("w") as log:
@@ -96,6 +112,17 @@ class MatchSessions:
             self.sessions[directory.name] = self.active = session
         Thread(target=self.finish, args=(session,), daemon=True).start()
         return session
+
+    def edit_limits(self, session, changes):
+        if not isinstance(changes, dict) or not changes or changes.keys() - PRACTICE_RANGES.keys():
+            raise ValueError("Choose a motion limit to change.")
+        with self.lock:
+            if session.limit_path is None:
+                raise LimitsLocked("Game limits are fixed.")
+            if session.process.poll() is not None:
+                raise LimitsLocked("This practice match is finished.")
+            proposed = json.loads(session.limit_path.read_text()) | changes
+            write_limits(session.limit_path, validate_limits(proposed))
 
     def finish(self, session):
         if session.process.wait():

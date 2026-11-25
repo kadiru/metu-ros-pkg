@@ -36,6 +36,7 @@ def compact_frame(frame, tick, dt, sign):
         sign=frame.get("attack_sign", sign),
         allocation=frame.get("allocation"),
         plays=frame.get("plays"),
+        limits=frame.get("limits"),
         motion=[m.get("mode") if m else None for m in motions] if motions else None,
     )
 

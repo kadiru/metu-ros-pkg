@@ -13,7 +13,7 @@ from urllib.parse import parse_qs, urlsplit
 
 import numpy as np
 
-from match_sessions import MatchRunning, MatchSessions
+from match_sessions import LimitsLocked, MatchRunning, MatchSessions
 from roboturk.five_roles import CFG
 from roboturk.five_strategy import PASS_PREFERENCES, PLAYBOOKS
 from roboturk.match_limits import GAME_LIMITS, PRACTICE_RANGES, limit_values, team_configs
@@ -77,9 +77,12 @@ def build_data(folder):
 
 
 def page(match, template="index", script="viewer"):
-    data = json.dumps(match, separators=(",", ":"), allow_nan=False).replace("<", "\\u003c")
+    data = json.dumps(
+        dict(match, limit_ranges=PRACTICE_RANGES), separators=(",", ":"), allow_nan=False
+    ).replace("<", "\\u003c")
     html = (TEMPLATES / f"{template}.html").read_text()
     html = html.replace("/* VIEWER_STYLES */", (TEMPLATES / "viewer.css").read_text())
+    html = html.replace("/* LIMIT_CONTROLS */", (TEMPLATES / "limits.js").read_text())
     html = html.replace("/* VIEWER_SCRIPT */", (TEMPLATES / f"{script}.js").read_text())
     return html.replace("<!-- MATCH_DATA -->", data)
 
@@ -163,7 +166,14 @@ class SessionRequest(ViewerRequest):
         if session is None:
             self.send_error(404)
         elif parts[3] == "":
-            html = page(dict(live=True, session=session.options, setup_url="/"))
+            html = page(
+                dict(
+                    live=True,
+                    session=session.options,
+                    setup_url="/",
+                    edit_limits=session.limit_path is not None and session.process.poll() is None,
+                )
+            )
             self.respond(html.encode(), "text/html; charset=utf-8")
         elif parts[3] == "telemetry":
             self.telemetry(session.match, url.query, session.failed)
@@ -174,28 +184,39 @@ class SessionRequest(ViewerRequest):
         self.respond(json.dumps(value).encode(), "application/json", status=status)
 
     def do_POST(self):
+        session = None
         if self.path != "/matches":
-            self.send_error(404)
-            return
+            parts = self.path.split("/")
+            if len(parts) == 4 and parts[1] == "matches" and parts[3] == "limits":
+                session = self.sessions.sessions.get(parts[2])
+            if session is None:
+                self.send_error(404)
+                return
         origin = f"http://127.0.0.1:{self.server.server_port}"
         if (
             self.headers.get("Origin") != origin
             or self.headers.get_content_type() != "application/json"
         ):
-            self.json_response({"error": "Open the local viewer address to start a match."}, 403)
+            self.json_response({"error": "Open the local viewer address to change a match."}, 403)
             return
         try:
             length = int(self.headers.get("Content-Length", "0"))
             if not 0 < length <= 4096:
                 raise ValueError("Invalid match setup.")
             request = json.loads(self.rfile.read(length))
+            if session is not None:
+                self.sessions.edit_limits(session, request)
+                self.json_response({"saved": True})
+                return
             session = self.sessions.start(request)
         except MatchRunning as error:
             self.json_response({"error": "A match is already running.", "url": error.url}, 409)
+        except LimitsLocked as error:
+            self.json_response({"error": str(error)}, 409)
         except ValueError as error:
             self.json_response({"error": str(error)}, 400)
         except OSError:
-            self.json_response({"error": "Could not start the local Webots match."}, 500)
+            self.json_response({"error": "Could not update the local Webots match."}, 500)
         else:
             self.json_response({"url": session.url}, 201)
 
@@ -211,7 +232,6 @@ def serve_setup(folder, port, spec):
         strategies={key: [book.name, book.description] for key, book in PLAYBOOKS.items()},
         passing=PASS_PREFERENCES,
         limit_defaults=GAME_LIMITS,
-        limit_ranges=PRACTICE_RANGES,
         half_seconds=sessions.spec["half_seconds"],
     )
     handler = partial(

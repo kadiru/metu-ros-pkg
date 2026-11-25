@@ -124,6 +124,10 @@ class IndependentKickoffs:
             for team in ("blue", "yellow")
         }
 
+    def update_limits(self, motion_configs):
+        for team, planner in self.planners.items():
+            planner.cfg = motion_configs[team]
+
     def commands(self, world, dt, frame):
         output = {}
         ready = True

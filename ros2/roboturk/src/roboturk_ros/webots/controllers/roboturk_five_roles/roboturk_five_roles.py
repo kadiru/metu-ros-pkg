@@ -20,7 +20,7 @@ from roboturk.five_receive import FiveReceive
 from roboturk.five_roles import Assignment, CFG, TEAMS, FiveRoles, kickoff
 from roboturk.five_strategy import decode_strategies, describe_play
 from roboturk.kickoff_drive import KickoffDrive, ParallelKickoffDrive
-from roboturk.match_limits import limit_values, team_configs
+from roboturk.match_limits import PracticeLimitFeed, limit_values, shared_configs, team_configs
 from roboturk.team_kickoff import IndependentKickoffs
 from roboturk.model import Referee, SSL_KICK_LIMIT, bounded
 from roboturk.open_motion import Steering, observed_velocity
@@ -86,8 +86,13 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
     sign = 1 if seed % 2 == 0 else -1
     serving = TEAMS[(seed // 2) % 2]
     match_config = replace(CFG, max_kick=SSL_KICK_LIMIT) if receiver else CFG
-    motion_configs = team_configs(match_config, practice=cfg.get("team_limits"))
-    active_limits = {team: limit_values(config) for team, config in motion_configs.items()}
+    limit_file = cfg.get("practice_limits_file")
+    limit_feed = PracticeLimitFeed(limit_file) if limit_file else None
+    if limit_feed:
+        motion_configs = shared_configs(match_config, limit_feed.poll())
+    else:
+        motion_configs = team_configs(match_config, practice=cfg.get("team_limits"))
+    initial_limits = {team: limit_values(config) for team, config in motion_configs.items()}
     backend = ContinuousWebotsBackend(sim, match_config, team_configs=motion_configs)
     drive = cfg.get("drive_kickoffs", False)
     referee_places = cfg.get("referee_placement", False)
@@ -104,7 +109,7 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
         w = backend.reset(kickoff(seed, serving, sign))
     keys = [r.key for r in w.robots]
     telemetry = (
-        RoleTelemetry(telemetry_stream, [(k.team, k.id) for k in keys], seed, CFG, active_limits)
+        RoleTelemetry(telemetry_stream, [(k.team, k.id) for k in keys], seed, CFG, initial_limits)
         if telemetry_stream is not None
         else None
     )
@@ -193,6 +198,12 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
     if league:
         (folder / "referee-ready").touch()
     for tick in range(round(cfg["seconds"] / CFG.dt)):
+        limit_change = limit_feed.poll() if limit_feed else None
+        if limit_change:
+            motion_configs = shared_configs(match_config, limit_change)
+            backend.team_configs = motion_configs
+            if isinstance(formation, IndependentKickoffs):
+                formation.update_limits(motion_configs)
         state = receiver.poll() if receiver else None
         opening = False
         restricted = ""
@@ -416,6 +427,8 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
             score=score.copy(),
             restart=restarts,
         )
+        if limit_change:
+            meta["limits"] = dict.fromkeys(TEAMS, limit_change)
         if allocation is not None:
             details = []
             for key in keys:
@@ -635,7 +648,7 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
             frames=steps,
             events=events,
             seconds=len(steps) * CFG.dt,
-            limits=active_limits,
+            limits=initial_limits,
         )
         if isinstance(tackle, PivotFetch):
             log["pivot_sweeps"] = [[t, keys.index(k), keys.index(c)] for t, k, c in tackle.sweeps]

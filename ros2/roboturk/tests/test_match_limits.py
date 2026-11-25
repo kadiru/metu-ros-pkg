@@ -1,9 +1,16 @@
+import json
 import math
 
 import pytest
 
 from roboturk.five_roles import CFG
-from roboturk.match_limits import GAME_LIMITS, limit_values, team_configs
+from roboturk.match_limits import (
+    GAME_LIMITS,
+    PracticeLimitFeed,
+    limit_values,
+    shared_configs,
+    team_configs,
+)
 from roboturk.model import Command, Robot, RobotKey, bounded, drive_velocity
 from roboturk.timed_motion import Leg
 
@@ -32,3 +39,20 @@ def test_practice_rejects_invalid_kick_limits(too_fast):
     practice = {"blue": dict(GAME_LIMITS, max_kick=too_fast), "yellow": GAME_LIMITS}
     with pytest.raises(ValueError, match="Blue max kick"):
         team_configs(CFG, officiated=True, practice=practice)
+
+
+def test_shared_practice_limits_follow_atomic_updates_for_both_teams(tmp_path):
+    path = tmp_path / "limits.json"
+    path.write_text(json.dumps(GAME_LIMITS))
+    feed = PracticeLimitFeed(path)
+    assert feed.poll() == GAME_LIMITS
+    assert feed.poll() is None
+    updated = dict(GAME_LIMITS, max_speed=0.9, max_omega=3.0, max_acceleration=2.0, max_kick=1.5)
+    pending = path.with_suffix(".tmp")
+    pending.write_text(json.dumps(updated))
+    assert feed.poll() is None
+    pending.replace(path)
+    configs = shared_configs(CFG, feed.poll())
+    assert configs["blue"] is configs["yellow"]
+    assert limit_values(configs["blue"]) == updated
+    assert feed.poll() is None

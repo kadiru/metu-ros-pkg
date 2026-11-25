@@ -70,7 +70,13 @@ const eventColors = {
 
 let frameIndex = match.intro?.frame ?? 0;
 let selected = match.intro?.robot ?? 0;
+let initialLimits;
 let limits;
+let slidersEditable;
+let lastSliderValues;
+let limitWrites = Promise.resolve();
+const pendingLimits = new Map();
+const limitsByFrame = [];
 let following = livePage;
 let finished = false;
 let matchFailed = false;
@@ -91,6 +97,7 @@ const histories = [];
 const lineup = [];
 const filterButtons = [];
 const teamButtons = {};
+const motionControls = createLimitControls(byId("motion-limits"), match.limit_ranges, changeLimit);
 
 function robotName(index) {
   const [team, number] = keys[index];
@@ -131,6 +138,7 @@ function addRoleSample(frame, tick) {
     const previous = history.at(-1)?.role ?? null;
     if (role !== previous) history.push({ tick, role, previous });
   });
+  limitsByFrame.push(frame.limits || limitsByFrame.at(-1) || initialLimits);
 }
 
 function historyIndex(robot) {
@@ -334,33 +342,48 @@ function roleColor(role) {
   return roleColors[role] || "#a6b5c5";
 }
 
-function showLimits(values) {
+function initialLimitValues(values) {
   if (Array.isArray(values)) {
     // Older live recordings carried only translation and rotation.
     const [max_speed, max_omega] = values;
-    values = { blue: { max_speed, max_omega }, yellow: { max_speed, max_omega } };
+    return { blue: { max_speed, max_omega }, yellow: { max_speed, max_omega } };
   }
-  if (!values) return;
-  limits = values;
-  const rows = Object.entries(teams).map(([team, style]) => {
-    const row = document.createElement("tr");
-    const label = document.createElement("th");
-    label.scope = "row";
-    label.className = team;
-    label.textContent = style.label;
-    row.append(label);
-    const { max_speed, max_omega, max_acceleration, max_kick } = limits[team];
-    for (const [value, unit] of [
-      [max_speed, "m/s"], [max_omega, "rad/s"], [max_acceleration, "m/s²"], [max_kick, "m/s"],
-    ]) {
-      const cell = document.createElement("td");
-      cell.textContent = value == null ? "—" : `${value} ${unit}`;
-      row.append(cell);
+  return values;
+}
+
+function changeLimit(name, value) {
+  const feedback = byId("limit-feedback");
+  feedback.hidden = true;
+  pendingLimits.set(name, value);
+  limitWrites = limitWrites.then(async () => {
+    try {
+      const response = await fetch("limits", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ [name]: value }),
+      });
+      if (!response.ok) throw new Error((await response.json()).error);
+    } catch (error) {
+      if (pendingLimits.get(name) === value) pendingLimits.delete(name);
+      feedback.textContent = error.message || "Could not save the limit.";
+      feedback.hidden = false;
+      lastSliderValues = null;
+      updateLimitControls();
     }
-    return row;
   });
-  byId("limit-values").replaceChildren(...rows);
-  byId("limit-panel").hidden = false;
+}
+
+function updateLimitControls() {
+  limits = limitsByFrame[frameIndex] || initialLimits;
+  const editable = Boolean(limits && frames.length && match.edit_limits && following
+    && !finished && !matchFailed && !feedError);
+  if (limits === lastSliderValues && editable === slidersEditable) return;
+  lastSliderValues = limits;
+  slidersEditable = editable;
+  for (const [name, value] of pendingLimits) {
+    if (limits?.blue[name] === value) pendingLimits.delete(name);
+  }
+  motionControls.show(limits, editable, editable ? pendingLimits : undefined);
 }
 
 function updateGauges(audit) {
@@ -515,6 +538,7 @@ function updateInspector(frame) {
 function render() {
   updateFeed();
   updateFilters();
+  updateLimitControls();
   const frame = frames[frameIndex];
   playButton.disabled = !frame || (livePage && following && !finished);
   scrub.disabled = !frame;
@@ -754,7 +778,7 @@ async function poll(offset = 0) {
       const item = JSON.parse(line);
       if (item.header) {
         keys.push(...item.header.keys);
-        showLimits(item.header.limits);
+        initialLimits = initialLimitValues(item.header.limits);
         if (ownTeam) {
           const ownRobot = keys.findIndex(([team, number]) => team === ownTeam && number === 1);
           if (ownRobot >= 0) selected = ownRobot;
@@ -773,10 +797,14 @@ async function poll(offset = 0) {
     feedError = false;
     if (following && frames.length) frameIndex = frames.length - 1;
     if (batch || !frames.length) render();
-    else updateFeed();
+    else {
+      updateFeed();
+      updateLimitControls();
+    }
   } catch {
     feedError = true;
     updateFeed();
+    updateLimitControls();
   }
   if (!finished && !matchFailed) setTimeout(() => poll(offset), 125);
 }
@@ -798,7 +826,7 @@ if (match.setup_url) {
 }
 if (livePage) poll();
 else {
-  showLimits(match.limits);
+  initialLimits = initialLimitValues(match.limits);
   initializeTeams();
   frames.forEach(addRoleSample);
 }

@@ -166,6 +166,8 @@ def main():
                 params.extend(["--team-strategies", json.dumps(spec["team_strategies"])])
             if spec.get("team_limits") is not None:
                 params.extend(["--team-limits", json.dumps(spec["team_limits"])])
+            if spec.get("practice_limits_file"):
+                params.extend(["--practice-limits-file", spec["practice_limits_file"]])
             stack.enter_context(
                 service(
                     [

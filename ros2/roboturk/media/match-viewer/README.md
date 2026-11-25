@@ -1,6 +1,6 @@
 # RoboTurk Match Viewer
 
-![Practice match showing the active limits for both teams](preview.png)
+![Practice match showing the shared motion sliders in the top bar](preview.png)
 
 ## Start a live match
 
@@ -14,10 +14,10 @@ Open [the local setup page](http://127.0.0.1:8765/). Both modes run an officiate
 
 | Mode | Match setup |
 | --- | --- |
-| Practice | Choose strategy, passing preference, and all four motion limits independently for Blue and Yellow. |
+| Practice | Choose each team's strategy and passing preference. The four top-bar sliders control all ten robots. |
 | Game | Choose your team color. Both teams use the Balanced playbook and fixed limits. |
 
-The **Active limits** table shows what the simulator applies to each team. Select a robot to see gauges scaled to its team's translation and rotation caps. The limits apply from kickoff and are saved with the replay.
+Set **Speed**, **Turn**, **Accel**, and **Kick** in the top bar before kickoff or while following a live Practice match. Slider changes take effect together for both teams on the next control tick that reads them. The motion gauges and replay use the limits recorded for the selected moment. Game and replay controls are read-only.
 
 | Setting | Practice range | Game |
 | --- | ---: | ---: |
@@ -26,7 +26,7 @@ The **Active limits** table shows what the simulator applies to each team. Selec
 | Acceleration and braking | 0.5–10 m/s² | 5 m/s² |
 | Flat kick speed | 0.5–10 m/s | 6.5 m/s |
 
-Both Practice teams start with the Game limits. These values cap actuator commands. Plays may request slower movements and kicks. The SSL rulebook sets the 6.5 m/s ball-speed cap. The 5 m/s² drive setting comes from RoboTurk's motion model. [SSL ball-speed rule](https://robocup-ssl.github.io/ssl-rules/sslrules.html#_ball_speed) · [RoboTurk drive and kicker tests](../ssl-physics/README.md#drive-and-kicker)
+Practice starts with the Game limits. These values cap actuator commands. Plays may request slower movements and kicks. The SSL rulebook sets the 6.5 m/s ball-speed cap. The 5 m/s² drive setting comes from RoboTurk's motion model. [SSL ball-speed rule](https://robocup-ssl.github.io/ssl-rules/sslrules.html#_ball_speed) · [RoboTurk drive and kicker tests](../ssl-physics/README.md#drive-and-kicker)
 
 Select a robot on the field or a lineup to inspect its assignment. The inspector shows the strategy, play and current step, the current and previous roles, and the requested motion. The colored **10-second role timeline** and **60-second match-event timeline** let you jump to earlier moments. **Go live** catches up. Team and player filters change what the viewer draws. They leave the active robots on the simulated field.
 
@@ -44,10 +44,10 @@ The CMDragons system selects team plays using applicability conditions and fills
 
 ## Play a recording
 
-[Download the standalone match viewer](https://raw.githubusercontent.com/kadiru/metu-ros-pkg/codex/roboturk-ros2/ros2/roboturk/media/match-viewer/index.html) and open it in a browser. The example is an audited Practice match with different limits for Blue and Yellow. Yellow's kick cap was 1.5 m/s, and Blue won 2–0.
+[Download the standalone match viewer](https://raw.githubusercontent.com/kadiru/metu-ros-pkg/codex/roboturk-ros2/ros2/roboturk/media/match-viewer/index.html) and open it in a browser. Scrub across 0:08 in the Practice example to see the shared limits change.
 
 ```sh
 python scripts/role_viewer.py runs/viewer-sessions/SESSION/run runs/viewer-sessions/SESSION/run/viewer.html
 ```
 
-Older recordings with `roles.json.gz` and `positions.npz` also export. Detailed assignment reasons and motion commands require a role audit. The team-plan visualization uses play data recorded by the current controller.
+Older recordings with `roles.json.gz` and `positions.npz` also export. For older asymmetric limits, the top bar shows Blue / Yellow values. Detailed assignment reasons and motion commands require a role audit. The team-plan visualization uses play data recorded by the current controller.

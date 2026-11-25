@@ -12,6 +12,8 @@
       <div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></div>
       <div><span class="brand">RoboTurk</span><h1>Match viewer</h1></div>
       <span id="session-badge" class="session-badge" hidden></span>
+      <div id="motion-limits" class="top-limits" role="group" aria-label="Shared motion limits" hidden></div>
+      <span id="limit-feedback" class="limit-feedback" role="status" hidden></span>
       <span class="feed-state" id="feed-state" data-state="replay"><i></i><span id="feed-label">Webots replay</span></span>
       <a id="setup-link" class="setup-link" hidden>Match setup</a>
     </header>
@@ -26,14 +28,6 @@
         <div><span class="label">Referee</span><span id="referee" class="reference">—</span></div>
         <div><span class="label">Ball state</span><span id="owner" class="reference">—</span></div>
       </div>
-    </section>
-
-    <section class="limit-panel" id="limit-panel" aria-labelledby="limit-title" hidden>
-      <table aria-label="Active limits for each team">
-        <caption id="limit-title">Active limits</caption>
-        <thead><tr><th scope="col">Team</th><th scope="col">Top speed</th><th scope="col">Rotation</th><th scope="col">Accel / brake</th><th scope="col">Kick</th></tr></thead>
-        <tbody id="limit-values"></tbody>
-      </table>
     </section>
 
     <div class="workspace">
@@ -125,6 +119,7 @@
     </section>
   </main>
   <script id="match-data" type="application/json"><!-- MATCH_DATA --></script>
+  <script>/* LIMIT_CONTROLS */</script>
   <script>/* VIEWER_SCRIPT */</script>
 </body>
 </html>

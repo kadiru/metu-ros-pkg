@@ -16,7 +16,7 @@
     <form id="setup-form">
       <fieldset class="mode-picker">
         <legend>Mode</legend>
-        <label><input type="radio" name="mode" value="practice" checked><span><strong>Practice</strong><small>Set both teams’ playbooks and passing preferences.</small></span></label>
+        <label><input type="radio" name="mode" value="practice" checked><span><strong>Practice</strong><small>Choose a decision controller and playbook for each team.</small></span></label>
         <label><input type="radio" name="mode" value="game"><span><strong>Game</strong><small>Choose your team color and watch the fixed playbooks compete.</small></span></label>
       </fieldset>
 
@@ -36,13 +36,15 @@
       <div id="practice-options" class="practice-options">
         <fieldset class="setup-team blue">
           <legend>Blue</legend>
-          <label for="blue-strategy">Strategy</label><select id="blue-strategy" name="blue-strategy"></select>
+          <label for="blue-controller">Decision controller</label><select id="blue-controller" name="blue-controller"></select>
+          <label for="blue-strategy">Playbook</label><select id="blue-strategy" name="blue-strategy"></select>
           <p class="strategy-preview" id="blue-preview"></p>
           <label for="blue-passing">Passing preference</label><select id="blue-passing" name="blue-passing"></select>
         </fieldset>
         <fieldset class="setup-team yellow">
           <legend>Yellow</legend>
-          <label for="yellow-strategy">Strategy</label><select id="yellow-strategy" name="yellow-strategy"></select>
+          <label for="yellow-controller">Decision controller</label><select id="yellow-controller" name="yellow-controller"></select>
+          <label for="yellow-strategy">Playbook</label><select id="yellow-strategy" name="yellow-strategy"></select>
           <p class="strategy-preview" id="yellow-preview"></p>
           <label for="yellow-passing">Passing preference</label><select id="yellow-passing" name="yellow-passing"></select>
         </fieldset>

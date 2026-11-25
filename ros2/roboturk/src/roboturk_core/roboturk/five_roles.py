@@ -167,7 +167,11 @@ class FiveRoles:
             self.control = None
         return sole
 
-    def assign(self, world, team, legal_off_ball=True, audit=None, strategy=BALANCED):
+    def assign(self, world, team, legal_off_ball=True, audit=None, strategy=BALANCED, controller=None):
+        if controller is None:
+            from .five_decision import CONTROLLERS
+
+            controller = CONTROLLERS[strategy.controller]
         players = sorted((r for r in world.robots if r.key.team == team), key=lambda r: r.key.id)
         if len(players) != 5 or players[0].key.id != 0:
             raise ValueError("Five-player teams require a designated goalkeeper with ID 0")
@@ -199,10 +203,15 @@ class FiveRoles:
             else:
                 primary = "Outlet"
                 main = field(bx + 1.45, by * 0.3)
+            left, right = controller.wings(
+                world, team,
+                field(bx + attacking_wing, max(0.80, wing_width + 0.34 * by)),
+                field(bx + attacking_wing, min(-0.80, -wing_width + 0.34 * by)),
+            )
             roles = {
                 primary: main,
-                "Left wing": field(bx + attacking_wing, max(0.80, wing_width + 0.34 * by)),
-                "Right wing": field(bx + attacking_wing, min(-0.80, -wing_width + 0.34 * by)),
+                "Left wing": left,
+                "Right wing": right,
                 "Anchor": field(bx - 1.35, by * 0.48),
             }
             turn = self.spin.turn
@@ -267,7 +276,7 @@ class FiveRoles:
             if (forced is None or order[0].key == forced)
             and (spin_outlet is None or order[-1].key == spin_outlet)
         )
-        match = min(allowed, key=lambda order: sum(costs[r.key, n] for r, n in zip(order, names)))
+        match = controller.lineup(allowed, names, costs)
         positions.update({r.key: Assignment(n, roles[n]) for r, n in zip(match, names)})
         if audit is not None:
             roster_cost = sum(costs[r.key, name] for r, name in zip(match, names, strict=True))
@@ -279,7 +288,7 @@ class FiveRoles:
                     if r.key == spin_outlet
                     else name.lower()
                     if r.key == forced
-                    else "roster_cost",
+                    else controller.assignment_basis,
                     allocator_previous=previous,
                     distance_m=round(math.dist((r.x, r.y), roles[name]), 4),
                     switch_cost=ROLE_SWITCH_COST if previous and previous != name else 0,

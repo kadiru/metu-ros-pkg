@@ -37,12 +37,18 @@ PLAYBOOKS = {
     ),
 }
 PASS_PREFERENCES = {-1: "Carry more", 0: "Preset default", 1: "Pass more"}
+DECISION_CONTROLLERS = {
+    "balanced": ("Balanced allocator", "Minimize the lineup’s total travel and role changes."),
+    "priority": ("Local Priority", "Fill each role in order with the best available robot."),
+    "coordinated": ("Coordinated", "Plan both outlets together and look for an open pass."),
+}
 
 
 @dataclass(frozen=True)
 class TeamStrategy:
     book: Playbook
     pass_preference: int = 0
+    controller: str = "balanced"
 
     def pass_is_available(self, keeper, pressure, progress):
         return (
@@ -62,9 +68,11 @@ def decode_strategies(config=None):
         raise ValueError("Choose a strategy for both teams.")
     strategies = {}
     for team, entry in config.items():
-        if not isinstance(entry, dict) or set(entry) != {"strategy", "pass_preference"}:
+        required = {"strategy", "pass_preference"}
+        if not isinstance(entry, dict) or not required <= entry.keys() <= required | {"controller"}:
             raise ValueError("Choose a strategy and pass preference for each team.")
         name, preference = entry["strategy"], entry["pass_preference"]
+        controller = entry.get("controller", "balanced")
         if (
             type(name) is not str
             or name not in PLAYBOOKS
@@ -72,15 +80,17 @@ def decode_strategies(config=None):
             or preference not in PASS_PREFERENCES
         ):
             raise ValueError("Unknown strategy or pass preference.")
-        strategies[team] = TeamStrategy(PLAYBOOKS[name], preference)
+        if type(controller) is not str or controller not in DECISION_CONTROLLERS:
+            raise ValueError("Unknown decision controller.")
+        strategies[team] = TeamStrategy(PLAYBOOKS[name], preference, controller)
     return strategies
 
 
-def describe_play(strategy, phase, *, command="", task=None, in_flight=False):
+def describe_play(strategy, phase, *, command="", task=None, in_flight=False, decision=None):
     if phase == "Attack":
         play = strategy.book.attack
         step = "Receive the pass" if in_flight else task or "Find an outlet"
-        reason = strategy.book.description
+        reason = decision or strategy.book.description
     elif phase == "Defend":
         play = "Press and cover"
         step = "Cover the pass" if in_flight else "Press the carrier"
@@ -101,9 +111,10 @@ def describe_play(strategy, phase, *, command="", task=None, in_flight=False):
     else:
         play, step = "Referee hold", "Wait for the referee"
         reason = "The referee is holding play."
+    default = strategy.controller == "balanced"
     return dict(
-        strategy=strategy.book.name,
-        passing=PASS_PREFERENCES[strategy.pass_preference],
+        strategy=strategy.book.name if default else DECISION_CONTROLLERS[strategy.controller][0],
+        passing=PASS_PREFERENCES[strategy.pass_preference] if default else strategy.book.name,
         play=play,
         step=step,
         reason=reason,

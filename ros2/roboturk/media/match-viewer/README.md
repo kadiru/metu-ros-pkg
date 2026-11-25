@@ -14,7 +14,7 @@ Open [the local setup page](http://127.0.0.1:8765/). Use **Match timing** to cho
 
 | Mode | Match setup |
 | --- | --- |
-| Practice | Choose each team's strategy and passing preference. The four top-bar sliders control all ten robots. |
+| Practice | Choose each team's decision controller, playbook, and passing preference. The four top-bar sliders control all ten robots. |
 | Game | Choose your team color. Both teams use the Balanced playbook and fixed limits. |
 
 Set **Speed**, **Turn**, **Accel**, and **Kick** in the top bar before kickoff or while following a live Practice match. Slider changes take effect together for both teams on the next control tick that reads them. The motion gauges and replay use the limits recorded for the selected moment. Game and replay controls are read-only.
@@ -31,6 +31,24 @@ Practice starts with the Game limits. The open-play planner uses the selected sp
 Each lineup shows its team's strategy, play, and current step, plus every robot's role and task. Select a robot on the field or a lineup to inspect its assignment. The inspector stacks the current and previous roles beside a square gauge with the rotation bar above the translation vector. The gauge also shows measured speed when available. The **10-second role timeline** lists every assignment change in the window. Click a role change or an entry in the **60-second match-event timeline** to jump to that moment. **Go live** catches up. Team and player filters control which robots the viewer draws.
 
 Click any number of robot IDs in the lineups to show their movement targets and kicks. Click **Blue** or **Yellow** above its lineup to switch the whole team's overlays on or off. Solid trails show flat kicks. Dotted, raised trails show chips. The trail clears when the kick ends or a new kick starts. The goal-mouth marker and crossing speed stay visible briefly after the trail clears. Use the match events to revisit a kick or goal. Goal-line markers record a physical crossing. The scoreboard uses the referee's decision. Older replays can still show assigned movement targets.
+
+## Decision controllers
+
+| Controller | Role assignment and ball decisions |
+| --- | --- |
+| Balanced allocator | Minimize total lineup travel with a role-switch penalty. Use the playbook's pass and shot triggers. |
+| Local Priority | Fill roles in order with the lowest-cost eligible player. Use the same ball decisions as Balanced. |
+| Coordinated | Keep the minimum-cost assignment. Search for two complementary outlets, rank passes using observed defender motion, and carry when the available passing lanes are blocked. |
+
+The decision controllers use the same Webots world, skills, motion planner, and referee. Each side can use its own controller with the same playbook and passing settings. The lineup identifies the controller, and the selected robot's inspector can show why Coordinated chose to pass, carry, or shoot. Both new controllers are rule-based and reuse the existing learned pass-ranking features and weights where applicable. [Matched Webots replay](../decision-controllers/README.md)
+
+The Python [`TeamController`](../../src/roboturk_core/roboturk/five_decision.py) interface accepts a world snapshot, eligible lineups, and the current active player. It returns a lineup, support targets, and a ball intent. The match owns the goalkeeper, carrier, and receiver reservations plus kick construction and movement constraints. In-process experiments can supply a separate controller instance for each color through `open_play(..., controllers=...)`. Register a named controller in `CONTROLLERS` and add its viewer label in `DECISION_CONTROLLERS` to expose it in Practice.
+
+Run the decision benchmark with the same kickoff state and motion settings for each controller, testing each challenger as Blue and Yellow against Balanced. The runner verifies identical initial poses and velocities, and saves goals, pass results, and body-contact counts with the underlying native match traces. It uses Webots and the local referee for fixed-duration runs.
+
+```sh
+python scripts/benchmark_five_decisions.py runs/decision-benchmark --starts 4 --seconds 25
+```
 
 ## Initial 5v5 playbooks
 

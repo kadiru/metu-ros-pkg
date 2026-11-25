@@ -339,6 +339,7 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
         tackle_audit = {} if motion_audit and tackle else None
         allocation = {} if cfg.get("role_audit") else None
         tasks = {} if allocation is not None else None
+        decisions = {} if allocation is not None else None
         if positioning:
             if isinstance(formation, IndependentKickoffs):
                 stamp = origin + (sim.getTime() - start_time) + camera_delay
@@ -397,6 +398,7 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                 smooth_carry=cfg.get("smooth_carry", False),
                 allocation_audit=allocation,
                 task_audit=tasks,
+                decision_audit=decisions,
                 strategies=strategies,
                 motion_configs=motion_configs,
                 practice_pace=limit_feed is not None,
@@ -444,6 +446,8 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                 role = roles[key]
                 item = allocation.get(key, {"basis": "referee"})
                 item.update(target=role.target, task=tasks.get(key), command=None)
+                if key in decisions:
+                    item["decision"] = decisions[key]
                 robot = w.robot(key)
                 item["measured_speed"] = round(math.hypot(robot.vx, robot.vy), 4)
                 if cmd is not None:
@@ -471,6 +475,9 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                         if tactics.control and tactics.control.team == team
                         else None,
                         in_flight=tactics.flight is not None,
+                        decision=decisions.get(tactics.control)
+                        if tactics.control and tactics.control.team == team
+                        else None,
                     )
                     for team in TEAMS
                 ],

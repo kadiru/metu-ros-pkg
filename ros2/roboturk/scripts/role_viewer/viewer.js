@@ -326,11 +326,14 @@ function explain(frame, role, audit) {
   if (role === "Spin outlet") return "The carrier has selected this robot for the spin pass.";
   if (audit?.basis === "carrier" || role === "Carrier") return "This robot has confirmed possession and is assigned to carry the attack.";
   if (audit?.basis === "contain" || role === "Contain") return "The robots shared a grip on the ball. This field player was assigned to drop goal-side.";
-  if (audit?.basis === "roster_cost") {
+  if (audit?.basis === "roster_cost" || audit?.basis === "role_priority") {
     const phase = frame.phases[keys[selected][0] === "blue" ? 0 : 1];
     const switchNote = audit.switch_cost > 0 && audit.allocator_previous
       ? ` Switching from ${roleName(audit.allocator_previous)} added ${audit.switch_cost.toFixed(2)} to the cost.` : "";
-    return `${phaseReasons[phase] || `${team} is in ${phase.toLowerCase()}.`} The allocator picked the lowest-cost eligible lineup using travel distance and a switch penalty.${switchNote}`;
+    const assignment = audit.basis === "role_priority"
+      ? "The allocator filled roles in order using travel distance and a switch penalty."
+      : "The allocator picked the lowest-cost eligible lineup using travel distance and a switch penalty.";
+    return `${phaseReasons[phase] || `${team} is in ${phase.toLowerCase()}.`} ${assignment}${switchNote}`;
   }
   if (role === "kickoff" || role === "Kickoff") return "The referee awarded a kickoff. The restart controller set the formation and nominated a taker.";
   if (role === "hold" || role === "Stand clear" || frame.mode !== "running") return "The current referee command limits movement while the game is stopped or being restarted.";
@@ -579,7 +582,8 @@ function updateInspector(frame) {
   byId("previous").textContent = last === null ? "—" : roleName(last);
   byId("current-card").style.setProperty("--role-color", roleColor(role));
   byId("prior-card").style.setProperty("--role-color", roleColor(last));
-  byId("reason").textContent = explain(frame, role, audit);
+  const assignment = explain(frame, role, audit);
+  byId("reason").textContent = audit?.decision ? `${assignment} ${audit.decision}` : assignment;
   let task = robotTask(frame, selected);
   const motion = frame.motion?.[selected];
   if (command && motion in motionNames) task += ` ${motionNames[motion]}.`;

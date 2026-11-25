@@ -15,7 +15,7 @@ import numpy as np
 
 from match_sessions import HALF_SECONDS_RANGE, LimitsLocked, MatchRunning, MatchSessions
 from roboturk.five_roles import CFG
-from roboturk.five_strategy import PASS_PREFERENCES, PLAYBOOKS
+from roboturk.five_strategy import DECISION_CONTROLLERS, PASS_PREFERENCES, PLAYBOOKS
 from roboturk.match_limits import GAME_LIMITS, PRACTICE_RANGES, limit_values, team_configs
 from roboturk.role_telemetry import action_events, compact_frame, frame_events, viewer_header
 
@@ -230,6 +230,7 @@ def serve_setup(folder, port, spec):
     sessions = MatchSessions(folder.resolve(), spec, export)
     setup = dict(
         strategies={key: [book.name, book.description] for key, book in PLAYBOOKS.items()},
+        controllers=DECISION_CONTROLLERS,
         passing=PASS_PREFERENCES,
         limit_defaults=GAME_LIMITS,
         timing=sessions.timing,

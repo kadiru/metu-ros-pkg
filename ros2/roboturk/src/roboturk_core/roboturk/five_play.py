@@ -5,12 +5,13 @@ import math
 from .carpet import SWITCH_RATIO, ground_step
 from .carrier_motor import track_roller
 from .chip import chip_pass
-from .counterpass import MOTOR, clearance, shot_window
+from .counterpass import MOTOR, clearance
+from .five_decision import CONTROLLERS
 from .five_receive import carrying
 from .five_roles import CFG, PENALTY_FRONT, PENALTY_HALF_WIDTH, TIMED_ROLES, Flight, limit
 from .five_strategy import BALANCED
 from .goal_cover import opposing_holder
-from .model import Command, possession, unit, wrap
+from .model import Command, Skill, possession, unit, wrap
 from .open_motion import steer_team
 from .pivot_fetch import PivotFetch
 from .tackle_selector import CONTAIN, PIVOT_SIDES, TackleSelector
@@ -18,11 +19,7 @@ from .timed_keeper import TimedGoalCover
 from .three_match import filter_commands
 from .timed_motion import QUALIFIED_PACE, inside, plan_team
 from .touchline import recovery_command
-from .three_recipient import features, move
-
-
-def pass_target(mate):
-    return limit(mate.x + 0.16 * mate.vx, 4.22), limit(mate.y + 0.16 * mate.vy, 2.68)
+from .three_recipient import move
 
 
 def pass_speed(ball, target, receive):
@@ -100,6 +97,8 @@ def commands(
     spin_motion=None,
     observed=None,
     spin_clearance=0.31,
+    controllers=None,
+    decisions=None,
 ):
     ball = world.ball
     out = {}
@@ -135,32 +134,14 @@ def commands(
             or tactics.control == r.key
         ):
             strategy = strategies[team] if strategies else BALANCED
-            mates = [
-                q for q in world.robots if q.key.team == team and q.key != r.key and q.key.id != 0
-            ]
-            rivals = [q for q in world.robots if q.key.team != team]
-            gx, gy, gap = shot_window(
-                ball.x, ball.y, sign, [q for q in world.robots if q.key != r.key]
-            )
-            pressure = min(math.hypot(q.x - ball.x, q.y - ball.y) for q in rivals)
-            choices = []
-            for m in mates:
-                obs = features(world, r, m)
-                progress = sign * (m.x - r.x)
-                if progress < -0.60 or not 0.72 < math.hypot(m.x - r.x, m.y - r.y) < 4.1:
-                    continue
-                choices.append((float(obs @ weights[team]) + 0.8 * progress, m))
-            mate = max(choices, key=lambda v: v[0])[1] if choices else None
-            shoot = sign * (gx - ball.x) < strategy.book.shoot_range and gap > 0.13
-            pass_now = (
-                mate is not None
-                and not shoot
-                and strategy.pass_is_available(role == "Keeper", pressure, sign * (mate.x - r.x))
-            )
-            if pass_now:
-                gx, gy = pass_target(mate)
+            controller = controllers[team] if controllers else CONTROLLERS[strategy.controller]
+            decision = controller.attack(world, r, strategy, weights[team], role == "Keeper")
+            pass_now = decision.intent.skill == Skill.PASS
+            shoot = decision.intent.skill == Skill.SHOOT
+            receiver = decision.intent.receiver
+            gx, gy = decision.intent.target
             chip = (
-                chip_pass(world, r.key, mate.key, (gx, gy), chip_motion[team])
+                chip_pass(world, r.key, receiver, (gx, gy), chip_motion[team])
                 if chip_motion and pass_now and inside((gx, gy))
                 else None
             )
@@ -171,7 +152,7 @@ def commands(
                     r,
                     tactics.spin,
                     target,
-                    mate.key if pass_now else None,
+                    receiver,
                     spin_motion[team],
                     observed or {},
                     spin_clearance,
@@ -187,6 +168,8 @@ def commands(
                     if tasks is not None:
                         tasks[r.key] = task
                     continue
+            if decisions is not None and decision.reason:
+                decisions[r.key] = decision.reason
             aim = math.atan2(gy - ball.y, gx - ball.x)
             advance = 0.22 if pass_now else 1.0
             if smooth_carry and shoot:
@@ -223,7 +206,7 @@ def commands(
                 )
                 if pass_now:
                     passes[r.key] = Flight(
-                        team, mate.key, (gx, gy), world.time + (2.15 if receive else 1.65)
+                        team, receiver, (gx, gy), world.time + (2.15 if receive else 1.65)
                     )
             out[r.key] = cmd
             continue
@@ -354,6 +337,8 @@ def open_play(
     practice_pace=False,
     chip_passes=False,
     spin_releases=False,
+    controllers=None,
+    decision_audit=None,
 ):
     """One open-play control tick shared by ordinary matches and paired replays."""
     carrier = None
@@ -390,6 +375,7 @@ def open_play(
             legal_off_ball=legal_off_ball,
             audit=allocation_audit,
             strategy=strategies[team] if strategies else BALANCED,
+            controller=controllers[team] if controllers else None,
         )
         roles.update(side)
     targets = {} if trajectory else None
@@ -412,6 +398,8 @@ def open_play(
         else None,
         measured,
         spin_margin,
+        controllers=controllers,
+        decisions=decision_audit,
     )
     recovering = set()
     if touchline:

@@ -11,6 +11,12 @@ const motionControls = createLimitControls(byId("motion-limits"), catalog.limit_
 });
 
 for (const team of teams) {
+  const controller = byId(`${team}-controller`);
+  for (const [key, [name, description]] of Object.entries(catalog.controllers)) {
+    const option = new Option(name, key);
+    option.title = description;
+    controller.add(option);
+  }
   const strategy = byId(`${team}-strategy`);
   for (const [key, [name]] of Object.entries(catalog.strategies)) {
     strategy.add(new Option(name, key));
@@ -61,6 +67,7 @@ form.addEventListener("submit", async (event) => {
     : {
       mode,
       strategies: Object.fromEntries(teams.map((team) => [team, {
+        controller: byId(`${team}-controller`).value,
         strategy: byId(`${team}-strategy`).value,
         pass_preference: Number(byId(`${team}-passing`).value),
       }])),

@@ -25,9 +25,17 @@ class FiveReceive:
     cushion: float
     grip: float
     opening: float
+    cushion_range: float = 0.58
+    cushion_speed: float = 1.30
 
     def __post_init__(self):
-        if not (0 <= self.cushion <= 1 and 0 < self.grip <= 20 and 0 <= self.opening <= 0.9):
+        if not (
+            0 <= self.cushion <= 1
+            and 0 < self.grip <= 20
+            and 0 <= self.opening <= 0.9
+            and 0.25 <= self.cushion_range <= 1.6
+            and 0 < self.cushion_speed <= CFG.max_speed
+        ):
             raise ValueError("Invalid five-player reception profile")
 
     def command(self, world, actor, target):
@@ -50,7 +58,7 @@ class FiveReceive:
         shootable = 0 < sign * (gx - impact[0]) < 2.45 and clearance > 0.13
         yaw = approach + limit(wrap(aim - approach), self.opening) if shootable else approach
 
-        if gap > 0.58:
+        if gap > self.cushion_range:
             x = limit(impact[0] - CFG.possession_x * math.cos(yaw), 4.32)
             y = limit(impact[1] - CFG.possession_x * math.sin(yaw), 2.76)
             return move(actor, x, y, yaw, 1.55)
@@ -77,5 +85,5 @@ class FiveReceive:
         vx = self.cushion * ball.vx + dx + turn * offset_y
         vy = self.cushion * ball.vy + dy - turn * offset_x
         vx, vy = body_vector(vx, vy, actor.yaw)
-        scale = min(1.0, 1.30 / max(0.001, math.hypot(vx, vy)))
+        scale = min(1.0, self.cushion_speed / max(0.001, math.hypot(vx, vy)))
         return bounded(Command(scale * vx, scale * vy, turn, 1.0), CFG)

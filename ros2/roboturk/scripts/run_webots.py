@@ -47,6 +47,8 @@ def main():
             "dribble-refine",
             "dribble-evaluate",
             "dribble-demo",
+            "receive-dojo",
+            "receive-dojo-demo",
             "opponents-train",
             "opponents-challenge",
             "opponents-evaluate",
@@ -101,6 +103,8 @@ def main():
         parser.error("Pass --webots /path/to/webots or add webots to PATH")
     if min(args.episodes, args.steps, args.timeout) <= 0:
         parser.error("episodes, steps and timeout must be positive")
+    if args.mode == "receive-dojo-demo" and not args.checkpoint:
+        parser.error("Pass the receive-dojo comparison JSON with --checkpoint")
     env = dict(os.environ)
     env["PATH"] = str(Path(sys.executable).parent) + os.pathsep + env["PATH"]
     env["PYTHONPATH"] = os.pathsep.join(
@@ -142,7 +146,7 @@ def main():
         "--stderr",
         "--mode=realtime" if args.mode == "ros" else "--mode=fast",
     ]
-    if not args.render:
+    if not args.render and args.mode != "receive-dojo-demo":
         command += ["--no-rendering", "--minimize"]
     command.append(str(root / "src/roboturk_ros/webots/worlds/ssl_training.wbt"))
     process = subprocess.Popen(command, env=env, start_new_session=True)

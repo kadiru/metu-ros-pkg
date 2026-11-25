@@ -12,9 +12,14 @@ from roboturk.webots_backend import WebotsBackend
 
 def main():
     supervisor = Supervisor()
+    mode = os.environ.get("ROBOTURK_MODE", "evaluate")
+    if mode in ("receive-dojo", "receive-dojo-demo"):
+        from receive_dojo import run
+
+        run(supervisor, mode)
+        return
     cfg = Config()
     backend = WebotsBackend(supervisor, cfg)
-    mode = os.environ.get("ROBOTURK_MODE", "evaluate")
     if mode == "physics-check":
         import traceback
         from physics_check import audit, film_roll

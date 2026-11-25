@@ -6,6 +6,7 @@ import math
 import random
 
 from . import field as pitch
+from .five_strategy import BALANCED
 from .model import Ball, Config, Referee, Robot, RobotKey, World, possession
 
 CFG = Config(dt=0.04)
@@ -159,12 +160,14 @@ class FiveRoles:
             self.control = None
         return sole
 
-    def assign(self, world, team, legal_off_ball=True, audit=None):
+    def assign(self, world, team, legal_off_ball=True, audit=None, strategy=BALANCED):
         players = sorted((r for r in world.robots if r.key.team == team), key=lambda r: r.key.id)
         if len(players) != 5 or players[0].key.id != 0:
             raise ValueError("Five-player teams require a designated goalkeeper with ID 0")
         sign = world.direction(team)
         bx, by = sign * world.ball.x, sign * world.ball.y
+        wing_width = 1.45 + strategy.book.wing_width
+        attacking_wing = 1.32 + strategy.book.wing_advance
 
         def field(x, y):
             return sign * limit(x, 4.30), sign * limit(y, 2.73)
@@ -190,8 +193,8 @@ class FiveRoles:
                 main = field(bx + 1.45, by * 0.3)
             roles = {
                 primary: main,
-                "Left wing": field(bx + 1.32, max(0.80, 1.45 + 0.34 * by)),
-                "Right wing": field(bx + 1.32, min(-0.80, -1.45 + 0.34 * by)),
+                "Left wing": field(bx + attacking_wing, max(0.80, wing_width + 0.34 * by)),
+                "Right wing": field(bx + attacking_wing, min(-0.80, -wing_width + 0.34 * by)),
                 "Anchor": field(bx - 1.35, by * 0.48),
             }
         elif team_in_control is not None:
@@ -212,8 +215,8 @@ class FiveRoles:
             phase = "Recover"
             roles = {
                 "Chaser": field(bx, by),
-                "Left wing": field(bx + 0.65, 1.45 + 0.25 * by),
-                "Right wing": field(bx + 0.65, -1.45 + 0.25 * by),
+                "Left wing": field(bx + 0.65, wing_width + 0.25 * by),
+                "Right wing": field(bx + 0.65, -wing_width + 0.25 * by),
                 "Cover": field(bx * 0.45 - 2.08, by * 0.42),
             }
         if phase != "Attack" and abs(bx) > 3.64 and abs(by) < 0.99:

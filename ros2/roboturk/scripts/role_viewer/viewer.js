@@ -3,6 +3,8 @@
 const match = JSON.parse(document.getElementById("match-data").textContent);
 const { frames = [], keys = [], positions = [], events = [] } = match;
 const livePage = match.live === true;
+const ownTeam = match.session?.team;
+const roleWindow = 10;
 const byId = (id) => document.getElementById(id);
 const canvas = byId("pitch");
 const ctx = canvas.getContext("2d");
@@ -71,6 +73,7 @@ let selected = match.intro?.robot ?? 0;
 let limits = match.limits;
 let following = livePage;
 let finished = false;
+let matchFailed = false;
 let feedError = false;
 let solo = false;
 let eventWindowStart = null;
@@ -91,7 +94,7 @@ const teamButtons = {};
 
 function robotName(index) {
   const [team, number] = keys[index];
-  return `${teams[team].label} ${number}`;
+  return `${team[0].toUpperCase()}${number}`;
 }
 
 function roleName(role) {
@@ -196,7 +199,7 @@ function initializeTeams() {
     histories.push([]);
     robotEnabled.push(true);
     lineup.push(makeRosterButton(team, number, robot));
-    filterButtons.push(filterButton(groups[team], String(number), `Show ${robotName(robot)}`, () => {
+    filterButtons.push(filterButton(groups[team], robotName(robot), `Show ${robotName(robot)}`, () => {
       exitSoloForFilter();
       if (!teamEnabled[team]) {
         keys.forEach(([color], index) => { if (color === team) robotEnabled[index] = false; });
@@ -282,18 +285,18 @@ function updateHistory(now) {
   const stamp = `${selected}/${current}/${Math.floor(now * 5)}`;
   if (stamp === historyStamp) return;
   historyStamp = stamp;
-  const start = now - 30;
+  const start = now - roleWindow;
   const track = byId("role-track");
   const first = Math.max(0, history.findLastIndex(({ tick }, index) =>
     index <= current && frames[tick].t <= start));
   const blank = document.createElement("span");
-  blank.style.flexBasis = `${Math.max(0, frames[history[first].tick].t - start) / 30 * 100}%`;
+  blank.style.flexBasis = `${Math.max(0, frames[history[first].tick].t - start) / roleWindow * 100}%`;
   track.replaceChildren(blank);
   for (let index = first; index <= current; index += 1) {
     const { tick, role } = history[index];
     const begin = Math.max(start, frames[tick].t);
     const end = index === current ? now : frames[history[index + 1].tick].t;
-    const fraction = Math.max(.001, (end - begin) / 30);
+    const fraction = Math.max(.001, (end - begin) / roleWindow);
     const chip = document.createElement("button");
     chip.type = "button";
     chip.className = "role-segment";
@@ -301,10 +304,30 @@ function updateHistory(now) {
     chip.style.setProperty("--role-color", roleColor(role));
     chip.title = `${roleName(role)} · ${replayTime(frames[tick].t)}`;
     chip.setAttribute("aria-label", chip.title);
-    if (fraction > .12) chip.textContent = roleName(role);
+    if (fraction > .10) chip.textContent = roleName(role);
     chip.addEventListener("click", () => seek(tick));
     track.append(chip);
   }
+  const elapsed = now - frames[history[current].tick].t;
+  const changeCount = history.slice(first, current + 1)
+    .filter(({ tick, previous }) => previous !== null && frames[tick].t >= start).length;
+  byId("role-duration").textContent = `${roleName(history[current].role)} for ${elapsed.toFixed(1)} s · ${changeCount} role ${changeCount === 1 ? "change" : "changes"}`;
+  const recent = history.slice(Math.max(first, current - 2), current + 1).reverse();
+  byId("role-changes").replaceChildren(...recent.map(({ tick, role }) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.style.setProperty("--role-color", roleColor(role));
+    const time = document.createElement("time");
+    time.textContent = replayTime(frames[tick].t);
+    const label = document.createElement("strong");
+    label.textContent = roleName(role);
+    const task = document.createElement("span");
+    const recorded = frames[tick].allocation?.[selected];
+    task.textContent = recorded?.task || roleTasks[role] || roleName(role);
+    button.append(time, label, task);
+    button.addEventListener("click", () => seek(tick));
+    return button;
+  }));
 }
 
 function roleColor(role) {
@@ -375,12 +398,13 @@ function updateEventTrack(now) {
     const left = xAt(frames[tick].t);
     const free = lanes.findIndex((end) => end <= left);
     const lane = free < 0 ? lanes.length : free;
-    const caption = kind === "pass" ? label.replace(" passes to ", " → ") : label;
+    const compact = label.replace(/\b(Blue|Yellow) (\d+)\b/g, (_, color, id) => color[0] + id);
+    const caption = kind === "pass" ? compact.replace(" passes to ", " → ") : compact;
     lanes[lane] = left + Math.min(164, 54 + caption.length * 6) + 6;
     const chip = document.createElement("button");
     chip.type = "button";
     chip.className = "event-chip";
-    chip.title = `${time} · ${label}`;
+    chip.title = `${time} · ${compact}`;
     chip.setAttribute("aria-label", chip.title);
     chip.dataset.tick = tick;
     if (tick === frameIndex) chip.setAttribute("aria-current", "true");
@@ -427,6 +451,15 @@ function updateInspector(frame) {
   byId("current-card").style.setProperty("--role-color", roleColor(role));
   byId("prior-card").style.setProperty("--role-color", roleColor(last));
   byId("reason").textContent = explain(frame, role, audit);
+  const play = frame.plays?.[keys[selected][0] === "blue" ? 0 : 1];
+  byId("play-section").hidden = !play;
+  if (play) {
+    byId("plan-strategy").textContent = play.strategy;
+    byId("plan-passing").textContent = play.passing;
+    byId("plan-play").textContent = play.play;
+    byId("plan-step").textContent = play.step;
+    byId("plan-reason").textContent = play.reason;
+  }
   let task = audit?.task || roleTasks[role] || roleName(role);
   if (audit && !command) task = "Hold for the current referee instruction.";
   else if (audit?.pass_to != null) task = `Pass to ${robotName(audit.pass_to)}.`;
@@ -472,6 +505,8 @@ function render() {
     : frame.owner === null ? "Loose ball" : robotName(frame.owner);
   byId("blue-phase").textContent = `Blue · ${frame.phases[0]}`;
   byId("yellow-phase").textContent = `Yellow · ${frame.phases[1]}`;
+  byId("blue-strategy-label").textContent = frame.plays?.[0]?.strategy || "Current / previous";
+  byId("yellow-strategy-label").textContent = frame.plays?.[1]?.strategy || "Current / previous";
   byId("replay-time").textContent = `${replayTime(frame.t)} / ${replayTime(frames.at(-1).t)}`;
   scrub.max = frames.length - 1;
   scrub.value = frameIndex;
@@ -558,7 +593,7 @@ function drawField() {
       traceCircle(tx, ty, 4, null, teams[keys[selected][0]].pale, 1.4);
     }
   }
-  keys.forEach(([team, number], robot) => {
+  keys.forEach(([team], robot) => {
     if (!isVisible(robot)) return;
     const offset = 2 + 3 * robot;
     const [x, y] = project(points[offset], points[offset + 1]);
@@ -575,10 +610,10 @@ function drawField() {
     ctx.lineTo(x + dx * (radius + 2), y + dy * (radius + 2));
     ctx.stroke();
     ctx.fillStyle = style.ink;
-    ctx.font = `700 ${Math.max(10, Math.round(radius))}px system-ui`;
+    ctx.font = `700 ${Math.max(8, Math.round(.81 * radius))}px system-ui`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(String(number), x - dx * 1.5, y - dy * 1.5);
+    ctx.fillText(robotName(robot), x - dx * 1.5, y - dy * 1.5);
   });
   const [bx, by] = project(points[0], points[1]);
   traceCircle(bx, by, Math.max(3.4, .058 * k), "#ffa95f", "#492a15", 1);
@@ -668,7 +703,8 @@ eventScroll.addEventListener("scroll", updateEventNavigation, { passive: true })
 function updateFeed() {
   if (!livePage) return;
   let [state, label] = ["waiting", "Waiting for Webots"];
-  if (finished) [state, label] = ["replay", "Match finished"];
+  if (matchFailed) [state, label] = ["offline", "Match failed to run"];
+  else if (finished) [state, label] = ["replay", "Match finished"];
   else if (feedError) [state, label] = ["offline", "Reconnecting"];
   else if (frames.length) [state, label] = following ? ["live", "Live · Webots"] : ["review", "Reviewing live match"];
   byId("feed-state").dataset.state = state;
@@ -680,8 +716,9 @@ function updateFeed() {
 
 async function poll(offset = 0) {
   try {
-    const response = await fetch(`/telemetry?offset=${offset}`);
+    const response = await fetch(`telemetry?offset=${offset}`);
     if (!response.ok) throw new Error("Telemetry request failed");
+    matchFailed = response.headers.has("X-Match-Failed");
     const batch = await response.text();
     for (const line of batch.trimEnd().split("\n")) {
       if (!line) continue;
@@ -689,6 +726,10 @@ async function poll(offset = 0) {
       if (item.header) {
         keys.push(...item.header.keys);
         limits = item.header.limits;
+        if (ownTeam) {
+          const ownRobot = keys.findIndex(([team, number]) => team === ownTeam && number === 1);
+          if (ownRobot >= 0) selected = ownRobot;
+        }
         initializeTeams();
       } else if (item.done) {
         finished = true;
@@ -708,9 +749,24 @@ async function poll(offset = 0) {
     feedError = true;
     updateFeed();
   }
-  if (!finished) setTimeout(() => poll(offset), 125);
+  if (!finished && !matchFailed) setTimeout(() => poll(offset), 125);
 }
 
+if (match.session) {
+  const badge = byId("session-badge");
+  badge.hidden = false;
+  if (ownTeam) {
+    badge.classList.add(ownTeam);
+    badge.textContent = `Game · Your team is ${teams[ownTeam].label}`;
+  } else {
+    badge.textContent = "Practice";
+  }
+}
+if (match.setup_url) {
+  const link = byId("setup-link");
+  link.href = match.setup_url;
+  link.hidden = false;
+}
 if (livePage) poll();
 else {
   initializeTeams();

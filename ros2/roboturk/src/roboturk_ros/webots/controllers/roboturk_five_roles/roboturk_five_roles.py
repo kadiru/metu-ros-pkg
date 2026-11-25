@@ -18,6 +18,7 @@ from roboturk.field import CARPET_MARGIN
 from roboturk.five_play import open_play
 from roboturk.five_receive import FiveReceive
 from roboturk.five_roles import Assignment, CFG, TEAMS, FiveRoles, kickoff
+from roboturk.five_strategy import decode_strategies, describe_play
 from roboturk.kickoff_drive import KickoffDrive, ParallelKickoffDrive
 from roboturk.team_kickoff import IndependentKickoffs
 from roboturk.model import Referee, SSL_KICK_LIMIT
@@ -79,6 +80,7 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
     weights = json.loads((root / "policies/recipient_3v3_v1/selectors.json").read_text())
     weights = {t: np.array(weights[str(901 + i)]) for i, t in enumerate(TEAMS)}
     receive = FiveReceive(**cfg["receive_profile"]) if cfg.get("receive_profile") else None
+    strategies = decode_strategies(cfg.get("team_strategies"))
     seed = cfg["seed"]
     sign = 1 if seed % 2 == 0 else -1
     serving = TEAMS[(seed // 2) % 2]
@@ -378,6 +380,7 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                 smooth_carry=cfg.get("smooth_carry", False),
                 allocation_audit=allocation,
                 task_audit=tasks,
+                strategies=strategies,
             )
             if restricted:
                 out = {k: c for k, c in out.items() if k.team == restricted}
@@ -422,7 +425,22 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                 if key in planned and cmd is not None and cmd.kick:
                     item["pass_to"] = keys.index(planned[key].receiver)
                 details.append(item)
-            meta.update(allocation=details, attack_sign=w.attack_sign)
+            meta.update(
+                allocation=details,
+                attack_sign=w.attack_sign,
+                plays=[
+                    describe_play(
+                        strategies[team],
+                        phases[team],
+                        command=state.command if state else "",
+                        task=tasks.get(tactics.control, None)
+                        if tactics.control and tactics.control.team == team
+                        else None,
+                        in_flight=tactics.flight is not None,
+                    )
+                    for team in TEAMS
+                ],
+            )
         if state:
             meta.update(
                 ssl_command=state.command,

@@ -162,6 +162,8 @@ def main():
         if league:
             if args.live_viewer:
                 params.append("--live-viewer")
+            if spec.get("team_strategies") is not None:
+                params.extend(["--team-strategies", json.dumps(spec["team_strategies"])])
             stack.enter_context(
                 service(
                     [

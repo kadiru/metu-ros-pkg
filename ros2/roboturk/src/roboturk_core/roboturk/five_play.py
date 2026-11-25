@@ -6,6 +6,7 @@ from .carrier_motor import track_roller
 from .counterpass import MOTOR, shot_window
 from .five_receive import carrying
 from .five_roles import CFG, PENALTY_FRONT, PENALTY_HALF_WIDTH, TIMED_ROLES, Flight, limit
+from .five_strategy import BALANCED
 from .goal_cover import opposing_holder
 from .model import possession, wrap
 from .open_motion import steer_team
@@ -28,6 +29,7 @@ def commands(
     receive=None,
     smooth_carry=False,
     tasks=None,
+    strategies=None,
 ):
     ball = world.ball
     out = {}
@@ -47,6 +49,7 @@ def commands(
             role in ("Keeper", "Presser", "Carrier", "Chaser", "Receiver")
             or tactics.control == r.key
         ):
+            strategy = strategies[team] if strategies else BALANCED
             mates = [
                 q for q in world.robots if q.key.team == team and q.key != r.key and q.key.id != 0
             ]
@@ -63,11 +66,11 @@ def commands(
                     continue
                 choices.append((float(obs @ weights[team]) + 0.8 * progress, m))
             mate = max(choices, key=lambda v: v[0])[1] if choices else None
-            shoot = sign * (gx - ball.x) < 2.45 and gap > 0.13
+            shoot = sign * (gx - ball.x) < strategy.book.shoot_range and gap > 0.13
             pass_now = (
                 mate is not None
                 and not shoot
-                and (role == "Keeper" or pressure < 1.32 or sign * (mate.x - r.x) > 0.75)
+                and strategy.pass_is_available(role == "Keeper", pressure, sign * (mate.x - r.x))
             )
             if pass_now:
                 gx = limit(mate.x + 0.16 * mate.vx, 4.22)
@@ -216,6 +219,7 @@ def open_play(
     smooth_carry=False,
     allocation_audit=None,
     task_audit=None,
+    strategies=None,
 ):
     """One open-play control tick shared by ordinary matches and paired replays."""
     carrier = None
@@ -240,12 +244,16 @@ def open_play(
     roles, phases = {}, {}
     for team in ("blue", "yellow"):
         phases[team], side = tactics.assign(
-            world, team, legal_off_ball=legal_off_ball, audit=allocation_audit
+            world,
+            team,
+            legal_off_ball=legal_off_ball,
+            audit=allocation_audit,
+            strategy=strategies[team] if strategies else BALANCED,
         )
         roles.update(side)
     targets = {} if trajectory else None
     out, planned = commands(
-        world, roles, weights, sole, tactics, targets, receive, smooth_carry, task_audit
+        world, roles, weights, sole, tactics, targets, receive, smooth_carry, task_audit, strategies
     )
     recovering = set()
     if touchline:

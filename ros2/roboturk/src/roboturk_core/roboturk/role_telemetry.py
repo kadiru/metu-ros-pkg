@@ -32,6 +32,7 @@ def compact_frame(frame, tick, dt, sign):
         owner=frame.get("control"),
         sign=frame.get("attack_sign", sign),
         allocation=frame.get("allocation"),
+        plays=frame.get("plays"),
         motion=[m.get("mode") if m else None for m in motions] if motions else None,
     )
 
@@ -53,7 +54,7 @@ def frame_events(previous, current, tick):
 def action_events(events, keys):
     def name(index):
         team, number = keys[index]
-        return f"{team.title()} {number}"
+        return f"{team[0].upper()}{number}"
 
     for event in events:
         tick, kind = event["tick"], event["event"]

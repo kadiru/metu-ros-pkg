@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RoboTurk Match Setup</title>
+  <style>/* VIEWER_STYLES */</style>
+</head>
+<body>
+  <main class="app setup">
+    <header class="masthead">
+      <div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div><span class="brand">RoboTurk</span><h1>Match setup</h1></div>
+    </header>
+    <form id="setup-form">
+      <fieldset class="mode-picker">
+        <legend>Mode</legend>
+        <label><input type="radio" name="mode" value="practice" checked><span><strong>Practice</strong><small>Set both teams’ playbooks and passing preferences.</small></span></label>
+        <label><input type="radio" name="mode" value="game"><span><strong>Game</strong><small>Choose your team color and watch the fixed playbooks compete.</small></span></label>
+      </fieldset>
+
+      <div id="practice-options" class="practice-options">
+        <fieldset class="setup-team blue">
+          <legend>Blue</legend>
+          <label for="blue-strategy">Strategy</label><select id="blue-strategy" name="blue-strategy"></select>
+          <p class="strategy-preview" id="blue-preview"></p>
+          <label for="blue-passing">Passing preference</label><select id="blue-passing" name="blue-passing"></select>
+        </fieldset>
+        <fieldset class="setup-team yellow">
+          <legend>Yellow</legend>
+          <label for="yellow-strategy">Strategy</label><select id="yellow-strategy" name="yellow-strategy"></select>
+          <p class="strategy-preview" id="yellow-preview"></p>
+          <label for="yellow-passing">Passing preference</label><select id="yellow-passing" name="yellow-passing"></select>
+        </fieldset>
+      </div>
+
+      <fieldset id="game-options" class="team-picker" hidden>
+        <legend>Your team</legend>
+        <label class="blue"><input type="radio" name="team" value="blue" checked><span>Blue</span></label>
+        <label class="yellow"><input type="radio" name="team" value="yellow"><span>Yellow</span></label>
+      </fieldset>
+
+      <div class="start-row">
+        <button class="primary" id="start-match" type="submit">Start practice</button>
+        <span id="match-duration" class="label"></span>
+      </div>
+      <p id="setup-error" role="alert"></p>
+      <a id="active-match" hidden>Open the running match</a>
+    </form>
+  </main>
+  <script id="match-data" type="application/json"><!-- MATCH_DATA --></script>
+  <script>/* VIEWER_SCRIPT */</script>
+</body>
+</html>

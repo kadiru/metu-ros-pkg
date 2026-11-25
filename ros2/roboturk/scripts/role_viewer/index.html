@@ -11,7 +11,9 @@
     <header class="masthead">
       <div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></div>
       <div><span class="brand">RoboTurk</span><h1>Match viewer</h1></div>
+      <span id="session-badge" class="session-badge" hidden></span>
       <span class="feed-state" id="feed-state" data-state="replay"><i></i><span id="feed-label">Webots replay</span></span>
+      <a id="setup-link" class="setup-link" hidden>Match setup</a>
     </header>
 
     <section class="scoreboard" aria-label="Game state">
@@ -27,6 +29,7 @@
     </section>
 
     <div class="workspace">
+      <div class="field-column">
       <section class="board" aria-label="Field and playback">
         <div class="section-heading board-heading">
           <h2>Field</h2>
@@ -48,6 +51,11 @@
           </div>
         </div>
       </section>
+      <section class="lineups" aria-label="Team lineups">
+        <section class="lineup blue" aria-labelledby="blue-lineup"><div class="section-heading"><h2 id="blue-lineup">Blue lineup</h2><span id="blue-strategy-label">Current / previous</span></div><div id="blue-roster" class="roster"></div></section>
+        <section class="lineup yellow" aria-labelledby="yellow-lineup"><div class="section-heading"><h2 id="yellow-lineup">Yellow lineup</h2><span id="yellow-strategy-label">Current / previous</span></div><div id="yellow-roster" class="roster"></div></section>
+      </section>
+      </div>
 
       <section class="inspector" aria-label="Selected robot">
         <div class="section-heading inspect-heading"><h2>Robot detail</h2><span id="jersey" class="jersey"></span></div>
@@ -57,6 +65,15 @@
         </div>
         <div class="inspector-section"><h3>What it’s doing</h3><p id="task"></p><p class="target" id="target" hidden></p></div>
         <div class="inspector-section"><h3>Why this role</h3><p id="reason"></p><dl id="costs" class="costs" hidden></dl></div>
+        <div class="inspector-section" id="play-section" hidden>
+          <h3>Team plan</h3>
+          <ol class="plan-chain">
+            <li><span>Strategy</span><strong id="plan-strategy"></strong><small id="plan-passing"></small></li>
+            <li><span>Play</span><strong id="plan-play"></strong></li>
+            <li><span>Current step</span><strong id="plan-step"></strong></li>
+          </ol>
+          <p class="target" id="plan-reason"></p>
+        </div>
         <div class="inspector-section motion-section">
           <h3>Motion command</h3>
           <p id="command-unavailable">Waiting for robot commands.</p>
@@ -80,17 +97,15 @@
           </div>
         </div>
         <div class="inspector-section role-history">
-          <div class="timeline-heading"><h3>Role timeline</h3><span>Last 30 s</span></div>
-          <div id="role-track" class="role-track" aria-label="Role changes in the last 30 seconds"></div>
-          <div class="axis-labels"><span>−30 s</span><span>−15 s</span><span>Selected time</span></div>
+          <div class="timeline-heading"><h3>Role timeline</h3><span>Last 10 s</span></div>
+          <div id="role-track" class="role-track" aria-label="Role changes in the last 10 seconds"></div>
+          <div class="axis-labels"><span>−10 s</span><span>−5 s</span><span>Selected time</span></div>
+          <p id="role-duration" class="role-duration"></p>
+          <div id="role-changes" class="role-changes" aria-label="Recent assignment details"></div>
         </div>
       </section>
     </div>
 
-    <section class="lineups" aria-label="Team lineups">
-      <section class="lineup blue" aria-labelledby="blue-lineup"><div class="section-heading"><h2 id="blue-lineup">Blue lineup</h2><span>Current / previous</span></div><div id="blue-roster" class="roster"></div></section>
-      <section class="lineup yellow" aria-labelledby="yellow-lineup"><div class="section-heading"><h2 id="yellow-lineup">Yellow lineup</h2><span>Current / previous</span></div><div id="yellow-roster" class="roster"></div></section>
-    </section>
     <section class="event-panel" aria-labelledby="events-title">
       <div class="section-heading">
         <h2 id="events-title">Match events</h2>

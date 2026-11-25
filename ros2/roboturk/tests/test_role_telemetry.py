@@ -21,7 +21,7 @@ def test_stream_uses_replay_frames_and_emits_new_events_once():
     assert header["header"]["keys"] == keys
     assert first["frame"] == compact_frame(kickoff, 0, CFG.dt, 1)
     assert first["position"] == sample[:2] + sample[4:]
-    assert first["events"] == [[0, "Blue 0 kicks off", "kickoff", "blue"]]
+    assert first["events"] == [[0, "B0 kicks off", "kickoff", "blue"]]
     assert second["events"] == [
         [1, "Blue goal · 1–0", "goal", "blue"],
         [1, "First half", "period", None],

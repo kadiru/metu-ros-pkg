@@ -117,6 +117,55 @@ def can_tackle(world, presser, carrier):
     )
 
 
+def crowded_chaser(world, tactics, roles, measured, policy, recovering, sole):
+    ball = world.ball
+    can_fetch = (
+        not tactics.flight
+        and tactics.control is None
+        and ball.visible
+        and inside((ball.x, ball.y))
+        and math.hypot(ball.vx, ball.vy) <= 0.65
+    )
+    nearby = {
+        r.key: r
+        for r in world.robots
+        if can_fetch
+        and roles[r.key].role == "Chaser"
+        and r.visible
+        and r.key not in recovering
+        and (sole is None or sole == r.key)
+        and inside((r.x, r.y))
+        and math.hypot(r.x - ball.x, r.y - ball.y) <= 0.55
+        and math.hypot(*measured[r.key]) <= 0.55
+        and any(
+            q.key != r.key
+            and q.visible
+            and math.hypot(*measured[q.key]) <= 0.45
+            and math.hypot(r.x - q.x, r.y - q.y) < policy.clearance + 0.14
+            for q in world.robots
+        )
+    }
+    stalls = {}
+    eligible = []
+    for key, r in nearby.items():
+        ticks = tactics.fetch_stalls.get(key, 0)
+        if key == tactics.fetcher or math.hypot(*measured[key]) < 0.14:
+            ticks += 1
+        else:
+            ticks = 0
+        stalls[key] = ticks
+        if ticks >= 5:
+            eligible.append(key)
+    tactics.fetch_stalls = stalls
+    if tactics.fetcher not in eligible:
+        tactics.fetcher = min(
+            eligible,
+            key=lambda key: math.hypot(nearby[key].x - ball.x, nearby[key].y - ball.y),
+            default=None,
+        )
+    return {tactics.fetcher} if tactics.fetcher is not None else set()
+
+
 def open_play(
     world,
     tactics,
@@ -131,6 +180,7 @@ def open_play(
     legal_off_ball=True,
     tackle=None,
     tackle_audit=None,
+    crowded_fetch=False,
 ):
     """One open-play control tick shared by ordinary matches and paired replays."""
     carrier = None
@@ -169,6 +219,13 @@ def open_play(
                 out[r.key] = command
                 planned.pop(r.key, None)
     if policy:
+        fetching = (
+            crowded_chaser(world, tactics, roles, measured, policy, recovering, sole)
+            if crowded_fetch
+            else set()
+        )
+        if trace is not None:
+            trace.update({key: {"mode": "crowded_fetch"} for key in fetching})
         challenges = {}
         vetoed = set()
         goal_vetoes = set()
@@ -256,6 +313,7 @@ def open_play(
                 challenges=challenges,
                 goal_cover=cover_keepers,
                 keeper_handoffs=keeper_handoffs,
+                fetching=fetching,
             )
             if trajectory:
                 steered = plan_team(

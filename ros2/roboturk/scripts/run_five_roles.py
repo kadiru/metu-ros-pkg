@@ -78,6 +78,9 @@ def main():
     )
     p.add_argument("--open-play-policy", type=Path, help="Trained team-local steering checkpoint")
     p.add_argument(
+        "--crowded-fetch", action="store_true", help="Use a close approach for crowded loose balls"
+    )
+    p.add_argument(
         "--steer-from-tick",
         type=int,
         default=0,
@@ -228,6 +231,8 @@ def main():
         "--tackle-trials", type=int, help="Run isolated carrier challenges on the 5v5 field"
     )
     a = p.parse_args()
+    if a.crowded_fetch and not a.open_play_policy:
+        p.error("--crowded-fetch requires --open-play-policy")
     if a.possession_audit:
         if any(
             (
@@ -404,6 +409,7 @@ def main():
                 seconds=a.seconds,
                 record=a.record,
                 crowded_trials=a.crowded_trials,
+                crowded_fetch=a.crowded_fetch,
                 tackle_trials=a.tackle_trials,
                 tackle_duel=a.tackle_duel,
                 pivot_fetch=a.pivot_fetch,

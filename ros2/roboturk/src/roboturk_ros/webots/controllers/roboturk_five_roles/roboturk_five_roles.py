@@ -363,6 +363,7 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                 legal_off_ball=tick >= legal_off_ball_from,
                 tackle=tackle,
                 tackle_audit=tackle_audit,
+                crowded_fetch=cfg.get("crowded_fetch", False),
             )
             if restricted:
                 out = {k: c for k, c in out.items() if k.team == restricted}

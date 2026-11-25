@@ -1,0 +1,939 @@
+{
+  "archive": {
+    "old": {
+      "starts": 7,
+      "clean_captures": 5,
+      "capture_s_median": 1.304,
+      "clean_captures_within_one_second": 2,
+      "body_contact_episodes": 0,
+      "minimum_gap_m": 0.06379,
+      "approach_ticks": 0
+    },
+    "new": {
+      "starts": 7,
+      "clean_captures": 5,
+      "capture_s_median": 0.686,
+      "clean_captures_within_one_second": 4,
+      "body_contact_episodes": 0,
+      "minimum_gap_m": 0.03561,
+      "approach_ticks": 58
+    },
+    "paired": {
+      "faster": 4,
+      "slower": 0,
+      "shared_capture": 4,
+      "median_paired_delta_s": -0.287,
+      "recovered_only_by_revision": [
+        2725
+      ],
+      "recovered_only_by_current": [
+        2261
+      ]
+    }
+  },
+  "fresh": {
+    "old": {
+      "starts": 24,
+      "clean_captures": 16,
+      "capture_s_median": 0.515,
+      "clean_captures_within_one_second": 13,
+      "body_contact_episodes": 0,
+      "minimum_gap_m": 0.02465,
+      "approach_ticks": 0
+    },
+    "new": {
+      "starts": 24,
+      "clean_captures": 17,
+      "capture_s_median": 0.6,
+      "clean_captures_within_one_second": 14,
+      "body_contact_episodes": 0,
+      "minimum_gap_m": 0.03876,
+      "approach_ticks": 69
+    },
+    "paired": {
+      "faster": 3,
+      "slower": 4,
+      "shared_capture": 16,
+      "median_paired_delta_s": 0.0,
+      "recovered_only_by_revision": [
+        38800001
+      ],
+      "recovered_only_by_current": []
+    }
+  },
+  "pairs": [
+    {
+      "old": {
+        "seed": 311,
+        "kind": "archive",
+        "captured": true,
+        "captured_by": {
+          "team": "blue",
+          "id": 1
+        },
+        "capture_s": 1.442,
+        "first_touch": 0.864,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.10900406095984644,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 311,
+        "kind": "archive",
+        "captured": true,
+        "captured_by": {
+          "team": "blue",
+          "id": 1
+        },
+        "capture_s": 0.484,
+        "first_touch": 0.246,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.06162723053740751,
+        "steering_ticks": 5
+      }
+    },
+    {
+      "old": {
+        "seed": 927,
+        "kind": "archive",
+        "captured": true,
+        "captured_by": {
+          "team": "blue",
+          "id": 4
+        },
+        "capture_s": 1.3040000000000003,
+        "first_touch": 0.2900000000000009,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.1108158023528435,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 927,
+        "kind": "archive",
+        "captured": true,
+        "captured_by": {
+          "team": "blue",
+          "id": 4
+        },
+        "capture_s": 0.7999999999999998,
+        "first_touch": 0.46199999999999974,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.07043446969716088,
+        "steering_ticks": 13
+      }
+    },
+    {
+      "old": {
+        "seed": 1088,
+        "kind": "archive",
+        "captured": false,
+        "captured_by": null,
+        "capture_s": null,
+        "first_touch": null,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.12244837749250087,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 1088,
+        "kind": "archive",
+        "captured": false,
+        "captured_by": null,
+        "capture_s": null,
+        "first_touch": 0.4320000000000004,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.06457163468086283,
+        "steering_ticks": 10
+      }
+    },
+    {
+      "old": {
+        "seed": 1669,
+        "kind": "archive",
+        "captured": true,
+        "captured_by": {
+          "team": "blue",
+          "id": 1
+        },
+        "capture_s": 0.6939999999999991,
+        "first_touch": 0.4559999999999995,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.06379303426844032,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 1669,
+        "kind": "archive",
+        "captured": true,
+        "captured_by": {
+          "team": "blue",
+          "id": 1
+        },
+        "capture_s": 0.6239999999999988,
+        "first_touch": 0.38599999999999923,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.0914917197743284,
+        "steering_ticks": 5
+      }
+    },
+    {
+      "old": {
+        "seed": 2261,
+        "kind": "archive",
+        "captured": true,
+        "captured_by": {
+          "team": "blue",
+          "id": 2
+        },
+        "capture_s": 2.571999999999999,
+        "first_touch": 0.7639999999999993,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.11090109622862954,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 2261,
+        "kind": "archive",
+        "captured": false,
+        "captured_by": null,
+        "capture_s": null,
+        "first_touch": 0.3319999999999972,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.09988720892728753,
+        "steering_ticks": 7
+      }
+    },
+    {
+      "old": {
+        "seed": 2725,
+        "kind": "archive",
+        "captured": false,
+        "captured_by": null,
+        "capture_s": null,
+        "first_touch": 0.7779999999999987,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.11235461674851221,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 2725,
+        "kind": "archive",
+        "captured": true,
+        "captured_by": {
+          "team": "yellow",
+          "id": 2
+        },
+        "capture_s": 1.0499999999999972,
+        "first_touch": 0.3200000000000003,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.03560938783655135,
+        "steering_ticks": 8
+      }
+    },
+    {
+      "old": {
+        "seed": 2791,
+        "kind": "archive",
+        "captured": true,
+        "captured_by": {
+          "team": "yellow",
+          "id": 2
+        },
+        "capture_s": 0.7240000000000002,
+        "first_touch": 0.40800000000000125,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.11559690505191594,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 2791,
+        "kind": "archive",
+        "captured": true,
+        "captured_by": {
+          "team": "blue",
+          "id": 3
+        },
+        "capture_s": 0.6859999999999999,
+        "first_touch": 0.4480000000000004,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.08469878515401486,
+        "steering_ticks": 10
+      }
+    },
+    {
+      "old": {
+        "seed": 38800000,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "blue",
+          "id": 1
+        },
+        "capture_s": 0.3639999999999972,
+        "first_touch": 0.007999999999995566,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.05307989037456551,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 38800000,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "blue",
+          "id": 1
+        },
+        "capture_s": 0.3640000000000043,
+        "first_touch": 0.008000000000002672,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.05307981649503171,
+        "steering_ticks": 0
+      }
+    },
+    {
+      "old": {
+        "seed": 38800001,
+        "kind": "fresh",
+        "captured": false,
+        "captured_by": null,
+        "capture_s": null,
+        "first_touch": 0.9239999999999995,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.09388206796637805,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 38800001,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "yellow",
+          "id": 1
+        },
+        "capture_s": 2.5659999999999954,
+        "first_touch": 0.2779999999999987,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.09378056215879471,
+        "steering_ticks": 7
+      }
+    },
+    {
+      "old": {
+        "seed": 38800002,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "blue",
+          "id": 1
+        },
+        "capture_s": 0.45600000000000307,
+        "first_touch": 0.04600000000000648,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.0922672718415612,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 38800002,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "blue",
+          "id": 1
+        },
+        "capture_s": 0.4540000000000006,
+        "first_touch": 0.045999999999999375,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.10247597049925483,
+        "steering_ticks": 4
+      }
+    },
+    {
+      "old": {
+        "seed": 38800003,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "yellow",
+          "id": 1
+        },
+        "capture_s": 0.5739999999999981,
+        "first_touch": 0.2079999999999984,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.07723597931400067,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 38800003,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "yellow",
+          "id": 1
+        },
+        "capture_s": 0.642000000000003,
+        "first_touch": 0.18599999999999994,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.07282253751271694,
+        "steering_ticks": 5
+      }
+    },
+    {
+      "old": {
+        "seed": 38800004,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "blue",
+          "id": 1
+        },
+        "capture_s": 0.4299999999999997,
+        "first_touch": 0.19200000000000017,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.04346456806312851,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 38800004,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "blue",
+          "id": 1
+        },
+        "capture_s": 0.4200000000000017,
+        "first_touch": 0.18200000000000216,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.05385591496022335,
+        "steering_ticks": 3
+      }
+    },
+    {
+      "old": {
+        "seed": 38800005,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "yellow",
+          "id": 1
+        },
+        "capture_s": 0.6000000000000014,
+        "first_touch": 0.001999999999995339,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.1457703420069797,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 38800005,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "yellow",
+          "id": 1
+        },
+        "capture_s": 0.5999999999999943,
+        "first_touch": 0.001999999999995339,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.14938740798083033,
+        "steering_ticks": 0
+      }
+    },
+    {
+      "old": {
+        "seed": 38800006,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "yellow",
+          "id": 1
+        },
+        "capture_s": 0.5999999999999943,
+        "first_touch": 0.12999999999999545,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.024653029788858027,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 38800006,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "yellow",
+          "id": 1
+        },
+        "capture_s": 0.7199999999999989,
+        "first_touch": 0.13000000000000966,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.03875862962769597,
+        "steering_ticks": 6
+      }
+    },
+    {
+      "old": {
+        "seed": 38800007,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "yellow",
+          "id": 2
+        },
+        "capture_s": 2.4039999999999964,
+        "first_touch": 0.5960000000000036,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.13968411410405857,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 38800007,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "yellow",
+          "id": 2
+        },
+        "capture_s": 2.4039999999999964,
+        "first_touch": 0.5959999999999894,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.13188929051783582,
+        "steering_ticks": 0
+      }
+    },
+    {
+      "old": {
+        "seed": 38800008,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "blue",
+          "id": 1
+        },
+        "capture_s": 0.3580000000000041,
+        "first_touch": 0.12000000000000455,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.07004334718924538,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 38800008,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "blue",
+          "id": 1
+        },
+        "capture_s": 0.3580000000000041,
+        "first_touch": 0.12000000000000455,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.07344266916417835,
+        "steering_ticks": 1
+      }
+    },
+    {
+      "old": {
+        "seed": 38800009,
+        "kind": "fresh",
+        "captured": false,
+        "captured_by": null,
+        "capture_s": null,
+        "first_touch": null,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.12209592878526443,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 38800009,
+        "kind": "fresh",
+        "captured": false,
+        "captured_by": null,
+        "capture_s": null,
+        "first_touch": 0.3100000000000023,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.09407459985096145,
+        "steering_ticks": 18
+      }
+    },
+    {
+      "old": {
+        "seed": 38800010,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "blue",
+          "id": 1
+        },
+        "capture_s": 0.6820000000000022,
+        "first_touch": 0.01999999999999602,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.03935591804277774,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 38800010,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "blue",
+          "id": 1
+        },
+        "capture_s": 0.7220000000000084,
+        "first_touch": 0.01999999999999602,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.045601552539136975,
+        "steering_ticks": 6
+      }
+    },
+    {
+      "old": {
+        "seed": 38800011,
+        "kind": "fresh",
+        "captured": false,
+        "captured_by": null,
+        "capture_s": null,
+        "first_touch": 1.6939999999999884,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.1817495167983506,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 38800011,
+        "kind": "fresh",
+        "captured": false,
+        "captured_by": null,
+        "capture_s": null,
+        "first_touch": 1.6940000000000026,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.1817495167983506,
+        "steering_ticks": 0
+      }
+    },
+    {
+      "old": {
+        "seed": 38800012,
+        "kind": "fresh",
+        "captured": false,
+        "captured_by": null,
+        "capture_s": null,
+        "first_touch": null,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.1277848826223092,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 38800012,
+        "kind": "fresh",
+        "captured": false,
+        "captured_by": null,
+        "capture_s": null,
+        "first_touch": 0.2879999999999967,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.07814067643318484,
+        "steering_ticks": 6
+      }
+    },
+    {
+      "old": {
+        "seed": 38800013,
+        "kind": "fresh",
+        "captured": false,
+        "captured_by": null,
+        "capture_s": null,
+        "first_touch": 0.5859999999999985,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.1331214404407995,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 38800013,
+        "kind": "fresh",
+        "captured": false,
+        "captured_by": null,
+        "capture_s": null,
+        "first_touch": 0.5859999999999985,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.13312152966950108,
+        "steering_ticks": 0
+      }
+    },
+    {
+      "old": {
+        "seed": 38800014,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "yellow",
+          "id": 1
+        },
+        "capture_s": 0.44199999999999307,
+        "first_touch": 0.15200000000000102,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.15248761668314287,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 38800014,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "yellow",
+          "id": 1
+        },
+        "capture_s": 0.4420000000000073,
+        "first_touch": 0.15200000000000102,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.15248761668326866,
+        "steering_ticks": 0
+      }
+    },
+    {
+      "old": {
+        "seed": 38800015,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "blue",
+          "id": 1
+        },
+        "capture_s": 0.3719999999999999,
+        "first_touch": 0.001999999999995339,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.1333284373720539,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 38800015,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "blue",
+          "id": 1
+        },
+        "capture_s": 0.3719999999999999,
+        "first_touch": 0.0020000000000095497,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.13339112251148505,
+        "steering_ticks": 0
+      }
+    },
+    {
+      "old": {
+        "seed": 38800016,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "yellow",
+          "id": 2
+        },
+        "capture_s": 1.191999999999993,
+        "first_touch": 0.04800000000000182,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.09143666994923638,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 38800016,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "yellow",
+          "id": 2
+        },
+        "capture_s": 1.7999999999999972,
+        "first_touch": 0.04800000000000182,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.14039206454169667,
+        "steering_ticks": 0
+      }
+    },
+    {
+      "old": {
+        "seed": 38800017,
+        "kind": "fresh",
+        "captured": false,
+        "captured_by": null,
+        "capture_s": null,
+        "first_touch": 0.2260000000000133,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.15689933172552306,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 38800017,
+        "kind": "fresh",
+        "captured": false,
+        "captured_by": null,
+        "capture_s": null,
+        "first_touch": 0.2259999999999991,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.1568993317212039,
+        "steering_ticks": 0
+      }
+    },
+    {
+      "old": {
+        "seed": 38800018,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "yellow",
+          "id": 1
+        },
+        "capture_s": 0.2400000000000091,
+        "first_touch": 0.001999999999981128,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.0711087584321905,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 38800018,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "yellow",
+          "id": 1
+        },
+        "capture_s": 0.2400000000000091,
+        "first_touch": 0.0020000000000095497,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.07363759676152687,
+        "steering_ticks": 0
+      }
+    },
+    {
+      "old": {
+        "seed": 38800019,
+        "kind": "fresh",
+        "captured": false,
+        "captured_by": null,
+        "capture_s": null,
+        "first_touch": 0.04200000000000159,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.11946356303014927,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 38800019,
+        "kind": "fresh",
+        "captured": false,
+        "captured_by": null,
+        "capture_s": null,
+        "first_touch": 0.04200000000000159,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.12041503660647956,
+        "steering_ticks": 6
+      }
+    },
+    {
+      "old": {
+        "seed": 38800020,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "blue",
+          "id": 1
+        },
+        "capture_s": 0.5999999999999943,
+        "first_touch": 0.04800000000000182,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.14067670582769248,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 38800020,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "blue",
+          "id": 1
+        },
+        "capture_s": 0.6000000000000227,
+        "first_touch": 0.04800000000000182,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.14067670563914786,
+        "steering_ticks": 0
+      }
+    },
+    {
+      "old": {
+        "seed": 38800021,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "blue",
+          "id": 1
+        },
+        "capture_s": 2.3739999999999952,
+        "first_touch": 0.28999999999999204,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.10043170067479917,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 38800021,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "blue",
+          "id": 1
+        },
+        "capture_s": 0.7220000000000084,
+        "first_touch": 0.20400000000000773,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.055908960656670864,
+        "steering_ticks": 7
+      }
+    },
+    {
+      "old": {
+        "seed": 38800022,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "yellow",
+          "id": 1
+        },
+        "capture_s": 0.4000000000000057,
+        "first_touch": 0.001999999999981128,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.060789170041422064,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 38800022,
+        "kind": "fresh",
+        "captured": true,
+        "captured_by": {
+          "team": "yellow",
+          "id": 1
+        },
+        "capture_s": 0.4000000000000057,
+        "first_touch": 0.0020000000000095497,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.06080075886344802,
+        "steering_ticks": 0
+      }
+    },
+    {
+      "old": {
+        "seed": 38800023,
+        "kind": "fresh",
+        "captured": false,
+        "captured_by": null,
+        "capture_s": null,
+        "first_touch": null,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.1434252598648431,
+        "steering_ticks": 0
+      },
+      "new": {
+        "seed": 38800023,
+        "kind": "fresh",
+        "captured": false,
+        "captured_by": null,
+        "capture_s": null,
+        "first_touch": null,
+        "body_contact_episodes": 0,
+        "minimum_gap_m": 0.14592820369301646,
+        "steering_ticks": 0
+      }
+    }
+  ]
+}

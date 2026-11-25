@@ -206,6 +206,7 @@ def main():
                 "keeper_lane",
                 "possession_audit",
                 "referee_placement",
+                "crowded_fetch",
             ):
                 if spec.get(option):
                     params.append("--" + option.replace("_", "-"))

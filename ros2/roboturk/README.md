@@ -4,6 +4,12 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Reaching a loose ball in traffic
+
+A stalled chaser can take a slower, closer approach to a loose ball. In the paired replay, Blue 1 secures it in 0.48 s with the revision and 1.44 s with the current controller. [Webots comparison and matched results](media/crowded-fetch/README.md)
+
+[![Blue 1 reaches the loose ball in a paired Webots replay](media/crowded-fetch/crowded-recovery.gif)](media/crowded-fetch/paired-replay.mp4)
+
 ## Painted goals and automatic restarts
 
 The Webots goal walls follow the defending team when the teams switch ends. After a goal, the virtual referee centers the ball and the conceding team kicks off. Ball-out restarts use the spot awarded by the official SSL Game Controller. [Match replay and restart verification](media/referee-restarts/README.md)

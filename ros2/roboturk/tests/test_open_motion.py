@@ -2,8 +2,10 @@ from dataclasses import replace
 
 import pytest
 
-from roboturk.model import Command, Robot, RobotKey
-from roboturk.open_motion import Steering, observed_velocity, steer_team
+from roboturk.five_play import crowded_chaser
+from roboturk.five_roles import Assignment, FiveRoles
+from roboturk.model import Ball, Command, Robot, RobotKey, World
+from roboturk.open_motion import FETCH_SPEED, Steering, observed_velocity, steer_team
 
 
 def test_opponent_input_is_causal_position_history_only():
@@ -72,3 +74,49 @@ def test_handed_off_keeper_can_approach_quickly_and_still_brakes_at_roller_range
     assert approach(rival, timed=False) == pytest.approx(0.32)
     assert approach(rival, timed=True) > 0.9
     assert approach(replace(rival, x=0.202), timed=True) < 0.13
+
+
+def test_loose_ball_chaser_has_a_close_approach_and_brakes_before_touching():
+    blue = Robot(RobotKey("blue", 2), 0, 0)
+    yellow = Robot(RobotKey("yellow", 3), 0.305, 0)
+    actor = Steering(0.48, 0.305, 0.66)
+    request = {blue.key: Command(0.5, 0, dribbler=1)}
+
+    def approach(rival, close, incoming=0):
+        return steer_team(
+            (blue, rival),
+            "blue",
+            request,
+            {blue.key: (0, 0), rival.key: (incoming, 0)},
+            actor,
+            0.04,
+            fetching={blue.key} if close else (),
+        )[blue.key]
+
+    assert approach(yellow, False).vx < 0.16
+    approach_command = approach(yellow, True)
+    assert approach_command.vx > 0.20
+    assert approach_command.dribbler == 1
+    assert approach_command.vx <= FETCH_SPEED
+    assert approach(replace(yellow, x=0.202), True).vx <= 1e-8
+    assert approach(replace(yellow, x=0.23), True, incoming=-0.6).vx <= 1e-8
+
+
+def test_crowded_chasers_wait_for_a_stall_then_keep_one_fetcher_until_recovery():
+    blue = Robot(RobotKey("blue", 2), -0.16, 0)
+    yellow = Robot(RobotKey("yellow", 3), 0.18, 0)
+    world = World(0, (blue, yellow), Ball(0, 0))
+    roles = {r.key: Assignment("Chaser", (0, 0)) for r in world.robots}
+    tactics = FiveRoles()
+    actor = Steering(0.48, 0.305, 0.66)
+    observed = {r.key: (0, 0) for r in world.robots}
+
+    for _ in range(4):
+        assert not crowded_chaser(world, tactics, roles, observed, actor, (), None)
+
+    assert crowded_chaser(world, tactics, roles, observed, actor, (), None) == {blue.key}
+    adjusted = replace(world, robots=(blue, replace(yellow, x=0.15)))
+    assert crowded_chaser(adjusted, tactics, roles, observed, actor, (), None) == {blue.key}
+    tactics.control = blue.key
+    assert not crowded_chaser(adjusted, tactics, roles, observed, actor, (), blue.key)
+    assert not tactics.fetch_stalls

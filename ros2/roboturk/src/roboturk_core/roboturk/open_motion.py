@@ -10,6 +10,8 @@ from .goal_cover import GOAL_CENTER_LIMIT, GOAL_CHANNEL_HALF, SAVE_SPEED
 from .placement_traffic import separation
 from .tackle import ROBOT_GAP
 
+FETCH_SPEED = 0.42
+
 
 @dataclass(frozen=True)
 class Steering:
@@ -34,6 +36,22 @@ def observed_velocity(robots, previous, dt):
     }
 
 
+def safe_fetch_velocity(vx, vy, nearby, dt):
+    """Check the swept gap and room to brake before accepting a close approach."""
+    for dx, dy, qx, qy, _, _ in nearby:
+        distance = math.hypot(dx, dy)
+        if distance < 1e-8:
+            return False
+        rx, ry = vx - qx, vy - qy
+        closing = max(0, -(dx * rx + dy * ry) / distance)
+        # Reserve half the available braking authority for the other chaser.
+        if closing * dt + closing**2 / CFG.max_acceleration > max(0, distance - ROBOT_GAP):
+            return False
+        if separation(dx, dy, rx, ry, 0.18) < min(distance, ROBOT_GAP) - 1e-8:
+            return False
+    return True
+
+
 def steer_team(
     robots,
     team,
@@ -45,6 +63,7 @@ def steer_team(
     challenges=None,
     goal_cover=None,
     keeper_handoffs=None,
+    fetching=(),
 ):
     """Translate this team's requests using only measured motion of surrounding players."""
     own = [r for r in robots if r.key.team == team]
@@ -57,13 +76,20 @@ def steer_team(
         carrier = challenges.get(r.key) if challenges else None
         yielding = keeper_handoffs.get(r.key) if keeper_handoffs else None
         intercepting = yielding is not None and r.key.id == 0
+        fetch = r.key in fetching
         x, y = world_vector(cmd.vx * scale, cmd.vy * scale, r.yaw)
+        if fetch:
+            reduce = FETCH_SPEED / max(FETCH_SPEED, math.hypot(x, y))
+            x, y = x * reduce, y * reduce
         nearby = [
             (
                 r.x - q.x,
                 r.y - q.y,
                 *observed[q.key],
-                ROBOT_GAP if carrier and q.key == carrier.key else policy.clearance,
+                ROBOT_GAP
+                if (carrier and q.key == carrier.key)
+                or (fetch and math.hypot(*observed[q.key]) <= 0.45)
+                else policy.clearance,
                 min(policy.horizon, 0.20)
                 if yielding is not None
                 and (q.key == yielding or (carrier is not None and q.key == carrier.key))
@@ -86,13 +112,19 @@ def steer_team(
                 cost += 120 * max(0, clearance - end) ** 2
             return cost
 
-        if nearby and loss(x, y) > 1e-8:
+        if nearby and (fetch or loss(x, y) > 1e-8):
             options = [(x, y)]
             for speed in (1.0, 0.65, 0.30):
                 for turn in (policy.turn, -policy.turn, 2 * policy.turn, -2 * policy.turn, 0):
                     c, s = math.cos(turn) * speed, math.sin(turn) * speed
                     options.append((c * x - s * y, s * x + c * y))
             options.append((0, 0))
+            if fetch:
+                options = [v for v in options if safe_fetch_velocity(*v, nearby, dt)]
+                # A converging robot can consume the available room on its own.
+                # Brake rather than committing to a narrower lane in that tick.
+                if not options:
+                    options = [(0, 0)]
             x, y = min(options, key=lambda v: loss(*v))
         if carrier:
             dx, dy = r.x - carrier.x, r.y - carrier.y

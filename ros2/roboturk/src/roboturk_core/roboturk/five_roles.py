@@ -112,6 +112,8 @@ class FiveRoles:
         self.contested = 0
         self.contain = None
         self.contain_until = 0.0
+        self.fetch_stalls = {}
+        self.fetcher = None
 
     def observe(self, world, tackling=None):
         holders = [r.key for r in world.robots if possession(world, r.key, CFG)]

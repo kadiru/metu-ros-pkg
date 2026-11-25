@@ -11,17 +11,18 @@ SWEEP_SECONDS = 0.68
 SWEEP_RADIANS = math.radians(48)
 
 
-def sweep_pull(carrier, side):
+def sweep_pull(carrier, side, *, forward=0.024, lateral=0.057):
     nx, ny = math.cos(carrier.yaw), math.sin(carrier.yaw)
-    lateral = 0.057 * side
-    return 0.024 * nx - lateral * ny, 0.024 * ny + lateral * nx
+    lateral *= side
+    return forward * nx - lateral * ny, forward * ny + lateral * nx
 
 
-def sweep_command(world, presser, carrier, side, yaw_target):
+def sweep_command(world, presser, carrier, side, yaw_target, *, pull=None):
     # Counter-translate so that the roller sweeps across the other mouth.
     omega = max(-3.2, min(3.2, 9.0 * wrap(yaw_target - presser.yaw)))
     ball = world.ball
-    mx, my = body_vector(*sweep_pull(carrier, side), presser.yaw)
+    pull = sweep_pull(carrier, side) if pull is None else pull
+    mx, my = body_vector(*pull, presser.yaw)
     mx = max(-0.032, min(0.032, mx))
     my = max(-0.041, min(0.041, my))
     bx, by = body_vector(ball.x - presser.x, ball.y - presser.y, presser.yaw)

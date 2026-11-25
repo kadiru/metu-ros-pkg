@@ -70,7 +70,7 @@ def test_double_grip_grants_one_bounded_window_for_a_tackle():
     assert standard.contain is not None and fitted.contain is None
     for _ in range(16):
         fitted.observe(w, tackling=PRESSER)
-    assert fitted.contain is not None
+    assert fitted.contain == PRESSER
 
 
 def test_pivot_waits_for_shared_control_and_can_collect_a_nearby_loose_ball():
@@ -136,13 +136,47 @@ def test_selector_tries_direct_then_uses_the_inward_pivot_in_a_stalled_duel():
         command = selector.command(
             replace(w, time=tick * CFG.dt), w.robot(PRESSER), w.robot(CARRIER), observed, True
         )
-        assert selector.action(PRESSER) == ("direct" if tick < 11 else "pivot_right")
+        assert selector.action(PRESSER) == ("direct" if tick < 7 else "pivot_right")
         assert command.kick == 0
     assert selector.events[-1]["vetoes"] == {"pivot_left": ("touchline",)}
     drifting = replace(w, time=12 * CFG.dt, ball=replace(w.ball, vy=1.8))
     command = selector.command(drifting, w.robot(PRESSER), w.robot(CARRIER), observed, True)
     assert selector.action(PRESSER) == "contain"
     assert command.dribbler == 0
+
+
+def test_selector_pivots_when_draw_progress_never_breaks_the_shared_grip():
+    w = contest(0.23)
+    selector = TackleSelector(BallSideTackle(37, 0.108, 0.22, 0))
+    observed = {r.key: (0, 0) for r in w.robots}
+    for tick in range(10):
+        frame = replace(w, time=tick * CFG.dt, ball=replace(w.ball, x=w.ball.x + tick * 0.003))
+        command = selector.command(frame, w.robot(PRESSER), w.robot(CARRIER), observed, True)
+        if tick < 9:
+            assert selector.action(PRESSER) == "direct"
+    assert selector.action(PRESSER) in ("pivot_left", "pivot_right")
+    assert selector.events[-1]["reason"] == "shared_grip"
+    assert command.omega and command.dribbler and not command.kick
+
+
+def test_successful_pivot_keeps_the_roller_on_and_pulls_away_before_resuming_play():
+    w = contest(0.23)
+    presser, carrier = w.robot(PRESSER), w.robot(CARRIER)
+    selector = TackleSelector(BallSideTackle(37, 0.108, 0.22, 0))
+    observed = dict.fromkeys((r.key for r in w.robots), (0, 0))
+    for tick in range(8):
+        selector.command(replace(w, time=tick * CFG.dt), presser, carrier, observed, True)
+    held = replace(
+        w,
+        time=0.32,
+        ball=Ball(0.142, 0.012),
+        robots=tuple(replace(r, x=-0.20) if r.key == CARRIER else r for r in w.robots),
+    )
+    secure, rival = selector.secure_after_tackle(held, presser)
+    assert rival == CARRIER
+    assert world_vector(secure.vx, secure.vy, presser.yaw)[0] > 0
+    assert secure.dribbler and not secure.kick and not secure.omega
+    assert selector.secure_after_tackle(replace(held, time=0.88), presser) is None
 
 
 def test_tackle_veto_preserves_an_inward_pull_that_can_counter_drift():

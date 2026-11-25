@@ -132,8 +132,8 @@ class FiveRoles:
         if both and tackle_duel and self.contested < hold_ticks:
             self.last_touch = world.time
         if self.contested >= hold_ticks and self.contain is None:
-            # On a double touch, the field player with the worse grip drops goal-side
-            # to contain the opponent. Contact geometry decides who disengages.
+            # End a failed challenge by having the challenger yield the lane.
+            # Without an assigned challenger, the weaker grip yields.
             def grip_error(key):
                 r = world.robot(key)
                 return math.hypot(
@@ -143,7 +143,11 @@ class FiveRoles:
 
             field_players = [k for k in holders if k.id != 0]
             if field_players:
-                self.contain = max(field_players, key=grip_error)
+                self.contain = (
+                    tackling
+                    if tackle_duel and tackling in field_players
+                    else max(field_players, key=grip_error)
+                )
                 self.contain_until = world.time + 0.72
                 self.contested = 0
         sole = holders[0] if len(holders) == 1 else None

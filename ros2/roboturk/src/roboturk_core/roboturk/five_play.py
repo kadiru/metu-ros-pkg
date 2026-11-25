@@ -13,7 +13,7 @@ from .goal_cover import opposing_holder
 from .model import Command, possession, unit, wrap
 from .open_motion import steer_team
 from .pivot_fetch import PivotFetch
-from .tackle_selector import CONTAIN, TackleSelector
+from .tackle_selector import CONTAIN, PIVOT_SIDES, TackleSelector
 from .timed_keeper import TimedGoalCover
 from .three_match import filter_commands
 from .timed_motion import QUALIFIED_PACE, inside, plan_team
@@ -375,7 +375,12 @@ def open_play(
             None,
         )
     sole = tactics.observe(world, tackling=tackling)
-    if not spin_releases:
+    secure = (
+        tackle.secure_after_tackle(world, world.robot(sole))
+        if policy and isinstance(tackle, TackleSelector) and sole and not tactics.flight
+        else None
+    )
+    if not spin_releases or secure is not None:
         tactics.spin.turn = None
     roles, phases = {}, {}
     for team in ("blue", "yellow"):
@@ -402,7 +407,9 @@ def open_play(
         strategies,
         motion_configs if practice_pace else None,
         motion_configs if chip_passes else None,
-        (motion_configs or dict.fromkeys(phases, CFG)) if spin_releases else None,
+        (motion_configs or dict.fromkeys(phases, CFG))
+        if spin_releases and secure is None
+        else None,
         measured,
         spin_margin,
     )
@@ -431,6 +438,17 @@ def open_play(
         if task_audit is not None:
             task_audit.update({key: "Approach a crowded loose ball" for key in fetching})
         challenges = {}
+        turning = set()
+        if tactics.spin.turn:
+            turning.add(tactics.spin.turn.actor)
+        rival_in_recovery = None
+        if secure is not None and sole not in recovering:
+            # Keep the other robot on ordinary clearance while this duel separates.
+            out[sole], rival_in_recovery = secure
+            planned.pop(sole, None)
+            turning.add(sole)
+            if task_audit is not None:
+                task_audit[sole] = "Pull clear with the recovered ball"
         vetoed = set()
         goal_vetoes = set()
         cover_keepers = {}
@@ -440,6 +458,7 @@ def open_play(
                 if (
                     roles[r.key].role == "Presser"
                     and r.key not in recovering
+                    and r.key != rival_in_recovery
                     and can_tackle(world, r, carrier)
                 ):
                     out[r.key] = tackle.command(
@@ -458,6 +477,8 @@ def open_play(
                         )
                     if isinstance(tackle, TackleSelector) and tackle.goal_veto(r.key):
                         goal_vetoes.add(r.key)
+                    if isinstance(tackle, TackleSelector) and tackle.action(r.key) in PIVOT_SIDES:
+                        turning.add(r.key)
                     if isinstance(tackle, TackleSelector) and tackle.action(r.key) == CONTAIN:
                         vetoed.add(r.key)
                     else:
@@ -538,7 +559,7 @@ def open_play(
                 fetching=fetching,
                 cfg=motion,
                 expand_pace=practice_pace,
-                turning=(tactics.spin.turn.actor,) if tactics.spin.turn else (),
+                turning=turning,
             )
             if trajectory:
                 steered = plan_team(

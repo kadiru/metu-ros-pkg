@@ -19,7 +19,15 @@ from .three_recipient import features, move
 
 
 def commands(
-    world, positions, weights, sole, tactics, targets=None, receive=None, smooth_carry=False
+    world,
+    positions,
+    weights,
+    sole,
+    tactics,
+    targets=None,
+    receive=None,
+    smooth_carry=False,
+    tasks=None,
 ):
     ball = world.ball
     out = {}
@@ -32,6 +40,8 @@ def commands(
         angle = math.atan2(ball.y - r.y, ball.x - r.x)
         if receive and role == "Receiver" and tactics.flight and tactics.flight.receiver == r.key:
             out[r.key] = receive.command(world, r, tactics.flight.target)
+            if tasks is not None:
+                tasks[r.key] = "Cushion the pass"
             continue
         if r.key == sole and (
             role in ("Keeper", "Presser", "Carrier", "Chaser", "Receiver")
@@ -72,6 +82,14 @@ def commands(
                 if smooth_carry
                 else track_roller(world, r, desired, 9 * wrap(aim - r.yaw), MOTOR)
             )
+            if tasks is not None:
+                tasks[r.key] = (
+                    "Line up a pass"
+                    if pass_now
+                    else "Line up a shot"
+                    if shoot
+                    else "Carry the ball"
+                )
             if tactics.control == r.key and abs(wrap(aim - r.yaw)) < 0.07 and (shoot or pass_now):
                 kick = 2.6 if pass_now else 4.0
                 if receive and pass_now:
@@ -196,6 +214,8 @@ def open_play(
     crowded_fetch=False,
     receive=None,
     smooth_carry=False,
+    allocation_audit=None,
+    task_audit=None,
 ):
     """One open-play control tick shared by ordinary matches and paired replays."""
     carrier = None
@@ -219,10 +239,14 @@ def open_play(
     sole = tactics.observe(world, tackling=tackling)
     roles, phases = {}, {}
     for team in ("blue", "yellow"):
-        phases[team], side = tactics.assign(world, team, legal_off_ball=legal_off_ball)
+        phases[team], side = tactics.assign(
+            world, team, legal_off_ball=legal_off_ball, audit=allocation_audit
+        )
         roles.update(side)
     targets = {} if trajectory else None
-    out, planned = commands(world, roles, weights, sole, tactics, targets, receive, smooth_carry)
+    out, planned = commands(
+        world, roles, weights, sole, tactics, targets, receive, smooth_carry, task_audit
+    )
     recovering = set()
     if touchline:
         for r in world.robots:
@@ -233,6 +257,8 @@ def open_play(
                 recovering.add(r.key)
                 out[r.key] = command
                 planned.pop(r.key, None)
+                if task_audit is not None:
+                    task_audit[r.key] = "Recover along the touchline"
     if policy:
         fetching = (
             crowded_chaser(world, tactics, roles, measured, policy, recovering, sole)
@@ -241,6 +267,8 @@ def open_play(
         )
         if trace is not None:
             trace.update({key: {"mode": "crowded_fetch"} for key in fetching})
+        if task_audit is not None:
+            task_audit.update({key: "Approach a crowded loose ball" for key in fetching})
         challenges = {}
         vetoed = set()
         goal_vetoes = set()
@@ -256,6 +284,17 @@ def open_play(
                     out[r.key] = tackle.command(
                         world, r, carrier, measured, possession(world, r.key, CFG)
                     )
+                    if task_audit is not None:
+                        task_audit[r.key] = (
+                            {
+                                "direct": "Draw the ball away",
+                                "pivot_left": "Pivot left to free the ball",
+                                "pivot_right": "Pivot right to free the ball",
+                                "contain": "Contain an unsafe release",
+                            }[tackle.action(r.key)]
+                            if isinstance(tackle, TackleSelector)
+                            else "Challenge from the ball side"
+                        )
                     if isinstance(tackle, TackleSelector) and tackle.goal_veto(r.key):
                         goal_vetoes.add(r.key)
                     if isinstance(tackle, TackleSelector) and tackle.action(r.key) == CONTAIN:
@@ -273,6 +312,8 @@ def open_play(
                     fetch = tackle.collect_loose(world, r)
                     if fetch is not None:
                         out[r.key] = fetch
+                        if task_audit is not None:
+                            task_audit[r.key] = "Collect after the pivot"
         if isinstance(tackle, TackleSelector) and tackle.cover is not None:
             for team, phase in phases.items():
                 field_player = next(
@@ -304,6 +345,10 @@ def open_play(
                     out[actor] = request
                     planned.pop(actor, None)
                     challenges.pop(actor, None)
+                    if task_audit is not None:
+                        task_audit[actor] = (
+                            "Meet the ball at goal" if actor.id == 0 else "Clear the keeper's route"
+                        )
                     if actor.id == 0:
                         cover_keepers[actor] = -world.direction(team)
                         if isinstance(tackle.cover, TimedGoalCover):

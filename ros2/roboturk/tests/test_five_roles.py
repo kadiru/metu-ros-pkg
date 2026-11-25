@@ -1,7 +1,9 @@
 from dataclasses import replace
+import math
 import pytest
 from roboturk.five_roles import (
     OFF_BALL_ROLES,
+    ROLE_SWITCH_COST,
     TEAMS,
     FiveRoles,
     Flight,
@@ -38,6 +40,32 @@ def test_pass_recipient_is_bound_until_opponent_gains_control():
     t.observe(w)
     assert t.flight is None and t.control == holder
     assert t.assign(w, "blue")[0] == "Defend"
+
+
+def test_audit_records_the_pin_and_exact_winning_roster_cost():
+    world = kickoff(9, "blue", 1)
+    receiver = RobotKey("blue", 2)
+    tactics = FiveRoles()
+    tactics.flight = Flight("blue", receiver, (-0.3, 0.5), 1.65)
+    tactics.previous = {r.key: "Chaser" for r in world.robots if r.key.team == "blue" and r.key.id}
+    previous = tactics.previous.copy()
+    baseline = tactics.assign(world, "blue")
+    tactics.previous = previous
+    evidence = {}
+    phase, roles = tactics.assign(world, "blue", audit=evidence)
+    assert (phase, roles) == baseline
+    assert evidence[receiver]["basis"] == "receiver"
+    assert evidence[RobotKey("blue", 0)]["basis"] == "keeper"
+    total = 0.0
+    for key, assignment in roles.items():
+        if key.id:
+            robot = world.robot(key)
+            distance = math.dist((robot.x, robot.y), assignment.target)
+            total += distance + ROLE_SWITCH_COST
+            assert evidence[key]["distance_m"] == round(distance, 4)
+            assert evidence[key]["allocator_previous"] == "Chaser"
+            assert evidence[key]["switch_cost"] == ROLE_SWITCH_COST
+    assert evidence[receiver]["roster_cost"] == round(total, 4)
 
 
 def test_assignment_moves_with_the_players_and_respects_attack_direction():

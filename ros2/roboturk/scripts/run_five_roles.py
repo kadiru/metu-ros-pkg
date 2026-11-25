@@ -96,6 +96,11 @@ def main():
     p.add_argument(
         "--possession-audit", action="store_true", help="Save native 2 ms roller and contact masks"
     )
+    p.add_argument(
+        "--role-audit",
+        action="store_true",
+        help="Record role targets, assignment costs and commands",
+    )
     mode.add_argument(
         "--frame-images", action="store_true", help="Save native JPEG samples at 12.5 Hz"
     )
@@ -440,6 +445,7 @@ def main():
                 legal_off_ball_from_tick=a.legal_off_ball_from_tick,
                 motion_audit=a.motion_audit,
                 possession_audit=a.possession_audit,
+                role_audit=a.role_audit,
                 await_force_start=a.await_force_start,
                 open_play_policy=json.loads(a.open_play_policy.read_text())
                 if a.open_play_policy

@@ -312,6 +312,8 @@ def match(sim, folder, cfg, receiver=None, vision=None):
         kickoff_frame = None
         planner_trace = {} if motion_audit else None
         tackle_audit = {} if motion_audit and tackle else None
+        allocation = {} if cfg.get("role_audit") else None
+        tasks = {} if allocation is not None else None
         if positioning:
             if isinstance(formation, IndependentKickoffs):
                 stamp = origin + (sim.getTime() - start_time) + camera_delay
@@ -368,6 +370,8 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                 crowded_fetch=cfg.get("crowded_fetch", False),
                 receive=receive,
                 smooth_carry=cfg.get("smooth_carry", False),
+                allocation_audit=allocation,
+                task_audit=tasks,
             )
             if restricted:
                 out = {k: c for k, c in out.items() if k.team == restricted}
@@ -398,6 +402,21 @@ def match(sim, folder, cfg, receiver=None, vision=None):
             score=score.copy(),
             restart=restarts,
         )
+        if allocation is not None:
+            details = []
+            for key in keys:
+                cmd = out.get(key)
+                role = roles[key]
+                item = allocation.get(key, {"basis": "referee"})
+                item.update(target=role.target, task=tasks.get(key), command=None)
+                if cmd is not None:
+                    item["command"] = [
+                        round(v, 4) for v in (cmd.vx, cmd.vy, cmd.omega, cmd.dribbler, cmd.kick)
+                    ]
+                if key in planned and cmd is not None and cmd.kick:
+                    item["pass_to"] = keys.index(planned[key].receiver)
+                details.append(item)
+            meta.update(allocation=details, attack_sign=w.attack_sign)
         if state:
             meta.update(
                 ssl_command=state.command,

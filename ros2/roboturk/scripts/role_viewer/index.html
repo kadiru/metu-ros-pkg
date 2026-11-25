@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RoboTurk Match Viewer</title>
+  <style>/* VIEWER_STYLES */</style>
+</head>
+<body>
+  <main class="app" id="match-viewer">
+    <header class="masthead">
+      <div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div><span class="brand">RoboTurk</span><h1>Match viewer</h1></div>
+      <span class="replay-label"><span></span> Webots replay</span>
+    </header>
+
+    <section class="scoreboard" aria-label="Game state">
+      <div class="score">
+        <div class="score-team blue"><span>Blue</span><strong id="blue-score">0</strong></div>
+        <div class="game-clock"><strong id="clock">—</strong><span id="period">Replay</span></div>
+        <div class="score-team yellow"><strong id="yellow-score">0</strong><span>Yellow</span></div>
+      </div>
+      <div class="game-info">
+        <div><span class="label">Referee</span><span id="referee" class="reference">—</span></div>
+        <div><span class="label">Ball state</span><span id="owner" class="reference">—</span></div>
+      </div>
+    </section>
+
+    <div class="workspace">
+      <section class="board" aria-label="Field and playback">
+        <div class="section-heading board-heading">
+          <h2>Field</h2>
+          <div class="phases"><span class="blue" id="blue-phase"></span><span class="yellow" id="yellow-phase"></span></div>
+        </div>
+        <div class="pitch"><canvas id="pitch" aria-label="Recorded robot and ball positions. Select a robot here or in the lineup."></canvas></div>
+        <div class="playback">
+          <div class="scrub-label"><label for="scrub">Match timeline</label><span id="replay-time"></span></div>
+          <input id="scrub" type="range" min="0" max="0" value="0">
+          <div class="playbar">
+            <button class="primary" id="play" type="button">Play</button>
+            <button id="prev" type="button" title="Previous role change" aria-label="Previous role change">‹</button>
+            <button id="next" type="button" title="Next role change" aria-label="Next role change">›</button>
+            <label class="event-control"><span class="sr-only">Jump to match event</span><select id="events"><option value="">Match events</option></select></label>
+          </div>
+        </div>
+      </section>
+
+      <section class="inspector" aria-label="Selected robot">
+        <div class="section-heading inspect-heading"><h2>Robot detail</h2><span id="jersey" class="jersey"></span></div>
+        <div class="current-role"><span class="label">Current role</span><strong id="role">—</strong></div>
+        <div class="previous-role"><span class="label">Previous role</span><span id="previous">—</span></div>
+        <div class="inspector-section"><h3>What it’s doing</h3><p id="task"></p><p class="target" id="target" hidden></p></div>
+        <div class="inspector-section"><h3>Why this role</h3><p id="reason"></p><dl id="costs" class="costs" hidden></dl></div>
+        <details class="command-details" id="command-details" hidden><summary>Motion command</summary><p id="command"></p></details>
+        <div class="inspector-section history-section"><h3>Recent roles</h3><ol id="history" class="history"></ol></div>
+      </section>
+    </div>
+
+    <section class="lineups" aria-label="Team lineups">
+      <section class="lineup blue" aria-labelledby="blue-lineup"><div class="section-heading"><h2 id="blue-lineup">Blue lineup</h2><span>Current / previous</span></div><div id="blue-roster" class="roster"></div></section>
+      <section class="lineup yellow" aria-labelledby="yellow-lineup"><div class="section-heading"><h2 id="yellow-lineup">Yellow lineup</h2><span>Current / previous</span></div><div id="yellow-roster" class="roster"></div></section>
+    </section>
+  </main>
+  <script id="match-data" type="application/json"><!-- MATCH_DATA --></script>
+  <script>/* VIEWER_SCRIPT */</script>
+</body>
+</html>

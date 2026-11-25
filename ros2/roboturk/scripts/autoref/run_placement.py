@@ -207,6 +207,7 @@ def main():
                 "keeper_cover",
                 "keeper_lane",
                 "possession_audit",
+                "role_audit",
                 "referee_placement",
                 "crowded_fetch",
                 "smooth_carry",

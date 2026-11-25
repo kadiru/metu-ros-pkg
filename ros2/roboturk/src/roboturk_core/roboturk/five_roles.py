@@ -15,6 +15,7 @@ INTERPOLATION_MARGIN = CFG.max_acceleration * TRAJECTORY_SAMPLE_DT**2 / 4
 PENALTY_FRONT = pitch.LENGTH / 2 - pitch.DEFENSE_DEPTH - CFG.robot_radius
 PENALTY_HALF_WIDTH = pitch.DEFENSE_WIDTH / 2 + CFG.robot_radius
 OFF_BALL_TRACKING_MARGIN = 0.02
+ROLE_SWITCH_COST = 0.42
 TIMED_ROLES = (
     "Outlet",
     "Marker",
@@ -158,7 +159,7 @@ class FiveRoles:
             self.control = None
         return sole
 
-    def assign(self, world, team, legal_off_ball=True):
+    def assign(self, world, team, legal_off_ball=True, audit=None):
         players = sorted((r for r in world.robots if r.key.team == team), key=lambda r: r.key.id)
         if len(players) != 5 or players[0].key.id != 0:
             raise ValueError("Five-player teams require a designated goalkeeper with ID 0")
@@ -240,7 +241,7 @@ class FiveRoles:
         # penalty for giving up a role. Possession and intended reception take priority.
         costs = {
             (r.key, name): math.dist((r.x, r.y), target)
-            + (0.42 if r.key in self.previous and self.previous[r.key] != name else 0)
+            + (ROLE_SWITCH_COST if r.key in self.previous and self.previous[r.key] != name else 0)
             for r in players[1:]
             for name, target in roles.items()
         }
@@ -249,5 +250,17 @@ class FiveRoles:
         )
         match = min(allowed, key=lambda order: sum(costs[r.key, n] for r, n in zip(order, names)))
         positions.update({r.key: Assignment(n, roles[n]) for r, n in zip(match, names)})
+        if audit is not None:
+            roster_cost = sum(costs[r.key, name] for r, name in zip(match, names, strict=True))
+            audit[keeper] = dict(basis="keeper", allocator_previous=self.previous.get(keeper))
+            for r, name in zip(match, names, strict=True):
+                previous = self.previous.get(r.key)
+                audit[r.key] = dict(
+                    basis=name.lower() if r.key == forced else "roster_cost",
+                    allocator_previous=previous,
+                    distance_m=round(math.dist((r.x, r.y), roles[name]), 4),
+                    switch_cost=ROLE_SWITCH_COST if previous and previous != name else 0,
+                    roster_cost=round(roster_cost, 4),
+                )
         self.previous.update({k: a.role for k, a in positions.items()})
         return phase, positions

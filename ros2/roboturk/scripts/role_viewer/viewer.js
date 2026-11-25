@@ -18,6 +18,7 @@ const liveButton = byId("go-live");
 const eventScroll = byId("event-scroll");
 const eventTrack = byId("event-track");
 const roleWindowSelect = byId("role-window");
+const motionSettings = byId("motion-settings");
 const teams = {
   blue: { label: "Blue", solid: "#639bff", pale: "#bcd3ff", ink: "#0b264c" },
   yellow: { label: "Yellow", solid: "#f5cd58", pale: "#ffe5a1", ink: "#382c0a" },
@@ -361,18 +362,20 @@ function updateHistory(now) {
   track.setAttribute("aria-label", `Role changes in the last ${roleWindow} seconds`);
   byId("role-window-start").textContent = `−${roleWindow} s`;
   const segments = document.createDocumentFragment();
-  for (let index = current; index >= first; index -= 1) {
+  for (let index = first; index <= current; index += 1) {
     const { tick, role } = history[index];
     const begin = Math.max(start, frames[tick].t);
     const end = index === current ? now : frames[history[index + 1].tick].t;
-    const fraction = Math.max(.001, (end - begin) / roleWindow);
+    const length = 100 * (end - begin) / roleWindow;
     const chip = document.createElement("button");
     chip.type = "button";
     chip.className = "role-segment";
-    chip.style.flex = `0 0 ${100 * fraction}%`;
+    chip.style.left = `${Math.min(99.5, 100 * (begin - start) / roleWindow)}%`;
+    chip.style.width = `${Math.max(.5, length)}%`;
     chip.style.setProperty("--role-color", roleColor(role));
     chip.title = `${roleName(role)} · ${replayTime(frames[tick].t)}`;
     chip.setAttribute("aria-label", chip.title);
+    if (length >= 12) chip.textContent = roleName(role);
     if (index === current) chip.setAttribute("aria-current", "true");
     chip.addEventListener("click", () => seek(tick));
     segments.append(chip);
@@ -382,7 +385,8 @@ function updateHistory(now) {
   const recent = history.slice(first, current + 1);
   const changeCount = recent
     .filter(({ tick, previous }) => previous !== null && frames[tick].t >= start).length;
-  byId("role-duration").textContent = `${roleName(history[current].role)} for ${elapsed.toFixed(1)} s · ${changeCount} role ${changeCount === 1 ? "change" : "changes"}`;
+  byId("role-duration").textContent = `${roleName(history[current].role)} for ${elapsed.toFixed(1)} s`;
+  byId("role-change-count").textContent = changeCount;
   const list = byId("role-changes");
   const listStamp = `${selected}/${first}/${current}`;
   if (list.dataset.stamp === listStamp) return;
@@ -449,6 +453,7 @@ function updateLimitControls() {
   if (limits === lastSliderValues && editable === slidersEditable) return;
   lastSliderValues = limits;
   slidersEditable = editable;
+  motionSettings.hidden = !limits;
   for (const [name, value] of pendingLimits) {
     if (limits?.blue[name] === value) pendingLimits.delete(name);
   }
@@ -656,24 +661,47 @@ function strokePath(points, color, width, dash = []) {
   ctx.setLineDash([]);
 }
 
-function currentKickOverlay(frame) {
-  let launch;
+function latestKick() {
+  let action;
   let result;
-  for (const [tick, , kind, team, details] of events) {
-    if (!details || tick > frameIndex || frames[tick]?.t < frame.t - kickFlightLimit - kickResultWindow) continue;
+  for (const event of events) {
+    const [tick, , kind, , details] = event;
+    if (!details || tick > frameIndex) continue;
     if (kind === "kick_trace") {
-      if (launch?.tick === details.kick_tick && launch.actor === details.actor) result = details;
+      if (action && action[0] === details.kick_tick && action[4].actor === details.actor) result = details;
     } else if (details.origin) {
-      launch = { ...details, tick, kind, team };
+      action = event;
       result = undefined;
     }
   }
-  // The latest kick replaces the previous flight even when the new kicker's overlay is off.
-  if (!launch || !overlayEnabled.has(launch.actor) || !isVisible(launch.actor)) return null;
-  const showTrail = result ? frameIndex === result.tick : frame.t - frames[launch.tick].t <= kickFlightLimit;
-  const showResult = result && frame.t - frames[result.tick].t <= kickResultWindow
-    && (result.outcome === "goal mouth" || result.outcome === "wide" || launch.elevation > 0);
-  return showTrail || showResult ? { launch, result, showTrail } : null;
+  if (!action) return null;
+  const [tick, , kind, team, details] = action;
+  return { launch: { ...details, tick, kind, team }, result };
+}
+
+function updateKickReadout(kick) {
+  let text = "";
+  if (kick) {
+    const { launch, result } = kick;
+    const turn = launch.spin_turn;
+    const action = launch.elevation > 0 ? "chip" : launch.kind;
+    const spin = turn ? `${turn.reverse ? "reverse " : ""}spin ` : "";
+    const receiver = launch.receiver == null ? "" : ` to ${robotName(launch.receiver)}`;
+    text = `${robotName(launch.actor)} ${spin}${action}${receiver} · ${launch.speed.toFixed(1)} m/s launch`;
+    if (turn) text += ` · ${turn.degrees.toFixed(0)}° ${turn.direction} rotation`;
+    if (launch.elevation > 0) text += ` · ${Math.round(launch.elevation * 180 / Math.PI)}° loft`;
+    if (result?.outcome === "goal mouth" || result?.outcome === "wide") {
+      text += ` · ${result.speed.toFixed(2)} m/s at goal line · ${Math.abs(result.point[1]).toFixed(2)} m from center · ${result.point[2].toFixed(2)} m high`;
+      if (result.outcome === "wide") text += " · wide";
+    } else if (result && launch.elevation > 0) {
+      text += ` · ${result.peak_z.toFixed(2)} m peak`;
+    }
+  }
+  const readout = byId("kick-readout");
+  if (readout.textContent !== text) {
+    readout.textContent = text;
+    readout.title = text;
+  }
 }
 
 function drawKickTrail(launch, result, color) {
@@ -696,7 +724,7 @@ function drawKickTrail(launch, result, color) {
   traceCircle(...path[0], 3, null, color, 1.4);
 }
 
-function drawOverlays(frame, points) {
+function drawOverlays(frame, points, kick) {
   for (const robot of overlayEnabled) {
     const audit = frame.allocation?.[robot];
     if (!isVisible(robot) || !audit?.target || !audit.command
@@ -709,47 +737,33 @@ function drawOverlays(frame, points) {
     strokePath([origin, target], `${color}a0`, 1.3, [5, 5]);
     traceCircle(...target, 4, null, color, 1.4);
   }
-  let text = "";
-  const overlay = currentKickOverlay(frame);
-  if (overlay) {
-    const { launch, result, showTrail } = overlay;
-    const color = teams[launch.team].pale;
-    const lofted = launch.elevation > 0;
-    if (showTrail) drawKickTrail(launch, result, color);
-    const goal = result?.outcome === "goal mouth";
-    if (goal) {
-      const [x, y] = project(...result.point);
-      traceCircle(x, y, 6, "#13241d", color, 1.8);
-      traceCircle(x, y, 2.2, color);
-      ctx.font = "700 11px system-ui";
-      ctx.textAlign = result.point[0] > 0 ? "right" : "left";
-      ctx.textBaseline = "bottom";
-      const dx = result.point[0] > 0 ? -10 : 10;
-      ctx.lineWidth = 3;
-      ctx.strokeStyle = "#13241d";
-      ctx.strokeText(`${result.speed.toFixed(2)} m/s`, x + dx, y - 7);
-      ctx.fillStyle = color;
-      ctx.fillText(`${result.speed.toFixed(2)} m/s`, x + dx, y - 7);
-    }
-    const turn = launch.spin_turn;
-    const action = lofted ? "chip" : launch.kind === "shot" ? "shot" : turn ? "pass" : "kick";
-    const spin = turn ? `${turn.reverse ? "reverse " : ""}spin ` : "";
-    text = `${robotName(launch.actor)} ${spin}${action} · ${launch.speed.toFixed(1)} m/s launch`;
-    if (turn) text += ` · ${turn.degrees.toFixed(0)}° ${turn.direction}`;
-    if (goal || result?.outcome === "wide") text += ` · ${result.speed.toFixed(2)} m/s at goal line · ${Math.abs(result.point[1]).toFixed(2)} m from center · ${result.point[2].toFixed(2)} m high${goal ? "" : " · wide"}`;
-    else if (lofted && result) text += ` · ${result.peak_z.toFixed(2)} m peak`;
-  }
-  const readout = byId("kick-readout");
-  if (readout.textContent !== text) {
-    readout.textContent = text;
-    readout.title = text;
+  if (!kick || !overlayEnabled.has(kick.launch.actor) || !isVisible(kick.launch.actor)) return;
+  const { launch, result } = kick;
+  const color = teams[launch.team].pale;
+  const showTrail = result ? frameIndex === result.tick : frame.t - frames[launch.tick].t <= kickFlightLimit;
+  if (showTrail) drawKickTrail(launch, result, color);
+  if (result?.outcome === "goal mouth" && frame.t - frames[result.tick].t <= kickResultWindow) {
+    const [x, y] = project(...result.point);
+    traceCircle(x, y, 6, "#13241d", color, 1.8);
+    traceCircle(x, y, 2.2, color);
+    ctx.font = "700 11px system-ui";
+    ctx.textAlign = result.point[0] > 0 ? "right" : "left";
+    ctx.textBaseline = "bottom";
+    const dx = result.point[0] > 0 ? -10 : 10;
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = "#13241d";
+    ctx.strokeText(`${result.speed.toFixed(2)} m/s`, x + dx, y - 7);
+    ctx.fillStyle = color;
+    ctx.fillText(`${result.speed.toFixed(2)} m/s`, x + dx, y - 7);
   }
 }
 
 function drawField() {
+  const frame = frames[frameIndex];
+  const kick = frame ? latestKick() : null;
+  updateKickReadout(kick);
   if (!canvasWidth || !canvasHeight) return;
   const k = scale();
-  const frame = frames[frameIndex];
   const points = positions[frameIndex];
   ctx.fillStyle = "#16382e";
   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -790,7 +804,7 @@ function drawField() {
     ctx.stroke();
   }
   if (!frame) return;
-  drawOverlays(frame, points);
+  drawOverlays(frame, points, kick);
   keys.forEach(([team], robot) => {
     if (!isVisible(robot)) return;
     const offset = 2 + 3 * robot;
@@ -885,13 +899,17 @@ playbackRateSelect.addEventListener("change", () => {
   playbackRate = Number(playbackRateSelect.value);
 });
 
-const fieldInfo = byId("field-info");
-document.addEventListener("click", (event) => {
-  if (fieldInfo.open && !fieldInfo.contains(event.target)) fieldInfo.open = false;
-});
-fieldInfo.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") fieldInfo.open = false;
-});
+for (const disclosure of [byId("field-info"), motionSettings]) {
+  document.addEventListener("click", (event) => {
+    if (disclosure.open && !disclosure.contains(event.target)) disclosure.open = false;
+  });
+  disclosure.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && disclosure.open) {
+      disclosure.open = false;
+      disclosure.querySelector("summary").focus();
+    }
+  });
+}
 
 scrub.addEventListener("input", () => seek(Number(scrub.value)));
 roleWindowSelect.addEventListener("change", () => {

@@ -25,6 +25,13 @@ body { margin: 0; }
 [hidden] { display: none !important; }
 .app { max-width: 1330px; margin: 0 auto; padding: 26px clamp(14px, 3vw, 40px) 34px; }
 .masthead { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+#match-viewer { padding-top: 13px; }
+.match-masthead { position: relative; z-index: 3; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 8px; margin-bottom: 10px; }
+.viewer-brand, .header-actions { display: flex; align-items: center; min-width: 0; gap: 8px; }
+.viewer-brand h1 { font-size: clamp(17px, 1.8vw, 22px); }
+.header-actions { flex-wrap: wrap; justify-content: flex-end; }
+.header-actions .feed-state { margin: 0; font-size: 11px; }
+.header-actions .session-badge, .header-actions .setup-link { font-size: 11px; }
 .brand-mark { width: 36px; height: 36px; flex: 0 0 36px; border-radius: 11px; display: flex; align-items: end; justify-content: center; gap: 3px; padding: 9px; background: #274237; }
 .brand-mark i { width: 4px; background: var(--mint); border-radius: 3px; height: 9px; }
 .brand-mark i:nth-child(2) { height: 15px; }
@@ -50,16 +57,25 @@ h3 { margin-bottom: 5px; font-size: 12px; font-weight: 650; color: var(--muted);
 .top-limits input:disabled { opacity: .48; cursor: default; }
 .limit-feedback { color: var(--yellow); font-size: 11px; max-width: 150px; }
 .scoreboard, .board, .inspector, .lineup, .event-panel { border: 1px solid var(--line); border-radius: var(--round); background: var(--panel); }
-.scoreboard { display: flex; align-items: center; gap: 28px; padding: 12px 20px; margin-bottom: 15px; }
+.scoreboard { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 5px 10px; min-height: 46px; }
 .score, .score-team, .game-info { display: flex; align-items: center; }
-.score { gap: clamp(8px, 2vw, 22px); }
-.score-team { gap: 8px; font-size: 14px; font-weight: 650; }
-.score-team strong { font-size: 31px; line-height: 1; letter-spacing: -.055em; font-variant-numeric: tabular-nums; }
-.game-clock { min-width: 86px; text-align: center; padding: 2px 8px; border-left: 1px solid var(--line); border-right: 1px solid var(--line); }
-.game-clock strong { display: block; font-size: 24px; font-variant-numeric: tabular-nums; line-height: 1; letter-spacing: -.035em; }
-.game-clock span { color: var(--muted); font-size: 11px; font-weight: 600; }
-.game-info { gap: 22px; flex: 1; justify-content: flex-end; }
-.game-info > div { display: grid; gap: 4px; }
+.score { gap: 8px; }
+.score-team { gap: 5px; font-size: 11px; font-weight: 650; }
+.score-team strong { font-size: 23px; line-height: 1; letter-spacing: -.055em; font-variant-numeric: tabular-nums; }
+.game-clock { min-width: 65px; text-align: center; padding: 0 6px; border-left: 1px solid var(--line); border-right: 1px solid var(--line); }
+.game-clock strong { display: block; font-size: 19px; font-variant-numeric: tabular-nums; line-height: 1; letter-spacing: -.035em; }
+.game-clock span { color: var(--muted); font-size: 10px; font-weight: 600; }
+.game-info { gap: 11px; padding-left: 10px; border-left: 1px solid var(--line); }
+.game-info > div { display: grid; gap: 2px; max-width: 110px; }
+.game-info .label { font-size: 9px; }
+.game-info .reference { font-size: 11px; line-height: 1.2; }
+.motion-settings summary { display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid #384b5c; border-radius: 7px; background: var(--panel2); color: var(--text); font-size: 18px; line-height: 1; cursor: pointer; }
+.motion-settings summary::-webkit-details-marker { display: none; }
+.motion-settings summary:hover, .motion-settings[open] summary { color: var(--mint); border-color: #557565; }
+.motion-popover { position: absolute; inset: calc(100% + 5px) 0 auto auto; width: min(260px, 100%); padding: 12px; background: var(--panel); border: 1px solid #384b5c; border-radius: 9px; box-shadow: 0 8px 20px #070c1280; }
+.motion-popover h2 { font-size: 13px; margin-bottom: 9px; }
+.motion-popover .top-limits { grid-template-columns: minmax(0, 1fr); gap: 8px; margin: 0; }
+.motion-popover .limit-feedback { margin-top: 8px; max-width: none; }
 .label { font-size: 11px; color: var(--muted); font-weight: 650; letter-spacing: .025em; }
 .reference { font-size: 13px; font-weight: 625; }
 .blue { --team: var(--blue); color: var(--blue); }
@@ -142,18 +158,21 @@ button.primary:hover { background: #c1eed3; }
 .yaw-track::after { content: ""; position: absolute; inset: 0 auto 0 50%; width: 1px; background: #e5f1fa99; }
 #yaw-fill { position: absolute; inset: 0 auto 0 var(--start, 50%); width: var(--size, 0%); background: var(--mint); }
 .role-history { flex: 1; display: flex; flex-direction: column; min-height: 225px; border-top: 1px solid var(--line); padding: 8px 0 2px; }
-.role-history > :not(.history-columns) { flex-shrink: 0; }
+.role-history > :not(.role-changes) { flex-shrink: 0; }
 .timeline-heading { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
 .timeline-heading h3 { margin: 0; color: var(--text); }
 .timeline-heading select { font-size: 11px; min-height: 25px; padding: 3px 6px; }
-.history-columns { flex: 1; display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 8px; min-height: 0; max-height: 26rem; margin-top: 7px; }
-.history-axis { min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 4px; justify-items: center; color: var(--muted); font-size: 10px; }
-.role-track { display: flex; flex-direction: column; width: 22px; border-radius: 5px; background: #111b24; overflow: hidden; }
-.role-segment { min-height: 0; width: 100%; padding: 0; border-radius: 0; border: 0; background: var(--role-color); cursor: pointer; }
+.history-summary { display: grid; grid-template-columns: minmax(0, 1fr) max-content; gap: 8px; align-items: baseline; margin: 5px 0; color: var(--muted); font-size: 12px; line-height: 1.4; font-variant-numeric: tabular-nums; }
+.role-duration { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.role-count { white-space: nowrap; }
+.role-count strong { display: inline-block; width: 4ch; text-align: right; color: var(--text); }
+.role-track { position: relative; height: 34px; border-radius: 5px; background: #111b24; overflow: hidden; }
+.role-segment { position: absolute; inset-block: 0; min-height: 0; padding: 0; border: 0; border-radius: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; background: var(--role-color); color: #111b24; font-size: 10px; cursor: pointer; }
+.role-segment + .role-segment { box-shadow: inset 1px 0 #111b2459; }
 .role-segment:hover { background: color-mix(in srgb, var(--role-color) 72%, white); }
 .role-segment:focus-visible { z-index: 1; outline-offset: -3px; outline-color: #101723; }
-.role-duration { color: var(--muted); margin-top: 5px; font-size: 12px; line-height: 1.4; }
-.role-changes { display: grid; grid-auto-rows: max-content; align-content: start; gap: 4px; min-height: 0; padding: 2px; overflow-y: auto; }
+.history-axis { display: flex; justify-content: space-between; color: var(--muted); font-size: 10px; margin: 3px 0 5px; }
+.role-changes { display: grid; grid-auto-rows: max-content; align-content: start; gap: 4px; flex: 1; min-height: 0; max-height: 26rem; padding: 2px; overflow-y: auto; }
 .role-changes button { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 2px 6px; align-items: baseline; padding: 5px 6px; text-align: left; background: #131e28; border-color: var(--line); font-size: 11px; min-height: 26px; }
 .role-changes button[aria-current="true"] { border-color: color-mix(in srgb, var(--role-color) 45%, var(--line)); }
 .role-changes time { color: var(--muted); font-variant-numeric: tabular-nums; }
@@ -170,7 +189,7 @@ button.primary:hover { background: #c1eed3; }
 .overlay-key .target-key::before { border-top-style: dashed; opacity: .6; }
 .overlay-key .chip-key::before { border-top-style: dotted; }
 .overlay-key .mouth-key::before { width: 7px; height: 7px; border: 1px solid #e7f4e7; border-radius: 50%; }
-.kick-readout { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text); }
+.kick-readout { overflow-wrap: anywhere; color: var(--text); }
 .roster { padding: 0 10px 9px; }
 .roster button { display: grid; grid-template-columns: 23px minmax(52px, .7fr) minmax(0, 1.6fr); width: 100%; align-content: start; align-items: baseline; text-align: left; gap: 6px; block-size: calc(2lh + 16px); line-height: 1.2; border: 1px solid transparent; padding: 7px 6px; background: transparent; }
 .roster button + button { border-top-color: var(--line); }
@@ -215,18 +234,22 @@ button.primary:hover { background: #c1eed3; }
 .setup a { color: var(--mint); }
 #setup-error:empty { display: none; }
 #setup-error { color: #ffb7a0; font-size: 13px; }
+@media (max-width: 1000px) {
+  .match-masthead { grid-template-columns: minmax(0, 1fr) auto; }
+  .match-masthead .scoreboard { grid-row: 2; grid-column: 1 / -1; justify-self: center; max-width: 100%; }
+}
 @media (max-width: 870px) {
   .masthead { flex-wrap: wrap; }
   .top-limits { order: 1; flex-basis: 100%; max-width: none; margin: 0; }
   .workspace { grid-template-columns: 1fr; }
-  .scoreboard { flex-wrap: wrap; gap: 10px 18px; }
   .inspector { contain: none; overflow: visible; }
-  .history-columns { min-height: 10rem; }
 }
 @media (max-width: 530px) {
   .app { padding-top: 15px; }
-  .scoreboard { justify-content: center; padding: 10px; }
-  .game-info { flex-basis: 100%; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 7px; }
+  .viewer-brand .brand-mark { display: none; }
+  .header-actions { gap: 4px; }
+  .scoreboard { flex-wrap: wrap; gap: 5px 9px; padding: 5px 8px; }
+  .game-info { gap: 7px; padding-left: 6px; }
   .lineups { grid-template-columns: 1fr; }
   .masthead { flex-wrap: wrap; }
   .mode-picker, .practice-options { grid-template-columns: 1fr; }
@@ -240,27 +263,36 @@ button.primary:hover { background: #c1eed3; }
 </head>
 <body>
   <main class="app" id="match-viewer">
-    <header class="masthead">
-      <div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></div>
-      <div><span class="brand">RoboTurk</span><h1>Match viewer</h1></div>
-      <span id="session-badge" class="session-badge" hidden></span>
-      <div id="motion-limits" class="top-limits" role="group" aria-label="Shared motion limits" hidden></div>
-      <span id="limit-feedback" class="limit-feedback" role="status" hidden></span>
-      <span class="feed-state" id="feed-state" data-state="replay"><i></i><span id="feed-label">Webots replay</span></span>
-      <a id="setup-link" class="setup-link" hidden>Match setup</a>
+    <header class="masthead match-masthead">
+      <div class="viewer-brand">
+        <div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div><span class="brand">RoboTurk</span><h1>Match viewer</h1></div>
+      </div>
+      <section class="scoreboard" aria-label="Game state">
+        <div class="score">
+          <div class="score-team blue"><span>Blue</span><strong id="blue-score">0</strong></div>
+          <div class="game-clock"><strong id="clock">—</strong><span id="period">Replay</span></div>
+          <div class="score-team yellow"><strong id="yellow-score">0</strong><span>Yellow</span></div>
+        </div>
+        <div class="game-info">
+          <div><span class="label">Referee</span><span id="referee" class="reference">—</span></div>
+          <div><span class="label">Ball state</span><span id="owner" class="reference">—</span></div>
+        </div>
+      </section>
+      <div class="header-actions">
+        <span id="session-badge" class="session-badge" hidden></span>
+        <span class="feed-state" id="feed-state" data-state="replay"><i></i><span id="feed-label">Webots replay</span></span>
+        <details id="motion-settings" class="motion-settings" hidden>
+          <summary aria-label="Motion limits" title="Motion limits"><span aria-hidden="true">⚙</span></summary>
+          <div class="motion-popover">
+            <h2>Motion limits</h2>
+            <div id="motion-limits" class="top-limits" role="group" aria-label="Shared motion limits" hidden></div>
+            <p id="limit-feedback" class="limit-feedback" role="status" hidden></p>
+          </div>
+        </details>
+        <a id="setup-link" class="setup-link" hidden>Match setup</a>
+      </div>
     </header>
-
-    <section class="scoreboard" aria-label="Game state">
-      <div class="score">
-        <div class="score-team blue"><span>Blue</span><strong id="blue-score">0</strong></div>
-        <div class="game-clock"><strong id="clock">—</strong><span id="period">Replay</span></div>
-        <div class="score-team yellow"><strong id="yellow-score">0</strong><span>Yellow</span></div>
-      </div>
-      <div class="game-info">
-        <div><span class="label">Referee</span><span id="referee" class="reference">—</span></div>
-        <div><span class="label">Ball state</span><span id="owner" class="reference">—</span></div>
-      </div>
-    </section>
 
     <div class="workspace">
       <div class="field-column">
@@ -354,14 +386,13 @@ button.primary:hover { background: #c1eed3; }
               <option value="15">Last 15 s</option><option value="30">Last 30 s</option><option value="60">Last 60 s</option>
             </select>
           </div>
-          <p id="role-duration" class="role-duration"></p>
-          <div class="history-columns">
-            <div class="history-axis">
-              <span>Selected</span><div id="role-track" class="role-track" role="group" aria-label="Role changes in the last 10 seconds"></div>
-              <span id="role-window-start">−10 s</span>
-            </div>
-            <div id="role-changes" class="role-changes" role="group" aria-label="Recent assignment details" tabindex="0"></div>
+          <div class="history-summary">
+            <p id="role-duration" class="role-duration"></p>
+            <p class="role-count">Role changes <strong id="role-change-count">—</strong></p>
           </div>
+          <div id="role-track" class="role-track" role="group" aria-label="Role changes in the last 10 seconds"></div>
+          <div class="history-axis"><span id="role-window-start">−10 s</span><span>Selected time</span></div>
+          <div id="role-changes" class="role-changes" role="group" aria-label="Recent assignment details" tabindex="0"></div>
         </div>
       </section>
     </div>
@@ -450,6 +481,7 @@ const liveButton = byId("go-live");
 const eventScroll = byId("event-scroll");
 const eventTrack = byId("event-track");
 const roleWindowSelect = byId("role-window");
+const motionSettings = byId("motion-settings");
 const teams = {
   blue: { label: "Blue", solid: "#639bff", pale: "#bcd3ff", ink: "#0b264c" },
   yellow: { label: "Yellow", solid: "#f5cd58", pale: "#ffe5a1", ink: "#382c0a" },
@@ -793,18 +825,20 @@ function updateHistory(now) {
   track.setAttribute("aria-label", `Role changes in the last ${roleWindow} seconds`);
   byId("role-window-start").textContent = `−${roleWindow} s`;
   const segments = document.createDocumentFragment();
-  for (let index = current; index >= first; index -= 1) {
+  for (let index = first; index <= current; index += 1) {
     const { tick, role } = history[index];
     const begin = Math.max(start, frames[tick].t);
     const end = index === current ? now : frames[history[index + 1].tick].t;
-    const fraction = Math.max(.001, (end - begin) / roleWindow);
+    const length = 100 * (end - begin) / roleWindow;
     const chip = document.createElement("button");
     chip.type = "button";
     chip.className = "role-segment";
-    chip.style.flex = `0 0 ${100 * fraction}%`;
+    chip.style.left = `${Math.min(99.5, 100 * (begin - start) / roleWindow)}%`;
+    chip.style.width = `${Math.max(.5, length)}%`;
     chip.style.setProperty("--role-color", roleColor(role));
     chip.title = `${roleName(role)} · ${replayTime(frames[tick].t)}`;
     chip.setAttribute("aria-label", chip.title);
+    if (length >= 12) chip.textContent = roleName(role);
     if (index === current) chip.setAttribute("aria-current", "true");
     chip.addEventListener("click", () => seek(tick));
     segments.append(chip);
@@ -814,7 +848,8 @@ function updateHistory(now) {
   const recent = history.slice(first, current + 1);
   const changeCount = recent
     .filter(({ tick, previous }) => previous !== null && frames[tick].t >= start).length;
-  byId("role-duration").textContent = `${roleName(history[current].role)} for ${elapsed.toFixed(1)} s · ${changeCount} role ${changeCount === 1 ? "change" : "changes"}`;
+  byId("role-duration").textContent = `${roleName(history[current].role)} for ${elapsed.toFixed(1)} s`;
+  byId("role-change-count").textContent = changeCount;
   const list = byId("role-changes");
   const listStamp = `${selected}/${first}/${current}`;
   if (list.dataset.stamp === listStamp) return;
@@ -881,6 +916,7 @@ function updateLimitControls() {
   if (limits === lastSliderValues && editable === slidersEditable) return;
   lastSliderValues = limits;
   slidersEditable = editable;
+  motionSettings.hidden = !limits;
   for (const [name, value] of pendingLimits) {
     if (limits?.blue[name] === value) pendingLimits.delete(name);
   }
@@ -1088,24 +1124,47 @@ function strokePath(points, color, width, dash = []) {
   ctx.setLineDash([]);
 }
 
-function currentKickOverlay(frame) {
-  let launch;
+function latestKick() {
+  let action;
   let result;
-  for (const [tick, , kind, team, details] of events) {
-    if (!details || tick > frameIndex || frames[tick]?.t < frame.t - kickFlightLimit - kickResultWindow) continue;
+  for (const event of events) {
+    const [tick, , kind, , details] = event;
+    if (!details || tick > frameIndex) continue;
     if (kind === "kick_trace") {
-      if (launch?.tick === details.kick_tick && launch.actor === details.actor) result = details;
+      if (action && action[0] === details.kick_tick && action[4].actor === details.actor) result = details;
     } else if (details.origin) {
-      launch = { ...details, tick, kind, team };
+      action = event;
       result = undefined;
     }
   }
-  // The latest kick replaces the previous flight even when the new kicker's overlay is off.
-  if (!launch || !overlayEnabled.has(launch.actor) || !isVisible(launch.actor)) return null;
-  const showTrail = result ? frameIndex === result.tick : frame.t - frames[launch.tick].t <= kickFlightLimit;
-  const showResult = result && frame.t - frames[result.tick].t <= kickResultWindow
-    && (result.outcome === "goal mouth" || result.outcome === "wide" || launch.elevation > 0);
-  return showTrail || showResult ? { launch, result, showTrail } : null;
+  if (!action) return null;
+  const [tick, , kind, team, details] = action;
+  return { launch: { ...details, tick, kind, team }, result };
+}
+
+function updateKickReadout(kick) {
+  let text = "";
+  if (kick) {
+    const { launch, result } = kick;
+    const turn = launch.spin_turn;
+    const action = launch.elevation > 0 ? "chip" : launch.kind;
+    const spin = turn ? `${turn.reverse ? "reverse " : ""}spin ` : "";
+    const receiver = launch.receiver == null ? "" : ` to ${robotName(launch.receiver)}`;
+    text = `${robotName(launch.actor)} ${spin}${action}${receiver} · ${launch.speed.toFixed(1)} m/s launch`;
+    if (turn) text += ` · ${turn.degrees.toFixed(0)}° ${turn.direction} rotation`;
+    if (launch.elevation > 0) text += ` · ${Math.round(launch.elevation * 180 / Math.PI)}° loft`;
+    if (result?.outcome === "goal mouth" || result?.outcome === "wide") {
+      text += ` · ${result.speed.toFixed(2)} m/s at goal line · ${Math.abs(result.point[1]).toFixed(2)} m from center · ${result.point[2].toFixed(2)} m high`;
+      if (result.outcome === "wide") text += " · wide";
+    } else if (result && launch.elevation > 0) {
+      text += ` · ${result.peak_z.toFixed(2)} m peak`;
+    }
+  }
+  const readout = byId("kick-readout");
+  if (readout.textContent !== text) {
+    readout.textContent = text;
+    readout.title = text;
+  }
 }
 
 function drawKickTrail(launch, result, color) {
@@ -1128,7 +1187,7 @@ function drawKickTrail(launch, result, color) {
   traceCircle(...path[0], 3, null, color, 1.4);
 }
 
-function drawOverlays(frame, points) {
+function drawOverlays(frame, points, kick) {
   for (const robot of overlayEnabled) {
     const audit = frame.allocation?.[robot];
     if (!isVisible(robot) || !audit?.target || !audit.command
@@ -1141,47 +1200,33 @@ function drawOverlays(frame, points) {
     strokePath([origin, target], `${color}a0`, 1.3, [5, 5]);
     traceCircle(...target, 4, null, color, 1.4);
   }
-  let text = "";
-  const overlay = currentKickOverlay(frame);
-  if (overlay) {
-    const { launch, result, showTrail } = overlay;
-    const color = teams[launch.team].pale;
-    const lofted = launch.elevation > 0;
-    if (showTrail) drawKickTrail(launch, result, color);
-    const goal = result?.outcome === "goal mouth";
-    if (goal) {
-      const [x, y] = project(...result.point);
-      traceCircle(x, y, 6, "#13241d", color, 1.8);
-      traceCircle(x, y, 2.2, color);
-      ctx.font = "700 11px system-ui";
-      ctx.textAlign = result.point[0] > 0 ? "right" : "left";
-      ctx.textBaseline = "bottom";
-      const dx = result.point[0] > 0 ? -10 : 10;
-      ctx.lineWidth = 3;
-      ctx.strokeStyle = "#13241d";
-      ctx.strokeText(`${result.speed.toFixed(2)} m/s`, x + dx, y - 7);
-      ctx.fillStyle = color;
-      ctx.fillText(`${result.speed.toFixed(2)} m/s`, x + dx, y - 7);
-    }
-    const turn = launch.spin_turn;
-    const action = lofted ? "chip" : launch.kind === "shot" ? "shot" : turn ? "pass" : "kick";
-    const spin = turn ? `${turn.reverse ? "reverse " : ""}spin ` : "";
-    text = `${robotName(launch.actor)} ${spin}${action} · ${launch.speed.toFixed(1)} m/s launch`;
-    if (turn) text += ` · ${turn.degrees.toFixed(0)}° ${turn.direction}`;
-    if (goal || result?.outcome === "wide") text += ` · ${result.speed.toFixed(2)} m/s at goal line · ${Math.abs(result.point[1]).toFixed(2)} m from center · ${result.point[2].toFixed(2)} m high${goal ? "" : " · wide"}`;
-    else if (lofted && result) text += ` · ${result.peak_z.toFixed(2)} m peak`;
-  }
-  const readout = byId("kick-readout");
-  if (readout.textContent !== text) {
-    readout.textContent = text;
-    readout.title = text;
+  if (!kick || !overlayEnabled.has(kick.launch.actor) || !isVisible(kick.launch.actor)) return;
+  const { launch, result } = kick;
+  const color = teams[launch.team].pale;
+  const showTrail = result ? frameIndex === result.tick : frame.t - frames[launch.tick].t <= kickFlightLimit;
+  if (showTrail) drawKickTrail(launch, result, color);
+  if (result?.outcome === "goal mouth" && frame.t - frames[result.tick].t <= kickResultWindow) {
+    const [x, y] = project(...result.point);
+    traceCircle(x, y, 6, "#13241d", color, 1.8);
+    traceCircle(x, y, 2.2, color);
+    ctx.font = "700 11px system-ui";
+    ctx.textAlign = result.point[0] > 0 ? "right" : "left";
+    ctx.textBaseline = "bottom";
+    const dx = result.point[0] > 0 ? -10 : 10;
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = "#13241d";
+    ctx.strokeText(`${result.speed.toFixed(2)} m/s`, x + dx, y - 7);
+    ctx.fillStyle = color;
+    ctx.fillText(`${result.speed.toFixed(2)} m/s`, x + dx, y - 7);
   }
 }
 
 function drawField() {
+  const frame = frames[frameIndex];
+  const kick = frame ? latestKick() : null;
+  updateKickReadout(kick);
   if (!canvasWidth || !canvasHeight) return;
   const k = scale();
-  const frame = frames[frameIndex];
   const points = positions[frameIndex];
   ctx.fillStyle = "#16382e";
   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -1222,7 +1267,7 @@ function drawField() {
     ctx.stroke();
   }
   if (!frame) return;
-  drawOverlays(frame, points);
+  drawOverlays(frame, points, kick);
   keys.forEach(([team], robot) => {
     if (!isVisible(robot)) return;
     const offset = 2 + 3 * robot;
@@ -1317,13 +1362,17 @@ playbackRateSelect.addEventListener("change", () => {
   playbackRate = Number(playbackRateSelect.value);
 });
 
-const fieldInfo = byId("field-info");
-document.addEventListener("click", (event) => {
-  if (fieldInfo.open && !fieldInfo.contains(event.target)) fieldInfo.open = false;
-});
-fieldInfo.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") fieldInfo.open = false;
-});
+for (const disclosure of [byId("field-info"), motionSettings]) {
+  document.addEventListener("click", (event) => {
+    if (disclosure.open && !disclosure.contains(event.target)) disclosure.open = false;
+  });
+  disclosure.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && disclosure.open) {
+      disclosure.open = false;
+      disclosure.querySelector("summary").focus();
+    }
+  });
+}
 
 scrub.addEventListener("input", () => seek(Number(scrub.value)));
 roleWindowSelect.addEventListener("change", () => {

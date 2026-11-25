@@ -19,7 +19,7 @@ Open setup at the address printed by the viewer service. The `scripts/role_viewe
 | Practice | Choose each team's decision controller, playbook, and passing preference. The four top-bar sliders control all ten robots. |
 | Game | Choose your team color. Both teams use the Balanced playbook and fixed limits. |
 
-Set **Speed**, **Turn**, **Accel**, and **Kick** in the top bar before kickoff or while following a live Practice match. Slider changes take effect together for both teams on the next control tick that reads them. The motion gauges and replay use the limits recorded for the selected moment. Game and replay controls are read-only.
+Set **Speed**, **Turn**, **Accel**, and **Kick** in Match Setup before kickoff. During a live Practice match, open the gear beside **Match setup** to edit them. Slider changes take effect together for both teams on the next control tick that reads them. The gear shows the recorded limits when reviewing a replay. Game and replay controls are read-only.
 
 | Setting | Practice range | Game |
 | --- | ---: | ---: |
@@ -30,11 +30,11 @@ Set **Speed**, **Turn**, **Accel**, and **Kick** in the top bar before kickoff o
 
 Practice starts with the Game limits. The open-play planner uses the selected speed and acceleration for travel and braking. Clear, lined-up shots request the selected kick speed. Passes keep their reception-tuned speeds, and restarts, close challenges, and ball control still use slower approaches. The SSL rulebook sets the 6.5 m/s ball-speed cap. The 5 m/s² drive setting comes from RoboTurk's motion model. [SSL ball-speed rule](https://robocup-ssl.github.io/ssl-rules/sslrules.html#_ball_speed) · [RoboTurk drive and kicker tests](../ssl-physics/README.md#drive-and-kicker)
 
-Each lineup shows its team's strategy, play, and current step, plus every robot's role and task. Select a robot on the field or in a lineup to see its previous role, current role, task, and assignment reason. The motion band shows measured travel speed when available, the requested drive vector, and the signed turn command. Older recordings with command data use a labeled speed command when measured speed is unavailable. The vertical **Role timeline** shows the last 10 seconds by default. Its dropdown also offers 5, 15, 30, and 60 seconds. Click a role change or an entry in the match-event timeline to jump to that moment. **Go live** catches up. Team and player filters control which robots the viewer draws.
+Each lineup shows its team's strategy, play, and current step, plus every robot's role and task. Select a robot on the field or in a lineup to see its previous role, current role, task, and assignment reason. The motion band shows measured travel speed when available, the requested drive vector, and the signed turn command. Older recordings with command data use a labeled speed command when measured speed is unavailable. The horizontal **Role timeline** shows the last 10 seconds by default. Its dropdown also offers 5, 15, 30, and 60 seconds. Click a role change or an entry in the match-event timeline to jump to that moment. **Go live** catches up. Team and player filters control which robots the viewer draws.
 
 Click any number of robot IDs in the lineups to show their movement targets and kicks. Click **Blue** or **Yellow** above its lineup to switch the whole team's overlays on or off. Solid trails show flat kicks. Dotted, raised trails show chips. The trail clears when the kick ends or a new kick starts. The goal-mouth marker and crossing speed stay visible briefly after the trail clears. Use the match events to revisit a kick or goal. Goal-line markers record a physical crossing. The scoreboard uses the referee's decision. Older replays can still show assigned movement targets.
 
-Open the **ⓘ** beside **Field** to see the overlay legend. The latest kick and replay time share a row under the field, above the scrubber. Use the speed selector next to **Play** to replay at 0.25× to 2× in quarter-speed steps. You can switch rates during playback. Live following runs at the simulator's pace.
+Open the **ⓘ** beside **Field** to see the overlay legend. The latest recorded kick and replay time share a row under the field, above the scrubber. The kick readout stays visible until another kick and includes launch speed, rotation or loft when present, and goal-line measurements when recorded. Use the speed selector next to **Play** to replay at 0.25× to 2× in quarter-speed steps. You can switch rates during playback. Live following runs at the simulator's pace.
 
 ## Decision controllers
 
@@ -78,4 +78,4 @@ The CMDragons system selects team plays using applicability conditions and fills
 python scripts/role_viewer.py runs/viewer-sessions/SESSION/run runs/viewer-sessions/SESSION/run/viewer.html
 ```
 
-Older recordings with `roles.json.gz` and `positions.npz` also export. For older asymmetric limits, the top bar shows Blue / Yellow values. Detailed assignment reasons and motion commands require a role audit. The team-plan visualization uses play data recorded by the current controller.
+Older recordings with `roles.json.gz` and `positions.npz` also export. For older asymmetric limits, the gear menu shows Blue / Yellow values. Detailed assignment reasons and motion commands require a role audit. The team-plan visualization uses play data recorded by the current controller.

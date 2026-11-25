@@ -8,27 +8,36 @@
 </head>
 <body>
   <main class="app" id="match-viewer">
-    <header class="masthead">
-      <div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></div>
-      <div><span class="brand">RoboTurk</span><h1>Match viewer</h1></div>
-      <span id="session-badge" class="session-badge" hidden></span>
-      <div id="motion-limits" class="top-limits" role="group" aria-label="Shared motion limits" hidden></div>
-      <span id="limit-feedback" class="limit-feedback" role="status" hidden></span>
-      <span class="feed-state" id="feed-state" data-state="replay"><i></i><span id="feed-label">Webots replay</span></span>
-      <a id="setup-link" class="setup-link" hidden>Match setup</a>
+    <header class="masthead match-masthead">
+      <div class="viewer-brand">
+        <div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div><span class="brand">RoboTurk</span><h1>Match viewer</h1></div>
+      </div>
+      <section class="scoreboard" aria-label="Game state">
+        <div class="score">
+          <div class="score-team blue"><span>Blue</span><strong id="blue-score">0</strong></div>
+          <div class="game-clock"><strong id="clock">—</strong><span id="period">Replay</span></div>
+          <div class="score-team yellow"><strong id="yellow-score">0</strong><span>Yellow</span></div>
+        </div>
+        <div class="game-info">
+          <div><span class="label">Referee</span><span id="referee" class="reference">—</span></div>
+          <div><span class="label">Ball state</span><span id="owner" class="reference">—</span></div>
+        </div>
+      </section>
+      <div class="header-actions">
+        <span id="session-badge" class="session-badge" hidden></span>
+        <span class="feed-state" id="feed-state" data-state="replay"><i></i><span id="feed-label">Webots replay</span></span>
+        <details id="motion-settings" class="motion-settings" hidden>
+          <summary aria-label="Motion limits" title="Motion limits"><span aria-hidden="true">⚙</span></summary>
+          <div class="motion-popover">
+            <h2>Motion limits</h2>
+            <div id="motion-limits" class="top-limits" role="group" aria-label="Shared motion limits" hidden></div>
+            <p id="limit-feedback" class="limit-feedback" role="status" hidden></p>
+          </div>
+        </details>
+        <a id="setup-link" class="setup-link" hidden>Match setup</a>
+      </div>
     </header>
-
-    <section class="scoreboard" aria-label="Game state">
-      <div class="score">
-        <div class="score-team blue"><span>Blue</span><strong id="blue-score">0</strong></div>
-        <div class="game-clock"><strong id="clock">—</strong><span id="period">Replay</span></div>
-        <div class="score-team yellow"><strong id="yellow-score">0</strong><span>Yellow</span></div>
-      </div>
-      <div class="game-info">
-        <div><span class="label">Referee</span><span id="referee" class="reference">—</span></div>
-        <div><span class="label">Ball state</span><span id="owner" class="reference">—</span></div>
-      </div>
-    </section>
 
     <div class="workspace">
       <div class="field-column">
@@ -122,14 +131,13 @@
               <option value="15">Last 15 s</option><option value="30">Last 30 s</option><option value="60">Last 60 s</option>
             </select>
           </div>
-          <p id="role-duration" class="role-duration"></p>
-          <div class="history-columns">
-            <div class="history-axis">
-              <span>Selected</span><div id="role-track" class="role-track" role="group" aria-label="Role changes in the last 10 seconds"></div>
-              <span id="role-window-start">−10 s</span>
-            </div>
-            <div id="role-changes" class="role-changes" role="group" aria-label="Recent assignment details" tabindex="0"></div>
+          <div class="history-summary">
+            <p id="role-duration" class="role-duration"></p>
+            <p class="role-count">Role changes <strong id="role-change-count">—</strong></p>
           </div>
+          <div id="role-track" class="role-track" role="group" aria-label="Role changes in the last 10 seconds"></div>
+          <div class="history-axis"><span id="role-window-start">−10 s</span><span>Selected time</span></div>
+          <div id="role-changes" class="role-changes" role="group" aria-label="Recent assignment details" tabindex="0"></div>
         </div>
       </section>
     </div>

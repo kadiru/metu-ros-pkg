@@ -20,6 +20,10 @@ const eventTrack = byId("event-track");
 const robotSelect = byId("robot-select");
 const roleWindowSelect = byId("role-window");
 const motionSettings = byId("motion-settings");
+const clipToggle = byId("clip-toggle");
+const clipPanel = byId("clip-panel");
+const clipDownload = byId("clip-download");
+const clipStatus = byId("clip-status");
 const teams = {
   blue: { label: "Blue", solid: "#639bff", pale: "#bcd3ff", ink: "#0b264c" },
   yellow: { label: "Yellow", solid: "#f5cd58", pale: "#ffe5a1", ink: "#382c0a" },
@@ -75,6 +79,9 @@ const eventColors = {
 };
 
 let frameIndex = match.intro?.frame ?? 0;
+let sourceHeader = match;
+let clipStart = null;
+let clipEnd = null;
 let selected = match.intro?.robot ?? 0;
 let initialLimits;
 let limits;
@@ -163,6 +170,65 @@ function seek(index) {
   following = false;
   pause();
   goTo(index);
+}
+
+function updateClipRange() {
+  for (const [id, tick] of [["clip-start", clipStart], ["clip-end", clipEnd]]) {
+    byId(id).textContent = tick === null ? "—" : replayTime(frames[tick].t);
+  }
+  const valid = clipStart !== null && clipEnd !== null && clipEnd > clipStart;
+  clipDownload.disabled = !valid;
+  if (valid) {
+    const duration = frames[clipEnd].t - frames[clipStart].t;
+    clipStatus.textContent = `${duration.toFixed(2)} s · ${clipEnd - clipStart + 1} samples`;
+  } else {
+    clipStatus.textContent = clipStart === null ? "Scrub or play to the start, then mark it."
+      : clipEnd === null ? "Move to the end of the moment, then mark it."
+      : "Mark an end after the start.";
+  }
+}
+
+function downloadClip() {
+  if (clipDownload.disabled) return;
+  const matchId = location.pathname.match(/\/matches\/([a-f0-9]{12})\/$/)?.[1] ?? null;
+  const eventData = ([tick, label, kind, team, details]) => (
+    { tick, time_s: frames[tick]?.t ?? null, label, kind, team, details: details ?? null }
+  );
+  const previousKick = events.findLast(([tick, , , , details]) => tick < clipStart && details?.origin);
+  const clip = {
+    format: "roboturk.telemetry_clip.v1",
+    source: {
+      match_id: matchId,
+      seed: sourceHeader.seed ?? null,
+      sample_period_s: sourceHeader.dt ?? null,
+      team_strategies: match.team_strategies ?? match.session?.strategies ?? null,
+    },
+    range: {
+      start_tick: clipStart,
+      end_tick: clipEnd,
+      start_s: frames[clipStart].t,
+      end_s: frames[clipEnd].t,
+    },
+    note: byId("clip-note").value.trim(),
+    robot_keys: keys,
+    position_fields: { ball: ["x_m", "y_m"], robot: ["x_m", "y_m", "heading_rad"] },
+    command_fields: ["forward_m_s", "left_m_s", "turn_rad_s", "dribbler", "kick_m_s"],
+    samples: frames.slice(clipStart, clipEnd + 1).map((frame, offset) => {
+      const tick = clipStart + offset;
+      return { tick, position: positions[tick], state: { ...frame, limits: limitsByFrame[tick] ?? null } };
+    }),
+    preceding_kick: previousKick ? eventData(previousKick) : null,
+    events: events.filter(([tick]) => clipStart <= tick && tick <= clipEnd).map(eventData),
+  };
+  const url = URL.createObjectURL(new Blob([JSON.stringify(clip, null, 2)], { type: "application/json" }));
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `roboturk-${matchId ?? sourceHeader.seed ?? "match"}-${clipStart}-${clipEnd}.json`;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  clipStatus.textContent = `Exported ${clip.samples.length} samples as JSON.`;
 }
 
 function choose(robot) {
@@ -617,6 +683,7 @@ function render() {
   playButton.disabled = !frame || (livePage && following && !finished);
   playbackRateSelect.disabled = playButton.disabled;
   scrub.disabled = !frame;
+  clipToggle.disabled = !frame;
   previousButton.disabled = nextButton.disabled = !frame;
   if (!frame) {
     updateEventTrack(0);
@@ -922,6 +989,20 @@ for (const disclosure of [byId("field-info"), motionSettings]) {
 }
 
 scrub.addEventListener("input", () => seek(Number(scrub.value)));
+clipToggle.addEventListener("click", () => {
+  clipPanel.hidden = !clipPanel.hidden;
+  clipToggle.setAttribute("aria-expanded", String(!clipPanel.hidden));
+  if (!clipPanel.hidden) updateClipRange();
+});
+byId("clip-mark-start").addEventListener("click", () => {
+  clipStart = frameIndex;
+  updateClipRange();
+});
+byId("clip-mark-end").addEventListener("click", () => {
+  clipEnd = frameIndex;
+  updateClipRange();
+});
+clipDownload.addEventListener("click", downloadClip);
 robotSelect.addEventListener("change", () => choose(Number(robotSelect.value)));
 roleWindowSelect.addEventListener("change", () => {
   if (frames[frameIndex]) updateHistory(frames[frameIndex].t);
@@ -977,6 +1058,7 @@ async function poll(offset = 0) {
       if (!line) continue;
       const item = JSON.parse(line);
       if (item.header) {
+        sourceHeader = item.header;
         keys.push(...item.header.keys);
         initialLimits = initialLimitValues(item.header.limits);
         if (ownTeam) {

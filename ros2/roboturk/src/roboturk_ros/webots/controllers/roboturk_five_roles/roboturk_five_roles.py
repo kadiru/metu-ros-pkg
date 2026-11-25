@@ -450,6 +450,7 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                     item["decision"] = decisions[key]
                 robot = w.robot(key)
                 item["measured_speed"] = round(math.hypot(robot.vx, robot.vy), 4)
+                item["measured_velocity"] = [round(v, 4) for v in (robot.vx, robot.vy, robot.omega)]
                 if cmd is not None:
                     cmd = bounded(cmd, motion_configs[key.team])
                     item["command"] = [
@@ -507,6 +508,7 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                 placement_phase=restart.play.phase,
             )
         meta["ball_z"] = round(w.ball.z, 4)
+        meta["ball_vz"] = round(w.ball.vz, 4)
         if cfg.get("motion_audit"):
             meta["motion"] = [planner_trace.get(k) for k in keys]
             if tackle_audit is not None:

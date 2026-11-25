@@ -81,7 +81,20 @@
             <button id="prev" type="button" title="Previous role change" aria-label="Previous role change">‹</button>
             <button id="next" type="button" title="Next role change" aria-label="Next role change">›</button>
             <button id="go-live" type="button" hidden>Go live</button>
+            <button id="clip-toggle" type="button" aria-expanded="false" aria-controls="clip-panel" disabled>Export clip</button>
           </div>
+          <section id="clip-panel" class="clip-panel" aria-label="Export a telemetry clip" hidden>
+            <div class="clip-marks">
+              <button id="clip-mark-start" type="button">Mark start</button><output id="clip-start">—</output>
+              <button id="clip-mark-end" type="button">Mark end</button><output id="clip-end">—</output>
+            </div>
+            <label for="clip-note" class="label">Observation or suggested play</label>
+            <textarea id="clip-note" rows="2" maxlength="4000" placeholder="B1 could secure the pass, then chip to B3."></textarea>
+            <div class="clip-actions">
+              <button id="clip-download" class="primary" type="button" disabled>Download JSON</button>
+              <p id="clip-status" role="status"></p>
+            </div>
+          </section>
         </div>
       </section>
       <section class="lineups" aria-label="Team lineups">

@@ -36,6 +36,12 @@ Click any number of robot IDs in the lineups to show their movement targets and 
 
 Open the **ⓘ** beside **Field** to see the overlay legend. The latest recorded kick and replay time share a row under the field, above the scrubber. The kick readout stays visible until another kick and includes launch speed, rotation or loft when present, and goal-line measurements when recorded. Use the speed selector next to **Play** to replay at 0.25× to 2× in quarter-speed steps. You can switch rates during playback. Live following runs at the simulator's pace.
 
+### Export a training example
+
+Open **Export clip** under the field. Scrub to a second or two before the decision and click **Mark start**. Scrub past the outcome and click **Mark end**. The buttons also use the current frame while following a live match. In the note, describe what you saw, what you wanted the robots to do, and which robots were involved. Click **Download JSON** to save the interval locally. A good clip captures both the lead-up and what happened after the decision. Attach the JSON when sharing an example.
+
+The versioned JSON includes both endpoint frames, in-range match events, and the last preceding kick when present. Each sample carries the source tick, the ball's XY position followed by robot XY/yaw triples in `robot_keys` order, and the recorded state. State includes ball height and velocity, possession, referee state, team plays and steps, role assignments and reasons, movement targets, commands, and resolved per-team limits when recorded. Ball velocity and measured robot velocity are in the world frame. The command vector is in the robot frame. Robot indices, such as `owner` or `pass_to`, refer to `robot_keys`. Older recordings may lack some fields, including full velocities and audit details.
+
 ## Decision controllers
 
 | Controller | Role assignment and ball decisions |

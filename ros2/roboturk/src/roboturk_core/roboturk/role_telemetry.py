@@ -91,7 +91,7 @@ def viewer_header(keys, seed, cfg, limits=None):
     )
 
 
-def compact_frame(frame, tick, dt, sign):
+def compact_frame(frame, tick, dt, sign, *, ball_vxy=None):
     motions = frame.get("motion")
     return dict(
         t=frame.get("clock", round(tick * dt, 4)),
@@ -102,6 +102,7 @@ def compact_frame(frame, tick, dt, sign):
         left=frame.get("stage_seconds"),
         command=frame.get("ssl_command", ""),
         mode=frame.get("mode", "running"),
+        restart=frame.get("restart"),
         owner=frame.get("control"),
         sign=frame.get("attack_sign", sign),
         allocation=frame.get("allocation"),
@@ -109,6 +110,8 @@ def compact_frame(frame, tick, dt, sign):
         limits=frame.get("limits"),
         motion=[m.get("mode") if m else None for m in motions] if motions else None,
         ball_z=frame.get("ball_z"),
+        ball_vxy=[round(float(value), 4) for value in ball_vxy] if ball_vxy is not None else None,
+        ball_vz=frame.get("ball_vz"),
     )
 
 
@@ -199,7 +202,7 @@ class RoleTelemetry:
         self.previous = frame
         self.write(
             dict(
-                frame=compact_frame(frame, tick, self.dt, sign),
+                frame=compact_frame(frame, tick, self.dt, sign, ball_vxy=snapshot[2:4]),
                 position=[round(float(value), 4) for value in (*snapshot[:2], *snapshot[4:])],
                 events=timeline,
             )

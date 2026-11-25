@@ -113,6 +113,15 @@ button.primary { background: var(--mint); border-color: var(--mint); color: #142
 button.primary:hover { background: #c1eed3; }
 #prev, #next { min-width: 34px; font-size: 22px; line-height: 17px; padding: 5px 9px; }
 #go-live { margin-left: auto; }
+#clip-toggle { margin-left: auto; }
+#go-live:not([hidden]) + #clip-toggle { margin-left: 0; }
+.clip-panel { display: grid; gap: 7px; margin-top: 4px; padding: 9px; border: 1px solid var(--line); border-radius: 7px; background: #131e28; }
+.clip-marks, .clip-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; }
+.clip-panel button { min-height: 28px; padding: 4px 8px; font-size: 12px; }
+.clip-marks output { min-width: 6ch; margin-right: 4px; font-variant-numeric: tabular-nums; }
+.clip-panel textarea { width: 100%; min-height: 44px; resize: vertical; padding: 6px 8px; border: 1px solid #384b5c; border-radius: 6px; background: var(--panel2); color: var(--text); font: inherit; font-size: 12px; }
+.clip-panel textarea:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
+#clip-status { color: var(--muted); font-size: 11px; }
 .inspector { display: flex; flex-direction: column; padding: 0 15px 9px; min-width: 0; min-height: 0; contain: size; overflow-y: auto; }
 .inspector > :not(.role-history) { flex-shrink: 0; }
 .robot-heading { display: flex; align-items: center; gap: 8px; min-height: 44px; font-variant-numeric: tabular-nums; }

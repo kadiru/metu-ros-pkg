@@ -48,7 +48,9 @@ def build_data(folder):
         details = frame.get("allocation")
         if details is not None and len(details) != len(keys):
             raise ValueError(f"Incomplete role audit at sample {index}")
-        frames.append(compact_frame(frame, index, log["dt"], log.get("sign", 1)))
+        frames.append(
+            compact_frame(frame, index, log["dt"], log.get("sign", 1), ball_vxy=samples[index, 2:4])
+        )
         events.extend(frame_events(previous, frame, index))
         previous = frame
     events.extend(
@@ -65,6 +67,10 @@ def build_data(folder):
             CFG, officiated=any(frame.get("ssl_command") for frame in raw_frames)
         )
         limits = {team: limit_values(config) for team, config in configs.items()}
+    config_path = folder / "config.json"
+    team_strategies = None
+    if config_path.is_file():
+        team_strategies = json.loads(config_path.read_text()).get("team_strategies")
     return dict(
         viewer_header(keys, log["seed"], CFG, limits),
         dt=log["dt"],
@@ -73,6 +79,7 @@ def build_data(folder):
         events=sorted(events, key=lambda event: event[0]),
         intro=intro,
         audited=any(frame["allocation"] is not None for frame in frames),
+        team_strategies=team_strategies,
     )
 
 

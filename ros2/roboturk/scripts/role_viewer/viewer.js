@@ -299,7 +299,10 @@ function updateLineup(frame) {
     if (entry) {
       for (const label of labels) {
         const value = entry[label.dataset.plan] ?? "";
-        if (label.textContent !== value) label.textContent = value;
+        if (label.textContent !== value) {
+          label.textContent = value;
+          label.title = value;
+        }
       }
       step.title = entry.reason ?? "";
     }
@@ -307,8 +310,8 @@ function updateLineup(frame) {
   lineup.forEach(({ element, role, task }, robot) => {
     const current = roleName(frame.roles[robot]);
     const description = robotTask(frame, robot);
-    role.textContent = current;
-    task.textContent = description;
+    if (role.textContent !== current) role.textContent = role.title = current;
+    if (task.textContent !== description) task.textContent = task.title = description;
     element.setAttribute("aria-label", `${robotName(robot)}, ${current}. ${description}`);
     element.setAttribute("aria-pressed", String(overlayEnabled.has(robot)));
     if (selected === robot) element.setAttribute("aria-current", "true");
@@ -742,8 +745,10 @@ function drawOverlays(frame, points) {
     else if (lofted && result) text += ` · ${result.peak_z.toFixed(2)} m peak`;
   }
   const readout = byId("kick-readout");
-  if (readout.textContent !== text) readout.textContent = text;
-  readout.hidden = !text;
+  if (readout.textContent !== text) {
+    readout.textContent = text;
+    readout.title = text;
+  }
 }
 
 function drawField() {

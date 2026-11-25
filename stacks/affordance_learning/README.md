@@ -4,19 +4,33 @@ For a robot, an object is more than a shape. It may be pushable, graspable, or r
 
 KOVAN Research Lab / EU FP7 ROSSI, Middle East Technical University. Historical collaborative research, with the original ROS/C++ implementation preserved here.
 
-[![iCub in the original laboratory demonstration](../../docs/assets/showcase/icub.jpg)](https://vimeo.com/kadiru/icub-language-grounding)
+![Robots that learn what is possible — the original research-page illustration](../../docs/assets/affordance-hero.svg)
 
-*Archival physical-robot footage. The behaviors are predefined; the learned components predict effects and ground language. [Watch the research film](https://vimeo.com/kadiru/icub-language-grounding) · [Original paper-linked demonstration](https://www.youtube.com/watch?v=DxLFZseasYA).*
+*Perception, affordances, planning and action form a loop: observe the world, predict what an action makes possible, act, and observe again.*
 
-## One representation, two uses
+<a name="one-representation-two-uses"></a>
+
+## From an action to a plan
 
 **Entity + behavior → predicted effect.** A behavior-specific model predicts what an action will do. A planner can then choose actions, observe their outcome and replan. When an object is out of reach, a person's presence can make “ask them to pass it” a useful action.
-
-The same action-based representation helps ground descriptions such as *thin* and *thick*. Some words depend on the surrounding objects: the same object can be tall beside one neighbor and short beside another.
 
 ![Social affordance learning and planning architecture](../../docs/assets/social-architecture.svg)
 
 *An explanatory research diagram, not a running-system screenshot. [Method and attribution](RESEARCH_GUIDE.md).*
+
+## From actions to language
+
+The same action-based representation helps ground descriptions such as *thin* and *thick*. The language study compares effect-based representations with a direct appearance baseline: what a robot can do with an object provides a different kind of evidence from how the object looks.
+
+![Affordance versus appearance representations for adjective and noun learning](../../docs/assets/language-architecture.svg)
+
+Some words also depend on the surrounding objects: the same object can be tall beside one neighbor and short beside another. [Representations, comparisons and context-aware language](RESEARCH_GUIDE.md#grounding-adjectives-and-nouns-in-action).
+
+## See it on iCub
+
+<a href="https://vimeo.com/kadiru/icub-language-grounding"><img src="../../docs/assets/showcase/icub.jpg" alt="iCub in the original laboratory demonstration" width="360"></a>
+
+*Archival physical-robot footage. The behaviors are predefined; the learned components predict effects and ground language. [Watch the research film](https://vimeo.com/kadiru/icub-language-grounding) · [Original paper-linked demonstration](https://www.youtube.com/watch?v=DxLFZseasYA).*
 
 ## What the papers establish
 

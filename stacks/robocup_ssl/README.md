@@ -19,14 +19,9 @@ The rows use different experiments and frozen revisions. They do not form a sing
 
 ## The system idea
 
-```mermaid
-flowchart LR
-    V["Shared field observations"] --> S["Estimate robots and ball"]
-    S --> T["Assign roles and select a play"]
-    T --> P["Plan legal, collision-aware motion"]
-    P --> C["Robot control and ball skills"]
-    C --> E["Trace possession, contacts and goals"]
-```
+![RoboTurk perception, planning, execution and feedback architecture](../../docs/assets/roboturk-architecture.svg)
+
+*The original research illustration follows observations through the ROS modules to robot commands and feedback. It describes the historical architecture; higher-level game planning was unfinished in the team description. [Technical reports and source context](EXPERIMENT_GALLERY.md#papers-and-technical-reports).*
 
 **Kadir's role:** team co-founder and lead; distributed C++ autonomy, perception/state estimation, planning, communication and simulation. The original team and report authors are credited in the [research and technical reports](EXPERIMENT_GALLERY.md#papers-and-technical-reports). Existing source licenses and contributors remain intact.
 

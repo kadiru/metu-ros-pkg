@@ -2,6 +2,8 @@
 
 Two strands of robotics research at Middle East Technical University: **iCub learns what actions mean; RoboTurk coordinates a team on the soccer field.** This repository preserves the collaborative ROS research archive and provides an entry point to the ongoing RoboTurk ROS 2/Webots successor.
 
+![Robots that learn what is possible — perception, affordances, planning and action](docs/assets/affordance-hero.svg)
+
 ## Choose a project
 
 | Project | Core question | Explore |

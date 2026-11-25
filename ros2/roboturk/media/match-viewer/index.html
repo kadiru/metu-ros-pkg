@@ -30,8 +30,7 @@ body { margin: 0; }
 .viewer-brand, .header-actions { display: flex; align-items: center; min-width: 0; gap: 8px; }
 .viewer-brand h1 { font-size: clamp(17px, 1.8vw, 22px); }
 .header-actions { flex-wrap: wrap; justify-content: flex-end; }
-.header-actions .feed-state { margin: 0; font-size: 11px; }
-.header-actions .session-badge, .header-actions .setup-link { font-size: 11px; }
+.header-actions .session-badge { font-size: 11px; }
 .brand-mark { width: 36px; height: 36px; flex: 0 0 36px; border-radius: 11px; display: flex; align-items: end; justify-content: center; gap: 3px; padding: 9px; background: #274237; }
 .brand-mark i { width: 4px; background: var(--mint); border-radius: 3px; height: 9px; }
 .brand-mark i:nth-child(2) { height: 15px; }
@@ -41,7 +40,7 @@ h1, h2, h3, p { margin: 0; }
 h1 { font-size: clamp(20px, 2.4vw, 25px); line-height: 1.1; letter-spacing: -.035em; }
 h2 { font-size: 16px; letter-spacing: -.015em; }
 h3 { margin-bottom: 5px; font-size: 12px; font-weight: 650; color: var(--muted); }
-.feed-state { margin-left: auto; color: var(--muted); font-size: 13px; text-align: right; }
+.feed-state { color: var(--muted); font-size: 12px; }
 .feed-state i { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #718496; margin-right: 6px; }
 .feed-state[data-state="live"] i { background: var(--mint); box-shadow: 0 0 8px #a6e0bf8c; }
 .feed-state[data-state="review"] i, .feed-state[data-state="offline"] i { background: var(--yellow); }
@@ -73,6 +72,8 @@ h3 { margin-bottom: 5px; font-size: 12px; font-weight: 650; color: var(--muted);
 .motion-settings summary::-webkit-details-marker { display: none; }
 .motion-settings summary:hover, .motion-settings[open] summary { color: var(--mint); border-color: #557565; }
 .motion-popover { position: absolute; inset: calc(100% + 5px) 0 auto auto; width: min(260px, 100%); padding: 12px; background: var(--panel); border: 1px solid #384b5c; border-radius: 9px; box-shadow: 0 8px 20px #070c1280; }
+.match-menu-links { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.motion-limit-section { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
 .motion-popover h2 { font-size: 13px; margin-bottom: 9px; }
 .motion-popover .top-limits { grid-template-columns: minmax(0, 1fr); gap: 8px; margin: 0; }
 .motion-popover .limit-feedback { margin-top: 8px; max-width: none; }
@@ -129,7 +130,7 @@ button.primary:hover { background: #c1eed3; }
 .role-note { display: grid; grid-template-columns: 70px minmax(0, 1fr); align-items: baseline; gap: 8px; }
 .role-note h3 { font-size: 11px; margin: 0; }
 .role-note p { font-size: 12px; line-height: 1.35; min-height: 2lh; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
-.team-plan { padding: 0 10px 9px; }
+.team-plan { min-width: 0; }
 .plan-chain { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin: 0; padding: 0; list-style: none; }
 .plan-chain li { position: relative; display: grid; align-content: start; gap: 4px; padding: 6px; color: var(--muted); background: #111e29; border: 1px solid var(--line); border-radius: 6px; font-size: 10px; line-height: 1.25; }
 .plan-chain li:last-child { background: #20382e; border-color: #416857; }
@@ -179,8 +180,11 @@ button.primary:hover { background: #c1eed3; }
 .role-changes strong { color: var(--role-color); }
 .role-changes span { grid-column: 2; color: var(--muted); }
 .lineups { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
-.lineup { min-width: 0; }
-.team-overlay { min-height: 27px; padding: 2px 7px; margin-left: -7px; color: var(--team); font: inherit; background: transparent; border-color: transparent; }
+.lineup { min-width: 0; border-color: color-mix(in srgb, var(--team) 24%, var(--line)); background: color-mix(in srgb, var(--team) 8%, var(--panel)); }
+.lineup-controls { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px; align-items: start; padding: 9px 10px 6px; }
+.team-overlay { grid-area: 1 / 2; display: grid; place-items: center; width: 27px; min-height: 27px; padding: 0; color: var(--team); background: transparent; border-color: color-mix(in srgb, var(--team) 25%, var(--line)); }
+.team-overlay::before, .team-overlay::after { content: ""; grid-area: 1 / 1; width: 9px; height: 9px; border: 1px solid currentColor; border-radius: 2px; transform: translateY(-2px) rotate(45deg); }
+.team-overlay::after { border-width: 0 1px 1px 0; transform: translateY(2px) rotate(45deg); }
 .team-overlay[aria-pressed="true"], .team-overlay[aria-pressed="mixed"] { border-color: color-mix(in srgb, var(--team) 50%, transparent); background: color-mix(in srgb, var(--team) 14%, transparent); }
 .team-overlay[aria-pressed="mixed"] { border-style: dashed; }
 .overlay-key { position: absolute; z-index: 2; inset: 100% 12px auto auto; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px 13px; width: max-content; max-width: calc(100% - 24px); padding: 8px 10px; border: 1px solid var(--line); border-radius: 7px; background: #131e28; font-size: 11px; color: var(--text); }
@@ -281,16 +285,20 @@ button.primary:hover { background: #c1eed3; }
       </section>
       <div class="header-actions">
         <span id="session-badge" class="session-badge" hidden></span>
-        <span class="feed-state" id="feed-state" data-state="replay"><i></i><span id="feed-label">Webots replay</span></span>
-        <details id="motion-settings" class="motion-settings" hidden>
-          <summary aria-label="Motion limits" title="Motion limits"><span aria-hidden="true">⚙</span></summary>
+        <details id="motion-settings" class="motion-settings">
+          <summary aria-label="Match settings" title="Match settings"><span aria-hidden="true">⚙</span></summary>
           <div class="motion-popover">
-            <h2>Motion limits</h2>
-            <div id="motion-limits" class="top-limits" role="group" aria-label="Shared motion limits" hidden></div>
-            <p id="limit-feedback" class="limit-feedback" role="status" hidden></p>
+            <div class="match-menu-links">
+              <span class="feed-state" id="feed-state" data-state="replay"><i aria-hidden="true"></i><span id="feed-label">Recorded match</span></span>
+              <a id="setup-link" class="setup-link" hidden>Match setup</a>
+            </div>
+            <section id="motion-limit-section" class="motion-limit-section" aria-labelledby="motion-limit-title" hidden>
+              <h2 id="motion-limit-title">Motion limits</h2>
+              <div id="motion-limits" class="top-limits" role="group" aria-label="Shared motion limits" hidden></div>
+              <p id="limit-feedback" class="limit-feedback" role="status" hidden></p>
+            </section>
           </div>
         </details>
-        <a id="setup-link" class="setup-link" hidden>Match setup</a>
       </div>
     </header>
 
@@ -336,14 +344,18 @@ button.primary:hover { background: #c1eed3; }
         </div>
       </section>
       <section class="lineups" aria-label="Team lineups">
-        <section class="lineup blue" aria-labelledby="blue-lineup">
-          <div class="section-heading"><h2 id="blue-lineup"><button type="button" class="team-overlay" id="blue-overlay" aria-label="Toggle Blue overlays" aria-pressed="false" disabled>Blue</button></h2></div>
-          <div id="blue-plan" class="team-plan" hidden></div>
+        <section class="lineup blue" aria-label="Blue lineup">
+          <div class="lineup-controls">
+            <div id="blue-plan" class="team-plan" hidden></div>
+            <button type="button" class="team-overlay" id="blue-overlay" aria-label="Toggle Blue overlays" title="Toggle Blue overlays" aria-pressed="false" disabled></button>
+          </div>
           <div id="blue-roster" class="roster"></div>
         </section>
-        <section class="lineup yellow" aria-labelledby="yellow-lineup">
-          <div class="section-heading"><h2 id="yellow-lineup"><button type="button" class="team-overlay" id="yellow-overlay" aria-label="Toggle Yellow overlays" aria-pressed="false" disabled>Yellow</button></h2></div>
-          <div id="yellow-plan" class="team-plan" hidden></div>
+        <section class="lineup yellow" aria-label="Yellow lineup">
+          <div class="lineup-controls">
+            <div id="yellow-plan" class="team-plan" hidden></div>
+            <button type="button" class="team-overlay" id="yellow-overlay" aria-label="Toggle Yellow overlays" title="Toggle Yellow overlays" aria-pressed="false" disabled></button>
+          </div>
           <div id="yellow-roster" class="roster"></div>
         </section>
       </section>
@@ -916,7 +928,7 @@ function updateLimitControls() {
   if (limits === lastSliderValues && editable === slidersEditable) return;
   lastSliderValues = limits;
   slidersEditable = editable;
-  motionSettings.hidden = !limits;
+  byId("motion-limit-section").hidden = !limits;
   for (const [name, value] of pendingLimits) {
     if (limits?.blue[name] === value) pendingLimits.delete(name);
   }

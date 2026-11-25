@@ -453,7 +453,7 @@ function updateLimitControls() {
   if (limits === lastSliderValues && editable === slidersEditable) return;
   lastSliderValues = limits;
   slidersEditable = editable;
-  motionSettings.hidden = !limits;
+  byId("motion-limit-section").hidden = !limits;
   for (const [name, value] of pendingLimits) {
     if (limits?.blue[name] === value) pendingLimits.delete(name);
   }

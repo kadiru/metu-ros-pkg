@@ -26,16 +26,20 @@
       </section>
       <div class="header-actions">
         <span id="session-badge" class="session-badge" hidden></span>
-        <span class="feed-state" id="feed-state" data-state="replay"><i></i><span id="feed-label">Webots replay</span></span>
-        <details id="motion-settings" class="motion-settings" hidden>
-          <summary aria-label="Motion limits" title="Motion limits"><span aria-hidden="true">⚙</span></summary>
+        <details id="motion-settings" class="motion-settings">
+          <summary aria-label="Match settings" title="Match settings"><span aria-hidden="true">⚙</span></summary>
           <div class="motion-popover">
-            <h2>Motion limits</h2>
-            <div id="motion-limits" class="top-limits" role="group" aria-label="Shared motion limits" hidden></div>
-            <p id="limit-feedback" class="limit-feedback" role="status" hidden></p>
+            <div class="match-menu-links">
+              <span class="feed-state" id="feed-state" data-state="replay"><i aria-hidden="true"></i><span id="feed-label">Recorded match</span></span>
+              <a id="setup-link" class="setup-link" hidden>Match setup</a>
+            </div>
+            <section id="motion-limit-section" class="motion-limit-section" aria-labelledby="motion-limit-title" hidden>
+              <h2 id="motion-limit-title">Motion limits</h2>
+              <div id="motion-limits" class="top-limits" role="group" aria-label="Shared motion limits" hidden></div>
+              <p id="limit-feedback" class="limit-feedback" role="status" hidden></p>
+            </section>
           </div>
         </details>
-        <a id="setup-link" class="setup-link" hidden>Match setup</a>
       </div>
     </header>
 
@@ -81,14 +85,18 @@
         </div>
       </section>
       <section class="lineups" aria-label="Team lineups">
-        <section class="lineup blue" aria-labelledby="blue-lineup">
-          <div class="section-heading"><h2 id="blue-lineup"><button type="button" class="team-overlay" id="blue-overlay" aria-label="Toggle Blue overlays" aria-pressed="false" disabled>Blue</button></h2></div>
-          <div id="blue-plan" class="team-plan" hidden></div>
+        <section class="lineup blue" aria-label="Blue lineup">
+          <div class="lineup-controls">
+            <div id="blue-plan" class="team-plan" hidden></div>
+            <button type="button" class="team-overlay" id="blue-overlay" aria-label="Toggle Blue overlays" title="Toggle Blue overlays" aria-pressed="false" disabled></button>
+          </div>
           <div id="blue-roster" class="roster"></div>
         </section>
-        <section class="lineup yellow" aria-labelledby="yellow-lineup">
-          <div class="section-heading"><h2 id="yellow-lineup"><button type="button" class="team-overlay" id="yellow-overlay" aria-label="Toggle Yellow overlays" aria-pressed="false" disabled>Yellow</button></h2></div>
-          <div id="yellow-plan" class="team-plan" hidden></div>
+        <section class="lineup yellow" aria-label="Yellow lineup">
+          <div class="lineup-controls">
+            <div id="yellow-plan" class="team-plan" hidden></div>
+            <button type="button" class="team-overlay" id="yellow-overlay" aria-label="Toggle Yellow overlays" title="Toggle Yellow overlays" aria-pressed="false" disabled></button>
+          </div>
           <div id="yellow-roster" class="roster"></div>
         </section>
       </section>

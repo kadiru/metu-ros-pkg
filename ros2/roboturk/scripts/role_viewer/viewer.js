@@ -96,6 +96,7 @@ const robotEnabled = [];
 const overlayEnabled = new Set(match.intro?.overlays ?? []);
 const histories = [];
 const lineup = [];
+const teamPlans = {};
 const filterButtons = [];
 const teamButtons = {};
 const motionControls = createLimitControls(byId("motion-limits"), match.limit_ranges, changeLimit);
@@ -169,16 +170,17 @@ function makeRosterButton(team, number, robot) {
   id.className = "roster-id";
   id.textContent = `${team === "blue" ? "B" : "Y"}${number}`;
   const role = document.createElement("span");
-  const previous = document.createElement("span");
-  previous.className = "roster-previous";
-  element.append(id, role, previous);
+  role.className = "roster-role";
+  const task = document.createElement("span");
+  task.className = "roster-task";
+  element.append(id, role, task);
   element.addEventListener("click", () => {
     if (overlayEnabled.has(robot)) overlayEnabled.delete(robot);
     else overlayEnabled.add(robot);
     choose(robot);
   });
   byId(`${team}-roster`).append(element);
-  return { element, role, previous };
+  return { element, role, task };
 }
 
 function filterButton(parent, label, name, callback) {
@@ -198,6 +200,12 @@ function initializeTeams() {
     const group = document.createElement("div");
     group.className = `filter-group ${team}`;
     groups[team] = group;
+    const plan = byId(`${team}-plan`);
+    plan.append(byId("team-plan-template").content.cloneNode(true));
+    teamPlans[team] = {
+      plan, labels: plan.querySelectorAll("[data-plan]"),
+      step: plan.querySelector('[data-plan="step"]').parentElement,
+    };
     byId(`${team}-overlay`).addEventListener("click", () => {
       const roster = keys.flatMap(([color], robot) => color === team ? [robot] : []);
       const all = roster.every((robot) => overlayEnabled.has(robot));
@@ -259,20 +267,42 @@ function updateFilters() {
   byId("show-all").disabled = !frames.length || keys.every((_, robot) => isVisible(robot));
 }
 
+function robotTask(frame, robot) {
+  const audit = frame.allocation?.[robot];
+  const role = frame.roles[robot];
+  if (audit && !audit.command) return "Hold for the referee.";
+  if (audit?.pass_to != null) {
+    return `${audit.kick_elevation > 0 ? "Chip" : "Pass"} to ${robotName(audit.pass_to)}.`;
+  }
+  if (audit?.kick_elevation > 0) return "Chip to the receiver.";
+  if (audit?.command?.[4] > 0 && audit.task === "Line up a shot") return "Shoot at goal.";
+  return audit?.task || roleTasks[role] || roleName(role);
+}
+
 function updateLineup(frame) {
-  for (const team of Object.keys(teams)) {
+  for (const [index, team] of Object.keys(teams).entries()) {
     const button = byId(`${team}-overlay`);
     const roster = keys.flatMap(([color], robot) => color === team ? [robot] : []);
     const enabled = roster.filter((robot) => overlayEnabled.has(robot)).length;
     button.disabled = !roster.length;
     button.setAttribute("aria-pressed", enabled === 0 ? "false" : enabled === roster.length ? "true" : "mixed");
+    const entry = frame.plays?.[index];
+    const { plan, labels, step } = teamPlans[team];
+    plan.hidden = !entry;
+    if (entry) {
+      for (const label of labels) {
+        const value = entry[label.dataset.plan] ?? "";
+        if (label.textContent !== value) label.textContent = value;
+      }
+      step.title = entry.reason ?? "";
+    }
   }
-  lineup.forEach(({ element, role, previous }, robot) => {
+  lineup.forEach(({ element, role, task }, robot) => {
     const current = roleName(frame.roles[robot]);
-    const last = histories[robot][historyIndex(robot)].previous;
+    const description = robotTask(frame, robot);
     role.textContent = current;
-    previous.textContent = last === null ? "—" : roleName(last);
-    element.setAttribute("aria-label", `${robotName(robot)}, ${current}, previous role ${previous.textContent}`);
+    task.textContent = description;
+    element.setAttribute("aria-label", `${robotName(robot)}, ${current}. ${description}`);
     element.setAttribute("aria-pressed", String(overlayEnabled.has(robot)));
     if (selected === robot) element.setAttribute("aria-current", "true");
     else element.removeAttribute("aria-current");
@@ -343,8 +373,16 @@ function updateHistory(now) {
   const changeCount = history.slice(first, current + 1)
     .filter(({ tick, previous }) => previous !== null && frames[tick].t >= start).length;
   byId("role-duration").textContent = `${roleName(history[current].role)} for ${elapsed.toFixed(1)} s · ${changeCount} role ${changeCount === 1 ? "change" : "changes"}`;
-  const recent = history.slice(Math.max(first, current - 2), current + 1).reverse();
-  byId("role-changes").replaceChildren(...recent.map(({ tick, role }) => {
+  const recent = history.slice(first, current + 1)
+    .filter(({ tick }) => frames[tick].t >= start || tick === history[current].tick)
+    .reverse();
+  const list = byId("role-changes");
+  const listStamp = `${selected}/${history[current].tick}/${recent.at(-1).tick}`;
+  if (list.dataset.stamp === listStamp) return;
+  const scrollTop = list.dataset.robot === String(selected) ? list.scrollTop : 0;
+  list.dataset.stamp = listStamp;
+  list.dataset.robot = selected;
+  list.replaceChildren(...recent.map(({ tick, role }) => {
     const button = document.createElement("button");
     button.type = "button";
     button.style.setProperty("--role-color", roleColor(role));
@@ -353,12 +391,12 @@ function updateHistory(now) {
     const label = document.createElement("strong");
     label.textContent = roleName(role);
     const task = document.createElement("span");
-    const recorded = frames[tick].allocation?.[selected];
-    task.textContent = recorded?.task || roleTasks[role] || roleName(role);
+    task.textContent = robotTask(frames[tick], selected);
     button.append(time, label, task);
     button.addEventListener("click", () => seek(tick));
     return button;
   }));
+  list.scrollTop = scrollTop;
 }
 
 function roleColor(role) {
@@ -423,13 +461,13 @@ function updateGauges(audit) {
   const direction = Math.atan2(-forward, -lateral);
   const needle = byId("vector-needle");
   needle.hidden = speed < .01;
-  needle.style.setProperty("--length", `${29 * Math.min(speed / maxSpeed, 1)}px`);
+  needle.style.setProperty("--length", `${21 * Math.min(speed / maxSpeed, 1)}px`);
   needle.style.setProperty("--angle", `${direction}rad`);
   byId("speed").textContent = `${speed.toFixed(2)} m/s`;
-  byId("speed-scale").textContent = `Ring at ${maxSpeed} m/s`;
+  byId("speed-scale").textContent = `Ring ${maxSpeed} m/s`;
   const measured = byId("measured-speed");
   measured.hidden = audit.measured_speed == null;
-  if (!measured.hidden) measured.textContent = `Measured ${audit.measured_speed.toFixed(2)} m/s`;
+  if (!measured.hidden) byId("measured-value").textContent = `${audit.measured_speed.toFixed(2)} m/s`;
   byId("translation").setAttribute("aria-label",
     `Commanded forward velocity ${forward.toFixed(2)} and leftward velocity ${lateral.toFixed(2)} meters per second`);
   const turnLabel = `${turn > .005 ? "Left " : turn < -.005 ? "Right " : ""}${Math.abs(turn).toFixed(2)} rad/s`;
@@ -440,7 +478,10 @@ function updateGauges(audit) {
   const shift = -50 * Math.max(-1, Math.min(turn / maxTurn, 1));
   byId("yaw-fill").style.setProperty("--start", `${50 + Math.min(0, shift)}%`);
   byId("yaw-fill").style.setProperty("--size", `${Math.abs(shift)}%`);
-  byId("ball-command").textContent = `Roller ${roller > 0 ? "on" : "off"}${kick > 0 ? ` · Kick ${kick.toFixed(2)} m/s` : ""}`;
+  byId("ball-command").textContent = `Roller ${roller > 0 ? "on" : "off"}`;
+  const kickCommand = byId("kick-command");
+  kickCommand.hidden = kick <= 0;
+  if (!kickCommand.hidden) kickCommand.textContent = `Kick ${kick.toFixed(2)} m/s`;
 }
 
 function updateEventTrack(now) {
@@ -529,20 +570,7 @@ function updateInspector(frame) {
   byId("current-card").style.setProperty("--role-color", roleColor(role));
   byId("prior-card").style.setProperty("--role-color", roleColor(last));
   byId("reason").textContent = explain(frame, role, audit);
-  const play = frame.plays?.[keys[selected][0] === "blue" ? 0 : 1];
-  byId("play-section").hidden = !play;
-  if (play) {
-    byId("plan-strategy").textContent = play.strategy;
-    byId("plan-passing").textContent = play.passing;
-    byId("plan-play").textContent = play.play;
-    byId("plan-step").textContent = play.step;
-    byId("plan-reason").textContent = play.reason;
-  }
-  let task = audit?.task || roleTasks[role] || roleName(role);
-  if (audit && !command) task = "Hold for the current referee instruction.";
-  else if (audit?.pass_to != null) task = `Pass to ${robotName(audit.pass_to)}.`;
-  else if (audit?.kick_elevation > 0) task = "Chip to the receiver.";
-  else if (command?.[4] > 0 && audit?.task === "Line up a shot") task = "Shoot at goal.";
+  let task = robotTask(frame, selected);
   const motion = frame.motion?.[selected];
   if (command && motion in motionNames) task += ` ${motionNames[motion]}.`;
   byId("task").textContent = task;
@@ -585,8 +613,6 @@ function render() {
     : frame.owner === null ? "Loose ball" : robotName(frame.owner);
   byId("blue-phase").textContent = `Blue · ${frame.phases[0]}`;
   byId("yellow-phase").textContent = `Yellow · ${frame.phases[1]}`;
-  byId("blue-strategy-label").textContent = frame.plays?.[0]?.strategy || "Current / previous";
-  byId("yellow-strategy-label").textContent = frame.plays?.[1]?.strategy || "Current / previous";
   byId("replay-time").textContent = `${replayTime(frame.t)} / ${replayTime(frames.at(-1).t)}`;
   scrub.max = frames.length - 1;
   scrub.value = frameIndex;

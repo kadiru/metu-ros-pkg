@@ -1,6 +1,6 @@
 # RoboTurk Match Viewer
 
-![B4's shot trail and speed at the goal line in the match viewer](preview.png)
+![B4's shot command, both team plans, and the selected robot's role history](preview.png)
 
 ## Start a live match
 
@@ -28,7 +28,7 @@ Set **Speed**, **Turn**, **Accel**, and **Kick** in the top bar before kickoff o
 
 Practice starts with the Game limits. The open-play planner uses the selected speed and acceleration for travel and braking. Clear, lined-up shots request the selected kick speed. Passes keep their reception-tuned speeds, and restarts, close challenges, and ball control still use slower approaches. The SSL rulebook sets the 6.5 m/s ball-speed cap. The 5 m/s² drive setting comes from RoboTurk's motion model. [SSL ball-speed rule](https://robocup-ssl.github.io/ssl-rules/sslrules.html#_ball_speed) · [RoboTurk drive and kicker tests](../ssl-physics/README.md#drive-and-kicker)
 
-Select a robot on the field or a lineup to inspect its assignment. The inspector shows the strategy, play and current step, the current and previous roles, and the requested motion. New recordings show measured Webots speed below the translation command and kick speed on shot events. The colored **10-second role timeline** and **60-second match-event timeline** let you jump to earlier moments. **Go live** catches up. Team and player filters change what the viewer draws. They leave the active robots on the simulated field.
+Each lineup shows its team's strategy, play, and current step, plus every robot's role and task. Select a robot on the field or a lineup to inspect its assignment. The inspector stacks the current and previous roles beside a square gauge with the rotation bar above the translation vector. The gauge also shows measured speed when available. The **10-second role timeline** lists every assignment change in the window. Click a role change or an entry in the **60-second match-event timeline** to jump to that moment. **Go live** catches up. Team and player filters control which robots the viewer draws.
 
 Click any number of robot IDs in the lineups to show their movement targets and recent ball paths. Click **Blue** or **Yellow** above its lineup to switch the whole team's overlays on or off. Solid trails show flat kicks. Dotted, raised trails show chips. A circle in the goal mouth marks the measured crossing point. The readout lists launch speed, speed at the goal line, and the ball's location or peak height. Goal-line markers record a physical crossing. The scoreboard uses the referee's decision. Older replays can still show assigned movement targets.
 

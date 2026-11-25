@@ -196,6 +196,8 @@ def main():
                 params.extend(["--open-play-policy", str(ROOT / spec["open_play_policy"])])
             if spec.get("tackle_policy"):
                 params.extend(["--tackle-policy", str(ROOT / spec["tackle_policy"])])
+            if spec.get("receive_profile"):
+                params.extend(["--receive-profile", str(ROOT / spec["receive_profile"])])
             for option in (
                 "trajectory_planner",
                 "errt_fallback",
@@ -207,6 +209,7 @@ def main():
                 "possession_audit",
                 "referee_placement",
                 "crowded_fetch",
+                "smooth_carry",
             ):
                 if spec.get(option):
                     params.append("--" + option.replace("_", "-"))

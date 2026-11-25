@@ -16,6 +16,7 @@ from roboturk.continuous_backend import ContinuousWebotsBackend
 from roboturk.errt import ERRTFallback
 from roboturk.field import CARPET_MARGIN
 from roboturk.five_play import open_play
+from roboturk.five_receive import FiveReceive
 from roboturk.five_roles import Assignment, CFG, TEAMS, FiveRoles, kickoff
 from roboturk.kickoff_drive import KickoffDrive, ParallelKickoffDrive
 from roboturk.team_kickoff import IndependentKickoffs
@@ -76,6 +77,7 @@ def match(sim, folder, cfg, receiver=None, vision=None):
     root = Path(cfg["root"])
     weights = json.loads((root / "policies/recipient_3v3_v1/selectors.json").read_text())
     weights = {t: np.array(weights[str(901 + i)]) for i, t in enumerate(TEAMS)}
+    receive = FiveReceive(**cfg["receive_profile"]) if cfg.get("receive_profile") else None
     seed = cfg["seed"]
     sign = 1 if seed % 2 == 0 else -1
     serving = TEAMS[(seed // 2) % 2]
@@ -364,6 +366,8 @@ def match(sim, folder, cfg, receiver=None, vision=None):
                 tackle=tackle,
                 tackle_audit=tackle_audit,
                 crowded_fetch=cfg.get("crowded_fetch", False),
+                receive=receive,
+                smooth_carry=cfg.get("smooth_carry", False),
             )
             if restricted:
                 out = {k: c for k, c in out.items() if k.team == restricted}

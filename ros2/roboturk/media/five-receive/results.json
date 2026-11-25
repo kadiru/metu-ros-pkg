@@ -1,0 +1,108 @@
+{
+  "receive": {
+    "baseline": {
+      "starts": 30,
+      "clean_first_touch": 18,
+      "rebound": 12,
+      "goals": 27,
+      "shots": 27,
+      "shots_within_650_ms": 11,
+      "clean_shots_within_650_ms": 9,
+      "median_time_to_shot_s": 0.864
+    },
+    "trained": {
+      "starts": 30,
+      "clean_first_touch": 30,
+      "rebound": 0,
+      "goals": 27,
+      "shots": 28,
+      "shots_within_650_ms": 12,
+      "clean_shots_within_650_ms": 12,
+      "median_time_to_shot_s": 0.812
+    }
+  },
+  "by_approach": {
+    "forward": {
+      "baseline": {
+        "starts": 10,
+        "clean_first_touch": 6,
+        "rebound": 4,
+        "goals": 10,
+        "shots": 10,
+        "shots_within_650_ms": 0,
+        "clean_shots_within_650_ms": 0,
+        "median_time_to_shot_s": 1.028
+      },
+      "trained": {
+        "starts": 10,
+        "clean_first_touch": 10,
+        "rebound": 0,
+        "goals": 9,
+        "shots": 10,
+        "shots_within_650_ms": 0,
+        "clean_shots_within_650_ms": 0,
+        "median_time_to_shot_s": 1.077
+      }
+    },
+    "square": {
+      "baseline": {
+        "starts": 10,
+        "clean_first_touch": 4,
+        "rebound": 6,
+        "goals": 8,
+        "shots": 8,
+        "shots_within_650_ms": 2,
+        "clean_shots_within_650_ms": 1,
+        "median_time_to_shot_s": 0.861
+      },
+      "trained": {
+        "starts": 10,
+        "clean_first_touch": 10,
+        "rebound": 0,
+        "goals": 8,
+        "shots": 8,
+        "shots_within_650_ms": 2,
+        "clean_shots_within_650_ms": 2,
+        "median_time_to_shot_s": 0.832
+      }
+    },
+    "cutback": {
+      "baseline": {
+        "starts": 10,
+        "clean_first_touch": 8,
+        "rebound": 2,
+        "goals": 9,
+        "shots": 9,
+        "shots_within_650_ms": 9,
+        "clean_shots_within_650_ms": 8,
+        "median_time_to_shot_s": 0.218
+      },
+      "trained": {
+        "starts": 10,
+        "clean_first_touch": 10,
+        "rebound": 0,
+        "goals": 10,
+        "shots": 10,
+        "shots_within_650_ms": 10,
+        "clean_shots_within_650_ms": 10,
+        "median_time_to_shot_s": 0.164
+      }
+    }
+  },
+  "median_paired_change_s": -0.045,
+  "paired_shots": 26,
+  "carry": {
+    "old": {
+      "starts": 16,
+      "held": 11,
+      "median_turn_variation": 7.8059,
+      "median_lateral_error_mm": 8.01
+    },
+    "new": {
+      "starts": 16,
+      "held": 16,
+      "median_turn_variation": 4.0929,
+      "median_lateral_error_mm": 6.17
+    }
+  }
+}

@@ -4,6 +4,12 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Softer first touches in 5v5
+
+The fitted receiver secured 30 of 30 fresh passes in the matched Webots panel. The previous receiver secured 18. Both colors have clear heading stripes, and the damped carry motor reduces steering oscillation. [One-minute match, paired replay, and results](media/five-receive/README.md)
+
+[![Yellow cushions a cutback and shoots in the matched native Webots replay](media/five-receive/first-touch.gif)](media/five-receive/paired-reception.mp4)
+
 ## Reaching a loose ball in traffic
 
 A stalled chaser can take a slower, closer approach to a loose ball. In the paired replay, Blue 1 secures it in 0.48 s with the revision and 1.44 s with the current controller. [Webots comparison and matched results](media/crowded-fetch/README.md)

@@ -4,6 +4,7 @@ from dataclasses import replace
 import math
 from .carrier_motor import track_roller
 from .counterpass import MOTOR, shot_window
+from .five_receive import carrying
 from .five_roles import CFG, PENALTY_FRONT, PENALTY_HALF_WIDTH, TIMED_ROLES, Flight, limit
 from .goal_cover import opposing_holder
 from .model import possession, wrap
@@ -17,7 +18,9 @@ from .touchline import recovery_command
 from .three_recipient import features, move
 
 
-def commands(world, positions, weights, sole, tactics, targets=None):
+def commands(
+    world, positions, weights, sole, tactics, targets=None, receive=None, smooth_carry=False
+):
     ball = world.ball
     out = {}
     passes = {}
@@ -27,6 +30,9 @@ def commands(world, positions, weights, sole, tactics, targets=None):
         role = positions[r.key].role
         tx, ty = positions[r.key].target
         angle = math.atan2(ball.y - r.y, ball.x - r.x)
+        if receive and role == "Receiver" and tactics.flight and tactics.flight.receiver == r.key:
+            out[r.key] = receive.command(world, r, tactics.flight.target)
+            continue
         if r.key == sole and (
             role in ("Keeper", "Presser", "Carrier", "Chaser", "Receiver")
             or tactics.control == r.key
@@ -58,17 +64,24 @@ def commands(world, positions, weights, sole, tactics, targets=None):
                 gy = limit(mate.y + 0.16 * mate.vy, 2.68)
             aim = math.atan2(gy - ball.y, gx - ball.x)
             advance = 0.22 if pass_now else 1.0
-            cmd = track_roller(
-                world,
-                r,
-                (advance * math.cos(aim), advance * math.sin(aim)),
-                9 * wrap(aim - r.yaw),
-                MOTOR,
+            if smooth_carry and shoot:
+                advance = 0.18
+            desired = advance * math.cos(aim), advance * math.sin(aim)
+            cmd = (
+                carrying(world, r, desired, aim)
+                if smooth_carry
+                else track_roller(world, r, desired, 9 * wrap(aim - r.yaw), MOTOR)
             )
             if tactics.control == r.key and abs(wrap(aim - r.yaw)) < 0.07 and (shoot or pass_now):
-                cmd = replace(cmd, kick=2.6 if pass_now else 4.0)
+                kick = 2.6 if pass_now else 4.0
+                if receive and pass_now:
+                    # Preserve range on long links and deliver a slower ball on short passes.
+                    kick = min(2.6, 1.70 + 0.23 * math.hypot(gx - ball.x, gy - ball.y))
+                cmd = replace(cmd, kick=kick)
                 if pass_now:
-                    passes[r.key] = Flight(team, mate.key, (gx, gy), world.time + 1.65)
+                    passes[r.key] = Flight(
+                        team, mate.key, (gx, gy), world.time + (2.15 if receive else 1.65)
+                    )
             out[r.key] = cmd
             continue
         if role in ("Chaser", "Presser", "Carrier"):
@@ -181,6 +194,8 @@ def open_play(
     tackle=None,
     tackle_audit=None,
     crowded_fetch=False,
+    receive=None,
+    smooth_carry=False,
 ):
     """One open-play control tick shared by ordinary matches and paired replays."""
     carrier = None
@@ -207,7 +222,7 @@ def open_play(
         phases[team], side = tactics.assign(world, team, legal_off_ball=legal_off_ball)
         roles.update(side)
     targets = {} if trajectory else None
-    out, planned = commands(world, roles, weights, sole, tactics, targets)
+    out, planned = commands(world, roles, weights, sole, tactics, targets, receive, smooth_carry)
     recovering = set()
     if touchline:
         for r in world.robots:

@@ -77,6 +77,8 @@ def main():
         "--placement-batch", type=Path, help="Native placement experiment specification"
     )
     p.add_argument("--open-play-policy", type=Path, help="Trained team-local steering checkpoint")
+    p.add_argument("--receive-profile", type=Path, help="Fitted 5v5 first-touch profile")
+    p.add_argument("--smooth-carry", action="store_true", help="Use the damped 5v5 dribble motor")
     p.add_argument(
         "--crowded-fetch", action="store_true", help="Use a close approach for crowded loose balls"
     )
@@ -410,6 +412,10 @@ def main():
                 record=a.record,
                 crowded_trials=a.crowded_trials,
                 crowded_fetch=a.crowded_fetch,
+                receive_profile=json.loads(a.receive_profile.read_text())
+                if a.receive_profile
+                else None,
+                smooth_carry=a.smooth_carry,
                 tackle_trials=a.tackle_trials,
                 tackle_duel=a.tackle_duel,
                 pivot_fetch=a.pivot_fetch,

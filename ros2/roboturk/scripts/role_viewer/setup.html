@@ -20,6 +20,19 @@
         <label><input type="radio" name="mode" value="game"><span><strong>Game</strong><small>Choose your team color and watch the fixed playbooks compete.</small></span></label>
       </fieldset>
 
+      <fieldset class="match-timing">
+        <legend>Match timing</legend>
+        <label for="match-periods">Periods
+          <select id="match-periods" name="periods">
+            <option value="1">1 period</option>
+            <option value="2">2 halves</option>
+          </select>
+        </label>
+        <label for="half-seconds">Seconds per period
+          <input type="number" id="half-seconds" name="half_seconds" step="1" required>
+        </label>
+      </fieldset>
+
       <div id="practice-options" class="practice-options">
         <fieldset class="setup-team blue">
           <legend>Blue</legend>

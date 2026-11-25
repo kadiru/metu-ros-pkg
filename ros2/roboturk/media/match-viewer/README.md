@@ -10,7 +10,7 @@ Run this from the RoboTurk stack root in the project's Python environment. Use t
 python scripts/role_viewer.py --setup media/match-viewer/match-spec.json runs/viewer-sessions
 ```
 
-Open [the local setup page](http://127.0.0.1:8765/). Both modes run an officiated 5v5 Webots match with two 30-second halves. The session saves a replay under its `run/viewer.html` path. Use `--port` to pick a different port and Ctrl-C to stop the service. Set `"realtime": true` in the preset to also show the native Webots window.
+Open [the local setup page](http://127.0.0.1:8765/). Use **Match timing** to choose one period or two halves and set the playing time per period before launch. Both modes use the SSL Game Controller and TIGERs AutoRef for 5v5 Webots play. The session saves a replay under its `run/viewer.html` path. Use `--port` to pick a different port and Ctrl-C to stop the service. Set `"realtime": true` in the preset to also show the native Webots window.
 
 | Mode | Match setup |
 | --- | --- |

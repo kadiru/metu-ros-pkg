@@ -14,20 +14,37 @@ from roboturk.five_strategy import decode_strategies
 from roboturk.match_limits import GAME_LIMITS, PRACTICE_RANGES, validate_limits
 
 
+HALF_SECONDS_RANGE = (1, 300)
+
+
 def session_options(request):
     if not isinstance(request, dict):
         raise ValueError("Choose Practice or Game.")
+    timing = {"half_seconds", "periods"}
     if request.get("mode") == "game":
-        if set(request) != {"mode", "team"} or request["team"] not in ("blue", "yellow"):
+        allowed = timing | {"mode", "team"}
+        if request.keys() - allowed or request.get("team") not in ("blue", "yellow"):
             raise ValueError("In Game mode, choose Blue or Yellow as your team.")
     elif request.get("mode") == "practice":
-        if set(request) - {"mode", "strategies", "limits"} or request.get("strategies") is None:
+        allowed = timing | {"mode", "strategies", "limits"}
+        if request.keys() - allowed or request.get("strategies") is None:
             raise ValueError("In Practice mode, choose a playbook for each team.")
         decode_strategies(request["strategies"])
         if "limits" in request:
             validate_limits(request["limits"])
     else:
         raise ValueError("Choose Practice or Game.")
+    if "half_seconds" in request:
+        value = request["half_seconds"]
+        minimum, maximum = HALF_SECONDS_RANGE
+        if type(value) is not int or not minimum <= value <= maximum:
+            raise ValueError(
+                f"Set the period length to a whole number from {minimum} to {maximum} seconds."
+            )
+    if "periods" in request:
+        value = request["periods"]
+        if type(value) is not int or value not in (1, 2):
+            raise ValueError("Choose one or two periods.")
     return request
 
 
@@ -72,14 +89,18 @@ class MatchSessions:
         self.spec = json.loads(spec.read_text())
         if self.spec.get("mode") != "league_match":
             raise ValueError("The viewer setup requires an official league-match preset.")
+        self.timing = dict(half_seconds=self.spec["half_seconds"], periods=self.spec.get("periods", 2))
         self.export = export
         self.sessions = {}
         self.active = None
         self.lock = Lock()
 
     def start(self, request):
-        options = session_options(request)
-        spec = dict(self.spec)
+        options = self.timing | session_options(request)
+        spec = self.spec | {key: options[key] for key in self.timing}
+        playing_seconds = spec["periods"] * spec["half_seconds"]
+        # This watchdog also covers stoppages and kickoff setup.
+        spec["seconds"] = max(spec.get("seconds", 240), 3 * playing_seconds + 60)
         # Game mode always runs the shipped playbooks.
         spec["team_strategies"] = options.get("strategies")
         spec["team_limits"] = None

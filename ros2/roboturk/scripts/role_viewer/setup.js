@@ -37,7 +37,18 @@ function updateMode() {
 }
 
 form.elements.mode.forEach((radio) => radio.addEventListener("change", updateMode));
-byId("match-duration").textContent = `5v5 · 2 × ${catalog.half_seconds} s`;
+const periods = form.elements.periods;
+const halfSeconds = form.elements.half_seconds;
+periods.value = catalog.timing.periods;
+[halfSeconds.min, halfSeconds.max] = catalog.half_seconds_range;
+halfSeconds.value = catalog.timing.half_seconds;
+const updateDuration = () => {
+  byId("match-duration").textContent = halfSeconds.validity.valid
+    ? `5v5 · ${periods.value} × ${halfSeconds.valueAsNumber} s` : "5v5";
+};
+periods.addEventListener("change", updateDuration);
+halfSeconds.addEventListener("input", updateDuration);
+updateDuration();
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -55,6 +66,8 @@ form.addEventListener("submit", async (event) => {
       }])),
       limits: practiceLimits,
     };
+  request.periods = Number(periods.value);
+  request.half_seconds = halfSeconds.valueAsNumber;
   try {
     const response = await fetch("/matches", {
       method: "POST",

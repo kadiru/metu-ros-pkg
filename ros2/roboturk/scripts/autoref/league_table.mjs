@@ -2,7 +2,7 @@
 import { join, dirname } from "node:path";
 import { existsSync } from "node:fs";
 
-const [url, ready, firstKickoffTeam, settle = "450", positioning = "reset"] = process.argv.slice(2);
+const [url, ready, firstKickoffTeam, settle = "450", positioning = "reset", periods = "2"] = process.argv.slice(2);
 const kickoffDelayMs = Number(settle);
 if (!Number.isFinite(kickoffDelayMs) || kickoffDelayMs < 450) {
   throw new Error("Invalid kickoff settling time");
@@ -52,7 +52,7 @@ function action(match) {
   if (stage === "NORMAL_HALF_TIME") return expired && ["NEXT_STAGE"];
   if (expired && ["NORMAL_FIRST_HALF", "NORMAL_SECOND_HALF"].includes(stage)) {
     if (command.type !== "HALT") return ["HALT"];
-    return [stage === "NORMAL_FIRST_HALF" ? "NEXT_STAGE" : "END_GAME"];
+    return [stage === "NORMAL_FIRST_HALF" && periods === "2" ? "NEXT_STAGE" : "END_GAME"];
   }
   // The event-only fixture does not feed a tracker to the GC timeout coordinator.
   // Give a late TIGERs success time to arrive, then report expiry through the table.

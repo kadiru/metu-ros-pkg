@@ -200,7 +200,10 @@ button.primary:hover { background: #c1eed3; }
 .setup form { display: grid; gap: 18px; }
 .setup fieldset { min-width: 0; border: 1px solid var(--line); border-radius: var(--round); background: var(--panel); padding: 12px; margin: 0; }
 .setup legend { font-weight: 650; font-size: 12px; padding: 0 5px; letter-spacing: .02em; }
-.mode-picker, .practice-options, .team-picker { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.mode-picker, .practice-options, .team-picker, .match-timing { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.match-timing label { min-width: 0; display: grid; gap: 4px; font-size: 12px; color: var(--muted); }
+.match-timing input { min-width: 0; font: inherit; font-size: 13px; color: var(--text); border: 1px solid #384b5c; border-radius: 7px; background: var(--panel2); padding: 7px 10px; }
+.match-timing input:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
 .mode-picker label, .team-picker label { display: flex; align-items: start; gap: 9px; padding: 12px; border: 1px solid var(--line); background: #111b24; border-radius: 8px; cursor: pointer; }
 .mode-picker label:has(input:checked), .team-picker label:has(input:checked) { border-color: var(--team, var(--mint)); background: color-mix(in srgb, var(--team, var(--mint)) 10%, #111b24); }
 .setup input[type="radio"] { accent-color: var(--team, var(--mint)); }

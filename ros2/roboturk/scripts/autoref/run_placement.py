@@ -107,8 +107,11 @@ def main():
     timing = ""
     if league:
         half = int(spec["half_seconds"])
+        periods = spec.get("periods", 2)
         if half < 1:
             raise ValueError("Half duration must be positive")
+        if type(periods) is not int or periods not in (1, 2):
+            raise ValueError("League matches support one or two periods")
         timing = f"  auto-approve-goals: true\n  normal:\n    half-duration: {half}s\n    half-time-duration: 1s\n"
     (config / "ssl-game-controller.yaml").write_text(
         "network:\n  publish-address: 127.0.0.1:21903\n  publish-nif: 127.0.0.1\ngame:\n  default-division: DIV_B\n"
@@ -178,6 +181,7 @@ def main():
                         ("BLUE", "YELLOW")[spec["seed"] % 2],
                         str(spec.get("kickoff_settle_ms", 450)),
                         "drive" if spec.get("drive_kickoffs") else "reset",
+                        str(periods),
                     ],
                     ROOT,
                     dest / "table.log",

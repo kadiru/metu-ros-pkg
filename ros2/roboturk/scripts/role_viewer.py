@@ -13,7 +13,7 @@ from urllib.parse import parse_qs, urlsplit
 
 import numpy as np
 
-from match_sessions import LimitsLocked, MatchRunning, MatchSessions
+from match_sessions import HALF_SECONDS_RANGE, LimitsLocked, MatchRunning, MatchSessions
 from roboturk.five_roles import CFG
 from roboturk.five_strategy import PASS_PREFERENCES, PLAYBOOKS
 from roboturk.match_limits import GAME_LIMITS, PRACTICE_RANGES, limit_values, team_configs
@@ -232,7 +232,8 @@ def serve_setup(folder, port, spec):
         strategies={key: [book.name, book.description] for key, book in PLAYBOOKS.items()},
         passing=PASS_PREFERENCES,
         limit_defaults=GAME_LIMITS,
-        half_seconds=sessions.spec["half_seconds"],
+        timing=sessions.timing,
+        half_seconds_range=HALF_SECONDS_RANGE,
     )
     handler = partial(
         SessionRequest, sessions=sessions, html=page(setup, "setup", "setup").encode()

@@ -6,9 +6,9 @@ A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 pla
 
 ## Watch each robot's role live
 
-Set each team's playbook in Practice, or pick your team color in Game. Follow the strategy, play, current step, role assignments, and motion commands live in Webots. [Run the match viewer](media/match-viewer/README.md)
+Set each team's playbook and motion limits in Practice, or pick your team color in Game. Follow the active limits, strategy, play, role assignments, and motion commands live in Webots. [Run the match viewer](media/match-viewer/README.md)
 
-[![RoboTurk Practice viewer showing B1's receiving assignment and active play](media/match-viewer/preview.png)](media/match-viewer/README.md)
+[![RoboTurk Practice viewer showing independent Blue and Yellow motion limits](media/match-viewer/preview.png)](media/match-viewer/README.md)
 
 ## Softer first touches in 5v5
 

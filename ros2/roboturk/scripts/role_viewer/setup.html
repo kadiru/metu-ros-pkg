@@ -25,12 +25,14 @@
           <label for="blue-strategy">Strategy</label><select id="blue-strategy" name="blue-strategy"></select>
           <p class="strategy-preview" id="blue-preview"></p>
           <label for="blue-passing">Passing preference</label><select id="blue-passing" name="blue-passing"></select>
+          <div id="blue-limits" class="practice-limits" aria-label="Blue motion limits"></div>
         </fieldset>
         <fieldset class="setup-team yellow">
           <legend>Yellow</legend>
           <label for="yellow-strategy">Strategy</label><select id="yellow-strategy" name="yellow-strategy"></select>
           <p class="strategy-preview" id="yellow-preview"></p>
           <label for="yellow-passing">Passing preference</label><select id="yellow-passing" name="yellow-passing"></select>
+          <div id="yellow-limits" class="practice-limits" aria-label="Yellow motion limits"></div>
         </fieldset>
       </div>
 
@@ -38,6 +40,7 @@
         <legend>Your team</legend>
         <label class="blue"><input type="radio" name="team" value="blue" checked><span>Blue</span></label>
         <label class="yellow"><input type="radio" name="team" value="yellow"><span>Yellow</span></label>
+        <p class="game-limit-summary" id="game-limit-summary"></p>
       </fieldset>
 
       <div class="start-row">

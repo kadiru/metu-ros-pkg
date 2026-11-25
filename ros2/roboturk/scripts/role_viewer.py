@@ -16,6 +16,7 @@ import numpy as np
 from match_sessions import MatchRunning, MatchSessions
 from roboturk.five_roles import CFG
 from roboturk.five_strategy import PASS_PREFERENCES, PLAYBOOKS
+from roboturk.match_limits import GAME_LIMITS, PRACTICE_RANGES, limit_values, team_configs
 from roboturk.role_telemetry import action_events, compact_frame, frame_events, viewer_header
 
 
@@ -58,8 +59,14 @@ def build_data(folder):
         if event["event"] in ("pass", "restart_pass") and event["tick"] + 1 < len(frames):
             intro = {"frame": event["tick"] + 1, "robot": event["receiver"]}
             break
+    limits = log.get("limits")
+    if limits is None:
+        configs = team_configs(
+            CFG, officiated=any(frame.get("ssl_command") for frame in raw_frames)
+        )
+        limits = {team: limit_values(config) for team, config in configs.items()}
     return dict(
-        viewer_header(keys, log["seed"], CFG),
+        viewer_header(keys, log["seed"], CFG, limits),
         dt=log["dt"],
         frames=frames,
         positions=np.round(np.concatenate((samples[:, :2], samples[:, 4:]), axis=1), 4).tolist(),
@@ -203,6 +210,8 @@ def serve_setup(folder, port, spec):
     setup = dict(
         strategies={key: [book.name, book.description] for key, book in PLAYBOOKS.items()},
         passing=PASS_PREFERENCES,
+        limit_defaults=GAME_LIMITS,
+        limit_ranges=PRACTICE_RANGES,
         half_seconds=sessions.spec["half_seconds"],
     )
     handler = partial(

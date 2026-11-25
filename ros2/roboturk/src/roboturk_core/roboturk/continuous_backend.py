@@ -7,7 +7,7 @@ Both native backends share the same carpet and drive limits.
 """
 
 import math
-from .model import Command, bounded, possession, drive_velocity
+from .model import Command, Config, bounded, possession, drive_velocity
 from .webots_backend import WebotsBackend
 
 
@@ -30,11 +30,18 @@ def nearest_kicker(world, commands, cfg, blocked):
 class ContinuousWebotsBackend(WebotsBackend):
     contract = "roboturk.webots.closest_kicker.v1"
 
+    def __init__(self, supervisor, cfg=Config(), *, team_configs=None):
+        super().__init__(supervisor, cfg)
+        self.team_configs = team_configs or {}
+
+    def config_for(self, key):
+        return self.team_configs.get(key.team, self.cfg)
+
     def step(self, commands):
         if self.world is None:
             raise RuntimeError("reset must precede step")
         cfg = self.cfg
-        commands = {k: bounded(c, cfg) for k, c in commands.items()}
+        commands = {k: bounded(c, self.config_for(k)) for k, c in commands.items()}
         kicked = set()
         self.last_substep_worlds = []
         self.last_kick_events = []
@@ -59,7 +66,7 @@ class ContinuousWebotsBackend(WebotsBackend):
             for r in current.robots:
                 node = self.nodes[r.key]
                 c = commands.get(r.key, Command())
-                vx, vy = drive_velocity(r, c, self.basic_ms / 1000, cfg)
+                vx, vy = drive_velocity(r, c, self.basic_ms / 1000, self.config_for(r.key))
                 vertical = node.getVelocity()[2]
                 node.setVelocity([vx, vy, vertical, 0.0, 0.0, c.omega])
                 if possession(current, r.key, cfg):

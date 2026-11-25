@@ -2,6 +2,7 @@
 
 import json
 
+from .match_limits import TEAMS, limit_values
 
 STAGES = {
     "NORMAL_FIRST_HALF_PRE": "First kickoff",
@@ -14,8 +15,10 @@ STAGES = {
 STARTS = {"kickoff_kick": "kicks off", "shot": "shoots"}
 
 
-def viewer_header(keys, seed, cfg):
-    return dict(keys=keys, seed=seed, dt=cfg.dt, limits=[cfg.max_speed, cfg.max_omega])
+def viewer_header(keys, seed, cfg, limits=None):
+    return dict(
+        keys=keys, seed=seed, dt=cfg.dt, limits=limits or dict.fromkeys(TEAMS, limit_values(cfg))
+    )
 
 
 def compact_frame(frame, tick, dt, sign):
@@ -70,13 +73,13 @@ def action_events(events, keys):
 
 
 class RoleTelemetry:
-    def __init__(self, stream, keys, seed, cfg):
+    def __init__(self, stream, keys, seed, cfg, limits=None):
         self.stream = stream
         self.keys = keys
         self.dt = cfg.dt
         self.previous = None
         self.event_index = 0
-        self.write(dict(header=viewer_header(keys, seed, cfg)))
+        self.write(dict(header=viewer_header(keys, seed, cfg, limits)))
 
     def write(self, entry):
         if self.stream is None:

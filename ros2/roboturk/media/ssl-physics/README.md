@@ -22,10 +22,12 @@ The sliding coefficient is 0.30 and the rolling-resistance length is 0.80 mm. Th
 | --- | ---: | --- |
 | Planar speed magnitude | 3 m/s | MCT Susano Logics report selecting this maximum experimentally in section 2.2 of their 2019 TDP. [Team paper](https://ssl.robocup.org/wp-content/uploads/2019/03/2019_TDP_MCT_Susano_Logics.pdf) |
 | Planar acceleration and braking magnitude | 5 m/s² | Stanford Robotics Club describe this as a design target for their 2.5 kg SSL robot in section 2.3. RoboTurk uses the same simulated mass. [Team paper](https://ssl.robocup.org/wp-content/uploads/2019/01/2013_TDP_Stanford_Robotics_Club.pdf) |
-| Practice flat-kicker capacity | 10 m/s | Requested simulator setting. A 99 m/s request launched at the 10 m/s ceiling in each direction. The first sample after 2 ms of carpet contact measured 9.994 m/s. |
-| Official match kick limit | 6.5 m/s | Applied to commands in the referee-connected 5v5 and ROS paths. The first sample on the limited actuator test measured 6.494 m/s. [SSL ball-speed rule](https://robocup-ssl.github.io/ssl-rules/sslrules.html#_ball_speed) |
+| Simulator flat-kicker capacity | 10 m/s | Available in standalone tests and adjustable for each team in viewer Practice. With a 10 m/s cap, the first sample after 2 ms of carpet contact measured 9.994 m/s. |
+| Official match kick limit | 6.5 m/s | Applies to viewer Game mode and the referee-connected ROS path. The first sample on the limited actuator test measured 6.494 m/s. [SSL ball-speed rule](https://robocup-ssl.github.io/ssl-rules/sslrules.html#_ball_speed) |
 
 The drive approaches the requested velocity from the measured world-frame velocity on each step. The bound applies to diagonal requests, turns, reversals and braking. Contact impulses remain part of native physics. A diagonal sprint, reversal and stop reached 3.000 m/s and 5.000 m/s². Skills can request gentler passes, shots and kickoff movement. The published specialist networks keep their original action and observation scales. Their historical success rates apply to the revisions recorded in their releases.
+
+A two-team probe measured Blue at 2.2 m/s, 6 rad/s, 3 m/s² for both acceleration and braking, and a 9.994 m/s first ball sample. Yellow measured 1.4 m/s, 4 rad/s, 4 m/s² for both acceleration and braking, and a 1.494 m/s first ball sample. [Practice limit controls](../match-viewer/README.md)
 
 ## Division B geometry
 

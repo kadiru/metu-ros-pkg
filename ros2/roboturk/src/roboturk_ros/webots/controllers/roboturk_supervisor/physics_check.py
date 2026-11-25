@@ -5,12 +5,54 @@ from dataclasses import replace
 
 from roboturk.carpet import ROLL_DECEL, SLIDE_DECEL
 from roboturk.continuous_backend import ContinuousWebotsBackend
+from roboturk.match_limits import limit_values
 from roboturk.model import Ball, Command, Referee, Robot, RobotKey, SSL_KICK_LIMIT, World
 from roboturk.ssl_vision import geometry
 
 
 def speed(entity):
     return math.hypot(entity.vx, entity.vy)
+
+
+def audit_team_limits(backend, cfg):
+    """Overspeed both teams in the same world and measure their separate limits."""
+    limits = {
+        "blue": replace(cfg, max_speed=2.2, max_omega=6.0, max_acceleration=3.0, max_kick=10.0),
+        "yellow": replace(cfg, max_speed=1.4, max_omega=4.0, max_acceleration=4.0, max_kick=1.5),
+    }
+    players = (Robot(RobotKey("blue", 0), -2.4, -1.4), Robot(RobotKey("yellow", 0), -2.4, 1.4))
+    start = World(0, players, Ball(0, 2.4), Referee.RUNNING)
+    backend.team_configs = limits
+    world = backend.reset(start)
+    measured = {r.key.team: dict(speed=0.0, acceleration=0.0, braking=0.0) for r in players}
+    for drive, duration, field in (
+        (Command(vx=99), 0.95, "acceleration"),
+        (Command(), 0.95, "braking"),
+    ):
+        commands = {r.key: drive for r in players}
+        for _ in range(round(duration / cfg.dt)):
+            previous, world = world, backend.step(commands)
+            for robot in world.robots:
+                before = previous.robot(robot.key)
+                record = measured[robot.key.team]
+                record["speed"] = max(record["speed"], speed(robot))
+                delta = math.dist((before.vx, before.vy), (robot.vx, robot.vy)) / cfg.dt
+                record[field] = max(record[field], delta)
+    world = backend.step({players[0].key: Command(omega=99), players[1].key: Command(omega=-99)})
+    for player in players:
+        team, cap = player.key.team, limits[player.key.team]
+        record = measured[team]
+        record["rotation"] = world.robot(player.key).omega
+        backend.reset(replace(start, ball=Ball(player.x + cfg.possession_x, player.y)))
+        launched = backend.step({player.key: Command(kick=99)})
+        record["ball_speed"] = speed(launched.ball)
+        assert abs(record["speed"] - cap.max_speed) < 0.015, record
+        for field in ("acceleration", "braking"):
+            assert abs(record[field] - cap.max_acceleration) < 0.03, record
+        assert abs(abs(record["rotation"]) - cap.max_omega) < 0.03, record
+        assert abs(record["ball_speed"] - cap.max_kick) < 0.05, record
+        record["configured"] = limit_values(cap)
+    return measured
 
 
 def audit(sim, cfg):
@@ -163,11 +205,13 @@ def audit(sim, cfg):
             peak_speed = max(peak_speed, speed(r))
     assert abs(peak_speed - cfg.max_speed) < 0.015 and abs(peak_accel - cfg.max_acceleration) < 0.03
     assert speed(w.robot(key)) < 0.001
+    teams = audit_team_limits(backend, cfg)
     return dict(
         step_ms=backend.basic_ms,
         free_kicks=rolls,
         high_speed_kicks=kicks,
         direction_checks=directions,
+        team_limits=teams,
         drive=dict(
             max_speed=peak_speed, max_acceleration=peak_accel, stopped_speed=speed(w.robot(key))
         ),

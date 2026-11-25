@@ -164,6 +164,8 @@ def main():
                 params.append("--live-viewer")
             if spec.get("team_strategies") is not None:
                 params.extend(["--team-strategies", json.dumps(spec["team_strategies"])])
+            if spec.get("team_limits") is not None:
+                params.extend(["--team-limits", json.dumps(spec["team_limits"])])
             stack.enter_context(
                 service(
                     [

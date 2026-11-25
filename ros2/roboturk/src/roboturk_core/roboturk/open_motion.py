@@ -36,7 +36,7 @@ def observed_velocity(robots, previous, dt):
     }
 
 
-def safe_fetch_velocity(vx, vy, nearby, dt):
+def safe_fetch_velocity(vx, vy, nearby, dt, *, acceleration=CFG.max_acceleration):
     """Check the swept gap and room to brake before accepting a close approach."""
     for dx, dy, qx, qy, _, _ in nearby:
         distance = math.hypot(dx, dy)
@@ -45,7 +45,7 @@ def safe_fetch_velocity(vx, vy, nearby, dt):
         rx, ry = vx - qx, vy - qy
         closing = max(0, -(dx * rx + dy * ry) / distance)
         # Reserve half the available braking authority for the other chaser.
-        if closing * dt + closing**2 / CFG.max_acceleration > max(0, distance - ROBOT_GAP):
+        if closing * dt + closing**2 / acceleration > max(0, distance - ROBOT_GAP):
             return False
         if separation(dx, dy, rx, ry, 0.18) < min(distance, ROBOT_GAP) - 1e-8:
             return False
@@ -64,12 +64,14 @@ def steer_team(
     goal_cover=None,
     keeper_handoffs=None,
     fetching=(),
+    cfg=CFG,
 ):
     """Translate this team's requests using only measured motion of surrounding players."""
     own = [r for r in robots if r.key.team == team]
     if set(requests) != {r.key for r in own}:
         raise ValueError("Expected exactly one team's velocity requests")
-    scale = 1.2 / max(1.2, *(math.hypot(c.vx, c.vy) for c in requests.values()))
+    speed = min(1.2, cfg.max_speed)
+    scale = speed / max(speed, *(math.hypot(c.vx, c.vy) for c in requests.values()))
     out = {}
     for r in own:
         cmd = requests[r.key]
@@ -120,7 +122,11 @@ def steer_team(
                     options.append((c * x - s * y, s * x + c * y))
             options.append((0, 0))
             if fetch:
-                options = [v for v in options if safe_fetch_velocity(*v, nearby, dt)]
+                options = [
+                    v
+                    for v in options
+                    if safe_fetch_velocity(*v, nearby, dt, acceleration=cfg.max_acceleration)
+                ]
                 # A converging robot can consume the available room on its own.
                 # Brake rather than committing to a narrower lane in that tick.
                 if not options:
@@ -136,29 +142,38 @@ def steer_team(
             # is stopping room. The 0.32 m/s tackle cap is for close draws.
             room = max(0, distance - ROBOT_GAP)
             ceiling = SAVE_SPEED if intercepting else 0.32
-            closing = min(ceiling, math.sqrt(4 * room) - 0.08)
+            authority = 4 * min(1, cfg.max_acceleration / CFG.max_acceleration)
+            closing = min(ceiling, math.sqrt(authority * room) - 0.08)
             radial = (x - cx) * nx + (y - cy) * ny
             correction = max(0, -closing - radial)
             x, y = x + correction * nx, y + correction * ny
         if goal_cover and r.key in goal_cover:
             sign = goal_cover[r.key]
             # Leave enough lateral braking room before passing between the posts.
-            brake = CFG.max_acceleration / math.sqrt(2)
+            brake = cfg.max_acceleration / math.sqrt(2)
             safe_y = abs(r.y) + abs(r.vy) * dt + r.vy**2 / (2 * brake)
             end = GOAL_CENTER_LIMIT if safe_y <= GOAL_CHANNEL_HALF else END_LIMIT
-            own_x = brake_axis(sign * r.x, sign * x, end, dt) if sign * x > 0 else sign * x
+            own_x = (
+                brake_axis(sign * r.x, sign * x, end, dt, acceleration=cfg.max_acceleration)
+                if sign * x > 0
+                else sign * x
+            )
             x = sign * max(own_x, (-END_LIMIT - sign * r.x) / dt)
             y = brake_axis(
-                r.y, y, GOAL_CHANNEL_HALF if sign * r.x > 4.28 or own_x > 0 else 2.85, dt
+                r.y,
+                y,
+                GOAL_CHANNEL_HALF if sign * r.x > 4.28 or own_x > 0 else 2.85,
+                dt,
+                acceleration=cfg.max_acceleration,
             )
         elif r.key in recovering:
-            x = brake_axis(r.x, x, END_LIMIT, dt)
-            y = brake_axis(r.y, y, SIDE_LIMIT, dt)
+            x = brake_axis(r.x, x, END_LIMIT, dt, acceleration=cfg.max_acceleration)
+            y = brake_axis(r.y, y, SIDE_LIMIT, dt, acceleration=cfg.max_acceleration)
         else:
             x = max(min(0, (-4.35 - r.x) / dt), min(max(0, (4.35 - r.x) / dt), x))
             y = max(min(0, (-2.85 - r.y) / dt), min(max(0, (2.85 - r.y) / dt), y))
             if r.key.id == 0 and abs(r.x) > END_LIMIT:
-                y = brake_axis(r.y, y, GOAL_CHANNEL_HALF, dt)
+                y = brake_axis(r.y, y, GOAL_CHANNEL_HALF, dt, acceleration=cfg.max_acceleration)
         vx, vy = body_vector(x, y, r.yaw)
         out[r.key] = replace(cmd, vx=vx, vy=vy)
     return out

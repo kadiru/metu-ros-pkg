@@ -14,6 +14,7 @@ from .timed_motion import (
     choose,
     clear,
     inside,
+    interpolation_margin,
     path_samples,
 )
 
@@ -54,9 +55,8 @@ def edge_clear(a, b, disks, radius):
     return True
 
 
-def opens_clearance(path, tracks, clearance):
+def opens_clearance(path, tracks, clearance, *, margin=INTERPOLATION_MARGIN):
     """Recover planning clearance without moving closer to any encroaching robot."""
-    margin = INTERPOLATION_MARGIN
     clear_tracks = []
     for track in tracks:
         initial = math.dist(path[0], track[0])
@@ -79,15 +79,15 @@ def opens_clearance(path, tracks, clearance):
             recovered = math.hypot(x + dx, y + dy) >= clearance + margin
         if not recovered:
             return False
-    return clear(path, clear_tracks, clearance)
+    return clear(path, clear_tracks, clearance, margin=margin)
 
 
-def checked_leg(r, point, tracks, clearance, restoring=False):
-    leg = Leg.to((r.x, r.y), (r.vx, r.vy), point)
+def checked_leg(r, point, tracks, clearance, restoring=False, *, cfg=CFG):
+    leg = Leg.to((r.x, r.y), (r.vx, r.vy), point, cfg=cfg)
     path = path_samples(leg)
     admissible = opens_clearance if restoring else clear
-    if admissible(path, tracks, clearance):
-        return leg.velocity(CFG.dt), path
+    if admissible(path, tracks, clearance, margin=interpolation_margin(cfg)):
+        return leg.velocity(cfg.dt), path
     return None
 
 
@@ -105,37 +105,37 @@ class ERRTFallback:
                 if key.team == team and key not in eligible:
                     del self.memory[key]
 
-    def plan(self, r, target, role, tracks, clearance):
+    def plan(self, r, target, role, tracks, clearance, *, cfg=CFG):
         if self.commit_waypoints:
-            held = self.resume(r, target, role, tracks, clearance)
+            held = self.resume(r, target, role, tracks, clearance, cfg=cfg)
             if held is not None:
                 if self.early_release:
-                    shortcut = self.release_to_direct(r, target, tracks, clearance)
+                    shortcut = self.release_to_direct(r, target, tracks, clearance, cfg=cfg)
                     if shortcut is not None:
                         return *shortcut, "shortcut"
                 return *held, "hold"
-        velocity, path, mode = choose(r, target, tracks, clearance)
+        velocity, path, mode = choose(r, target, tracks, clearance, cfg=cfg)
         if mode != "brake":
             if self.commit_waypoints and r.key in self.memory:
                 self.memory[r.key].interrupted = True
             return velocity, path, mode
-        motion = self.search(r, target, role, tracks, clearance)
+        motion = self.search(r, target, role, tracks, clearance, cfg=cfg)
         if motion is None:
             return velocity, path, mode
         return *motion, ("escape" if self.memory[r.key].restoring else "errt")
 
-    def release_to_direct(self, r, target, tracks, clearance):
+    def release_to_direct(self, r, target, tracks, clearance, *, cfg=CFG):
         memo = self.memory[r.key]
         if memo.restoring:
             return None
         start, velocity = (r.x, r.y), (r.vx, r.vy)
         waypoint = memo.committed
-        direct = Leg.to(start, velocity, target)
-        via_waypoint = Leg.to(start, velocity, waypoint).duration
-        via_waypoint += Leg.to(waypoint, (0, 0), target).duration
+        direct = Leg.to(start, velocity, target, cfg=cfg)
+        via_waypoint = Leg.to(start, velocity, waypoint, cfg=cfg).duration
+        via_waypoint += Leg.to(waypoint, (0, 0), target, cfg=cfg).duration
         path = path_samples(direct)
         if direct.duration + DIRECT_TIME_SAVING > via_waypoint or not clear(
-            path, tracks, clearance + DIRECT_EXTRA_CLEARANCE
+            path, tracks, clearance + DIRECT_EXTRA_CLEARANCE, margin=interpolation_margin(cfg)
         ):
             memo.direct_clear_ticks = 0
             return None
@@ -145,9 +145,9 @@ class ERRTFallback:
         memo.committed = None
         memo.direct_clear_ticks = 0
         memo.interrupted = True
-        return direct.velocity(CFG.dt), path
+        return direct.velocity(cfg.dt), path
 
-    def resume(self, r, target, role, tracks, clearance):
+    def resume(self, r, target, role, tracks, clearance, *, cfg=CFG):
         memo = self.memory.get(r.key)
         if memo is None:
             return None
@@ -158,7 +158,7 @@ class ERRTFallback:
         if point is None:
             return None
         if math.hypot(r.x - point[0], r.y - point[1]) >= 0.07:
-            motion = checked_leg(r, point, tracks, clearance, memo.restoring)
+            motion = checked_leg(r, point, tracks, clearance, memo.restoring, cfg=cfg)
             if motion is not None:
                 return motion
         memo.committed = None
@@ -166,7 +166,7 @@ class ERRTFallback:
         memo.direct_clear_ticks = 0
         return None
 
-    def search(self, r, target, role, tracks, clearance):
+    def search(self, r, target, role, tracks, clearance, *, cfg=CFG):
         start = (r.x, r.y)
         disks = [p[0] for p in tracks]
         if not inside(target):
@@ -178,7 +178,7 @@ class ERRTFallback:
             memo = self.memory[key] = SearchMemory(rng, role, target)
         memo.goal = target
 
-        threshold = clearance + INTERPOLATION_MARGIN if self.commit_waypoints else clearance
+        threshold = clearance + interpolation_margin(cfg) if self.commit_waypoints else clearance
         if any(math.dist(start, p) < threshold for p in disks):
             if not self.commit_waypoints or math.hypot(r.vx, r.vy) > 0.08:
                 return None
@@ -193,7 +193,7 @@ class ERRTFallback:
                 blocked = not edge_clear(point, target, disks, clearance)
                 candidates.append((blocked, math.dist(point, target), point))
             for _, _, point in sorted(candidates):
-                motion = checked_leg(r, point, tracks, clearance, restoring=True)
+                motion = checked_leg(r, point, tracks, clearance, restoring=True, cfg=cfg)
                 if motion is not None:
                     memo.committed = point
                     memo.waypoints = (point,)
@@ -208,7 +208,7 @@ class ERRTFallback:
                 point = points[i]
                 if math.dist(start, point) < 0.07 or not edge_clear(start, point, disks, clearance):
                     continue
-                motion = checked_leg(r, point, tracks, clearance)
+                motion = checked_leg(r, point, tracks, clearance, cfg=cfg)
                 if motion is not None:
                     memo.waypoints = tuple(points[i:])
                     if self.commit_waypoints:

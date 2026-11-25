@@ -70,7 +70,7 @@ const eventColors = {
 
 let frameIndex = match.intro?.frame ?? 0;
 let selected = match.intro?.robot ?? 0;
-let limits = match.limits;
+let limits;
 let following = livePage;
 let finished = false;
 let matchFailed = false;
@@ -334,6 +334,35 @@ function roleColor(role) {
   return roleColors[role] || "#a6b5c5";
 }
 
+function showLimits(values) {
+  if (Array.isArray(values)) {
+    // Older live recordings carried only translation and rotation.
+    const [max_speed, max_omega] = values;
+    values = { blue: { max_speed, max_omega }, yellow: { max_speed, max_omega } };
+  }
+  if (!values) return;
+  limits = values;
+  const rows = Object.entries(teams).map(([team, style]) => {
+    const row = document.createElement("tr");
+    const label = document.createElement("th");
+    label.scope = "row";
+    label.className = team;
+    label.textContent = style.label;
+    row.append(label);
+    const { max_speed, max_omega, max_acceleration, max_kick } = limits[team];
+    for (const [value, unit] of [
+      [max_speed, "m/s"], [max_omega, "rad/s"], [max_acceleration, "m/s²"], [max_kick, "m/s"],
+    ]) {
+      const cell = document.createElement("td");
+      cell.textContent = value == null ? "—" : `${value} ${unit}`;
+      row.append(cell);
+    }
+    return row;
+  });
+  byId("limit-values").replaceChildren(...rows);
+  byId("limit-panel").hidden = false;
+}
+
 function updateGauges(audit) {
   const values = audit?.command ?? (audit ? [0, 0, 0, 0, 0] : null);
   byId("command-details").hidden = !values;
@@ -343,7 +372,7 @@ function updateGauges(audit) {
     return;
   }
   const [forward, lateral, turn, roller, kick] = values;
-  const [maxSpeed, maxTurn] = limits;
+  const { max_speed: maxSpeed, max_omega: maxTurn } = limits[keys[selected][0]];
   const speed = Math.hypot(forward, lateral);
   const direction = Math.atan2(-forward, -lateral);
   const needle = byId("vector-needle");
@@ -725,7 +754,7 @@ async function poll(offset = 0) {
       const item = JSON.parse(line);
       if (item.header) {
         keys.push(...item.header.keys);
-        limits = item.header.limits;
+        showLimits(item.header.limits);
         if (ownTeam) {
           const ownRobot = keys.findIndex(([team, number]) => team === ownTeam && number === 1);
           if (ownRobot >= 0) selected = ownRobot;
@@ -769,6 +798,7 @@ if (match.setup_url) {
 }
 if (livePage) poll();
 else {
+  showLimits(match.limits);
   initializeTeams();
   frames.forEach(addRoleSample);
 }

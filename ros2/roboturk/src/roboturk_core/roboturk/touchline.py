@@ -13,13 +13,13 @@ END_LIMIT = field.LENGTH / 2 - 0.15
 SIDE_LIMIT = field.WIDTH / 2 + field.WALL_MARGIN - CFG.robot_radius - 0.025
 
 
-def brake_axis(position, request, limit, dt):
+def brake_axis(position, request, limit, dt, *, acceleration=CFG.max_acceleration):
     """Reserve a reaction tick plus braking distance in each outward direction."""
     if request == 0:
         return 0.0
     sign = math.copysign(1.0, request)
     room = max(0.0, limit - sign * position)
-    a = CFG.max_acceleration / math.sqrt(2)
+    a = acceleration / math.sqrt(2)
     cap = math.sqrt((a * dt) ** 2 + 2 * a * room) - a * dt
     return sign * min(abs(request), cap)
 

@@ -220,6 +220,7 @@ def open_play(
     allocation_audit=None,
     task_audit=None,
     strategies=None,
+    motion_configs=None,
 ):
     """One open-play control tick shared by ordinary matches and paired replays."""
     carrier = None
@@ -370,6 +371,7 @@ def open_play(
         raw, out = out, {}
         for team in phases:
             own = {key: value for key, value in raw.items() if key.team == team}
+            motion = motion_configs[team] if motion_configs else CFG
             steered = steer_team(
                 world.robots,
                 team,
@@ -382,6 +384,7 @@ def open_play(
                 goal_cover=cover_keepers,
                 keeper_handoffs=keeper_handoffs,
                 fetching=fetching,
+                cfg=motion,
             )
             if trajectory:
                 steered = plan_team(
@@ -395,6 +398,7 @@ def open_play(
                     counts,
                     fallback,
                     trace=trace,
+                    cfg=motion,
                 )
             out.update(steered)
     else:

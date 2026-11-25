@@ -4,6 +4,7 @@ import math
 from dataclasses import replace
 from itertools import combinations
 
+from .five_roles import CFG
 from .kickoff_drive import SPEED, TOLERANCE, path_to
 from .model import Command, Robot, RobotKey, body_vector, world_vector, wrap
 from .open_motion import Steering, observed_velocity, steer_team
@@ -50,7 +51,8 @@ def limit_approach(robot, command, seen):
 
 
 class TeamKickoffPlanner:
-    def __init__(self, targets):
+    def __init__(self, targets, cfg=CFG):
+        self.cfg = cfg
         teams = {r.key.team for r in targets}
         if len(teams) != 1:
             raise ValueError("Kickoff targets must belong to a single team")
@@ -95,7 +97,7 @@ class TeamKickoffPlanner:
             distance = math.hypot(goal.x - r.x, goal.y - r.y)
             if distance <= TOLERANCE:
                 dx = dy = 0.0
-            scale = max(dt, math.hypot(dx, dy) / SPEED)
+            scale = max(dt, math.hypot(dx, dy) / min(SPEED, self.cfg.max_speed))
             vx, vy = body_vector(dx / scale, dy / scale, r.yaw)
             angle = wrap(goal.yaw - r.yaw)
             requests[r.key] = Command(vx, vy, max(-2.0, min(2.0, angle / dt)))
@@ -105,17 +107,20 @@ class TeamKickoffPlanner:
                 and math.hypot(r.vx, r.vy) < 0.035
                 and abs(r.omega) < 0.08
             )
-        steered = steer_team(seen, self.team, requests, velocities, STEERING, dt)
+        steered = steer_team(seen, self.team, requests, velocities, STEERING, dt, cfg=self.cfg)
         return {r.key: limit_approach(r, steered[r.key], seen) for r in own}, ready
 
 
 class IndependentKickoffs:
     """Dispatch one observation per side, then combine commands and readiness for Webots."""
 
-    def __init__(self, formation):
+    def __init__(self, formation, motion_configs=None):
         self.targets = {r.key: r for r in formation.robots}
         self.planners = {
-            team: TeamKickoffPlanner(tuple(r for r in formation.robots if r.key.team == team))
+            team: TeamKickoffPlanner(
+                tuple(r for r in formation.robots if r.key.team == team),
+                motion_configs[team] if motion_configs else CFG,
+            )
             for team in ("blue", "yellow")
         }
 

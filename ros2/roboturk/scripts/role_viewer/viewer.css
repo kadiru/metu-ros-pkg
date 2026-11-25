@@ -171,6 +171,18 @@ button.primary:hover { background: #c1eed3; }
 .mode-picker small { display: block; font-size: 12px; color: var(--muted); margin-top: 4px; }
 .setup-team { display: grid; gap: 6px; }
 .setup-team label { font-size: 12px; color: var(--muted); }
+.practice-limits { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px 12px; padding-top: 10px; margin-top: 5px; border-top: 1px solid var(--line); }
+.practice-limits label, .practice-limits label > span { min-width: 0; }
+.practice-limits label { display: grid; gap: 4px; }
+.practice-limits label > span + span { display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+.practice-limits input { width: 100%; min-width: 0; border: 1px solid var(--line); border-radius: 6px; padding: 6px; background: #111b24; color: var(--text); font: inherit; font-variant-numeric: tabular-nums; }
+.game-limit-summary { grid-column: 1 / -1; color: var(--muted); font-size: 12px; }
+.limit-panel { margin-bottom: 15px; padding: 8px 12px; border: 1px solid var(--line); border-radius: var(--round); background: var(--panel); }
+.limit-panel table { width: 100%; border-collapse: collapse; text-align: left; }
+.limit-panel caption { text-align: left; margin: 0 0 4px; font-size: 13px; font-weight: 700; }
+.limit-panel th, .limit-panel td { padding: 3px 5px 3px 0; font-size: 12px; }
+.limit-panel thead th { color: var(--muted); font-weight: 550; }
+.limit-panel td { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .strategy-preview { margin: 2px 0 8px; color: var(--muted); min-height: 2.6em; font-size: 13px; }
 .start-row { display: flex; align-items: center; gap: 10px; }
 .setup a { color: var(--mint); }
@@ -188,6 +200,7 @@ button.primary:hover { background: #c1eed3; }
   .lineups { grid-template-columns: 1fr; }
   .masthead { flex-wrap: wrap; }
   .mode-picker, .practice-options { grid-template-columns: 1fr; }
+  .limit-panel th, .limit-panel td { font-size: 11px; }
 }
 @media (pointer: coarse) {
   .playbar button, .roster button { min-height: 44px; }

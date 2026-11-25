@@ -20,8 +20,9 @@ from roboturk.five_receive import FiveReceive
 from roboturk.five_roles import Assignment, CFG, TEAMS, FiveRoles, kickoff
 from roboturk.five_strategy import decode_strategies, describe_play
 from roboturk.kickoff_drive import KickoffDrive, ParallelKickoffDrive
+from roboturk.match_limits import limit_values, team_configs
 from roboturk.team_kickoff import IndependentKickoffs
-from roboturk.model import Referee, SSL_KICK_LIMIT
+from roboturk.model import Referee, SSL_KICK_LIMIT, bounded
 from roboturk.open_motion import Steering, observed_velocity
 from roboturk.placement import KickoffKick, PlacementRestart, xy
 from roboturk.pivot_fetch import PivotFetch
@@ -84,9 +85,10 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
     seed = cfg["seed"]
     sign = 1 if seed % 2 == 0 else -1
     serving = TEAMS[(seed // 2) % 2]
-    backend = ContinuousWebotsBackend(
-        sim, replace(CFG, max_kick=SSL_KICK_LIMIT) if receiver else CFG
-    )
+    match_config = replace(CFG, max_kick=SSL_KICK_LIMIT) if receiver else CFG
+    motion_configs = team_configs(match_config, practice=cfg.get("team_limits"))
+    active_limits = {team: limit_values(config) for team, config in motion_configs.items()}
+    backend = ContinuousWebotsBackend(sim, match_config, team_configs=motion_configs)
     drive = cfg.get("drive_kickoffs", False)
     referee_places = cfg.get("referee_placement", False)
     formation = None
@@ -102,7 +104,7 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
         w = backend.reset(kickoff(seed, serving, sign))
     keys = [r.key for r in w.robots]
     telemetry = (
-        RoleTelemetry(telemetry_stream, [(k.team, k.id) for k in keys], seed, CFG)
+        RoleTelemetry(telemetry_stream, [(k.team, k.id) for k in keys], seed, CFG, active_limits)
         if telemetry_stream is not None
         else None
     )
@@ -225,7 +227,9 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                 if drive:
                     planner = ParallelKickoffDrive if cfg.get("parallel_kickoffs") else KickoffDrive
                     formation = (
-                        IndependentKickoffs(target) if cfg.get("team_kickoffs") else planner(target)
+                        IndependentKickoffs(target, motion_configs)
+                        if cfg.get("team_kickoffs")
+                        else planner(target)
                     )
                     ball_centered = False
                 else:
@@ -381,6 +385,7 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                 allocation_audit=allocation,
                 task_audit=tasks,
                 strategies=strategies,
+                motion_configs=motion_configs,
             )
             if restricted:
                 out = {k: c for k, c in out.items() if k.team == restricted}
@@ -419,6 +424,7 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                 item = allocation.get(key, {"basis": "referee"})
                 item.update(target=role.target, task=tasks.get(key), command=None)
                 if cmd is not None:
+                    cmd = bounded(cmd, motion_configs[key.team])
                     item["command"] = [
                         round(v, 4) for v in (cmd.vx, cmd.vy, cmd.omega, cmd.dribbler, cmd.kick)
                     ]
@@ -629,6 +635,7 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
             frames=steps,
             events=events,
             seconds=len(steps) * CFG.dt,
+            limits=active_limits,
         )
         if isinstance(tackle, PivotFetch):
             log["pivot_sweeps"] = [[t, keys.index(k), keys.index(c)] for t, k, c in tackle.sweeps]

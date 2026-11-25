@@ -11,6 +11,8 @@ from threading import Lock, Thread
 from uuid import uuid4
 
 from roboturk.five_strategy import decode_strategies
+from roboturk.match_limits import team_configs
+from roboturk.model import Config
 
 
 def session_options(request):
@@ -20,9 +22,13 @@ def session_options(request):
         if set(request) != {"mode", "team"} or request["team"] not in ("blue", "yellow"):
             raise ValueError("In Game mode, choose Blue or Yellow as your team.")
     elif request.get("mode") == "practice":
-        if set(request) != {"mode", "strategies"} or request["strategies"] is None:
+        if set(request) - {"mode", "strategies", "limits"} or request.get("strategies") is None:
             raise ValueError("In Practice mode, choose a playbook for each team.")
         decode_strategies(request["strategies"])
+        if "limits" in request:
+            if request["limits"] is None:
+                raise ValueError("Set motion limits for both teams.")
+            team_configs(Config(), officiated=True, practice=request["limits"])
     else:
         raise ValueError("Choose Practice or Game.")
     return request
@@ -65,6 +71,7 @@ class MatchSessions:
         spec = dict(self.spec)
         # Game mode always runs the shipped playbooks.
         spec["team_strategies"] = options.get("strategies")
+        spec["team_limits"] = options.get("limits")
         with self.lock:
             if self.active and self.active.process.poll() is None:
                 raise MatchRunning(self.active.url)

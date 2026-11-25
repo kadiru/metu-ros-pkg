@@ -72,6 +72,9 @@ def main():
     p.add_argument(
         "--team-strategies", type=json.loads, help="JSON playbook choices for Blue and Yellow"
     )
+    p.add_argument(
+        "--team-limits", type=json.loads, help="JSON drive and kick limits for Blue and Yellow"
+    )
     mode.add_argument("--record", action="store_true")
     batch = p.add_mutually_exclusive_group()
     batch.add_argument(
@@ -454,6 +457,7 @@ def main():
                 role_audit=a.role_audit or a.live_viewer,
                 live_viewer=a.live_viewer,
                 team_strategies=a.team_strategies,
+                team_limits=a.team_limits,
                 await_force_start=a.await_force_start,
                 open_play_policy=json.loads(a.open_play_policy.read_text())
                 if a.open_play_policy

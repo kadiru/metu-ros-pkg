@@ -16,11 +16,13 @@ class Playbook:
 
 
 PLAYBOOKS = {
-    "balanced": Playbook("Balanced", "Build the attack", "Keep two outlets and an anchor."),
+    "balanced": Playbook(
+        "Balanced", "Build the attack", "Keep two passing options and one player behind the ball."
+    ),
     "wide": Playbook(
         "Wide build-up",
         "Work the wings",
-        "Spread both outlets and look for a pass earlier.",
+        "Spread teammates wider and look for a pass earlier.",
         wing_width=0.42,
         pass_pressure=1.64,
         receiver_progress=0.48,
@@ -28,7 +30,7 @@ PLAYBOOKS = {
     "direct": Playbook(
         "Direct attack",
         "Drive to goal",
-        "Push support forward and attack open shots from farther out.",
+        "Move support forward and take open shots from farther out.",
         wing_width=-0.16,
         wing_advance=0.40,
         shoot_range=3.0,
@@ -38,9 +40,15 @@ PLAYBOOKS = {
 }
 PASS_PREFERENCES = {-1: "Carry more", 0: "Preset default", 1: "Pass more"}
 DECISION_CONTROLLERS = {
-    "balanced": ("Balanced allocator", "Minimize the lineup’s total travel and role changes."),
+    "balanced": (
+        "Team-wide assignment",
+        "Assign roles together to reduce total travel and role changes.",
+    ),
     "priority": ("Local Priority", "Fill each role in order with the best available robot."),
-    "coordinated": ("Coordinated", "Plan both outlets together and look for an open pass."),
+    "coordinated": (
+        "Coordinated",
+        "Position two passing options together and check where defenders could intercept.",
+    ),
 }
 
 

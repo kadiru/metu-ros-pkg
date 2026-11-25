@@ -210,7 +210,9 @@ button.primary:hover { background: #c1eed3; }
 .mode-picker small { display: block; font-size: 12px; color: var(--muted); margin-top: 4px; }
 .setup-team { display: grid; gap: 6px; }
 .setup-team label { font-size: 12px; color: var(--muted); }
-.strategy-preview { margin: 2px 0 8px; color: var(--muted); min-height: 2.6em; font-size: 13px; }
+.practice-guide { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: 13px; }
+.practice-guide strong { color: var(--text); }
+.setup-preview { margin: 2px 0 8px; color: var(--muted); min-height: 2.6em; font-size: 13px; }
 .start-row { display: flex; align-items: center; gap: 10px; }
 .setup a { color: var(--mint); }
 #setup-error:empty { display: none; }

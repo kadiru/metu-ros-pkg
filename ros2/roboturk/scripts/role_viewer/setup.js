@@ -12,10 +12,8 @@ const motionControls = createLimitControls(byId("motion-limits"), catalog.limit_
 
 for (const team of teams) {
   const controller = byId(`${team}-controller`);
-  for (const [key, [name, description]] of Object.entries(catalog.controllers)) {
-    const option = new Option(name, key);
-    option.title = description;
-    controller.add(option);
+  for (const [key, [name]] of Object.entries(catalog.controllers)) {
+    controller.add(new Option(name, key));
   }
   const strategy = byId(`${team}-strategy`);
   for (const [key, [name]] of Object.entries(catalog.strategies)) {
@@ -27,8 +25,10 @@ for (const team of teams) {
   }
   passing.value = "0";
   const describe = () => {
+    byId(`${team}-controller-preview`).textContent = catalog.controllers[controller.value][1];
     byId(`${team}-preview`).textContent = catalog.strategies[strategy.value][1];
   };
+  controller.addEventListener("change", describe);
   strategy.addEventListener("change", describe);
   describe();
 }

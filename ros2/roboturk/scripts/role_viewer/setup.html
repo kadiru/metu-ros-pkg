@@ -39,18 +39,25 @@
       </fieldset>
 
       <div id="practice-options" class="practice-options">
+        <p class="practice-guide">The <strong>decision controller</strong> picks who does what. The <strong>team playbook</strong> sets how the team attacks. <strong>Passing preference</strong> nudges the choice to pass or carry.</p>
         <fieldset class="setup-team blue">
           <legend>Blue</legend>
-          <label for="blue-controller">Decision controller</label><select id="blue-controller" name="blue-controller"></select>
-          <label for="blue-strategy">Playbook</label><select id="blue-strategy" name="blue-strategy"></select>
-          <p class="strategy-preview" id="blue-preview"></p>
+          <label for="blue-controller">Decision controller</label>
+          <select id="blue-controller" name="blue-controller" aria-describedby="blue-controller-preview"></select>
+          <p class="setup-preview" id="blue-controller-preview"></p>
+          <label for="blue-strategy">Team playbook</label>
+          <select id="blue-strategy" name="blue-strategy" aria-describedby="blue-preview"></select>
+          <p class="setup-preview" id="blue-preview"></p>
           <label for="blue-passing">Passing preference</label><select id="blue-passing" name="blue-passing"></select>
         </fieldset>
         <fieldset class="setup-team yellow">
           <legend>Yellow</legend>
-          <label for="yellow-controller">Decision controller</label><select id="yellow-controller" name="yellow-controller"></select>
-          <label for="yellow-strategy">Playbook</label><select id="yellow-strategy" name="yellow-strategy"></select>
-          <p class="strategy-preview" id="yellow-preview"></p>
+          <label for="yellow-controller">Decision controller</label>
+          <select id="yellow-controller" name="yellow-controller" aria-describedby="yellow-controller-preview"></select>
+          <p class="setup-preview" id="yellow-controller-preview"></p>
+          <label for="yellow-strategy">Team playbook</label>
+          <select id="yellow-strategy" name="yellow-strategy" aria-describedby="yellow-preview"></select>
+          <p class="setup-preview" id="yellow-preview"></p>
           <label for="yellow-passing">Passing preference</label><select id="yellow-passing" name="yellow-passing"></select>
         </fieldset>
       </div>

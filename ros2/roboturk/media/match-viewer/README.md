@@ -38,7 +38,7 @@ Click any number of robot IDs in the lineups to show their movement targets and 
 
 | Controller | Role assignment and ball decisions |
 | --- | --- |
-| Balanced allocator | Minimize total lineup travel with a role-switch penalty. Use the playbook's pass and shot triggers. |
+| Team-wide assignment | Minimize total lineup travel with a role-switch penalty. Use the playbook's pass and shot triggers. This is the Balanced benchmark controller. |
 | Local Priority | Fill roles in order with the lowest-cost eligible player. Use the same ball decisions as Balanced. |
 | Coordinated | Keep the minimum-cost assignment. Search for two complementary outlets, rank passes using observed defender motion, and carry when the available passing lanes are blocked. |
 

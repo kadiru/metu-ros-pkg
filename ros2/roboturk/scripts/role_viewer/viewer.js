@@ -456,10 +456,14 @@ function updateHistory(now) {
     segments.append(chip);
   }
   track.replaceChildren(segments);
-  const elapsed = now - frames[history[current].tick].t;
+  const assignedAt = frames[history[current].tick].t;
+  const elapsed = now - assignedAt;
   const recent = history.slice(first, current + 1);
   const changeCount = recent
     .filter(({ tick, previous }) => previous !== null && frames[tick].t >= start).length;
+  const assigned = byId("role-assigned-at");
+  assigned.textContent = replayTime(assignedAt);
+  assigned.dateTime = `PT${assignedAt}S`;
   byId("role-duration").textContent = `${elapsed.toFixed(1)} s`;
   byId("role-change-count").textContent = changeCount;
   const list = byId("role-changes");
@@ -479,7 +483,7 @@ function updateHistory(now) {
     const label = document.createElement("strong");
     label.textContent = roleName(role);
     const task = document.createElement("span");
-    task.textContent = robotTask(frames[tick], selected);
+    task.textContent = task.title = robotTask(frames[tick], selected);
     button.append(time, label, task);
     button.addEventListener("click", () => seek(tick));
     return button;
@@ -551,7 +555,7 @@ function updateGauges(audit) {
   const direction = Math.atan2(-forward, -lateral);
   const needle = byId("vector-needle");
   needle.hidden = requested < .01;
-  needle.style.setProperty("--length", `${9 * Math.min(requested / maxSpeed, 1)}px`);
+  needle.style.setProperty("--fraction", Math.min(requested / maxSpeed, 1));
   needle.style.setProperty("--angle", `${direction}rad`);
   const speedLabel = byId("speed-label");
   speedLabel.textContent = measured == null ? "Drive" : "Travel";

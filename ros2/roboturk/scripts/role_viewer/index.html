@@ -129,7 +129,7 @@
           <div id="command-details" role="group" aria-label="Robot motion" hidden>
             <div class="translation-row">
               <div class="vector-dial" id="translation" role="img"><span aria-hidden="true">F</span><div id="vector-needle"></div><i></i></div>
-              <span class="label" id="speed-label" title="Travel speed">Travel</span><strong id="speed">—</strong>
+              <div class="motion-value"><span class="label" id="speed-label" title="Travel speed">Travel</span><strong id="speed">—</strong></div>
             </div>
             <div class="turn-readout">
               <span class="label" title="Turn command">Turn</span><strong id="turn">—</strong>
@@ -137,7 +137,7 @@
             </div>
           </div>
         </div>
-        <div class="inspector-section role-history">
+        <div class="role-timeline">
           <div class="timeline-heading">
             <h3>Role timeline</h3>
             <div class="timeline-controls">
@@ -150,8 +150,13 @@
           </div>
           <div id="role-track" class="role-track" role="group" aria-label="Role changes in the last 10 seconds"></div>
           <div class="history-axis"><span id="role-window-start">−10 s</span><span>Selected time</span></div>
+        </div>
+        <div class="role-details">
           <article id="current-role-card" class="current-role-card" aria-label="Current role" hidden>
-            <div class="current-role-heading"><h4 id="role">—</h4><span id="role-duration" title="Time in this role"></span></div>
+            <div class="current-role-heading">
+              <h4 id="role">—</h4>
+              <div class="role-timing"><time id="role-assigned-at" title="Assignment time"></time><span aria-hidden="true">·</span><span id="role-duration" title="Time in this role"></span></div>
+            </div>
             <div class="role-note"><span class="label">Role detail</span><p id="task"></p></div>
             <div class="role-note"><span class="label">Role reason</span><p id="reason"></p></div>
           </article>

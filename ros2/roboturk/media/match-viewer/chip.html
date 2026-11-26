@@ -129,15 +129,15 @@ button.primary:hover { background: #c1eed3; }
 .clip-panel textarea:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
 #clip-status { color: var(--muted); font-size: 11px; }
 .inspector { display: flex; flex-direction: column; padding: 0 15px 9px; min-width: 0; min-height: 0; contain: size; overflow-y: auto; }
-.inspector > :not(.role-history) { flex-shrink: 0; }
-.robot-heading { display: flex; align-items: center; gap: 8px; min-height: 44px; font-variant-numeric: tabular-nums; }
+.robot-heading { display: flex; flex: none; align-items: center; gap: 10px; min-height: 58px; font-variant-numeric: tabular-nums; }
 .robot-picker { flex: none; width: 54px; min-height: 27px; padding: 3px 4px; font-size: 12px; font-weight: 700; color: var(--team, var(--text)); background: color-mix(in srgb, var(--team, var(--text)) 12%, var(--panel)); border-color: color-mix(in srgb, var(--team, var(--text)) 25%, var(--line)); }
-.robot-heading strong { font-size: 12px; white-space: nowrap; }
-.robot-heading .label { font-size: 10px; }
+.robot-heading strong { font-size: 14px; line-height: 1.15; white-space: nowrap; }
+.robot-heading .label { font-size: 11px; }
 #command-unavailable { color: var(--muted); font-size: 11px; }
-#command-details { display: flex; flex: 1; justify-content: space-evenly; align-items: center; gap: 5px; }
-.translation-row, .turn-readout { display: flex; align-items: center; gap: 4px; }
-.turn-readout { position: relative; }
+#command-details { display: grid; flex: 1; grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr); align-items: center; gap: 8px; }
+.translation-row { display: flex; align-items: center; gap: 7px; }
+.motion-value, .turn-readout { display: grid; gap: 2px; }
+.turn-readout { border-inline-start: 1px solid var(--line); padding-inline-start: 10px; }
 .team-plan { min-width: 0; }
 .plan-chain { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin: 0; padding: 0; list-style: none; }
 .plan-chain li { position: relative; display: grid; align-content: start; gap: 4px; padding: 6px; color: var(--muted); background: #111e29; border: 1px solid var(--line); border-radius: 6px; font-size: 10px; line-height: 1.25; }
@@ -146,20 +146,20 @@ button.primary:hover { background: #c1eed3; }
 .plan-chain li > span, .plan-chain small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .plan-chain strong { block-size: 2lh; font-size: 12px; color: var(--text); }
 .plan-chain small { block-size: 1lh; font-size: 10px; }
-.vector-dial { flex: 0 0 22px; height: 22px; border-radius: 50%; border: 1px solid #637684; position: relative; background: repeating-radial-gradient(circle, transparent 0 4px, #293d49 5px 6px, transparent 7px 10px); }
-.vector-dial > span { position: absolute; inset: 0 0 auto; z-index: 1; text-align: center; color: var(--muted); font-size: 6px; }
+.vector-dial { --dial-size: 38px; flex: 0 0 var(--dial-size); height: var(--dial-size); border-radius: 50%; border: 1px solid #637684; position: relative; background: repeating-radial-gradient(circle, transparent 0 7px, #293d49 8px 9px, transparent 10px 16px); }
+.vector-dial > span { position: absolute; inset: 1px 0 auto; z-index: 1; text-align: center; color: var(--muted); font-size: 8px; }
 .vector-dial::before, .vector-dial::after { content: ""; position: absolute; background: #3c5260; left: 50%; top: 50%; transform: translate(-50%, -50%); }
 .vector-dial::before { width: 100%; height: 1px; }
 .vector-dial::after { width: 1px; height: 100%; }
 .vector-dial i, #vector-needle { position: absolute; z-index: 1; left: 50%; top: 50%; background: var(--mint); }
 .vector-dial i { border-radius: 50%; width: 3px; height: 3px; transform: translate(-50%, -50%); }
-#vector-needle { width: var(--length, 0px); height: 2px; transform-origin: left center; transform: translateY(-50%) rotate(var(--angle, 0rad)); }
+#vector-needle { width: calc(var(--fraction, 0) * (var(--dial-size) / 2 - 4px)); height: 2px; transform-origin: left center; transform: translateY(-50%) rotate(var(--angle, 0rad)); }
 #vector-needle::after { content: ""; position: absolute; right: 0; top: 50%; width: 0; height: 0; border: 3px solid transparent; border-left-color: var(--mint); border-right: 0; transform: translate(1px, -50%); }
-.yaw-track { position: absolute; inset: auto 0 -5px; height: 3px; border-radius: 3px; background: #2b3a45; overflow: hidden; }
+.yaw-track { position: relative; height: 4px; border-radius: 3px; background: #2b3a45; overflow: hidden; }
 .yaw-track::after { content: ""; position: absolute; inset: 0 auto 0 50%; width: 1px; background: #e5f1fa99; }
 #yaw-fill { position: absolute; inset: 0 auto 0 var(--start, 50%); width: var(--size, 0%); background: var(--mint); }
-.role-history { flex: 1; display: flex; flex-direction: column; min-height: 225px; border-top: 1px solid var(--line); padding: 8px 0 2px; }
-.role-history > :not(.role-changes) { flex-shrink: 0; }
+.role-timeline { flex: none; border-top: 1px solid var(--line); padding: 8px 0 5px; }
+.role-details { display: flex; flex: 1; flex-direction: column; min-height: 0; border-top: 1px solid var(--line); padding-top: 8px; }
 .timeline-heading { display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-bottom: 6px; }
 .timeline-heading h3 { margin: 0; color: var(--text); }
 .timeline-heading select { font-size: 11px; min-height: 25px; padding: 3px 6px; }
@@ -172,18 +172,22 @@ button.primary:hover { background: #c1eed3; }
 .role-segment:hover { background: color-mix(in srgb, var(--role-color) 72%, white); }
 .role-segment:focus-visible { z-index: 1; outline-offset: -3px; outline-color: #101723; }
 .history-axis { display: flex; justify-content: space-between; color: var(--muted); font-size: 10px; margin: 3px 0 5px; }
-.current-role-card { display: grid; gap: 6px; padding: 8px 9px; margin-bottom: 6px; border: 1px solid color-mix(in srgb, var(--role-color) 40%, var(--line)); border-radius: 7px; background: color-mix(in srgb, var(--role-color) 8%, #131e28); }
+.current-role-card { display: grid; flex: 0 0 124px; grid-template-rows: 20px 30px 45px; gap: 4px; min-width: 0; padding: 8px 9px; margin-bottom: 6px; border: 1px solid color-mix(in srgb, var(--role-color) 40%, var(--line)); border-inline-start: 3px solid var(--role-color); border-radius: 7px; background: color-mix(in srgb, var(--role-color) 8%, #131e28); }
 .current-role-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; }
-.current-role-heading h4 { margin: 0; color: var(--role-color); font-size: 16px; }
-#role-duration { color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.role-note { display: grid; grid-template-columns: 74px minmax(0, 1fr); align-items: baseline; gap: 6px; }
+.current-role-heading h4 { margin: 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--role-color); font-size: 16px; }
+.role-timing { display: flex; flex: none; gap: 5px; color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.role-timing time { color: var(--text); }
+.role-note { display: grid; grid-template-columns: 74px minmax(0, 1fr); align-items: baseline; gap: 6px; min-height: 0; }
 .role-note .label { white-space: nowrap; }
-.role-note p { font-size: 12px; line-height: 1.35; }
-.role-changes { display: grid; grid-auto-rows: max-content; align-content: start; gap: 4px; flex: 1; min-height: 0; max-height: 26rem; padding: 2px; overflow-y: auto; }
-.role-changes button { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 2px 6px; align-items: baseline; padding: 5px 6px; text-align: left; background: #131e28; border-color: var(--line); font-size: 11px; min-height: 26px; }
+.role-note p { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; font-size: 12px; line-height: 15px; }
+.role-note #reason { -webkit-line-clamp: 3; }
+.role-changes { display: grid; grid-auto-rows: 54px; align-content: start; gap: 4px; flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: thin; scrollbar-gutter: stable; }
+.role-changes button { display: grid; grid-template-columns: 41px minmax(0, 1fr); grid-template-rows: 15px 26px; column-gap: 6px; align-items: start; min-width: 0; padding: 5px 6px; text-align: left; background: color-mix(in srgb, var(--role-color) 7%, #131e28); border-color: var(--line); border-inline-start: 3px solid var(--role-color); font-size: 11px; }
+.role-changes button:hover { background: color-mix(in srgb, var(--role-color) 15%, #131e28); }
+.role-changes button:focus-visible { outline-offset: -2px; }
 .role-changes time { color: var(--muted); font-variant-numeric: tabular-nums; }
 .role-changes strong { color: var(--role-color); }
-.role-changes span { grid-column: 2; color: var(--muted); }
+.role-changes span { grid-column: 2; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; color: var(--muted); line-height: 13px; }
 .lineups { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
 .lineup { min-width: 0; border-color: color-mix(in srgb, var(--team) 24%, var(--line)); background: color-mix(in srgb, var(--team) 8%, var(--panel)); }
 .lineup-controls { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px; align-items: start; padding: 9px 10px 6px; }
@@ -265,7 +269,9 @@ button.primary:hover { background: #c1eed3; }
   .top-limits { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 360px) {
-  .robot-heading .vector-dial { display: none; }
+  .inspector { padding-inline: 10px; }
+  .robot-heading .vector-dial { --dial-size: 32px; }
+  .robot-heading strong { font-size: 13px; }
   .timeline-controls { gap: 4px; }
   .role-count { font-size: 10px; }
 }
@@ -398,7 +404,7 @@ button.primary:hover { background: #c1eed3; }
           <div id="command-details" role="group" aria-label="Robot motion" hidden>
             <div class="translation-row">
               <div class="vector-dial" id="translation" role="img"><span aria-hidden="true">F</span><div id="vector-needle"></div><i></i></div>
-              <span class="label" id="speed-label" title="Travel speed">Travel</span><strong id="speed">—</strong>
+              <div class="motion-value"><span class="label" id="speed-label" title="Travel speed">Travel</span><strong id="speed">—</strong></div>
             </div>
             <div class="turn-readout">
               <span class="label" title="Turn command">Turn</span><strong id="turn">—</strong>
@@ -406,7 +412,7 @@ button.primary:hover { background: #c1eed3; }
             </div>
           </div>
         </div>
-        <div class="inspector-section role-history">
+        <div class="role-timeline">
           <div class="timeline-heading">
             <h3>Role timeline</h3>
             <div class="timeline-controls">
@@ -419,8 +425,13 @@ button.primary:hover { background: #c1eed3; }
           </div>
           <div id="role-track" class="role-track" role="group" aria-label="Role changes in the last 10 seconds"></div>
           <div class="history-axis"><span id="role-window-start">−10 s</span><span>Selected time</span></div>
+        </div>
+        <div class="role-details">
           <article id="current-role-card" class="current-role-card" aria-label="Current role" hidden>
-            <div class="current-role-heading"><h4 id="role">—</h4><span id="role-duration" title="Time in this role"></span></div>
+            <div class="current-role-heading">
+              <h4 id="role">—</h4>
+              <div class="role-timing"><time id="role-assigned-at" title="Assignment time"></time><span aria-hidden="true">·</span><span id="role-duration" title="Time in this role"></span></div>
+            </div>
             <div class="role-note"><span class="label">Role detail</span><p id="task"></p></div>
             <div class="role-note"><span class="label">Role reason</span><p id="reason"></p></div>
           </article>
@@ -951,10 +962,14 @@ function updateHistory(now) {
     segments.append(chip);
   }
   track.replaceChildren(segments);
-  const elapsed = now - frames[history[current].tick].t;
+  const assignedAt = frames[history[current].tick].t;
+  const elapsed = now - assignedAt;
   const recent = history.slice(first, current + 1);
   const changeCount = recent
     .filter(({ tick, previous }) => previous !== null && frames[tick].t >= start).length;
+  const assigned = byId("role-assigned-at");
+  assigned.textContent = replayTime(assignedAt);
+  assigned.dateTime = `PT${assignedAt}S`;
   byId("role-duration").textContent = `${elapsed.toFixed(1)} s`;
   byId("role-change-count").textContent = changeCount;
   const list = byId("role-changes");
@@ -974,7 +989,7 @@ function updateHistory(now) {
     const label = document.createElement("strong");
     label.textContent = roleName(role);
     const task = document.createElement("span");
-    task.textContent = robotTask(frames[tick], selected);
+    task.textContent = task.title = robotTask(frames[tick], selected);
     button.append(time, label, task);
     button.addEventListener("click", () => seek(tick));
     return button;
@@ -1046,7 +1061,7 @@ function updateGauges(audit) {
   const direction = Math.atan2(-forward, -lateral);
   const needle = byId("vector-needle");
   needle.hidden = requested < .01;
-  needle.style.setProperty("--length", `${9 * Math.min(requested / maxSpeed, 1)}px`);
+  needle.style.setProperty("--fraction", Math.min(requested / maxSpeed, 1));
   needle.style.setProperty("--angle", `${direction}rad`);
   const speedLabel = byId("speed-label");
   speedLabel.textContent = measured == null ? "Drive" : "Travel";

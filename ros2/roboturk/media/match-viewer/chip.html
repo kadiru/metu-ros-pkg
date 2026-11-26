@@ -559,6 +559,8 @@ const roleTasks = {
   Outlet: "Offer the keeper a passing option.",
   kickoff: "Drive to the assigned spot for kickoff.",
   Kickoff: "Put the centered ball back into play.",
+  "Kickoff receiver": "Wait for the kickoff pass, then receive it.",
+  "Kickoff support": "Hold a support position until the ball is in play.",
   "Stand clear": "Keep clear of the ball during the restart.",
   Pass: "Take the awarded free kick as a pass.",
   Receive: "Move into position for the free-kick pass.",
@@ -576,7 +578,7 @@ const roleColors = {
   Carrier: "#ace38c", Receiver: "#86d4fa", "Spin outlet": "#86d4fa", "Left wing": "#8cb0ff", "Right wing": "#b7a3f4",
   Anchor: "#c1d69f", Marker: "#efbf87", Screen: "#ebd18f", Cover: "#edb1a0",
   "Guard box": "#d0a9cf", "Block outlet": "#d9b29b", Contain: "#f8a19e", Outlet: "#97dfb2",
-  kickoff: "#b8c7d5", Kickoff: "#9ec5e9", "Stand clear": "#9daebc",
+  kickoff: "#b8c7d5", Kickoff: "#9ec5e9", "Kickoff receiver": "#86d4fa", "Kickoff support": "#b7a3f4", "Stand clear": "#9daebc",
   Pass: "#9fcce6", Receive: "#95dcea", hold: "#a0afc4",
 };
 const eventColors = {
@@ -920,6 +922,8 @@ function explain(frame, role, audit) {
     return `${assignment} ${phaseReasons[phase] || `${team} is in ${phase.toLowerCase()}.`}${switchNote}`;
   }
   if (role === "kickoff" || role === "Kickoff") return "The referee awarded a kickoff. This robot has a restart assignment.";
+  if (role === "Kickoff receiver") return "The team controller chose this robot for the kickoff pass.";
+  if (role === "Kickoff support") return "The team keeps its support players in formation until the ball is in play.";
   if (role === "hold" || role === "Stand clear" || frame.mode !== "running") return "The referee limits movement during this stoppage or restart.";
   if (role === "Pass" || role === "Receive") return "The free-kick controller chose the passer and a receiving outlet.";
   const phase = frame.phases[keys[selected][0] === "blue" ? 0 : 1];

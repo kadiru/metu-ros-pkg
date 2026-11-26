@@ -4,7 +4,8 @@ from dataclasses import replace
 import math
 
 from .carrier_motor import MOTOR, track_roller
-from .five_roles import Assignment, CFG, limit
+from .five_decision import pass_speed
+from .five_roles import Assignment, CFG, Flight, limit
 from .model import Command, possession, unit, wrap
 from .three_recipient import move
 from .placement_traffic import route
@@ -58,33 +59,83 @@ def stop_formation(w, target=None):
 
 
 class KickoffKick:
-    """Stage one kicker and keep it clear until another robot touches the ball."""
+    """Execute a team kickoff intent and observe when restart restrictions end."""
 
-    def __init__(self, kicker):
+    def __init__(self, kicker, controller):
         self.kicker = kicker
-        self.kicked = False
+        self.controller = controller
+        self.started_at = None
+        self.origin = None
+        self.in_play = False
         self.second_touch = False
+        self.intent = None
+        self.reason = ""
 
-    def commands(self, world):
+    @property
+    def kicked(self):
+        return self.origin is not None
+
+    def timed_out(self, now):
+        return self.started_at is not None and not self.in_play and now - self.started_at >= 10.0
+
+    def commands(self, world, cfg, tasks):
+        if self.started_at is None:
+            self.started_at = world.time
         r = world.robot(self.kicker)
-        sign = world.direction(self.kicker.team)
         ball = world.ball
-        aim = 0.0 if sign > 0 else math.pi
-        cmd = replace(move(r, ball.x - sign * CFG.possession_x, ball.y, aim, 0.40), dribbler=0)
-        if possession(world, self.kicker, CFG) and abs(wrap(aim - r.yaw)) < 0.06:
-            cmd = Command(kick=2.6)
-        return {self.kicker: cmd}
+        if not self.kicked:
+            decision = self.controller.kickoff(world, r, cfg.max_kick)
+            self.intent, self.reason = decision.intent, decision.reason
+        receiver = self.intent.receiver
+        roles, out = {}, {}
+        for robot in world.robots:
+            key = robot.key
+            role, target = "Stand clear", xy(robot)
+            task = "Wait until the ball is in play."
+            if key == self.kicker:
+                role, target = "Kickoff", xy(ball)
+                if not self.kicked:
+                    task = "Line up the kickoff pass" if receiver else "Wait for an open teammate"
+            elif key == receiver:
+                role, target = "Kickoff receiver", self.intent.target
+                task = "Wait for the kickoff pass, then receive it."
+            elif key.team == self.kicker.team:
+                role = "Keeper" if key.id == 0 else "Kickoff support"
+                task = "Hold your formation position until the ball is in play."
+            roles[key] = Assignment(role, target)
+            tasks[key] = task
+            out[key] = Command()
+
+        planned = {}
+        if receiver is not None and not self.kicked:
+            target = self.intent.target
+            aim = math.atan2(target[1] - ball.y, target[0] - ball.x)
+            radial = math.atan2(r.y - ball.y, r.x - ball.x)
+            sweep = wrap(aim + math.pi - radial)
+            # Orbit the center ball before approaching the mouth contact point.
+            theta = radial + limit(sweep, 0.50)
+            distance = 0.23 if abs(sweep) > 0.16 else cfg.possession_x
+            dest = ball.x + distance * math.cos(theta), ball.y + distance * math.sin(theta)
+            out[self.kicker] = replace(move(r, *dest, aim, speed=0.60), dribbler=0)
+            if possession(world, self.kicker, cfg) and abs(wrap(aim - r.yaw)) < 0.035:
+                speed = min(pass_speed(ball, target, True), cfg.max_kick)
+                out[self.kicker] = Command(kick=speed)
+                planned[self.kicker] = Flight(self.kicker.team, receiver, target, world.time + 2.15)
+        return out, roles, planned
 
     def observe(self, worlds):
-        self.second_touch |= any(
-            r.key != self.kicker
-            and (
-                possession(world, r.key, CFG)
-                or math.dist(xy(world.ball), xy(r)) <= CFG.robot_radius + CFG.ball_radius
-            )
-            for world in worlds
-            for r in world.robots
-        )
+        for world in worlds:
+            self.in_play |= math.dist(xy(world.ball), self.origin) >= 0.05
+            if self.in_play and any(
+                r.key != self.kicker
+                and (
+                    possession(world, r.key, CFG)
+                    or math.dist(xy(world.ball), xy(r)) <= CFG.robot_radius + CFG.ball_radius
+                )
+                for r in world.robots
+            ):
+                self.second_touch = True
+                break
 
 
 def withdrawal(w, placer, fallback, margin):

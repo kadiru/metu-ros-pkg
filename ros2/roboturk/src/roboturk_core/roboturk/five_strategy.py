@@ -109,9 +109,11 @@ def describe_play(strategy, phase, *, command="", task=None, in_flight=False, de
     elif phase == "Kickoff":
         play = "Kickoff"
         step = (
-            "Build the formation" if command.startswith("PREPARE_KICKOFF") else "Release the ball"
+            "Build the formation"
+            if command.startswith("PREPARE_KICKOFF")
+            else task or "Wait for the kickoff"
         )
-        reason = "The referee has awarded a kickoff."
+        reason = decision or "The referee has awarded a kickoff."
     elif phase == "Restart":
         play = "Free kick"
         step = "Place the ball" if command.startswith("BALL_PLACEMENT") else "Restart play"

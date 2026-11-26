@@ -162,9 +162,10 @@ def action_events(events, keys):
         elif kind in STARTS:
             actor = event["actor"]
             speed = f" · {event['speed']:g} m/s" if kind == "shot" and "speed" in event else ""
+            recipient = f" to {name(event['receiver'])}" if "receiver" in event else ""
             yield [
                 tick,
-                f"{name(actor)} {STARTS[kind]}{speed}",
+                f"{name(actor)} {STARTS[kind]}{recipient}{speed}",
                 kind.split("_")[0],
                 keys[actor][0],
                 *details,

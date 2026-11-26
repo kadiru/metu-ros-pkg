@@ -48,12 +48,21 @@ class TeamController(Protocol):
         """Propose a pass, dribble, or shot for the shared carrier skills."""
         ...
 
+    def kickoff(self, world: World, kicker: Robot, kick_limit: float) -> AttackDecision:
+        """Choose a teammate and target for the kickoff restart."""
+        ...
+
 
 def pass_target(mate: Robot) -> Point:
     return (
         max(-4.22, min(4.22, mate.x + 0.16 * mate.vx)),
         max(-2.68, min(2.68, mate.y + 0.16 * mate.vy)),
     )
+
+
+def pass_speed(ball, target, receive):
+    distance = math.hypot(target[0] - ball.x, target[1] - ball.y)
+    return min(2.6, 1.70 + 0.23 * distance) if receive else 2.6
 
 
 def pass_options(world, carrier, weights):
@@ -75,6 +84,32 @@ class BalancedController:
 
     def wings(self, world, team, left, right):
         return left, right
+
+    def kickoff(self, world, kicker, kick_limit):
+        ball = world.ball
+        team = kicker.key.team
+        others = [r for r in world.robots if r.key != kicker.key and r.visible]
+        choices = []
+        for mate in others:
+            if mate.key.team != team or mate.key.id == 0:
+                continue
+            target = pass_target(mate)
+            distance = math.hypot(target[0] - ball.x, target[1] - ball.y)
+            if not 0.60 <= distance <= 3.1:
+                continue
+            speed = min(pass_speed(ball, target, True), kick_limit)
+            gap = clearance(ball.x, ball.y, *target, (r for r in others if r != mate), speed)
+            if gap >= 0.24:
+                choices.append((min(gap, 0.65) - 0.12 * distance, mate.key, target))
+        if choices and ball.visible and kicker.visible:
+            _, receiver, target = max(choices)
+            jersey = f"{team[0].upper()}{receiver.id}"
+            return AttackDecision(
+                Intent(Skill.PASS, target, receiver), f"{jersey} has a clear kickoff lane."
+            )
+        return AttackDecision(
+            Intent(Skill.HOLD, (ball.x, ball.y)), "Wait for a clear kickoff lane."
+        )
 
     def attack(self, world, carrier, strategy, weights, keeper):
         team = carrier.key.team

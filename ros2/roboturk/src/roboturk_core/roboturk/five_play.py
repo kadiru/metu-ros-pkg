@@ -6,7 +6,7 @@ from .carpet import SWITCH_RATIO, ground_step
 from .carrier_motor import track_roller
 from .chip import chip_pass
 from .counterpass import MOTOR, clearance
-from .five_decision import CONTROLLERS
+from .five_decision import CONTROLLERS, pass_speed
 from .five_receive import carrying
 from .five_roles import CFG, PENALTY_FRONT, PENALTY_HALF_WIDTH, TIMED_ROLES, Flight, limit
 from .five_strategy import BALANCED
@@ -20,11 +20,6 @@ from .three_match import filter_commands
 from .timed_motion import QUALIFIED_PACE, inside, plan_team
 from .touchline import recovery_command
 from .three_recipient import move
-
-
-def pass_speed(ball, target, receive):
-    distance = math.hypot(target[0] - ball.x, target[1] - ball.y)
-    return min(2.6, 1.70 + 0.23 * distance) if receive else 2.6
 
 
 def turn_release(

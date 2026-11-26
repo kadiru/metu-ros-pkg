@@ -15,6 +15,7 @@ from controller import Supervisor
 from roboturk.continuous_backend import ContinuousWebotsBackend
 from roboturk.errt import ERRTFallback
 from roboturk.field import CARPET_MARGIN
+from roboturk.five_decision import CONTROLLERS
 from roboturk.five_play import open_play
 from roboturk.five_receive import FiveReceive
 from roboturk.five_roles import Assignment, CFG, TEAMS, FiveRoles, kickoff
@@ -227,7 +228,7 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                         (r for r in target.robots if r.key.team == serving),
                         key=lambda r: math.hypot(r.x, r.y),
                     )
-                    kickoff_kick = KickoffKick(kicker.key)
+                    kickoff_kick = KickoffKick(kicker.key, CONTROLLERS[strategies[serving].controller])
                 if drive and cfg.get("track_kickoffs"):
                     events.append(
                         dict(
@@ -263,6 +264,13 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                         awaiting_team = TEAMS[1 - idx]
             score[:] = state.score
             restricted = gate.restricted_to(state.source, state.counter, state.restart_team, w.ball)
+            if kickoff_kick and state.command == "NORMAL_START" and kickoff_kick.timed_out(w.time):
+                gate.released = True
+                restricted = ""
+                if kickoff_kick.kicked:
+                    kickoff_kick.in_play = True
+                else:
+                    kickoff_kick = None
             if (
                 kickoff_kick
                 and state.mode != Referee.RUNNING
@@ -371,12 +379,11 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
             out, roles = placement
             phases = {t: "Restart" for t in TEAMS}
             planned = {}
-        elif kickoff_kick and not kickoff_kick.kicked and state.command == "NORMAL_START":
-            out = kickoff_kick.commands(w)
-            roles = {r.key: Assignment("Stand clear", xy(r)) for r in w.robots}
-            roles[kickoff_kick.kicker] = Assignment("Kickoff", (0, 0))
+        elif kickoff_kick and not kickoff_kick.in_play and state.command == "NORMAL_START":
+            kicker = kickoff_kick.kicker
+            out, roles, planned = kickoff_kick.commands(w, motion_configs[kicker.team], tasks)
+            decisions[kicker] = kickoff_kick.reason
             phases = dict.fromkeys(TEAMS, "Kickoff")
-            planned = {}
         elif w.referee == Referee.RUNNING:
             active_policy = policy if tick >= cfg.get("steer_from_tick", 0) else None
             out, planned, roles, phases = open_play(
@@ -410,7 +417,13 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
             if restricted:
                 out = {k: c for k, c in out.items() if k.team == restricted}
             if kickoff_kick and not kickoff_kick.second_touch:
-                out.pop(kickoff_kick.kicker, None)
+                kicker = kickoff_kick.kicker
+                out.pop(kicker, None)
+                planned.pop(kicker, None)
+                roles[kicker] = Assignment("Stand clear", xy(w.robot(kicker)))
+                tasks[kicker] = "Wait for another robot to touch the ball."
+                if allocation is not None:
+                    allocation[kicker] = {"basis": "referee"}
         else:
             tactics.spin.turn = None
             roles = {r.key: Assignment("hold", (r.x, r.y)) for r in w.robots}
@@ -464,6 +477,9 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                 if turn and turn.actor == key:
                     item["spin_turn"] = turn.describe()
                 details.append(item)
+            active = tactics.control
+            if kickoff_kick and not kickoff_kick.in_play and state.command == "NORMAL_START":
+                active = kickoff_kick.kicker
             meta.update(
                 allocation=details,
                 attack_sign=w.attack_sign,
@@ -472,13 +488,9 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                         strategies[team],
                         phases[team],
                         command=state.command if state else "",
-                        task=tasks.get(tactics.control, None)
-                        if tactics.control and tactics.control.team == team
-                        else None,
+                        task=tasks.get(active) if active and active.team == team else None,
                         in_flight=tactics.flight is not None,
-                        decision=decisions.get(tactics.control)
-                        if tactics.control and tactics.control.team == team
-                        else None,
+                        decision=decisions.get(active) if active and active.team == team else None,
                     )
                     for team in TEAMS
                 ],
@@ -582,7 +594,7 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
             )
             goal_heights[k.team] = launch.ball.z
             if kickoff_kick and not kickoff_kick.kicked and k == kickoff_kick.kicker:
-                kickoff_kick.kicked = True
+                kickoff_kick.origin = xy(launch.ball)
                 event["event"] = "kickoff_kick"
             if (
                 restart
@@ -593,7 +605,9 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                 event.update(event="restart_pass", receiver=keys.index(restart.play.receiver))
             if k in planned:
                 tactics.flight = planned[k]
-                event.update(event="pass", receiver=keys.index(planned[k].receiver))
+                event["receiver"] = keys.index(planned[k].receiver)
+                if event["event"] == "shot":
+                    event["event"] = "pass"
             else:
                 tactics.flight = None
             if tactics.spin.turn and tactics.spin.turn.actor == k:

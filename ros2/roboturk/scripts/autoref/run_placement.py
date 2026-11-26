@@ -165,6 +165,8 @@ def main():
         if league:
             if args.live_viewer:
                 params.append("--live-viewer")
+            if not spec.get("pass_intercepts", True):
+                params.append("--no-pass-intercepts")
             if spec.get("team_strategies") is not None:
                 params.extend(["--team-strategies", json.dumps(spec["team_strategies"])])
             if spec.get("team_limits") is not None:

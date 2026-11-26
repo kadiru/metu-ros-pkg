@@ -94,11 +94,16 @@ def decode_strategies(config=None):
     return strategies
 
 
-def describe_play(strategy, phase, *, command="", task=None, in_flight=False, decision=None):
+def describe_play(
+    strategy, phase, *, command="", task=None, in_flight=False, decision=None, interception=None
+):
     if phase == "Attack":
         play = strategy.book.attack
         step = "Receive the pass" if in_flight else task or "Find an outlet"
         reason = decision or strategy.book.description
+    elif phase == "Defend" and interception:
+        play, step = "Intercept the pass", "Meet the ball before the receiver"
+        reason = interception.reason()
     elif phase == "Defend":
         play = "Press and cover"
         step = "Cover the pass" if in_flight else "Press the carrier"

@@ -413,6 +413,7 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                 spin_releases=cfg.get("spin_releases", True)
                 and not restricted
                 and (not kickoff_kick or kickoff_kick.second_touch),
+                pass_intercepts=cfg.get("pass_intercepts", False) and not restricted,
             )
             if restricted:
                 out = {k: c for k, c in out.items() if k.team == restricted}
@@ -480,6 +481,9 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
             active = tactics.control
             if kickoff_kick and not kickoff_kick.in_play and state.command == "NORMAL_START":
                 active = kickoff_kick.kicker
+            interception = tactics.interception
+            if interception and roles[interception.actor].role != "Interceptor":
+                interception = None
             meta.update(
                 allocation=details,
                 attack_sign=w.attack_sign,
@@ -491,6 +495,9 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
                         task=tasks.get(active) if active and active.team == team else None,
                         in_flight=tactics.flight is not None,
                         decision=decisions.get(active) if active and active.team == team else None,
+                        interception=interception
+                        if interception and interception.actor.team == team
+                        else None,
                     )
                     for team in TEAMS
                 ],
@@ -604,7 +611,7 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
             ):
                 event.update(event="restart_pass", receiver=keys.index(restart.play.receiver))
             if k in planned:
-                tactics.flight = planned[k]
+                tactics.flight = replace(planned[k], launch_speed=speed)
                 event["receiver"] = keys.index(planned[k].receiver)
                 if event["event"] == "shot":
                     event["event"] = "pass"

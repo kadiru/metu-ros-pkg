@@ -68,6 +68,7 @@ def steer_team(
     cfg=CFG,
     expand_pace=False,
     turning=(),
+    interceptors=(),
 ):
     """Translate this team's requests using only measured motion of surrounding players."""
     own = [r for r in robots if r.key.team == team]
@@ -89,7 +90,7 @@ def steer_team(
             cfg.max_speed / max(cfg.max_speed, math.hypot(cmd.vx, cmd.vy))
             if expand_pace
             else speed / max(speed, math.hypot(cmd.vx, cmd.vy))
-            if r.key in turning
+            if r.key in turning or r.key in interceptors
             else group_scale
         )
         x, y = world_vector(cmd.vx * scale, cmd.vy * scale, r.yaw)

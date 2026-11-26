@@ -13,6 +13,7 @@ from .five_strategy import BALANCED
 from .goal_cover import opposing_holder
 from .model import Command, Skill, possession, unit, wrap
 from .open_motion import steer_team
+from .pass_intercept import intercept_pass
 from .pivot_fetch import PivotFetch
 from .tackle_selector import CONTAIN, PIVOT_SIDES, TackleSelector
 from .timed_keeper import TimedGoalCover
@@ -105,6 +106,14 @@ def commands(
         role = positions[r.key].role
         tx, ty = positions[r.key].target
         angle = math.atan2(ball.y - r.y, ball.x - r.x)
+        if role == "Interceptor":
+            interception = tactics.interception
+            out[r.key] = interception.command(world, r, motion or CFG, receive)
+            if tasks is not None:
+                tasks[r.key] = "Meet the pass and secure the ball"
+            if decisions is not None:
+                decisions[r.key] = interception.reason()
+            continue
         if role == "Spin outlet":
             out[r.key] = move(r, tx, ty, angle, speed=0.85)
             if tasks is not None:
@@ -334,6 +343,7 @@ def open_play(
     spin_releases=False,
     controllers=None,
     decision_audit=None,
+    pass_intercepts=True,
 ):
     """One open-play control tick shared by ordinary matches and paired replays."""
     carrier = None
@@ -355,6 +365,21 @@ def open_play(
             None,
         )
     sole = tactics.observe(world, tackling=tackling)
+    flight = tactics.flight
+    previous = tactics.interception
+    tactics.interception = None
+    if pass_intercepts and flight:
+        defending = "yellow" if flight.team == "blue" else "blue"
+        motion = motion_configs[defending] if motion_configs else CFG
+        if policy and not practice_pace:
+            motion = replace(motion, max_speed=min(QUALIFIED_PACE, motion.max_speed))
+        if sole is None:
+            tactics.interception = intercept_pass(
+                world, flight, motion, policy.clearance if policy else 0.25, measured, previous
+            )
+        elif previous and sole == previous.actor and sole.team == defending:
+            # Retain the role through the short possession confirmation dwell.
+            tactics.interception = previous
     secure = (
         tackle.secure_after_tackle(world, world.robot(sole))
         if policy and isinstance(tackle, TackleSelector) and sole and not tactics.flight
@@ -543,6 +568,7 @@ def open_play(
                 cfg=motion,
                 expand_pace=practice_pace,
                 turning=turning,
+                interceptors=(tactics.interception.actor,) if tactics.interception else (),
             )
             if trajectory:
                 steered = plan_team(

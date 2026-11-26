@@ -38,6 +38,7 @@ const roleTasks = {
   Keeper: "Protect its own goal and collect loose balls in reach.",
   Chaser: "Reach the loose ball and bring it under control.",
   Presser: "Close down the opposing ball carrier.",
+  Interceptor: "Meet the opposing pass and secure the ball.",
   Carrier: "Control the ball and advance the attack.",
   Receiver: "Move into the passing lane and bring the pass under control.",
   "Spin outlet": "Hold the outlet for the spin pass.",
@@ -69,6 +70,7 @@ const motionNames = {
 };
 const roleColors = {
   Keeper: "#b4b6f1", Chaser: "#84dec5", Presser: "#ffae94",
+  Interceptor: "#73d4cb",
   Carrier: "#ace38c", Receiver: "#86d4fa", "Spin outlet": "#86d4fa", "Left wing": "#8cb0ff", "Right wing": "#b7a3f4",
   Anchor: "#c1d69f", Marker: "#efbf87", Screen: "#ebd18f", Cover: "#edb1a0",
   "Guard box": "#d0a9cf", "Block outlet": "#d9b29b", Contain: "#f8a19e", Outlet: "#97dfb2",
@@ -403,6 +405,7 @@ function explain(frame, role, audit) {
   const team = teams[keys[selected][0]].label;
   if (audit?.basis === "keeper" || role === "Keeper") return "Robot 0 is the designated goalkeeper.";
   if (audit?.basis === "receiver" || role === "Receiver") return "The pass targets this robot, so the controller reserves it.";
+  if (role === "Interceptor") return "The defending team has reassigned this robot to the pass.";
   if (role === "Spin outlet") return "The carrier has selected this robot for the spin pass.";
   if (audit?.basis === "carrier" || role === "Carrier") return "This robot has confirmed possession.";
   if (audit?.basis === "contain" || role === "Contain") return "Both robots gripped the ball, so this player drops goal-side.";

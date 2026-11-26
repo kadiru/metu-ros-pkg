@@ -34,6 +34,8 @@ Each lineup shows its team's strategy, play, and current step, plus every robot'
 
 Click any number of robot IDs in the lineups to show their movement targets and kicks. Use the layers icon in either tinted lineup to switch the whole team's overlays on or off. Solid trails show flat kicks. Dotted, raised trails show chips. The trail clears when the kick ends or a new kick starts. The goal-mouth marker and crossing speed stay visible briefly after the trail clears. Use the match events to revisit a kick or goal. Goal-line markers record a physical crossing. The scoreboard uses the referee's decision. Older replays can still show assigned movement targets.
 
+When a field player can meet an opposing ground pass, the team switches to **Intercept the pass** and assigns that player **Interceptor**. The inspector shows the reachability reason with the robot's assignment. [Matched Webots comparison](../pass-interception/README.md)
+
 Open the **ⓘ** beside **Field** to see the overlay legend. The latest recorded kick and replay time share a row under the field, above the scrubber. The kick readout stays visible until another kick and includes launch speed, rotation or loft when present, and goal-line measurements when recorded. Use the speed selector next to **Play** to replay at 0.25× to 2× in quarter-speed steps. You can switch rates during playback. Live following runs at the simulator's pace.
 
 ### Export a training example

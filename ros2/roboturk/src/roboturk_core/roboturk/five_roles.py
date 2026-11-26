@@ -102,12 +102,14 @@ class Flight:
     receiver: RobotKey
     target: tuple[float, float]
     expires: float
+    launch_speed: float | None = None
 
 
 class FiveRoles:
     def __init__(self):
         self.previous = {}
         self.flight = None
+        self.interception = None
         self.control = None
         self.last_touch = -10.0
         self.candidate = None
@@ -249,7 +251,14 @@ class FiveRoles:
                 "Block outlet" if bx > 0 else "Guard box": field(math.copysign(3.48, bx), by),
                 **{n: p for n, p in roles.items() if n != primary},
             }
-        if self.contain and self.contain.team == team and phase != "Attack":
+        if self.interception and self.interception.actor.team == team and phase == "Defend":
+            primary = next(iter(roles))
+            roles = {
+                "Interceptor": self.interception.center,
+                **{n: p for n, p in roles.items() if n != primary},
+            }
+            forced = self.interception.actor
+        elif self.contain and self.contain.team == team and phase != "Attack":
             primary = next(iter(roles))
             roles = {
                 "Contain": field(bx - 0.54, by * 0.94),

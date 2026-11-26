@@ -96,6 +96,12 @@ def main():
         help="Allow controlled spin passes and shots in open play",
     )
     p.add_argument(
+        "--pass-intercepts",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Reassign a defender to meet a reachable opponent ground pass",
+    )
+    p.add_argument(
         "--crowded-fetch", action="store_true", help="Use a close approach for crowded loose balls"
     )
     p.add_argument(
@@ -438,6 +444,7 @@ def main():
                 else None,
                 smooth_carry=a.smooth_carry,
                 spin_releases=a.spin_releases,
+                pass_intercepts=a.pass_intercepts,
                 tackle_trials=a.tackle_trials,
                 tackle_duel=a.tackle_duel,
                 pivot_fetch=a.pivot_fetch,

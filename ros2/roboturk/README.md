@@ -4,6 +4,13 @@ The active successor to [Kadir Fırat Uyanık's RoboTurk stack](../../legacy/rob
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+
+## Flat-front robot actuator bench
+
+See the four omniwheels strafe and turn, the 90 mm dribbler collect a rolling ball, and the light sensor switch as the robot kicks or chips. [Bench setup, measurements, and design sources](media/actuator-bench/README.md)
+
+[![Native Webots demo of the flat-front RoboTurk robot and its actuators](media/actuator-bench/flat-front-actuators.gif)](media/actuator-bench/README.md)
+
 ## Arrival, interception and passing drills
 
 Four Webots drills train arrival at a specified pose and speed, trapping or redirecting a rolling ball, leading a moving teammate, and receiving under pressure. Starting the reception run before release improved contested passes from 18 to 32 on the same 40 starts. [Training curves, fitted profiles and Webots replays](media/primitive-dojo/README.md)

@@ -1,0 +1,240 @@
+#VRML_SIM R2025a utf8
+# template language: javascript
+PROTO SslActuatedRobot [
+  field SFVec3f translation 0 0 0.001
+  field SFRotation rotation 0 0 1 0
+  field SFString controller "actuator_bench"
+  field SFBool supervisor FALSE
+  field SFColor color 0.10 0.29 0.88
+] {
+  %<
+    const radius = 0.087;
+    const cut = Math.acos(0.072 / radius);
+    const sideCount = 26;
+    const corners = Array.from({length: sideCount}, (_, i) => {
+      const a = cut + i * (2 * Math.PI - 2 * cut) / (sideCount - 1);
+      return [radius * Math.cos(a), radius * Math.sin(a)];
+    });
+    const wheels = [60, 135, -135, -60];
+  >%
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    supervisor IS supervisor
+    contactMaterial "chassis"
+    children [
+      Shape {
+        appearance PBRAppearance { baseColor IS color roughness 0.45 metalness 0.1 }
+        geometry DEF HOUSING IndexedFaceSet {
+          coord Coordinate {
+            point [
+              %< for (const z of [0.054, 0.117]) {
+                for (const [x, y] of corners) { >%
+                  %<= x >% %<= y >% %<= z >%
+              %< }} >%
+            ]
+          }
+          coordIndex [
+            %< for (let i = 0; i < sideCount; ++i) {
+              const j = (i + 1) % sideCount; >%
+              %<= i >% %<= j >% %<= j + sideCount >% %<= i + sideCount >% -1
+            %< }
+              for (let i = sideCount - 1; i >= 0; --i) { >% %<= i >% %< } >% -1
+            %< for (let i = 0; i < sideCount; ++i) { >% %<= i + sideCount >% %< } >% -1
+          ]
+        }
+      }
+      Pose {
+        translation 0.030 0 0.118
+        children [ Shape {
+          appearance PBRAppearance { baseColor 0.94 0.97 1 roughness 0.68 metalness 0 }
+          geometry Box { size 0.058 0.010 0.002 }
+        } ]
+      }
+      %< for (const y of [-0.052, 0.052]) { >%
+        Pose {
+          translation 0.080 %<= y >% 0.033
+          children [ Shape {
+            appearance PBRAppearance { baseColor 0.18 0.23 0.29 roughness 0.55 metalness 0.3 }
+            geometry Box { size 0.030 0.011 0.041 }
+          } ]
+        }
+      %< } >%
+      %< for (const [index, azimuth] of wheels.entries()) {
+        const angle = azimuth * Math.PI / 180;
+        const cx = 0.085 * Math.cos(angle);
+        const cy = 0.085 * Math.sin(angle);
+      >%
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            anchor %<= cx >% %<= cy >% 0.025
+            axis %<= Math.cos(angle) >% %<= Math.sin(angle) >% 0
+          }
+          device [
+            RotationalMotor { name "wheel_%<= index >%" maxVelocity 90 maxTorque 0.15 }
+            PositionSensor { name "wheel_%<= index >%_encoder" }
+          ]
+          endPoint Solid {
+            name "omniwheel_%<= index >%"
+            translation %<= cx >% %<= cy >% 0.025
+            rotation 0 0 1 %<= angle >%
+            contactMaterial "omniwheel"
+            children [
+              Pose {
+                rotation 0 1 0 1.57079632679
+                children [ Shape {
+                  appearance PBRAppearance { baseColor 0.10 0.13 0.17 roughness 0.7 metalness 0 }
+                  geometry Cylinder { radius 0.020 height 0.012 subdivision 24 }
+                } ]
+              }
+              %< for (let i = 0; i < 12; ++i) {
+                const phi = i * Math.PI / 6; >%
+                Pose {
+                  translation %<= 0.0024 * (i % 2 ? 1 : -1) >% %<= 0.021 * Math.sin(phi) >% %<= 0.021 * Math.cos(phi) >%
+                  rotation 1 0 0 %<= -phi + Math.PI / 2 >%
+                  children [ Shape {
+                    appearance PBRAppearance {
+                      baseColor %<= i % 3 ? "0.63 0.69 0.72" : "0.92 0.76 0.35" >%
+                      roughness 0.62 metalness 0.2
+                    }
+                    geometry Capsule { radius 0.0038 height 0.010 }
+                  } ]
+                }
+              %< } >%
+            ]
+            boundingObject Pose {
+              rotation 0 1 0 1.57079632679
+              children [ Cylinder { radius 0.025 height 0.012 subdivision 32 } ]
+            }
+            physics Physics { density -1 mass 0.055 }
+          }
+        }
+      %< } >%
+      SliderJoint {
+        jointParameters JointParameters {
+          axis 1 0 0 minStop -0.007 maxStop 0
+          springConstant 820 dampingConstant 6
+        }
+        endPoint Solid {
+          name "compliant_roller_mount"
+          translation 0.087 0 0.036
+          children [
+            HingeJoint {
+              jointParameters HingeJointParameters { anchor 0 0 0 axis 0 1 0 }
+              device [
+                RotationalMotor { name "dribbler" maxVelocity 560 maxTorque 0.027 }
+                PositionSensor { name "dribbler_encoder" }
+              ]
+              endPoint Solid {
+                name "front_roller"
+                rotation 1 0 0 1.57079632679
+                contactMaterial "roller"
+                children [
+                  Shape {
+                    appearance PBRAppearance { baseColor 0.11 0.15 0.16 roughness 0.95 metalness 0 }
+                    geometry Cylinder { radius 0.008 height 0.09 subdivision 32 }
+                  }
+                  Pose {
+                    translation 0 0 0.000
+                    children [ Shape {
+                      appearance PBRAppearance { baseColor 0.16 0.72 0.64 roughness 0.6 metalness 0 }
+                      geometry Box { size 0.0163 0.0025 0.077 }
+                    } ]
+                  }
+                ]
+                boundingObject Cylinder { radius 0.008 height 0.09 subdivision 32 }
+                physics Physics {
+                  density -1 mass 0.032 centerOfMass [ 0 0 0 ]
+                  inertiaMatrix [ 0.000023 0.000023 0.000008, 0 0 0 ]
+                }
+              }
+            }
+          ]
+          boundingObject Box { size 0.008 0.025 0.008 }
+          physics Physics { density -1 mass 0.035 }
+        }
+      }
+      SliderJoint {
+        jointParameters JointParameters {
+          axis 1 0 0 minStop 0 maxStop 0.034 springConstant 850 dampingConstant 2
+        }
+        device [
+          LinearMotor {
+            name "flat_striker" maxVelocity 10 maxForce 110 controlPID 400 0 0
+            minPosition 0 maxPosition 0.034
+          }
+          PositionSensor { name "flat_striker_encoder" }
+        ]
+        endPoint Solid {
+          name "flat_plunger"
+          translation 0.080 0 0.023
+          contactMaterial "striker"
+          children [ DEF FLAT_PAD Shape {
+            appearance PBRAppearance { baseColor 0.86 0.88 0.91 roughness 0.38 metalness 0.42 }
+            geometry Box { size 0.010 0.043 0.014 }
+          } ]
+          boundingObject USE FLAT_PAD
+          physics Physics { density -1 mass 0.044 }
+        }
+      }
+      SliderJoint {
+        jointParameters JointParameters {
+          axis 0.809016994 0 0.587785252 minStop 0 maxStop 0.036 springConstant 850 dampingConstant 2
+        }
+        device [
+          LinearMotor {
+            name "chip_striker" maxVelocity 10 maxForce 100 controlPID 400 0 0
+            minPosition 0 maxPosition 0.036
+          }
+          PositionSensor { name "chip_striker_encoder" }
+        ]
+        endPoint Solid {
+          name "chip_plunger"
+          translation 0.091 0 0.008
+          rotation 0 1 0 -0.628318531
+          contactMaterial "striker"
+          children [ DEF CHIP_PAD Shape {
+            appearance PBRAppearance { baseColor 0.96 0.48 0.13 roughness 0.44 metalness 0.22 }
+            geometry Box { size 0.005 0.062 0.006 }
+          } ]
+          boundingObject USE CHIP_PAD
+          physics Physics {
+            density -1 mass 0.052 centerOfMass [ 0 0 0 ]
+            inertiaMatrix [ 0.000018 0.000007 0.000018, 0 0 0 ]
+          }
+        }
+      }
+      DistanceSensor {
+        translation 0.111 0.049 0.022
+        rotation 0 0 1 -1.57079632679
+        name "ball_beam"
+        type "generic"
+        lookupTable [ 0 0 0, 0.093 0.093 0 ]
+      }
+      LED {
+        translation 0.096 0.052 0.035
+        name "beam_indicator"
+        color [ 0.26 1 0.46 ]
+        children [ Shape {
+          appearance PBRAppearance { baseColor 0.13 0.30 0.18 roughness 0.5 metalness 0 }
+          geometry Sphere { radius 0.004 subdivision 2 }
+        } ]
+      }
+    ]
+    boundingObject Group {
+      children [
+        USE HOUSING
+        Pose { translation 0 0 0.038 children [ Cylinder { radius 0.066 height 0.035 } ] }
+        Pose { translation 0.080 0.052 0.033 children [ Box { size 0.030 0.011 0.041 } ] }
+        Pose { translation 0.080 -0.052 0.033 children [ Box { size 0.030 0.011 0.041 } ] }
+      ]
+    }
+    physics Physics {
+      density -1
+      mass 2.08
+      centerOfMass [ 0 0 0.053 ]
+      inertiaMatrix [ 0.007 0.007 0.008, 0 0 0 ]
+    }
+  }
+}

@@ -38,6 +38,7 @@ def main():
             "evaluate",
             "suite",
             "physics-check",
+            "actuator-bench",
             "train",
             "ros",
             "capture-train",
@@ -130,6 +131,8 @@ def main():
             env["ROBOTURK_" + name.upper()] = str(value)
     if args.mode == "physics-check" and args.render:
         env["ROBOTURK_FILM_ROLL"] = "1"
+    if args.mode == "actuator-bench" and args.render:
+        env["ROBOTURK_FILM_ACTUATORS"] = "1"
     env["ROBOTURK_OUTPUT"] = str(Path(args.output).resolve())
     if args.mode.startswith("team-guarded-") and not all(
         (args.keeper_checkpoint, args.carry_profile, args.checkpoint, args.shoot_checkpoint)
@@ -163,7 +166,10 @@ def main():
     ]
     if not args.render and args.mode not in ("receive-dojo-demo", "primitive-dojo-demo"):
         command += ["--no-rendering", "--minimize"]
-    command.append(str(root / "src/roboturk_ros/webots/worlds/ssl_training.wbt"))
+    world = (
+        "benches/actuator_bench.wbt" if args.mode == "actuator-bench" else "worlds/ssl_training.wbt"
+    )
+    command.append(str(root / "src/roboturk_ros/webots" / world))
     process = subprocess.Popen(command, env=env, start_new_session=True)
     try:
         return process.wait(timeout=args.timeout)

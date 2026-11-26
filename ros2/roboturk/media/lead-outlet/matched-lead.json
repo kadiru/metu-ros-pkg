@@ -1,0 +1,105 @@
+{
+  "stem": "matched-lead",
+  "before": {
+    "outcome": "Pass intercepted",
+    "elapsed_s": 1.33
+  },
+  "play": {
+    "start": 0,
+    "recovery": 67,
+    "winner": 3,
+    "team": "yellow",
+    "goal": 839,
+    "shot": 183,
+    "scorer": 1,
+    "passes": [
+      120
+    ],
+    "dribble_m": 0.0,
+    "options": [
+      "pass",
+      "pass",
+      "shoot"
+    ]
+  },
+  "lead": {
+    "seed": 12300006,
+    "qualified": true,
+    "chain": {
+      "start": 0,
+      "recovery": 67,
+      "winner": 3,
+      "team": "yellow",
+      "goal": 839,
+      "shot": 183,
+      "scorer": 1,
+      "passes": [
+        120
+      ],
+      "dribble_m": 0.0,
+      "options": [
+        "pass",
+        "pass",
+        "shoot"
+      ]
+    },
+    "passer": 0,
+    "receiver": 1,
+    "slot": 0,
+    "decision": 92,
+    "kick": 120,
+    "end": 146,
+    "direct": 0.0052242639621636056,
+    "lane": 0.8760710574595878,
+    "space": 1.1363214144843037,
+    "pass_result": "complete",
+    "outcome": "pass goal",
+    "pass_goal": true,
+    "intercepted": false,
+    "target": [
+      -0.06701465746050844,
+      0.4929492207310121
+    ],
+    "run_speed": 0.5940705326125831,
+    "lead": 0.3445158042753434,
+    "contact": 566,
+    "advance": 0.29790022769991586,
+    "target_error": 0.0882295237415383,
+    "verified_lead": true
+  },
+  "proof": {
+    "previous": {
+      "seed": 12300006,
+      "samples": 1800,
+      "max_state_delta": 0,
+      "identical_events_options": true
+    },
+    "trained": {
+      "seed": 12300006,
+      "samples": 1800,
+      "max_state_delta": 0,
+      "identical_events_options": true
+    }
+  },
+  "excerpt": {
+    "file": "matched-lead.gif",
+    "frames": 118,
+    "seconds": 9.44,
+    "fps": 12.5,
+    "sha256": "d8161741911c91c907c4c1efde6a4d46f8a60e1f7e2a4d8e95875df94d33431c"
+  },
+  "mp4_sha256": "a36e9d6fd49400e75c7e0ffdd7ed3c7c2fd3fdd0e58d0f0d144d8f0cba1fdf67",
+  "speed": 1,
+  "source_start": 0,
+  "source_end": 9.39,
+  "common_crop": [
+    140,
+    180,
+    666,
+    374
+  ],
+  "native_sources": {
+    "previous": "529194cff3e586d87312f89804e50f52f904cc54ba401e41b3f1ac4c4f907131",
+    "trained": "79411b23447abcf9acfa5a24ea4a6d142c051a842c5b08be5a938c7c4102cb4f"
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "method": "whitespace-only compact JSON copies; original native and training files retained under runs/continuous-v2",
+  "files": [
+    {
+      "path": "training/seed622/round2/development.json",
+      "source_sha256": "ce6b25eeeda96494d399b893f2b0a5e61442dcf279f2800eface075830eecf7c",
+      "packaged_sha256": "8f3cfd3c4b31b401b3894ed676d4b005be7f633f4fff86147cad4cb1b086a5b2",
+      "source_bytes": 4562612,
+      "packaged_bytes": 1985952,
+      "semantic_identity_verified": true,
+      "whitespace_only_verified": true,
+      "source_path": "runs/continuous-v2/league622-categorical-v1/seed622/round2/development.json"
+    },
+    {
+      "path": "training/seed622/round2/rollouts.json",
+      "source_sha256": "a3859203f2aeea59ebe93588ede82cf1240d3f31086c403db883cfb4d9dde5c5",
+      "packaged_sha256": "3edbc9b69b977a4bd7d6543245e0efb7dbb3f6c53c00da8bf5f8cfa410fe7358",
+      "source_bytes": 10831897,
+      "packaged_bytes": 5150003,
+      "semantic_identity_verified": true,
+      "whitespace_only_verified": true,
+      "source_path": "runs/continuous-v2/league622-categorical-v1/seed622/round2/rollouts.json"
+    },
+    {
+      "path": "training/seed622/round1/development.json",
+      "source_sha256": "6705feead2f4c3f79bb6bf350fb06aba4964e3bf85ee86f6d911830820a7fb8a",
+      "packaged_sha256": "9a3407929e699487a8399332776e930538ebb476c34c5a7e0fe918113f596bc4",
+      "source_bytes": 3796393,
+      "packaged_bytes": 1653792,
+      "semantic_identity_verified": true,
+      "whitespace_only_verified": true,
+      "source_path": "runs/continuous-v2/league622-categorical-v1/seed622/round1/development.json"
+    },
+    {
+      "path": "training/seed622/round1/rollouts.json",
+      "source_sha256": "e1f7ad482e6103022b2f25157e9185f7fde4f7307b248c709659da98d57bc064",
+      "packaged_sha256": "722f4481016669e426b4c6fbc2773f23375dc775d9591fb481a0ef5dafc70b16",
+      "source_bytes": 9291676,
+      "packaged_bytes": 4416923,
+      "semantic_identity_verified": true,
+      "whitespace_only_verified": true,
+      "source_path": "runs/continuous-v2/league622-categorical-v1/seed622/round1/rollouts.json"
+    },
+    {
+      "path": "training/seed611/round2/development.json",
+      "source_sha256": "ff39c365d210a2510962f0dac95eed0cce8754bfea5d9101fba86c9841022609",
+      "packaged_sha256": "5a36f6d9b0cf4dcc6c9e20c8008bbf4daf127e0744ab5f07a849f9f9606fec9a",
+      "source_bytes": 4145195,
+      "packaged_bytes": 1806304,
+      "semantic_identity_verified": true,
+      "whitespace_only_verified": true,
+      "source_path": "runs/continuous-v2/league611-categorical-v1/seed611/round2/development.json"
+    },
+    {
+      "path": "training/seed611/round2/rollouts.json",
+      "source_sha256": "09f1cbcec1b89ee710c9ddb9959a29cf93c90aa4e9d415249b5ea1708ca6e0d7",
+      "packaged_sha256": "65f55b23bf93972752587d41593298802d11e8a6b59844f9e956fc89e59d2343",
+      "source_bytes": 10384357,
+      "packaged_bytes": 4937416,
+      "semantic_identity_verified": true,
+      "whitespace_only_verified": true,
+      "source_path": "runs/continuous-v2/league611-categorical-v1/seed611/round2/rollouts.json"
+    },
+    {
+      "path": "training/seed611/round1/development.json",
+      "source_sha256": "e939b38b6dec7251376651d3466ab1bc767f52d84cb75d81aec17bb22808a43d",
+      "packaged_sha256": "b389539eaadb517400d895692fae0f8f3a77c795036c3bea4082e4a81150dff6",
+      "source_bytes": 5307558,
+      "packaged_bytes": 2307022,
+      "semantic_identity_verified": true,
+      "whitespace_only_verified": true,
+      "source_path": "runs/continuous-v2/league611-categorical-v1/seed611/round1/development.json"
+    },
+    {
+      "path": "training/seed611/round1/rollouts.json",
+      "source_sha256": "ea26a51ef389816b29ec37bfc42101e10aae7cd311fe404f0312a44607c4fc9d",
+      "packaged_sha256": "392dd01bb3d509ddedaa44c456e448c35c03d41ee7bed0c31a91f37b2d234495",
+      "source_bytes": 11415420,
+      "packaged_bytes": 5426165,
+      "semantic_identity_verified": true,
+      "whitespace_only_verified": true,
+      "source_path": "runs/continuous-v2/league611-categorical-v1/seed611/round1/rollouts.json"
+    },
+    {
+      "path": "development/fresh-v1/611-self.json",
+      "source_sha256": "a194a2ae3295cbea948131da2e77c9b978d439b7e3b5c31a95f9c60844b77ad5",
+      "packaged_sha256": "ec44300a502117b6719feb15547ff2ee194aa097745df05f4fdfbf42c1d973bd",
+      "source_bytes": 17977360,
+      "packaged_bytes": 7597990,
+      "semantic_identity_verified": true,
+      "whitespace_only_verified": true,
+      "source_path": "runs/continuous-v2/development-v1/611-self.json"
+    },
+    {
+      "path": "development/fresh-v1/622-self.json",
+      "source_sha256": "f85a90f178619c0e3133eac6225b04a9a4a7460d5f0db7742973d7f017c604f5",
+      "packaged_sha256": "8fa8e75ab540febfceb5ab18791310fe0cc91e2bfe01a15e6e53864f7a3cfaee",
+      "source_bytes": 17325466,
+      "packaged_bytes": 7325163,
+      "semantic_identity_verified": true,
+      "whitespace_only_verified": true,
+      "source_path": "runs/continuous-v2/development-v1/622-self.json"
+    },
+    {
+      "path": "development/fresh-v1/611-history.json",
+      "source_sha256": "dea0e1fe9d6497c034fe507b44f1095db246cbaa9658ece254132bd2ac420454",
+      "packaged_sha256": "c6821a3885e4b0dda1d365c8812dadcdd7e52ec81ee9442994ebd81352277903",
+      "source_bytes": 19252128,
+      "packaged_bytes": 8153129,
+      "semantic_identity_verified": true,
+      "whitespace_only_verified": true,
+      "source_path": "runs/continuous-v2/development-v1/611-history.json"
+    },
+    {
+      "path": "development/fresh-v1/622-history.json",
+      "source_sha256": "1fb21fd6dfffae70bc4a979aec063711735f49ddda74d0e574391eb082fb74be",
+      "packaged_sha256": "b275295d753636fff6d0139eb0ea5698b4606f244d441a9c4fb8012c586f8254",
+      "source_bytes": 17092585,
+      "packaged_bytes": 7213769,
+      "semantic_identity_verified": true,
+      "whitespace_only_verified": true,
+      "source_path": "runs/continuous-v2/development-v1/622-history.json"
+    }
+  ]
+}

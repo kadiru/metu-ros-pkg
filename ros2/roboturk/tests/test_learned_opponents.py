@@ -1,0 +1,203 @@
+from dataclasses import replace
+from types import SimpleNamespace
+import math
+import numpy as np
+import pytest
+from roboturk.backend import ReferenceBackend
+from roboturk.model import Config, Referee, World, Robot, Ball, world_vector
+from roboturk.defended import DEFENDER, LaneDefender
+from roboturk.keeper import KEEPER, ReactiveKeeper
+from roboturk.learned_opponents import (
+    OpponentController,
+    LearnedOpponentPlayEnv,
+    opponent_observation,
+)
+
+
+class ConstantModel:
+    observation_space = SimpleNamespace(shape=(33,))
+    action_space = SimpleNamespace(shape=(3,))
+
+    def __init__(self, action):
+        self.value = np.array(action, np.float32)
+        self.calls = 0
+
+    def predict(self, obs, deterministic=True):
+        assert obs.shape == (33,)
+        self.calls += 1
+        return self.value, None
+
+
+def test_every_opponent_command_comes_from_model(monkeypatch):
+    def forbidden(*args):
+        raise AssertionError("analytic opponent was called")
+
+    monkeypatch.setattr(LaneDefender, "command", forbidden)
+    monkeypatch.setattr(ReactiveKeeper, "command", forbidden)
+    cfg = Config()
+    d = OpponentController("defender", cfg, model=ConstantModel([0.2, -0.3, 0.4]))
+    k = OpponentController("keeper", cfg, model=ConstantModel([-0.1, 0.3, -0.4]))
+    env = LearnedOpponentPlayEnv(cfg, ReferenceBackend(cfg), d, k)
+    env.reset(seed=1240042)
+    for _ in range(10):
+        env.backend.step({})
+    assert d.model.calls == k.model.calls == 10
+    evidence = env.backend.evidence()
+    assert evidence["opponent"] == "learned_lane_v1"
+    assert evidence["keeper"] == "learned_keeper_v1"
+    assert evidence["defender_policy_calls"] == evidence["keeper_policy_calls"] == 10
+    env.reset(seed=1240042)
+    assert d.calls == k.calls == 0
+
+
+def test_delay_acceleration_and_duplicate_frames():
+    cfg = Config()
+    c = OpponentController("keeper", cfg, model=ConstantModel([0, 1, 0.5]))
+    c.delay, c.speed, c.acceleration = 2, 0.8, 2.0
+    c.reset_control()
+    w = World(0, (Robot(KEEPER, 4.32, 0, math.pi),), Ball(2, 0), Referee.RUNNING)
+    commands = []
+    for i in range(4):
+        w = replace(w, time=i * cfg.dt)
+        commands.append(c.command(w))
+        assert c.command(w) == commands[-1]
+    assert c.calls == 4
+    assert commands[0].vy == commands[1].vy == 0
+    vx, vy = world_vector(commands[2].vx, commands[2].vy, math.pi)
+    assert vx == pytest.approx(0, abs=1e-8)
+    assert vy == pytest.approx(cfg.dt * c.acceleration)
+    assert commands[2].omega == pytest.approx(2)
+
+
+def test_safety_gate_and_invalid_neural_action():
+    c = OpponentController("defender", model=ConstantModel([np.nan, 0, 0]))
+    w = World(0, (Robot(DEFENDER, 0, 0),), Ball(-1, 0), Referee.HALT)
+    assert c.command(w).dribbler == 0
+    assert c.model.calls == 0
+    with pytest.raises(ValueError, match="Invalid learned"):
+        c.command(replace(w, referee=Referee.RUNNING))
+
+
+def test_geometry_features_rotate_with_field():
+    c = OpponentController("defender", model=ConstantModel([0, 0, 0]))
+    c.anchor_x, c.anchor_y, c.phase = 0.2, 0.1, 0.0
+    w = World(
+        0, (Robot(DEFENDER, 0.3, -0.2, 0.4, 0.1, -0.2),), Ball(-1, 0.2, 1.8, 0.1), Referee.RUNNING
+    )
+    a = opponent_observation(w, c)
+    c.anchor_x, c.anchor_y = -c.anchor_x, -c.anchor_y
+    r = w.robot(DEFENDER)
+    rotated = replace(
+        w,
+        robots=(replace(r, x=-r.x, y=-r.y, yaw=r.yaw + math.pi, vx=-r.vx, vy=-r.vy),),
+        ball=Ball(1, -0.2, -1.8, -0.1),
+        attack_sign=-1,
+    )
+    b = opponent_observation(rotated, c)
+    # Patrol phase is global context; rotate its phase too.
+    c.phase = math.pi
+    b = opponent_observation(rotated, c)
+    assert np.allclose(a, b, atol=1e-6)
+
+
+def test_pressure_finish_replays_training_observation_and_handoff():
+    from roboturk.adversarial_finish import PressureFinishEnv, PressureFinishCheckpoint
+    from roboturk.learned_opponents import LearnedKeeperBackend
+    from roboturk.shoot_contract import shoot_action
+    from roboturk.team import scoring_handoff
+
+    class FinishModel:
+        observation_space = SimpleNamespace(shape=(32,))
+        action_space = SimpleNamespace(shape=(4,))
+
+        def predict(self, observation, deterministic=True):
+            self.last_observation = observation.copy()
+            return np.array([0.1, -0.1, 0.05, -1], np.float32), None
+
+    cfg = Config()
+    keeper = OpponentController("keeper", cfg, model=ConstantModel([0, 0, 0]))
+    env = PressureFinishEnv(cfg, LearnedKeeperBackend(ReferenceBackend(cfg), cfg, keeper))
+    env.reset(seed=1240100)
+    model = FinishModel()
+    actor = PressureFinishCheckpoint(None, cfg, model=model)
+    command = actor.command(env.world, env.key, env.intent, cfg)
+    np.testing.assert_array_equal(model.last_observation, env.observation())
+    np.testing.assert_allclose(shoot_action(command, cfg), actor.action(env))
+    assert actor.plan.parking(env.world, env.key, cfg) == (env.world.attack_sign * 3.8, 0)
+    defender = OpponentController("defender", cfg, model=ConstantModel([0, 0, 0]))
+    play = LearnedOpponentPlayEnv(cfg, ReferenceBackend(cfg), defender, keeper)
+    play.scoring_env_type = PressureFinishEnv
+    play.reset(seed=1240101)
+    play.state.received = True
+    shot = scoring_handoff(play)
+    assert isinstance(shot, PressureFinishEnv)
+    assert shot.world is play.world and shot.backend is play.backend
+    assert shot.plan.parking(shot.world, shot.key, cfg) == (shot.world.attack_sign * 3.8, 0)
+
+
+def test_open_corner_can_fire_directly_and_covered_corner_changes_aim():
+    from roboturk.adversarial_finish import PressureFinishPlan
+    from roboturk.model import RobotKey
+
+    cfg = Config()
+    key = RobotKey("blue", 0)
+    angle = math.atan2(0.43, 0.70)
+    robot = Robot(
+        key, 3.8 - cfg.possession_x * math.cos(angle), -cfg.possession_x * math.sin(angle), angle
+    )
+    world = World(0, (robot, Robot(KEEPER, 4.32, 0, math.pi)), Ball(3.8, 0), Referee.RUNNING)
+    plan = PressureFinishPlan(world, key, cfg)
+    plan.update(world, key, cfg)
+    assert plan.phase == 1 and plan.target == (4.5, 0.43)
+    # A keeper moving into the ray must also count as coverage, before contact.
+    for keeper in (Robot(KEEPER, 4.32, 0.32, math.pi), Robot(KEEPER, 4.32, 0, math.pi, vy=0.95)):
+        covered = replace(world, robots=(robot, keeper))
+        plan = PressureFinishPlan(covered, key, cfg)
+        plan.update(covered, key, cfg)
+        assert plan.phase == 1 and plan.target == (4.5, -0.43)
+        target = plan.target
+        plan.update(covered, key, cfg)
+        assert plan.target == target  # Re-reading the same frame is idempotent.
+
+
+def test_guarded_approach_preserves_marker_opening_and_ticks_keeper():
+    from roboturk.closing_press import ClosingPassEnv
+    from roboturk.guarded_finish import GuardedPassEnv
+
+    cfg = Config()
+    keeper = OpponentController("keeper", cfg, model=ConstantModel([0.0, 0.3, 0.0]))
+    guarded = GuardedPassEnv(cfg, ReferenceBackend(cfg), keeper)
+    current = ClosingPassEnv(cfg)
+    for seed in (110, 111):
+        guarded.reset(seed=seed)
+        current.reset(seed=seed)
+        assert {r.key: r for r in guarded.world.robots if r.key != KEEPER} == {
+            r.key: r for r in current.world.robots
+        }
+        assert guarded.world.ball == current.world.ball
+        assert guarded.backend.base.defender.speed == current.backend.defender.speed
+        for _ in range(3):
+            guarded.backend.step({})
+        assert guarded.backend.evidence()["keeper_policy_calls"] == 3
+
+
+@pytest.mark.parametrize("sign", [-1, 1])
+def test_guarded_finish_aims_away_from_keeper_and_kicks_once(sign):
+    from roboturk.guarded_finish import GuardedFinish, FinishProfile
+    from roboturk.model import Command, Intent, RobotKey, Skill
+
+    cfg = Config()
+    key = RobotKey("blue", 0)
+    gx, bx = sign * 4.5, sign * 3.75
+    yaw = math.atan2(-0.42, gx - bx)
+    actor = Robot(
+        key, bx - cfg.possession_x * math.cos(yaw), -cfg.possession_x * math.sin(yaw), yaw
+    )
+    w = World(1, (actor, Robot(KEEPER, sign * 4.32, 0.27)), Ball(bx, 0), Referee.RUNNING, sign)
+    finish = GuardedFinish(None, FinishProfile(0.95, 0.42, 0.7))
+    intent = Intent(Skill.SHOOT, (gx, 0))
+    assert finish.command(w, key, intent, cfg).kick == 3.5
+    assert finish.side == -1
+    assert finish.command(w, key, intent, cfg) == Command()
+    finish.reset()
+    assert finish.side is None and not finish.fired

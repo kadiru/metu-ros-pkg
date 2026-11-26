@@ -1,0 +1,1564 @@
+{
+  "games": 40,
+  "goals": 31,
+  "lead_goals": 31,
+  "interceptions": 1,
+  "outcomes": {
+    "pass goal": 31,
+    "no confirmed recovery": 1,
+    "no opening pass": 3,
+    "opponent retouch before pass": 2,
+    "intercepted": 1,
+    "no uninterrupted finish": 2
+  },
+  "contacts": 0,
+  "exits": 0,
+  "passed": true,
+  "rows": [
+    {
+      "seed": 13300000,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 95,
+        "winner": 5,
+        "team": "yellow",
+        "goal": 491,
+        "shot": 98,
+        "scorer": 1,
+        "passes": [
+          35
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 2,
+      "receiver": 1,
+      "slot": 1,
+      "decision": 24,
+      "kick": 35,
+      "end": 59,
+      "direct": 0.017439546068807474,
+      "lane": 0.8418605185714304,
+      "space": 1.2681404499016544,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        -0.12531695679055105,
+        1.196427500865781
+      ],
+      "run_speed": 0.5940736752830786,
+      "lead": 0.3197141299562366,
+      "contact": 218,
+      "advance": 0.3184610470156978,
+      "target_error": 0.05220151152549519,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300001,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 59,
+        "winner": 1,
+        "team": "blue",
+        "goal": 447,
+        "shot": 90,
+        "scorer": 0,
+        "passes": [
+          34
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 1,
+      "receiver": 0,
+      "slot": 0,
+      "decision": 15,
+      "kick": 34,
+      "end": 63,
+      "direct": 0.04879373598158419,
+      "lane": 0.8380085655865814,
+      "space": 1.2215317032487572,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        -1.1252028101290756,
+        1.3666527781357853
+      ],
+      "run_speed": 0.5940733447004765,
+      "lead": 0.3780726504511891,
+      "contact": 233,
+      "advance": 0.3822421277568162,
+      "target_error": 0.0574270274448519,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300002,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 337,
+        "winner": 5,
+        "team": "yellow",
+        "goal": 751,
+        "shot": 161,
+        "scorer": 1,
+        "passes": [
+          104
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 2,
+      "receiver": 1,
+      "slot": 1,
+      "decision": 85,
+      "kick": 104,
+      "end": 123,
+      "direct": 0.08067860213822506,
+      "lane": 0.9288486543905909,
+      "space": 1.2107582245721478,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        0.08814340712181573,
+        0.8121160895415898
+      ],
+      "run_speed": 0.5940684039689234,
+      "lead": 0.26501263839300726,
+      "contact": 476,
+      "advance": 0.24953158803169284,
+      "target_error": 0.048253451905523666,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300003,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 83,
+        "winner": 1,
+        "team": "blue",
+        "goal": 399,
+        "shot": 76,
+        "scorer": 2,
+        "passes": [
+          30
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 1,
+      "receiver": 2,
+      "slot": 1,
+      "decision": 21,
+      "kick": 30,
+      "end": 50,
+      "direct": 0.11118886204492061,
+      "lane": 0.9814653354030775,
+      "space": 1.2330986614318735,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        -0.937983084706041,
+        1.0282330607632426
+      ],
+      "run_speed": 0.5940777424885871,
+      "lead": 0.2653797223294733,
+      "contact": 183,
+      "advance": 0.23252136626398592,
+      "target_error": 0.0654314126824565,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300004,
+      "qualified": false,
+      "chain": {
+        "start": 0
+      },
+      "outcome": "no confirmed recovery",
+      "pass_goal": false,
+      "intercepted": false
+    },
+    {
+      "seed": 13300005,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 59,
+        "winner": 3,
+        "team": "yellow",
+        "goal": 447,
+        "shot": 89,
+        "scorer": 1,
+        "passes": [
+          27
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 0,
+      "receiver": 1,
+      "slot": 0,
+      "decision": 15,
+      "kick": 27,
+      "end": 61,
+      "direct": 0.11820499733655926,
+      "lane": 0.23732449963519117,
+      "space": 1.1881152858099748,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        1.0212252980131817,
+        1.4341837572614287
+      ],
+      "run_speed": 0.5940729820467027,
+      "lead": 0.4463813315197036,
+      "contact": 225,
+      "advance": 0.45372144562016614,
+      "target_error": 0.045777786466984494,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300006,
+      "qualified": false,
+      "chain": {
+        "start": 0,
+        "recovery": 98,
+        "winner": 1,
+        "team": "blue"
+      },
+      "outcome": "no opening pass",
+      "pass_goal": false,
+      "intercepted": false
+    },
+    {
+      "seed": 13300007,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 123,
+        "winner": 1,
+        "team": "blue",
+        "goal": 423,
+        "shot": 85,
+        "scorer": 0,
+        "passes": [
+          43
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 1,
+      "receiver": 0,
+      "slot": 0,
+      "decision": 31,
+      "kick": 43,
+      "end": 62,
+      "direct": 0.1095896239886886,
+      "lane": 0.9671051696076461,
+      "space": 1.3102000033365546,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        -1.4504022843696027,
+        1.344728140457027
+      ],
+      "run_speed": 0.5940760112107241,
+      "lead": 0.26429363758975866,
+      "contact": 231,
+      "advance": 0.24500125636969244,
+      "target_error": 0.05689861032888594,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300008,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 176,
+        "winner": 4,
+        "team": "yellow",
+        "goal": 479,
+        "shot": 101,
+        "scorer": 0,
+        "passes": [
+          59
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 1,
+      "receiver": 0,
+      "slot": 0,
+      "decision": 45,
+      "kick": 59,
+      "end": 79,
+      "direct": 0.12281320565484058,
+      "lane": 0.9690084314297128,
+      "space": 1.2624407562172772,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        -1.6581394873225122,
+        1.1823812144217352
+      ],
+      "run_speed": 0.5940747107104334,
+      "lead": 0.2641058950625418,
+      "contact": 298,
+      "advance": 0.24370758315671887,
+      "target_error": 0.06374720521638896,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300009,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 118,
+        "winner": 2,
+        "team": "blue",
+        "goal": 587,
+        "shot": 124,
+        "scorer": 0,
+        "passes": [
+          55
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 2,
+      "receiver": 0,
+      "slot": 0,
+      "decision": 30,
+      "kick": 55,
+      "end": 75,
+      "direct": 0.04584510927718127,
+      "lane": 1.1556110348386173,
+      "space": 1.2926174627726688,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        -0.19411356445070158,
+        1.9229262385582595
+      ],
+      "run_speed": 0.5940728738636571,
+      "lead": 0.30211291001698237,
+      "contact": 282,
+      "advance": 0.26230892789396393,
+      "target_error": 0.047197034872726897,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300010,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 93,
+        "winner": 2,
+        "team": "blue",
+        "goal": 511,
+        "shot": 103,
+        "scorer": 1,
+        "passes": [
+          40
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 2,
+      "receiver": 1,
+      "slot": 1,
+      "decision": 24,
+      "kick": 40,
+      "end": 66,
+      "direct": 0.11522429860775459,
+      "lane": 0.2569654223751042,
+      "space": 1.247396863680917,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        0.27491402632772927,
+        0.9760221420892674
+      ],
+      "run_speed": 0.5940747116728147,
+      "lead": 0.35620226520501724,
+      "contact": 245,
+      "advance": 0.28142408882419867,
+      "target_error": 0.0715874070844387,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300011,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 50,
+        "winner": 3,
+        "team": "yellow",
+        "goal": 403,
+        "shot": 77,
+        "scorer": 1,
+        "passes": [
+          32
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 0,
+      "receiver": 1,
+      "slot": 0,
+      "decision": 13,
+      "kick": 32,
+      "end": 51,
+      "direct": 0.050039398448451816,
+      "lane": 0.8639485803378296,
+      "space": 1.3511207533571457,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        0.9521059105083719,
+        1.231556135779534
+      ],
+      "run_speed": 0.5948835982575914,
+      "lead": 0.275925295780279,
+      "contact": 188,
+      "advance": 0.21278415958194652,
+      "target_error": 0.06790499082256042,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300012,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 95,
+        "winner": 3,
+        "team": "yellow",
+        "goal": 411,
+        "shot": 80,
+        "scorer": 2,
+        "passes": [
+          32
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 0,
+      "receiver": 2,
+      "slot": 1,
+      "decision": 24,
+      "kick": 32,
+      "end": 53,
+      "direct": 0.004816636629640721,
+      "lane": 0.8489979103842393,
+      "space": 1.2822449137380223,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        -1.042753009093742,
+        1.3063473251004938
+      ],
+      "run_speed": 0.5948880575541043,
+      "lead": 0.3127232363093218,
+      "contact": 194,
+      "advance": 0.2361531092110181,
+      "target_error": 0.075939677371312,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300013,
+      "qualified": false,
+      "chain": {
+        "start": 0,
+        "recovery": 263,
+        "winner": 0,
+        "team": "blue"
+      },
+      "outcome": "opponent retouch before pass",
+      "loss_sample": 1421,
+      "pass_goal": false,
+      "intercepted": false
+    },
+    {
+      "seed": 13300014,
+      "qualified": false,
+      "chain": {
+        "start": 0,
+        "recovery": 71,
+        "winner": 4,
+        "team": "yellow"
+      },
+      "passer": 1,
+      "receiver": 0,
+      "slot": 0,
+      "decision": 18,
+      "kick": 25,
+      "end": 53,
+      "direct": 0.12912109968391236,
+      "lane": 0.28069428321502365,
+      "space": 1.1707065068614655,
+      "pass_result": "intercepted",
+      "outcome": "intercepted",
+      "pass_goal": false,
+      "intercepted": true,
+      "target": [
+        -1.5226921401345266,
+        -0.6539077394533731
+      ],
+      "run_speed": 0.5948848436766141,
+      "lead": 0.40215441728456675
+    },
+    {
+      "seed": 13300015,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 77,
+        "winner": 0,
+        "team": "blue",
+        "goal": 395,
+        "shot": 63,
+        "scorer": 2,
+        "passes": [
+          27
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 0,
+      "receiver": 2,
+      "slot": 1,
+      "decision": 20,
+      "kick": 27,
+      "end": 48,
+      "direct": 0.003357446605422601,
+      "lane": 0.8108488834931071,
+      "space": 1.2017505441050915,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        -0.10042352978694785,
+        0.5124106671422844
+      ],
+      "run_speed": 0.5948847150379666,
+      "lead": 0.3122814281357598,
+      "contact": 173,
+      "advance": 0.3161325435218478,
+      "target_error": 0.04876813497823989,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300016,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 135,
+        "winner": 3,
+        "team": "yellow",
+        "goal": 535,
+        "shot": 108,
+        "scorer": 2,
+        "passes": [
+          52
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 0,
+      "receiver": 2,
+      "slot": 1,
+      "decision": 34,
+      "kick": 52,
+      "end": 73,
+      "direct": 0.1161821452559322,
+      "lane": 1.068694089103433,
+      "space": 1.3210345190908528,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        -0.2787351569124664,
+        -1.4861057375141593
+      ],
+      "run_speed": 0.5940779295643359,
+      "lead": 0.2722640148976817,
+      "contact": 274,
+      "advance": 0.2581035518370015,
+      "target_error": 0.05805879286368892,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300017,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 80,
+        "winner": 3,
+        "team": "yellow",
+        "goal": 515,
+        "shot": 104,
+        "scorer": 1,
+        "passes": [
+          41
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 0,
+      "receiver": 1,
+      "slot": 0,
+      "decision": 21,
+      "kick": 41,
+      "end": 69,
+      "direct": 0.016252189151310444,
+      "lane": 0.863183618292255,
+      "space": 1.2514549949252871,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        0.37498036468905294,
+        1.1612914664685678
+      ],
+      "run_speed": 0.5940726482872362,
+      "lead": 0.3714011585767714,
+      "contact": 259,
+      "advance": 0.3747902681453087,
+      "target_error": 0.04999020786533999,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300018,
+      "qualified": false,
+      "chain": {
+        "start": 0,
+        "recovery": 211,
+        "winner": 2,
+        "team": "blue"
+      },
+      "outcome": "opponent retouch before pass",
+      "loss_sample": 251,
+      "pass_goal": false,
+      "intercepted": false
+    },
+    {
+      "seed": 13300019,
+      "qualified": false,
+      "chain": {
+        "start": 0,
+        "recovery": 303,
+        "winner": 3,
+        "team": "yellow"
+      },
+      "outcome": "no opening pass",
+      "pass_goal": false,
+      "intercepted": false
+    },
+    {
+      "seed": 13300020,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 71,
+        "winner": 2,
+        "team": "blue",
+        "goal": 495,
+        "shot": 87,
+        "scorer": 0,
+        "passes": [
+          40
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot",
+          "shoot"
+        ]
+      },
+      "passer": 2,
+      "receiver": 0,
+      "slot": 0,
+      "decision": 18,
+      "kick": 40,
+      "end": 71,
+      "direct": 0.017160088093942746,
+      "lane": 1.0639478181093454,
+      "space": 1.2472529126783307,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        0.5005512740285146,
+        1.4561584844553237
+      ],
+      "run_speed": 0.5940591514671412,
+      "lead": 0.4040468943992448,
+      "contact": 267,
+      "advance": 0.4015972121978354,
+      "target_error": 0.07514879151576197,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300021,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 219,
+        "winner": 0,
+        "team": "blue",
+        "goal": 779,
+        "shot": 164,
+        "scorer": 1,
+        "passes": [
+          87
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 0,
+      "receiver": 1,
+      "slot": 0,
+      "decision": 55,
+      "kick": 87,
+      "end": 106,
+      "direct": 0.004585924908551288,
+      "lane": 1.0378357496466486,
+      "space": 1.256024348461729,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        1.2574293588363419,
+        1.3906075019445914
+      ],
+      "run_speed": 0.5940754540360182,
+      "lead": 0.22281378018861434,
+      "contact": 405,
+      "advance": 0.20501503263990817,
+      "target_error": 0.002168843929257667,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300022,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 159,
+        "winner": 1,
+        "team": "blue",
+        "goal": 551,
+        "shot": 117,
+        "scorer": 0,
+        "passes": [
+          65
+        ],
+        "dribble_m": 0.324,
+        "options": [
+          "dribble",
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 1,
+      "receiver": 0,
+      "slot": 0,
+      "decision": 52,
+      "kick": 65,
+      "end": 95,
+      "direct": 0.11904316438588858,
+      "lane": 0.6261700623524282,
+      "space": 1.1230931843725487,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        1.2756625047058237,
+        -0.6423404316812451
+      ],
+      "run_speed": 0.5940751993362182,
+      "lead": 0.40954050886288884,
+      "contact": 362,
+      "advance": 0.42233876596345143,
+      "target_error": 0.05301886707157776,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300023,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 449,
+        "winner": 2,
+        "team": "blue",
+        "goal": 871,
+        "shot": 192,
+        "scorer": 0,
+        "passes": [
+          132
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 2,
+      "receiver": 0,
+      "slot": 0,
+      "decision": 113,
+      "kick": 132,
+      "end": 151,
+      "direct": 0.0823070673303044,
+      "lane": 0.9872118342220635,
+      "space": 1.3136882272388462,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        -0.20672040394214242,
+        1.783428755390182
+      ],
+      "run_speed": 0.5940755107475854,
+      "lead": 0.26452856187774293,
+      "contact": 586,
+      "advance": 0.24569502322907905,
+      "target_error": 0.04900886754813042,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300024,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 83,
+        "winner": 3,
+        "team": "yellow",
+        "goal": 451,
+        "shot": 87,
+        "scorer": 2,
+        "passes": [
+          26
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 0,
+      "receiver": 2,
+      "slot": 1,
+      "decision": 21,
+      "kick": 26,
+      "end": 50,
+      "direct": 0.014212004785194535,
+      "lane": 0.8432221867085383,
+      "space": 1.2398628493235302,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        -0.22070885923457811,
+        1.0056057871581636
+      ],
+      "run_speed": 0.5940752974259619,
+      "lead": 0.3257558204730368,
+      "contact": 183,
+      "advance": 0.2731624693789859,
+      "target_error": 0.0854187259322916,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300025,
+      "qualified": false,
+      "chain": {
+        "start": 0,
+        "recovery": 91,
+        "winner": 0,
+        "team": "blue"
+      },
+      "outcome": "no opening pass",
+      "pass_goal": false,
+      "intercepted": false
+    },
+    {
+      "seed": 13300026,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 146,
+        "winner": 5,
+        "team": "yellow",
+        "goal": 471,
+        "shot": 95,
+        "scorer": 0,
+        "passes": [
+          53
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 2,
+      "receiver": 0,
+      "slot": 0,
+      "decision": 37,
+      "kick": 53,
+      "end": 71,
+      "direct": 0.05445523523200482,
+      "lane": 0.92411341280125,
+      "space": 1.310357548747197,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        -1.0449735034245653,
+        -1.2499527395791208
+      ],
+      "run_speed": 0.5948867384306613,
+      "lead": 0.2583911002058732,
+      "contact": 266,
+      "advance": 0.2515344748054165,
+      "target_error": 0.04498010932995377,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300027,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 80,
+        "winner": 4,
+        "team": "yellow",
+        "goal": 363,
+        "shot": 71,
+        "scorer": 0,
+        "passes": [
+          24
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 1,
+      "receiver": 0,
+      "slot": 0,
+      "decision": 21,
+      "kick": 24,
+      "end": 49,
+      "direct": 0.005781502601180427,
+      "lane": 0.8204582796887379,
+      "space": 1.2589322505266312,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        1.5287208292482652,
+        1.344077682374428
+      ],
+      "run_speed": 0.5940698876901945,
+      "lead": 0.3401097135058912,
+      "contact": 180,
+      "advance": 0.34100812533429803,
+      "target_error": 0.04978404426178582,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300028,
+      "qualified": false,
+      "chain": {
+        "start": 0,
+        "recovery": 91,
+        "winner": 1,
+        "team": "blue"
+      },
+      "passer": 1,
+      "receiver": 0,
+      "slot": 0,
+      "decision": 23,
+      "kick": 43,
+      "end": 69,
+      "direct": 0.03784885143306353,
+      "lane": 1.071971846038551,
+      "space": 1.2725320979059198,
+      "pass_result": "complete",
+      "outcome": "no uninterrupted finish",
+      "pass_goal": false,
+      "intercepted": false,
+      "target": [
+        -1.0849300618952031,
+        1.5967561830579098
+      ],
+      "run_speed": 0.5940901374731545,
+      "lead": 0.40023482087859497,
+      "contact": 257,
+      "advance": 0.34895242570340335,
+      "target_error": 0.045402405627267335,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300029,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 99,
+        "winner": 3,
+        "team": "yellow",
+        "goal": 439,
+        "shot": 87,
+        "scorer": 1,
+        "passes": [
+          32
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 0,
+      "receiver": 1,
+      "slot": 0,
+      "decision": 25,
+      "kick": 32,
+      "end": 55,
+      "direct": 0.02445779914523738,
+      "lane": 0.8438954480826267,
+      "space": 1.291628085699174,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        0.9154002211393707,
+        -1.5547208269145798
+      ],
+      "run_speed": 0.5948864915793926,
+      "lead": 0.33745252022462713,
+      "contact": 201,
+      "advance": 0.25696096965376997,
+      "target_error": 0.07755728369758355,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300030,
+      "qualified": false,
+      "chain": {
+        "start": 0,
+        "recovery": 261,
+        "winner": 4,
+        "team": "yellow"
+      },
+      "passer": 1,
+      "receiver": 0,
+      "slot": 0,
+      "decision": 66,
+      "kick": 86,
+      "end": 106,
+      "direct": 0.093904677223553,
+      "lane": 1.0584160817350243,
+      "space": 1.1519118135064645,
+      "pass_result": "complete",
+      "outcome": "no uninterrupted finish",
+      "pass_goal": false,
+      "intercepted": false,
+      "target": [
+        -0.16032756544656446,
+        -0.9692012696462426
+      ],
+      "run_speed": 0.5946434588022622,
+      "lead": 0.30220392387667144,
+      "contact": 406,
+      "advance": 0.23200972968355338,
+      "target_error": 0.06800637953049912,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300031,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 148,
+        "winner": 2,
+        "team": "blue",
+        "goal": 951,
+        "shot": 210,
+        "scorer": 1,
+        "passes": [
+          134
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 2,
+      "receiver": 1,
+      "slot": 1,
+      "decision": 113,
+      "kick": 134,
+      "end": 163,
+      "direct": 0.0029488647905309417,
+      "lane": 0.894784341041909,
+      "space": 1.1852018326848845,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        0.4567960102019664,
+        -0.7059683850042883
+      ],
+      "run_speed": 0.5940735689229506,
+      "lead": 0.3782286304533695,
+      "contact": 633,
+      "advance": 0.3336723089482604,
+      "target_error": 0.09454388729412248,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300032,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 119,
+        "winner": 2,
+        "team": "blue",
+        "goal": 583,
+        "shot": 117,
+        "scorer": 0,
+        "passes": [
+          58
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 2,
+      "receiver": 0,
+      "slot": 0,
+      "decision": 30,
+      "kick": 58,
+      "end": 105,
+      "direct": 0.019536751907936148,
+      "lane": 1.025872789416781,
+      "space": 1.2031771246021437,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        1.2809535659323772,
+        1.231458981268443
+      ],
+      "run_speed": 0.5940694795080956,
+      "lead": 0.6223739726847128,
+      "contact": 404,
+      "advance": 0.6368203859582116,
+      "target_error": 0.07234329193203236,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300033,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 59,
+        "winner": 2,
+        "team": "blue",
+        "goal": 479,
+        "shot": 93,
+        "scorer": 1,
+        "passes": [
+          37
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 2,
+      "receiver": 1,
+      "slot": 1,
+      "decision": 15,
+      "kick": 37,
+      "end": 56,
+      "direct": 0.0017565522433564684,
+      "lane": 0.8234359042460411,
+      "space": 1.2448339016699734,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        0.05670243414652975,
+        0.25274574688285234
+      ],
+      "run_speed": 0.5942168732326797,
+      "lead": 0.3546414181575416,
+      "contact": 205,
+      "advance": 0.28701903179043775,
+      "target_error": 0.04375377339636445,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300034,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 289,
+        "winner": 0,
+        "team": "blue",
+        "goal": 647,
+        "shot": 139,
+        "scorer": 2,
+        "passes": [
+          97
+        ],
+        "dribble_m": 0.323,
+        "options": [
+          "dribble",
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 0,
+      "receiver": 2,
+      "slot": 1,
+      "decision": 85,
+      "kick": 97,
+      "end": 116,
+      "direct": 0.10072443566187878,
+      "lane": 0.6278543077170923,
+      "space": 1.2085115715256525,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        0.9513403866334211,
+        -0.2576868484672601
+      ],
+      "run_speed": 0.5940943808417757,
+      "lead": 0.36118662980374827,
+      "contact": 445,
+      "advance": 0.3449818188388919,
+      "target_error": 0.023790806496021184,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300035,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 419,
+        "winner": 3,
+        "team": "yellow",
+        "goal": 743,
+        "shot": 163,
+        "scorer": 1,
+        "passes": [
+          117
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 0,
+      "receiver": 1,
+      "slot": 0,
+      "decision": 105,
+      "kick": 117,
+      "end": 138,
+      "direct": 0.07737578524424008,
+      "lane": 0.9589058262338869,
+      "space": 1.2560243505081852,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        1.1764443573167236,
+        -1.1045919448866313
+      ],
+      "run_speed": 0.5940676064609928,
+      "lead": 0.2791204660853132,
+      "contact": 535,
+      "advance": 0.23455073525832287,
+      "target_error": 0.0727710236768633,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300036,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 107,
+        "winner": 4,
+        "team": "yellow",
+        "goal": 691,
+        "shot": 142,
+        "scorer": 2,
+        "passes": [
+          37,
+          66
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 1,
+      "receiver": 0,
+      "slot": 0,
+      "decision": 27,
+      "kick": 37,
+      "end": 50,
+      "direct": 0.07600461155564522,
+      "lane": 1.2088926406354898,
+      "space": 1.0674788175941534,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        1.3646714259606663,
+        0.3006372726017022
+      ],
+      "run_speed": 0.5948779864949866,
+      "lead": 0.2657779325107103,
+      "contact": 184,
+      "advance": 0.20656454422007395,
+      "target_error": 0.10166267308530016,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300037,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 77,
+        "winner": 5,
+        "team": "yellow",
+        "goal": 479,
+        "shot": 94,
+        "scorer": 0,
+        "passes": [
+          27
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 2,
+      "receiver": 0,
+      "slot": 0,
+      "decision": 20,
+      "kick": 27,
+      "end": 51,
+      "direct": 0.05850032632181994,
+      "lane": 0.8818386587057251,
+      "space": 1.2666325383237262,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        -0.030931976072034795,
+        -1.1153348130630971
+      ],
+      "run_speed": 0.5940730659924224,
+      "lead": 0.31909645896949645,
+      "contact": 186,
+      "advance": 0.27095659601193384,
+      "target_error": 0.08300785279723039,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300038,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 71,
+        "winner": 3,
+        "team": "yellow",
+        "goal": 399,
+        "shot": 80,
+        "scorer": 1,
+        "passes": [
+          40
+        ],
+        "dribble_m": 0.281,
+        "options": [
+          "dribble",
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 0,
+      "receiver": 1,
+      "slot": 0,
+      "decision": 30,
+      "kick": 40,
+      "end": 60,
+      "direct": 0.1166882856920243,
+      "lane": 0.5991462146513881,
+      "space": 1.212264427046163,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        -1.4945799990702273,
+        -0.4367353221390126
+      ],
+      "run_speed": 0.5940707214632288,
+      "lead": 0.37170690869292644,
+      "contact": 221,
+      "advance": 0.36211448137773283,
+      "target_error": 0.025640822615797115,
+      "verified_lead": true
+    },
+    {
+      "seed": 13300039,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 123,
+        "winner": 3,
+        "team": "yellow",
+        "goal": 863,
+        "shot": 195,
+        "scorer": 2,
+        "passes": [
+          148
+        ],
+        "dribble_m": 0.0,
+        "options": [
+          "pass",
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 0,
+      "receiver": 2,
+      "slot": 1,
+      "decision": 106,
+      "kick": 148,
+      "end": 172,
+      "direct": 0.008501621889932337,
+      "lane": 0.8965615385055521,
+      "space": 1.1722194789321672,
+      "pass_result": "complete",
+      "outcome": "pass goal",
+      "pass_goal": true,
+      "intercepted": false,
+      "target": [
+        1.3752730918455767,
+        0.8742250918095096
+      ],
+      "run_speed": 0.5940748160134673,
+      "lead": 0.3223368643510168,
+      "contact": 672,
+      "advance": 0.3210743754044859,
+      "target_error": 0.04100923173834939,
+      "verified_lead": true
+    }
+  ],
+  "passing_goals": 31
+}

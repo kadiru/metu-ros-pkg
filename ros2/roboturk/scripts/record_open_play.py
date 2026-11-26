@@ -1,0 +1,182 @@
+"""Publish native match footage and mark one verified open-play recovery and goal."""
+
+import argparse
+from pathlib import Path
+import shutil
+import tempfile
+import numpy as np
+from PIL import Image, ImageDraw
+
+from annotate_blocked_outlet import font, pixel
+from build_contest_preview import digest, ffmpeg, make_gif
+from build_three_preview import probe
+from run_recovery_attack import read, save
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("replay", type=Path)
+    parser.add_argument("media", type=Path)
+    parser.add_argument(
+        "--previous", type=Path, help="Verified previous-team replay on the identical start"
+    )
+    parser.add_argument("--previous-label", default="Previous team  /  31 of 40 opening goals")
+    args = parser.parse_args()
+    args.media.mkdir(parents=True, exist_ok=True)
+    replay = read(args.replay / "replay.json")
+    assert replay["exact_trajectory"] and replay["exact_events"]
+    game = read(args.replay / "game-000.json")
+    states = np.load(args.replay / "trace-000.npz")["states"]
+    r = replay["trained_moment"]
+    assert r in game["recoveries"] and r["outcome"] == "goal"
+    full = args.media / "open-play-match.mp4"
+    shutil.copyfile(args.replay / "match.mp4", full)
+    ffmpeg("-i", full, "-f", "null", "-")
+    duration = float(probe(full)["format"]["duration"])
+    assert abs(duration - len(states) / 100) < 0.1
+    full_gif = make_gif(full, args.media / "open-play-match.gif", 0, duration, 8)
+    start = max(0, (r["sample"] + 1) / 100 - 1.6)
+    end = min(duration, (r["goal"] + 1) / 100 + 1)
+    team = r["team"].title()
+    players = f"{team} {r['winner'] % 3}"
+    shot = next(
+        e
+        for e in reversed(game["events"])
+        if e["event"] == "kick" and e["tick"] * 4 <= r["goal"] and e["speed"] == 4
+    )
+    passes = [p for p in game["passes"] if p["tick"] in r["passes"]]
+    if passes:
+        players = f"{team} " + " to ".join(
+            str(n) for n in [r["winner"] % 3, *(p["receiver"] for p in passes)]
+        )
+    with tempfile.TemporaryDirectory() as path:
+        path = Path(path)
+        ffmpeg(
+            "-ss",
+            start,
+            "-i",
+            full,
+            "-t",
+            end - start,
+            "-vf",
+            "fps=12.5",
+            "-start_number",
+            0,
+            path / "frame-%04d.png",
+        )
+        files = sorted(path.glob("frame-*.png"))
+        for i, f in enumerate(files):
+            t = start + i / 12.5
+            j = min(round(t * 100), len(states) - 1)
+            src = Image.open(f).convert("RGB")
+            img = Image.new("RGB", (960, 580), (17, 30, 39))
+            draw = ImageDraw.Draw(img)
+            # Keep both goals in frame. The inset is an enlargement of the original movie.
+            img.paste(
+                src.crop((176, 64, 1104, 656)).resize((812, 518), Image.Resampling.LANCZOS),
+                (74, 35),
+            )
+            xy = states[j, :2] if j <= r["goal"] else states[r["goal"], :2]
+            x, y = pixel(xy)
+            x = int(np.clip(x - 70, 0, 1140))
+            y = int(np.clip(y - 44, 0, 632))
+            zoom = src.crop((x, y, x + 140, y + 88)).resize((252, 158), Image.Resampling.LANCZOS)
+            ix = 682 if x < 640 else 26
+            draw.rectangle((ix - 2, 53, ix + 253, 213), fill=(241, 201, 111))
+            img.paste(zoom, (ix, 55))
+            draw.text(
+                (20, 5), f"RoboTurk  /  3v3 open play     {players}", font=font(22), fill="white"
+            )
+            draw.text((938, 6), f"{t:.1f} s", font=font(21), fill=(241, 201, 111), anchor="ra")
+            caption = "Ball in play"
+            if j >= r["sample"]:
+                caption = (
+                    f"{team} {r['winner'] % 3} completes the clean takeaway"
+                    if r["kind"] == "takeaway"
+                    else f"{team} {r['winner'] % 3} wins sole possession"
+                )
+            for delivery in passes:
+                if j >= 4 * delivery["tick"]:
+                    caption = f"{team} {delivery['passer']} passes to {team} {delivery['receiver']}"
+                if j >= 4 * (delivery["end"] + 1):
+                    caption = f"{team} {delivery['receiver']} controls the pass"
+            if j >= shot["tick"] * 4:
+                caption = f"{team} {r['scorer']} shoots"
+            if j >= r["goal"]:
+                caption = f"Goal for {team}"
+            draw.text((22, 553), caption, font=font(21), fill="white")
+            img.save(f)
+        clip = args.media / "open-play-recovery.mp4"
+        ffmpeg(
+            "-framerate",
+            "12.5",
+            "-i",
+            path / "frame-%04d.png",
+            "-c:v",
+            "libx264",
+            "-crf",
+            "19",
+            "-pix_fmt",
+            "yuv420p",
+            clip,
+        )
+        excerpt = make_gif(clip, args.media / "open-play-recovery.gif", 0, len(files) / 12.5, 12.5)
+    paired = {}
+    if args.previous:
+        other = read(args.previous / "replay.json")
+        assert other["seed"] == replay["seed"] and other["model"] == 0 and replay["model"] == 1
+        assert other["exact_events"] and other["exact_trajectory"]
+        assert read(args.previous / "game-000.json")["initial_world"] == game["initial_world"]
+        # The counterfactuals share the kickoff. From that moment each match plays independently.
+        title = Image.new("RGB", (1280, 48), (17, 30, 39))
+        labels = ImageDraw.Draw(title)
+        labels.text((14, 9), args.previous_label, fill="white", font=font(22))
+        labels.text((654, 9), "New team  /  open-play self-play", fill="white", font=font(22))
+        movie = args.media / "same-start.mp4"
+        with tempfile.TemporaryDirectory() as directory:
+            header = Path(directory) / "titles.png"
+            title.save(header)
+            ffmpeg(
+                "-ss",
+                start,
+                "-i",
+                args.previous / "match.mp4",
+                "-ss",
+                start,
+                "-i",
+                full,
+                "-i",
+                header,
+                "-filter_complex",
+                "[0:v]scale=640:360[l];[1:v]scale=640:360[r];[l][r]hstack=2[b];[b]pad=1280:408:0:48[p];[p][2:v]overlay=0:0",
+                "-t",
+                end - start,
+                "-an",
+                "-c:v",
+                "libx264",
+                "-pix_fmt",
+                "yuv420p",
+                movie,
+            )
+        paired = dict(
+            previous=other,
+            excerpt=make_gif(movie, args.media / "same-start.gif", 0, end - start, 10),
+            sha256=digest(movie),
+        )
+    save(
+        args.media / "recording.json",
+        replay
+        | dict(
+            matched=paired,
+            full_seconds=duration,
+            native_sha256=digest(full),
+            excerpt_seconds=[start, end],
+            highlight_sha256=digest(clip),
+            full=full_gif,
+            highlight=excerpt,
+        ),
+    )
+
+
+if __name__ == "__main__":
+    main()

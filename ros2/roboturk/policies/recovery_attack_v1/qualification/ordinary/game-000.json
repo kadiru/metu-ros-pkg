@@ -1,0 +1,65 @@
+{
+  "seed": 9700000,
+  "seconds": 60,
+  "score": {},
+  "stats": {
+    "safety_ticks": 9,
+    "physical_samples": 6000,
+    "contacts": 0,
+    "exits": 0
+  },
+  "passes": [
+    {
+      "receiver": 1,
+      "slot": 1,
+      "features": [
+        [
+          0.004245594268567947,
+          0.5296249841184484,
+          0.3937413335384082,
+          0.49539159725973725,
+          0.7948082602054448,
+          0.9994337752130386
+        ],
+        [
+          0.7587035920578453,
+          0.9414126719302379,
+          0.3277545891918034,
+          0.4489348005386002,
+          0.7300716914763272,
+          0.9991271624475571
+        ]
+      ],
+      "probability": 0.9484615372268009,
+      "tick": 31,
+      "team": "blue",
+      "passer": 2,
+      "ball": [
+        -2.3816287909290073,
+        0.1064092722991661
+      ],
+      "result": "intercepted",
+      "end": 74,
+      "reward": -1
+    }
+  ],
+  "events": [
+    {
+      "tick": 0,
+      "event": "start",
+      "team": "blue"
+    },
+    {
+      "tick": 31,
+      "event": "kick",
+      "team": "blue",
+      "robot": 2,
+      "speed": 2.2
+    }
+  ],
+  "options": [],
+  "learner": null,
+  "challenger": null,
+  "opponent": null,
+  "conversions": []
+}

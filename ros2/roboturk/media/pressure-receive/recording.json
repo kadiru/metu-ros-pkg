@@ -1,0 +1,82 @@
+{
+  "file": "pressure-shield.mp4",
+  "sha256": "552b867414b35a944ded9e412497d1fd057d5f9b6ebeadbf3ca04a693fd4e209",
+  "seconds": 54.04,
+  "full": {
+    "file": "all-openings.gif",
+    "frames": 540,
+    "seconds": 54.0,
+    "fps": 10,
+    "sha256": "c4f9785c634a67d0afd3e6c3bdc695fb38aee96a841577e56c34cb05c2aba58a"
+  },
+  "excerpt": {
+    "file": "pressure-shield.gif",
+    "frames": 127,
+    "seconds": 10.16,
+    "fps": 12.5,
+    "sha256": "6c7d76c01813ed9b92817599038931baceedb23e99d4bf27cbad4b656d2ffa83"
+  },
+  "excerpt_start": 18,
+  "excerpt_game": 1,
+  "opening": {
+    "seed": 14401001,
+    "qualified": true,
+    "chain": {
+      "start": 0,
+      "recovery": 133,
+      "winner": 0,
+      "team": "blue",
+      "goal": 911,
+      "shot": 177,
+      "scorer": 1,
+      "passes": [
+        123
+      ],
+      "dribble_m": 0.0,
+      "options": [
+        "pass",
+        "pass",
+        "shoot"
+      ]
+    },
+    "passer": 0,
+    "receiver": 1,
+    "slot": 0,
+    "decision": 109,
+    "kick": 123,
+    "end": 143,
+    "direct": 0.023128171526346386,
+    "lane": 0.2407938072328718,
+    "space": 0.7046334424207735,
+    "pass_result": "complete",
+    "outcome": "pressured shield goal",
+    "pass_goal": true,
+    "intercepted": false,
+    "target": [
+      2.489623230290769,
+      0.13252672895194062
+    ],
+    "run_speed": 0.5948739333417069,
+    "lead": 0.32846411994132546,
+    "contact": 556,
+    "advance": 0.2586238733345748,
+    "target_error": 0.06542864848545277,
+    "verified_lead": true,
+    "lead_goal": true,
+    "marker": 0,
+    "pressure": true,
+    "gap_m": 0.4638323084922568,
+    "approach_mps": 1.046951439310278,
+    "sole_samples": 152,
+    "shield": true,
+    "shield_start": 610,
+    "shield_end": 629
+  },
+  "native_pixel_crop": [
+    166,
+    175,
+    752,
+    376
+  ],
+  "speed": 1
+}

@@ -1,0 +1,42 @@
+{
+  "native_sha256": "744f698caa8430bbcce966c50539b16894978bd1938bc76f0098e87e499935d6",
+  "full_match_seconds": 60,
+  "excerpt": {
+    "file": "recovery-pass-finish.gif",
+    "frames": 98,
+    "seconds": 7.84,
+    "fps": 12.5,
+    "sha256": "36b94969f9017857b2d2cccae65053813bb1f31eba07c9ee73eee7a4c68b93fe",
+    "native_zoom_crop_and_overlay_x": [
+      390,
+      216,
+      446,
+      270,
+      488
+    ]
+  },
+  "source_start": 8.79,
+  "source_end": 16.59,
+  "play": {
+    "start": 944,
+    "recovery": 1019,
+    "winner": 3,
+    "team": "yellow",
+    "goal": 1539,
+    "shot": 357,
+    "scorer": 1,
+    "passes": [
+      287
+    ],
+    "dribble_m": 0.254,
+    "options": [
+      "dribble",
+      "pass",
+      "shoot",
+      "shoot"
+    ]
+  },
+  "seed": 9700004,
+  "trace_delta": 0.0,
+  "speed": 1
+}

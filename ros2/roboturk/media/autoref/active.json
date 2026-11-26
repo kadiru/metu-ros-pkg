@@ -1,0 +1,108 @@
+{
+  "seed": 20300000,
+  "dt": 0.04,
+  "frames": 751,
+  "decisions": [
+    {
+      "scorer": "yellow",
+      "score": [
+        0,
+        1
+      ],
+      "score_tick": 631,
+      "kickoff": "blue",
+      "prepare_tick": 681,
+      "restart_tick": 705,
+      "open_play_tick": 712,
+      "restart_ball_travel_m": 0.0506
+    }
+  ],
+  "official_events": [
+    {
+      "id": "378c3fd9-8c66-46b9-aad5-47b024a309a3",
+      "type": "POSSIBLE_GOAL",
+      "origin": [
+        "TIGERs AutoRef",
+        "Engine"
+      ],
+      "createdTimestamp": "1795380430958353",
+      "possibleGoal": {
+        "byTeam": "YELLOW",
+        "kickingTeam": "YELLOW",
+        "kickingBot": 4,
+        "location": {
+          "x": -4.5,
+          "y": 0.11423803
+        },
+        "kickLocation": {
+          "x": -4.2614927,
+          "y": -1.5120118
+        },
+        "maxBallHeight": 0,
+        "numRobotsByTeam": 5,
+        "lastTouchByTeam": "1795380428877104",
+        "message": ""
+      }
+    },
+    {
+      "id": "fb6ec9a2-6f0a-45a0-800d-243f8949c802",
+      "type": "GOAL",
+      "origin": [
+        "StateMachine"
+      ],
+      "createdTimestamp": "1795380431981480",
+      "goal": {
+        "byTeam": "YELLOW",
+        "kickingTeam": "YELLOW",
+        "kickingBot": 4,
+        "location": {
+          "x": -4.5,
+          "y": 0.11423803
+        },
+        "kickLocation": {
+          "x": -4.2614927,
+          "y": -1.5120118
+        },
+        "maxBallHeight": 0,
+        "numRobotsByTeam": 5,
+        "lastTouchByTeam": "1795380428877104",
+        "message": "Valid and auto approved"
+      }
+    }
+  ],
+  "observer_events": [
+    {
+      "possibleGoal": {
+        "byTeam": "YELLOW",
+        "kickingBot": 4,
+        "location": {
+          "x": -4.5,
+          "y": 0.11423803
+        },
+        "kickLocation": {
+          "x": -4.2614927,
+          "y": -1.5120118
+        },
+        "maxBallHeight": 0.0,
+        "kickingTeam": "YELLOW",
+        "numRobotsByTeam": 5,
+        "lastTouchByTeam": "1795380428877104",
+        "message": ""
+      },
+      "type": "POSSIBLE_GOAL"
+    },
+    {
+      "defenderTooCloseToKickPoint": {
+        "byTeam": "YELLOW",
+        "byBot": 1,
+        "location": {
+          "x": 0.34569916,
+          "y": 0.009577648
+        },
+        "distance": -0.25358504
+      },
+      "type": "DEFENDER_TOO_CLOSE_TO_KICK_POINT"
+    }
+  ],
+  "first_goal_crossing_tick": 595
+}

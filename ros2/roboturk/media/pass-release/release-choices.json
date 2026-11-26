@@ -1,0 +1,143 @@
+{
+  "choices": [
+    {
+      "folder": "extra-1",
+      "seed": 19300027,
+      "decision": {
+        "sample": 1115,
+        "tick": 284,
+        "team": "yellow",
+        "actor": 0,
+        "action": 1,
+        "intended": 1,
+        "alternative": 2,
+        "released_to": 1,
+        "release_tick": 292,
+        "completed": true,
+        "outcome": "goal",
+        "goal": 1587,
+        "end": 1587
+      }
+    },
+    {
+      "folder": "full",
+      "seed": 19300004,
+      "decision": {
+        "sample": 3702,
+        "tick": 930,
+        "team": "yellow",
+        "actor": 0,
+        "action": 2,
+        "intended": 2,
+        "alternative": 1,
+        "released_to": 1,
+        "release_tick": 935,
+        "completed": true,
+        "outcome": "goal",
+        "goal": 4187,
+        "end": 4187
+      }
+    },
+    {
+      "folder": "full",
+      "seed": 19300004,
+      "decision": {
+        "sample": 4667,
+        "tick": 1173,
+        "team": "yellow",
+        "actor": 1,
+        "action": 3,
+        "intended": 0,
+        "alternative": 2,
+        "released_to": null,
+        "release_tick": null,
+        "completed": false,
+        "outcome": "goal",
+        "goal": 5367,
+        "end": 5367
+      }
+    }
+  ],
+  "replays": {
+    "extra-1": {
+      "seed": 19300027,
+      "trained_moment": {
+        "sample": 1115,
+        "winner": 3,
+        "kind": "takeaway",
+        "team": "yellow",
+        "outcome": "goal",
+        "end": 1587,
+        "goal": 1587,
+        "scorer": 1,
+        "passes": [
+          292
+        ]
+      },
+      "model": 1,
+      "exact_events": true,
+      "exact_trajectory": true,
+      "physical_samples": 9000,
+      "decision": {
+        "sample": 1115,
+        "tick": 284,
+        "team": "yellow",
+        "actor": 0,
+        "action": 1,
+        "intended": 1,
+        "alternative": 2,
+        "released_to": 1,
+        "release_tick": 292,
+        "completed": true,
+        "outcome": "goal",
+        "goal": 1587,
+        "end": 1587
+      },
+      "source": "fresh mirrors"
+    },
+    "full": {
+      "seed": 19300004,
+      "trained_moment": {
+        "sample": 3702,
+        "winner": 3,
+        "kind": "takeaway",
+        "team": "yellow",
+        "outcome": "goal",
+        "end": 4187,
+        "goal": 4187,
+        "scorer": 1,
+        "passes": [
+          935
+        ]
+      },
+      "model": 1,
+      "exact_events": true,
+      "exact_trajectory": true,
+      "physical_samples": 9000,
+      "decision": {
+        "sample": 3702,
+        "tick": 930,
+        "team": "yellow",
+        "actor": 0,
+        "action": 2,
+        "intended": 2,
+        "alternative": 1,
+        "released_to": 1,
+        "release_tick": 935,
+        "completed": true,
+        "outcome": "goal",
+        "goal": 4187,
+        "end": 4187
+      },
+      "source": "fresh mirrors"
+    }
+  },
+  "sha256": "2cf49d6b5fa624cf38a4dbe01671a8e2a26d326775d7032adde1f561dd0ffe39",
+  "gif": {
+    "file": "release-choices.gif",
+    "frames": 240,
+    "seconds": 19.2,
+    "fps": 12.5,
+    "sha256": "536ec3ec4a7e5d8d9f9b6eb455105044fef83e1ea8c05e4d078f4476a77a40aa"
+  }
+}

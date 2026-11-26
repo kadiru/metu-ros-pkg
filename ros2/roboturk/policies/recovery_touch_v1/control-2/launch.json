@@ -1,0 +1,304 @@
+{
+  "world": "src/roboturk_ros/webots/worlds/ssl_touch_planner.wbt",
+  "models": [
+    {
+      "tracking": 0.54,
+      "centering": 14.0,
+      "turn": 5.7,
+      "escape": 0.7,
+      "speed": 0.95,
+      "receiver": [
+        3.8,
+        0.8,
+        0.12,
+        0.18,
+        -0.35
+      ],
+      "bias": 0.75,
+      "block": 2.6,
+      "lane": 0.85,
+      "support_x": 0.35,
+      "support_y": 1.12,
+      "cover": 1.0,
+      "finish": 7,
+      "early_turn": true,
+      "slide": 0.25,
+      "shot_clear": 0.105,
+      "lookahead": 0.15,
+      "advance": 0.93,
+      "open_penalty": 8.0,
+      "peel": 0.85,
+      "peel_side": 1.15,
+      "space_penalty": 2.6,
+      "run_speed": 0.59685,
+      "roll": 1.6,
+      "horizon": 0.73754,
+      "min_lead": 0.2644,
+      "forecast": 0.38725,
+      "lane_weight": 4.3,
+      "progress": 0.18279,
+      "space_weight": 0.58,
+      "cut": 0.02482,
+      "aim_time": 0.16,
+      "angle": 0.042,
+      "release_gap": 0.18224,
+      "ready": 0.2,
+      "reach": 0.82818,
+      "receive_escape": 0.35106,
+      "sync_angle": 0.26655,
+      "choose_route": true,
+      "replan": true,
+      "stand_off": 0.72,
+      "length_weight": 0.46375,
+      "shield_speed": 0.88,
+      "shield_turn": 6.2,
+      "hold": 13,
+      "dwell": 7,
+      "press_speed": 1.05
+    }
+  ],
+  "cases": 40,
+  "schedule": [
+    [
+      15301000,
+      0,
+      0
+    ],
+    [
+      15301001,
+      0,
+      0
+    ],
+    [
+      15301002,
+      0,
+      0
+    ],
+    [
+      15301003,
+      0,
+      0
+    ],
+    [
+      15301004,
+      0,
+      0
+    ],
+    [
+      15301005,
+      0,
+      0
+    ],
+    [
+      15301006,
+      0,
+      0
+    ],
+    [
+      15301007,
+      0,
+      0
+    ],
+    [
+      15301008,
+      0,
+      0
+    ],
+    [
+      15301009,
+      0,
+      0
+    ],
+    [
+      15301010,
+      0,
+      0
+    ],
+    [
+      15301011,
+      0,
+      0
+    ],
+    [
+      15301012,
+      0,
+      0
+    ],
+    [
+      15301013,
+      0,
+      0
+    ],
+    [
+      15301014,
+      0,
+      0
+    ],
+    [
+      15301015,
+      0,
+      0
+    ],
+    [
+      15301016,
+      0,
+      0
+    ],
+    [
+      15301017,
+      0,
+      0
+    ],
+    [
+      15301018,
+      0,
+      0
+    ],
+    [
+      15301019,
+      0,
+      0
+    ],
+    [
+      15301020,
+      0,
+      0
+    ],
+    [
+      15301021,
+      0,
+      0
+    ],
+    [
+      15301022,
+      0,
+      0
+    ],
+    [
+      15301023,
+      0,
+      0
+    ],
+    [
+      15301024,
+      0,
+      0
+    ],
+    [
+      15301025,
+      0,
+      0
+    ],
+    [
+      15301026,
+      0,
+      0
+    ],
+    [
+      15301027,
+      0,
+      0
+    ],
+    [
+      15301028,
+      0,
+      0
+    ],
+    [
+      15301029,
+      0,
+      0
+    ],
+    [
+      15301030,
+      0,
+      0
+    ],
+    [
+      15301031,
+      0,
+      0
+    ],
+    [
+      15301032,
+      0,
+      0
+    ],
+    [
+      15301033,
+      0,
+      0
+    ],
+    [
+      15301034,
+      0,
+      0
+    ],
+    [
+      15301035,
+      0,
+      0
+    ],
+    [
+      15301036,
+      0,
+      0
+    ],
+    [
+      15301037,
+      0,
+      0
+    ],
+    [
+      15301038,
+      0,
+      0
+    ],
+    [
+      15301039,
+      0,
+      0
+    ]
+  ],
+  "protocol": {
+    "train_first": 15100000,
+    "development_first": 15200000,
+    "qualification_first": 15300000,
+    "demo_first": 15400000,
+    "version_stride": 1000,
+    "cases": 40,
+    "seconds": 18,
+    "goal_target": 30,
+    "direct_lane_length_m": 1.65,
+    "blocked_center_gap_m": 0.24,
+    "minimum_pass_lane_gap_m": 0.19,
+    "minimum_receiver_space_m": 0.48,
+    "criterion": "From the tick-zero dual-mouth contest, the winner earns 0.20 s sole possession. At the decision to pass a defender is in the direct dribble corridor and the chosen teammate has an open lane and receiving space. The actual 2.2 m/s pass travels at least 0.55 m, the intended teammate controls it alone for 0.20 s, then the team scores in the same uninterrupted recovery. All 40 starts count. No seed selection. New checkpoint attempts use new seed blocks.",
+    "layout": "Symmetric lane-defense opening. Two robots contest a randomized ball at midfield. Each side has a central cover robot and a wide support robot. Identities, directions, distances, initial facing, ball and wings vary. All six move live. Qualification starts a new simulator for each opening.",
+    "lead_distance_m": 0.15,
+    "run_speed_mps": 0.12,
+    "run_progress_m": 0.12,
+    "target_tolerance_m": 0.32,
+    "lead_rule": "A counted goal must also have a prospective target logged at kick, at least 0.15 m ahead in the receiver's measured running direction, receiver speed at least 0.12 m/s before release, 0.12 m progress toward target during flight and ball contact within 0.32 m of the intended point. An opening interception counts when the original winning team's first pass is intercepted, regardless of lane/lead qualification. Compare the previous frozen team on the same fresh starts.",
+    "pressure_m": 0.75,
+    "approach_mps": 0.15,
+    "shield_cosine": 0.45,
+    "shield_m": 0.85,
+    "shield_samples": 20,
+    "pressure_rule": "At first sustained reception the nearest opponent is within 0.75 m and its measured velocity over the preceding 0.12 s is at least 0.15 m/s toward the receiver. During unbroken sole possession before the shot, the same defender stays within 0.85 m for 20 consecutive physical samples with the ball on the far side of the receiver (cosine >= 0.45). The receiver shoots the goal. Both teams send a live marker after the projected ball on every pass. All 40 independent starts count. Versions use disjoint qualification blocks.",
+    "loss_limit": 2,
+    "historical": [
+      14301004,
+      14301018,
+      14301026,
+      14301031,
+      14301033
+    ],
+    "carrier_rule": "From confirmed recovery to the first physical pass, every 10 ms sample must show exclusive possession by the original winner. Count any gap, opponent or teammate touch, or confirmed recovery without a pass before restart/end as a pre-pass failure. An unconfirmed opening earns no goal. The 40 independent starts must yield 30 full pressure-shield receiver goals and at most two pre-pass failures."
+  },
+  "seconds": 18,
+  "study": false,
+  "press": true,
+  "record": false,
+  "webots_sha256": "035a91bad1d12e4f34108ec48c8cadcb2dab4dc3278e4f03c9e969bb82d6babe"
+}

@@ -1,0 +1,302 @@
+{
+  "baseline": {
+    "trials": 40,
+    "valid_passes": 40,
+    "press_activations": 40,
+    "first_touches": 38,
+    "completed_passes": 24,
+    "valid_shots": 17,
+    "goals": 17,
+    "marker_robot_proximity_trials": 10,
+    "marker_ball_contact_or_possession_trials": 13,
+    "pre_kick_loss_trials": 0,
+    "median_marker_gap_at_stable_reception_m": 0.5836741906362186,
+    "terminal_phases": {
+      "carrying": 7,
+      "goal": 17,
+      "pass_in_flight": 2,
+      "securing_reception": 14
+    },
+    "outcomes": {
+      "defender_collision": 10,
+      "defender_interception": 13,
+      "goal": 17
+    },
+    "secured": {
+      "seeds": [
+        34912000,
+        34912001,
+        34912002,
+        34912007,
+        34912008,
+        34912010,
+        34912012,
+        34912013,
+        34912015,
+        34912016,
+        34912018,
+        34912019,
+        34912020,
+        34912021,
+        34912023,
+        34912024,
+        34912025,
+        34912030,
+        34912031,
+        34912034,
+        34912035,
+        34912036,
+        34912037,
+        34912038
+      ],
+      "transfer_reasons": {
+        "received": 24
+      },
+      "median_marker_gap_at_touch_m": 0.912023573512105,
+      "median_time_touch_to_transfer_end_s": 0.486000000000002,
+      "median_time_release_to_touch_s": 1.5330000000000004
+    },
+    "touched_then_lost": {
+      "seeds": [
+        34912003,
+        34912004,
+        34912005,
+        34912009,
+        34912011,
+        34912014,
+        34912017,
+        34912022,
+        34912026,
+        34912027,
+        34912028,
+        34912029,
+        34912032,
+        34912039
+      ],
+      "transfer_reasons": {
+        "defender_interception": 8,
+        "defender_collision": 6
+      },
+      "median_marker_gap_at_touch_m": 0.3556714470549365,
+      "median_time_touch_to_transfer_end_s": 0.23400000000000842,
+      "median_time_release_to_touch_s": 1.8979999999999968
+    }
+  },
+  "trained": {
+    "trials": 40,
+    "valid_passes": 40,
+    "press_activations": 40,
+    "first_touches": 40,
+    "completed_passes": 35,
+    "valid_shots": 32,
+    "goals": 32,
+    "marker_robot_proximity_trials": 6,
+    "marker_ball_contact_or_possession_trials": 2,
+    "pre_kick_loss_trials": 0,
+    "median_marker_gap_at_stable_reception_m": 0.8354029667397742,
+    "terminal_phases": {
+      "carrying": 3,
+      "goal": 32,
+      "securing_reception": 5
+    },
+    "outcomes": {
+      "defender_collision": 6,
+      "defender_interception": 2,
+      "goal": 32
+    },
+    "secured": {
+      "seeds": [
+        34912000,
+        34912001,
+        34912002,
+        34912003,
+        34912004,
+        34912006,
+        34912007,
+        34912008,
+        34912010,
+        34912011,
+        34912012,
+        34912013,
+        34912014,
+        34912015,
+        34912016,
+        34912017,
+        34912018,
+        34912019,
+        34912020,
+        34912022,
+        34912023,
+        34912024,
+        34912025,
+        34912027,
+        34912028,
+        34912029,
+        34912030,
+        34912031,
+        34912032,
+        34912033,
+        34912034,
+        34912035,
+        34912037,
+        34912038,
+        34912039
+      ],
+      "transfer_reasons": {
+        "received": 35
+      },
+      "median_marker_gap_at_touch_m": 1.208448872000503,
+      "median_time_touch_to_transfer_end_s": 0.4680000000000075,
+      "median_time_release_to_touch_s": 0.8920000000000152
+    },
+    "touched_then_lost": {
+      "seeds": [
+        34912005,
+        34912009,
+        34912021,
+        34912026,
+        34912036
+      ],
+      "transfer_reasons": {
+        "defender_collision": 4,
+        "defender_interception": 1
+      },
+      "median_marker_gap_at_touch_m": 0.6003200409529523,
+      "median_time_touch_to_transfer_end_s": 0.4300000000000137,
+      "median_time_release_to_touch_s": 0.8339999999999994
+    }
+  },
+  "shared_first_touches": {
+    "count": 38,
+    "median_delta_release_to_touch_s": -0.715999999999987,
+    "median_delta_marker_gap_m": 0.4720283417804102
+  },
+  "paired_seeds": {
+    "reception": {
+      "both": [
+        34912000,
+        34912001,
+        34912002,
+        34912007,
+        34912008,
+        34912010,
+        34912012,
+        34912013,
+        34912015,
+        34912016,
+        34912018,
+        34912019,
+        34912020,
+        34912023,
+        34912024,
+        34912025,
+        34912030,
+        34912031,
+        34912034,
+        34912035,
+        34912037,
+        34912038
+      ],
+      "baseline_only": [
+        34912021,
+        34912036
+      ],
+      "trained_only": [
+        34912003,
+        34912004,
+        34912006,
+        34912011,
+        34912014,
+        34912017,
+        34912022,
+        34912027,
+        34912028,
+        34912029,
+        34912032,
+        34912033,
+        34912039
+      ],
+      "neither": [
+        34912005,
+        34912009,
+        34912026
+      ]
+    },
+    "goal": {
+      "both": [
+        34912001,
+        34912007,
+        34912008,
+        34912010,
+        34912012,
+        34912013,
+        34912015,
+        34912018,
+        34912023,
+        34912024,
+        34912030,
+        34912031,
+        34912034,
+        34912037,
+        34912038
+      ],
+      "baseline_only": [
+        34912021,
+        34912036
+      ],
+      "trained_only": [
+        34912000,
+        34912002,
+        34912003,
+        34912004,
+        34912011,
+        34912014,
+        34912016,
+        34912017,
+        34912020,
+        34912022,
+        34912025,
+        34912027,
+        34912028,
+        34912029,
+        34912032,
+        34912035,
+        34912039
+      ],
+      "neither": [
+        34912005,
+        34912006,
+        34912009,
+        34912019,
+        34912026,
+        34912033
+      ]
+    }
+  },
+  "recovered_first_touch_losses": [
+    34912003,
+    34912004,
+    34912011,
+    34912014,
+    34912017,
+    34912022,
+    34912027,
+    34912028,
+    34912029,
+    34912032,
+    34912039
+  ],
+  "goals_from_first_touch_losses": [
+    34912003,
+    34912004,
+    34912011,
+    34912014,
+    34912017,
+    34912022,
+    34912027,
+    34912028,
+    34912029,
+    34912032,
+    34912039
+  ]
+}

@@ -1,0 +1,162 @@
+[
+  {
+    "league": "league1",
+    "games": 80,
+    "first": 15100000,
+    "selected": 0,
+    "returns": [
+      {
+        "games": 18,
+        "goals": 17,
+        "leads": 17,
+        "interceptions": 1,
+        "under_pressure": 17,
+        "shields": 17,
+        "outcomes": {
+          "pressured shield goal": 17,
+          "intercepted": 1
+        },
+        "prepass_losses": 0,
+        "confirmed": 18
+      },
+      {
+        "games": 21,
+        "goals": 16,
+        "leads": 16,
+        "interceptions": 1,
+        "under_pressure": 20,
+        "shields": 16,
+        "outcomes": {
+          "pressured shield goal": 16,
+          "no uninterrupted finish": 4,
+          "intercepted": 1
+        },
+        "prepass_losses": 0,
+        "confirmed": 21
+      },
+      {
+        "games": 16,
+        "goals": 12,
+        "leads": 13,
+        "interceptions": 1,
+        "under_pressure": 13,
+        "shields": 12,
+        "outcomes": {
+          "pressured shield goal": 12,
+          "no uninterrupted finish": 1,
+          "opponent retouch before pass": 1,
+          "intercepted": 1,
+          "goal without closing pressure": 1
+        },
+        "prepass_losses": 1,
+        "confirmed": 16
+      },
+      {
+        "games": 22,
+        "goals": 17,
+        "leads": 18,
+        "interceptions": 1,
+        "under_pressure": 21,
+        "shields": 18,
+        "outcomes": {
+          "pressured shield goal": 17,
+          "no uninterrupted finish": 3,
+          "intercepted": 1,
+          "interrupted carrier control": 1
+        },
+        "prepass_losses": 1,
+        "confirmed": 22
+      }
+    ]
+  },
+  {
+    "league": "league2",
+    "games": 120,
+    "first": 15100300,
+    "selected": 2,
+    "returns": [
+      {
+        "games": 24,
+        "goals": 20,
+        "leads": 23,
+        "interceptions": 0,
+        "under_pressure": 22,
+        "shields": 22,
+        "outcomes": {
+          "pressured shield goal": 20,
+          "opponent retouch before pass": 1,
+          "goal without receiver shield": 1,
+          "goal without closing pressure": 1,
+          "interrupted carrier control": 1
+        },
+        "prepass_losses": 2,
+        "confirmed": 24
+      },
+      {
+        "games": 24,
+        "goals": 16,
+        "leads": 20,
+        "interceptions": 1,
+        "under_pressure": 20,
+        "shields": 19,
+        "outcomes": {
+          "pressured shield goal": 16,
+          "opponent retouch before pass": 2,
+          "goal without closing pressure": 1,
+          "intercepted": 1,
+          "goal without receiver shield": 1,
+          "no uninterrupted finish": 1,
+          "interrupted carrier control": 2
+        },
+        "prepass_losses": 4,
+        "confirmed": 24
+      },
+      {
+        "games": 23,
+        "goals": 21,
+        "leads": 23,
+        "interceptions": 0,
+        "under_pressure": 22,
+        "shields": 22,
+        "outcomes": {
+          "pressured shield goal": 21,
+          "goal without closing pressure": 1,
+          "goal without receiver shield": 1
+        },
+        "prepass_losses": 0,
+        "confirmed": 23
+      },
+      {
+        "games": 24,
+        "goals": 21,
+        "leads": 21,
+        "interceptions": 0,
+        "under_pressure": 22,
+        "shields": 22,
+        "outcomes": {
+          "pressured shield goal": 21,
+          "opponent retouch before pass": 2,
+          "no uninterrupted finish": 1
+        },
+        "prepass_losses": 2,
+        "confirmed": 24
+      },
+      {
+        "games": 22,
+        "goals": 18,
+        "leads": 21,
+        "interceptions": 0,
+        "under_pressure": 19,
+        "shields": 19,
+        "outcomes": {
+          "pressured shield goal": 18,
+          "goal without closing pressure": 2,
+          "goal without receiver shield": 1,
+          "no opening pass": 1
+        },
+        "prepass_losses": 1,
+        "confirmed": 22
+      }
+    ]
+  }
+]

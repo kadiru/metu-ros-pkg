@@ -1,0 +1,18 @@
+{
+  "selection": "Freeze two distinct candidates before opening either fresh panel. Report both panels with their matched previous-team controls. A checkpoint qualifies at 30 or more verified goals and at most two confirmed carrier losses before the pass. Among qualifying checkpoints use the higher goal count, then fewer carrier losses, then the lower version.",
+  "candidates": [
+    {
+      "version": 8,
+      "selection_run": "selector-retest",
+      "first_seed": 15307000,
+      "openings": 40
+    },
+    {
+      "version": 9,
+      "selection_run": "cold-league",
+      "first_seed": 15308000,
+      "openings": 40
+    }
+  ],
+  "control": "pressure_receive_v1/policy-2.json"
+}

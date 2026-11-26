@@ -1,0 +1,301 @@
+{
+  "same_first_frames": true,
+  "games": 40,
+  "newly_converted": 27,
+  "lost_conversions": 0,
+  "trained_goals": 27,
+  "prior_goals": 0,
+  "sides": {
+    "blue": 15,
+    "yellow": 12
+  },
+  "median": {
+    "gap_m": 0.5717514015057176,
+    "approach_mps": 1.0205599505498917,
+    "lead": 0.330901343554759,
+    "advance": 0.2647088292215804,
+    "sole_samples": 120.0
+  },
+  "rows": [
+    {
+      "seed": 14301000,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "no uninterrupted finish"
+    },
+    {
+      "seed": 14301001,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "no uninterrupted finish"
+    },
+    {
+      "seed": 14301002,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "no uninterrupted finish"
+    },
+    {
+      "seed": 14301003,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "no uninterrupted finish"
+    },
+    {
+      "seed": 14301004,
+      "trained": false,
+      "prior": false,
+      "trained_outcome": "no opening pass",
+      "prior_outcome": "no opening pass"
+    },
+    {
+      "seed": 14301005,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "no uninterrupted finish"
+    },
+    {
+      "seed": 14301006,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "goal without receiver shield"
+    },
+    {
+      "seed": 14301007,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "goal without receiver shield"
+    },
+    {
+      "seed": 14301008,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "goal without receiver shield"
+    },
+    {
+      "seed": 14301009,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "no uninterrupted finish"
+    },
+    {
+      "seed": 14301010,
+      "trained": false,
+      "prior": false,
+      "trained_outcome": "goal without closing pressure",
+      "prior_outcome": "goal without closing pressure"
+    },
+    {
+      "seed": 14301011,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "no uninterrupted finish"
+    },
+    {
+      "seed": 14301012,
+      "trained": false,
+      "prior": false,
+      "trained_outcome": "no uninterrupted finish",
+      "prior_outcome": "no uninterrupted finish"
+    },
+    {
+      "seed": 14301013,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "goal without receiver shield"
+    },
+    {
+      "seed": 14301014,
+      "trained": false,
+      "prior": false,
+      "trained_outcome": "no uninterrupted finish",
+      "prior_outcome": "no uninterrupted finish"
+    },
+    {
+      "seed": 14301015,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "goal without receiver shield"
+    },
+    {
+      "seed": 14301016,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "goal without receiver shield"
+    },
+    {
+      "seed": 14301017,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "goal without receiver shield"
+    },
+    {
+      "seed": 14301018,
+      "trained": false,
+      "prior": false,
+      "trained_outcome": "no opening pass",
+      "prior_outcome": "no opening pass"
+    },
+    {
+      "seed": 14301019,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "goal without receiver shield"
+    },
+    {
+      "seed": 14301020,
+      "trained": false,
+      "prior": false,
+      "trained_outcome": "no uninterrupted finish",
+      "prior_outcome": "no uninterrupted finish"
+    },
+    {
+      "seed": 14301021,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "goal without receiver shield"
+    },
+    {
+      "seed": 14301022,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "no uninterrupted finish"
+    },
+    {
+      "seed": 14301023,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "goal without receiver shield"
+    },
+    {
+      "seed": 14301024,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "goal without receiver shield"
+    },
+    {
+      "seed": 14301025,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "intercepted"
+    },
+    {
+      "seed": 14301026,
+      "trained": false,
+      "prior": false,
+      "trained_outcome": "no opening pass",
+      "prior_outcome": "no opening pass"
+    },
+    {
+      "seed": 14301027,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "no uninterrupted finish"
+    },
+    {
+      "seed": 14301028,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "no uninterrupted finish"
+    },
+    {
+      "seed": 14301029,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "goal without receiver shield"
+    },
+    {
+      "seed": 14301030,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "goal without receiver shield"
+    },
+    {
+      "seed": 14301031,
+      "trained": false,
+      "prior": false,
+      "trained_outcome": "no opening pass",
+      "prior_outcome": "no opening pass"
+    },
+    {
+      "seed": 14301032,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "no uninterrupted finish"
+    },
+    {
+      "seed": 14301033,
+      "trained": false,
+      "prior": false,
+      "trained_outcome": "no opening pass",
+      "prior_outcome": "no opening pass"
+    },
+    {
+      "seed": 14301034,
+      "trained": false,
+      "prior": false,
+      "trained_outcome": "no uninterrupted finish",
+      "prior_outcome": "no uninterrupted finish"
+    },
+    {
+      "seed": 14301035,
+      "trained": false,
+      "prior": false,
+      "trained_outcome": "no uninterrupted finish",
+      "prior_outcome": "no uninterrupted finish"
+    },
+    {
+      "seed": 14301036,
+      "trained": false,
+      "prior": false,
+      "trained_outcome": "goal without closing pressure",
+      "prior_outcome": "no uninterrupted finish"
+    },
+    {
+      "seed": 14301037,
+      "trained": false,
+      "prior": false,
+      "trained_outcome": "intercepted",
+      "prior_outcome": "intercepted"
+    },
+    {
+      "seed": 14301038,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "no uninterrupted finish"
+    },
+    {
+      "seed": 14301039,
+      "trained": true,
+      "prior": false,
+      "trained_outcome": "pressured shield goal",
+      "prior_outcome": "goal without receiver shield"
+    }
+  ]
+}

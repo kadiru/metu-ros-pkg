@@ -1,0 +1,9 @@
+{
+  "purpose": "Targeted training on the three historical steals. Sample candidate carry directions and avoid predicted opponent mouths while using the available robot speed. Exclude these returns from the fresh comparison.",
+  "profiles": [
+    {"speed":1.76,"advance":0.24,"shield":0.18,"shot_clear":0.10,"margin":0.27},
+    {"speed":1.82,"advance":0.59,"shield":0.48,"shot_clear":0.12,"margin":0.23},
+    {"speed":1.45,"advance":0.42,"shield":0.33,"shot_clear":0.09,"margin":0.20},
+    {"speed":1.88,"advance":0.30,"shield":0.00,"shot_clear":0.13,"margin":0.30}
+  ]
+}

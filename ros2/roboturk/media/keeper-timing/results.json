@@ -1,0 +1,86 @@
+{
+  "broad": {
+    "starts": 32,
+    "totals": {
+      "keeper-cover": {
+        "own_goals": 0,
+        "clean_takeaways": 6,
+        "clean_keeper_takeaways": 0,
+        "starts_with_body_contact": 6,
+        "starts_with_cover": 20,
+        "starts_with_early_positioning": 19
+      },
+      "keeper-timing": {
+        "own_goals": 0,
+        "clean_takeaways": 6,
+        "clean_keeper_takeaways": 0,
+        "starts_with_body_contact": 8,
+        "starts_with_cover": 20,
+        "starts_with_early_positioning": 18
+      }
+    },
+    "prevented": [],
+    "introduced": [],
+    "conceded_by_both": []
+  },
+  "near_line": {
+    "starts": 16,
+    "totals": {
+      "keeper-cover": {
+        "own_goals": 5,
+        "clean_takeaways": 4,
+        "clean_keeper_takeaways": 0,
+        "starts_with_body_contact": 6,
+        "starts_with_cover": 7,
+        "starts_with_early_positioning": 16
+      },
+      "keeper-timing": {
+        "own_goals": 5,
+        "clean_takeaways": 3,
+        "clean_keeper_takeaways": 0,
+        "starts_with_body_contact": 8,
+        "starts_with_cover": 6,
+        "starts_with_early_positioning": 16
+      }
+    },
+    "prevented": [],
+    "introduced": [],
+    "conceded_by_both": [
+      38725035,
+      38725059,
+      38725067,
+      38725083,
+      38725091
+    ]
+  },
+  "combined": {
+    "starts": 48,
+    "totals": {
+      "keeper-cover": {
+        "own_goals": 5,
+        "clean_takeaways": 10,
+        "clean_keeper_takeaways": 0,
+        "starts_with_body_contact": 12,
+        "starts_with_cover": 27,
+        "starts_with_early_positioning": 35
+      },
+      "keeper-timing": {
+        "own_goals": 5,
+        "clean_takeaways": 9,
+        "clean_keeper_takeaways": 0,
+        "starts_with_body_contact": 16,
+        "starts_with_cover": 26,
+        "starts_with_early_positioning": 34
+      }
+    },
+    "prevented": [],
+    "introduced": [],
+    "conceded_by_both": [
+      38725035,
+      38725059,
+      38725067,
+      38725083,
+      38725091
+    ]
+  }
+}

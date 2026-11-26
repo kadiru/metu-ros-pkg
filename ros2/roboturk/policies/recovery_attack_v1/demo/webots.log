@@ -1,0 +1,18 @@
+UNSUPPORTED (log once): POSSIBLE ISSUE: unit 0 GLD_TEXTURE_INDEX_2D is unloadable and bound to sampler type (Float) - using zero texture because texture unloadable
+INFO: roboturk_recovery_attack: Starting controller: python3 -u roboturk_recovery_attack.py
+0 4 1
+1 4 2
+INFO: Creating video...
+2 0 0
+Recording at 25 FPS, 7650000 bit/s.
+Video encoding stage 1... (please wait)
+[mjpeg @ 0x7fe3ae010400] overread 8
+    Last message repeated 281 times
+Video encoding stage 2... (please wait)
+[libx264 @ 0x7f968c036600] Error: 2pass curve failed to converge
+[libx264 @ 0x7f968c036600] target: 7650.00 kbit/s, expected: 874.86 kbit/s, avg QP: 0.0213
+[libx264 @ 0x7f968c036600] try reducing target bitrate
+[mjpeg @ 0x7f968c020800] overread 8
+    Last message repeated 281 times
+INFO: Video creation finished.
+INFO: roboturk_recovery_attack: Terminating.

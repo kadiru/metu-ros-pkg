@@ -1,0 +1,36 @@
+{
+  "started_at": "2026-11-20T02:56:07.410660-08:00",
+  "arguments": {
+    "webots": "../runtime/Webots-nightly.app/Contents/MacOS/webots",
+    "mode": "train",
+    "output": "runs/continuous-v1/league622-decisions-v2",
+    "checkpoint": null,
+    "opponent": null,
+    "freeze": null,
+    "seed": 622,
+    "episodes": 12,
+    "duration": 45.0,
+    "steps": 32768,
+    "epochs": 80,
+    "rounds": 2,
+    "decisions_only": true,
+    "categorical_decisions": false,
+    "mix": 0,
+    "timeout": 3600.0,
+    "render": false
+  },
+  "runtime_sha256": {
+    "src/roboturk_core/roboturk/continuous_features.py": "d4267acad3ce0e4ca6964debc6267a8ed44838890e506f025d1c96f5f30fa2c9",
+    "src/roboturk_core/roboturk/continuous_preflight.py": "03c5205750f505223c75e786a01f8d01b686fcd1691bb9ee8c0b4929dca0b421",
+    "src/roboturk_core/roboturk/continuous_training.py": "2bad97750e1365d46abdba7c1e93e89dca09ca9b31fa92a989ad65054935b5c0",
+    "src/roboturk_core/roboturk/continuous_selfplay.py": "e8ab4e5aa1f4d949991540fd4b5ebdc53f6de56670a5e84b39c4b56f929d2cf0",
+    "src/roboturk_core/roboturk/continuous.py": "779c4b3e4091c6a5381e67b3c269e40aa879c1c0729c4dfed72b8adf0de77970",
+    "src/roboturk_core/roboturk/continuous_teacher.py": "4b8fad6f917e4616d5bc852deeb3d12677a4aa5f2b1345bfeb12797ea0b75669",
+    "src/roboturk_core/roboturk/continuous_backend.py": "88cf8d54a9df97d493e42f7bef541b88c327bf6e21a8598e2e905bb5bb0d5b64",
+    "src/roboturk_core/roboturk/continuous_distribution.py": "6d500784877a349ddf3f8249a71b27b957fd7cc87e371285afe7ba6f034e70f2",
+    "src/roboturk_ros/webots/controllers/roboturk_continuous/roboturk_continuous.py": "13bc427aed2e39d52c961c13932e7eaab4a9f117693cff8f94be9d76ded7dcd5",
+    "src/roboturk_ros/webots/controllers/roboturk_continuous/continuous_demo.py": "fb5b5c0c05ea68276b2858d376cb30482150c9a3862c637ac4594e707793158d",
+    "scripts/run_continuous.py": "b419e06dbe99410a8637a675cdb317191254a79f882bcdaf5b28c81e00dadd6c",
+    "src/roboturk_ros/webots/worlds/ssl_continuous.wbt": "77692148fb5d55fa6ed780b1e5051a8eec7bad3e433b53adc0d9ba883a174b40"
+  }
+}

@@ -1,0 +1,15 @@
+Native pass labels runs/strategy-v1/coach-v4-pilot.json 13892
+Native pass labels runs/strategy-v1/pass-diagnostic-v4.json 20891
+Native pass labels runs/strategy-v1/refine-v2/seed811/development.json 35127
+Native pass labels runs/strategy-v1/adapt-v3/seed811/development.json 49643
+Native pass labels runs/strategy-v1/adapt-v3/seed822/development.json 63979
+Pass motor fit 25 250 0.3801728958884875
+Pass motor fit 50 250 0.283108614385128
+Pass motor fit 75 250 0.15386329094568887
+Pass motor fit 100 250 0.08062584201494853
+Pass motor fit 125 250 0.055839794843147196
+Pass motor fit 150 250 0.045780752009401716
+Pass motor fit 175 250 0.043984638915086784
+Pass motor fit 200 250 0.03671587980352342
+Pass motor fit 225 250 0.030987667463098962
+Pass motor fit 250 250 0.03099373433118065

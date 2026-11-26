@@ -1,0 +1,50 @@
+[
+  {
+    "source": "runs/strategy-v1/heads-v5/complete.json",
+    "path": "policies/strategy_self_play_v1/preparation/heads-v5/complete.json",
+    "payload_sha256": "de9ffd871765a87e30be7ea8aa444151e9e481af081e002750373a2c362de18f",
+    "sha256": "de9ffd871765a87e30be7ea8aa444151e9e481af081e002750373a2c362de18f",
+    "original_bytes": 212,
+    "bytes": 212
+  },
+  {
+    "source": "runs/strategy-v1/heads-v5/seed811/initial.json",
+    "path": "policies/strategy_self_play_v1/preparation/heads-v5/seed811/initial.json",
+    "payload_sha256": "704be11fe46aaf6c9cce80d99be1046f10095b1dc72f41e61fcec65ca41ba41f",
+    "sha256": "704be11fe46aaf6c9cce80d99be1046f10095b1dc72f41e61fcec65ca41ba41f",
+    "original_bytes": 8125,
+    "bytes": 8125
+  },
+  {
+    "source": "runs/strategy-v1/heads-v5/seed811/initial.zip",
+    "path": "policies/strategy_self_play_v1/preparation/heads-v5/seed811/initial.zip",
+    "payload_sha256": "f6cf0218f4870733cd7eedad15deaa785a9d5ac67662f07453f5473272d64b8f",
+    "sha256": "f6cf0218f4870733cd7eedad15deaa785a9d5ac67662f07453f5473272d64b8f",
+    "original_bytes": 915145,
+    "bytes": 915145
+  },
+  {
+    "source": "runs/strategy-v1/heads-v5/seed822/initial.json",
+    "path": "policies/strategy_self_play_v1/preparation/heads-v5/seed822/initial.json",
+    "payload_sha256": "2c739cad4a4d33fec97f57453607d584178fc8f163e29c9b4770b913ce750e29",
+    "sha256": "2c739cad4a4d33fec97f57453607d584178fc8f163e29c9b4770b913ce750e29",
+    "original_bytes": 8111,
+    "bytes": 8111
+  },
+  {
+    "source": "runs/strategy-v1/heads-v5/seed822/initial.zip",
+    "path": "policies/strategy_self_play_v1/preparation/heads-v5/seed822/initial.zip",
+    "payload_sha256": "4fc26d5ac08926ab473d1435812544da7716587a177233c3e7a87c923430763d",
+    "sha256": "4fc26d5ac08926ab473d1435812544da7716587a177233c3e7a87c923430763d",
+    "original_bytes": 915145,
+    "bytes": 915145
+  },
+  {
+    "source": "runs/strategy-v1/heads-v5.log",
+    "path": "policies/strategy_self_play_v1/preparation/heads-v5.log",
+    "payload_sha256": "70ed1dbcfe69f7cb5d60332bf73536664a40002db121f0dce6ae2b32f88c04eb",
+    "sha256": "70ed1dbcfe69f7cb5d60332bf73536664a40002db121f0dce6ae2b32f88c04eb",
+    "original_bytes": 1102,
+    "bytes": 1102
+  }
+]

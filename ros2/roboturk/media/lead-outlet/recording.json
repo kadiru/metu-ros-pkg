@@ -1,0 +1,72 @@
+{
+  "file": "lead-pass.mp4",
+  "sha256": "faddc8823a661e73261615780b005d283737534653884a0684d0479c9914d3f5",
+  "seconds": 54.04,
+  "full": {
+    "file": "all-openings.gif",
+    "frames": 540,
+    "seconds": 54.0,
+    "fps": 10,
+    "sha256": "dc0f80163064cadec8403e4f1fa704a0730308000e4989be5b5a01afa3a7f13d"
+  },
+  "excerpt": {
+    "file": "lead-pass.gif",
+    "frames": 66,
+    "seconds": 5.28,
+    "fps": 12.5,
+    "sha256": "7f9080ed373c9e1689fef26a8874c934bd5c76e9d4d8dae49d644d7a8c36765c"
+  },
+  "excerpt_start": 0,
+  "excerpt_game": 0,
+  "opening": {
+    "seed": 13400000,
+    "qualified": true,
+    "chain": {
+      "start": 0,
+      "recovery": 75,
+      "winner": 3,
+      "team": "yellow",
+      "goal": 427,
+      "shot": 79,
+      "scorer": 1,
+      "passes": [
+        37
+      ],
+      "dribble_m": 0.0,
+      "options": [
+        "pass",
+        "shoot"
+      ]
+    },
+    "passer": 0,
+    "receiver": 1,
+    "slot": 0,
+    "decision": 19,
+    "kick": 37,
+    "end": 53,
+    "direct": 0.13948332804078306,
+    "lane": 1.0317840418573798,
+    "space": 1.2872664474448485,
+    "pass_result": "complete",
+    "outcome": "pass goal",
+    "pass_goal": true,
+    "intercepted": false,
+    "target": [
+      -0.560054129373583,
+      -1.3834568683517947
+    ],
+    "run_speed": 0.5940682246679828,
+    "lead": 0.25298061022670293,
+    "contact": 196,
+    "advance": 0.20756701120341875,
+    "target_error": 0.04010237712989733,
+    "verified_lead": true
+  },
+  "native_pixel_crop": [
+    150,
+    299,
+    548,
+    274
+  ],
+  "speed": 1
+}

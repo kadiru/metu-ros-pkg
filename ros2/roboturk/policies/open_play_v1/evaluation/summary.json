@@ -1,0 +1,49 @@
+{
+  "matched_starts": 16,
+  "mirror": [
+    {
+      "games": 16,
+      "team_games": 32,
+      "recoveries": 54,
+      "goals": 9,
+      "all_goals": 13,
+      "goals_after_45s": 7,
+      "conversion": 0.16666666666666666,
+      "goals_per_game": 0.5625
+    },
+    {
+      "games": 16,
+      "team_games": 32,
+      "recoveries": 176,
+      "goals": 55,
+      "all_goals": 58,
+      "goals_after_45s": 17,
+      "conversion": 0.3125,
+      "goals_per_game": 3.4375
+    }
+  ],
+  "head_to_head": [
+    {
+      "games": 16,
+      "team_games": 16,
+      "recoveries": 37,
+      "goals": 9,
+      "all_goals": 10,
+      "goals_after_45s": 3,
+      "conversion": 0.24324324324324326,
+      "goals_per_game": 0.5625
+    },
+    {
+      "games": 16,
+      "team_games": 16,
+      "recoveries": 37,
+      "goals": 14,
+      "all_goals": 16,
+      "goals_after_45s": 7,
+      "conversion": 0.3783783783783784,
+      "goals_per_game": 0.875
+    }
+  ],
+  "contacts": 285,
+  "exits": 4461
+}

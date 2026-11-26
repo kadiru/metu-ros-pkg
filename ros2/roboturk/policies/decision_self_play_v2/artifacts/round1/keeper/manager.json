@@ -1,0 +1,24 @@
+{
+  "stage": "self_play",
+  "generation": 1,
+  "learning_role": "keeper",
+  "contract": "roboturk.tactical_decision.v4",
+  "role": "manager",
+  "config": {
+    "length": 9.0,
+    "width": 6.0,
+    "goal_width": 1.0,
+    "robot_radius": 0.09,
+    "ball_radius": 0.0215,
+    "ball_mass": 0.046,
+    "max_speed": 2.0,
+    "max_omega": 8.0,
+    "max_kick": 5.0,
+    "dt": 0.02,
+    "max_steps": 500,
+    "neighbors": 5,
+    "possession_x": 0.115
+  },
+  "actor_sha256": "e8a7e04158197b06c366e6a848a26ae92ddd5eb6522114d198372067a5faab73",
+  "validated_for_hardware": false
+}

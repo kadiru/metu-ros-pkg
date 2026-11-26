@@ -1,0 +1,3862 @@
+[
+  {
+    "metric_version": 2,
+    "backend_contract": "roboturk.webots.closest_kicker.v1",
+    "kick_arbitrations": [],
+    "seed": 4343602,
+    "start": "blue_possession",
+    "attack_sign": -1,
+    "steps": 2250,
+    "duration": 45.0,
+    "reason": "time",
+    "score": {
+      "blue": 0,
+      "yellow": 1
+    },
+    "calls": {
+      "blue0": 2250,
+      "blue1": 2250,
+      "yellow0": 2250,
+      "yellow1": 2250
+    },
+    "mode_ticks": {
+      "blue/support": 1017,
+      "blue/dribble": 582,
+      "yellow/cover": 1262,
+      "yellow/press": 595,
+      "blue/pass": 319,
+      "yellow/support": 1006,
+      "yellow/pass": 312,
+      "blue/cover": 1342,
+      "blue/press": 607,
+      "yellow/dribble": 622,
+      "blue/recover": 621,
+      "blue/shoot": 12,
+      "yellow/recover": 649,
+      "yellow/shoot": 54
+    },
+    "physics_checks": 9000,
+    "contact_checks": 14,
+    "contact_events": 1,
+    "contact_fraction": 0.0015555555555555555,
+    "outside_checks": 76,
+    "possession_seconds": {
+      "blue": 11.975000000000472,
+      "yellow": 13.360000000000689
+    },
+    "contested_seconds": 6.349999999999887,
+    "distance": {
+      "blue0": 31.23203343832808,
+      "blue1": 20.624585788263012,
+      "yellow0": 27.050363337737977,
+      "yellow1": 25.735525605098257
+    },
+    "support_distance": {
+      "blue": 15.111650603422353,
+      "yellow": 15.277352704666882
+    },
+    "cover_distance": {
+      "yellow": 16.145660589671625,
+      "blue": 17.31242234973981
+    },
+    "controlled_carry": {
+      "blue": 0.8360448434974675,
+      "yellow": 1.5887887311856768
+    },
+    "acquisitions": {
+      "blue": 6,
+      "yellow": 5
+    },
+    "turnovers": {
+      "yellow": 2,
+      "blue": 3
+    },
+    "recoveries": {
+      "yellow": 3,
+      "blue": 5
+    },
+    "passes": {
+      "yellow": 1,
+      "blue": 4
+    },
+    "shots": {},
+    "receptions": {
+      "yellow": 1,
+      "blue": 1
+    },
+    "referee_restarts": 2,
+    "backend_resets": 3,
+    "events": [
+      {
+        "type": "acquisition",
+        "step": 15,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          1.2137140457561362,
+          -0.7209583701037648
+        ]
+      },
+      {
+        "type": "turnover",
+        "step": 122,
+        "robot": "yellow1",
+        "team": "yellow",
+        "previous_robot": "blue1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          0.8920950847038701,
+          -0.3940677621383403
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 553,
+        "robot": "yellow1",
+        "physics_time": 11.039999999999964,
+        "restart": 0,
+        "team": "yellow",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          2.7459823705513524,
+          2.442748841847069
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "acquisition",
+        "step": 610,
+        "robot": "yellow0",
+        "team": "yellow",
+        "previous_robot": "yellow1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          3.0986616839801084,
+          1.2312056774221796
+        ]
+      },
+      {
+        "type": "reception",
+        "step": 610,
+        "robot": "yellow0",
+        "team": "yellow",
+        "previous_robot": "yellow1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          3.0986616839801084,
+          1.2312056774221796
+        ],
+        "pass_step": 553,
+        "displacement": 1.2618318181854715
+      },
+      {
+        "type": "pass",
+        "step": 645,
+        "robot": "blue1",
+        "physics_time": 12.879999999999995,
+        "restart": 0,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          3.115726422005495,
+          1.2985545604904452
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "turnover",
+        "step": 743,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": "yellow0",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          3.9998061463348944,
+          -0.43818742172251035
+        ]
+      },
+      {
+        "type": "reception",
+        "step": 743,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": "yellow0",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          3.9998061463348944,
+          -0.43818742172251035
+        ],
+        "pass_step": 645,
+        "displacement": 1.9488123746916564
+      },
+      {
+        "type": "goal",
+        "step": 790,
+        "team": "yellow",
+        "crossing_y": -0.46840988870224154,
+        "segment": [
+          [
+            4.5211787154755205,
+            -0.4671705478836205
+          ],
+          [
+            4.521676289383296,
+            -0.46908991718778176
+          ]
+        ],
+        "direction": 1
+      },
+      {
+        "type": "referee_restart",
+        "reason": "goal",
+        "step": 790
+      },
+      {
+        "type": "pass",
+        "step": 929,
+        "robot": "blue1",
+        "physics_time": 18.559999999999945,
+        "restart": 1,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          1.0324045813985563,
+          -0.3173350157225309
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "pass",
+        "step": 946,
+        "robot": "blue1",
+        "physics_time": 18.899999999999977,
+        "restart": 1,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          1.0532638473341902,
+          -0.3480396931510007
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "acquisition",
+        "step": 1015,
+        "robot": "yellow1",
+        "team": "yellow",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          1.2020277639082158,
+          -0.5160360822616036
+        ]
+      },
+      {
+        "type": "turnover",
+        "step": 1115,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": "yellow1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          1.4147121873893604,
+          -0.779798976583592
+        ]
+      },
+      {
+        "type": "acquisition",
+        "step": 1414,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": "blue1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          1.2599417678037366,
+          0.8496677979160482
+        ]
+      },
+      {
+        "type": "acquisition",
+        "step": 1571,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": "blue1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          0.6063647127132714,
+          2.1562811545993688
+        ]
+      },
+      {
+        "type": "turnover",
+        "step": 1681,
+        "robot": "yellow1",
+        "team": "yellow",
+        "previous_robot": "blue1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          0.27869385168552346,
+          2.248007828915404
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 1743,
+        "robot": "blue1",
+        "physics_time": 34.83999999999992,
+        "restart": 1,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          0.28795045410000536,
+          2.2256918192012636
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "ball_out",
+        "step": 2003
+      },
+      {
+        "type": "referee_restart",
+        "reason": "ball_out",
+        "step": 2003
+      },
+      {
+        "type": "acquisition",
+        "step": 2142,
+        "robot": "yellow0",
+        "team": "yellow",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          0.8568133003385506,
+          -0.2383935603281764
+        ]
+      },
+      {
+        "type": "turnover",
+        "step": 2225,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": "yellow0",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          0.8789711727330844,
+          -0.06189287486624497
+        ]
+      }
+    ],
+    "trace": [],
+    "learner": "blue1",
+    "opponent_index": 1
+  },
+  {
+    "metric_version": 2,
+    "backend_contract": "roboturk.webots.closest_kicker.v1",
+    "kick_arbitrations": [],
+    "seed": 4308984,
+    "start": "loose",
+    "attack_sign": -1,
+    "steps": 2250,
+    "duration": 45.0,
+    "reason": "time",
+    "score": {
+      "blue": 0,
+      "yellow": 0
+    },
+    "calls": {
+      "blue0": 2250,
+      "blue1": 2250,
+      "yellow0": 2250,
+      "yellow1": 2250
+    },
+    "mode_ticks": {
+      "blue/recover": 492,
+      "blue/cover": 732,
+      "yellow/recover": 625,
+      "yellow/cover": 1892,
+      "yellow/press": 1265,
+      "blue/dribble": 1320,
+      "blue/support": 1673,
+      "blue/pass": 197,
+      "yellow/pass": 238,
+      "yellow/support": 343,
+      "blue/press": 85,
+      "yellow/dribble": 126,
+      "yellow/shoot": 11,
+      "blue/shoot": 1
+    },
+    "physics_checks": 9000,
+    "contact_checks": 44,
+    "contact_events": 1,
+    "contact_fraction": 0.004888888888888889,
+    "outside_checks": 0,
+    "possession_seconds": {
+      "blue": 25.239999999999263,
+      "yellow": 1.7249999999999852
+    },
+    "contested_seconds": 5.199999999999911,
+    "distance": {
+      "blue0": 26.831518302460747,
+      "blue1": 29.287927839199625,
+      "yellow0": 19.08711274818218,
+      "yellow1": 27.699812599154274
+    },
+    "support_distance": {
+      "blue": 22.176152516838574,
+      "yellow": 5.616506105667907
+    },
+    "cover_distance": {
+      "blue": 13.049326843686492,
+      "yellow": 15.327361550395118
+    },
+    "controlled_carry": {
+      "blue": 3.89367955521291
+    },
+    "acquisitions": {
+      "blue": 3
+    },
+    "turnovers": {},
+    "recoveries": {
+      "blue": 1
+    },
+    "passes": {
+      "yellow": 1,
+      "blue": 3
+    },
+    "shots": {
+      "blue": 1
+    },
+    "receptions": {
+      "blue": 1
+    },
+    "referee_restarts": 3,
+    "backend_resets": 4,
+    "events": [
+      {
+        "type": "pass",
+        "step": 311,
+        "robot": "yellow0",
+        "physics_time": 6.199999999999932,
+        "restart": 0,
+        "team": "yellow",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          0.8373101069395001,
+          0.3847940732489331
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "pass",
+        "step": 348,
+        "robot": "blue0",
+        "physics_time": 6.939999999999941,
+        "restart": 0,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          0.977110287275792,
+          0.33561540622348307
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "ball_out",
+        "step": 460
+      },
+      {
+        "type": "referee_restart",
+        "reason": "ball_out",
+        "step": 460
+      },
+      {
+        "type": "acquisition",
+        "step": 554,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          0.6640800005452178,
+          -0.16801818027960227
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 892,
+        "robot": "blue1",
+        "physics_time": 17.82000000000005,
+        "restart": 1,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          0.41292783137232253,
+          -2.32374956660522
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "acquisition",
+        "step": 973,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": "blue1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -0.7307540598748506,
+          -1.034262687832066
+        ]
+      },
+      {
+        "type": "reception",
+        "step": 973,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": "blue1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -0.7307540598748506,
+          -1.034262687832066
+        ],
+        "pass_step": 892,
+        "displacement": 1.723596437364281
+      },
+      {
+        "type": "shot",
+        "step": 1247,
+        "robot": "blue0",
+        "physics_time": 24.920000000000073,
+        "restart": 1,
+        "team": "blue",
+        "speed": 3.5,
+        "held": true,
+        "ball": [
+          -3.417324752006159,
+          -0.06886805204112481
+        ],
+        "mode": "shoot"
+      },
+      {
+        "type": "ball_out",
+        "step": 1361
+      },
+      {
+        "type": "referee_restart",
+        "reason": "ball_out",
+        "step": 1361
+      },
+      {
+        "type": "acquisition",
+        "step": 1437,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          -0.36132347203134474,
+          0.32478377896264643
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 2033,
+        "robot": "blue1",
+        "physics_time": 40.639999999999986,
+        "restart": 2,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -2.587953197529773,
+          -0.9590119518138086
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "ball_out",
+        "step": 2164
+      },
+      {
+        "type": "referee_restart",
+        "reason": "ball_out",
+        "step": 2164
+      }
+    ],
+    "trace": [],
+    "learner": "yellow1",
+    "opponent_index": 0
+  },
+  {
+    "metric_version": 2,
+    "backend_contract": "roboturk.webots.closest_kicker.v1",
+    "kick_arbitrations": [],
+    "seed": 4332198,
+    "start": "loose",
+    "attack_sign": -1,
+    "steps": 2250,
+    "duration": 45.0,
+    "reason": "time",
+    "score": {
+      "blue": 0,
+      "yellow": 0
+    },
+    "calls": {
+      "blue0": 2250,
+      "blue1": 2250,
+      "yellow0": 2250,
+      "yellow1": 2250
+    },
+    "mode_ticks": {
+      "blue/recover": 270,
+      "blue/cover": 557,
+      "yellow/cover": 1877,
+      "yellow/recover": 313,
+      "yellow/press": 1583,
+      "yellow/pass": 200,
+      "blue/press": 232,
+      "yellow/support": 380,
+      "yellow/dribble": 136,
+      "blue/pass": 39,
+      "blue/support": 1748,
+      "blue/dribble": 1575,
+      "yellow/shoot": 11,
+      "blue/shoot": 79
+    },
+    "physics_checks": 9000,
+    "contact_checks": 547,
+    "contact_events": 7,
+    "contact_fraction": 0.06077777777777778,
+    "outside_checks": 0,
+    "possession_seconds": {
+      "blue": 32.10499999999797,
+      "yellow": 4.539999999999925
+    },
+    "contested_seconds": 1.7749999999999841,
+    "distance": {
+      "blue0": 27.37330560453704,
+      "blue1": 26.01947227723996,
+      "yellow0": 17.46177599069707,
+      "yellow1": 23.690422304358837
+    },
+    "support_distance": {
+      "yellow": 4.665173875258849,
+      "blue": 21.782376507693087
+    },
+    "cover_distance": {
+      "blue": 9.153966470501684,
+      "yellow": 13.025520138884746
+    },
+    "controlled_carry": {
+      "blue": 3.8788784406582972,
+      "yellow": 0.1352863712995096
+    },
+    "acquisitions": {
+      "blue": 4,
+      "yellow": 1
+    },
+    "turnovers": {
+      "yellow": 1,
+      "blue": 1
+    },
+    "recoveries": {
+      "blue": 1,
+      "yellow": 1
+    },
+    "passes": {
+      "blue": 2,
+      "yellow": 2
+    },
+    "shots": {},
+    "receptions": {
+      "blue": 1
+    },
+    "referee_restarts": 1,
+    "backend_resets": 2,
+    "events": [
+      {
+        "type": "acquisition",
+        "step": 126,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          0.18042223624526246,
+          0.06622992706765019
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 617,
+        "robot": "blue0",
+        "physics_time": 12.32000000000005,
+        "restart": 0,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -2.7831902042793892,
+          -2.390987117069808
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "acquisition",
+        "step": 676,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": "blue0",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -3.249143332225508,
+          -1.2331130204506897
+        ]
+      },
+      {
+        "type": "reception",
+        "step": 676,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": "blue0",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -3.249143332225508,
+          -1.2331130204506897
+        ],
+        "pass_step": 617,
+        "displacement": 1.2481124713199174
+      },
+      {
+        "type": "pass",
+        "step": 733,
+        "robot": "yellow1",
+        "physics_time": 14.639999999999986,
+        "restart": 0,
+        "team": "yellow",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -3.1871205712994377,
+          -1.27467882301788
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "turnover",
+        "step": 818,
+        "robot": "yellow1",
+        "team": "yellow",
+        "previous_robot": "blue1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -3.5947620403106195,
+          -0.40381205252465
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 1004,
+        "robot": "yellow1",
+        "physics_time": 20.06000000000006,
+        "restart": 0,
+        "team": "yellow",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -3.5009870524045374,
+          0.6251904480727998
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "turnover",
+        "step": 1037,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": "yellow1",
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          -3.5689315197245874,
+          0.7811371757000444
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 1508,
+        "robot": "blue1",
+        "physics_time": 30.139999999999986,
+        "restart": 0,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -1.1845808589002709,
+          -1.4291149729566566
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "ball_out",
+        "step": 1612
+      },
+      {
+        "type": "referee_restart",
+        "reason": "ball_out",
+        "step": 1612
+      },
+      {
+        "type": "acquisition",
+        "step": 1707,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          0.5609082700060408,
+          0.2797387503566942
+        ]
+      }
+    ],
+    "trace": [],
+    "learner": "yellow0",
+    "opponent_index": 0
+  },
+  {
+    "metric_version": 2,
+    "backend_contract": "roboturk.webots.closest_kicker.v1",
+    "kick_arbitrations": [],
+    "seed": 4388118,
+    "start": "loose",
+    "attack_sign": 1,
+    "steps": 2250,
+    "duration": 45.0,
+    "reason": "time",
+    "score": {
+      "blue": 0,
+      "yellow": 1
+    },
+    "calls": {
+      "blue0": 2250,
+      "blue1": 2250,
+      "yellow0": 2250,
+      "yellow1": 2250
+    },
+    "mode_ticks": {
+      "blue/recover": 406,
+      "blue/cover": 1262,
+      "yellow/cover": 1235,
+      "yellow/recover": 423,
+      "blue/press": 813,
+      "blue/pass": 217,
+      "blue/support": 1006,
+      "blue/dribble": 789,
+      "yellow/press": 790,
+      "yellow/support": 1035,
+      "yellow/pass": 200,
+      "yellow/dribble": 755,
+      "blue/shoot": 7,
+      "yellow/shoot": 62
+    },
+    "physics_checks": 9000,
+    "contact_checks": 210,
+    "contact_events": 2,
+    "contact_fraction": 0.023333333333333334,
+    "outside_checks": 0,
+    "possession_seconds": {
+      "blue": 15.80500000000107,
+      "yellow": 16.31000000000104
+    },
+    "contested_seconds": 4.044999999999936,
+    "distance": {
+      "blue0": 27.774349011443814,
+      "blue1": 22.601516148699822,
+      "yellow0": 24.174295494114787,
+      "yellow1": 23.73476063663896
+    },
+    "support_distance": {
+      "blue": 15.535295721324891,
+      "yellow": 11.24977597185478
+    },
+    "cover_distance": {
+      "blue": 11.23056021394832,
+      "yellow": 12.583407516427249
+    },
+    "controlled_carry": {
+      "blue": 0.8127698409798875,
+      "yellow": 1.3689957155558965
+    },
+    "acquisitions": {
+      "blue": 3,
+      "yellow": 2
+    },
+    "turnovers": {},
+    "recoveries": {
+      "blue": 1,
+      "yellow": 1
+    },
+    "passes": {
+      "blue": 2
+    },
+    "shots": {
+      "yellow": 1
+    },
+    "receptions": {
+      "blue": 1
+    },
+    "referee_restarts": 2,
+    "backend_resets": 3,
+    "events": [
+      {
+        "type": "acquisition",
+        "step": 131,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          -0.3547423450490907,
+          0.7744590821591971
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 369,
+        "robot": "blue0",
+        "physics_time": 7.360000000000127,
+        "restart": 0,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          0.3414329184561179,
+          2.1617973059007833
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "acquisition",
+        "step": 462,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": "blue0",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          1.590486529475905,
+          0.6291455828044797
+        ]
+      },
+      {
+        "type": "reception",
+        "step": 462,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": "blue0",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          1.590486529475905,
+          0.6291455828044797
+        ],
+        "pass_step": 369,
+        "displacement": 1.977158624772337
+      },
+      {
+        "type": "pass",
+        "step": 771,
+        "robot": "blue1",
+        "physics_time": 15.400000000000091,
+        "restart": 0,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          1.4183166728038874,
+          -2.4006252302402165
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "ball_out",
+        "step": 974
+      },
+      {
+        "type": "referee_restart",
+        "reason": "ball_out",
+        "step": 974
+      },
+      {
+        "type": "acquisition",
+        "step": 1067,
+        "robot": "yellow1",
+        "team": "yellow",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          0.5886927253684036,
+          -0.14836956150382144
+        ]
+      },
+      {
+        "type": "acquisition",
+        "step": 1142,
+        "robot": "yellow1",
+        "team": "yellow",
+        "previous_robot": "yellow1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          0.5382642167255669,
+          -0.5484146718872609
+        ]
+      },
+      {
+        "type": "shot",
+        "step": 1863,
+        "robot": "yellow1",
+        "physics_time": 37.24000000000001,
+        "restart": 1,
+        "team": "yellow",
+        "speed": 3.5,
+        "held": true,
+        "ball": [
+          -3.906601247056665,
+          -1.140072953321533
+        ],
+        "mode": "shoot"
+      },
+      {
+        "type": "goal",
+        "step": 1881,
+        "team": "yellow",
+        "crossing_y": -0.3176474516375999,
+        "segment": [
+          [
+            -4.516668503121033,
+            -0.32392192468206765
+          ],
+          [
+            -4.524241630184612,
+            -0.31408700544003787
+          ]
+        ],
+        "direction": -1
+      },
+      {
+        "type": "referee_restart",
+        "reason": "goal",
+        "step": 1881
+      },
+      {
+        "type": "acquisition",
+        "step": 1994,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          0.939200340336417,
+          0.25841350902291477
+        ]
+      }
+    ],
+    "trace": [],
+    "learner": "blue0",
+    "opponent_index": 0
+  },
+  {
+    "metric_version": 2,
+    "backend_contract": "roboturk.webots.closest_kicker.v1",
+    "kick_arbitrations": [],
+    "seed": 4310081,
+    "start": "yellow_possession",
+    "attack_sign": 1,
+    "steps": 2250,
+    "duration": 45.0,
+    "reason": "time",
+    "score": {
+      "blue": 0,
+      "yellow": 0
+    },
+    "calls": {
+      "blue0": 2250,
+      "blue1": 2250,
+      "yellow0": 2250,
+      "yellow1": 2250
+    },
+    "mode_ticks": {
+      "blue/cover": 1625,
+      "blue/press": 1324,
+      "yellow/dribble": 1317,
+      "yellow/support": 1368,
+      "yellow/press": 590,
+      "yellow/pass": 56,
+      "yellow/recover": 286,
+      "yellow/cover": 853,
+      "blue/support": 644,
+      "blue/pass": 92,
+      "blue/dribble": 533,
+      "blue/recover": 282,
+      "yellow/shoot": 30
+    },
+    "physics_checks": 9000,
+    "contact_checks": 463,
+    "contact_events": 3,
+    "contact_fraction": 0.051444444444444445,
+    "outside_checks": 0,
+    "possession_seconds": {
+      "blue": 11.340000000000373,
+      "yellow": 26.46499999999902
+    },
+    "contested_seconds": 1.1649999999999971,
+    "distance": {
+      "blue0": 17.207363530191934,
+      "blue1": 24.613215393898734,
+      "yellow0": 24.651523477752647,
+      "yellow1": 26.690338297568747
+    },
+    "support_distance": {
+      "yellow": 16.599593521828048,
+      "blue": 9.055997996666303
+    },
+    "cover_distance": {
+      "blue": 10.338278251996467,
+      "yellow": 11.509532411070609
+    },
+    "controlled_carry": {
+      "yellow": 3.6861936502338284,
+      "blue": 1.9320116839622639
+    },
+    "acquisitions": {
+      "yellow": 3,
+      "blue": 2
+    },
+    "turnovers": {
+      "blue": 1
+    },
+    "recoveries": {
+      "yellow": 1,
+      "blue": 2
+    },
+    "passes": {
+      "yellow": 1,
+      "blue": 1
+    },
+    "shots": {},
+    "receptions": {
+      "yellow": 1,
+      "blue": 1
+    },
+    "referee_restarts": 1,
+    "backend_resets": 2,
+    "events": [
+      {
+        "type": "acquisition",
+        "step": 15,
+        "robot": "yellow0",
+        "team": "yellow",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          1.1825827290260444,
+          -1.1277413599079547
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 297,
+        "robot": "yellow0",
+        "physics_time": 5.920000000000073,
+        "restart": 0,
+        "team": "yellow",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          0.7019806116222626,
+          -2.431396656658126
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "acquisition",
+        "step": 386,
+        "robot": "yellow1",
+        "team": "yellow",
+        "previous_robot": "yellow0",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -0.6631042411204491,
+          -1.3936167226383314
+        ]
+      },
+      {
+        "type": "reception",
+        "step": 386,
+        "robot": "yellow1",
+        "team": "yellow",
+        "previous_robot": "yellow0",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -0.6631042411204491,
+          -1.3936167226383314
+        ],
+        "pass_step": 297,
+        "displacement": 1.7147722433727808
+      },
+      {
+        "type": "ball_out",
+        "step": 750
+      },
+      {
+        "type": "referee_restart",
+        "reason": "ball_out",
+        "step": 750
+      },
+      {
+        "type": "acquisition",
+        "step": 816,
+        "robot": "yellow0",
+        "team": "yellow",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          1.1246866369865423,
+          -0.4305110531490217
+        ]
+      },
+      {
+        "type": "turnover",
+        "step": 1667,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": "yellow0",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -3.663997512641717,
+          -1.004937909292672
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 1782,
+        "robot": "blue1",
+        "physics_time": 35.61999999999989,
+        "restart": 1,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -3.3673349170919384,
+          -0.7494008261215492
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "acquisition",
+        "step": 1844,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": "blue1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -2.4650652136835167,
+          0.44988450111831507
+        ]
+      },
+      {
+        "type": "reception",
+        "step": 1844,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": "blue1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -2.4650652136835167,
+          0.44988450111831507
+        ],
+        "pass_step": 1782,
+        "displacement": 1.5007917623113307
+      }
+    ],
+    "trace": [],
+    "learner": "yellow1",
+    "opponent_index": 1
+  },
+  {
+    "metric_version": 2,
+    "backend_contract": "roboturk.webots.closest_kicker.v1",
+    "kick_arbitrations": [],
+    "seed": 4306688,
+    "start": "yellow_possession",
+    "attack_sign": 1,
+    "steps": 2250,
+    "duration": 45.0,
+    "reason": "time",
+    "score": {
+      "blue": 1,
+      "yellow": 0
+    },
+    "calls": {
+      "blue0": 2250,
+      "blue1": 2250,
+      "yellow0": 2250,
+      "yellow1": 2250
+    },
+    "mode_ticks": {
+      "blue/cover": 1206,
+      "blue/press": 479,
+      "yellow/support": 701,
+      "yellow/dribble": 485,
+      "yellow/cover": 1637,
+      "yellow/pass": 142,
+      "blue/support": 1104,
+      "blue/pass": 111,
+      "blue/dribble": 806,
+      "blue/recover": 668,
+      "yellow/recover": 636,
+      "yellow/shoot": 10,
+      "yellow/press": 889,
+      "blue/shoot": 126
+    },
+    "physics_checks": 9000,
+    "contact_checks": 665,
+    "contact_events": 2,
+    "contact_fraction": 0.07388888888888889,
+    "outside_checks": 785,
+    "possession_seconds": {
+      "blue": 18.17000000000067,
+      "yellow": 9.615000000000103
+    },
+    "contested_seconds": 2.6949999999999648,
+    "distance": {
+      "blue0": 24.18462000789581,
+      "blue1": 28.70736531140788,
+      "yellow0": 26.97069258866904,
+      "yellow1": 18.446959529982166
+    },
+    "support_distance": {
+      "yellow": 8.387026148132403,
+      "blue": 15.362153343390998
+    },
+    "cover_distance": {
+      "blue": 13.750264132004434,
+      "yellow": 14.507604545716857
+    },
+    "controlled_carry": {
+      "yellow": 0.6056338609202665,
+      "blue": 2.259531942276822
+    },
+    "acquisitions": {
+      "yellow": 3,
+      "blue": 3
+    },
+    "turnovers": {
+      "yellow": 1
+    },
+    "recoveries": {
+      "yellow": 2,
+      "blue": 1
+    },
+    "passes": {
+      "yellow": 2,
+      "blue": 2
+    },
+    "shots": {
+      "yellow": 1,
+      "blue": 1
+    },
+    "receptions": {
+      "yellow": 1,
+      "blue": 1
+    },
+    "referee_restarts": 3,
+    "backend_resets": 4,
+    "events": [
+      {
+        "type": "acquisition",
+        "step": 16,
+        "robot": "yellow1",
+        "team": "yellow",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          0.7325338531552061,
+          0.2977757565510401
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 180,
+        "robot": "yellow1",
+        "physics_time": 3.5799999999999272,
+        "restart": 0,
+        "team": "yellow",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          0.48003175545205845,
+          0.469812191603585
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "acquisition",
+        "step": 266,
+        "robot": "yellow0",
+        "team": "yellow",
+        "previous_robot": "yellow1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -0.6094476064608104,
+          -0.39469937686634277
+        ]
+      },
+      {
+        "type": "reception",
+        "step": 266,
+        "robot": "yellow0",
+        "team": "yellow",
+        "previous_robot": "yellow1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -0.6094476064608104,
+          -0.39469937686634277
+        ],
+        "pass_step": 180,
+        "displacement": 1.3908075107837197
+      },
+      {
+        "type": "shot",
+        "step": 414,
+        "robot": "yellow0",
+        "physics_time": 8.259999999999991,
+        "restart": 0,
+        "team": "yellow",
+        "speed": 3.5,
+        "held": true,
+        "ball": [
+          -1.5236550439546126,
+          -1.333685499103495
+        ],
+        "mode": "shoot"
+      },
+      {
+        "type": "ball_out",
+        "step": 480
+      },
+      {
+        "type": "referee_restart",
+        "reason": "ball_out",
+        "step": 480
+      },
+      {
+        "type": "acquisition",
+        "step": 574,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          -0.001057318097235204,
+          -0.7160351753490203
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 845,
+        "robot": "blue0",
+        "physics_time": 16.87999999999988,
+        "restart": 1,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          0.6874744994663013,
+          -2.2779263618088517
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "turnover",
+        "step": 1037,
+        "robot": "yellow1",
+        "team": "yellow",
+        "previous_robot": "blue0",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          4.0651064411384965,
+          -0.40472375186874004
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 1236,
+        "robot": "yellow1",
+        "physics_time": 24.699999999999818,
+        "restart": 1,
+        "team": "yellow",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          4.4270704223744435,
+          -0.07626747628119956
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "ball_out",
+        "step": 1436
+      },
+      {
+        "type": "referee_restart",
+        "reason": "ball_out",
+        "step": 1436
+      },
+      {
+        "type": "acquisition",
+        "step": 1506,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          0.13959189369562858,
+          0.1991442443973577
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 2032,
+        "robot": "blue0",
+        "physics_time": 40.62000000000012,
+        "restart": 2,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          2.8935723666533577,
+          -2.378238717711267
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "acquisition",
+        "step": 2102,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": "blue0",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          3.3325766983665477,
+          -0.969053646000855
+        ]
+      },
+      {
+        "type": "reception",
+        "step": 2102,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": "blue0",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          3.3325766983665477,
+          -0.969053646000855
+        ],
+        "pass_step": 2032,
+        "displacement": 1.4759835261934409
+      },
+      {
+        "type": "shot",
+        "step": 2165,
+        "robot": "blue1",
+        "physics_time": 43.27999999999997,
+        "restart": 2,
+        "team": "blue",
+        "speed": 3.5,
+        "held": true,
+        "ball": [
+          3.2832180739051138,
+          -0.46669058879002284
+        ],
+        "mode": "shoot"
+      },
+      {
+        "type": "goal",
+        "step": 2186,
+        "team": "blue",
+        "crossing_y": -0.36225020113047124,
+        "segment": [
+          [
+            4.51754703969982,
+            -0.36262044058048276
+          ],
+          [
+            4.5299118048881,
+            -0.3614623404440806
+          ]
+        ],
+        "direction": 1
+      },
+      {
+        "type": "referee_restart",
+        "reason": "goal",
+        "step": 2186
+      }
+    ],
+    "trace": [],
+    "learner": "yellow0",
+    "opponent_index": 1
+  },
+  {
+    "metric_version": 2,
+    "backend_contract": "roboturk.webots.closest_kicker.v1",
+    "kick_arbitrations": [],
+    "seed": 4323943,
+    "start": "blue_possession",
+    "attack_sign": -1,
+    "steps": 2250,
+    "duration": 45.0,
+    "reason": "time",
+    "score": {
+      "blue": 0,
+      "yellow": 0
+    },
+    "calls": {
+      "blue0": 2250,
+      "blue1": 2250,
+      "yellow0": 2250,
+      "yellow1": 2250
+    },
+    "mode_ticks": {
+      "blue/support": 1528,
+      "blue/dribble": 1269,
+      "yellow/cover": 1753,
+      "yellow/press": 1318,
+      "blue/recover": 364,
+      "blue/shoot": 76,
+      "blue/cover": 753,
+      "blue/press": 329,
+      "blue/pass": 181,
+      "yellow/support": 556,
+      "yellow/pass": 196,
+      "yellow/dribble": 301,
+      "yellow/recover": 376
+    },
+    "physics_checks": 9000,
+    "contact_checks": 478,
+    "contact_events": 5,
+    "contact_fraction": 0.05311111111111111,
+    "outside_checks": 0,
+    "possession_seconds": {
+      "blue": 26.344999999999043,
+      "yellow": 6.409999999999886
+    },
+    "contested_seconds": 3.5449999999999466,
+    "distance": {
+      "blue0": 26.400581423681732,
+      "blue1": 26.711327126943043,
+      "yellow0": 17.084927721120717,
+      "yellow1": 27.060526702710764
+    },
+    "support_distance": {
+      "blue": 20.59425804051169,
+      "yellow": 8.41912523993815
+    },
+    "cover_distance": {
+      "yellow": 11.5095239287063,
+      "blue": 10.879938684669256
+    },
+    "controlled_carry": {
+      "blue": 3.681020347405537,
+      "yellow": 0.45017449451041447
+    },
+    "acquisitions": {
+      "blue": 5,
+      "yellow": 2
+    },
+    "turnovers": {
+      "yellow": 2,
+      "blue": 1
+    },
+    "recoveries": {
+      "blue": 3,
+      "yellow": 2
+    },
+    "passes": {
+      "blue": 3,
+      "yellow": 5
+    },
+    "shots": {
+      "blue": 1
+    },
+    "receptions": {
+      "blue": 2
+    },
+    "referee_restarts": 1,
+    "backend_resets": 2,
+    "events": [
+      {
+        "type": "acquisition",
+        "step": 17,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          1.1513694278380426,
+          -0.264221128475324
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 665,
+        "robot": "blue1",
+        "physics_time": 13.279999999999973,
+        "restart": 0,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -2.9392544422912383,
+          -2.519192219346284
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "pass",
+        "step": 740,
+        "robot": "yellow1",
+        "physics_time": 14.779999999999973,
+        "restart": 0,
+        "team": "yellow",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -3.0857966684058575,
+          -1.4705280306548305
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "pass",
+        "step": 752,
+        "robot": "yellow1",
+        "physics_time": 15.019999999999982,
+        "restart": 0,
+        "team": "yellow",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -3.1259718464964537,
+          -1.473024527171491
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "pass",
+        "step": 767,
+        "robot": "yellow1",
+        "physics_time": 15.319999999999936,
+        "restart": 0,
+        "team": "yellow",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -3.1453458279801008,
+          -1.4889824089995474
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "pass",
+        "step": 797,
+        "robot": "yellow1",
+        "physics_time": 15.920000000000073,
+        "restart": 0,
+        "team": "yellow",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -3.195864934634981,
+          -1.5230828474783276
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "acquisition",
+        "step": 1038,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": "blue1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          0.21412694151360254,
+          -0.5732304125684325
+        ]
+      },
+      {
+        "type": "turnover",
+        "step": 1141,
+        "robot": "yellow1",
+        "team": "yellow",
+        "previous_robot": "blue0",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          0.5784462686432645,
+          -0.830195605741838
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 1184,
+        "robot": "blue0",
+        "physics_time": 23.660000000000082,
+        "restart": 0,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          0.6332401008265852,
+          -0.8353332885390033
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "turnover",
+        "step": 1246,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": "yellow1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -0.04830392656603991,
+          0.4062317674655546
+        ]
+      },
+      {
+        "type": "reception",
+        "step": 1246,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": "yellow1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -0.04830392656603991,
+          0.4062317674655546
+        ],
+        "pass_step": 1184,
+        "displacement": 1.4163283692584006
+      },
+      {
+        "type": "pass",
+        "step": 1698,
+        "robot": "blue1",
+        "physics_time": 33.940000000000055,
+        "restart": 0,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -2.6961877449278426,
+          2.1804117399188008
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "acquisition",
+        "step": 1773,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": "blue1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -3.140918186994697,
+          0.7927535785068969
+        ]
+      },
+      {
+        "type": "reception",
+        "step": 1773,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": "blue1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -3.140918186994697,
+          0.7927535785068969
+        ],
+        "pass_step": 1698,
+        "displacement": 1.457182328685757
+      },
+      {
+        "type": "shot",
+        "step": 1793,
+        "robot": "blue0",
+        "physics_time": 35.840000000000146,
+        "restart": 0,
+        "team": "blue",
+        "speed": 3.5,
+        "held": true,
+        "ball": [
+          -3.118507580786232,
+          0.7464976295863801
+        ],
+        "mode": "shoot"
+      },
+      {
+        "type": "ball_out",
+        "step": 1824
+      },
+      {
+        "type": "referee_restart",
+        "reason": "ball_out",
+        "step": 1824
+      },
+      {
+        "type": "acquisition",
+        "step": 1900,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          0.36801613227186575,
+          0.1437700487469876
+        ]
+      },
+      {
+        "type": "turnover",
+        "step": 1954,
+        "robot": "yellow0",
+        "team": "yellow",
+        "previous_robot": "blue1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          0.30272068248432427,
+          -0.024585520960901327
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 2247,
+        "robot": "yellow0",
+        "physics_time": 44.919999999999845,
+        "restart": 1,
+        "team": "yellow",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          1.1600000215051167,
+          -2.291302692941718
+        ],
+        "mode": "pass"
+      }
+    ],
+    "trace": [],
+    "learner": "blue0",
+    "opponent_index": 0
+  },
+  {
+    "metric_version": 2,
+    "backend_contract": "roboturk.webots.closest_kicker.v1",
+    "kick_arbitrations": [],
+    "seed": 4325093,
+    "start": "yellow_possession",
+    "attack_sign": -1,
+    "steps": 2250,
+    "duration": 45.0,
+    "reason": "time",
+    "score": {
+      "blue": 1,
+      "yellow": 0
+    },
+    "calls": {
+      "blue0": 2250,
+      "blue1": 2250,
+      "yellow0": 2250,
+      "yellow1": 2250
+    },
+    "mode_ticks": {
+      "blue/cover": 1348,
+      "blue/press": 967,
+      "yellow/support": 1097,
+      "yellow/dribble": 906,
+      "blue/support": 885,
+      "blue/shoot": 74,
+      "blue/dribble": 736,
+      "blue/pass": 106,
+      "yellow/pass": 99,
+      "yellow/cover": 1207,
+      "blue/recover": 384,
+      "yellow/recover": 359,
+      "yellow/press": 794,
+      "yellow/shoot": 38
+    },
+    "physics_checks": 9000,
+    "contact_checks": 269,
+    "contact_events": 2,
+    "contact_fraction": 0.02988888888888889,
+    "outside_checks": 0,
+    "possession_seconds": {
+      "blue": 15.92500000000109,
+      "yellow": 19.250000000000455
+    },
+    "contested_seconds": 1.6099999999999877,
+    "distance": {
+      "blue0": 21.257696809949,
+      "blue1": 22.055984882356952,
+      "yellow0": 25.920131006145947,
+      "yellow1": 23.116126618055617
+    },
+    "support_distance": {
+      "yellow": 12.73313674080429,
+      "blue": 10.820836124472937
+    },
+    "cover_distance": {
+      "blue": 9.94585544700524,
+      "yellow": 13.384016689685822
+    },
+    "controlled_carry": {
+      "yellow": 3.8765284134210014,
+      "blue": 7.3705291859506605
+    },
+    "acquisitions": {
+      "yellow": 3,
+      "blue": 1
+    },
+    "turnovers": {
+      "blue": 1
+    },
+    "recoveries": {
+      "yellow": 1
+    },
+    "passes": {
+      "yellow": 1
+    },
+    "shots": {
+      "blue": 1
+    },
+    "receptions": {},
+    "referee_restarts": 2,
+    "backend_resets": 3,
+    "events": [
+      {
+        "type": "acquisition",
+        "step": 18,
+        "robot": "yellow1",
+        "team": "yellow",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          0.1403229921114772,
+          -1.050373465194762
+        ]
+      },
+      {
+        "type": "acquisition",
+        "step": 288,
+        "robot": "yellow1",
+        "team": "yellow",
+        "previous_robot": "yellow1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          1.023390546779663,
+          -2.3467207453760874
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 298,
+        "robot": "yellow1",
+        "physics_time": 5.940000000000055,
+        "restart": 0,
+        "team": "yellow",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          1.0016791114910764,
+          -2.3515587309529424
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "ball_out",
+        "step": 615
+      },
+      {
+        "type": "referee_restart",
+        "reason": "ball_out",
+        "step": 615
+      },
+      {
+        "type": "acquisition",
+        "step": 748,
+        "robot": "yellow0",
+        "team": "yellow",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          -0.10337701829972559,
+          0.105894906703322
+        ]
+      },
+      {
+        "type": "turnover",
+        "step": 1508,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": "yellow0",
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          4.042070740243596,
+          -1.96317266044472
+        ]
+      },
+      {
+        "type": "shot",
+        "step": 2216,
+        "robot": "blue0",
+        "physics_time": 44.299999999999955,
+        "restart": 1,
+        "team": "blue",
+        "speed": 3.5,
+        "held": true,
+        "ball": [
+          -3.7352654045557254,
+          -1.2921024808531212
+        ],
+        "mode": "shoot"
+      },
+      {
+        "type": "goal",
+        "step": 2239,
+        "team": "blue",
+        "crossing_y": -0.2627397452114948,
+        "segment": [
+          [
+            -4.519142370940049,
+            -0.2657603535527294
+          ],
+          [
+            -4.526764247380457,
+            -0.2559951602308266
+          ]
+        ],
+        "direction": -1
+      },
+      {
+        "type": "referee_restart",
+        "reason": "goal",
+        "step": 2239
+      }
+    ],
+    "trace": [],
+    "learner": "blue1",
+    "opponent_index": 0
+  },
+  {
+    "metric_version": 2,
+    "backend_contract": "roboturk.webots.closest_kicker.v1",
+    "kick_arbitrations": [],
+    "seed": 4307094,
+    "start": "loose",
+    "attack_sign": 1,
+    "steps": 2250,
+    "duration": 45.0,
+    "reason": "time",
+    "score": {
+      "blue": 1,
+      "yellow": 0
+    },
+    "calls": {
+      "blue0": 2250,
+      "blue1": 2250,
+      "yellow0": 2250,
+      "yellow1": 2250
+    },
+    "mode_ticks": {
+      "blue/recover": 642,
+      "blue/cover": 1353,
+      "yellow/recover": 635,
+      "yellow/cover": 1392,
+      "yellow/press": 683,
+      "yellow/shoot": 18,
+      "yellow/dribble": 679,
+      "blue/press": 663,
+      "yellow/support": 890,
+      "blue/pass": 191,
+      "blue/support": 946,
+      "yellow/pass": 203,
+      "blue/dribble": 702,
+      "blue/shoot": 3
+    },
+    "physics_checks": 9000,
+    "contact_checks": 683,
+    "contact_events": 7,
+    "contact_fraction": 0.0758888888888889,
+    "outside_checks": 0,
+    "possession_seconds": {
+      "blue": 13.935000000000779,
+      "yellow": 13.31000000000068
+    },
+    "contested_seconds": 3.9849999999999373,
+    "distance": {
+      "blue0": 30.111354009193803,
+      "blue1": 22.607024696562682,
+      "yellow0": 22.69008110913572,
+      "yellow1": 29.640235651497484
+    },
+    "support_distance": {
+      "yellow": 13.628011791092044,
+      "blue": 13.146604823274794
+    },
+    "cover_distance": {
+      "blue": 15.869245778235955,
+      "yellow": 15.0929107758407
+    },
+    "controlled_carry": {
+      "yellow": 1.4121956767236497,
+      "blue": 2.239305408516869
+    },
+    "acquisitions": {
+      "yellow": 6,
+      "blue": 2
+    },
+    "turnovers": {
+      "blue": 1,
+      "yellow": 1
+    },
+    "recoveries": {
+      "yellow": 4,
+      "blue": 1
+    },
+    "passes": {
+      "yellow": 2,
+      "blue": 1
+    },
+    "shots": {},
+    "receptions": {
+      "yellow": 1
+    },
+    "referee_restarts": 2,
+    "backend_resets": 3,
+    "events": [
+      {
+        "type": "acquisition",
+        "step": 74,
+        "robot": "yellow0",
+        "team": "yellow",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          1.1392898542774548,
+          -0.16386675498588138
+        ]
+      },
+      {
+        "type": "acquisition",
+        "step": 129,
+        "robot": "yellow0",
+        "team": "yellow",
+        "previous_robot": "yellow0",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          1.076943478346579,
+          -0.3889313001225526
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 384,
+        "robot": "yellow0",
+        "physics_time": 7.6599999999998545,
+        "restart": 0,
+        "team": "yellow",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          0.2698273005628644,
+          -2.380506735914983
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "ball_out",
+        "step": 642
+      },
+      {
+        "type": "referee_restart",
+        "reason": "ball_out",
+        "step": 642
+      },
+      {
+        "type": "acquisition",
+        "step": 706,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          -0.43838383123831204,
+          -0.2920775550210433
+        ]
+      },
+      {
+        "type": "goal",
+        "step": 1428,
+        "team": "blue",
+        "crossing_y": -0.15300077022135547,
+        "segment": [
+          [
+            4.520843932486808,
+            -0.1539483527525818
+          ],
+          [
+            4.52201267819158,
+            -0.15226029018124612
+          ]
+        ],
+        "direction": 1
+      },
+      {
+        "type": "referee_restart",
+        "reason": "goal",
+        "step": 1428
+      },
+      {
+        "type": "acquisition",
+        "step": 1500,
+        "robot": "yellow1",
+        "team": "yellow",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          -0.7946693941461882,
+          0.41864046715290515
+        ]
+      },
+      {
+        "type": "acquisition",
+        "step": 1555,
+        "robot": "yellow1",
+        "team": "yellow",
+        "previous_robot": "yellow1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -0.8061313974251907,
+          0.5698577817628783
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 1818,
+        "robot": "yellow1",
+        "physics_time": 36.33999999999992,
+        "restart": 2,
+        "team": "yellow",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -1.0554539882247387,
+          1.9722554370804115
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "acquisition",
+        "step": 1910,
+        "robot": "yellow0",
+        "team": "yellow",
+        "previous_robot": "yellow1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -1.3648738205607982,
+          0.49952532091535984
+        ]
+      },
+      {
+        "type": "reception",
+        "step": 1910,
+        "robot": "yellow0",
+        "team": "yellow",
+        "previous_robot": "yellow1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -1.3648738205607982,
+          0.49952532091535984
+        ],
+        "pass_step": 1818,
+        "displacement": 1.504883592741446
+      },
+      {
+        "type": "turnover",
+        "step": 1972,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": "yellow0",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -1.4157298806429661,
+          0.3918455401639396
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 2027,
+        "robot": "blue1",
+        "physics_time": 40.51999999999998,
+        "restart": 2,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -1.7455609229317774,
+          0.47875018851029266
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "turnover",
+        "step": 2174,
+        "robot": "yellow0",
+        "team": "yellow",
+        "previous_robot": "blue1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -2.9655759288956602,
+          -0.1541145524217212
+        ]
+      }
+    ],
+    "trace": [],
+    "learner": "yellow1",
+    "opponent_index": 0
+  },
+  {
+    "metric_version": 2,
+    "backend_contract": "roboturk.webots.closest_kicker.v1",
+    "kick_arbitrations": [],
+    "seed": 4387961,
+    "start": "yellow_possession",
+    "attack_sign": 1,
+    "steps": 2250,
+    "duration": 45.0,
+    "reason": "time",
+    "score": {
+      "blue": 0,
+      "yellow": 0
+    },
+    "calls": {
+      "blue0": 2250,
+      "blue1": 2250,
+      "yellow0": 2250,
+      "yellow1": 2250
+    },
+    "mode_ticks": {
+      "blue/press": 934,
+      "blue/cover": 1373,
+      "yellow/support": 1131,
+      "yellow/dribble": 866,
+      "yellow/shoot": 72,
+      "yellow/cover": 1132,
+      "blue/pass": 213,
+      "blue/support": 923,
+      "yellow/pass": 177,
+      "yellow/recover": 383,
+      "yellow/press": 739,
+      "blue/dribble": 570,
+      "blue/recover": 393,
+      "blue/shoot": 94
+    },
+    "physics_checks": 9000,
+    "contact_checks": 71,
+    "contact_events": 1,
+    "contact_fraction": 0.00788888888888889,
+    "outside_checks": 0,
+    "possession_seconds": {
+      "blue": 14.410000000000853,
+      "yellow": 18.710000000000562
+    },
+    "contested_seconds": 3.1349999999999554,
+    "distance": {
+      "blue0": 25.6388061877877,
+      "blue1": 22.406203530857322,
+      "yellow0": 24.02833273503526,
+      "yellow1": 23.73654439780735
+    },
+    "support_distance": {
+      "yellow": 13.548059493233813,
+      "blue": 13.211947098620762
+    },
+    "cover_distance": {
+      "blue": 12.145314905537,
+      "yellow": 10.81676784141854
+    },
+    "controlled_carry": {
+      "yellow": 2.9217125664454704,
+      "blue": 1.426418584053911
+    },
+    "acquisitions": {
+      "yellow": 3,
+      "blue": 4
+    },
+    "turnovers": {},
+    "recoveries": {
+      "yellow": 2,
+      "blue": 2
+    },
+    "passes": {
+      "yellow": 2,
+      "blue": 2
+    },
+    "shots": {
+      "blue": 1
+    },
+    "receptions": {
+      "yellow": 1,
+      "blue": 1
+    },
+    "referee_restarts": 2,
+    "backend_resets": 3,
+    "events": [
+      {
+        "type": "acquisition",
+        "step": 16,
+        "robot": "yellow1",
+        "team": "yellow",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          1.0434834074479185,
+          -0.2825126171206589
+        ]
+      },
+      {
+        "type": "acquisition",
+        "step": 139,
+        "robot": "yellow1",
+        "team": "yellow",
+        "previous_robot": "yellow1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          0.6518386038494732,
+          -0.07890891355111465
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 587,
+        "robot": "yellow1",
+        "physics_time": 11.720000000000027,
+        "restart": 0,
+        "team": "yellow",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -1.94868872808182,
+          2.5271339832607596
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "acquisition",
+        "step": 663,
+        "robot": "yellow0",
+        "team": "yellow",
+        "previous_robot": "yellow1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -2.65644242910775,
+          1.1917414398317276
+        ]
+      },
+      {
+        "type": "reception",
+        "step": 663,
+        "robot": "yellow0",
+        "team": "yellow",
+        "previous_robot": "yellow1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -2.65644242910775,
+          1.1917414398317276
+        ],
+        "pass_step": 587,
+        "displacement": 1.511353216942274
+      },
+      {
+        "type": "pass",
+        "step": 1016,
+        "robot": "yellow0",
+        "physics_time": 20.300000000000182,
+        "restart": 0,
+        "team": "yellow",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -1.7967891116278332,
+          -1.8814281652216118
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "ball_out",
+        "step": 1069
+      },
+      {
+        "type": "referee_restart",
+        "reason": "ball_out",
+        "step": 1069
+      },
+      {
+        "type": "acquisition",
+        "step": 1143,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          -0.37745748829907805,
+          -0.668739717129169
+        ]
+      },
+      {
+        "type": "acquisition",
+        "step": 1496,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": "blue0",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          0.4322223354383301,
+          -2.3243504701582887
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 1516,
+        "robot": "blue0",
+        "physics_time": 30.300000000000182,
+        "restart": 1,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          0.37897921746625995,
+          -2.330949482280618
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "ball_out",
+        "step": 1702
+      },
+      {
+        "type": "referee_restart",
+        "reason": "ball_out",
+        "step": 1702
+      },
+      {
+        "type": "acquisition",
+        "step": 1839,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          0.886805661548612,
+          -0.6754990441991745
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 2103,
+        "robot": "blue1",
+        "physics_time": 42.039999999999964,
+        "restart": 2,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          1.723309934429001,
+          -2.273554069779418
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "acquisition",
+        "step": 2195,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": "blue1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          2.5728492724251972,
+          -0.7317168331939526
+        ]
+      },
+      {
+        "type": "reception",
+        "step": 2195,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": "blue1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          2.5728492724251972,
+          -0.7317168331939526
+        ],
+        "pass_step": 2103,
+        "displacement": 1.760391760638671
+      },
+      {
+        "type": "shot",
+        "step": 2247,
+        "robot": "blue0",
+        "physics_time": 44.919999999999845,
+        "restart": 2,
+        "team": "blue",
+        "speed": 3.5,
+        "held": true,
+        "ball": [
+          2.7126971664613166,
+          0.09761737565569895
+        ],
+        "mode": "shoot"
+      }
+    ],
+    "trace": [],
+    "learner": "yellow0",
+    "opponent_index": 1
+  },
+  {
+    "metric_version": 2,
+    "backend_contract": "roboturk.webots.closest_kicker.v1",
+    "kick_arbitrations": [],
+    "seed": 4319961,
+    "start": "loose",
+    "attack_sign": -1,
+    "steps": 2250,
+    "duration": 45.0,
+    "reason": "time",
+    "score": {
+      "blue": 0,
+      "yellow": 0
+    },
+    "calls": {
+      "blue0": 2250,
+      "blue1": 2250,
+      "yellow0": 2250,
+      "yellow1": 2250
+    },
+    "mode_ticks": {
+      "blue/cover": 2138,
+      "blue/recover": 1180,
+      "yellow/recover": 1248,
+      "yellow/cover": 1267,
+      "blue/press": 849,
+      "blue/support": 173,
+      "blue/dribble": 42,
+      "yellow/press": 19,
+      "blue/pass": 109,
+      "yellow/pass": 109,
+      "yellow/support": 983,
+      "yellow/dribble": 871,
+      "blue/shoot": 9,
+      "yellow/shoot": 3
+    },
+    "physics_checks": 9000,
+    "contact_checks": 250,
+    "contact_events": 4,
+    "contact_fraction": 0.027777777777777776,
+    "outside_checks": 0,
+    "possession_seconds": {
+      "blue": 0.3750000000000002,
+      "yellow": 17.495000000000804
+    },
+    "contested_seconds": 2.1949999999999754,
+    "distance": {
+      "blue0": 9.838165992697052,
+      "blue1": 13.587855686516638,
+      "yellow0": 13.035521905728473,
+      "yellow1": 18.24163378268534
+    },
+    "support_distance": {
+      "blue": 2.7016831240179022,
+      "yellow": 10.736408883665751
+    },
+    "cover_distance": {
+      "blue": 7.829732126733944,
+      "yellow": 7.50522489901959
+    },
+    "controlled_carry": {
+      "yellow": 2.6399647882996877
+    },
+    "acquisitions": {
+      "yellow": 1
+    },
+    "turnovers": {},
+    "recoveries": {},
+    "passes": {
+      "blue": 2
+    },
+    "shots": {},
+    "receptions": {},
+    "referee_restarts": 0,
+    "backend_resets": 1,
+    "events": [
+      {
+        "type": "pass",
+        "step": 171,
+        "robot": "blue1",
+        "physics_time": 3.3999999999998636,
+        "restart": 0,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          0.24539679994468616,
+          -0.13372668135216328
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "pass",
+        "step": 181,
+        "robot": "blue1",
+        "physics_time": 3.599999999999909,
+        "restart": 0,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          0.24365004808370944,
+          -0.1342870264869965
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "acquisition",
+        "step": 305,
+        "robot": "yellow0",
+        "team": "yellow",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          -0.6171603139875103,
+          -0.07237593309393149
+        ]
+      }
+    ],
+    "trace": [],
+    "learner": "blue1",
+    "opponent_index": 1
+  },
+  {
+    "metric_version": 2,
+    "backend_contract": "roboturk.webots.closest_kicker.v1",
+    "kick_arbitrations": [],
+    "seed": 4363180,
+    "start": "blue_possession",
+    "attack_sign": 1,
+    "steps": 2250,
+    "duration": 45.0,
+    "reason": "time",
+    "score": {
+      "blue": 0,
+      "yellow": 0
+    },
+    "calls": {
+      "blue0": 2250,
+      "blue1": 2250,
+      "yellow0": 2250,
+      "yellow1": 2250
+    },
+    "mode_ticks": {
+      "blue/dribble": 995,
+      "blue/support": 1386,
+      "yellow/cover": 1984,
+      "yellow/press": 1076,
+      "blue/pass": 295,
+      "yellow/support": 266,
+      "yellow/pass": 175,
+      "blue/cover": 956,
+      "yellow/dribble": 91,
+      "blue/recover": 792,
+      "blue/shoot": 14,
+      "yellow/recover": 908,
+      "blue/press": 62
+    },
+    "physics_checks": 9000,
+    "contact_checks": 0,
+    "contact_events": 0,
+    "contact_fraction": 0.0,
+    "outside_checks": 0,
+    "possession_seconds": {
+      "blue": 21.500000000000007,
+      "yellow": 1.0449999999999997
+    },
+    "contested_seconds": 4.2549999999999315,
+    "distance": {
+      "blue0": 28.625489245333398,
+      "blue1": 31.657683216257702,
+      "yellow0": 27.223503846974577,
+      "yellow1": 23.915245702718067
+    },
+    "support_distance": {
+      "blue": 19.548370464266466,
+      "yellow": 4.558027826686907
+    },
+    "cover_distance": {
+      "yellow": 18.186356275510715,
+      "blue": 14.851962099537376
+    },
+    "controlled_carry": {
+      "blue": 1.6722769881322415,
+      "yellow": 0
+    },
+    "acquisitions": {
+      "blue": 6,
+      "yellow": 1
+    },
+    "turnovers": {},
+    "recoveries": {
+      "blue": 2
+    },
+    "passes": {
+      "blue": 6
+    },
+    "shots": {
+      "blue": 3
+    },
+    "receptions": {},
+    "referee_restarts": 4,
+    "backend_resets": 5,
+    "events": [
+      {
+        "type": "acquisition",
+        "step": 42,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          -0.603154296656411,
+          -1.0545480061151173
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 135,
+        "robot": "blue0",
+        "physics_time": 2.6800000000000637,
+        "restart": 0,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -0.7800145838044451,
+          -1.0736348180162936
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "pass",
+        "step": 153,
+        "robot": "blue0",
+        "physics_time": 3.040000000000191,
+        "restart": 0,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -0.7850554559289773,
+          -1.0719244593701278
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "pass",
+        "step": 159,
+        "robot": "blue0",
+        "physics_time": 3.160000000000082,
+        "restart": 0,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -0.7624137572409843,
+          -1.066897154274487
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "pass",
+        "step": 162,
+        "robot": "blue0",
+        "physics_time": 3.2200000000000273,
+        "restart": 0,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -0.7274789015796915,
+          -1.0784275490809727
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "ball_out",
+        "step": 395
+      },
+      {
+        "type": "referee_restart",
+        "reason": "ball_out",
+        "step": 395
+      },
+      {
+        "type": "acquisition",
+        "step": 566,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          0.26988847147854184,
+          -0.49215422228028805
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 589,
+        "robot": "blue1",
+        "physics_time": 11.759999999999991,
+        "restart": 1,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          0.27847039373065835,
+          -0.4671539389722627
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "ball_out",
+        "step": 715
+      },
+      {
+        "type": "referee_restart",
+        "reason": "ball_out",
+        "step": 715
+      },
+      {
+        "type": "pass",
+        "step": 795,
+        "robot": "blue0",
+        "physics_time": 15.879999999999882,
+        "restart": 2,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -0.8369327169137617,
+          0.12210587673204493
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "acquisition",
+        "step": 851,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          -0.7213706280580287,
+          -0.2363130618036415
+        ]
+      },
+      {
+        "type": "acquisition",
+        "step": 1110,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": "blue0",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          0.35921672514644504,
+          -2.3513657975672824
+        ]
+      },
+      {
+        "type": "shot",
+        "step": 1111,
+        "robot": "blue0",
+        "physics_time": 22.199999999999818,
+        "restart": 2,
+        "team": "blue",
+        "speed": 3.5,
+        "held": true,
+        "ball": [
+          0.35921672514644504,
+          -2.3513657975672824
+        ],
+        "mode": "shoot"
+      },
+      {
+        "type": "ball_out",
+        "step": 1192
+      },
+      {
+        "type": "referee_restart",
+        "reason": "ball_out",
+        "step": 1192
+      },
+      {
+        "type": "acquisition",
+        "step": 1279,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          -0.3001942939329019,
+          -0.026012875620903438
+        ]
+      },
+      {
+        "type": "acquisition",
+        "step": 1335,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": "blue1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -0.3467993043789135,
+          0.17143079922918453
+        ]
+      },
+      {
+        "type": "shot",
+        "step": 1980,
+        "robot": "blue1",
+        "physics_time": 39.57999999999993,
+        "restart": 3,
+        "team": "blue",
+        "speed": 3.5,
+        "held": true,
+        "ball": [
+          3.5516451322002003,
+          1.3344587965588206
+        ],
+        "mode": "shoot"
+      },
+      {
+        "type": "ball_out",
+        "step": 2071
+      },
+      {
+        "type": "referee_restart",
+        "reason": "ball_out",
+        "step": 2071
+      },
+      {
+        "type": "acquisition",
+        "step": 2151,
+        "robot": "yellow1",
+        "team": "yellow",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          -0.6893872493167135,
+          0.2737169548653053
+        ]
+      },
+      {
+        "type": "shot",
+        "step": 2176,
+        "robot": "blue0",
+        "physics_time": 43.5,
+        "restart": 4,
+        "team": "blue",
+        "speed": 3.5,
+        "held": true,
+        "ball": [
+          -0.674401955289336,
+          0.28312540336053277
+        ],
+        "mode": "shoot"
+      }
+    ],
+    "trace": [],
+    "learner": "blue0",
+    "opponent_index": 1
+  },
+  {
+    "metric_version": 2,
+    "backend_contract": "roboturk.webots.closest_kicker.v1",
+    "kick_arbitrations": [],
+    "seed": 4323110,
+    "start": "yellow_possession",
+    "attack_sign": 1,
+    "steps": 2250,
+    "duration": 45.0,
+    "reason": "time",
+    "score": {
+      "blue": 0,
+      "yellow": 0
+    },
+    "calls": {
+      "blue0": 2250,
+      "blue1": 2250,
+      "yellow0": 2250,
+      "yellow1": 2250
+    },
+    "mode_ticks": {
+      "blue/cover": 1656,
+      "blue/press": 623,
+      "yellow/support": 1091,
+      "yellow/dribble": 616,
+      "yellow/pass": 359,
+      "blue/recover": 961,
+      "yellow/cover": 1263,
+      "blue/support": 667,
+      "blue/dribble": 269,
+      "blue/pass": 324,
+      "yellow/press": 209,
+      "yellow/recover": 952,
+      "yellow/shoot": 10
+    },
+    "physics_checks": 9000,
+    "contact_checks": 736,
+    "contact_events": 6,
+    "contact_fraction": 0.08177777777777778,
+    "outside_checks": 0,
+    "possession_seconds": {
+      "blue": 4.624999999999924,
+      "yellow": 12.440000000000545
+    },
+    "contested_seconds": 7.244999999999868,
+    "distance": {
+      "blue0": 28.825641064450057,
+      "blue1": 23.30757969993661,
+      "yellow0": 32.10071451698879,
+      "yellow1": 28.603586299051763
+    },
+    "support_distance": {
+      "yellow": 17.09905867373029,
+      "blue": 10.015421682084572
+    },
+    "cover_distance": {
+      "blue": 18.64553402498141,
+      "yellow": 19.70352750450199
+    },
+    "controlled_carry": {
+      "yellow": 0.9369263327079325,
+      "blue": 0.09316291912046276
+    },
+    "acquisitions": {
+      "yellow": 5,
+      "blue": 4
+    },
+    "turnovers": {
+      "blue": 2,
+      "yellow": 2
+    },
+    "recoveries": {
+      "blue": 2,
+      "yellow": 2
+    },
+    "passes": {
+      "yellow": 4,
+      "blue": 2
+    },
+    "shots": {
+      "yellow": 1
+    },
+    "receptions": {},
+    "referee_restarts": 4,
+    "backend_resets": 5,
+    "events": [
+      {
+        "type": "acquisition",
+        "step": 16,
+        "robot": "yellow1",
+        "team": "yellow",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          0.21447476205734187,
+          -0.37489757745329355
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 55,
+        "robot": "yellow1",
+        "physics_time": 1.0799999999999272,
+        "restart": 0,
+        "team": "yellow",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -0.14030732341133756,
+          -0.32479321467295025
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "pass",
+        "step": 81,
+        "robot": "blue1",
+        "physics_time": 1.599999999999909,
+        "restart": 0,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -0.6173381675948376,
+          -0.11145968898905807
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "ball_out",
+        "step": 251
+      },
+      {
+        "type": "referee_restart",
+        "reason": "ball_out",
+        "step": 251
+      },
+      {
+        "type": "acquisition",
+        "step": 386,
+        "robot": "yellow0",
+        "team": "yellow",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          -0.6600454668620103,
+          0.348622375956842
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 465,
+        "robot": "yellow0",
+        "physics_time": 9.279999999999973,
+        "restart": 1,
+        "team": "yellow",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -0.6039597797255148,
+          0.385732749597779
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "turnover",
+        "step": 483,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": "yellow0",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -0.5921165600158844,
+          0.35802216798646447
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 582,
+        "robot": "yellow0",
+        "physics_time": 11.61999999999989,
+        "restart": 1,
+        "team": "yellow",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -0.7486644857043705,
+          0.5758853595033281
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "pass",
+        "step": 689,
+        "robot": "blue1",
+        "physics_time": 13.759999999999991,
+        "restart": 1,
+        "team": "blue",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -1.189827723067079,
+          0.06889049413881511
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "turnover",
+        "step": 785,
+        "robot": "yellow1",
+        "team": "yellow",
+        "previous_robot": "blue1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          0.11580332695231567,
+          0.26774869511654037
+        ]
+      },
+      {
+        "type": "ball_out",
+        "step": 1124
+      },
+      {
+        "type": "referee_restart",
+        "reason": "ball_out",
+        "step": 1124
+      },
+      {
+        "type": "acquisition",
+        "step": 1259,
+        "robot": "yellow1",
+        "team": "yellow",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          -0.7401689998673265,
+          0.17339872008095145
+        ]
+      },
+      {
+        "type": "turnover",
+        "step": 1541,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": "yellow1",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -1.2958492401062185,
+          2.157138560590733
+        ]
+      },
+      {
+        "type": "pass",
+        "step": 1580,
+        "robot": "yellow1",
+        "physics_time": 31.579999999999927,
+        "restart": 2,
+        "team": "yellow",
+        "speed": 2.2,
+        "held": true,
+        "ball": [
+          -1.3127721016115792,
+          2.180163929925413
+        ],
+        "mode": "pass"
+      },
+      {
+        "type": "ball_out",
+        "step": 1783
+      },
+      {
+        "type": "referee_restart",
+        "reason": "ball_out",
+        "step": 1783
+      },
+      {
+        "type": "acquisition",
+        "step": 1859,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          0.3261319496152623,
+          -0.2938455619344594
+        ]
+      },
+      {
+        "type": "turnover",
+        "step": 1917,
+        "robot": "yellow1",
+        "team": "yellow",
+        "previous_robot": "blue0",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          0.36551480006522813,
+          -0.13451988004467638
+        ]
+      },
+      {
+        "type": "shot",
+        "step": 2013,
+        "robot": "yellow1",
+        "physics_time": 40.24000000000024,
+        "restart": 3,
+        "team": "yellow",
+        "speed": 3.5,
+        "held": true,
+        "ball": [
+          0.23322475326631795,
+          0.792137082891412
+        ],
+        "mode": "shoot"
+      },
+      {
+        "type": "ball_out",
+        "step": 2081
+      },
+      {
+        "type": "referee_restart",
+        "reason": "ball_out",
+        "step": 2081
+      },
+      {
+        "type": "acquisition",
+        "step": 2177,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          0.4207263830182153,
+          0.38241585939413697
+        ]
+      }
+    ],
+    "trace": [],
+    "learner": "yellow1",
+    "opponent_index": 0
+  },
+  {
+    "metric_version": 2,
+    "backend_contract": "roboturk.webots.closest_kicker.v1",
+    "kick_arbitrations": [],
+    "seed": 4368775,
+    "start": "blue_possession",
+    "attack_sign": -1,
+    "steps": 2250,
+    "duration": 45.0,
+    "reason": "time",
+    "score": {
+      "blue": 1,
+      "yellow": 0
+    },
+    "calls": {
+      "blue0": 2250,
+      "blue1": 2250,
+      "yellow0": 2250,
+      "yellow1": 2250
+    },
+    "mode_ticks": {
+      "blue/support": 1156,
+      "blue/dribble": 966,
+      "yellow/press": 1045,
+      "yellow/cover": 1361,
+      "blue/shoot": 100,
+      "blue/cover": 1056,
+      "yellow/recover": 300,
+      "blue/recover": 298,
+      "blue/press": 804,
+      "yellow/dribble": 699,
+      "yellow/support": 906,
+      "blue/pass": 120,
+      "yellow/pass": 105,
+      "yellow/shoot": 84
+    },
+    "physics_checks": 9000,
+    "contact_checks": 88,
+    "contact_events": 1,
+    "contact_fraction": 0.009777777777777778,
+    "outside_checks": 0,
+    "possession_seconds": {
+      "blue": 20.88500000000013,
+      "yellow": 15.665000000001049
+    },
+    "contested_seconds": 2.0949999999999775,
+    "distance": {
+      "blue0": 22.13798714282694,
+      "blue1": 22.866592231427585,
+      "yellow0": 24.029623588240646,
+      "yellow1": 18.40416974646965
+    },
+    "support_distance": {
+      "blue": 12.633853469884968,
+      "yellow": 9.466972706790491
+    },
+    "cover_distance": {
+      "yellow": 11.495533952525903,
+      "blue": 9.57306938501344
+    },
+    "controlled_carry": {
+      "blue": 4.702543644604767,
+      "yellow": 2.902105291012948
+    },
+    "acquisitions": {
+      "blue": 3,
+      "yellow": 1
+    },
+    "turnovers": {
+      "yellow": 1
+    },
+    "recoveries": {
+      "yellow": 1
+    },
+    "passes": {},
+    "shots": {
+      "blue": 2,
+      "yellow": 1
+    },
+    "receptions": {},
+    "referee_restarts": 3,
+    "backend_resets": 4,
+    "events": [
+      {
+        "type": "shot",
+        "step": 4,
+        "robot": "blue1",
+        "physics_time": 0.05999999999994543,
+        "restart": 0,
+        "team": "blue",
+        "speed": 3.5,
+        "held": true,
+        "ball": [
+          1.0283550679662687,
+          -0.9658412629366032
+        ],
+        "mode": "shoot"
+      },
+      {
+        "type": "ball_out",
+        "step": 119
+      },
+      {
+        "type": "referee_restart",
+        "reason": "ball_out",
+        "step": 119
+      },
+      {
+        "type": "acquisition",
+        "step": 234,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          0.6449726384566202,
+          -0.4187942646331752
+        ]
+      },
+      {
+        "type": "shot",
+        "step": 1130,
+        "robot": "blue0",
+        "physics_time": 22.579999999999927,
+        "restart": 1,
+        "team": "blue",
+        "speed": 3.5,
+        "held": true,
+        "ball": [
+          -4.2229661335340865,
+          1.5035139921051117
+        ],
+        "mode": "shoot"
+      },
+      {
+        "type": "goal",
+        "step": 1149,
+        "team": "blue",
+        "crossing_y": 0.4506996995625409,
+        "segment": [
+          [
+            -4.518654426821293,
+            0.4598022764775407
+          ],
+          [
+            -4.522316681767234,
+            0.4480872527427038
+          ]
+        ],
+        "direction": -1
+      },
+      {
+        "type": "referee_restart",
+        "reason": "goal",
+        "step": 1149
+      },
+      {
+        "type": "acquisition",
+        "step": 1221,
+        "robot": "blue0",
+        "team": "blue",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          -0.07964022444955056,
+          0.628967574717862
+        ]
+      },
+      {
+        "type": "turnover",
+        "step": 1278,
+        "robot": "yellow1",
+        "team": "yellow",
+        "previous_robot": "blue0",
+        "dwell": 15,
+        "after_loose_ball": true,
+        "ball": [
+          -0.16947057845239732,
+          0.5155243050824787
+        ]
+      },
+      {
+        "type": "shot",
+        "step": 2039,
+        "robot": "yellow1",
+        "physics_time": 40.75999999999999,
+        "restart": 2,
+        "team": "yellow",
+        "speed": 3.5,
+        "held": true,
+        "ball": [
+          4.277643720702512,
+          -1.955991393471085
+        ],
+        "mode": "shoot"
+      },
+      {
+        "type": "ball_out",
+        "step": 2057
+      },
+      {
+        "type": "referee_restart",
+        "reason": "ball_out",
+        "step": 2057
+      },
+      {
+        "type": "acquisition",
+        "step": 2203,
+        "robot": "blue1",
+        "team": "blue",
+        "previous_robot": null,
+        "dwell": 15,
+        "after_loose_ball": false,
+        "ball": [
+          0.6460025943819999,
+          0.194827396009599
+        ]
+      }
+    ],
+    "trace": [],
+    "learner": "blue1",
+    "opponent_index": 0
+  }
+]

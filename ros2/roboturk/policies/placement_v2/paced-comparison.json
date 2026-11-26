@@ -1,0 +1,33 @@
+{
+  "total": 1,
+  "maximum_opening_deltas": {
+    "position_m": 0.0,
+    "yaw_rad": 0.0,
+    "ball_m": 0.0,
+    "ball_velocity_mps": 0.0
+  },
+  "baseline": {
+    "clean": 1,
+    "accepted": 1,
+    "crashes": 0,
+    "accepted_crash_calls": 0,
+    "interference": 0,
+    "min_center_m": 0.19711881859548624,
+    "episodes_with_centers_under_0183": 0,
+    "mean_confirmation_s": 26.2
+  },
+  "candidate": {
+    "clean": 1,
+    "accepted": 1,
+    "crashes": 0,
+    "accepted_crash_calls": 0,
+    "interference": 0,
+    "min_center_m": 0.2223153326384843,
+    "episodes_with_centers_under_0183": 0,
+    "mean_confirmation_s": 26.16
+  },
+  "both": 1,
+  "candidate_only": 0,
+  "baseline_only": 0,
+  "neither": 0
+}

@@ -1,0 +1,5 @@
+# First frozen checkpoint
+
+The first team converted **21 of 40** fresh openings, short of the 24-goal target. It received 26 lead passes under pressure and shielded 23. Six completed passes ended without an uninterrupted finish, four contests lacked a confirmed recovery, four had a pre-pass opponent touch, two produced no pass and one pass was intercepted. One goal lacked the required shield and one lacked closing pressure. All openings count. [Full audit and 40 traces](qualification-1/) · [Freeze](freeze-1.json)
+
+The original Yellow receiver repaired the historical turnover against the original Blue team, with identical physical states through first contact. Yellow 0 protected the ball and scored at about 4.24 s. Its separate 54-second demo converted one of three openings. [Matched interception and repair](../../media/pressure-receive-v1/matched-reception.gif) · [Fresh demo](../../media/pressure-receive-v1/pressure-shield.gif) · [All three openings](../../media/pressure-receive-v1/pressure-shield.mp4)

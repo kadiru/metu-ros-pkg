@@ -1,0 +1,18 @@
+{
+  "src/roboturk_ros/webots/worlds/ssl_touch.wbt": "3da886d3cc7ee9e72962bd71df9e8351bf1598d7e1a57950ed41c683ada1b7b6",
+  "src/roboturk_ros/webots/controllers/roboturk_touch/roboturk_touch.py": "c4d8768623c2ea9c3185066dbe7db3d350eb365dda8c56bb8dadecb3600ce945",
+  "src/roboturk_core/roboturk/recovery_touch.py": "9bf58a46bdd10d7a64f9c388cda4e34528826229c71cf46fd43314bf0fd97ab6",
+  "src/roboturk_core/roboturk/touch_audit.py": "512a67ffc8ef2fa390c1899bc43fb82e4e0d13daafbd6c893d1b56bb2a504078",
+  "scripts/train_recovery_touch.py": "b0568ca18d9f0f14b29b2d349b92a857d126bacaf6f51fe55af7da7fd32dc654",
+  "policies/recovery_touch_v1/protocol.json": "4eed4a4f4bead9396e5ed1c0e57b62d264ccd4f39ab6501114ad48503d788f0b",
+  "policies/recovery_touch_v1/policy-1.json": "a927c7aab4890ddd49865e508bbe9626943f6f2d394a90a680e71ef914903518",
+  "policies/pressure_receive_v1/freeze-2.json": "30d5e72a9ef23b4015248835c59fc034b6f95482455c372de5654e6ea133afe2",
+  "policies/pressure_receive_v1/policy-2.json": "67c21c78a9bfe19cdf54dc611238a4d352360c72b82b2bc4eeccf1d85b2c2a93",
+  "src/roboturk_core/roboturk/lead_audit.py": "7374568a89a8422cb58f828d9d96cecc3d01813b190a9e9698f414c036927a78",
+  "src/roboturk_core/roboturk/lead_outlet.py": "5f4e328b84af9f76ba02b37785f33533734d89acce1e5177d2a2debce9b592a4",
+  "src/roboturk_core/roboturk/recovery_attack.py": "f181e72d4f69d87a37407052312b2d6bb3f626e37d3d5afce025079ff0665e4d",
+  "src/roboturk_core/roboturk/recovery_camera.py": "55830ac69e0909b519a712aa0ad9040d13a49dc37d717d1b85eac2f13ac35eba",
+  "scripts/train_pressure_receive.py": "7eb6fbbdb4396bf1c126ef8156a0f003e9d916a503706a76efabb99c81a2e6da",
+  "scripts/train_recovery_transition.py": "e706a429edb0ddc27e410ba9969df98b8f86a999e196ab4f1b4891cf2fb5ead5",
+  "scripts/evolve_recovery_touch.py": "9923d67d8188718c4a0477f93acc8eeb58e74bfee40d855cca92978c7f414f36"
+}

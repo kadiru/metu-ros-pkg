@@ -1,0 +1,17 @@
+{
+  "src/roboturk_ros/webots/worlds/ssl_counterpass.wbt": "9f5d586c8f4d28be0abd7987da400bc9e2162804d51712c2f33bcfe73aa22916",
+  "src/roboturk_ros/webots/controllers/roboturk_counterpass/roboturk_counterpass.py": "0ccb6d7235de96645c109ab7c078b006a48a924f4f652ed84ecd3d3155a634fa",
+  "policies/takeaway_v1/calibration-freeze.json": "f26afd9b1d09bde34b3ce3b903d011524615a2e3fbc19fafcf12397d78f55601",
+  "policies/takeaway_v1/freeze.json": "30a5af9bdfd7638ae91e80b4f5ed96e4853fc5ccadef5e63785fed26510b281f",
+  "policies/takeaway_v1/calibrated.json": "efd258afa42a9631c4d1e1a7e3bac8800659e312bd726e2d98ace387368c5dfe",
+  "policies/counterpass_v1/policy.json": "a3cae81d5c6816f7d1dfa1229a315ea8f07bf4c9eb149112d377d717237d0146",
+  "policies/counterpass_v1/protocol.json": "c94983f4dd8d4f32628893876ae379c4d3fbb01d77cc646ff661619ab20ab0c9",
+  "policies/counterpass_v1/returns.json": "7d0716e5819d45f66d5deb231939c904f6d3b3e2d88114f2564f62f19dd70285",
+  "policies/counterpass_v1/development.json": "cb4ddc86f2e492f5f8312e1e3d904433a1195a41545d7fb1333903e3ba5c2abd",
+  "scripts/audit_counterpass.py": "f8993b5100e681b1bf820e9e515d960869e12d78568508348a3e6a4cedb33ca7",
+  "scripts/takeaway_native.py": "2283e3a33646c0632c9228f8e7910d94f937a6fdfaad6965a415b014207e11a0",
+  "scripts/train_counterpass.py": "fecd35365ffa935b43a74d7a6f6544b2c4867817bb9bf175bfbfdadb108a3020",
+  "scripts/fit_counterpass.py": "9d4f98497702da5261adb6b57d7148df928e97a2834f265cb6c171fd8ce7682e",
+  "src/roboturk_core/roboturk/counterpass.py": "3c0b21894712b71e41043a0a844d9f6cb138b52cc712d6539b071e8635382b6d",
+  "src/roboturk_core/roboturk/distribution_value.py": "a0af1785011e3be03dda38e71838785022f34246c7348a914314ad0cd70fa26c"
+}

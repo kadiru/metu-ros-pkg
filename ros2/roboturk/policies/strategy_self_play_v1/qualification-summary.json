@@ -1,0 +1,369 @@
+{
+  "passed": true,
+  "freeze_commit": "008122327014feaba4e9f05a73381a0bd2d73681",
+  "freeze_sha256": "441918e59d5ad20e294ee205a57583529c6b712ddaad195f089ceaf6ff7b89fd",
+  "matches": 120,
+  "completed": 120,
+  "goals": 45,
+  "passes": 371,
+  "receptions": 55,
+  "draws": 79,
+  "physics_samples": 480000,
+  "robot_decisions": 480000,
+  "seed_gates": {
+    "811": {
+      "passed": true,
+      "checks": {
+        "complete_panel": true,
+        "completion": true,
+        "contacts": true,
+        "field_exits": true,
+        "goals": true,
+        "both_colors_score": true,
+        "receive_stop": true,
+        "redirect_kick": true,
+        "redirect_goal": true,
+        "clearance_complete": true,
+        "skill_use": true,
+        "independent_audit": true
+      },
+      "matches": 60,
+      "completion_fraction": 1.0,
+      "mean_contact_fraction": 0.0,
+      "field_exit_matches": 0,
+      "goals": {
+        "blue": 14,
+        "yellow": 8
+      },
+      "new_skill_ticks": {
+        "receive": 70794,
+        "redirect": 700,
+        "clear": 8975
+      },
+      "skill_outcomes": {
+        "receive_stop": 13,
+        "redirect_kick": 14,
+        "redirect_goal": 13,
+        "clearance_complete": 16
+      }
+    },
+    "822": {
+      "passed": true,
+      "checks": {
+        "complete_panel": true,
+        "completion": true,
+        "contacts": true,
+        "field_exits": true,
+        "goals": true,
+        "both_colors_score": true,
+        "receive_stop": true,
+        "redirect_kick": true,
+        "redirect_goal": true,
+        "clearance_complete": true,
+        "skill_use": true,
+        "independent_audit": true
+      },
+      "matches": 60,
+      "completion_fraction": 1.0,
+      "mean_contact_fraction": 0.0,
+      "field_exit_matches": 0,
+      "goals": {
+        "blue": 8,
+        "yellow": 15
+      },
+      "new_skill_ticks": {
+        "receive": 72256,
+        "redirect": 731,
+        "clear": 8127
+      },
+      "skill_outcomes": {
+        "receive_stop": 15,
+        "redirect_kick": 15,
+        "redirect_goal": 12,
+        "clearance_complete": 17
+      }
+    }
+  },
+  "panels": {
+    "811-self": {
+      "summary": {
+        "matches": 20,
+        "completed": 20,
+        "unfinished": 0,
+        "goals": {
+          "blue": 7,
+          "yellow": 3
+        },
+        "wins": {
+          "blue": 6,
+          "yellow": 3
+        },
+        "draws": 11,
+        "goal_matches": 9,
+        "turnover_matches": 4,
+        "acquisition_matches": 20,
+        "recovery_matches": 10,
+        "passes": 88,
+        "receptions": 6,
+        "mean_contact_fraction": 0.0,
+        "field_exit_matches": 0,
+        "mean_possession_seconds": {
+          "blue": 4.945750000000083,
+          "yellow": 2.8019999999999885
+        },
+        "skill_outcomes": {
+          "receive_stop": 5,
+          "redirect_kick": 5,
+          "redirect_goal": 4,
+          "clearance_complete": 5
+        },
+        "new_skill_ticks": {
+          "receive": 24132,
+          "redirect": 247,
+          "clear": 2631
+        }
+      },
+      "safety_intervention_fraction": 0.29185,
+      "physics_samples": 80000,
+      "robot_decisions": 80000,
+      "source_sha256": "49e2ef09017eda0b39d24076f65c526b4caa1c21bc461359a6550e81f36ae07e",
+      "geometry_audit_sha256": "8c68602762edee555997cc2e6b824d507045ff92c9ca60a330e9ba8f89689248",
+      "inference_audit_sha256": "5d1e10fdfdc20e6753098694d9b05dcd20d404ac1be1314cd6e65b31467afdd3",
+      "publication_precedes_evaluation": true
+    },
+    "822-self": {
+      "summary": {
+        "matches": 20,
+        "completed": 20,
+        "unfinished": 0,
+        "goals": {
+          "blue": 0,
+          "yellow": 6
+        },
+        "wins": {
+          "blue": 0,
+          "yellow": 5
+        },
+        "draws": 15,
+        "goal_matches": 5,
+        "turnover_matches": 11,
+        "acquisition_matches": 20,
+        "recovery_matches": 15,
+        "passes": 48,
+        "receptions": 9,
+        "mean_contact_fraction": 0.0,
+        "field_exit_matches": 0,
+        "mean_possession_seconds": {
+          "blue": 3.0025000000000057,
+          "yellow": 6.979250000000152
+        },
+        "skill_outcomes": {
+          "receive_stop": 5,
+          "redirect_kick": 5,
+          "redirect_goal": 4,
+          "clearance_complete": 6
+        },
+        "new_skill_ticks": {
+          "receive": 23766,
+          "redirect": 246,
+          "clear": 3085
+        }
+      },
+      "safety_intervention_fraction": 0.3758,
+      "physics_samples": 80000,
+      "robot_decisions": 80000,
+      "source_sha256": "8a1f67bc903035c8a7b6b2f9e502fa1649177558d77286c66bad40dab7b9250b",
+      "geometry_audit_sha256": "828021568aa91d2bd9686cebe787e3ddc5a35dde3219713c77a5070ef3dc3d48",
+      "inference_audit_sha256": "4de519f2fa21e33faaa3e8e448581e080c219e36d387699c76799cea7aabde1e",
+      "publication_precedes_evaluation": true
+    },
+    "811-history": {
+      "summary": {
+        "matches": 20,
+        "completed": 20,
+        "unfinished": 0,
+        "goals": {
+          "blue": 3,
+          "yellow": 4
+        },
+        "wins": {
+          "blue": 3,
+          "yellow": 4
+        },
+        "draws": 13,
+        "goal_matches": 7,
+        "turnover_matches": 6,
+        "acquisition_matches": 20,
+        "recovery_matches": 9,
+        "passes": 61,
+        "receptions": 6,
+        "mean_contact_fraction": 0.0,
+        "field_exit_matches": 0,
+        "mean_possession_seconds": {
+          "blue": 4.180000000000009,
+          "yellow": 5.4565000000001
+        },
+        "skill_outcomes": {
+          "receive_stop": 5,
+          "redirect_kick": 5,
+          "redirect_goal": 5,
+          "clearance_complete": 5
+        },
+        "new_skill_ticks": {
+          "receive": 22732,
+          "redirect": 243,
+          "clear": 2927
+        }
+      },
+      "safety_intervention_fraction": 0.33265,
+      "physics_samples": 80000,
+      "robot_decisions": 80000,
+      "source_sha256": "d0ef729a7414fcd92d4dd5db34f7bd2179d2010d38217525f0de2f862a5e35d8",
+      "geometry_audit_sha256": "fad9ad8bfb7379a58f36cec74b9e068e314c16d3a68766adb3c06469a7002e77",
+      "inference_audit_sha256": "3c35859a7c10a3cebaf5ffc6bb4c807119b56cb4bad8a371ff92d6598cc0cb87",
+      "publication_precedes_evaluation": true
+    },
+    "822-history": {
+      "summary": {
+        "matches": 20,
+        "completed": 20,
+        "unfinished": 0,
+        "goals": {
+          "blue": 4,
+          "yellow": 5
+        },
+        "wins": {
+          "blue": 3,
+          "yellow": 4
+        },
+        "draws": 13,
+        "goal_matches": 8,
+        "turnover_matches": 8,
+        "acquisition_matches": 20,
+        "recovery_matches": 11,
+        "passes": 55,
+        "receptions": 12,
+        "mean_contact_fraction": 0.0,
+        "field_exit_matches": 0,
+        "mean_possession_seconds": {
+          "blue": 4.875750000000024,
+          "yellow": 5.006000000000055
+        },
+        "skill_outcomes": {
+          "receive_stop": 5,
+          "redirect_kick": 6,
+          "redirect_goal": 4,
+          "clearance_complete": 5
+        },
+        "new_skill_ticks": {
+          "receive": 24575,
+          "redirect": 282,
+          "clear": 2421
+        }
+      },
+      "safety_intervention_fraction": 0.3324,
+      "physics_samples": 80000,
+      "robot_decisions": 80000,
+      "source_sha256": "a8609fd2aeadb8cf058c51c0d8ec2ebcd3a0b69200727a5a1c3da6fbf087187d",
+      "geometry_audit_sha256": "8ddf0244c8100b7abbe5dd8ff45cecc2cb9e34c4898197a422368a100a1676e7",
+      "inference_audit_sha256": "dc21bec21004f61da280364af06a42cf40142e6e616ff816bc17d6d64f1cc17a",
+      "publication_precedes_evaluation": true
+    },
+    "811-cross": {
+      "summary": {
+        "matches": 20,
+        "completed": 20,
+        "unfinished": 0,
+        "goals": {
+          "blue": 4,
+          "yellow": 1
+        },
+        "wins": {
+          "blue": 4,
+          "yellow": 1
+        },
+        "draws": 15,
+        "goal_matches": 5,
+        "turnover_matches": 8,
+        "acquisition_matches": 20,
+        "recovery_matches": 13,
+        "passes": 57,
+        "receptions": 12,
+        "mean_contact_fraction": 0.0,
+        "field_exit_matches": 0,
+        "mean_possession_seconds": {
+          "blue": 3.055750000000056,
+          "yellow": 7.437500000000204
+        },
+        "skill_outcomes": {
+          "receive_stop": 3,
+          "redirect_kick": 4,
+          "redirect_goal": 4,
+          "clearance_complete": 6
+        },
+        "new_skill_ticks": {
+          "receive": 23930,
+          "redirect": 210,
+          "clear": 3417
+        }
+      },
+      "safety_intervention_fraction": 0.36545,
+      "physics_samples": 80000,
+      "robot_decisions": 80000,
+      "source_sha256": "187321186275eaed037aeb8f1a50e169a1ad0446e2b5b2a09c16d393b1928a28",
+      "geometry_audit_sha256": "60d1598669e2b60a4661ca5f1771b16fc02791b938455d437d7e8ef6e4bfa8a1",
+      "inference_audit_sha256": "81707b0a8827a7e6e2e21dfc5d03c846f5d1b24f9a38acaab6d4b1001e575031",
+      "publication_precedes_evaluation": true
+    },
+    "822-cross": {
+      "summary": {
+        "matches": 20,
+        "completed": 20,
+        "unfinished": 0,
+        "goals": {
+          "blue": 4,
+          "yellow": 4
+        },
+        "wins": {
+          "blue": 4,
+          "yellow": 4
+        },
+        "draws": 12,
+        "goal_matches": 8,
+        "turnover_matches": 7,
+        "acquisition_matches": 20,
+        "recovery_matches": 12,
+        "passes": 62,
+        "receptions": 10,
+        "mean_contact_fraction": 0.0,
+        "field_exit_matches": 0,
+        "mean_possession_seconds": {
+          "blue": 4.503500000000108,
+          "yellow": 5.6637500000001575
+        },
+        "skill_outcomes": {
+          "receive_stop": 5,
+          "redirect_kick": 4,
+          "redirect_goal": 4,
+          "clearance_complete": 6
+        },
+        "new_skill_ticks": {
+          "receive": 23915,
+          "redirect": 203,
+          "clear": 2621
+        }
+      },
+      "safety_intervention_fraction": 0.34305,
+      "physics_samples": 80000,
+      "robot_decisions": 80000,
+      "source_sha256": "764307146105855c6aebcd2843b88ff3603443be238d3ca82405942ba6483f9a",
+      "geometry_audit_sha256": "a276012351cc5fcc511b686121575f2244c1f8659a0bb5d49c3243467b2d081e",
+      "inference_audit_sha256": "154e9249038a93bab6c914a91ced1cfc616369edff247cba9e1df94d3208f259",
+      "publication_precedes_evaluation": true
+    }
+  },
+  "safety_fraction_per_seed": {
+    "811": 0.32998333333333335,
+    "822": 0.35041666666666665
+  }
+}

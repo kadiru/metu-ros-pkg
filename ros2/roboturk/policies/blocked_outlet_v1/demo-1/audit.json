@@ -1,0 +1,69 @@
+{
+  "games": 3,
+  "passing_goals": 1,
+  "outcomes": {
+    "opponent retouch before pass": 1,
+    "no opening pass": 1,
+    "pass goal": 1
+  },
+  "rows": [
+    {
+      "seed": 12400000,
+      "qualified": false,
+      "chain": {
+        "start": 0,
+        "recovery": 119,
+        "winner": 5,
+        "team": "yellow"
+      },
+      "outcome": "opponent retouch before pass",
+      "loss_sample": 208
+    },
+    {
+      "seed": 12400001,
+      "qualified": false,
+      "chain": {
+        "start": 0,
+        "recovery": 71,
+        "winner": 4,
+        "team": "yellow"
+      },
+      "outcome": "no opening pass"
+    },
+    {
+      "seed": 12400002,
+      "qualified": true,
+      "chain": {
+        "start": 0,
+        "recovery": 247,
+        "winner": 2,
+        "team": "blue",
+        "goal": 635,
+        "shot": 135,
+        "scorer": 0,
+        "passes": [
+          91
+        ],
+        "dribble_m": 0.273,
+        "options": [
+          "dribble",
+          "pass",
+          "shoot"
+        ]
+      },
+      "passer": 2,
+      "receiver": 0,
+      "slot": 0,
+      "decision": 74,
+      "kick": 91,
+      "end": 114,
+      "direct": 0.12200724530611198,
+      "lane": 0.5942688102768684,
+      "space": 1.108928759072183,
+      "pass_result": "complete",
+      "outcome": "pass goal"
+    }
+  ],
+  "contacts": 0,
+  "exits": 0
+}

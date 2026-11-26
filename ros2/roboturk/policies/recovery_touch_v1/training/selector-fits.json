@@ -1,0 +1,110 @@
+{
+  "records": 528,
+  "folds": 3,
+  "reward": "goal - 3 * prepass_loss",
+  "fits": [
+    {
+      "tree": {
+        "action": 2
+      },
+      "depth": 0,
+      "min_per_action": 10,
+      "split_penalty": 0.04,
+      "logged_validation": [
+        {
+          "agreements": 35,
+          "goals": 27,
+          "losses": 3
+        },
+        {
+          "agreements": 34,
+          "goals": 20,
+          "losses": 3
+        },
+        {
+          "agreements": 36,
+          "goals": 27,
+          "losses": 3
+        }
+      ]
+    },
+    {
+      "tree": {
+        "feature": 11,
+        "threshold": 1.5,
+        "left": {
+          "action": 3
+        },
+        "right": {
+          "action": 4
+        }
+      },
+      "depth": 1,
+      "min_per_action": 10,
+      "split_penalty": 0.035,
+      "logged_validation": [
+        {
+          "agreements": 37,
+          "goals": 27,
+          "losses": 3
+        },
+        {
+          "agreements": 33,
+          "goals": 18,
+          "losses": 4
+        },
+        {
+          "agreements": 38,
+          "goals": 29,
+          "losses": 3
+        }
+      ]
+    },
+    {
+      "tree": {
+        "feature": 11,
+        "threshold": 1.5,
+        "left": {
+          "feature": 2,
+          "threshold": 0.16499999999999998,
+          "left": {
+            "action": 2
+          },
+          "right": {
+            "action": 3
+          }
+        },
+        "right": {
+          "feature": 9,
+          "threshold": -0.015,
+          "left": {
+            "action": 4
+          },
+          "right": {
+            "action": 2
+          }
+        }
+      },
+      "depth": 2,
+      "min_per_action": 8,
+      "split_penalty": 0.025,
+      "logged_validation": [
+        {
+          "agreements": 37,
+          "goals": 27,
+          "losses": 3
+        },
+        {
+          "agreements": 38,
+          "goals": 20,
+          "losses": 4
+        },
+        {
+          "agreements": 36,
+          "goals": 27,
+          "losses": 2
+        }
+      ]
+    }
+  ]
+}

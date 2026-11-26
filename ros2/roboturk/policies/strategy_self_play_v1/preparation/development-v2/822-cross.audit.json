@@ -1,0 +1,302 @@
+{
+  "source": "runs/strategy-v1/development-v2/822-cross.json",
+  "source_sha256": "339f5df8eb99b4b4337676f535536914515365addd409f5fccdd49bf28fd78e6",
+  "passed": true,
+  "matches": [
+    {
+      "seed": 6306100,
+      "passed": true,
+      "errors": [],
+      "physics_samples": 4000,
+      "motor_calls": {
+        "continuous_batches": 1000,
+        "receive": 996,
+        "clear": 164
+      },
+      "actual_kicks": 1,
+      "goals": {},
+      "contact_samples": 0,
+      "outside_samples": 0,
+      "skill_outcomes": {}
+    },
+    {
+      "seed": 6306101,
+      "passed": true,
+      "errors": [],
+      "physics_samples": 4000,
+      "motor_calls": {
+        "receive": 1507,
+        "continuous_batches": 1000,
+        "clear": 196
+      },
+      "actual_kicks": 3,
+      "goals": {},
+      "contact_samples": 0,
+      "outside_samples": 0,
+      "skill_outcomes": {
+        "receive_stop": 1
+      }
+    },
+    {
+      "seed": 6306102,
+      "passed": true,
+      "errors": [],
+      "physics_samples": 4000,
+      "motor_calls": {
+        "receive": 979,
+        "continuous_batches": 1000,
+        "redirect": 51,
+        "clear": 226
+      },
+      "actual_kicks": 3,
+      "goals": {
+        "blue": 1
+      },
+      "contact_samples": 0,
+      "outside_samples": 0,
+      "skill_outcomes": {
+        "redirect_kick": 1,
+        "redirect_goal": 1
+      }
+    },
+    {
+      "seed": 6306103,
+      "passed": true,
+      "errors": [],
+      "physics_samples": 4000,
+      "motor_calls": {
+        "clear": 85,
+        "receive": 1449,
+        "continuous_batches": 1000
+      },
+      "actual_kicks": 7,
+      "goals": {
+        "blue": 1
+      },
+      "contact_samples": 0,
+      "outside_samples": 0,
+      "skill_outcomes": {
+        "clearance_complete": 1
+      }
+    },
+    {
+      "seed": 6306104,
+      "passed": true,
+      "errors": [],
+      "physics_samples": 4000,
+      "motor_calls": {
+        "continuous_batches": 1000,
+        "receive": 795,
+        "clear": 23
+      },
+      "actual_kicks": 1,
+      "goals": {
+        "blue": 1
+      },
+      "contact_samples": 0,
+      "outside_samples": 0,
+      "skill_outcomes": {}
+    },
+    {
+      "seed": 6306105,
+      "passed": true,
+      "errors": [],
+      "physics_samples": 4000,
+      "motor_calls": {
+        "receive": 1492,
+        "continuous_batches": 1000,
+        "clear": 277
+      },
+      "actual_kicks": 6,
+      "goals": {},
+      "contact_samples": 0,
+      "outside_samples": 0,
+      "skill_outcomes": {
+        "receive_stop": 1
+      }
+    },
+    {
+      "seed": 6306106,
+      "passed": true,
+      "errors": [],
+      "physics_samples": 4000,
+      "motor_calls": {
+        "receive": 862,
+        "continuous_batches": 1000,
+        "redirect": 56,
+        "clear": 153
+      },
+      "actual_kicks": 3,
+      "goals": {
+        "blue": 1
+      },
+      "contact_samples": 0,
+      "outside_samples": 0,
+      "skill_outcomes": {
+        "redirect_kick": 1
+      }
+    },
+    {
+      "seed": 6306107,
+      "passed": true,
+      "errors": [],
+      "physics_samples": 4000,
+      "motor_calls": {
+        "receive": 890,
+        "clear": 513,
+        "continuous_batches": 1000
+      },
+      "actual_kicks": 3,
+      "goals": {},
+      "contact_samples": 0,
+      "outside_samples": 0,
+      "skill_outcomes": {
+        "clearance_complete": 1
+      }
+    },
+    {
+      "seed": 6306108,
+      "passed": true,
+      "errors": [],
+      "physics_samples": 4000,
+      "motor_calls": {
+        "continuous_batches": 1000,
+        "receive": 1088,
+        "clear": 158
+      },
+      "actual_kicks": 4,
+      "goals": {},
+      "contact_samples": 0,
+      "outside_samples": 0,
+      "skill_outcomes": {}
+    },
+    {
+      "seed": 6306109,
+      "passed": true,
+      "errors": [],
+      "physics_samples": 4000,
+      "motor_calls": {
+        "receive": 1323,
+        "continuous_batches": 1000
+      },
+      "actual_kicks": 3,
+      "goals": {},
+      "contact_samples": 0,
+      "outside_samples": 0,
+      "skill_outcomes": {
+        "receive_stop": 1
+      }
+    },
+    {
+      "seed": 6306110,
+      "passed": true,
+      "errors": [],
+      "physics_samples": 4000,
+      "motor_calls": {
+        "receive": 1202,
+        "continuous_batches": 1000,
+        "clear": 201
+      },
+      "actual_kicks": 2,
+      "goals": {
+        "yellow": 1
+      },
+      "contact_samples": 0,
+      "outside_samples": 0,
+      "skill_outcomes": {
+        "clearance_complete": 1
+      }
+    },
+    {
+      "seed": 6306111,
+      "passed": true,
+      "errors": [],
+      "physics_samples": 4000,
+      "motor_calls": {
+        "receive": 1097,
+        "clear": 136,
+        "continuous_batches": 1000
+      },
+      "actual_kicks": 5,
+      "goals": {
+        "blue": 1
+      },
+      "contact_samples": 0,
+      "outside_samples": 0,
+      "skill_outcomes": {
+        "clearance_complete": 1
+      }
+    },
+    {
+      "seed": 6306112,
+      "passed": true,
+      "errors": [],
+      "physics_samples": 4000,
+      "motor_calls": {
+        "continuous_batches": 1000,
+        "receive": 1107,
+        "clear": 111
+      },
+      "actual_kicks": 3,
+      "goals": {},
+      "contact_samples": 0,
+      "outside_samples": 0,
+      "skill_outcomes": {}
+    },
+    {
+      "seed": 6306113,
+      "passed": true,
+      "errors": [],
+      "physics_samples": 4000,
+      "motor_calls": {
+        "receive": 1926,
+        "continuous_batches": 1000
+      },
+      "actual_kicks": 7,
+      "goals": {},
+      "contact_samples": 0,
+      "outside_samples": 0,
+      "skill_outcomes": {
+        "receive_stop": 1
+      }
+    },
+    {
+      "seed": 6306114,
+      "passed": true,
+      "errors": [],
+      "physics_samples": 4000,
+      "motor_calls": {
+        "receive": 894,
+        "continuous_batches": 1000,
+        "clear": 352,
+        "redirect": 53
+      },
+      "actual_kicks": 5,
+      "goals": {},
+      "contact_samples": 0,
+      "outside_samples": 0,
+      "skill_outcomes": {
+        "redirect_kick": 1
+      }
+    },
+    {
+      "seed": 6306115,
+      "passed": true,
+      "errors": [],
+      "physics_samples": 4000,
+      "motor_calls": {
+        "receive": 827,
+        "clear": 470,
+        "continuous_batches": 1000
+      },
+      "actual_kicks": 3,
+      "goals": {},
+      "contact_samples": 0,
+      "outside_samples": 0,
+      "skill_outcomes": {
+        "clearance_complete": 1
+      }
+    }
+  ],
+  "physics_samples": 64000
+}

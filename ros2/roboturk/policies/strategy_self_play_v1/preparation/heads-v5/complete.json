@@ -1,0 +1,1 @@
+{"training_seeds":[811,822],"dataset":"runs/strategy-v1/coach-v5/data.npz","dataset_sha256":"f1269eae487d71fce6aa9558af4c323516a05909d5208856aa8870e174d76af5","epochs":250,"parents":"runs/strategy-v1/refine-v2"}

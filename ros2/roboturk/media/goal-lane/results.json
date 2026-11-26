@@ -1,0 +1,129 @@
+{
+  "replays": {
+    "starts": 5,
+    "totals": {
+      "keeper-cover": {
+        "own_goals": 5,
+        "clean_takeaways": 0,
+        "clean_keeper_takeaways": 0,
+        "starts_with_body_contact": 0,
+        "starts_with_cover": 5,
+        "starts_with_early_positioning": 5,
+        "body_contact_episodes": 0
+      },
+      "keeper-lane": {
+        "own_goals": 0,
+        "clean_takeaways": 5,
+        "clean_keeper_takeaways": 5,
+        "starts_with_body_contact": 0,
+        "starts_with_cover": 5,
+        "starts_with_early_positioning": 5,
+        "body_contact_episodes": 0
+      }
+    },
+    "prevented": [
+      38725035,
+      38725059,
+      38725067,
+      38725083,
+      38725091
+    ],
+    "introduced": [],
+    "conceded_by_both": []
+  },
+  "varied": {
+    "starts": 32,
+    "totals": {
+      "keeper-cover": {
+        "own_goals": 1,
+        "clean_takeaways": 7,
+        "clean_keeper_takeaways": 0,
+        "starts_with_body_contact": 7,
+        "starts_with_cover": 17,
+        "starts_with_early_positioning": 20,
+        "body_contact_episodes": 7
+      },
+      "keeper-lane": {
+        "own_goals": 0,
+        "clean_takeaways": 5,
+        "clean_keeper_takeaways": 1,
+        "starts_with_body_contact": 7,
+        "starts_with_cover": 19,
+        "starts_with_early_positioning": 18,
+        "body_contact_episodes": 7
+      }
+    },
+    "prevented": [
+      38725531
+    ],
+    "introduced": [],
+    "conceded_by_both": []
+  },
+  "near_line": {
+    "starts": 16,
+    "totals": {
+      "keeper-cover": {
+        "own_goals": 5,
+        "clean_takeaways": 2,
+        "clean_keeper_takeaways": 0,
+        "starts_with_body_contact": 8,
+        "starts_with_cover": 5,
+        "starts_with_early_positioning": 16,
+        "body_contact_episodes": 8
+      },
+      "keeper-lane": {
+        "own_goals": 1,
+        "clean_takeaways": 4,
+        "clean_keeper_takeaways": 0,
+        "starts_with_body_contact": 10,
+        "starts_with_cover": 5,
+        "starts_with_early_positioning": 16,
+        "body_contact_episodes": 10
+      }
+    },
+    "prevented": [
+      38725627,
+      38725675,
+      38725699,
+      38725707
+    ],
+    "introduced": [],
+    "conceded_by_both": [
+      38725667
+    ]
+  },
+  "combined": {
+    "starts": 48,
+    "totals": {
+      "keeper-cover": {
+        "own_goals": 6,
+        "clean_takeaways": 9,
+        "clean_keeper_takeaways": 0,
+        "starts_with_body_contact": 15,
+        "starts_with_cover": 22,
+        "starts_with_early_positioning": 36,
+        "body_contact_episodes": 15
+      },
+      "keeper-lane": {
+        "own_goals": 1,
+        "clean_takeaways": 9,
+        "clean_keeper_takeaways": 1,
+        "starts_with_body_contact": 17,
+        "starts_with_cover": 24,
+        "starts_with_early_positioning": 34,
+        "body_contact_episodes": 17
+      }
+    },
+    "prevented": [
+      38725531,
+      38725627,
+      38725675,
+      38725699,
+      38725707
+    ],
+    "introduced": [],
+    "conceded_by_both": [
+      38725667
+    ]
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "contract": "roboturk.capture.v1",
+  "skill": "chase",
+  "config": {
+    "length": 9.0,
+    "width": 6.0,
+    "goal_width": 1.0,
+    "robot_radius": 0.09,
+    "ball_radius": 0.0215,
+    "ball_mass": 0.046,
+    "max_speed": 2.0,
+    "max_omega": 8.0,
+    "max_kick": 5.0,
+    "dt": 0.02,
+    "max_steps": 500,
+    "neighbors": 5,
+    "possession_x": 0.115
+  },
+  "task": "capture.randomized.v1",
+  "backend": "webots_ideal_body_velocity",
+  "method": "Webots demonstration cloning + DAgger + PPO",
+  "actual_steps": 131072,
+  "validated_for_hardware": false,
+  "seed": 7,
+  "demonstration_episodes": 300,
+  "dagger_episodes": 150,
+  "training_seed_ranges": [
+    [
+      0,
+      299
+    ],
+    [
+      20000,
+      20149
+    ]
+  ],
+  "development_seed_range": [
+    10000,
+    10049
+  ],
+  "qualification_seed_range": [
+    50000,
+    50199
+  ]
+}

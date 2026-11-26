@@ -1,0 +1,63 @@
+[
+  {
+    "seed": 7301000,
+    "score": {
+      "yellow": 1
+    },
+    "outcomes": {
+      "complete": 4,
+      "intercepted": 2,
+      "end": 1
+    },
+    "stats": {
+      "safety_ticks": 23,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7301001,
+    "score": {
+      "blue": 1
+    },
+    "outcomes": {
+      "complete": 9,
+      "intercepted": 3
+    },
+    "stats": {
+      "safety_ticks": 34,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7301002,
+    "score": {},
+    "outcomes": {
+      "complete": 10,
+      "intercepted": 3
+    },
+    "stats": {
+      "safety_ticks": 61,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7301003,
+    "score": {},
+    "outcomes": {
+      "complete": 5,
+      "intercepted": 4
+    },
+    "stats": {
+      "safety_ticks": 541,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  }
+]

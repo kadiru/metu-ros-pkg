@@ -1,0 +1,36 @@
+{
+  "method": "Native Webots episodic policy search with elite refitting",
+  "parameters": [
+    "capture_speed_m_s",
+    "carry_speed_m_s",
+    "braking_gain_s_inv",
+    "release_distance_m",
+    "release_speed_m_s"
+  ],
+  "training_seed_base": 24100000,
+  "development_seed_base": 24200000,
+  "archived_crossings": [
+    [
+      20300000,
+      1321
+    ],
+    [
+      20300001,
+      247
+    ],
+    [
+      20300002,
+      926
+    ],
+    [
+      20300002,
+      1364
+    ]
+  ],
+  "official_holdout": [
+    24300000,
+    24300039
+  ],
+  "film_seed": 24400000,
+  "gate": "At least 38/40 official PLACEMENT_SUCCEEDED events for the awarded team, 20 starts per color, under 30 simulation seconds, zero placement interference reports."
+}

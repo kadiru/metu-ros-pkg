@@ -1,0 +1,61 @@
+{
+  "file": "blocked-outlet.mp4",
+  "sha256": "172d1b5a927e7d6f2ec01eea29e0e143ccd130648815499e4480b7262296f434",
+  "seconds": 54.04,
+  "full": {
+    "file": "all-openings.gif",
+    "frames": 540,
+    "seconds": 54.0,
+    "fps": 10,
+    "sha256": "61f3333b8beaf9729384026fc3349da2e086abf037e0145dd3328f35261e3e6c"
+  },
+  "excerpt": {
+    "file": "open-teammate.gif",
+    "frames": 92,
+    "seconds": 7.36,
+    "fps": 12.5,
+    "sha256": "03fb2e299cc986a4bfd000564c86ed16ea5683c59f0ca12f6d964686c8c3c414"
+  },
+  "excerpt_start": 36,
+  "excerpt_game": 2,
+  "opening": {
+    "seed": 12400002,
+    "qualified": true,
+    "chain": {
+      "start": 0,
+      "recovery": 247,
+      "winner": 2,
+      "team": "blue",
+      "goal": 635,
+      "shot": 135,
+      "scorer": 0,
+      "passes": [
+        91
+      ],
+      "dribble_m": 0.273,
+      "options": [
+        "dribble",
+        "pass",
+        "shoot"
+      ]
+    },
+    "passer": 2,
+    "receiver": 0,
+    "slot": 0,
+    "decision": 74,
+    "kick": 91,
+    "end": 114,
+    "direct": 0.12200724530611198,
+    "lane": 0.5942688102768684,
+    "space": 1.108928759072183,
+    "pass_result": "complete",
+    "outcome": "pass goal"
+  },
+  "native_pixel_crop": [
+    553,
+    210,
+    617,
+    308
+  ],
+  "speed": 1
+}

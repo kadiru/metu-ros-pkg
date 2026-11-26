@@ -1,0 +1,10 @@
+{
+  "src/roboturk_ros/webots/worlds/ssl_touch_planner.wbt": "9955eb6e577458a295941978646662d41481030f28b0b2d35aa43ef148b1b55f",
+  "src/roboturk_ros/webots/controllers/roboturk_touch_planner/roboturk_touch_planner.py": "accfc2a27abc8789c12e943ea0bd1e63f02cc28510ae15b95935140144f8ff1f",
+  "src/roboturk_core/roboturk/carrier_motor.py": "c7bf0b56c98f5db855fe30591f84a1759f09c82f44dc816e794cb6628f5b9a39",
+  "src/roboturk_core/roboturk/touch_planner.py": "6ea2a93b599c1c36079fac6aebc4ab607bcbfb19853d9ae816ec170789125203",
+  "scripts/train_touch_planner.py": "ea37c3c09fa8ae81de505c37619e7a9f4aeb174d83d52f901d4c8b0010cc9e3d",
+  "policies/recovery_touch_v1/freeze-1.json": "ffc3dc0e68465c79098e527daf0e046aa506e93c30acd061b46955f20e95b4a5",
+  "policies/recovery_touch_v1/planned-policy-2.json": "965673508897eba6699312e18f9a126691e370b97f0ec28cec1c2b76e054b656",
+  "policies/recovery_touch_v1/protocol.json": "4eed4a4f4bead9396e5ed1c0e57b62d264ccd4f39ab6501114ad48503d788f0b"
+}

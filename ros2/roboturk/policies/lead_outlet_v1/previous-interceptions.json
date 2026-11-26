@@ -1,0 +1,200 @@
+[
+  {
+    "seed": 12300006,
+    "team": "yellow",
+    "interceptor": 2,
+    "opponent": true,
+    "delay_s": 0.13,
+    "ball_travel_m": 0.248,
+    "planned_length_m": 0.828,
+    "interceptor_distance_at_release_m": 0.415,
+    "receiver_distance_at_contact_m": 0.58,
+    "receiver_movement_m": 0.004,
+    "decision_clearance_m": 1.05,
+    "release_clearance_m": 0.166,
+    "release_xy": [
+      0.8234574519315819,
+      -0.738413925676298
+    ],
+    "contact_xy": [
+      1.0058580804584614,
+      -0.5701595346408406
+    ]
+  },
+  {
+    "seed": 12300008,
+    "team": "yellow",
+    "interceptor": 2,
+    "opponent": true,
+    "delay_s": 0.14,
+    "ball_travel_m": 0.264,
+    "planned_length_m": 0.922,
+    "interceptor_distance_at_release_m": 0.465,
+    "receiver_distance_at_contact_m": 0.658,
+    "receiver_movement_m": 0.004,
+    "decision_clearance_m": 2.0,
+    "release_clearance_m": 0.081,
+    "release_xy": [
+      0.2566193483907545,
+      -1.1114975331133576
+    ],
+    "contact_xy": [
+      0.4293452944598808,
+      -0.9113149289275432
+    ]
+  },
+  {
+    "seed": 12300010,
+    "team": "yellow",
+    "interceptor": 0,
+    "opponent": true,
+    "delay_s": 0.19,
+    "ball_travel_m": 0.346,
+    "planned_length_m": 1.212,
+    "interceptor_distance_at_release_m": 0.617,
+    "receiver_distance_at_contact_m": 0.864,
+    "receiver_movement_m": 0.032,
+    "decision_clearance_m": 0.287,
+    "release_clearance_m": 0.033,
+    "release_xy": [
+      -0.6966432640588583,
+      -0.9423969478239363
+    ],
+    "contact_xy": [
+      -0.39633972465211187,
+      -0.7696320333466666
+    ]
+  },
+  {
+    "seed": 12300011,
+    "team": "yellow",
+    "interceptor": 2,
+    "opponent": true,
+    "delay_s": 0.11,
+    "ball_travel_m": 0.218,
+    "planned_length_m": 0.633,
+    "interceptor_distance_at_release_m": 0.378,
+    "receiver_distance_at_contact_m": 0.415,
+    "receiver_movement_m": 0.006,
+    "decision_clearance_m": 1.078,
+    "release_clearance_m": 0.134,
+    "release_xy": [
+      -0.32066715614371216,
+      -0.36884963119333103
+    ],
+    "contact_xy": [
+      -0.39122648351021005,
+      -0.16287547649802006
+    ]
+  },
+  {
+    "seed": 12300017,
+    "team": "blue",
+    "interceptor": 3,
+    "opponent": true,
+    "delay_s": 0.17,
+    "ball_travel_m": 0.313,
+    "planned_length_m": 1.056,
+    "interceptor_distance_at_release_m": 0.536,
+    "receiver_distance_at_contact_m": 0.743,
+    "receiver_movement_m": 0.02,
+    "decision_clearance_m": 2.0,
+    "release_clearance_m": 0.072,
+    "release_xy": [
+      -0.5072971947835785,
+      1.0458108209862393
+    ],
+    "contact_xy": [
+      -0.25434875535003804,
+      0.8619895131662343
+    ]
+  },
+  {
+    "seed": 12300018,
+    "team": "blue",
+    "interceptor": 5,
+    "opponent": true,
+    "delay_s": 0.18,
+    "ball_travel_m": 0.329,
+    "planned_length_m": 1.117,
+    "interceptor_distance_at_release_m": 0.567,
+    "receiver_distance_at_contact_m": 0.787,
+    "receiver_movement_m": 0.024,
+    "decision_clearance_m": 1.078,
+    "release_clearance_m": 0.056,
+    "release_xy": [
+      -0.5972996826119376,
+      0.8776320644631104
+    ],
+    "contact_xy": [
+      -0.8657476274496356,
+      0.6881407062583749
+    ]
+  },
+  {
+    "seed": 12300020,
+    "team": "blue",
+    "interceptor": 4,
+    "opponent": true,
+    "delay_s": 1.56,
+    "ball_travel_m": 0.507,
+    "planned_length_m": 0.634,
+    "interceptor_distance_at_release_m": 0.569,
+    "receiver_distance_at_contact_m": 0.115,
+    "receiver_movement_m": 0.226,
+    "decision_clearance_m": 1.018,
+    "release_clearance_m": 0.989,
+    "release_xy": [
+      -0.08194157257890905,
+      -0.8826223451550188
+    ],
+    "contact_xy": [
+      0.13167389918402705,
+      -1.342731183471363
+    ]
+  },
+  {
+    "seed": 12300026,
+    "team": "yellow",
+    "interceptor": 0,
+    "opponent": true,
+    "delay_s": 0.18,
+    "ball_travel_m": 0.329,
+    "planned_length_m": 1.117,
+    "interceptor_distance_at_release_m": 0.568,
+    "receiver_distance_at_contact_m": 0.786,
+    "receiver_movement_m": 0.026,
+    "decision_clearance_m": 2.0,
+    "release_clearance_m": 0.05,
+    "release_xy": [
+      -0.09940325536934355,
+      -0.831383461652411
+    ],
+    "contact_xy": [
+      0.17706823349627063,
+      -0.6522643221492416
+    ]
+  },
+  {
+    "seed": 12300029,
+    "team": "yellow",
+    "interceptor": 2,
+    "opponent": true,
+    "delay_s": 0.17,
+    "ball_travel_m": 0.312,
+    "planned_length_m": 1.073,
+    "interceptor_distance_at_release_m": 0.54,
+    "receiver_distance_at_contact_m": 0.76,
+    "receiver_movement_m": 0.018,
+    "decision_clearance_m": 1.007,
+    "release_clearance_m": 0.068,
+    "release_xy": [
+      -0.3642437575772955,
+      0.8890188357717084
+    ],
+    "contact_xy": [
+      -0.609684725588846,
+      0.6962032640861457
+    ]
+  }
+]

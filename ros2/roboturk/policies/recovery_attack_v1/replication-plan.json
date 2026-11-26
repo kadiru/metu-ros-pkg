@@ -1,0 +1,6 @@
+{
+  "frozen_commit": "c2ccf56987da28d460c89c1b383842a546a0c9dc",
+  "first": 9900000, "ordinary_first": 9910000, "scale": 2,
+  "design": "One independent replication using twice the original sample size and the same per-game durations, fixture distribution, alternating challenger colors and frozen players. Start each game in its own Webots process. Publish both panels even if the replication fails. Report pooled conversion as well as each test separately. No further seed batches for this checkpoint.",
+  "thresholds": "Double the original count gates including the improvement, mixed, ordinary, pass-assisted and dribble-assisted goals. Both colors must score, contact fraction and field-exit limits are unchanged. A primary-panel failure remains a failure."
+}

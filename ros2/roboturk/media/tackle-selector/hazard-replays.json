@@ -1,0 +1,530 @@
+[
+  {
+    "zone": "touchline",
+    "seed": 38724106,
+    "initial": {
+      "time": 0.0,
+      "robots": [
+        {
+          "key": {
+            "team": "blue",
+            "id": 0
+          },
+          "x": 3.1,
+          "y": 1.15,
+          "yaw": 0.0,
+          "vx": 0.0,
+          "vy": 0.0,
+          "omega": 0.0,
+          "visible": true
+        },
+        {
+          "key": {
+            "team": "blue",
+            "id": 1
+          },
+          "x": 0.29618035846204843,
+          "y": 2.999243184363753,
+          "yaw": -3.0784500935147405,
+          "vx": 0.0,
+          "vy": 0.0,
+          "omega": 0.0,
+          "visible": true
+        },
+        {
+          "key": {
+            "team": "blue",
+            "id": 2
+          },
+          "x": 2.75,
+          "y": -1.2,
+          "yaw": 0.0,
+          "vx": 0.0,
+          "vy": 0.0,
+          "omega": 0.0,
+          "visible": true
+        },
+        {
+          "key": {
+            "team": "blue",
+            "id": 3
+          },
+          "x": 2.68,
+          "y": 2.2,
+          "yaw": 0.0,
+          "vx": 0.0,
+          "vy": 0.0,
+          "omega": 0.0,
+          "visible": true
+        },
+        {
+          "key": {
+            "team": "blue",
+            "id": 4
+          },
+          "x": 1.93,
+          "y": -2.05,
+          "yaw": 0.0,
+          "vx": 0.0,
+          "vy": 0.0,
+          "omega": 0.0,
+          "visible": true
+        },
+        {
+          "key": {
+            "team": "yellow",
+            "id": 0
+          },
+          "x": -3.1,
+          "y": -1.15,
+          "yaw": 3.141592653589793,
+          "vx": 0.0,
+          "vy": 0.0,
+          "omega": 0.0,
+          "visible": true
+        },
+        {
+          "key": {
+            "team": "yellow",
+            "id": 1
+          },
+          "x": 0.06451576695265065,
+          "y": 2.960732058220388,
+          "yaw": 0.2612642610058807,
+          "vx": 0.0,
+          "vy": 0.0,
+          "omega": 0.0,
+          "visible": true
+        },
+        {
+          "key": {
+            "team": "yellow",
+            "id": 2
+          },
+          "x": -2.75,
+          "y": 1.2,
+          "yaw": 3.141592653589793,
+          "vx": 0.0,
+          "vy": 0.0,
+          "omega": 0.0,
+          "visible": true
+        },
+        {
+          "key": {
+            "team": "yellow",
+            "id": 3
+          },
+          "x": -2.68,
+          "y": -2.2,
+          "yaw": 3.141592653589793,
+          "vx": 0.0,
+          "vy": 0.0,
+          "omega": 0.0,
+          "visible": true
+        },
+        {
+          "key": {
+            "team": "yellow",
+            "id": 4
+          },
+          "x": -1.93,
+          "y": 2.05,
+          "yaw": 3.141592653589793,
+          "vx": 0.0,
+          "vy": 0.0,
+          "omega": 0.0,
+          "visible": true
+        }
+      ],
+      "ball": {
+        "x": 0.1814095338200188,
+        "y": 2.9919866141691998,
+        "vx": 0.0,
+        "vy": 0.0,
+        "visible": true
+      },
+      "referee": "running",
+      "attack_sign": 1
+    },
+    "outcomes": {
+      "direct": {
+        "capture_s": null,
+        "retained": false,
+        "clean_retained": false,
+        "body_contact": false,
+        "min_gap_m": 0.05377966757770025,
+        "ball_out_s": 0.614,
+        "own_goal_s": null,
+        "goalward_release_s": null,
+        "decisions": []
+      },
+      "pivot_left": {
+        "capture_s": 0.5619999999999999,
+        "retained": true,
+        "clean_retained": false,
+        "body_contact": true,
+        "min_gap_m": -0.00015651950094758282,
+        "ball_out_s": null,
+        "own_goal_s": null,
+        "goalward_release_s": null,
+        "decisions": []
+      },
+      "pivot_right": {
+        "capture_s": null,
+        "retained": false,
+        "clean_retained": false,
+        "body_contact": false,
+        "min_gap_m": 0.04327562689164621,
+        "ball_out_s": 0.2639999999999998,
+        "own_goal_s": null,
+        "goalward_release_s": null,
+        "decisions": []
+      },
+      "contain": {
+        "capture_s": null,
+        "retained": false,
+        "clean_retained": false,
+        "body_contact": false,
+        "min_gap_m": 0.05308440874251624,
+        "ball_out_s": 0.5800000000000001,
+        "own_goal_s": null,
+        "goalward_release_s": null,
+        "decisions": []
+      },
+      "selector": {
+        "capture_s": 0.9020000000000001,
+        "retained": true,
+        "clean_retained": false,
+        "body_contact": true,
+        "min_gap_m": -0.00018606489269817894,
+        "ball_out_s": null,
+        "own_goal_s": null,
+        "goalward_release_s": null,
+        "decisions": [
+          {
+            "time": 0.0,
+            "presser": {
+              "team": "yellow",
+              "id": 1
+            },
+            "carrier": {
+              "team": "blue",
+              "id": 1
+            },
+            "action": "direct",
+            "reason": "draw",
+            "vetoes": {
+              "pivot_right": [
+                "touchline"
+              ]
+            }
+          },
+          {
+            "time": 0.31999999999999984,
+            "presser": {
+              "team": "yellow",
+              "id": 1
+            },
+            "carrier": {
+              "team": "blue",
+              "id": 1
+            },
+            "action": "pivot_left",
+            "reason": "unsafe_draw",
+            "vetoes": {
+              "direct": [
+                "touchline"
+              ],
+              "pivot_right": [
+                "touchline"
+              ]
+            }
+          },
+          {
+            "time": 0.3999999999999999,
+            "presser": {
+              "team": "yellow",
+              "id": 1
+            },
+            "carrier": {
+              "team": "blue",
+              "id": 1
+            },
+            "action": "pivot_left",
+            "reason": "stalled_draw",
+            "vetoes": {
+              "pivot_right": [
+                "touchline"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "zone": "own-goal",
+    "seed": 38724106,
+    "initial": {
+      "time": 0.0,
+      "robots": [
+        {
+          "key": {
+            "team": "blue",
+            "id": 0
+          },
+          "x": 3.1,
+          "y": 1.15,
+          "yaw": 0.0,
+          "vx": 0.0,
+          "vy": 0.0,
+          "omega": 0.0,
+          "visible": true
+        },
+        {
+          "key": {
+            "team": "blue",
+            "id": 1
+          },
+          "x": 4.43385608265216,
+          "y": 0.33412712391169963,
+          "yaw": -1.5076537667198446,
+          "vx": 0.0,
+          "vy": 0.0,
+          "omega": 0.0,
+          "visible": true
+        },
+        {
+          "key": {
+            "team": "blue",
+            "id": 2
+          },
+          "x": 2.75,
+          "y": -1.2,
+          "yaw": 0.0,
+          "vx": 0.0,
+          "vy": 0.0,
+          "omega": 0.0,
+          "visible": true
+        },
+        {
+          "key": {
+            "team": "blue",
+            "id": 3
+          },
+          "x": 2.68,
+          "y": 2.2,
+          "yaw": 0.0,
+          "vx": 0.0,
+          "vy": 0.0,
+          "omega": 0.0,
+          "visible": true
+        },
+        {
+          "key": {
+            "team": "blue",
+            "id": 4
+          },
+          "x": 1.93,
+          "y": -2.05,
+          "yaw": 0.0,
+          "vx": 0.0,
+          "vy": 0.0,
+          "omega": 0.0,
+          "visible": true
+        },
+        {
+          "key": {
+            "team": "yellow",
+            "id": 0
+          },
+          "x": -3.1,
+          "y": -1.15,
+          "yaw": 3.141592653589793,
+          "vx": 0.0,
+          "vy": 0.0,
+          "omega": 0.0,
+          "visible": true
+        },
+        {
+          "key": {
+            "team": "yellow",
+            "id": 1
+          },
+          "x": 4.472367208795525,
+          "y": 0.10246253240230185,
+          "yaw": 1.8320605878007774,
+          "vx": 0.0,
+          "vy": 0.0,
+          "omega": 0.0,
+          "visible": true
+        },
+        {
+          "key": {
+            "team": "yellow",
+            "id": 2
+          },
+          "x": -2.75,
+          "y": 1.2,
+          "yaw": 3.141592653589793,
+          "vx": 0.0,
+          "vy": 0.0,
+          "omega": 0.0,
+          "visible": true
+        },
+        {
+          "key": {
+            "team": "yellow",
+            "id": 3
+          },
+          "x": -2.68,
+          "y": -2.2,
+          "yaw": 3.141592653589793,
+          "vx": 0.0,
+          "vy": 0.0,
+          "omega": 0.0,
+          "visible": true
+        },
+        {
+          "key": {
+            "team": "yellow",
+            "id": 4
+          },
+          "x": -1.93,
+          "y": 2.05,
+          "yaw": 3.141592653589793,
+          "vx": 0.0,
+          "vy": 0.0,
+          "omega": 0.0,
+          "visible": true
+        }
+      ],
+      "ball": {
+        "x": 4.441112652846714,
+        "y": 0.21935629926966999,
+        "vx": 0.03,
+        "vy": 0.0,
+        "visible": true
+      },
+      "referee": "running",
+      "attack_sign": 1
+    },
+    "outcomes": {
+      "direct": {
+        "capture_s": 0.532,
+        "retained": true,
+        "clean_retained": true,
+        "body_contact": false,
+        "min_gap_m": 0.054840009350792196,
+        "ball_out_s": null,
+        "own_goal_s": null,
+        "goalward_release_s": null,
+        "decisions": []
+      },
+      "pivot_left": {
+        "capture_s": null,
+        "retained": false,
+        "clean_retained": false,
+        "body_contact": false,
+        "min_gap_m": 0.05480646890468885,
+        "ball_out_s": null,
+        "own_goal_s": 0.5599999999999998,
+        "goalward_release_s": null,
+        "decisions": []
+      },
+      "pivot_right": {
+        "capture_s": 0.52,
+        "retained": true,
+        "clean_retained": false,
+        "body_contact": true,
+        "min_gap_m": -0.00015500476016197529,
+        "ball_out_s": null,
+        "own_goal_s": null,
+        "goalward_release_s": null,
+        "decisions": []
+      },
+      "contain": {
+        "capture_s": null,
+        "retained": false,
+        "clean_retained": false,
+        "body_contact": false,
+        "min_gap_m": 0.037648124679251244,
+        "ball_out_s": null,
+        "own_goal_s": null,
+        "goalward_release_s": null,
+        "decisions": []
+      },
+      "selector": {
+        "capture_s": 0.5200000000000005,
+        "retained": true,
+        "clean_retained": false,
+        "body_contact": true,
+        "min_gap_m": -0.00016453402037283626,
+        "ball_out_s": null,
+        "own_goal_s": null,
+        "goalward_release_s": null,
+        "decisions": [
+          {
+            "time": 0.0,
+            "presser": {
+              "team": "yellow",
+              "id": 1
+            },
+            "carrier": {
+              "team": "blue",
+              "id": 1
+            },
+            "action": "pivot_right",
+            "reason": "unsafe_draw",
+            "vetoes": {
+              "direct": [
+                "own_goal"
+              ],
+              "pivot_left": [
+                "endline",
+                "own_goal"
+              ]
+            }
+          },
+          {
+            "time": 0.040000000000000036,
+            "presser": {
+              "team": "yellow",
+              "id": 1
+            },
+            "carrier": {
+              "team": "blue",
+              "id": 1
+            },
+            "action": "pivot_right",
+            "reason": "stalled_draw",
+            "vetoes": {
+              "pivot_left": [
+                "endline",
+                "own_goal"
+              ]
+            }
+          },
+          {
+            "time": 0.16000000000000014,
+            "presser": {
+              "team": "yellow",
+              "id": 1
+            },
+            "carrier": {
+              "team": "blue",
+              "id": 1
+            },
+            "action": "pivot_right",
+            "reason": "stalled_draw",
+            "vetoes": {
+              "pivot_left": [
+                "own_goal"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+]

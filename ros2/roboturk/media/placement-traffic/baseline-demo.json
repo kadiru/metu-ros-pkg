@@ -1,0 +1,221 @@
+{
+  "trials": [
+    {
+      "seed": 24400000,
+      "crossing": null,
+      "team": "blue",
+      "target": [
+        0.331397216796875,
+        2.8
+      ],
+      "initial_ball": [
+        0.15,
+        2.48
+      ],
+      "vision_start": 1795400906.0486372,
+      "event_ids": [
+        "4f2ff340-6ded-40d2-97cc-3bc3681371c8",
+        "4558872d-acb4-4832-bd81-61b0eb20276d"
+      ],
+      "commands": [
+        [
+          1.4,
+          "FORCE_START",
+          2
+        ],
+        [
+          3.36,
+          "STOP",
+          3
+        ],
+        [
+          4.64,
+          "BALL_PLACEMENT_BLUE",
+          4
+        ]
+      ],
+      "phases": [
+        [
+          4.64,
+          "capture"
+        ]
+      ],
+      "kicks": [
+        {
+          "seconds": 1.88,
+          "team": "yellow",
+          "id": 1,
+          "speed": 1.05,
+          "ball": [
+            0.15,
+            2.48
+          ]
+        }
+      ],
+      "flight_contacts": [],
+      "opening_robots": [
+        [
+          "blue",
+          0,
+          4.18,
+          -4.1773112755644185e-18,
+          -2.443156871111231
+        ],
+        [
+          "blue",
+          1,
+          0.8180943205085989,
+          -1.2875792593494575,
+          0.7985654395105967
+        ],
+        [
+          "blue",
+          2,
+          0.6974774109975581,
+          -1.598962364799911,
+          1.039135756225015
+        ],
+        [
+          "blue",
+          3,
+          0.115,
+          7.663869613643117e-18,
+          1.3604336018477328
+        ],
+        [
+          "blue",
+          4,
+          1.0762545716586427,
+          1.5351310821704964,
+          -0.957308909843939
+        ],
+        [
+          "yellow",
+          0,
+          -4.18,
+          -4.9602263939022644e-18,
+          -0.2097694994389108
+        ],
+        [
+          "yellow",
+          1,
+          0.11048073917365459,
+          2.3720035740233074,
+          1.22
+        ],
+        [
+          "yellow",
+          2,
+          0.61,
+          2.89,
+          -1.9215926535897931
+        ],
+        [
+          "yellow",
+          3,
+          -0.8239333198719728,
+          -1.3222251842713721,
+          -0.7822730299700228
+        ],
+        [
+          "yellow",
+          4,
+          -1.4552231973290417,
+          -1.7766260139404761,
+          2.238175249553384
+        ]
+      ],
+      "min_center_m": 0.12999266133005197,
+      "actor": "placement_v1",
+      "opening_ball_velocity": [
+        0.0,
+        0.0
+      ],
+      "opening_pass_to": [
+        "yellow",
+        2
+      ],
+      "placement_counter": 4,
+      "placer": 4,
+      "receiver": 3,
+      "stopped_by_foul": true,
+      "vision_end": 1795400910.3286371,
+      "observer_events": [
+        {
+          "ballLeftFieldTouchLine": {
+            "byTeam": "YELLOW",
+            "byBot": 1,
+            "location": {
+              "x": 0.3313972,
+              "y": 3.0
+            }
+          },
+          "type": "BALL_LEFT_FIELD_TOUCH_LINE"
+        },
+        {
+          "botCrashUnique": {
+            "byTeam": "BLUE",
+            "violator": 4,
+            "victim": 2,
+            "location": {
+              "x": 0.9132405,
+              "y": 2.3058083
+            },
+            "crashSpeed": 1.8190144,
+            "speedDiff": 1.5425065,
+            "crashAngle": 2.4090834
+          },
+          "type": "BOT_CRASH_UNIQUE"
+        }
+      ],
+      "controller_events": [
+        {
+          "id": "4f2ff340-6ded-40d2-97cc-3bc3681371c8",
+          "type": "BALL_LEFT_FIELD_TOUCH_LINE",
+          "origin": [
+            "TIGERs AutoRef",
+            "Engine"
+          ],
+          "createdTimestamp": "1795400913829145",
+          "ballLeftFieldTouchLine": {
+            "byTeam": "YELLOW",
+            "byBot": 1,
+            "location": {
+              "x": 0.3313972,
+              "y": 2.8
+            }
+          }
+        },
+        {
+          "id": "4558872d-acb4-4832-bd81-61b0eb20276d",
+          "type": "BOT_CRASH_UNIQUE",
+          "origin": [
+            "TIGERs AutoRef",
+            "Engine"
+          ],
+          "createdTimestamp": "1795400919944894",
+          "botCrashUnique": {
+            "byTeam": "BLUE",
+            "violator": 4,
+            "victim": 2,
+            "location": {
+              "x": 0.9132405,
+              "y": 2.3058083
+            },
+            "crashSpeed": 1.8190144,
+            "speedDiff": 1.5425065,
+            "crashAngle": 2.4090834
+          }
+        }
+      ],
+      "accepted": false
+    }
+  ],
+  "accepted": 0,
+  "interference": 0,
+  "emitted_placements": 0,
+  "total": 1,
+  "crashes": 1,
+  "controller_crashes": 1,
+  "clean": 0
+}

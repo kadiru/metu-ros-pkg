@@ -1,0 +1,410 @@
+{
+  "initial_states_match": 40,
+  "trained": {
+    "games": 40,
+    "goals": 28,
+    "leads": 30,
+    "interceptions": 2,
+    "under_pressure": 30,
+    "shields": 28,
+    "outcomes": {
+      "pressured shield goal": 28,
+      "opponent retouch before pass": 3,
+      "goal without closing pressure": 2,
+      "intercepted": 2,
+      "no confirmed recovery": 2,
+      "no uninterrupted finish": 3
+    },
+    "prepass_losses": 3,
+    "confirmed": 38
+  },
+  "prior": {
+    "games": 40,
+    "goals": 22,
+    "leads": 29,
+    "interceptions": 0,
+    "under_pressure": 29,
+    "shields": 22,
+    "outcomes": {
+      "no uninterrupted finish": 5,
+      "no opening pass": 4,
+      "pressured shield goal": 22,
+      "goal without closing pressure": 5,
+      "no confirmed recovery": 2,
+      "goal without receiver shield": 2
+    },
+    "prepass_losses": 4,
+    "confirmed": 38
+  },
+  "trained_carrier_action_ticks": {
+    "sidestep": 419,
+    "release": 956,
+    "shield": 112
+  },
+  "sides": {
+    "yellow": 12,
+    "blue": 16
+  },
+  "pairs": [
+    {
+      "seed": 15301000,
+      "old_goal": false,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "no uninterrupted finish",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301001,
+      "old_goal": false,
+      "new_goal": true,
+      "old_loss": true,
+      "new_loss": false,
+      "old_outcome": "no opening pass",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301002,
+      "old_goal": true,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "pressured shield goal",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301003,
+      "old_goal": true,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "pressured shield goal",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301004,
+      "old_goal": true,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "pressured shield goal",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301005,
+      "old_goal": true,
+      "new_goal": false,
+      "old_loss": false,
+      "new_loss": true,
+      "old_outcome": "pressured shield goal",
+      "new_outcome": "opponent retouch before pass"
+    },
+    {
+      "seed": 15301006,
+      "old_goal": false,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "goal without closing pressure",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301007,
+      "old_goal": true,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "pressured shield goal",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301008,
+      "old_goal": false,
+      "new_goal": false,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "goal without closing pressure",
+      "new_outcome": "goal without closing pressure"
+    },
+    {
+      "seed": 15301009,
+      "old_goal": false,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "no uninterrupted finish",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301010,
+      "old_goal": true,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "pressured shield goal",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301011,
+      "old_goal": false,
+      "new_goal": true,
+      "old_loss": true,
+      "new_loss": false,
+      "old_outcome": "no opening pass",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301012,
+      "old_goal": true,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "pressured shield goal",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301013,
+      "old_goal": true,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "pressured shield goal",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301014,
+      "old_goal": true,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "pressured shield goal",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301015,
+      "old_goal": false,
+      "new_goal": false,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "goal without closing pressure",
+      "new_outcome": "intercepted"
+    },
+    {
+      "seed": 15301016,
+      "old_goal": false,
+      "new_goal": false,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "no confirmed recovery",
+      "new_outcome": "no confirmed recovery"
+    },
+    {
+      "seed": 15301017,
+      "old_goal": true,
+      "new_goal": false,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "pressured shield goal",
+      "new_outcome": "intercepted"
+    },
+    {
+      "seed": 15301018,
+      "old_goal": true,
+      "new_goal": false,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "pressured shield goal",
+      "new_outcome": "no uninterrupted finish"
+    },
+    {
+      "seed": 15301019,
+      "old_goal": true,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "pressured shield goal",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301020,
+      "old_goal": true,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "pressured shield goal",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301021,
+      "old_goal": false,
+      "new_goal": false,
+      "old_loss": true,
+      "new_loss": false,
+      "old_outcome": "no opening pass",
+      "new_outcome": "goal without closing pressure"
+    },
+    {
+      "seed": 15301022,
+      "old_goal": true,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "pressured shield goal",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301023,
+      "old_goal": false,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "goal without receiver shield",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301024,
+      "old_goal": false,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "goal without closing pressure",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301025,
+      "old_goal": true,
+      "new_goal": false,
+      "old_loss": false,
+      "new_loss": true,
+      "old_outcome": "pressured shield goal",
+      "new_outcome": "opponent retouch before pass"
+    },
+    {
+      "seed": 15301026,
+      "old_goal": false,
+      "new_goal": false,
+      "old_loss": false,
+      "new_loss": true,
+      "old_outcome": "no uninterrupted finish",
+      "new_outcome": "opponent retouch before pass"
+    },
+    {
+      "seed": 15301027,
+      "old_goal": true,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "pressured shield goal",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301028,
+      "old_goal": false,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "no uninterrupted finish",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301029,
+      "old_goal": false,
+      "new_goal": false,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "no confirmed recovery",
+      "new_outcome": "no confirmed recovery"
+    },
+    {
+      "seed": 15301030,
+      "old_goal": true,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "pressured shield goal",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301031,
+      "old_goal": true,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "pressured shield goal",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301032,
+      "old_goal": false,
+      "new_goal": false,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "goal without receiver shield",
+      "new_outcome": "no uninterrupted finish"
+    },
+    {
+      "seed": 15301033,
+      "old_goal": false,
+      "new_goal": false,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "goal without closing pressure",
+      "new_outcome": "no uninterrupted finish"
+    },
+    {
+      "seed": 15301034,
+      "old_goal": false,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "no uninterrupted finish",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301035,
+      "old_goal": false,
+      "new_goal": true,
+      "old_loss": true,
+      "new_loss": false,
+      "old_outcome": "no opening pass",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301036,
+      "old_goal": true,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "pressured shield goal",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301037,
+      "old_goal": true,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "pressured shield goal",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301038,
+      "old_goal": true,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "pressured shield goal",
+      "new_outcome": "pressured shield goal"
+    },
+    {
+      "seed": 15301039,
+      "old_goal": true,
+      "new_goal": true,
+      "old_loss": false,
+      "new_loss": false,
+      "old_outcome": "pressured shield goal",
+      "new_outcome": "pressured shield goal"
+    }
+  ]
+}

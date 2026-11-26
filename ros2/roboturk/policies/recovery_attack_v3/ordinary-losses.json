@@ -1,0 +1,181 @@
+{
+  "counts": {
+    "opponent touch before first kick": 4,
+    "goal": 4,
+    "time limit before first kick": 1,
+    "opponent touch after shot": 1,
+    "opponent touch after pass": 1
+  },
+  "games": [
+    {
+      "seed": 10500001,
+      "team": "yellow",
+      "recovery_s": 29.3,
+      "origin": [
+        0.8102150916761399,
+        0.4001647144594406
+      ],
+      "outcome": "opponent touch before first kick",
+      "elapsed_s": 0.09,
+      "ball": [
+        0.836412298205658,
+        0.40937669762035084
+      ],
+      "options": [
+        "dribble"
+      ]
+    },
+    {
+      "seed": 10500001,
+      "team": "yellow",
+      "recovery_s": 30.14,
+      "origin": [
+        0.9118598566624704,
+        0.3982837725072799
+      ],
+      "outcome": "opponent touch before first kick",
+      "elapsed_s": 0.07,
+      "ball": [
+        0.9465367482199958,
+        0.4325124762407225
+      ],
+      "options": [
+        "dribble"
+      ]
+    },
+    {
+      "seed": 10500001,
+      "team": "blue",
+      "recovery_s": 45.22,
+      "origin": [
+        3.398260510937381,
+        0.10825321385484815
+      ],
+      "outcome": "goal"
+    },
+    {
+      "seed": 10500002,
+      "team": "blue",
+      "recovery_s": 58.65,
+      "origin": [
+        -0.874704648274106,
+        0.7497042393037463
+      ],
+      "outcome": "time limit before first kick",
+      "elapsed_s": 1.34,
+      "ball": [
+        -0.8804668699309067,
+        0.7472722167766771
+      ],
+      "options": [
+        "dribble",
+        "shoot"
+      ]
+    },
+    {
+      "seed": 10500003,
+      "team": "blue",
+      "recovery_s": 19.55,
+      "origin": [
+        3.3644782396435113,
+        -1.1090144424530055
+      ],
+      "outcome": "opponent touch after shot",
+      "elapsed_s": 0.29,
+      "ball": [
+        3.1764869476927893,
+        -1.0741754031722035
+      ],
+      "options": [
+        "shoot"
+      ]
+    },
+    {
+      "seed": 10500005,
+      "team": "yellow",
+      "recovery_s": 29.94,
+      "origin": [
+        3.4001531274237258,
+        -0.1632391630730542
+      ],
+      "outcome": "goal"
+    },
+    {
+      "seed": 10500006,
+      "team": "yellow",
+      "recovery_s": 51.44,
+      "origin": [
+        0.6124809228983743,
+        -1.3365015077495035
+      ],
+      "outcome": "opponent touch before first kick",
+      "elapsed_s": 0.31,
+      "ball": [
+        0.6085159440329384,
+        -1.3221628816598119
+      ],
+      "options": [
+        "dribble"
+      ]
+    },
+    {
+      "seed": 10500006,
+      "team": "yellow",
+      "recovery_s": 52.39,
+      "origin": [
+        0.5937842790886679,
+        -1.226136851742933
+      ],
+      "outcome": "opponent touch before first kick",
+      "elapsed_s": 0.32,
+      "ball": [
+        0.6268607309228484,
+        -1.252942870657809
+      ],
+      "options": [
+        "dribble"
+      ]
+    },
+    {
+      "seed": 10500006,
+      "team": "yellow",
+      "recovery_s": 53.44,
+      "origin": [
+        0.599425306115084,
+        -1.142364786727667
+      ],
+      "outcome": "goal"
+    },
+    {
+      "seed": 10500009,
+      "team": "blue",
+      "recovery_s": 30.19,
+      "origin": [
+        3.387613465446728,
+        -0.12642669832536482
+      ],
+      "outcome": "opponent touch after pass",
+      "elapsed_s": 3.5100000000000002,
+      "ball": [
+        1.9217142925639643,
+        -0.3575676689893125
+      ],
+      "options": [
+        "dribble",
+        "dribble",
+        "dribble",
+        "pass"
+      ]
+    },
+    {
+      "seed": 10500010,
+      "team": "blue",
+      "recovery_s": 31.31,
+      "origin": [
+        3.234311180109761,
+        0.10704352160857893
+      ],
+      "outcome": "goal"
+    }
+  ]
+}

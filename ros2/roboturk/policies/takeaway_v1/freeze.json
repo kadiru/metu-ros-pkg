@@ -1,0 +1,19 @@
+{
+  "src/roboturk_ros/webots/worlds/ssl_takeaway.wbt": "de3ad915873d4245c765e414a5f6e56b1a413d57ca3e5751639a856cba26113b",
+  "src/roboturk_ros/webots/controllers/roboturk_takeaway/roboturk_takeaway.py": "39616802752bba56831d2267482ad7256e8be3b3d4e8a07ad3764417fda07e7f",
+  "policies/open_play_v1/freeze.json": "2da94f8ccaadaa1f69ac58c2eae223fde3ba001be3813a2e528ab7144250cc1e",
+  "policies/takeaway_v1/interception-search.json": "c3610b73a1aa3d013e95432f39a31446f618d28c5ef0604b1ddb4c2e07778fab",
+  "policies/takeaway_v1/option-search.json": "b37aafcbff545a47fd827b0c5b18b956dc6ffcf64d57fd3e83865f654421c789",
+  "scripts/train_takeaway_press.py": "1a748555cede52700347a27e79b4974c009a54070db33ab9d4dd63160bf89305",
+  "scripts/takeaway_native.py": "2283e3a33646c0632c9228f8e7910d94f937a6fdfaad6965a415b014207e11a0",
+  "src/roboturk_core/roboturk/takeaway_press.py": "ec05a6fb296cf222e21fd16cd29f862105d75ebb73a5254a14e109a90ccde591",
+  "policies/open_play_v1/policy.json": "ab2af79833edd7ca9842700c89ac7f6edeab513523dd7e163834812f7c603698",
+  "policies/takeaway_v1/policy.json": "180d210aa6fdd4dd5930ccd432c024bc6073695628c307560a31c1d0868e0ce3",
+  "policies/takeaway_v1/fit.json": "fd50a212833c66ab1159491ec3e30e0742fe62609d5b474a82a6518ab2572da3",
+  "policies/takeaway_v1/protocol.json": "4938878e8c2e455438c303a46ee2f6561d4452444415ad8c3468fac7c44b9b90",
+  "src/roboturk_core/roboturk/takeaway.py": "f930d011077ee7d541e30e752d3ed72639bfdcc414cf03417d84471b52a4bc7e",
+  "src/roboturk_core/roboturk/takeaway_outlet.py": "e1f744973e67ec44a0a53038c51a766e2be75d79fd5b208a8b7f43a432639d63",
+  "scripts/train_takeaway.py": "b954e6e16145e55632aeeff06afd62f4131a12717e7efc8d3e56685858224b7d",
+  "scripts/fit_takeaway.py": "cf772158c97313203c3acf8825bfc3e14f69914b20748b1cb002d98ed1ee7969",
+  "scripts/freeze_takeaway.py": "924a4a9ffe0a1be2a0a37a48223d307746cb44c6149509ec5c282066619a3b66"
+}

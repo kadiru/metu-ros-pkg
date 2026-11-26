@@ -1,0 +1,45 @@
+UNSUPPORTED (log once): POSSIBLE ISSUE: unit 0 GLD_TEXTURE_INDEX_2D is unloadable and bound to sampler type (Float) - using zero texture because texture unloadable
+INFO: roboturk_supervisor: Starting controller: python3 -u roboturk_supervisor.py
+INFO: Creating video...
+Recording at 25 FPS, 7650000 bit/s.
+Video encoding stage 1... (please wait)
+[mjpeg @ 0x7f9489010400] overread 8
+    Last message repeated 40 times
+[mjpeg @ 0x7f9489010400] mjpeg_decode_dc: bad vlc: 0:1 (0x7f9488059c60)
+[mjpeg @ 0x7f9489010400] error dc
+[mjpeg @ 0x7f9489010400] error y=44 x=79
+[mjpeg @ 0x7f9489010400] mjpeg_decode_dc: bad vlc: 0:1 (0x7f9488059c60)
+[mjpeg @ 0x7f9489010400] error dc
+[mjpeg @ 0x7f9489010400] error y=44 x=79
+[mjpeg @ 0x7f9489010400] overread 8
+    Last message repeated 94 times
+[mjpeg @ 0x7f9489010400] overread 6
+[mjpeg @ 0x7f9489010400] overread 7
+[mjpeg @ 0x7f9489010400] mjpeg_decode_dc: bad vlc: 0:1 (0x7f9488059c60)
+[mjpeg @ 0x7f9489010400] error dc
+[mjpeg @ 0x7f9489010400] error y=44 x=79
+[mjpeg @ 0x7f9489010400] overread 8
+    Last message repeated 225 times
+Video encoding stage 2... (please wait)
+[libx264 @ 0x7f7b76810e00] Error: 2pass curve failed to converge
+[libx264 @ 0x7f7b76810e00] target: 7650.00 kbit/s, expected: 1871.50 kbit/s, avg QP: 0.0316
+[libx264 @ 0x7f7b76810e00] try reducing target bitrate
+[mjpeg @ 0x7f7b7701f600] overread 8
+    Last message repeated 40 times
+[mjpeg @ 0x7f7b7701f600] mjpeg_decode_dc: bad vlc: 0:1 (0x7f7b77808460)
+[mjpeg @ 0x7f7b7701f600] error dc
+[mjpeg @ 0x7f7b7701f600] error y=44 x=79
+[mjpeg @ 0x7f7b7701f600] mjpeg_decode_dc: bad vlc: 0:1 (0x7f7b77808460)
+[mjpeg @ 0x7f7b7701f600] error dc
+[mjpeg @ 0x7f7b7701f600] error y=44 x=79
+[mjpeg @ 0x7f7b7701f600] overread 8
+    Last message repeated 94 times
+[mjpeg @ 0x7f7b7701f600] overread 6
+[mjpeg @ 0x7f7b7701f600] overread 7
+[mjpeg @ 0x7f7b7701f600] mjpeg_decode_dc: bad vlc: 0:1 (0x7f7b77808460)
+[mjpeg @ 0x7f7b7701f600] error dc
+[mjpeg @ 0x7f7b7701f600] error y=44 x=79
+[mjpeg @ 0x7f7b7701f600] overread 8
+    Last message repeated 225 times
+INFO: Video creation finished.
+INFO: roboturk_supervisor: Terminating.

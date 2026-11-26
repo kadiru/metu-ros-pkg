@@ -1,0 +1,278 @@
+{
+  "passed": true,
+  "checks": {
+    "finished": true,
+    "with_completion": true,
+    "completion_rate": true,
+    "choices": true,
+    "identities": true,
+    "exits": true,
+    "contact_fraction": true
+  },
+  "totals": {
+    "safety_ticks": 5116,
+    "physical_samples": 192000,
+    "contacts": 0,
+    "exits": 0,
+    "matches": 32,
+    "passes": 371,
+    "complete": 250,
+    "with_completion": 32
+  },
+  "completion_rate": 0.6738544474393531,
+  "completed_by_slot": {
+    "blue/1": 76,
+    "blue/0": 61,
+    "yellow/1": 57,
+    "yellow/0": 56
+  },
+  "completed_by_id": {
+    "blue/2": 47,
+    "blue/0": 42,
+    "blue/1": 48,
+    "yellow/2": 42,
+    "yellow/0": 34,
+    "yellow/1": 37
+  },
+  "pairs": {
+    "blue/1->2": 20,
+    "blue/2->0": 22,
+    "blue/0->2": 27,
+    "blue/2->1": 29,
+    "blue/0->1": 19,
+    "blue/1->0": 20,
+    "yellow/1->2": 26,
+    "yellow/2->0": 21,
+    "yellow/0->2": 16,
+    "yellow/2->1": 15,
+    "yellow/1->0": 13,
+    "yellow/0->1": 22
+  },
+  "goals": {
+    "yellow": 6,
+    "blue": 10
+  },
+  "games": [
+    {
+      "seed": 7500000,
+      "passes": 10,
+      "complete": 7,
+      "goals": {}
+    },
+    {
+      "seed": 7500001,
+      "passes": 11,
+      "complete": 7,
+      "goals": {
+        "yellow": 1
+      }
+    },
+    {
+      "seed": 7500002,
+      "passes": 12,
+      "complete": 8,
+      "goals": {}
+    },
+    {
+      "seed": 7500003,
+      "passes": 9,
+      "complete": 6,
+      "goals": {}
+    },
+    {
+      "seed": 7500004,
+      "passes": 11,
+      "complete": 7,
+      "goals": {}
+    },
+    {
+      "seed": 7500005,
+      "passes": 14,
+      "complete": 10,
+      "goals": {}
+    },
+    {
+      "seed": 7500006,
+      "passes": 12,
+      "complete": 7,
+      "goals": {
+        "blue": 1
+      }
+    },
+    {
+      "seed": 7500007,
+      "passes": 14,
+      "complete": 10,
+      "goals": {
+        "blue": 1
+      }
+    },
+    {
+      "seed": 7500008,
+      "passes": 11,
+      "complete": 7,
+      "goals": {}
+    },
+    {
+      "seed": 7500009,
+      "passes": 12,
+      "complete": 7,
+      "goals": {}
+    },
+    {
+      "seed": 7500010,
+      "passes": 12,
+      "complete": 8,
+      "goals": {
+        "blue": 1
+      }
+    },
+    {
+      "seed": 7500011,
+      "passes": 12,
+      "complete": 8,
+      "goals": {
+        "yellow": 1
+      }
+    },
+    {
+      "seed": 7500012,
+      "passes": 9,
+      "complete": 7,
+      "goals": {}
+    },
+    {
+      "seed": 7500013,
+      "passes": 14,
+      "complete": 10,
+      "goals": {
+        "yellow": 1
+      }
+    },
+    {
+      "seed": 7500014,
+      "passes": 12,
+      "complete": 8,
+      "goals": {}
+    },
+    {
+      "seed": 7500015,
+      "passes": 10,
+      "complete": 7,
+      "goals": {}
+    },
+    {
+      "seed": 7500016,
+      "passes": 11,
+      "complete": 8,
+      "goals": {
+        "blue": 1
+      }
+    },
+    {
+      "seed": 7500017,
+      "passes": 10,
+      "complete": 6,
+      "goals": {}
+    },
+    {
+      "seed": 7500018,
+      "passes": 10,
+      "complete": 7,
+      "goals": {
+        "blue": 1
+      }
+    },
+    {
+      "seed": 7500019,
+      "passes": 13,
+      "complete": 9,
+      "goals": {
+        "blue": 1
+      }
+    },
+    {
+      "seed": 7500020,
+      "passes": 15,
+      "complete": 11,
+      "goals": {}
+    },
+    {
+      "seed": 7500021,
+      "passes": 7,
+      "complete": 4,
+      "goals": {}
+    },
+    {
+      "seed": 7500022,
+      "passes": 11,
+      "complete": 9,
+      "goals": {
+        "yellow": 1
+      }
+    },
+    {
+      "seed": 7500023,
+      "passes": 15,
+      "complete": 12,
+      "goals": {
+        "blue": 1,
+        "yellow": 1
+      }
+    },
+    {
+      "seed": 7500024,
+      "passes": 13,
+      "complete": 10,
+      "goals": {
+        "yellow": 1
+      }
+    },
+    {
+      "seed": 7500025,
+      "passes": 10,
+      "complete": 6,
+      "goals": {}
+    },
+    {
+      "seed": 7500026,
+      "passes": 10,
+      "complete": 5,
+      "goals": {}
+    },
+    {
+      "seed": 7500027,
+      "passes": 14,
+      "complete": 10,
+      "goals": {
+        "blue": 1
+      }
+    },
+    {
+      "seed": 7500028,
+      "passes": 12,
+      "complete": 7,
+      "goals": {}
+    },
+    {
+      "seed": 7500029,
+      "passes": 15,
+      "complete": 11,
+      "goals": {}
+    },
+    {
+      "seed": 7500030,
+      "passes": 12,
+      "complete": 7,
+      "goals": {
+        "blue": 2
+      }
+    },
+    {
+      "seed": 7500031,
+      "passes": 8,
+      "complete": 4,
+      "goals": {}
+    }
+  ]
+}

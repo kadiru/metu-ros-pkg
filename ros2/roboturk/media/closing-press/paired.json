@@ -1,0 +1,146 @@
+{
+  "original": {
+    "trials": 40,
+    "valid_passes": 40,
+    "press_activations": 40,
+    "first_touches": 26,
+    "completed_passes": 19,
+    "valid_shots": 1,
+    "goals": 1,
+    "marker_robot_proximity_trials": 9,
+    "marker_ball_contact_or_possession_trials": 34,
+    "pre_kick_loss_trials": 0,
+    "median_marker_gap_at_stable_reception_m": 0.5084288426216188,
+    "terminal_phases": {
+      "carrying": 18,
+      "goal": 1,
+      "pass_in_flight": 14,
+      "securing_reception": 7
+    },
+    "outcomes": {
+      "defender_collision": 9,
+      "defender_interception": 30,
+      "goal": 1
+    }
+  },
+  "fitted": {
+    "trials": 40,
+    "valid_passes": 40,
+    "press_activations": 40,
+    "first_touches": 37,
+    "completed_passes": 25,
+    "valid_shots": 1,
+    "goals": 1,
+    "marker_robot_proximity_trials": 13,
+    "marker_ball_contact_or_possession_trials": 26,
+    "pre_kick_loss_trials": 0,
+    "median_marker_gap_at_stable_reception_m": 0.4545545275337879,
+    "terminal_phases": {
+      "carrying": 24,
+      "goal": 1,
+      "pass_in_flight": 3,
+      "securing_reception": 12
+    },
+    "outcomes": {
+      "defender_collision": 13,
+      "defender_interception": 26,
+      "goal": 1
+    }
+  },
+  "adapted": {
+    "trials": 40,
+    "valid_passes": 40,
+    "press_activations": 40,
+    "first_touches": 37,
+    "completed_passes": 25,
+    "valid_shots": 13,
+    "goals": 13,
+    "marker_robot_proximity_trials": 10,
+    "marker_ball_contact_or_possession_trials": 17,
+    "pre_kick_loss_trials": 0,
+    "median_marker_gap_at_stable_reception_m": 0.4545533078988447,
+    "terminal_phases": {
+      "carrying": 12,
+      "goal": 13,
+      "pass_in_flight": 3,
+      "securing_reception": 12
+    },
+    "outcomes": {
+      "defender_collision": 10,
+      "defender_interception": 17,
+      "goal": 13
+    }
+  },
+  "transfer_outcome_disagreements": [],
+  "paired_carry_goals": {
+    "both": 1,
+    "adapted_only": 12,
+    "fitted_only": 0,
+    "neither": 27
+  },
+  "fresh_timing_comparison": {
+    "after_hold": {
+      "trials": 40,
+      "valid_passes": 40,
+      "press_activations": 40,
+      "first_touches": 38,
+      "completed_passes": 24,
+      "valid_shots": 21,
+      "goals": 20,
+      "marker_robot_proximity_trials": 7,
+      "marker_ball_contact_or_possession_trials": 13,
+      "pre_kick_loss_trials": 0,
+      "median_marker_gap_at_stable_reception_m": 0.6905841404329565,
+      "terminal_phases": {
+        "after_shot": 1,
+        "carrying": 3,
+        "goal": 20,
+        "pass_in_flight": 2,
+        "securing_reception": 14
+      },
+      "outcomes": {
+        "defender_collision": 7,
+        "defender_interception": 13,
+        "goal": 20
+      }
+    },
+    "selected_timing": {
+      "trials": 40,
+      "valid_passes": 40,
+      "press_activations": 40,
+      "first_touches": 38,
+      "completed_passes": 21,
+      "valid_shots": 19,
+      "goals": 17,
+      "marker_robot_proximity_trials": 7,
+      "marker_ball_contact_or_possession_trials": 15,
+      "pre_kick_loss_trials": 0,
+      "median_marker_gap_at_stable_reception_m": 0.7835124492804425,
+      "terminal_phases": {
+        "after_shot": 2,
+        "carrying": 2,
+        "goal": 17,
+        "pass_in_flight": 2,
+        "securing_reception": 17
+      },
+      "outcomes": {
+        "defender_collision": 7,
+        "defender_interception": 15,
+        "goal": 17,
+        "invalid_shot": 1
+      }
+    },
+    "receipt_pairs": {
+      "both": 21,
+      "selected_only": 0,
+      "after_hold_only": 3,
+      "neither": 16
+    },
+    "goal_pairs": {
+      "both": 16,
+      "selected_only": 1,
+      "after_hold_only": 4,
+      "neither": 19
+    }
+  }
+}

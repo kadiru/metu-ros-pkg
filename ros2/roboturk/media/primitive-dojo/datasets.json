@@ -1,0 +1,52 @@
+{
+  "arrival": {
+    "local_file": "runs/primitive-dojo/native-v1-arrival.jsonl.gz",
+    "episodes": 288,
+    "control_frames": 13089,
+    "by_context": {
+      "stop": 144,
+      "moving": 144
+    },
+    "sha256": "97a0665f44b85d153a9d59d1012e815bb6ea563f408ee3db33a09ec726d45045"
+  },
+  "intercept": {
+    "local_file": "runs/primitive-dojo/relay-v2-intercept.jsonl.gz",
+    "episodes": 264,
+    "control_frames": 20331,
+    "by_context": {
+      "trap": 144,
+      "deflect": 120
+    },
+    "sha256": "2b41325eb08c9e297b319d6754c0019ccc7cdac0eff908079aa8c49e587ab8b1"
+  },
+  "pass": {
+    "local_file": "runs/primitive-dojo/pass-panel-pass.jsonl.gz",
+    "episodes": 288,
+    "control_frames": 15668,
+    "by_context": {
+      "to feet": 144,
+      "on the run": 144
+    },
+    "sha256": "6db6c95ffe82a8e4a4bf15bdc09467b96a27e6ccb26bcd232e2d3a4d54ae3fe4"
+  },
+  "post-release reception": {
+    "local_file": "runs/primitive-dojo/shared-race-v2-receive_race.jsonl.gz",
+    "episodes": 384,
+    "control_frames": 23010,
+    "by_context": {
+      "slow rival": 192,
+      "fast rival": 192
+    },
+    "sha256": "a08cf58b97117a18efeff516bc4b3a36380994b6a4105931ea1030eb9a39f550"
+  },
+  "coordinated reception": {
+    "local_file": "runs/primitive-dojo/premeet-race-v3-receive_race.jsonl.gz",
+    "episodes": 240,
+    "control_frames": 13749,
+    "by_context": {
+      "slow rival": 120,
+      "fast rival": 120
+    },
+    "sha256": "d570e2cd844a3bcf9be6fbac39361a0adbb63fbada2a3dedef47fcc071e43f30"
+  }
+}

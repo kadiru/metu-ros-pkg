@@ -1,0 +1,215 @@
+{
+  "native_collection_episodes": 750,
+  "supervised_epochs": 660,
+  "reserved_cases_used": 0,
+  "teacher_contribution": "300 teacher-controlled games; three 150-game mixed DAgger rounds, 80% learned manager /20% teacher per command. V2 corner encoding and v3 target-update labels are explicit contract conversions. These are not PPO results.",
+  "datasets": [
+    {
+      "path": "runs/decision-selfplay-v1/v1-data/manager-data.npz",
+      "npz_sha256": "89773be46bf139e7b614ea8edfd48c3a1126541278f5ea18297ab6f904a9190d",
+      "arrays": {
+        "observations": {
+          "shape": [
+            107028,
+            75
+          ],
+          "dtype": "float32",
+          "sha256": "34d6299d17b34cec689973774d656ef9ddaac66f4997eb7c749503e82893562a"
+        },
+        "actions": {
+          "shape": [
+            107028,
+            10
+          ],
+          "dtype": "float32",
+          "sha256": "cb05182d188a0f67e3be233e4bf05484e513da543f89052bdd1611e9fa475f2d"
+        }
+      },
+      "publication": "local compressed dataset; hashes and checkpoint/evaluation evidence published"
+    },
+    {
+      "path": "runs/decision-selfplay-v1/v1-data/defender-data.npz",
+      "npz_sha256": "821c3422aa9528f958669c3106db9d5e38d65d8ed9d9fc7fb94526b22c80f783",
+      "arrays": {
+        "observations": {
+          "shape": [
+            107028,
+            45
+          ],
+          "dtype": "float32",
+          "sha256": "d01f131e67d695a4dedd32692c8298d72eb6ea55d91bd7be4ceb2bc77c7c23a2"
+        },
+        "actions": {
+          "shape": [
+            107028,
+            3
+          ],
+          "dtype": "float32",
+          "sha256": "deeff37e6e886a466a9c1ef0ac21810b2da2372e72447817b6cd9a7de6fb08aa"
+        }
+      },
+      "publication": "local compressed dataset; hashes and checkpoint/evaluation evidence published"
+    },
+    {
+      "path": "runs/decision-selfplay-v1/v1-data/keeper-data.npz",
+      "npz_sha256": "19ac7b842d0b208a1766ac1dafed3c0225d49254ebced5857784c62ffb490c61",
+      "arrays": {
+        "observations": {
+          "shape": [
+            107028,
+            45
+          ],
+          "dtype": "float32",
+          "sha256": "7adecddf73a9a28b7ce57bb884e6eec48076fc2181b8bfe6c7753d9d6e682101"
+        },
+        "actions": {
+          "shape": [
+            107028,
+            3
+          ],
+          "dtype": "float32",
+          "sha256": "1067545fd87b1754fe7dbe9a90e0f40ae817afd88d9178954f049ac7ba6f7f41"
+        }
+      },
+      "publication": "local compressed dataset; hashes and checkpoint/evaluation evidence published"
+    },
+    {
+      "path": "runs/decision-selfplay-v1/v2-data/manager-data.npz",
+      "npz_sha256": "637e215306918602060cdd0fa66ef8e728e8e6a0e42132f55f876d1cbee46290",
+      "arrays": {
+        "observations": {
+          "shape": [
+            139273,
+            75
+          ],
+          "dtype": "float32",
+          "sha256": "2be9bfb26619c3580dbeb111ca2ada6777e44f6a7f5c74ba8dd9f610cf9c8531"
+        },
+        "actions": {
+          "shape": [
+            139273,
+            10
+          ],
+          "dtype": "float32",
+          "sha256": "43fbdaf9199c73cc8d1479391c1e3569599626174f8c5129da17836b34bb5725"
+        }
+      },
+      "publication": "local compressed dataset; hashes and checkpoint/evaluation evidence published"
+    },
+    {
+      "path": "runs/decision-selfplay-v1/v2-data/defender-data.npz",
+      "npz_sha256": "fccbf20937135febbdcd7870e3ae7cee1c1d5e1a6fd6fb47193b6d84f6f8d613",
+      "arrays": {
+        "observations": {
+          "shape": [
+            139273,
+            45
+          ],
+          "dtype": "float32",
+          "sha256": "eb5c374897c534417f8e781092ca32530ef7be02a6d07b8c2f5514fcb84ccde9"
+        },
+        "actions": {
+          "shape": [
+            139273,
+            3
+          ],
+          "dtype": "float32",
+          "sha256": "ffdc1721e27dab5c5a38f94d703145a15a8709c4c13cbed068cc9df0a77bb36a"
+        }
+      },
+      "publication": "local compressed dataset; hashes and checkpoint/evaluation evidence published"
+    },
+    {
+      "path": "runs/decision-selfplay-v1/v2-data/keeper-data.npz",
+      "npz_sha256": "26f53d76280f6182429c7d8980ebd663822aff56942bf351618891bba6e8cb9d",
+      "arrays": {
+        "observations": {
+          "shape": [
+            139273,
+            45
+          ],
+          "dtype": "float32",
+          "sha256": "7899a451cb9f028704b9b6c68fcb0a8a60437b33121952dd5b654f7ba5efd0ce"
+        },
+        "actions": {
+          "shape": [
+            139273,
+            3
+          ],
+          "dtype": "float32",
+          "sha256": "dd524ca6cc8c641f2bf8fac909e521e79487b025486d6b8d5a03060bb3ad21c9"
+        }
+      },
+      "publication": "local compressed dataset; hashes and checkpoint/evaluation evidence published"
+    },
+    {
+      "path": "runs/decision-selfplay-v1/manager-data.npz",
+      "npz_sha256": "4135973934c9dc6a6981b8b70f8bb1b01602efe3e4e36c2af39402cdc181bda2",
+      "arrays": {
+        "observations": {
+          "shape": [
+            176011,
+            75
+          ],
+          "dtype": "float32",
+          "sha256": "1648b4cdf90b32c0d18ff27026fb382021ac1905d4a12d660d832cd95c2a157f"
+        },
+        "actions": {
+          "shape": [
+            176011,
+            11
+          ],
+          "dtype": "float32",
+          "sha256": "67f2e347600be695d6ccd0ae6025e8cd01f75be60a56c9aac4843bd38a67a584"
+        }
+      },
+      "publication": "local compressed dataset; hashes and checkpoint/evaluation evidence published"
+    },
+    {
+      "path": "runs/decision-selfplay-v1/defender-data.npz",
+      "npz_sha256": "543fe0040cbe24bf5f139457f7c4af2f31425109b17324a510f2591d95c89d28",
+      "arrays": {
+        "observations": {
+          "shape": [
+            176011,
+            45
+          ],
+          "dtype": "float32",
+          "sha256": "e931247d6ae1a55ece4c4853f89ea9cf7f72367e84e3de16d4dbf801e79e1e3b"
+        },
+        "actions": {
+          "shape": [
+            176011,
+            3
+          ],
+          "dtype": "float32",
+          "sha256": "2f670546d4fdee85ea1bae2cb260b0019134f6fb21f42da47db7f23eb308a15e"
+        }
+      },
+      "publication": "local compressed dataset; hashes and checkpoint/evaluation evidence published"
+    },
+    {
+      "path": "runs/decision-selfplay-v1/keeper-data.npz",
+      "npz_sha256": "8572326a12a7e193134d93275f6efeff3b6dbaf29cb3da718a90ff6700a39436",
+      "arrays": {
+        "observations": {
+          "shape": [
+            176011,
+            45
+          ],
+          "dtype": "float32",
+          "sha256": "8b283f38d54465760784dc11eba39048f7f26a25702728f36994b73ff1fb1b3e"
+        },
+        "actions": {
+          "shape": [
+            176011,
+            3
+          ],
+          "dtype": "float32",
+          "sha256": "9d797b35e8c6589b33918e9a5aae2f85b1ba5a296a949b8611696cc9de9215f2"
+        }
+      },
+      "publication": "local compressed dataset; hashes and checkpoint/evaluation evidence published"
+    }
+  ]
+}

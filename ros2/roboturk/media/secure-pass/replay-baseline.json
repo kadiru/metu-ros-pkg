@@ -1,0 +1,139 @@
+{
+  "episodes": [
+    {
+      "seed": 34912003,
+      "is_success": false,
+      "reason": "defender_interception",
+      "elapsed_seconds": 4.0,
+      "transfer": {
+        "pass_heading_error": 0.17250366506466674,
+        "receive_heading_error": 0.02195921494803041,
+        "passer_speed": 0.0,
+        "receiver_speed": 0.2754822298469584,
+        "is_success": false,
+        "reason": "defender_interception",
+        "steps": 200,
+        "elapsed_seconds": 4.0,
+        "backend": "webots_ideal_body_velocity+closing_marker_v1",
+        "task": "pass_receive.closing_marker.v1",
+        "attack_sign": -1,
+        "passer_id": 1,
+        "receiver_id": 0,
+        "initial_separation": 2.411350503666796,
+        "initial_passer_heading": 2.033215610703429,
+        "initial_receiver_heading": -2.3186677115646805,
+        "receiver_target": null,
+        "passed": true,
+        "received": false,
+        "passer_dwell": 90,
+        "receiver_dwell": 4,
+        "pass_step": 91,
+        "receive_step": null,
+        "pass_distance": 2.335063125821043,
+        "pass_x": 1.4549593097217193,
+        "pass_y": 0.3324828511704005,
+        "receive_distance": null,
+        "receive_speed": null,
+        "applied_passes": 1,
+        "possession_checks": 900,
+        "lost_checks": 0,
+        "opponent": "closing_marker_v1",
+        "defender_speed_limit": 0.8720784410659516,
+        "defender_ball_contacts": 4,
+        "defender_robot_contacts": 0,
+        "defender_physics_checks": 2000,
+        "minimum_ball_defender_distance": 0.15281684588902128,
+        "minimum_robot_defender_distance": 0.23845504568287415,
+        "defender_distance_moved": 1.8216658426703183,
+        "pass_lane_clearance": 1.6903679208444704,
+        "opening": {
+          "time": 0.0,
+          "robots": [
+            {
+              "key": {
+                "team": "blue",
+                "id": 1
+              },
+              "x": 1.5020267560010834,
+              "y": 0.22401433204667157,
+              "yaw": 2.033215610703429,
+              "vx": 0.0,
+              "vy": 0.0,
+              "omega": 0.0,
+              "visible": true
+            },
+            {
+              "key": {
+                "team": "blue",
+                "id": 0
+              },
+              "x": -0.7398975785913406,
+              "y": 1.1119256617955537,
+              "yaw": -2.3186677115646805,
+              "vx": 0.0,
+              "vy": 0.0,
+              "omega": 0.0,
+              "visible": true
+            },
+            {
+              "key": {
+                "team": "yellow",
+                "id": 0
+              },
+              "x": -0.6807580643792983,
+              "y": -0.6951732005227791,
+              "yaw": 0.44713805409118174,
+              "vx": 0.0,
+              "vy": 0.0,
+              "omega": 0.0,
+              "visible": true
+            }
+          ],
+          "ball": {
+            "x": 1.4507235757314463,
+            "y": 0.32693655362306934,
+            "vx": 0.0,
+            "vy": 0.0,
+            "visible": true
+          },
+          "referee": "running",
+          "attack_sign": -1
+        },
+        "press_start_seconds": 1.82,
+        "first_receiver_touch": {
+          "seconds": 3.8300000000000005,
+          "marker_distance": 0.3130301317331219
+        },
+        "marker_receiver_distance": 0.23845504568287415
+      },
+      "shooting": null
+    }
+  ],
+  "inference_play": "PassReceiveScorePlay",
+  "successes": 0,
+  "success_rate": 0.0,
+  "wilson_95": [
+    0.0,
+    0.7934506856227626
+  ],
+  "transfer_successes": 0,
+  "mean_success_seconds": null,
+  "mean_pass_distance": 2.335063125821043,
+  "possession_loss_episodes": 0,
+  "source": "actual Webots movie recorder",
+  "policy_fallback": false,
+  "scripted_role_handoff": true,
+  "outcome_display_seconds": 0.6,
+  "possession_sample_seconds": 0.002,
+  "carry_profile": {
+    "speed": 1.5,
+    "avoidance": 1.4
+  },
+  "carry_profile_sha256": "73e72bc60bac6e5415f015b63f785fc8ad951f19bfee2a7ca5bcc5acc0c1d822",
+  "policy": "policies/carpet_receive_v1/policy.zip",
+  "shooter": "policies/capture_dribble_shoot_v2/policy.zip",
+  "checkpoint_manifest_sha256": "b7e14c0f1b421871a0cd8ac5d7cd9c181f01f1fb015ea7bd0aa0350da6100445",
+  "checkpoint_sha256": "317bbf99ac4e436ef43d4bb1140e1e328749d5fdb01930a572ab0ad9f2d157f3",
+  "shooting_checkpoint_manifest_sha256": "b0c64b87e0dc59d58ceacb82b975dce327ab423290321f1776d673a227a7be69",
+  "shooting_checkpoint_sha256": "6558b977dcdeb0001e9590b01ca1cfb9f3ec3fd16da1f43d17b8c3e6c9f6cc11"
+}

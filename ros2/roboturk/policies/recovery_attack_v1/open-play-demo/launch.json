@@ -1,0 +1,12 @@
+{
+  "root": "/Users/kadir/linkedin/projects/roboturk/modern",
+  "model": "/Users/kadir/linkedin/projects/roboturk/modern/policies/recovery_attack_v1/policy.json",
+  "seconds": 60,
+  "webots_sha256": "035a91bad1d12e4f34108ec48c8cadcb2dab4dc3278e4f03c9e969bb82d6babe",
+  "mode": "showcase",
+  "first": 9700004,
+  "cases": 1,
+  "selected_from": "ordinary",
+  "native_slot": 2,
+  "source_panel_passed": false
+}

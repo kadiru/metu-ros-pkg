@@ -1,0 +1,50 @@
+{
+  "pairs": [
+    {
+      "seed": 25500000,
+      "prefix_frames": 9,
+      "baseline": {
+        "crashes": 1,
+        "passes": 0,
+        "goals": 0,
+        "attempts": 1
+      },
+      "candidate": {
+        "crashes": 0,
+        "passes": 1,
+        "goals": 0,
+        "attempts": 2
+      }
+    },
+    {
+      "seed": 25500000,
+      "prefix_frames": 117,
+      "baseline": {
+        "crashes": 1,
+        "passes": 0,
+        "goals": 0,
+        "attempts": 0
+      },
+      "candidate": {
+        "crashes": 0,
+        "passes": 0,
+        "goals": 0,
+        "attempts": 0
+      }
+    }
+  ],
+  "totals": {
+    "baseline": {
+      "crashes": 2,
+      "passes": 0,
+      "goals": 0,
+      "attempts": 1
+    },
+    "candidate": {
+      "crashes": 0,
+      "passes": 1,
+      "goals": 0,
+      "attempts": 2
+    }
+  }
+}

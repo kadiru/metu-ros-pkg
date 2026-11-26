@@ -1,0 +1,89 @@
+#VRML_SIM R2025a utf8
+# template language: javascript
+# Transfer prototype. The four wheel solids are visual; drive runs through an ideal shaft envelope.
+PROTO SslFlatChestRobot [
+  field SFVec3f translation 0 0 0.075
+  field SFRotation rotation 0 0 1 0
+  field SFString name "robot"
+  field SFColor color 0.05 0.25 0.95
+] {
+  %<
+    const radius = 0.09;
+    const chest = 0.078;
+    const end = Math.acos(chest / radius);
+    const sides = 24;
+    const arc = (2 * Math.PI - 2 * end) / (sides - 1);
+    const wheels = [60, 135, -135, -60];
+  >%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    contactMaterial "robot"
+    children [
+      Shape {
+        appearance PBRAppearance { baseColor IS color roughness 0.68 metalness 0 }
+        geometry DEF CHEST_HULL IndexedFaceSet {
+          coord Coordinate {
+            point [
+              %< for (const z of [-0.075, 0.075]) {
+                for (let i = 0; i < sides; i++) {
+                  const angle = end + i * arc;
+              >%
+                  %<= radius * Math.cos(angle) >% %<= radius * Math.sin(angle) >% %<= z >%
+              %< }} >%
+            ]
+          }
+          coordIndex [
+            %< for (let i = 0; i < sides; i++) {
+                 const j = (i + 1) % sides;
+            >%
+              %<= i >% %<= j >% %<= j + sides >% -1
+              %<= i >% %<= j + sides >% %<= i + sides >% -1
+            %< } for (let i = 1; i < sides - 1; i++) { >%
+              0 %<= i + 1 >% %<= i >% -1
+              %<= sides >% %<= i + sides >% %<= i + 1 + sides >% -1
+            %< } >%
+          ]
+        }
+      }
+      DEF ROLLER Pose {
+        translation 0.082 0 -0.050
+        rotation 1 0 0 1.57079632679
+        children [ Shape {
+          appearance PBRAppearance { baseColor 0.07 0.07 0.07 roughness 0.9 }
+          geometry Cylinder { radius 0.008 height 0.09 subdivision 16 }
+        } ]
+      }
+      Pose {
+        translation 0.042 0 0.076
+        children [ Shape {
+          appearance PBRAppearance { baseColor 1 1 1 roughness 1 }
+          geometry Box { size 0.058 0.012 0.002 }
+        } ]
+      }
+      %< for (const azimuth of wheels) {
+          const angle = azimuth * Math.PI / 180;
+      >%
+        Pose {
+          translation %<= 0.085 * Math.cos(angle) >% %<= 0.085 * Math.sin(angle) >% -0.050
+          rotation 0 0 1 %<= angle >%
+          children [ Pose {
+            rotation 0 1 0 1.57079632679
+            children [ Shape {
+              appearance PBRAppearance { baseColor 0.12 0.12 0.12 roughness 1 }
+              geometry Cylinder { radius 0.025 height 0.010 subdivision 16 }
+            } ]
+          } ]
+        }
+      %< } >%
+    ]
+    boundingObject Group { children [ USE CHEST_HULL USE ROLLER ] }
+    physics Physics {
+      density -1
+      mass 2.5
+      centerOfMass [ 0 0 0 ]
+      inertiaMatrix [ 0.010 0.010 0.010, 0 0 0 ]
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "scope": "Training-data provenance; compressed arrays local, receipts/checkpoints published",
+  "data": [
+    {
+      "path": "runs/decision-selfplay-v2/manager-v3-data.npz",
+      "sha256": "4135973934c9dc6a6981b8b70f8bb1b01602efe3e4e36c2af39402cdc181bda2",
+      "arrays": {
+        "observations": {
+          "shape": [
+            176011,
+            75
+          ],
+          "sha256": "1648b4cdf90b32c0d18ff27026fb382021ac1905d4a12d660d832cd95c2a157f"
+        },
+        "actions": {
+          "shape": [
+            176011,
+            11
+          ],
+          "sha256": "67f2e347600be695d6ccd0ae6025e8cd01f75be60a56c9aac4843bd38a67a584"
+        }
+      }
+    },
+    {
+      "path": "runs/decision-selfplay-v2/manager-data.npz",
+      "sha256": "fa01987dab12b6c48e5347d4b78432ed7f0ea5cf8bd371ce9b782f8f7ca53a19",
+      "arrays": {
+        "observations": {
+          "shape": [
+            176011,
+            75
+          ],
+          "sha256": "1648b4cdf90b32c0d18ff27026fb382021ac1905d4a12d660d832cd95c2a157f"
+        },
+        "actions": {
+          "shape": [
+            176011,
+            12
+          ],
+          "sha256": "d43f26c99ae0327935792d2cb59d4fef3702f48cdfb69c72ba749c21ed632519"
+        }
+      }
+    },
+    {
+      "path": "runs/decision-selfplay-v2/defender-data.npz",
+      "sha256": "543fe0040cbe24bf5f139457f7c4af2f31425109b17324a510f2591d95c89d28",
+      "arrays": {
+        "observations": {
+          "shape": [
+            176011,
+            45
+          ],
+          "sha256": "e931247d6ae1a55ece4c4853f89ea9cf7f72367e84e3de16d4dbf801e79e1e3b"
+        },
+        "actions": {
+          "shape": [
+            176011,
+            3
+          ],
+          "sha256": "2f670546d4fdee85ea1bae2cb260b0019134f6fb21f42da47db7f23eb308a15e"
+        }
+      }
+    },
+    {
+      "path": "runs/decision-selfplay-v2/keeper-data.npz",
+      "sha256": "8572326a12a7e193134d93275f6efeff3b6dbaf29cb3da718a90ff6700a39436",
+      "arrays": {
+        "observations": {
+          "shape": [
+            176011,
+            45
+          ],
+          "sha256": "8b283f38d54465760784dc11eba39048f7f26a25702728f36994b73ff1fb1b3e"
+        },
+        "actions": {
+          "shape": [
+            176011,
+            3
+          ],
+          "sha256": "9d797b35e8c6589b33918e9a5aae2f85b1ba5a296a949b8611696cc9de9215f2"
+        }
+      }
+    }
+  ],
+  "candidate_league_ppo_steps": 196608,
+  "earlier_failed_league_ppo_steps": 294912,
+  "manager_supervised_epochs": 780,
+  "keeper_boundary_supervised_epochs": 100,
+  "defender_spacing_supervised_epochs": 100,
+  "lineage": "V1 defender/keeper PPO ancestors retained then coached; v1 manager PPO discarded in favor of pre-PPO v3 manager before v4 flank refit; candidate league updates all three roles."
+}

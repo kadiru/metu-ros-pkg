@@ -1,0 +1,507 @@
+{
+  "pairs": [
+    {
+      "seed": 38722000,
+      "seconds": 90.0,
+      "current": {
+        "goals": 0,
+        "score": [
+          0,
+          0
+        ],
+        "ref_crash_calls": 0,
+        "body_contact_episodes": 0,
+        "min_gap_m": 0.07380219411435862,
+        "clean_takeaways": 0,
+        "clean_presser_takeaways": 0,
+        "clean_trained_takeaways": 0,
+        "direct_transfers": 0,
+        "tackle_ticks": 0,
+        "transfers": [],
+        "crashes": []
+      },
+      "trained": {
+        "goals": 1,
+        "score": [
+          0,
+          1
+        ],
+        "ref_crash_calls": 0,
+        "body_contact_episodes": 0,
+        "min_gap_m": 0.03902019784223573,
+        "clean_takeaways": 6,
+        "clean_presser_takeaways": 6,
+        "clean_trained_takeaways": 6,
+        "direct_transfers": 6,
+        "tackle_ticks": 517,
+        "transfers": [
+          {
+            "actor": [
+              "blue",
+              2
+            ],
+            "carrier": [
+              "yellow",
+              1
+            ],
+            "presser": true,
+            "trained_tackle": true,
+            "contact": false,
+            "ref_crash": false,
+            "clean": true,
+            "reach_s": 33.918,
+            "confirmed_s": 34.796
+          },
+          {
+            "actor": [
+              "yellow",
+              1
+            ],
+            "carrier": [
+              "blue",
+              2
+            ],
+            "presser": true,
+            "trained_tackle": true,
+            "contact": false,
+            "ref_crash": false,
+            "clean": true,
+            "reach_s": 34.97,
+            "confirmed_s": 35.744
+          },
+          {
+            "actor": [
+              "yellow",
+              1
+            ],
+            "carrier": [
+              "blue",
+              2
+            ],
+            "presser": true,
+            "trained_tackle": true,
+            "contact": false,
+            "ref_crash": false,
+            "clean": true,
+            "reach_s": 37.032,
+            "confirmed_s": 37.502
+          },
+          {
+            "actor": [
+              "blue",
+              4
+            ],
+            "carrier": [
+              "yellow",
+              1
+            ],
+            "presser": true,
+            "trained_tackle": true,
+            "contact": false,
+            "ref_crash": false,
+            "clean": true,
+            "reach_s": 43.65,
+            "confirmed_s": 44.51
+          },
+          {
+            "actor": [
+              "yellow",
+              1
+            ],
+            "carrier": [
+              "blue",
+              4
+            ],
+            "presser": true,
+            "trained_tackle": true,
+            "contact": false,
+            "ref_crash": false,
+            "clean": true,
+            "reach_s": 44.516,
+            "confirmed_s": 45.29
+          },
+          {
+            "actor": [
+              "blue",
+              4
+            ],
+            "carrier": [
+              "yellow",
+              1
+            ],
+            "presser": true,
+            "trained_tackle": true,
+            "contact": false,
+            "ref_crash": false,
+            "clean": true,
+            "reach_s": 45.336,
+            "confirmed_s": 45.842
+          }
+        ],
+        "crashes": []
+      }
+    },
+    {
+      "seed": 38722001,
+      "seconds": 90.0,
+      "current": {
+        "goals": 0,
+        "score": [
+          0,
+          0
+        ],
+        "ref_crash_calls": 0,
+        "body_contact_episodes": 0,
+        "min_gap_m": 0.12273483443949434,
+        "clean_takeaways": 0,
+        "clean_presser_takeaways": 0,
+        "clean_trained_takeaways": 0,
+        "direct_transfers": 0,
+        "tackle_ticks": 0,
+        "transfers": [],
+        "crashes": []
+      },
+      "trained": {
+        "goals": 3,
+        "score": [
+          3,
+          0
+        ],
+        "ref_crash_calls": 0,
+        "body_contact_episodes": 0,
+        "min_gap_m": 0.03935221619958709,
+        "clean_takeaways": 6,
+        "clean_presser_takeaways": 6,
+        "clean_trained_takeaways": 6,
+        "direct_transfers": 6,
+        "tackle_ticks": 585,
+        "transfers": [
+          {
+            "actor": [
+              "blue",
+              4
+            ],
+            "carrier": [
+              "yellow",
+              4
+            ],
+            "presser": true,
+            "trained_tackle": true,
+            "contact": false,
+            "ref_crash": false,
+            "clean": true,
+            "reach_s": 2.936,
+            "confirmed_s": 3.962
+          },
+          {
+            "actor": [
+              "yellow",
+              4
+            ],
+            "carrier": [
+              "blue",
+              1
+            ],
+            "presser": true,
+            "trained_tackle": true,
+            "contact": false,
+            "ref_crash": false,
+            "clean": true,
+            "reach_s": 30.61,
+            "confirmed_s": 31.324
+          },
+          {
+            "actor": [
+              "blue",
+              2
+            ],
+            "carrier": [
+              "yellow",
+              1
+            ],
+            "presser": true,
+            "trained_tackle": true,
+            "contact": false,
+            "ref_crash": false,
+            "clean": true,
+            "reach_s": 39.442,
+            "confirmed_s": 40.296
+          },
+          {
+            "actor": [
+              "blue",
+              4
+            ],
+            "carrier": [
+              "yellow",
+              2
+            ],
+            "presser": true,
+            "trained_tackle": true,
+            "contact": false,
+            "ref_crash": false,
+            "clean": true,
+            "reach_s": 57.364,
+            "confirmed_s": 58.17
+          },
+          {
+            "actor": [
+              "blue",
+              2
+            ],
+            "carrier": [
+              "yellow",
+              4
+            ],
+            "presser": true,
+            "trained_tackle": true,
+            "contact": false,
+            "ref_crash": false,
+            "clean": true,
+            "reach_s": 75.208,
+            "confirmed_s": 75.996
+          },
+          {
+            "actor": [
+              "blue",
+              2
+            ],
+            "carrier": [
+              "yellow",
+              2
+            ],
+            "presser": true,
+            "trained_tackle": true,
+            "contact": false,
+            "ref_crash": false,
+            "clean": true,
+            "reach_s": 88.634,
+            "confirmed_s": 88.872
+          }
+        ],
+        "crashes": []
+      }
+    },
+    {
+      "seed": 38722002,
+      "seconds": 90.0,
+      "current": {
+        "goals": 0,
+        "score": [
+          0,
+          0
+        ],
+        "ref_crash_calls": 0,
+        "body_contact_episodes": 0,
+        "min_gap_m": 0.06212116822605815,
+        "clean_takeaways": 0,
+        "clean_presser_takeaways": 0,
+        "clean_trained_takeaways": 0,
+        "direct_transfers": 0,
+        "tackle_ticks": 0,
+        "transfers": [],
+        "crashes": []
+      },
+      "trained": {
+        "goals": 0,
+        "score": [
+          0,
+          0
+        ],
+        "ref_crash_calls": 0,
+        "body_contact_episodes": 0,
+        "min_gap_m": 0.038634176900669476,
+        "clean_takeaways": 7,
+        "clean_presser_takeaways": 7,
+        "clean_trained_takeaways": 7,
+        "direct_transfers": 7,
+        "tackle_ticks": 452,
+        "transfers": [
+          {
+            "actor": [
+              "blue",
+              2
+            ],
+            "carrier": [
+              "yellow",
+              3
+            ],
+            "presser": true,
+            "trained_tackle": true,
+            "contact": false,
+            "ref_crash": false,
+            "clean": true,
+            "reach_s": 15.638,
+            "confirmed_s": 16.224
+          },
+          {
+            "actor": [
+              "yellow",
+              1
+            ],
+            "carrier": [
+              "blue",
+              4
+            ],
+            "presser": true,
+            "trained_tackle": true,
+            "contact": false,
+            "ref_crash": false,
+            "clean": true,
+            "reach_s": 25.404,
+            "confirmed_s": 26.02
+          },
+          {
+            "actor": [
+              "blue",
+              1
+            ],
+            "carrier": [
+              "yellow",
+              2
+            ],
+            "presser": true,
+            "trained_tackle": true,
+            "contact": false,
+            "ref_crash": false,
+            "clean": true,
+            "reach_s": 34.136,
+            "confirmed_s": 34.988
+          },
+          {
+            "actor": [
+              "yellow",
+              2
+            ],
+            "carrier": [
+              "blue",
+              1
+            ],
+            "presser": true,
+            "trained_tackle": true,
+            "contact": false,
+            "ref_crash": false,
+            "clean": true,
+            "reach_s": 35.004,
+            "confirmed_s": 35.738
+          },
+          {
+            "actor": [
+              "blue",
+              1
+            ],
+            "carrier": [
+              "yellow",
+              2
+            ],
+            "presser": true,
+            "trained_tackle": true,
+            "contact": false,
+            "ref_crash": false,
+            "clean": true,
+            "reach_s": 35.902,
+            "confirmed_s": 36.7
+          },
+          {
+            "actor": [
+              "yellow",
+              2
+            ],
+            "carrier": [
+              "blue",
+              1
+            ],
+            "presser": true,
+            "trained_tackle": true,
+            "contact": false,
+            "ref_crash": false,
+            "clean": true,
+            "reach_s": 36.762,
+            "confirmed_s": 37.376
+          },
+          {
+            "actor": [
+              "blue",
+              2
+            ],
+            "carrier": [
+              "yellow",
+              2
+            ],
+            "presser": true,
+            "trained_tackle": true,
+            "contact": false,
+            "ref_crash": false,
+            "clean": true,
+            "reach_s": 42.76,
+            "confirmed_s": 43.574
+          }
+        ],
+        "crashes": []
+      }
+    },
+    {
+      "seed": 38722003,
+      "seconds": 90.0,
+      "current": {
+        "goals": 0,
+        "score": [
+          0,
+          0
+        ],
+        "ref_crash_calls": 0,
+        "body_contact_episodes": 0,
+        "min_gap_m": 0.058039883474732046,
+        "clean_takeaways": 0,
+        "clean_presser_takeaways": 0,
+        "clean_trained_takeaways": 0,
+        "direct_transfers": 0,
+        "tackle_ticks": 0,
+        "transfers": [],
+        "crashes": []
+      },
+      "trained": {
+        "goals": 0,
+        "score": [
+          0,
+          0
+        ],
+        "ref_crash_calls": 0,
+        "body_contact_episodes": 0,
+        "min_gap_m": 0.07466249814466075,
+        "clean_takeaways": 0,
+        "clean_presser_takeaways": 0,
+        "clean_trained_takeaways": 0,
+        "direct_transfers": 0,
+        "tackle_ticks": 13,
+        "transfers": [],
+        "crashes": []
+      }
+    }
+  ],
+  "totals": {
+    "current": {
+      "goals": 0,
+      "ref_crash_calls": 0,
+      "body_contact_episodes": 0,
+      "clean_takeaways": 0,
+      "clean_presser_takeaways": 0,
+      "clean_trained_takeaways": 0,
+      "direct_transfers": 0,
+      "tackle_ticks": 0,
+      "min_gap_m": 0.058039883474732046
+    },
+    "trained": {
+      "goals": 4,
+      "ref_crash_calls": 0,
+      "body_contact_episodes": 0,
+      "clean_takeaways": 19,
+      "clean_presser_takeaways": 19,
+      "clean_trained_takeaways": 19,
+      "direct_transfers": 19,
+      "tackle_ticks": 1567,
+      "min_gap_m": 0.038634176900669476
+    }
+  },
+  "seconds_per_arm": 360.0
+}

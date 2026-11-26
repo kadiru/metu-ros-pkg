@@ -1,0 +1,44 @@
+#VRML_SIM R2025a utf8
+# Ideal planar-drive body; cylinder geometry, no motor or wheel physics.
+PROTO SslRobot [
+  field SFVec3f translation 0 0 0.075
+  field SFRotation rotation 0 0 1 0
+  field SFString name "robot"
+  field SFColor color 0.05 0.25 0.95
+] {
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    contactMaterial "robot"
+    children [
+      Shape {
+        appearance PBRAppearance { baseColor IS color roughness 0.7 metalness 0 }
+        geometry Cylinder { radius 0.09 height 0.15 subdivision 32 }
+      }
+      Pose {
+        translation 0.071 0 0.004
+        children [ Shape {
+          appearance PBRAppearance { baseColor 0.1 0.1 0.1 roughness 1 metalness 0 }
+          geometry Box { size 0.02 0.075 0.03 }
+        } ]
+      }
+      Pose {
+        translation 0.04 0 0.0765
+        children [ Shape {
+          appearance PBRAppearance { baseColor 0.04 0.04 0.04 roughness 1 metalness 0 }
+          geometry Box { size 0.073 0.024 0.002 }
+        } ]
+      }
+      Pose {
+        translation 0.04 0 0.078
+        children [ Shape {
+          appearance PBRAppearance { baseColor 1 1 1 roughness 1 metalness 0 }
+          geometry Box { size 0.065 0.014 0.001 }
+        } ]
+      }
+    ]
+    boundingObject Cylinder { radius 0.09 height 0.15 subdivision 24 }
+    physics Physics { density -1 mass 2.5 }
+  }
+}

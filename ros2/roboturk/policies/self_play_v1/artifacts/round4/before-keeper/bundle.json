@@ -1,0 +1,22 @@
+{
+  "defender": {
+    "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/round4/before-keeper/defender.zip",
+    "sha256": "23a62d1349c58d4cf44b9d576a00faeb74197b2296c64e98212a30b742a48576",
+    "actor_sha256": "b0de00f317bf00ed2552a142c8b8a467fe3723741852828e32ba48ad79229b9b"
+  },
+  "keeper": {
+    "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/round4/before-keeper/keeper.zip",
+    "sha256": "b38c5354a16fb6d5a4210289839895ef1ba4eb086b02c059314dae837473e726",
+    "actor_sha256": "bb2a7390fa272be4d8c6893d88addf8642c8a20e7882a0927fe97b450d0fe11e"
+  },
+  "transfer": {
+    "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/round4/before-keeper/transfer.zip",
+    "sha256": "d2754ebe2e7ee3f05e713c1cdb03d20ce97743a8bd207ace9341ce63a247c8d3",
+    "actor_sha256": "f66092708a44fec4faa2116d3febe8baf365842b687a38516fa3a9e9c176644b"
+  },
+  "finish": {
+    "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/round4/before-keeper/finish.zip",
+    "sha256": "cae786c793fc5a24c0f1f9a446d634810231d0412b30ac5a345bc2da1d7e2e68",
+    "actor_sha256": "64951e5099d81dc6bc468b13a27a783234be32bf29b2d2b7a830f750ec3df930"
+  }
+}

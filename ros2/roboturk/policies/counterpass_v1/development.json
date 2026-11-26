@@ -1,0 +1,23 @@
+{
+  "stats": [
+    {
+      "model": 1,
+      "clean": 90,
+      "goals": 44,
+      "pass_goals": 16,
+      "differential": 23,
+      "appearances": 24,
+      "value": 2.2645833333333334
+    },
+    {
+      "model": 2,
+      "clean": 104,
+      "goals": 55,
+      "pass_goals": 19,
+      "differential": 32,
+      "appearances": 24,
+      "value": 2.891666666666667
+    }
+  ],
+  "selected": 2
+}

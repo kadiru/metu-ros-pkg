@@ -1,0 +1,99 @@
+{
+  "step_ms": 2,
+  "free_kicks": [
+    {
+      "kick": 0.5,
+      "seconds": 1.3760000000000001,
+      "distance": 0.24859822958632272,
+      "slide_decel": 2.943000000000001,
+      "roll_decel": 0.260730897009967,
+      "rest_drift": 0.0
+    },
+    {
+      "kick": 1.0,
+      "seconds": 2.746,
+      "distance": 0.9940054419023641,
+      "slide_decel": 2.9429999999999734,
+      "roll_decel": 0.2607308970099753,
+      "rest_drift": 0.0
+    },
+    {
+      "kick": 2.0,
+      "seconds": 5.484,
+      "distance": 3.97526341890507,
+      "slide_decel": 2.943000000000029,
+      "roll_decel": 0.26073089700995866,
+      "rest_drift": 0.0
+    }
+  ],
+  "high_speed_kicks": [
+    {
+      "direction": 1,
+      "limit": 10.0,
+      "first_sample": 9.994114,
+      "furthest_x": 4.67751858
+    },
+    {
+      "direction": -1,
+      "limit": 10.0,
+      "first_sample": 9.994114,
+      "furthest_x": 4.67751858
+    },
+    {
+      "direction": 1,
+      "limit": 6.5,
+      "first_sample": 6.494114,
+      "furthest_x": 4.664973959999998
+    }
+  ],
+  "direction_checks": [
+    {
+      "heading": 0.7853981633974483,
+      "distance": 0.9940054419023353,
+      "seconds": 2.746,
+      "final_speed": 3.3790499231538226e-20
+    },
+    {
+      "heading": 1.5707963267948966,
+      "distance": 0.9940054419023636,
+      "seconds": 2.746,
+      "final_speed": 8.39791663070732e-21
+    },
+    {
+      "heading": 3.141592653589793,
+      "distance": 0.9940054419023636,
+      "seconds": 2.746,
+      "final_speed": 4.3455230749034186e-20
+    }
+  ],
+  "drive": {
+    "max_speed": 2.9999999999999996,
+    "max_acceleration": 5.000000000000021,
+    "stopped_speed": 0.0
+  },
+  "carpet": [
+    10.4,
+    7.4,
+    0.05
+  ],
+  "goal_and_wall_dimensions": {
+    "LEFT": {
+      "mouth": 1.0,
+      "clear_depth": 0.1800000000000006,
+      "height": 0.16,
+      "wall_thickness": 0.02,
+      "entry_from_center": 4.505,
+      "end_wall_margin": 0.2999999999999998,
+      "touch_wall_margin": 0.30000000000000027
+    },
+    "RIGHT": {
+      "mouth": 1.0,
+      "clear_depth": 0.1800000000000006,
+      "height": 0.16,
+      "wall_thickness": 0.02,
+      "entry_from_center": 4.505,
+      "end_wall_margin": 0.2999999999999998,
+      "touch_wall_margin": 0.30000000000000027
+    }
+  }
+}

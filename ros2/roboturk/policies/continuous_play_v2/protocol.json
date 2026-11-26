@@ -1,0 +1,115 @@
+{
+  "version": 2,
+  "primary_seed": 611,
+  "training_seeds": [
+    611,
+    622
+  ],
+  "selection_rule": "Last completed self-play generation after development; primary611 chosen before evaluation",
+  "duration": 45,
+  "generations": 2,
+  "steps_per_generation": 32768,
+  "panels": [
+    {
+      "name": "611-self",
+      "training_seed": 611,
+      "seed": 4510000,
+      "count": 20,
+      "blue": "611-final",
+      "yellow": "611-final"
+    },
+    {
+      "name": "622-self",
+      "training_seed": 622,
+      "seed": 4510100,
+      "count": 20,
+      "blue": "622-final",
+      "yellow": "622-final"
+    },
+    {
+      "name": "611-history",
+      "training_seed": 611,
+      "seed": 4510200,
+      "count": 20,
+      "blue": "611-final",
+      "yellow": "611-initial"
+    },
+    {
+      "name": "622-history",
+      "training_seed": 622,
+      "seed": 4510300,
+      "count": 20,
+      "blue": "622-final",
+      "yellow": "622-initial"
+    },
+    {
+      "name": "611-cross",
+      "training_seed": 611,
+      "seed": 4510400,
+      "count": 20,
+      "blue": "611-final",
+      "yellow": "622-final"
+    },
+    {
+      "name": "622-cross",
+      "training_seed": 622,
+      "seed": 4510500,
+      "count": 20,
+      "blue": "622-final",
+      "yellow": "611-final"
+    }
+  ],
+  "demo": {
+    "seed": 4610000,
+    "count": 3,
+    "blue": "611-final",
+    "yellow": "622-final",
+    "consecutive_uncut": true
+  },
+  "gates_per_training_seed_60_games": {
+    "min_completion_fraction": 0.95,
+    "max_mean_contact_fraction": 0.02,
+    "max_field_exit_fraction": 0.05,
+    "min_loose_start_acquisition_fraction": 0.9,
+    "min_goals": 20,
+    "min_goals_per_color": 5,
+    "min_passes": 20,
+    "min_receptions": 15,
+    "min_shots": 20,
+    "min_counterattack_matches": 10,
+    "min_mean_support_distance_per_color_m": 1,
+    "all_event_and_hash_audits_pass": true
+  },
+  "metrics": {
+    "contacts": "Any robot pair center distance below0.183m, sampled every5ms; fraction of match physics samples",
+    "field_exit": "Any robot center outside x+-4.41m/y+-2.91m; count every affected match",
+    "acquisition": "At least0.3s exclusive mouth contact at every5ms sample; relative ball/robot speed below0.25m/s at each20ms control endpoint",
+    "reception": "Different teammate stably acquires an actual pass within5s, with>=0.5m displacement and no intervening opponent stable acquisition",
+    "counterattack": "After a turnover, stable team control advances ball>=0.75m within10s before another loss, goal, ball-out or referee restart",
+    "support_distance": "Distance moved while the neural support head is selected and robot does not hold ball; cover is separate",
+    "wins_draws": "Only complete45s matches receive W/D/L; unfinished matches reported separately",
+    "goal_scope": "Goals/passes/receptions include both sides; these gates test running-match functionality, not a guaranteed win rate"
+  },
+  "boundaries": [
+    "approximate ground-truth Webots dynamics",
+    "simplified goal/ball-out referee restarts",
+    "no official SSL full-match qualification",
+    "no hardware or complete live ROS graph claim",
+    "no isolated PPO improvement claim"
+  ],
+  "release": "continuous_play_v2",
+  "runtime_action_projection": true,
+  "safety_contract": "roboturk.velocity_safety.v1",
+  "safety": {
+    "minimum_center_separation_m": 0.205,
+    "field_center_bounds_m": [
+      4.35,
+      2.85
+    ],
+    "barrier_gain_per_second": 4,
+    "speed_m_per_second": 1.2,
+    "scope": "analytic joint translation projection; behavior/rotation/dribbler/kick remain neural",
+    "intervention_records": "every modified control tick; raw and applied world velocities plus measured poses"
+  },
+  "protocol_revision_reason": "Separate filtered deployment protocol, fixed before reserved use; original unfiltered v1 protocol retained. Reliability gates unchanged."
+}

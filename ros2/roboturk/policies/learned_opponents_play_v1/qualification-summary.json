@@ -1,0 +1,38 @@
+{
+  "inference_play": "PassReceiveScorePlay",
+  "successes": 200,
+  "success_rate": 1.0,
+  "wilson_95": [
+    0.9811546736227335,
+    1.0
+  ],
+  "transfer_successes": 200,
+  "mean_success_seconds": 15.223400000000002,
+  "mean_pass_distance": 2.966496639678868,
+  "possession_loss_episodes": 0,
+  "backend": "webots_ideal_body_velocity+learned_lane_v1+learned_keeper_v1",
+  "opponent_policy_fallback": false,
+  "checkpoint_sha256": "457a645ecad0ab35cbcf320710a8d3e20af648c1dc80131c2211e0f539803361",
+  "shooting_checkpoint_sha256": "c6575fa1e183ef58e0a4af75e1d5170801b8ccba0836919aa2fb0d7abace2e08",
+  "defender_checkpoint_sha256": "06fd042a37390dd0e51ab73f668763730a2e52faade721fbd421fa847612a726",
+  "keeper_checkpoint_sha256": "9dea9369b2b6bfe3811ca338c4d89f9b7854f7146ae0f33f1fd755967ecc52f4",
+  "attack_directions": {
+    "1": 102,
+    "-1": 98
+  },
+  "passer_roles": {
+    "0": 99,
+    "1": 101
+  },
+  "keeper_styles": {
+    "ball_line": 103,
+    "aim_tracking": 97
+  },
+  "mean_receive_displacement": 2.934365318634432,
+  "mean_retained_carry": 3.7730136268098864,
+  "mean_shot_distance": 0.7172527102907845,
+  "possession_checks": 487852,
+  "opponent_physics_checks_per_role": 608936,
+  "minimum_ball_defender_distance": 0.4974590146883762,
+  "minimum_ball_keeper_distance": 0.17732270855964707
+}

@@ -1,0 +1,235 @@
+{
+  "seed": 38727000,
+  "final_score": [
+    2,
+    0
+  ],
+  "official_halves": [
+    {
+      "stage": "NORMAL_FIRST_HALF",
+      "kickoff": "blue",
+      "blue_attack_sign": 1,
+      "wire_start_s": 60.0,
+      "wire_end_s": -1.0,
+      "running_native_s": 61.0
+    },
+    {
+      "stage": "NORMAL_SECOND_HALF",
+      "kickoff": "yellow",
+      "blue_attack_sign": -1,
+      "wire_start_s": 59.96,
+      "wire_end_s": -1.04,
+      "running_native_s": 60.96
+    }
+  ],
+  "kickoff_prepare_native_seconds": [
+    0.36,
+    7.2,
+    10.76,
+    8.16
+  ],
+  "native_seconds_by_mode": {
+    "halt": 3.72,
+    "stop": 34.76,
+    "running": 121.96
+  },
+  "simulated_seconds": 160.44,
+  "opening_tick": 18,
+  "goals": [
+    {
+      "team": "BLUE",
+      "score_tick": 1180,
+      "crossing_tick": 1146,
+      "score": [
+        1,
+        0
+      ],
+      "restart": {
+        "team": "yellow",
+        "kicker": 1,
+        "centered_tick": 1375,
+        "kick_tick": 1382,
+        "error_m": 0.0
+      }
+    },
+    {
+      "team": "BLUE",
+      "score_tick": 3381,
+      "crossing_tick": 3347,
+      "score": [
+        2,
+        0
+      ],
+      "restart": {
+        "team": "yellow",
+        "kicker": 2,
+        "centered_tick": 3597,
+        "kick_tick": 3606,
+        "error_m": 0.0
+      }
+    }
+  ],
+  "completed": [
+    {
+      "kick": 155,
+      "receive": 190,
+      "passer": [
+        "blue",
+        1
+      ],
+      "receiver": [
+        "blue",
+        2
+      ],
+      "restart_pass": false
+    },
+    {
+      "kick": 722,
+      "receive": 771,
+      "passer": [
+        "blue",
+        1
+      ],
+      "receiver": [
+        "blue",
+        2
+      ],
+      "restart_pass": false
+    },
+    {
+      "kick": 779,
+      "receive": 799,
+      "passer": [
+        "blue",
+        2
+      ],
+      "receiver": [
+        "blue",
+        4
+      ],
+      "restart_pass": false
+    },
+    {
+      "kick": 811,
+      "receive": 837,
+      "passer": [
+        "blue",
+        4
+      ],
+      "receiver": [
+        "blue",
+        1
+      ],
+      "restart_pass": false
+    },
+    {
+      "kick": 868,
+      "receive": 886,
+      "passer": [
+        "blue",
+        1
+      ],
+      "receiver": [
+        "blue",
+        4
+      ],
+      "restart_pass": false
+    },
+    {
+      "kick": 2456,
+      "receive": 2495,
+      "passer": [
+        "blue",
+        3
+      ],
+      "receiver": [
+        "blue",
+        4
+      ],
+      "restart_pass": false
+    },
+    {
+      "kick": 2667,
+      "receive": 2694,
+      "passer": [
+        "blue",
+        2
+      ],
+      "receiver": [
+        "blue",
+        3
+      ],
+      "restart_pass": false
+    },
+    {
+      "kick": 3199,
+      "receive": 3232,
+      "passer": [
+        "blue",
+        2
+      ],
+      "receiver": [
+        "blue",
+        3
+      ],
+      "restart_pass": true
+    }
+  ],
+  "attempts": 20,
+  "observed_crashes": [],
+  "accepted_crashes": [],
+  "accepted_events": {
+    "POSSIBLE_GOAL": 2,
+    "GOAL": 2,
+    "BALL_LEFT_FIELD_TOUCH_LINE": 1,
+    "PLACEMENT_SUCCEEDED": 1
+  },
+  "detector_events": {
+    "POSSIBLE_GOAL": 2,
+    "BALL_LEFT_FIELD_TOUCH_LINE": 1,
+    "PLACEMENT_SUCCEEDED": 1
+  },
+  "kickoffs": [
+    {
+      "team": "blue",
+      "kicker": 4,
+      "centered_tick": 10,
+      "kick_tick": 25,
+      "error_m": 0.0
+    },
+    {
+      "team": "yellow",
+      "kicker": 1,
+      "centered_tick": 1375,
+      "kick_tick": 1382,
+      "error_m": 0.0
+    },
+    {
+      "team": "yellow",
+      "kicker": 2,
+      "centered_tick": 2083,
+      "kick_tick": 2092,
+      "error_m": 0.0
+    },
+    {
+      "team": "yellow",
+      "kicker": 2,
+      "centered_tick": 3597,
+      "kick_tick": 3606,
+      "error_m": 0.0
+    }
+  ],
+  "placements": [
+    {
+      "kind": "touchline",
+      "team": "blue",
+      "target": [
+        -4.3,
+        -2.8
+      ],
+      "error_m": 0.0,
+      "free_kick": 3161
+    }
+  ],
+  "body_contact_episodes": 0
+}

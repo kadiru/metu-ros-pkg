@@ -1,0 +1,10 @@
+{
+  "commit": "196ac8094ebd1aa3f863c4c3921840aa4e3b7554",
+  "verified_files": 247,
+  "remote_project_files": 2078,
+  "tree": "9b86f04fba37e647da8db9ac65528e8124756f5a",
+  "freeze_sha256": "bd3e54eeba3c0ac3afc00d17f51651725ea7c3c8c2245954e38d987a4271e135",
+  "remote_hashes_verified": true,
+  "verification": "Independent recursive Git tree comparison of every manifest path and Git blob SHA",
+  "verified_at": "2026-11-20 11:47:55 UTC"
+}

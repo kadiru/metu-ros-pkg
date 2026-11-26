@@ -1,0 +1,10 @@
+{
+  "root": "/Users/kadir/linkedin/projects/roboturk/modern",
+  "webots_sha256": "035a91bad1d12e4f34108ec48c8cadcb2dab4dc3278e4f03c9e969bb82d6babe",
+  "model": "/Users/kadir/linkedin/projects/roboturk/modern/runs/contest/sampled/policy.json",
+  "seed": 917,
+  "mode": "train_jaw",
+  "first": 8190000,
+  "matches": 256,
+  "seconds": 8
+}

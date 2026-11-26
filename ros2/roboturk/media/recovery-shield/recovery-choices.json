@@ -1,0 +1,39 @@
+{
+  "gif": {
+    "file": "recovery-choices.gif",
+    "frames": 135,
+    "seconds": 10.8,
+    "fps": 12.5,
+    "sha256": "22aa298b18ca160f58672dccaff18634ac43d680e2e8ac93e1468e9f6afd2b73"
+  },
+  "sources": [
+    {
+      "file": "recovery-finish.mp4",
+      "sha256": "7847a2685e0a16debd4be49de6e4b4663e33b462394cb608309c143b6b8402bf",
+      "start": 28.520000000000003,
+      "end": 32.47,
+      "inset": [
+        816,
+        290,
+        270,
+        162,
+        18
+      ]
+    },
+    {
+      "file": "recovery-to-goal.mp4",
+      "sha256": "9cc4942b0154ba43f1e874fa57d933abb32b0022a241ebe98832f6262a969342",
+      "start": 0,
+      "end": 6.510000000000001,
+      "inset": [
+        320,
+        186,
+        314,
+        190,
+        488
+      ]
+    }
+  ],
+  "break_seconds": 0.32,
+  "speed": 1
+}

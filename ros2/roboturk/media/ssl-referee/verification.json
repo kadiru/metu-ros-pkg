@@ -1,0 +1,236 @@
+{
+  "controller": "RoboCup-SSL/ssl-game-controller v3.23.1 darwin_arm64",
+  "transport": "UDP IPv4 loopback",
+  "seed": 20300000,
+  "dt": 0.04,
+  "frames": 450,
+  "players": 10,
+  "events": [
+    {
+      "tick": 0,
+      "event": "referee",
+      "command": "",
+      "mode": "halt",
+      "stage": "",
+      "source": "",
+      "counter": 0,
+      "sign": 1
+    },
+    {
+      "tick": 5,
+      "event": "referee",
+      "command": "HALT",
+      "mode": "halt",
+      "stage": "NORMAL_FIRST_HALF_PRE",
+      "source": "d5c9d9ea-96a2-4689-9b87-56ebe6eb227e",
+      "counter": 0,
+      "sign": 1
+    },
+    {
+      "tick": 9,
+      "event": "referee",
+      "command": "STOP",
+      "mode": "stop",
+      "stage": "NORMAL_FIRST_HALF_PRE",
+      "source": "d5c9d9ea-96a2-4689-9b87-56ebe6eb227e",
+      "counter": 1,
+      "sign": 1
+    },
+    {
+      "tick": 34,
+      "event": "referee",
+      "command": "PREPARE_KICKOFF_BLUE",
+      "mode": "stop",
+      "stage": "NORMAL_FIRST_HALF_PRE",
+      "source": "d5c9d9ea-96a2-4689-9b87-56ebe6eb227e",
+      "counter": 2,
+      "sign": -1
+    },
+    {
+      "tick": 59,
+      "event": "referee",
+      "command": "NORMAL_START",
+      "mode": "running",
+      "stage": "NORMAL_FIRST_HALF",
+      "source": "d5c9d9ea-96a2-4689-9b87-56ebe6eb227e",
+      "counter": 3,
+      "sign": -1
+    },
+    {
+      "tick": 88,
+      "event": "pass",
+      "actor": 1,
+      "speed": 2.6,
+      "receiver": 2
+    },
+    {
+      "tick": 116,
+      "event": "pass",
+      "actor": 2,
+      "speed": 2.6,
+      "receiver": 4
+    },
+    {
+      "tick": 124,
+      "event": "referee",
+      "command": "HALT",
+      "mode": "halt",
+      "stage": "NORMAL_FIRST_HALF",
+      "source": "d5c9d9ea-96a2-4689-9b87-56ebe6eb227e",
+      "counter": 4,
+      "sign": -1
+    },
+    {
+      "tick": 154,
+      "event": "referee",
+      "command": "FORCE_START",
+      "mode": "running",
+      "stage": "NORMAL_FIRST_HALF",
+      "source": "d5c9d9ea-96a2-4689-9b87-56ebe6eb227e",
+      "counter": 5,
+      "sign": -1
+    },
+    {
+      "tick": 218,
+      "event": "referee",
+      "command": "STOP",
+      "mode": "stop",
+      "stage": "NORMAL_FIRST_HALF",
+      "source": "d5c9d9ea-96a2-4689-9b87-56ebe6eb227e",
+      "counter": 6,
+      "sign": -1
+    },
+    {
+      "tick": 248,
+      "event": "referee",
+      "command": "FORCE_START",
+      "mode": "running",
+      "stage": "NORMAL_FIRST_HALF",
+      "source": "d5c9d9ea-96a2-4689-9b87-56ebe6eb227e",
+      "counter": 7,
+      "sign": -1
+    },
+    {
+      "tick": 302,
+      "event": "referee",
+      "command": "",
+      "mode": "halt",
+      "stage": "",
+      "source": "",
+      "counter": 0,
+      "sign": -1
+    }
+  ],
+  "segments": [
+    {
+      "command": "NO SIGNAL",
+      "frame": 0,
+      "frames": 5,
+      "score": [
+        0,
+        0
+      ],
+      "blue_attack_sign": 1,
+      "max_player_motion_per_step_m": 0.0
+    },
+    {
+      "command": "HALT",
+      "frame": 5,
+      "frames": 4,
+      "score": [
+        0,
+        0
+      ],
+      "blue_attack_sign": 1,
+      "max_player_motion_per_step_m": 0.0
+    },
+    {
+      "command": "STOP",
+      "frame": 9,
+      "frames": 25,
+      "score": [
+        0,
+        0
+      ],
+      "blue_attack_sign": 1,
+      "max_player_motion_per_step_m": 0.0
+    },
+    {
+      "command": "PREPARE_KICKOFF_BLUE",
+      "frame": 34,
+      "frames": 25,
+      "score": [
+        2,
+        0
+      ],
+      "blue_attack_sign": -1,
+      "max_player_motion_per_step_m": 0.0
+    },
+    {
+      "command": "NORMAL_START",
+      "frame": 59,
+      "frames": 65,
+      "score": [
+        2,
+        0
+      ],
+      "blue_attack_sign": -1,
+      "max_player_motion_per_step_m": 0.047919
+    },
+    {
+      "command": "HALT",
+      "frame": 124,
+      "frames": 30,
+      "score": [
+        1,
+        0
+      ],
+      "blue_attack_sign": -1,
+      "max_player_motion_per_step_m": 0.000427
+    },
+    {
+      "command": "FORCE_START",
+      "frame": 154,
+      "frames": 64,
+      "score": [
+        1,
+        0
+      ],
+      "blue_attack_sign": -1,
+      "max_player_motion_per_step_m": 0.047916
+    },
+    {
+      "command": "STOP",
+      "frame": 218,
+      "frames": 30,
+      "score": [
+        1,
+        0
+      ],
+      "blue_attack_sign": -1,
+      "max_player_motion_per_step_m": 0.000135
+    },
+    {
+      "command": "FORCE_START",
+      "frame": 248,
+      "frames": 54,
+      "score": [
+        1,
+        0
+      ],
+      "blue_attack_sign": -1,
+      "max_player_motion_per_step_m": 0.047918
+    },
+    {
+      "command": "NO SIGNAL",
+      "frame": 302,
+      "frames": 148,
+      "score": [
+        1,
+        0
+      ],
+      "blue_attack_sign": -1,
+      "max_player_motion_per_step_m": 1.1e-05
+    }
+  ]
+}

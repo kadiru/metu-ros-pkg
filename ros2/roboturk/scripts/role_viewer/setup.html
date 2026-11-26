@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RoboTurk Match Setup</title>
+  <style>/* VIEWER_STYLES */</style>
+</head>
+<body>
+  <main id="setup-offline" class="app setup">
+    <h1>Open the live Match Setup</h1>
+    <p>The local viewer loads the team choices and starts Webots.</p>
+    <a href="http://127.0.0.1:8765/">Open RoboTurk Match Setup</a>
+  </main>
+  <main id="setup-app" class="app setup" hidden>
+    <header class="masthead">
+      <div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div><span class="brand">RoboTurk</span><h1>Match setup</h1></div>
+      <div id="motion-limits" class="top-limits" role="group" aria-label="Shared motion limits"></div>
+    </header>
+    <form id="setup-form">
+      <fieldset class="mode-picker">
+        <legend>Mode</legend>
+        <label><input type="radio" name="mode" value="practice" checked><span><strong>Practice</strong><small>Choose a decision controller and playbook for each team.</small></span></label>
+        <label><input type="radio" name="mode" value="game"><span><strong>Game</strong><small>Choose your team color and watch the fixed playbooks compete.</small></span></label>
+      </fieldset>
+
+      <fieldset class="match-timing">
+        <legend>Match timing</legend>
+        <label for="match-periods">Periods
+          <select id="match-periods" name="periods">
+            <option value="1">1 period</option>
+            <option value="2">2 halves</option>
+          </select>
+        </label>
+        <label for="half-seconds">Seconds per period
+          <input type="number" id="half-seconds" name="half_seconds" step="1" required>
+        </label>
+      </fieldset>
+
+      <div id="practice-options" class="practice-options">
+        <p class="practice-guide">The <strong>decision controller</strong> picks who does what. The <strong>team playbook</strong> sets how the team attacks. <strong>Passing preference</strong> nudges the choice to pass or carry.</p>
+        <fieldset class="setup-team blue">
+          <legend>Blue</legend>
+          <label for="blue-controller">Decision controller</label>
+          <select id="blue-controller" name="blue-controller" aria-describedby="blue-controller-preview"></select>
+          <p class="setup-preview" id="blue-controller-preview"></p>
+          <label for="blue-strategy">Team playbook</label>
+          <select id="blue-strategy" name="blue-strategy" aria-describedby="blue-preview"></select>
+          <p class="setup-preview" id="blue-preview"></p>
+          <label for="blue-passing">Passing preference</label><select id="blue-passing" name="blue-passing"></select>
+        </fieldset>
+        <fieldset class="setup-team yellow">
+          <legend>Yellow</legend>
+          <label for="yellow-controller">Decision controller</label>
+          <select id="yellow-controller" name="yellow-controller" aria-describedby="yellow-controller-preview"></select>
+          <p class="setup-preview" id="yellow-controller-preview"></p>
+          <label for="yellow-strategy">Team playbook</label>
+          <select id="yellow-strategy" name="yellow-strategy" aria-describedby="yellow-preview"></select>
+          <p class="setup-preview" id="yellow-preview"></p>
+          <label for="yellow-passing">Passing preference</label><select id="yellow-passing" name="yellow-passing"></select>
+        </fieldset>
+      </div>
+
+      <fieldset id="game-options" class="team-picker" hidden>
+        <legend>Your team</legend>
+        <label class="blue"><input type="radio" name="team" value="blue" checked><span>Blue</span></label>
+        <label class="yellow"><input type="radio" name="team" value="yellow"><span>Yellow</span></label>
+      </fieldset>
+
+      <div class="start-row">
+        <button class="primary" id="start-match" type="submit">Start practice</button>
+        <span id="match-duration" class="label"></span>
+      </div>
+      <p id="setup-error" role="alert"></p>
+      <a id="active-match" hidden>Open the running match</a>
+    </form>
+  </main>
+  <script id="match-data" type="application/json"><!-- MATCH_DATA --></script>
+  <script>/* LIMIT_CONTROLS */</script>
+  <script>/* VIEWER_SCRIPT */</script>
+</body>
+</html>

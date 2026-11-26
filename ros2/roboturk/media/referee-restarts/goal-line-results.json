@@ -1,0 +1,166 @@
+{
+  "seed": 38727000,
+  "final_score": [
+    0,
+    0
+  ],
+  "official_halves": [
+    {
+      "stage": "NORMAL_FIRST_HALF",
+      "kickoff": "blue",
+      "blue_attack_sign": 1,
+      "wire_start_s": 22.0,
+      "wire_end_s": -1.04,
+      "running_native_s": 23.04
+    },
+    {
+      "stage": "NORMAL_SECOND_HALF",
+      "kickoff": "yellow",
+      "blue_attack_sign": -1,
+      "wire_start_s": 22.0,
+      "wire_end_s": -1.0,
+      "running_native_s": 23.0
+    }
+  ],
+  "kickoff_prepare_native_seconds": [
+    0.36,
+    10.52
+  ],
+  "native_seconds_by_mode": {
+    "halt": 3.36,
+    "stop": 34.92,
+    "running": 46.04
+  },
+  "simulated_seconds": 84.32000000000001,
+  "opening_tick": 18,
+  "goals": [],
+  "completed": [
+    {
+      "kick": 155,
+      "receive": 190,
+      "passer": [
+        "blue",
+        1
+      ],
+      "receiver": [
+        "blue",
+        2
+      ],
+      "restart_pass": false
+    },
+    {
+      "kick": 753,
+      "receive": 786,
+      "passer": [
+        "yellow",
+        1
+      ],
+      "receiver": [
+        "yellow",
+        4
+      ],
+      "restart_pass": true
+    },
+    {
+      "kick": 1327,
+      "receive": 1375,
+      "passer": [
+        "yellow",
+        1
+      ],
+      "receiver": [
+        "yellow",
+        3
+      ],
+      "restart_pass": false
+    },
+    {
+      "kick": 1825,
+      "receive": 1859,
+      "passer": [
+        "blue",
+        1
+      ],
+      "receiver": [
+        "blue",
+        2
+      ],
+      "restart_pass": true
+    },
+    {
+      "kick": 2033,
+      "receive": 2078,
+      "passer": [
+        "yellow",
+        1
+      ],
+      "receiver": [
+        "yellow",
+        3
+      ],
+      "restart_pass": false
+    }
+  ],
+  "attempts": 9,
+  "observed_crashes": [],
+  "accepted_crashes": [],
+  "accepted_events": {
+    "BALL_LEFT_FIELD_GOAL_LINE": 3,
+    "PLACEMENT_SUCCEEDED": 2
+  },
+  "detector_events": {
+    "PLACEMENT_SUCCEEDED": 2,
+    "BALL_LEFT_FIELD_GOAL_LINE": 1,
+    "ATTACKER_TOO_CLOSE_TO_DEFENSE_AREA": 1,
+    "BOT_DRIBBLED_BALL_TOO_FAR": 1
+  },
+  "kickoffs": [
+    {
+      "team": "blue",
+      "kicker": 4,
+      "centered_tick": 10,
+      "kick_tick": 25,
+      "error_m": 0.0
+    },
+    {
+      "team": "yellow",
+      "kicker": 1,
+      "centered_tick": 1223,
+      "kick_tick": 1231,
+      "error_m": 0.0
+    }
+  ],
+  "placements": [
+    {
+      "kind": "corner",
+      "team": "yellow",
+      "target": [
+        -4.3,
+        2.8
+      ],
+      "error_m": 0.0,
+      "free_kick": 554
+    },
+    {
+      "kind": "goal kick",
+      "team": "blue",
+      "target": [
+        3.5,
+        -2.8
+      ],
+      "error_m": 0.0,
+      "superseded_by_tick": 1499
+    },
+    {
+      "kind": "goal kick",
+      "team": "blue",
+      "target": [
+        3.5,
+        2.8
+      ],
+      "error_m": 0.0,
+      "free_kick": 1772
+    }
+  ],
+  "body_contact_episodes": 0
+}

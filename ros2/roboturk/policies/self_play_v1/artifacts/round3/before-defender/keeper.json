@@ -1,0 +1,23 @@
+{
+  "stage": "frozen_training_opponents",
+  "generation": 3,
+  "contract": "roboturk.mobile_opponent.v1",
+  "role": "keeper",
+  "config": {
+    "length": 9.0,
+    "width": 6.0,
+    "goal_width": 1.0,
+    "robot_radius": 0.09,
+    "ball_radius": 0.0215,
+    "ball_mass": 0.046,
+    "max_speed": 2.0,
+    "max_omega": 8.0,
+    "max_kick": 5.0,
+    "dt": 0.02,
+    "max_steps": 500,
+    "neighbors": 5,
+    "possession_x": 0.115
+  },
+  "actor_sha256": "d9d2280482068c6646c481413b48da548f421f851c06d4176152ed719fdd1d77",
+  "validated_for_hardware": false
+}

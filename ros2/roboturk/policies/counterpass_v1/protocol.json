@@ -1,0 +1,13 @@
+{
+ "baseline": "policies/takeaway_v1/calibrated.json",
+ "source": "policies/takeaway_v1/evaluation",
+ "decision": "At confirmed clean possession, keep the incumbent finish, carry to a new shooting lane, or lead either of two teammates. Fit candidate choices from verified goals before the next opposing touch. Maintain the previous checkpoint until qualification.",
+ "training": "Use the earliest two eligible clean recoveries in the first 24 s of each previous mirror match. Reproduce the physical prefix from kickoff with both calibrated teams. Branch just the recovering team's decision. Include successful and failed incumbent shots. Follow each branch to 18 s after recovery or regulation time.",
+ "dev_first": 18200000,
+ "fresh_first": 18300000,
+ "fresh_starts": 40,
+ "mixed_starts": 8,
+ "seconds": 90,
+ "promotion": "Require more clean-takeaway goals than the previous team across 40 new paired mirror starts, at least as many head-to-head wins as losses across eight color-swapped starts, and a verified goal from a completed lead pass. Freeze before examining fresh outcomes. If retrained after evaluation, reserve a disjoint panel and report both.",
+ "demo": "Prefer an exact-state replay where the frozen policy leads a teammate and scores and the incumbent shoots and fails. Prefer a fresh recovery when available. Verify the full replay against the native event log and 100 Hz state trace."
+}

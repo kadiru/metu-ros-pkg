@@ -1,0 +1,37 @@
+#VRML_SIM R2025a utf8
+IMPORTABLE EXTERNPROTO "../protos/SslRobot.proto"
+EXTERNPROTO "../protos/SslBall.proto"
+EXTERNPROTO "../protos/SslDivisionBField.proto"
+
+WorldInfo {
+  info [ "RoboTurk behavior prototype: acceleration-limited body velocity, ODE contacts, spring dribbler." ]
+  basicTimeStep 2
+  coordinateSystem "ENU"
+  randomSeed 0
+  contactProperties [
+    ContactProperties {
+      material1 "robot" material2 "floor"
+      coulombFriction [ 0 ] bounce 0
+    }
+    ContactProperties {
+      material1 "ball" material2 "floor"
+      # The backend integrates isotropic carpet traction from measured slip and spin.
+      coulombFriction [ 0 ] rollingFriction 0 0 0 bounce 0.1
+    }
+    ContactProperties {
+      material1 "ball" material2 "goal"
+      coulombFriction [ 0.6 ] bounce 0.05 bounceVelocity 0.05
+    }
+  ]
+}
+DEF CAMERA Viewpoint { orientation 0 1 0 1.57079632679 position 0 0 13 }
+Background { skyColor [ 0.08 0.1 0.14 ] }
+DirectionalLight { direction -0.2 -0.3 -1 intensity 1 }
+DEF FIELD SslDivisionBField { }
+DEF BALL SslBall { }
+Robot {
+  name "roboturk_supervisor"
+  supervisor TRUE
+  controller "roboturk_touch"
+  synchronization TRUE
+}

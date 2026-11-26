@@ -1,0 +1,75 @@
+{
+  "seed": 38727000,
+  "first_half_max_start_difference": 2.565854121688508e-49,
+  "comparison_first_half": {
+    "kicker": "B4",
+    "start_s": 0.84,
+    "kick_s": 1.08,
+    "align_s": 0.24,
+    "kick_speed_m_s": 2.6,
+    "kick_trace": "deflected",
+    "kick_trace_s": 1.36,
+    "nearest_robot_at_trace_end": "Y3"
+  },
+  "revised_kickoffs": [
+    {
+      "kicker": "B4",
+      "start_s": 0.68,
+      "kick_s": 2.16,
+      "align_s": 1.48,
+      "kick_speed_m_s": 2.0221,
+      "kick_trace": "deflected",
+      "kick_trace_s": 3.32,
+      "receiver": "B1",
+      "receiver_active_s": 2.2,
+      "secured_s": 3.36,
+      "receipt_delay_s": 1.2,
+      "in_play_distance_m": 0.0784,
+      "roles": [
+        "Keeper",
+        "Kickoff receiver",
+        "Kickoff support",
+        "Kickoff support",
+        "Kickoff",
+        "Stand clear",
+        "Stand clear",
+        "Stand clear",
+        "Stand clear",
+        "Stand clear"
+      ],
+      "nearest_robot_at_trace_end": "B1"
+    },
+    {
+      "kicker": "Y1",
+      "start_s": 22.36,
+      "kick_s": 23.64,
+      "align_s": 1.28,
+      "kick_speed_m_s": 2.0285,
+      "kick_trace": "deflected",
+      "kick_trace_s": 24.8,
+      "receiver": "Y2",
+      "receiver_active_s": 23.68,
+      "secured_s": 24.88,
+      "receipt_delay_s": 1.24,
+      "in_play_distance_m": 0.0787,
+      "roles": [
+        "Stand clear",
+        "Stand clear",
+        "Stand clear",
+        "Stand clear",
+        "Stand clear",
+        "Keeper",
+        "Kickoff",
+        "Kickoff receiver",
+        "Kickoff support",
+        "Kickoff support"
+      ],
+      "nearest_robot_at_trace_end": "Y2"
+    }
+  ],
+  "final_score": [
+    0,
+    0
+  ],
+  "official_crash_calls": 0
+}

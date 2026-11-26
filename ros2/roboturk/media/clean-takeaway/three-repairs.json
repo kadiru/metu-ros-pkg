@@ -1,0 +1,31 @@
+{
+  "original_training_cases": [
+    {
+      "seed": 16300006,
+      "sample": 1172,
+      "goal": 1527,
+      "clip": "attacking-repair.mp4"
+    },
+    {
+      "seed": 16300008,
+      "sample": 4913,
+      "goal": 5287,
+      "clip": "takeaway-repair.mp4"
+    },
+    {
+      "seed": 16300008,
+      "sample": 7872,
+      "goal": 8255,
+      "clip": "deep-selected.mp4"
+    }
+  ],
+  "seconds": 20.72,
+  "sha256": "0a6961a0e16135c324c29b87bfff8e70010bbdb7d4469a02d317ed2a3786fbe4",
+  "gif": {
+    "file": "three-repaired-takeaways.gif",
+    "frames": 259,
+    "seconds": 20.72,
+    "fps": 12.5,
+    "sha256": "2b128b6c9e936999d8ad62640808eca04f52b9e8907e804191f1a8f7890b111d"
+  }
+}

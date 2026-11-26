@@ -1,0 +1,55 @@
+{
+  "contract": "roboturk.capture_dribble_shoot.v1",
+  "skill": "shoot",
+  "config": {
+    "length": 9.0,
+    "width": 6.0,
+    "goal_width": 1.0,
+    "robot_radius": 0.09,
+    "ball_radius": 0.0215,
+    "ball_mass": 0.046,
+    "max_speed": 2.0,
+    "max_omega": 8.0,
+    "max_kick": 5.0,
+    "dt": 0.02,
+    "max_steps": 500,
+    "neighbors": 5,
+    "possession_x": 0.115
+  },
+  "task": "capture_dribble_shoot.randomized.v1",
+  "backend": "webots_ideal_body_velocity",
+  "method": "Webots demonstration cloning + DAgger selection + anchored PPO",
+  "stage": "anchored_ppo",
+  "actual_steps": 65536,
+  "validated_for_hardware": false,
+  "episode_steps": 1200,
+  "minimum_carry": 0.5,
+  "maximum_shot_distance": 1.8,
+  "shot_speed": 3.5,
+  "possession_sample_seconds": 0.005,
+  "seed": 27,
+  "demonstration_episodes": 300,
+  "dagger_episodes": 150,
+  "demonstration_seed_range": [
+    200000,
+    200299
+  ],
+  "dagger_seed_range": [
+    220000,
+    220149
+  ],
+  "development_seed_range": [
+    210000,
+    210059
+  ],
+  "qualification_seed_range": [
+    250000,
+    250199
+  ],
+  "learning_rate": 3e-07,
+  "anchor_max_normalized_action_delta": 0.01,
+  "anchor_mean_square_delta": 1e-06,
+  "anchor_reference": "dagger",
+  "anchor_updates": 64,
+  "anchor_rejected_updates": 0
+}

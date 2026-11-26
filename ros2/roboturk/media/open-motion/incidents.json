@@ -1,0 +1,28 @@
+[
+  {
+    "blue": 2,
+    "yellow": 3,
+    "switch_s": 0.32,
+    "matched_prefix_frames": 9,
+    "original_min_m": 0.19548408121244637,
+    "trained_min_m": 0.34310797494099615,
+    "reproduced_crash_speed_mps": 1.5432832,
+    "post_switch_calls": [
+      1,
+      0
+    ]
+  },
+  {
+    "blue": 4,
+    "yellow": 2,
+    "switch_s": 4.64,
+    "matched_prefix_frames": 117,
+    "original_min_m": 0.1949989755920343,
+    "trained_min_m": 0.31769008431611834,
+    "reproduced_crash_speed_mps": 1.606965,
+    "post_switch_calls": [
+      1,
+      0
+    ]
+  }
+]

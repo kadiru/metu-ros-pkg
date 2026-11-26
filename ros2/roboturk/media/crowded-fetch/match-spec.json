@@ -1,0 +1,23 @@
+{
+  "mode": "league_match",
+  "seed": 38727000,
+  "half_seconds": 24,
+  "seconds": 540,
+  "film": false,
+  "drive_kickoffs": true,
+  "team_kickoffs": true,
+  "track_kickoffs": true,
+  "open_play_policy": "policies/open_motion_v1/actor.json",
+  "trajectory_planner": true,
+  "errt_fallback": true,
+  "commit_waypoints": true,
+  "release_waypoint_early": true,
+  "tackle_policy": "policies/ball_side_tackle_v1/actor.json",
+  "tackle_selector": true,
+  "keeper_cover": true,
+  "keeper_lane": true,
+  "possession_audit": true,
+  "simulation_clock": true,
+  "referee_placement": true,
+  "crowded_fetch": true
+}

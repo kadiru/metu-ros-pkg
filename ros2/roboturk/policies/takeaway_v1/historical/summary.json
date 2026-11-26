@@ -1,0 +1,77 @@
+[
+  {
+    "seed": 16300006,
+    "role": "previous",
+    "identical_prefix_samples": 1176,
+    "sample": 1172,
+    "winner": 2,
+    "kind": "takeaway",
+    "team": "blue",
+    "outcome": "opponent touch",
+    "end": 1493
+  },
+  {
+    "seed": 16300006,
+    "role": "trained",
+    "identical_prefix_samples": 1176,
+    "sample": 1172,
+    "winner": 2,
+    "kind": "takeaway",
+    "team": "blue",
+    "outcome": "goal",
+    "end": 1527,
+    "goal": 1527,
+    "scorer": 2,
+    "passes": []
+  },
+  {
+    "seed": 16300008,
+    "role": "previous",
+    "identical_prefix_samples": 4916,
+    "sample": 4913,
+    "winner": 0,
+    "kind": "takeaway",
+    "team": "blue",
+    "outcome": "ball out",
+    "end": 5815
+  },
+  {
+    "seed": 16300008,
+    "role": "trained",
+    "identical_prefix_samples": 4916,
+    "sample": 4913,
+    "winner": 0,
+    "kind": "takeaway",
+    "team": "blue",
+    "outcome": "goal",
+    "end": 5287,
+    "goal": 5287,
+    "scorer": 0,
+    "passes": []
+  },
+  {
+    "seed": 16300008,
+    "role": "previous",
+    "identical_prefix_samples": 7876,
+    "sample": 7872,
+    "winner": 2,
+    "kind": "takeaway",
+    "team": "blue",
+    "outcome": "opponent touch",
+    "end": 7886
+  },
+  {
+    "seed": 16300008,
+    "role": "trained",
+    "identical_prefix_samples": 7876,
+    "sample": 7872,
+    "winner": 2,
+    "kind": "takeaway",
+    "team": "blue",
+    "outcome": "goal",
+    "end": 8255,
+    "goal": 8255,
+    "scorer": 2,
+    "passes": []
+  }
+]

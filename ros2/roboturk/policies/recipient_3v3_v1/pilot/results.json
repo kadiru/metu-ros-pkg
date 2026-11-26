@@ -1,0 +1,47 @@
+[
+  {
+    "seed": 7100000,
+    "score": {},
+    "outcomes": {
+      "intercepted": 11,
+      "complete": 2,
+      "restart": 1
+    },
+    "stats": {
+      "safety_ticks": 450,
+      "physical_samples": 12000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7100001,
+    "score": {
+      "yellow": 1
+    },
+    "outcomes": {
+      "intercepted": 13,
+      "complete": 7
+    },
+    "stats": {
+      "safety_ticks": 664,
+      "physical_samples": 12000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7100002,
+    "score": {},
+    "outcomes": {
+      "complete": 5,
+      "intercepted": 7
+    },
+    "stats": {
+      "safety_ticks": 265,
+      "physical_samples": 12000,
+      "contacts": 0,
+      "exits": 0
+    }
+  }
+]

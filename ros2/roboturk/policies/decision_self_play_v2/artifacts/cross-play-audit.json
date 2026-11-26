@@ -1,0 +1,40 @@
+{
+  "scope": "development cross-play only",
+  "pairs": 9,
+  "episodes": 270,
+  "all_physics_and_decision_traces_verified": true,
+  "goals_matrix": [
+    [
+      19,
+      17,
+      16
+    ],
+    [
+      18,
+      17,
+      17
+    ],
+    [
+      18,
+      17,
+      18
+    ]
+  ],
+  "clean_matrix": [
+    [
+      30,
+      30,
+      30
+    ],
+    [
+      30,
+      30,
+      30
+    ],
+    [
+      30,
+      30,
+      30
+    ]
+  ]
+}

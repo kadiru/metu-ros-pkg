@@ -1,0 +1,2744 @@
+{
+  "pairs": [
+    {
+      "seed": 29300000,
+      "reset": {
+        "seed": 29300000,
+        "final_score": [
+          1,
+          1
+        ],
+        "official_halves": [
+          {
+            "stage": "NORMAL_FIRST_HALF",
+            "kickoff": "blue",
+            "blue_attack_sign": 1,
+            "wire_start_s": 30.0,
+            "wire_end_s": -1.010403,
+            "running_native_s": 24.16
+          },
+          {
+            "stage": "NORMAL_SECOND_HALF",
+            "kickoff": "yellow",
+            "blue_attack_sign": -1,
+            "wire_start_s": 30.0,
+            "wire_end_s": -1.01493,
+            "running_native_s": 23.88
+          }
+        ],
+        "kickoff_prepare_native_seconds": [
+          0.48,
+          0.44,
+          0.44,
+          0.48
+        ],
+        "native_seconds_by_mode": {
+          "halt": 3.84,
+          "stop": 3.68,
+          "running": 48.04
+        },
+        "simulated_seconds": 55.56,
+        "opening_tick": 23,
+        "goals": [
+          {
+            "team": "YELLOW",
+            "score_tick": 967,
+            "crossing_tick": 938,
+            "score": [
+              0,
+              1
+            ]
+          },
+          {
+            "team": "BLUE",
+            "score_tick": 1203,
+            "crossing_tick": 1175,
+            "score": [
+              1,
+              1
+            ]
+          }
+        ],
+        "completed": [
+          {
+            "kick": 31,
+            "receive": 52,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              3
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 53,
+            "receive": 89,
+            "passer": [
+              "blue",
+              3
+            ],
+            "receiver": [
+              "blue",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 93,
+            "receive": 129,
+            "passer": [
+              "blue",
+              2
+            ],
+            "receiver": [
+              "blue",
+              3
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 158,
+            "receive": 185,
+            "passer": [
+              "blue",
+              2
+            ],
+            "receiver": [
+              "blue",
+              3
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 188,
+            "receive": 226,
+            "passer": [
+              "blue",
+              3
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 720,
+            "receive": 740,
+            "passer": [
+              "yellow",
+              1
+            ],
+            "receiver": [
+              "yellow",
+              4
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 742,
+            "receive": 779,
+            "passer": [
+              "yellow",
+              4
+            ],
+            "receiver": [
+              "yellow",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 801,
+            "receive": 821,
+            "passer": [
+              "yellow",
+              2
+            ],
+            "receiver": [
+              "yellow",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 827,
+            "receive": 871,
+            "passer": [
+              "yellow",
+              1
+            ],
+            "receiver": [
+              "yellow",
+              4
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 873,
+            "receive": 913,
+            "passer": [
+              "yellow",
+              4
+            ],
+            "receiver": [
+              "yellow",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1075,
+            "receive": 1100,
+            "passer": [
+              "blue",
+              2
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1106,
+            "receive": 1147,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              4
+            ],
+            "restart_pass": false
+          }
+        ],
+        "attempts": 14,
+        "observed_crashes": [
+          {
+            "tick": 23,
+            "official_id": "d26a1fbe-1669-4039-b91f-1fd7dd4199f8",
+            "blue": 1,
+            "yellow": 2,
+            "command": "NORMAL_START",
+            "event": {
+              "botCrashUnique": {
+                "byTeam": "BLUE",
+                "violator": 1,
+                "victim": 2,
+                "location": {
+                  "x": 0.49378365,
+                  "y": -0.0698818
+                },
+                "crashSpeed": 3.8356676,
+                "speedDiff": 4.764556,
+                "crashAngle": 2.126926
+              },
+              "type": "BOT_CRASH_UNIQUE"
+            },
+            "since_formation_s": 0.48,
+            "nearest_centers_previous_second_m": 0.735,
+            "restart": 1,
+            "stage": "NORMAL_FIRST_HALF",
+            "tracker_pair_samples": 23,
+            "closest_tracked_centers_m": 0.13596433782045725
+          }
+        ],
+        "accepted_crashes": [
+          {
+            "id": "d26a1fbe-1669-4039-b91f-1fd7dd4199f8",
+            "type": "BOT_CRASH_UNIQUE",
+            "origin": [
+              "TIGERs AutoRef",
+              "Engine"
+            ],
+            "createdTimestamp": "1795430036527420",
+            "botCrashUnique": {
+              "byTeam": "BLUE",
+              "violator": 1,
+              "victim": 2,
+              "location": {
+                "x": 0.49378365,
+                "y": -0.0698818
+              },
+              "crashSpeed": 3.8356676,
+              "speedDiff": 4.764556,
+              "crashAngle": 2.126926
+            }
+          }
+        ],
+        "accepted_events": {
+          "BOT_CRASH_UNIQUE": 1,
+          "POSSIBLE_GOAL": 2,
+          "GOAL": 2
+        },
+        "detector_events": {
+          "BOT_CRASH_UNIQUE": 1,
+          "DEFENDER_TOO_CLOSE_TO_KICK_POINT": 2,
+          "ATTACKER_TOUCHED_BALL_IN_DEFENSE_AREA": 1,
+          "POSSIBLE_GOAL": 2,
+          "ATTACKER_DOUBLE_TOUCHED_BALL": 1
+        },
+        "formations": [
+          {
+            "restart": 1,
+            "command": "PREPARE_KICKOFF_BLUE",
+            "start": 11,
+            "end": 23,
+            "released": true,
+            "native_s": 0.48,
+            "max_step_m": 3.050385917225338,
+            "full_max_track_error_m": 3.887797673581904,
+            "full_tracked_samples": 620,
+            "full_expected_samples": 620,
+            "full_robot_samples_error_over_30cm": 80,
+            "moving_max_track_error_m": 3.050385962454834,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 3.887797673581904,
+            "robot_samples_error_over_30cm": 80,
+            "target_error_m": 0.0,
+            "yaw_error_rad": 0.0,
+            "ball_offset_m": 0.0
+          },
+          {
+            "restart": 2,
+            "command": "PREPARE_KICKOFF_YELLOW",
+            "start": 702,
+            "end": 713,
+            "released": true,
+            "native_s": 0.44,
+            "max_step_m": 8.42430467327913,
+            "full_max_track_error_m": 8.458994490449374,
+            "full_tracked_samples": 610,
+            "full_expected_samples": 610,
+            "full_robot_samples_error_over_30cm": 260,
+            "moving_max_track_error_m": 8.424303843551076,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 8.458994490449374,
+            "robot_samples_error_over_30cm": 260,
+            "target_error_m": 1.822723529231296e-05,
+            "yaw_error_rad": 7.867655180306156e-06,
+            "ball_offset_m": 0.0
+          },
+          {
+            "restart": 3,
+            "command": "PREPARE_KICKOFF_BLUE",
+            "start": 989,
+            "end": 1000,
+            "released": true,
+            "native_s": 0.44,
+            "max_step_m": 6.076963143381971,
+            "full_max_track_error_m": 6.399223912306502,
+            "full_tracked_samples": 610,
+            "full_expected_samples": 610,
+            "full_robot_samples_error_over_30cm": 194,
+            "moving_max_track_error_m": 6.076524361423332,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 6.399223912306502,
+            "robot_samples_error_over_30cm": 194,
+            "target_error_m": 0.00013819777636743934,
+            "yaw_error_rad": 4.946854658142969e-05,
+            "ball_offset_m": 0.0
+          },
+          {
+            "restart": 4,
+            "command": "PREPARE_KICKOFF_YELLOW",
+            "start": 1224,
+            "end": 1236,
+            "released": true,
+            "native_s": 0.48,
+            "max_step_m": 6.021735817942264,
+            "full_max_track_error_m": 6.227832497297755,
+            "full_tracked_samples": 620,
+            "full_expected_samples": 620,
+            "full_robot_samples_error_over_30cm": 226,
+            "moving_max_track_error_m": 6.021424973580393,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 6.227832497297755,
+            "robot_samples_error_over_30cm": 226,
+            "target_error_m": 0.00012468423624528886,
+            "yaw_error_rad": 4.741087715487424e-05,
+            "ball_offset_m": 0.0
+          }
+        ],
+        "max_robot_step_m": 8.42430467327913
+      },
+      "drive": {
+        "seed": 29300000,
+        "final_score": [
+          0,
+          1
+        ],
+        "official_halves": [
+          {
+            "stage": "NORMAL_FIRST_HALF",
+            "kickoff": "blue",
+            "blue_attack_sign": 1,
+            "wire_start_s": 30.0,
+            "wire_end_s": -1.08754,
+            "running_native_s": 23.92
+          },
+          {
+            "stage": "NORMAL_SECOND_HALF",
+            "kickoff": "yellow",
+            "blue_attack_sign": -1,
+            "wire_start_s": 30.0,
+            "wire_end_s": -1.057581,
+            "running_native_s": 23.84
+          }
+        ],
+        "kickoff_prepare_native_seconds": [
+          0.44,
+          41.8,
+          27.36
+        ],
+        "native_seconds_by_mode": {
+          "halt": 3.44,
+          "stop": 80.44,
+          "running": 47.76
+        },
+        "simulated_seconds": 131.64000000000001,
+        "opening_tick": 23,
+        "goals": [
+          {
+            "team": "YELLOW",
+            "score_tick": 1995,
+            "crossing_tick": 1966,
+            "score": [
+              0,
+              1
+            ]
+          }
+        ],
+        "completed": [
+          {
+            "kick": 31,
+            "receive": 52,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              3
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 53,
+            "receive": 89,
+            "passer": [
+              "blue",
+              3
+            ],
+            "receiver": [
+              "blue",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 93,
+            "receive": 129,
+            "passer": [
+              "blue",
+              2
+            ],
+            "receiver": [
+              "blue",
+              3
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 158,
+            "receive": 185,
+            "passer": [
+              "blue",
+              2
+            ],
+            "receiver": [
+              "blue",
+              3
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 189,
+            "receive": 228,
+            "passer": [
+              "blue",
+              3
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 236,
+            "receive": 271,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              3
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 311,
+            "receive": 334,
+            "passer": [
+              "yellow",
+              0
+            ],
+            "receiver": [
+              "yellow",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 361,
+            "receive": 379,
+            "passer": [
+              "yellow",
+              1
+            ],
+            "receiver": [
+              "yellow",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 387,
+            "receive": 431,
+            "passer": [
+              "yellow",
+              2
+            ],
+            "receiver": [
+              "yellow",
+              3
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 448,
+            "receive": 475,
+            "passer": [
+              "blue",
+              2
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1748,
+            "receive": 1768,
+            "passer": [
+              "yellow",
+              1
+            ],
+            "receiver": [
+              "yellow",
+              4
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1770,
+            "receive": 1807,
+            "passer": [
+              "yellow",
+              4
+            ],
+            "receiver": [
+              "yellow",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1829,
+            "receive": 1849,
+            "passer": [
+              "yellow",
+              2
+            ],
+            "receiver": [
+              "yellow",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1855,
+            "receive": 1899,
+            "passer": [
+              "yellow",
+              1
+            ],
+            "receiver": [
+              "yellow",
+              4
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1901,
+            "receive": 1941,
+            "passer": [
+              "yellow",
+              4
+            ],
+            "receiver": [
+              "yellow",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 3180,
+            "receive": 3211,
+            "passer": [
+              "yellow",
+              4
+            ],
+            "receiver": [
+              "yellow",
+              2
+            ],
+            "restart_pass": true
+          }
+        ],
+        "attempts": 19,
+        "observed_crashes": [],
+        "accepted_crashes": [],
+        "accepted_events": {
+          "POSSIBLE_GOAL": 1,
+          "GOAL": 1,
+          "BALL_LEFT_FIELD_TOUCH_LINE": 1,
+          "PLACEMENT_SUCCEEDED": 1
+        },
+        "detector_events": {
+          "DEFENDER_IN_DEFENSE_AREA": 1,
+          "POSSIBLE_GOAL": 1,
+          "BALL_LEFT_FIELD_TOUCH_LINE": 1,
+          "PLACEMENT_SUCCEEDED": 1,
+          "ATTACKER_TOO_CLOSE_TO_DEFENSE_AREA": 1
+        },
+        "formations": [
+          {
+            "restart": 1,
+            "command": "PREPARE_KICKOFF_BLUE",
+            "start": 12,
+            "end": 23,
+            "released": true,
+            "native_s": 0.44,
+            "max_step_m": 2.706381176680967e-19,
+            "full_max_track_error_m": 0.0787736409182963,
+            "full_tracked_samples": 610,
+            "full_expected_samples": 610,
+            "full_robot_samples_error_over_30cm": 0,
+            "moving_max_track_error_m": null,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 0.0787736409182963,
+            "robot_samples_error_over_30cm": 0,
+            "target_error_m": 0.0,
+            "yaw_error_rad": 0.0,
+            "ball_offset_m": 0.0
+          },
+          {
+            "restart": 2,
+            "command": "PREPARE_KICKOFF_YELLOW",
+            "start": 696,
+            "end": 1741,
+            "released": true,
+            "native_s": 41.8,
+            "max_step_m": 0.03992169897683362,
+            "full_max_track_error_m": 0.0835614883206528,
+            "full_tracked_samples": 10950,
+            "full_expected_samples": 10950,
+            "full_robot_samples_error_over_30cm": 0,
+            "moving_max_track_error_m": 0.04094834259208739,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 0.04091808073431737,
+            "robot_samples_error_over_30cm": 0,
+            "target_error_m": 0.00011749892731169097,
+            "yaw_error_rad": 2.030892927679366e-06,
+            "ball_offset_m": 0.0
+          },
+          {
+            "restart": 3,
+            "command": "PREPARE_KICKOFF_BLUE",
+            "start": 2017,
+            "end": 2701,
+            "released": true,
+            "native_s": 27.36,
+            "max_step_m": 0.039921695512685734,
+            "full_max_track_error_m": 0.05571768306167348,
+            "full_tracked_samples": 7340,
+            "full_expected_samples": 7340,
+            "full_robot_samples_error_over_30cm": 0,
+            "moving_max_track_error_m": 0.04094866906697195,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 0.041048680130271,
+            "robot_samples_error_over_30cm": 0,
+            "target_error_m": 0.0035664474931938694,
+            "yaw_error_rad": 2.4721839295693826e-06,
+            "ball_offset_m": 0.0
+          }
+        ],
+        "max_robot_step_m": 0.06915434514149282
+      }
+    },
+    {
+      "seed": 29300001,
+      "reset": {
+        "seed": 29300001,
+        "final_score": [
+          2,
+          1
+        ],
+        "official_halves": [
+          {
+            "stage": "NORMAL_FIRST_HALF",
+            "kickoff": "yellow",
+            "blue_attack_sign": 1,
+            "wire_start_s": 30.0,
+            "wire_end_s": -1.026185,
+            "running_native_s": 30.88
+          },
+          {
+            "stage": "NORMAL_SECOND_HALF",
+            "kickoff": "blue",
+            "blue_attack_sign": -1,
+            "wire_start_s": 29.950604,
+            "wire_end_s": -1.082408,
+            "running_native_s": 31.0
+          }
+        ],
+        "kickoff_prepare_native_seconds": [
+          0.6,
+          0.6,
+          0.6,
+          0.6,
+          0.6
+        ],
+        "native_seconds_by_mode": {
+          "halt": 5.56,
+          "stop": 19.24,
+          "running": 61.88
+        },
+        "simulated_seconds": 86.68,
+        "opening_tick": 31,
+        "goals": [
+          {
+            "team": "YELLOW",
+            "score_tick": 251,
+            "crossing_tick": 216,
+            "score": [
+              0,
+              1
+            ]
+          },
+          {
+            "team": "BLUE",
+            "score_tick": 466,
+            "crossing_tick": 432,
+            "score": [
+              1,
+              1
+            ]
+          },
+          {
+            "team": "BLUE",
+            "score_tick": 1529,
+            "crossing_tick": null,
+            "score": [
+              2,
+              1
+            ],
+            "center_line_crossings": [
+              {
+                "before_tick": 1493,
+                "after_tick": 1494,
+                "interpolated_y_m": 0.46090798449342796
+              }
+            ]
+          }
+        ],
+        "completed": [
+          {
+            "kick": 39,
+            "receive": 63,
+            "passer": [
+              "yellow",
+              3
+            ],
+            "receiver": [
+              "yellow",
+              4
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 65,
+            "receive": 103,
+            "passer": [
+              "yellow",
+              4
+            ],
+            "receiver": [
+              "yellow",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 104,
+            "receive": 140,
+            "passer": [
+              "yellow",
+              1
+            ],
+            "receiver": [
+              "yellow",
+              4
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 147,
+            "receive": 182,
+            "passer": [
+              "yellow",
+              4
+            ],
+            "receiver": [
+              "yellow",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 329,
+            "receive": 352,
+            "passer": [
+              "blue",
+              3
+            ],
+            "receiver": [
+              "blue",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 381,
+            "receive": 403,
+            "passer": [
+              "blue",
+              3
+            ],
+            "receiver": [
+              "blue",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1069,
+            "receive": 1100,
+            "passer": [
+              "yellow",
+              4
+            ],
+            "receiver": [
+              "yellow",
+              3
+            ],
+            "restart_pass": true
+          },
+          {
+            "kick": 1354,
+            "receive": 1374,
+            "passer": [
+              "blue",
+              2
+            ],
+            "receiver": [
+              "blue",
+              3
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1378,
+            "receive": 1418,
+            "passer": [
+              "blue",
+              3
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1424,
+            "receive": 1461,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              3
+            ],
+            "restart_pass": false
+          }
+        ],
+        "attempts": 12,
+        "observed_crashes": [
+          {
+            "tick": 43,
+            "official_id": "7ac30678-6089-4f88-aeac-82bcf4d6edb5",
+            "blue": 0,
+            "yellow": 2,
+            "command": "NORMAL_START",
+            "event": {
+              "botCrashUnique": {
+                "byTeam": "YELLOW",
+                "violator": 2,
+                "victim": 0,
+                "location": {
+                  "x": 4.197025,
+                  "y": 0.006786917
+                },
+                "crashSpeed": 6.9225554,
+                "speedDiff": -7.362277,
+                "crashAngle": 0.035750646
+              },
+              "type": "BOT_CRASH_UNIQUE"
+            },
+            "since_formation_s": 1.08,
+            "nearest_centers_previous_second_m": 6.0796,
+            "restart": 1,
+            "stage": "NORMAL_FIRST_HALF",
+            "tracker_pair_samples": 26,
+            "closest_tracked_centers_m": 0.03665583999655607
+          }
+        ],
+        "accepted_crashes": [
+          {
+            "id": "7ac30678-6089-4f88-aeac-82bcf4d6edb5",
+            "type": "BOT_CRASH_UNIQUE",
+            "origin": [
+              "TIGERs AutoRef",
+              "Engine"
+            ],
+            "createdTimestamp": "1795430507333138",
+            "botCrashUnique": {
+              "byTeam": "YELLOW",
+              "violator": 2,
+              "victim": 0,
+              "location": {
+                "x": 4.197025,
+                "y": 0.006786917
+              },
+              "crashSpeed": 6.9225554,
+              "speedDiff": -7.362277,
+              "crashAngle": 0.035750646
+            }
+          }
+        ],
+        "accepted_events": {
+          "BOT_CRASH_UNIQUE": 1,
+          "POSSIBLE_GOAL": 3,
+          "GOAL": 3,
+          "BALL_LEFT_FIELD_GOAL_LINE": 1,
+          "PLACEMENT_SUCCEEDED": 1
+        },
+        "detector_events": {
+          "BOT_CRASH_UNIQUE": 1,
+          "POSSIBLE_GOAL": 3,
+          "ATTACKER_DOUBLE_TOUCHED_BALL": 3,
+          "BALL_LEFT_FIELD_GOAL_LINE": 1,
+          "PLACEMENT_SUCCEEDED": 1,
+          "ATTACKER_TOO_CLOSE_TO_DEFENSE_AREA": 2,
+          "DEFENDER_TOO_CLOSE_TO_KICK_POINT": 1,
+          "BOT_DRIBBLED_BALL_TOO_FAR": 2
+        },
+        "formations": [
+          {
+            "restart": 1,
+            "command": "PREPARE_KICKOFF_YELLOW",
+            "start": 16,
+            "end": 31,
+            "released": true,
+            "native_s": 0.6,
+            "max_step_m": 8.36,
+            "full_max_track_error_m": 8.404470761028902,
+            "full_tracked_samples": 650,
+            "full_expected_samples": 650,
+            "full_robot_samples_error_over_30cm": 237,
+            "moving_max_track_error_m": 8.359999828338623,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 8.404470761028902,
+            "robot_samples_error_over_30cm": 237,
+            "target_error_m": 0.0,
+            "yaw_error_rad": 0.0,
+            "ball_offset_m": 0.0
+          },
+          {
+            "restart": 2,
+            "command": "PREPARE_KICKOFF_BLUE",
+            "start": 279,
+            "end": 294,
+            "released": true,
+            "native_s": 0.6,
+            "max_step_m": 5.312814445574777,
+            "full_max_track_error_m": 5.442540919021051,
+            "full_tracked_samples": 650,
+            "full_expected_samples": 650,
+            "full_robot_samples_error_over_30cm": 205,
+            "moving_max_track_error_m": 5.312819799064113,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 5.442540919021051,
+            "robot_samples_error_over_30cm": 205,
+            "target_error_m": 0.00016738475117261233,
+            "yaw_error_rad": 6.433474491318592e-05,
+            "ball_offset_m": 0.0
+          },
+          {
+            "restart": 3,
+            "command": "PREPARE_KICKOFF_YELLOW",
+            "start": 495,
+            "end": 510,
+            "released": true,
+            "native_s": 0.6,
+            "max_step_m": 5.8727154457325845,
+            "full_max_track_error_m": 5.989035679811222,
+            "full_tracked_samples": 650,
+            "full_expected_samples": 650,
+            "full_robot_samples_error_over_30cm": 205,
+            "moving_max_track_error_m": 5.872720001473707,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 5.989035679811222,
+            "robot_samples_error_over_30cm": 205,
+            "target_error_m": 0.00012365615223516234,
+            "yaw_error_rad": 4.793079105677904e-05,
+            "ball_offset_m": 0.0
+          },
+          {
+            "restart": 4,
+            "command": "PREPARE_KICKOFF_BLUE",
+            "start": 1317,
+            "end": 1332,
+            "released": true,
+            "native_s": 0.6,
+            "max_step_m": 8.424241277113044,
+            "full_max_track_error_m": 8.46702565331021,
+            "full_tracked_samples": 650,
+            "full_expected_samples": 650,
+            "full_robot_samples_error_over_30cm": 216,
+            "moving_max_track_error_m": 8.424241912851418,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 8.46702565331021,
+            "robot_samples_error_over_30cm": 216,
+            "target_error_m": 2.1008657471865585e-05,
+            "yaw_error_rad": 6.6890368566398696e-06,
+            "ball_offset_m": 0.0
+          },
+          {
+            "restart": 5,
+            "command": "PREPARE_KICKOFF_YELLOW",
+            "start": 1557,
+            "end": 1572,
+            "released": true,
+            "native_s": 0.6,
+            "max_step_m": 6.222791023220806,
+            "full_max_track_error_m": 6.223009990182893,
+            "full_tracked_samples": 650,
+            "full_expected_samples": 650,
+            "full_robot_samples_error_over_30cm": 215,
+            "moving_max_track_error_m": 6.222814262274394,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 6.223009990182893,
+            "robot_samples_error_over_30cm": 215,
+            "target_error_m": 0.00012088645045239279,
+            "yaw_error_rad": 4.678902231708355e-05,
+            "ball_offset_m": 0.0
+          }
+        ],
+        "max_robot_step_m": 8.424241277113044
+      },
+      "drive": {
+        "seed": 29300001,
+        "final_score": [
+          3,
+          1
+        ],
+        "official_halves": [
+          {
+            "stage": "NORMAL_FIRST_HALF",
+            "kickoff": "yellow",
+            "blue_attack_sign": 1,
+            "wire_start_s": 29.950273,
+            "wire_end_s": -1.006107,
+            "running_native_s": 30.88
+          },
+          {
+            "stage": "NORMAL_SECOND_HALF",
+            "kickoff": "blue",
+            "blue_attack_sign": -1,
+            "wire_start_s": 29.954421,
+            "wire_end_s": -1.049388,
+            "running_native_s": 30.96
+          }
+        ],
+        "kickoff_prepare_native_seconds": [
+          0.64,
+          25.16,
+          25.28,
+          38.0,
+          22.08,
+          22.32
+        ],
+        "native_seconds_by_mode": {
+          "halt": 5.92,
+          "stop": 149.24,
+          "running": 61.84
+        },
+        "simulated_seconds": 217.0,
+        "opening_tick": 30,
+        "goals": [
+          {
+            "team": "YELLOW",
+            "score_tick": 273,
+            "crossing_tick": 238,
+            "score": [
+              0,
+              1
+            ]
+          },
+          {
+            "team": "BLUE",
+            "score_tick": 1110,
+            "crossing_tick": 1075,
+            "score": [
+              1,
+              1
+            ]
+          },
+          {
+            "team": "BLUE",
+            "score_tick": 3351,
+            "crossing_tick": 3317,
+            "score": [
+              2,
+              1
+            ]
+          },
+          {
+            "team": "BLUE",
+            "score_tick": 4271,
+            "crossing_tick": 4237,
+            "score": [
+              3,
+              1
+            ]
+          }
+        ],
+        "completed": [
+          {
+            "kick": 38,
+            "receive": 62,
+            "passer": [
+              "yellow",
+              3
+            ],
+            "receiver": [
+              "yellow",
+              4
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 64,
+            "receive": 102,
+            "passer": [
+              "yellow",
+              4
+            ],
+            "receiver": [
+              "yellow",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 120,
+            "receive": 135,
+            "passer": [
+              "yellow",
+              1
+            ],
+            "receiver": [
+              "yellow",
+              3
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 145,
+            "receive": 182,
+            "passer": [
+              "yellow",
+              3
+            ],
+            "receiver": [
+              "yellow",
+              4
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 962,
+            "receive": 984,
+            "passer": [
+              "blue",
+              3
+            ],
+            "receiver": [
+              "blue",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1021,
+            "receive": 1044,
+            "passer": [
+              "blue",
+              3
+            ],
+            "receiver": [
+              "blue",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 3187,
+            "receive": 3207,
+            "passer": [
+              "blue",
+              2
+            ],
+            "receiver": [
+              "blue",
+              3
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 3209,
+            "receive": 3247,
+            "passer": [
+              "blue",
+              3
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 3253,
+            "receive": 3289,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              3
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 4042,
+            "receive": 4055,
+            "passer": [
+              "blue",
+              3
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 4060,
+            "receive": 4074,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              3
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 4102,
+            "receive": 4123,
+            "passer": [
+              "blue",
+              3
+            ],
+            "receiver": [
+              "blue",
+              4
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 4127,
+            "receive": 4168,
+            "passer": [
+              "blue",
+              4
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 4179,
+            "receive": 4215,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              4
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 4865,
+            "receive": 4887,
+            "passer": [
+              "yellow",
+              1
+            ],
+            "receiver": [
+              "yellow",
+              2
+            ],
+            "restart_pass": false
+          }
+        ],
+        "attempts": 20,
+        "observed_crashes": [],
+        "accepted_crashes": [],
+        "accepted_events": {
+          "POSSIBLE_GOAL": 4,
+          "GOAL": 4,
+          "BALL_LEFT_FIELD_TOUCH_LINE": 1,
+          "PLACEMENT_SUCCEEDED": 1
+        },
+        "detector_events": {
+          "POSSIBLE_GOAL": 4,
+          "ATTACKER_DOUBLE_TOUCHED_BALL": 2,
+          "BALL_LEFT_FIELD_TOUCH_LINE": 1,
+          "PLACEMENT_SUCCEEDED": 1,
+          "ATTACKER_TOO_CLOSE_TO_DEFENSE_AREA": 1
+        },
+        "formations": [
+          {
+            "restart": 1,
+            "command": "PREPARE_KICKOFF_YELLOW",
+            "start": 14,
+            "end": 30,
+            "released": true,
+            "native_s": 0.64,
+            "max_step_m": 6.365866408575393e-19,
+            "full_max_track_error_m": 0.07673322006889227,
+            "full_tracked_samples": 660,
+            "full_expected_samples": 660,
+            "full_robot_samples_error_over_30cm": 0,
+            "moving_max_track_error_m": null,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 0.050479520833154455,
+            "robot_samples_error_over_30cm": 0,
+            "target_error_m": 0.0,
+            "yaw_error_rad": 0.0,
+            "ball_offset_m": 0.0
+          },
+          {
+            "restart": 2,
+            "command": "PREPARE_KICKOFF_BLUE",
+            "start": 300,
+            "end": 929,
+            "released": true,
+            "native_s": 25.16,
+            "max_step_m": 0.03992170529478739,
+            "full_max_track_error_m": 0.0720081667855015,
+            "full_tracked_samples": 6790,
+            "full_expected_samples": 6790,
+            "full_robot_samples_error_over_30cm": 0,
+            "moving_max_track_error_m": 0.04096943414849283,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 0.041591425919708214,
+            "robot_samples_error_over_30cm": 0,
+            "target_error_m": 0.0013740457955972642,
+            "yaw_error_rad": 2.264165314148206e-06,
+            "ball_offset_m": 0.0
+          },
+          {
+            "restart": 3,
+            "command": "PREPARE_KICKOFF_YELLOW",
+            "start": 1138,
+            "end": 1770,
+            "released": true,
+            "native_s": 25.28,
+            "max_step_m": 0.039921713003406925,
+            "full_max_track_error_m": 0.0696628948907471,
+            "full_tracked_samples": 6820,
+            "full_expected_samples": 6820,
+            "full_robot_samples_error_over_30cm": 0,
+            "moving_max_track_error_m": 0.04094894566065551,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 0.04175378053925679,
+            "robot_samples_error_over_30cm": 0,
+            "target_error_m": 0.0039074874210578954,
+            "yaw_error_rad": 0.0016750482660621519,
+            "ball_offset_m": 0.0
+          },
+          {
+            "restart": 4,
+            "command": "PREPARE_KICKOFF_BLUE",
+            "start": 2215,
+            "end": 3165,
+            "released": true,
+            "native_s": 38.0,
+            "max_step_m": 0.03992170609799638,
+            "full_max_track_error_m": 0.09911918662912787,
+            "full_tracked_samples": 10000,
+            "full_expected_samples": 10000,
+            "full_robot_samples_error_over_30cm": 0,
+            "moving_max_track_error_m": 0.052514144725632796,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 0.04251821371573331,
+            "robot_samples_error_over_30cm": 0,
+            "target_error_m": 0.0024702771699844483,
+            "yaw_error_rad": 1.9743222714474484e-06,
+            "ball_offset_m": 0.0
+          },
+          {
+            "restart": 5,
+            "command": "PREPARE_KICKOFF_YELLOW",
+            "start": 3378,
+            "end": 3930,
+            "released": true,
+            "native_s": 22.08,
+            "max_step_m": 0.039921050947808796,
+            "full_max_track_error_m": 0.06310769190577022,
+            "full_tracked_samples": 6020,
+            "full_expected_samples": 6020,
+            "full_robot_samples_error_over_30cm": 0,
+            "moving_max_track_error_m": 0.04095582070952667,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 0.04095582070952667,
+            "robot_samples_error_over_30cm": 0,
+            "target_error_m": 0.0025954772731238192,
+            "yaw_error_rad": 2.2830234952816255e-06,
+            "ball_offset_m": 0.0
+          },
+          {
+            "restart": 6,
+            "command": "PREPARE_KICKOFF_YELLOW",
+            "start": 4299,
+            "end": 4857,
+            "released": true,
+            "native_s": 22.32,
+            "max_step_m": 0.03992164148879787,
+            "full_max_track_error_m": 0.09409203447067398,
+            "full_tracked_samples": 6080,
+            "full_expected_samples": 6080,
+            "full_robot_samples_error_over_30cm": 0,
+            "moving_max_track_error_m": 0.0409575684365806,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 0.04241485655038353,
+            "robot_samples_error_over_30cm": 0,
+            "target_error_m": 0.0021961246473825237,
+            "yaw_error_rad": 0.0016822445507783876,
+            "ball_offset_m": 0.0
+          }
+        ],
+        "max_robot_step_m": 0.07589309387538358
+      }
+    },
+    {
+      "seed": 29300002,
+      "reset": {
+        "seed": 29300002,
+        "final_score": [
+          1,
+          0
+        ],
+        "official_halves": [
+          {
+            "stage": "NORMAL_FIRST_HALF",
+            "kickoff": "blue",
+            "blue_attack_sign": 1,
+            "wire_start_s": 29.952093,
+            "wire_end_s": -1.002812,
+            "running_native_s": 30.92
+          },
+          {
+            "stage": "NORMAL_SECOND_HALF",
+            "kickoff": "yellow",
+            "blue_attack_sign": -1,
+            "wire_start_s": 29.947189,
+            "wire_end_s": -1.063423,
+            "running_native_s": 30.96
+          }
+        ],
+        "kickoff_prepare_native_seconds": [
+          0.6,
+          0.6,
+          0.6
+        ],
+        "native_seconds_by_mode": {
+          "halt": 4.44,
+          "stop": 15.44,
+          "running": 61.88
+        },
+        "simulated_seconds": 81.76,
+        "opening_tick": 30,
+        "goals": [
+          {
+            "team": "BLUE",
+            "score_tick": 281,
+            "crossing_tick": 247,
+            "score": [
+              1,
+              0
+            ]
+          }
+        ],
+        "completed": [
+          {
+            "kick": 37,
+            "receive": 56,
+            "passer": [
+              "blue",
+              4
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 56,
+            "receive": 95,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              3
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 109,
+            "receive": 128,
+            "passer": [
+              "blue",
+              3
+            ],
+            "receiver": [
+              "blue",
+              4
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 134,
+            "receive": 177,
+            "passer": [
+              "blue",
+              4
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 181,
+            "receive": 220,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              4
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 363,
+            "receive": 382,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              4
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 386,
+            "receive": 412,
+            "passer": [
+              "blue",
+              4
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 420,
+            "receive": 449,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 472,
+            "receive": 492,
+            "passer": [
+              "blue",
+              2
+            ],
+            "receiver": [
+              "blue",
+              4
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 497,
+            "receive": 537,
+            "passer": [
+              "blue",
+              4
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1871,
+            "receive": 1901,
+            "passer": [
+              "yellow",
+              4
+            ],
+            "receiver": [
+              "yellow",
+              3
+            ],
+            "restart_pass": true
+          },
+          {
+            "kick": 2006,
+            "receive": 2024,
+            "passer": [
+              "yellow",
+              4
+            ],
+            "receiver": [
+              "yellow",
+              3
+            ],
+            "restart_pass": false
+          }
+        ],
+        "attempts": 15,
+        "observed_crashes": [
+          {
+            "tick": 19,
+            "official_id": null,
+            "blue": 4,
+            "yellow": 2,
+            "command": "PREPARE_KICKOFF_BLUE",
+            "event": {
+              "botCrashUnique": {
+                "byTeam": "BLUE",
+                "violator": 4,
+                "victim": 2,
+                "location": {
+                  "x": 0.018526686,
+                  "y": -2.0537023e-18
+                },
+                "crashSpeed": 1.7606506,
+                "speedDiff": 1.7706506,
+                "crashAngle": 1.1365157e-18
+              },
+              "type": "BOT_CRASH_UNIQUE"
+            },
+            "since_formation_s": 0.16,
+            "nearest_centers_previous_second_m": 0.735,
+            "restart": 1,
+            "stage": "NORMAL_FIRST_HALF_PRE",
+            "tracker_pair_samples": 19,
+            "closest_tracked_centers_m": 0.1929466277360916
+          }
+        ],
+        "accepted_crashes": [],
+        "accepted_events": {
+          "POSSIBLE_GOAL": 1,
+          "GOAL": 1,
+          "BALL_LEFT_FIELD_GOAL_LINE": 1,
+          "PLACEMENT_SUCCEEDED": 1
+        },
+        "detector_events": {
+          "BOT_CRASH_UNIQUE": 1,
+          "POSSIBLE_GOAL": 1,
+          "BOT_DRIBBLED_BALL_TOO_FAR": 1,
+          "BALL_LEFT_FIELD_GOAL_LINE": 1,
+          "PLACEMENT_SUCCEEDED": 1,
+          "ATTACKER_TOO_CLOSE_TO_DEFENSE_AREA": 2
+        },
+        "formations": [
+          {
+            "restart": 1,
+            "command": "PREPARE_KICKOFF_BLUE",
+            "start": 15,
+            "end": 30,
+            "released": true,
+            "native_s": 0.6,
+            "max_step_m": 2.6355223093745583,
+            "full_max_track_error_m": 2.765710335578051,
+            "full_tracked_samples": 650,
+            "full_expected_samples": 650,
+            "full_robot_samples_error_over_30cm": 39,
+            "moving_max_track_error_m": 2.6355223678870168,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 2.765710335578051,
+            "robot_samples_error_over_30cm": 39,
+            "target_error_m": 0.0,
+            "yaw_error_rad": 0.0,
+            "ball_offset_m": 0.0
+          },
+          {
+            "restart": 2,
+            "command": "PREPARE_KICKOFF_YELLOW",
+            "start": 309,
+            "end": 324,
+            "released": true,
+            "native_s": 0.6,
+            "max_step_m": 6.872044162340391,
+            "full_max_track_error_m": 7.027249919061905,
+            "full_tracked_samples": 650,
+            "full_expected_samples": 650,
+            "full_robot_samples_error_over_30cm": 198,
+            "moving_max_track_error_m": 6.872041583102527,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 7.027249919061905,
+            "robot_samples_error_over_30cm": 198,
+            "target_error_m": 0.00013037024273092473,
+            "yaw_error_rad": 5.0496358372123405e-05,
+            "ball_offset_m": 0.0
+          },
+          {
+            "restart": 3,
+            "command": "PREPARE_KICKOFF_YELLOW",
+            "start": 943,
+            "end": 958,
+            "released": true,
+            "native_s": 0.6,
+            "max_step_m": 8.424267708363997,
+            "full_max_track_error_m": 8.46731408781752,
+            "full_tracked_samples": 650,
+            "full_expected_samples": 650,
+            "full_robot_samples_error_over_30cm": 271,
+            "moving_max_track_error_m": 8.424267583882648,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 8.46731408781752,
+            "robot_samples_error_over_30cm": 271,
+            "target_error_m": 1.072568073822759e-06,
+            "yaw_error_rad": 5.748411892932392e-06,
+            "ball_offset_m": 0.0
+          }
+        ],
+        "max_robot_step_m": 8.424267708363997
+      },
+      "drive": {
+        "seed": 29300002,
+        "final_score": [
+          1,
+          0
+        ],
+        "official_halves": [
+          {
+            "stage": "NORMAL_FIRST_HALF",
+            "kickoff": "blue",
+            "blue_attack_sign": 1,
+            "wire_start_s": 30.0,
+            "wire_end_s": -1.103152,
+            "running_native_s": 31.04
+          },
+          {
+            "stage": "NORMAL_SECOND_HALF",
+            "kickoff": "yellow",
+            "blue_attack_sign": -1,
+            "wire_start_s": 30.0,
+            "wire_end_s": -1.053718,
+            "running_native_s": 31.04
+          }
+        ],
+        "kickoff_prepare_native_seconds": [
+          0.6,
+          29.0,
+          34.2
+        ],
+        "native_seconds_by_mode": {
+          "halt": 4.44,
+          "stop": 65.6,
+          "running": 62.08
+        },
+        "simulated_seconds": 132.12,
+        "opening_tick": 31,
+        "goals": [
+          {
+            "team": "BLUE",
+            "score_tick": 284,
+            "crossing_tick": 249,
+            "score": [
+              1,
+              0
+            ]
+          }
+        ],
+        "completed": [
+          {
+            "kick": 38,
+            "receive": 57,
+            "passer": [
+              "blue",
+              4
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 57,
+            "receive": 96,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              3
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 110,
+            "receive": 129,
+            "passer": [
+              "blue",
+              3
+            ],
+            "receiver": [
+              "blue",
+              4
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 135,
+            "receive": 180,
+            "passer": [
+              "blue",
+              4
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 182,
+            "receive": 221,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              4
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1280,
+            "receive": 1324,
+            "passer": [
+              "yellow",
+              1
+            ],
+            "receiver": [
+              "yellow",
+              4
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1343,
+            "receive": 1360,
+            "passer": [
+              "yellow",
+              4
+            ],
+            "receiver": [
+              "yellow",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1366,
+            "receive": 1403,
+            "passer": [
+              "yellow",
+              1
+            ],
+            "receiver": [
+              "yellow",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1406,
+            "receive": 1439,
+            "passer": [
+              "yellow",
+              2
+            ],
+            "receiver": [
+              "yellow",
+              4
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1446,
+            "receive": 1482,
+            "passer": [
+              "yellow",
+              4
+            ],
+            "receiver": [
+              "yellow",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1486,
+            "receive": 1524,
+            "passer": [
+              "yellow",
+              2
+            ],
+            "receiver": [
+              "yellow",
+              1
+            ],
+            "restart_pass": false
+          }
+        ],
+        "attempts": 15,
+        "observed_crashes": [],
+        "accepted_crashes": [],
+        "accepted_events": {
+          "POSSIBLE_GOAL": 1,
+          "GOAL": 1
+        },
+        "detector_events": {
+          "POSSIBLE_GOAL": 1,
+          "ATTACKER_DOUBLE_TOUCHED_BALL": 2,
+          "DEFENDER_IN_DEFENSE_AREA": 1,
+          "BOT_DRIBBLED_BALL_TOO_FAR": 1
+        },
+        "formations": [
+          {
+            "restart": 1,
+            "command": "PREPARE_KICKOFF_BLUE",
+            "start": 16,
+            "end": 31,
+            "released": true,
+            "native_s": 0.6,
+            "max_step_m": 6.638420477416588e-19,
+            "full_max_track_error_m": 0.06988331371709237,
+            "full_tracked_samples": 650,
+            "full_expected_samples": 650,
+            "full_robot_samples_error_over_30cm": 0,
+            "moving_max_track_error_m": null,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 0.06988331371709237,
+            "robot_samples_error_over_30cm": 0,
+            "target_error_m": 0.0,
+            "yaw_error_rad": 0.0,
+            "ball_offset_m": 0.0
+          },
+          {
+            "restart": 2,
+            "command": "PREPARE_KICKOFF_YELLOW",
+            "start": 311,
+            "end": 1036,
+            "released": true,
+            "native_s": 29.0,
+            "max_step_m": 0.03992163044221647,
+            "full_max_track_error_m": 0.09310162357027514,
+            "full_tracked_samples": 7750,
+            "full_expected_samples": 7750,
+            "full_robot_samples_error_over_30cm": 0,
+            "moving_max_track_error_m": 0.04094807023898723,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 0.041571649667215625,
+            "robot_samples_error_over_30cm": 0,
+            "target_error_m": 0.00011588392628985607,
+            "yaw_error_rad": 2.2319863151272354e-06,
+            "ball_offset_m": 0.0
+          },
+          {
+            "restart": 3,
+            "command": "PREPARE_KICKOFF_YELLOW",
+            "start": 1656,
+            "end": 2511,
+            "released": true,
+            "native_s": 34.2,
+            "max_step_m": 0.03992170062640031,
+            "full_max_track_error_m": 0.06864739863297578,
+            "full_tracked_samples": 9050,
+            "full_expected_samples": 9050,
+            "full_robot_samples_error_over_30cm": 0,
+            "moving_max_track_error_m": 0.04094851383151584,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 0.04119518064482524,
+            "robot_samples_error_over_30cm": 0,
+            "target_error_m": 0.001238333756830105,
+            "yaw_error_rad": 0.0018184707128468132,
+            "ball_offset_m": 0.0
+          }
+        ],
+        "max_robot_step_m": 0.04804641945633636
+      }
+    },
+    {
+      "seed": 29300003,
+      "reset": {
+        "seed": 29300003,
+        "final_score": [
+          1,
+          0
+        ],
+        "official_halves": [
+          {
+            "stage": "NORMAL_FIRST_HALF",
+            "kickoff": "yellow",
+            "blue_attack_sign": 1,
+            "wire_start_s": 30.0,
+            "wire_end_s": -1.105204,
+            "running_native_s": 31.0
+          },
+          {
+            "stage": "NORMAL_SECOND_HALF",
+            "kickoff": "blue",
+            "blue_attack_sign": -1,
+            "wire_start_s": 30.0,
+            "wire_end_s": -1.088048,
+            "running_native_s": 31.0
+          }
+        ],
+        "kickoff_prepare_native_seconds": [
+          0.6,
+          0.6,
+          0.6
+        ],
+        "native_seconds_by_mode": {
+          "halt": 4.48,
+          "stop": 37.72,
+          "running": 62.0
+        },
+        "simulated_seconds": 104.2,
+        "opening_tick": 31,
+        "goals": [
+          {
+            "team": "BLUE",
+            "score_tick": 2171,
+            "crossing_tick": 2137,
+            "score": [
+              1,
+              0
+            ]
+          }
+        ],
+        "completed": [
+          {
+            "kick": 555,
+            "receive": 580,
+            "passer": [
+              "blue",
+              4
+            ],
+            "receiver": [
+              "blue",
+              2
+            ],
+            "restart_pass": true
+          },
+          {
+            "kick": 685,
+            "receive": 712,
+            "passer": [
+              "yellow",
+              1
+            ],
+            "receiver": [
+              "yellow",
+              4
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 716,
+            "receive": 761,
+            "passer": [
+              "yellow",
+              4
+            ],
+            "receiver": [
+              "yellow",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 795,
+            "receive": 813,
+            "passer": [
+              "yellow",
+              2
+            ],
+            "receiver": [
+              "yellow",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 820,
+            "receive": 864,
+            "passer": [
+              "yellow",
+              1
+            ],
+            "receiver": [
+              "yellow",
+              4
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1407,
+            "receive": 1435,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              4
+            ],
+            "restart_pass": true
+          },
+          {
+            "kick": 1558,
+            "receive": 1579,
+            "passer": [
+              "blue",
+              2
+            ],
+            "receiver": [
+              "blue",
+              3
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1583,
+            "receive": 1619,
+            "passer": [
+              "blue",
+              3
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1637,
+            "receive": 1656,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 2041,
+            "receive": 2070,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              3
+            ],
+            "restart_pass": true
+          },
+          {
+            "kick": 2085,
+            "receive": 2119,
+            "passer": [
+              "blue",
+              3
+            ],
+            "receiver": [
+              "blue",
+              2
+            ],
+            "restart_pass": false
+          }
+        ],
+        "attempts": 13,
+        "observed_crashes": [
+          {
+            "tick": 30,
+            "official_id": null,
+            "blue": 1,
+            "yellow": 4,
+            "command": "PREPARE_KICKOFF_YELLOW",
+            "event": {
+              "botCrashUnique": {
+                "byTeam": "BLUE",
+                "violator": 1,
+                "victim": 4,
+                "location": {
+                  "x": -1.1701633,
+                  "y": -1.4684788
+                },
+                "crashSpeed": 4.057874,
+                "speedDiff": 6.4732823,
+                "crashAngle": 2.2513034
+              },
+              "type": "BOT_CRASH_UNIQUE"
+            },
+            "since_formation_s": 0.56,
+            "nearest_centers_previous_second_m": 3.496,
+            "restart": 1,
+            "stage": "NORMAL_FIRST_HALF_PRE",
+            "tracker_pair_samples": 26,
+            "closest_tracked_centers_m": 0.165441122716445
+          },
+          {
+            "tick": 36,
+            "official_id": "5f5f31f6-db85-4c8e-a766-a51088acd1d8",
+            "blue": 3,
+            "yellow": 0,
+            "command": "NORMAL_START",
+            "event": {
+              "botCrashUnique": {
+                "byTeam": "BLUE",
+                "violator": 3,
+                "victim": 0,
+                "location": {
+                  "x": -4.242235,
+                  "y": -0.05040362
+                },
+                "crashSpeed": 4.9406357,
+                "speedDiff": 6.265356,
+                "crashAngle": 3.1211247
+              },
+              "type": "BOT_CRASH_UNIQUE"
+            },
+            "since_formation_s": 0.8,
+            "nearest_centers_previous_second_m": 4.8,
+            "restart": 1,
+            "stage": "NORMAL_FIRST_HALF",
+            "tracker_pair_samples": 26,
+            "closest_tracked_centers_m": 0.15828213859541776
+          }
+        ],
+        "accepted_crashes": [
+          {
+            "id": "5f5f31f6-db85-4c8e-a766-a51088acd1d8",
+            "type": "BOT_CRASH_UNIQUE",
+            "origin": [
+              "TIGERs AutoRef",
+              "Engine"
+            ],
+            "createdTimestamp": "1795430949119814",
+            "botCrashUnique": {
+              "byTeam": "BLUE",
+              "violator": 3,
+              "victim": 0,
+              "location": {
+                "x": -4.242235,
+                "y": -0.05040362
+              },
+              "crashSpeed": 4.9406357,
+              "speedDiff": 6.265356,
+              "crashAngle": 3.1211247
+            }
+          }
+        ],
+        "accepted_events": {
+          "BOT_CRASH_UNIQUE": 1,
+          "BALL_LEFT_FIELD_GOAL_LINE": 2,
+          "PLACEMENT_SUCCEEDED": 3,
+          "BALL_LEFT_FIELD_TOUCH_LINE": 1,
+          "POSSIBLE_GOAL": 1,
+          "GOAL": 1
+        },
+        "detector_events": {
+          "BOT_CRASH_UNIQUE": 2,
+          "BALL_LEFT_FIELD_GOAL_LINE": 2,
+          "PLACEMENT_SUCCEEDED": 3,
+          "ATTACKER_TOO_CLOSE_TO_DEFENSE_AREA": 2,
+          "DEFENDER_IN_DEFENSE_AREA": 1,
+          "DEFENDER_TOO_CLOSE_TO_KICK_POINT": 2,
+          "BALL_LEFT_FIELD_TOUCH_LINE": 1,
+          "POSSIBLE_GOAL": 1,
+          "ATTACKER_DOUBLE_TOUCHED_BALL": 1,
+          "BOT_DRIBBLED_BALL_TOO_FAR": 2
+        },
+        "formations": [
+          {
+            "restart": 1,
+            "command": "PREPARE_KICKOFF_YELLOW",
+            "start": 16,
+            "end": 31,
+            "released": true,
+            "native_s": 0.6,
+            "max_step_m": 8.36,
+            "full_max_track_error_m": 8.408239566255535,
+            "full_tracked_samples": 648,
+            "full_expected_samples": 650,
+            "full_robot_samples_error_over_30cm": 277,
+            "moving_max_track_error_m": 8.359999828338623,
+            "tracked_samples": 498,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 8.408239566255535,
+            "robot_samples_error_over_30cm": 277,
+            "target_error_m": 0.0,
+            "yaw_error_rad": 0.0,
+            "ball_offset_m": 0.0
+          },
+          {
+            "restart": 2,
+            "command": "PREPARE_KICKOFF_BLUE",
+            "start": 1535,
+            "end": 1550,
+            "released": true,
+            "native_s": 0.6,
+            "max_step_m": 8.4199835102075,
+            "full_max_track_error_m": 8.474099530547186,
+            "full_tracked_samples": 650,
+            "full_expected_samples": 650,
+            "full_robot_samples_error_over_30cm": 292,
+            "moving_max_track_error_m": 8.419983317835047,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 8.474099530547186,
+            "robot_samples_error_over_30cm": 292,
+            "target_error_m": 1.3577380031441322e-06,
+            "yaw_error_rad": 7.280612130067254e-06,
+            "ball_offset_m": 0.0
+          },
+          {
+            "restart": 3,
+            "command": "PREPARE_KICKOFF_YELLOW",
+            "start": 2199,
+            "end": 2214,
+            "released": true,
+            "native_s": 0.6,
+            "max_step_m": 6.582776405493564,
+            "full_max_track_error_m": 6.582676137491806,
+            "full_tracked_samples": 650,
+            "full_expected_samples": 650,
+            "full_robot_samples_error_over_30cm": 206,
+            "moving_max_track_error_m": 6.582676137491806,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 6.582676137491806,
+            "robot_samples_error_over_30cm": 206,
+            "target_error_m": 0.00012421392565610035,
+            "yaw_error_rad": 4.402357613431107e-05,
+            "ball_offset_m": 0.0
+          }
+        ],
+        "max_robot_step_m": 8.4199835102075
+      },
+      "drive": {
+        "seed": 29300003,
+        "final_score": [
+          1,
+          0
+        ],
+        "official_halves": [
+          {
+            "stage": "NORMAL_FIRST_HALF",
+            "kickoff": "yellow",
+            "blue_attack_sign": 1,
+            "wire_start_s": 30.0,
+            "wire_end_s": -1.056386,
+            "running_native_s": 31.0
+          },
+          {
+            "stage": "NORMAL_SECOND_HALF",
+            "kickoff": "blue",
+            "blue_attack_sign": -1,
+            "wire_start_s": 29.949078,
+            "wire_end_s": -1.064756,
+            "running_native_s": 31.04
+          }
+        ],
+        "kickoff_prepare_native_seconds": [
+          0.6,
+          31.2,
+          28.4
+        ],
+        "native_seconds_by_mode": {
+          "halt": 4.48,
+          "stop": 62.0,
+          "running": 62.04
+        },
+        "simulated_seconds": 128.52,
+        "opening_tick": 31,
+        "goals": [
+          {
+            "team": "BLUE",
+            "score_tick": 1947,
+            "crossing_tick": 1913,
+            "score": [
+              1,
+              0
+            ]
+          }
+        ],
+        "completed": [
+          {
+            "kick": 88,
+            "receive": 111,
+            "passer": [
+              "yellow",
+              1
+            ],
+            "receiver": [
+              "yellow",
+              4
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 118,
+            "receive": 157,
+            "passer": [
+              "yellow",
+              4
+            ],
+            "receiver": [
+              "yellow",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1691,
+            "receive": 1712,
+            "passer": [
+              "blue",
+              2
+            ],
+            "receiver": [
+              "blue",
+              3
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1715,
+            "receive": 1751,
+            "passer": [
+              "blue",
+              3
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1769,
+            "receive": 1788,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1794,
+            "receive": 1840,
+            "passer": [
+              "blue",
+              2
+            ],
+            "receiver": [
+              "blue",
+              3
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1844,
+            "receive": 1885,
+            "passer": [
+              "blue",
+              3
+            ],
+            "receiver": [
+              "blue",
+              2
+            ],
+            "restart_pass": false
+          }
+        ],
+        "attempts": 8,
+        "observed_crashes": [],
+        "accepted_crashes": [],
+        "accepted_events": {
+          "POSSIBLE_GOAL": 1,
+          "GOAL": 1
+        },
+        "detector_events": {
+          "ATTACKER_DOUBLE_TOUCHED_BALL": 3,
+          "POSSIBLE_GOAL": 1,
+          "DEFENDER_TOO_CLOSE_TO_KICK_POINT": 1,
+          "BOT_DRIBBLED_BALL_TOO_FAR": 2
+        },
+        "formations": [
+          {
+            "restart": 1,
+            "command": "PREPARE_KICKOFF_YELLOW",
+            "start": 16,
+            "end": 31,
+            "released": true,
+            "native_s": 0.6,
+            "max_step_m": 6.638420477416588e-19,
+            "full_max_track_error_m": 0.059071443479158235,
+            "full_tracked_samples": 650,
+            "full_expected_samples": 650,
+            "full_robot_samples_error_over_30cm": 0,
+            "moving_max_track_error_m": null,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 0.059071443479158235,
+            "robot_samples_error_over_30cm": 0,
+            "target_error_m": 0.0,
+            "yaw_error_rad": 0.0,
+            "ball_offset_m": 0.0
+          },
+          {
+            "restart": 2,
+            "command": "PREPARE_KICKOFF_BLUE",
+            "start": 903,
+            "end": 1683,
+            "released": true,
+            "native_s": 31.2,
+            "max_step_m": 0.039921711812955334,
+            "full_max_track_error_m": 0.06953173978839712,
+            "full_tracked_samples": 8300,
+            "full_expected_samples": 8300,
+            "full_robot_samples_error_over_30cm": 0,
+            "moving_max_track_error_m": 0.040948288863287705,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 0.04093818798493371,
+            "robot_samples_error_over_30cm": 0,
+            "target_error_m": 0.0026925797917321742,
+            "yaw_error_rad": 1.9340627892350604e-06,
+            "ball_offset_m": 0.0
+          },
+          {
+            "restart": 3,
+            "command": "PREPARE_KICKOFF_YELLOW",
+            "start": 1975,
+            "end": 2685,
+            "released": true,
+            "native_s": 28.4,
+            "max_step_m": 0.03992170000044103,
+            "full_max_track_error_m": 0.04909310379611293,
+            "full_tracked_samples": 7600,
+            "full_expected_samples": 7600,
+            "full_robot_samples_error_over_30cm": 0,
+            "moving_max_track_error_m": 0.04095226476665546,
+            "tracked_samples": 500,
+            "expected_samples": 500,
+            "max_track_error_2s_m": 0.04259979025350091,
+            "robot_samples_error_over_30cm": 0,
+            "target_error_m": 0.003988908673644566,
+            "yaw_error_rad": 0.001662385598540299,
+            "ball_offset_m": 0.0
+          }
+        ],
+        "max_robot_step_m": 0.04817689441236197
+      }
+    }
+  ],
+  "totals": {
+    "reset": {
+      "observed": 5,
+      "accepted": 3,
+      "accepted_distant": 3,
+      "observed_distant": 5,
+      "after_first_accepted_distant": 0,
+      "passes": 45,
+      "attempts": 54,
+      "goals": 7,
+      "full_ball_goals": 6,
+      "native_play_seconds": 233.8,
+      "kickoffs": 15,
+      "released": 15,
+      "measurements": 7498,
+      "expected": 7500,
+      "through_release_samples": 9608,
+      "through_release_expected": 9610,
+      "through_release_over_30cm": 3121,
+      "off_by_30cm": 3121
+    },
+    "drive": {
+      "observed": 0,
+      "accepted": 0,
+      "accepted_distant": 0,
+      "observed_distant": 0,
+      "after_first_accepted_distant": 0,
+      "passes": 49,
+      "attempts": 62,
+      "goals": 7,
+      "full_ball_goals": 7,
+      "native_play_seconds": 233.72,
+      "kickoffs": 15,
+      "released": 15,
+      "measurements": 7500,
+      "expected": 7500,
+      "through_release_samples": 89270,
+      "through_release_expected": 89270,
+      "through_release_over_30cm": 0,
+      "off_by_30cm": 0
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "created_at": "2026-11-19T10:56:39.738287-08:00",
+  "models": {
+    "defender": {
+      "path": "policies/learned_opponents_v1/defender/policy.zip",
+      "sha256": "06fd042a37390dd0e51ab73f668763730a2e52faade721fbd421fa847612a726",
+      "manifest_sha256": "fe554b274ec1e9cf92b3bd6e7f23a85575d5e1779fc44b43cbfb9033d7801ba8"
+    },
+    "keeper": {
+      "path": "policies/learned_opponents_v1/keeper/policy.zip",
+      "sha256": "9dea9369b2b6bfe3811ca338c4d89f9b7854f7146ae0f33f1fd755967ecc52f4",
+      "manifest_sha256": "9f0f9b2a8639d613574e7e686a0c4723af295adb2cded16684cceb5d5a566641"
+    }
+  },
+  "defender_challenge_seeds": [
+    1250000,
+    1250099
+  ],
+  "keeper_challenge_seeds": [
+    1260000,
+    1260099
+  ],
+  "attacker_training_allowed_to_modify_opponents": false,
+  "runtime_sha256": {
+    "src/roboturk_core/roboturk/learned_opponents.py": "4d23e88e46803275ab6200a4cc223a510cb7bf6dd482972caa360c0f895cf84c",
+    "src/roboturk_core/roboturk/opponent_training.py": "acf9002321d676486433f95dcfdfa4daa4682e5f1f7252224c4f7ac765f5d3ca",
+    "src/roboturk_core/roboturk/model.py": "0489022ffecdaa2b269a7b547218d056401749aaa03f050b0cc8393d861cfa10",
+    "src/roboturk_core/roboturk/webots_backend.py": "1cc82885cb85d158463a94ab39a224d9c734ad8ae8699be40e501b018d3befaf",
+    "src/roboturk_ros/webots/protos/SslRobot.proto": "10a7d7d461e671529c29e836c05c43ee8107b864115a6fbdabb99cc4fa22e0f5",
+    "src/roboturk_ros/webots/protos/SslBall.proto": "2550c2c6c24163ad793e1e4178da7049d463988d8769a5487a0f8fca070c05c0",
+    "src/roboturk_ros/webots/worlds/ssl_training.wbt": "1c31097b4988e28de7ceec3f8f7b0ed0a15e5457c35b6b0797afea8c9e874309"
+  }
+}

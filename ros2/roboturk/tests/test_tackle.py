@@ -1,0 +1,285 @@
+from dataclasses import replace
+import math
+from types import SimpleNamespace
+
+import numpy as np
+
+from roboturk.five_play import open_play
+from roboturk.five_roles import CFG, FiveRoles, kickoff
+from roboturk.model import Ball, Command, RobotKey
+from roboturk.open_motion import Steering
+from roboturk.pivot_fetch import PivotFetch
+from roboturk.tackle import BallSideTackle
+from roboturk.tackle_selector import TackleSelector, release_risks
+from roboturk.goal_cover import GoalCover
+from roboturk.goal_lane import GoalLaneCover
+from roboturk.model import world_vector
+from roboturk.timed_keeper import TimedGoalCover, crossing, lane_arrival
+
+CARRIER = RobotKey("blue", 1)
+PRESSER = RobotKey("yellow", 1)
+
+
+def contest(distance):
+    w = kickoff(12, "blue", 1)
+    robots = []
+    for r in w.robots:
+        if r.key == CARRIER:
+            robots.append(replace(r, x=0, y=0, yaw=0))
+        elif r.key == PRESSER:
+            robots.append(replace(r, x=distance, y=0, yaw=math.pi))
+        else:
+            robots.append(replace(r, x=-2 if r.key.team == "blue" else 2, y=r.key.id * 0.6 - 1.3))
+    return replace(w, robots=tuple(robots), ball=Ball(CFG.possession_x, 0))
+
+
+def test_presser_tackle_only_acts_on_a_live_opponent_carrier():
+    w = contest(0.6)
+    roles = FiveRoles()
+    for _ in range(3):
+        roles.observe(w)
+    seen = []
+
+    def act(world, presser, carrier, observed, has_ball):
+        seen.append((presser.key, carrier.key, has_ball))
+        return Command(dribbler=1)
+
+    measured = {r.key: (0, 0) for r in w.robots}
+    tackle = SimpleNamespace(command=act)
+    policy = Steering(0.48, 0.305, 0.66)
+    # The carrier's actual pass selector remains part of the normal entry point.
+    weights = {team: np.zeros(6) for team in ("blue", "yellow")}
+    open_play(w, roles, weights, measured, policy, touchline=False, tackle=tackle)
+    assert seen == [(PRESSER, CARRIER, False)]
+    seen.clear()
+    loose = replace(w, ball=Ball(-1, -1))
+    open_play(loose, roles, weights, measured, policy, touchline=False, tackle=tackle)
+    assert not seen
+
+
+def test_double_grip_grants_one_bounded_window_for_a_tackle():
+    w = contest(0.23)
+    standard = FiveRoles()
+    fitted = FiveRoles()
+    for tactics in (standard, fitted):
+        tactics.control = CARRIER
+        tactics.last_touch = 0
+    for _ in range(4):
+        standard.observe(w)
+        fitted.observe(w, tackling=PRESSER)
+    assert standard.contain is not None and fitted.contain is None
+    for _ in range(16):
+        fitted.observe(w, tackling=PRESSER)
+    assert fitted.contain == PRESSER
+
+
+def test_pivot_waits_for_shared_control_and_can_collect_a_nearby_loose_ball():
+    w = contest(0.23)
+    actor, carrier = w.robot(PRESSER), w.robot(CARRIER)
+    base = Command(vx=0.2, dribbler=1)
+    pivot = PivotFetch(SimpleNamespace(command=lambda *args: base))
+    for tick in range(7):
+        assert pivot.command(replace(w, time=tick * CFG.dt), actor, carrier, {}, True) == base
+    turn = pivot.command(replace(w, time=7 * CFG.dt), actor, carrier, {}, True)
+    assert turn.omega and turn.dribbler == 1 and not turn.kick
+    assert len(pivot.sweeps) == 1
+    assert pivot.collect_loose(replace(w, time=8 * CFG.dt), actor) is None
+    loose = replace(w, time=8 * CFG.dt, ball=Ball(0.115, 0.06))
+    fetch = pivot.collect_loose(loose, actor)
+    assert fetch.dribbler == 1 and not fetch.kick
+    assert pivot.collect_loose(replace(loose, time=24 * CFG.dt), actor) is None
+
+
+def test_interrupted_shared_grip_cannot_activate_the_pivot():
+    w = contest(0.23)
+    actor, carrier = w.robot(PRESSER), w.robot(CARRIER)
+    base = Command(vx=0.2, dribbler=1)
+    pivot = PivotFetch(SimpleNamespace(command=lambda *args: base))
+    for tick in range(20):
+        result = pivot.command(replace(w, time=tick * CFG.dt), actor, carrier, {}, tick % 4 != 3)
+        assert result == base
+    assert not pivot.sweeps
+
+
+def test_brief_role_interruptions_do_not_reset_attempt_budget():
+    w = contest(0.23)
+    actor, carrier = w.robot(PRESSER), w.robot(CARRIER)
+    base = Command(vx=0.2, dribbler=1)
+    pivot = PivotFetch(SimpleNamespace(command=lambda *args: base))
+    for start in (0, 12, 24):
+        for tick in range(start, start + 9):
+            pivot.command(replace(w, time=tick * CFG.dt), actor, carrier, {}, True)
+    assert len(pivot.sweeps) == 2
+    assert pivot.duels[PRESSER].attempts == 2
+
+
+def test_tackle_release_veto_mirrors_both_touchlines_and_both_goals():
+    for side in (-1, 1):
+        ball = Ball(0, 2.90 * side)
+        assert release_risks(ball, 1, (0, side)) == ("touchline",)
+        assert release_risks(ball, 1, (0, -side)) == ()
+        ball = Ball(-4.38 * side, 0.1)
+        assert "own_goal" in release_risks(ball, side, (-side, 0))
+        assert release_risks(ball, side, (side, 0)) == ()
+
+
+def test_selector_tries_direct_then_uses_the_inward_pivot_in_a_stalled_duel():
+    w = contest(0.23)
+    w = replace(
+        w,
+        ball=replace(w.ball, y=2.9),
+        robots=tuple(replace(r, y=2.9) if r.key in (PRESSER, CARRIER) else r for r in w.robots),
+    )
+    selector = TackleSelector(BallSideTackle(37, 0.108, 0.22, 0))
+    observed = {r.key: (0, 0) for r in w.robots}
+    for tick in range(12):
+        command = selector.command(
+            replace(w, time=tick * CFG.dt), w.robot(PRESSER), w.robot(CARRIER), observed, True
+        )
+        assert selector.action(PRESSER) == ("direct" if tick < 7 else "pivot_right")
+        assert command.kick == 0
+    assert selector.events[-1]["vetoes"] == {"pivot_left": ("touchline",)}
+    drifting = replace(w, time=12 * CFG.dt, ball=replace(w.ball, vy=1.8))
+    command = selector.command(drifting, w.robot(PRESSER), w.robot(CARRIER), observed, True)
+    assert selector.action(PRESSER) == "contain"
+    assert command.dribbler == 0
+
+
+def test_selector_pivots_when_draw_progress_never_breaks_the_shared_grip():
+    w = contest(0.23)
+    selector = TackleSelector(BallSideTackle(37, 0.108, 0.22, 0))
+    observed = {r.key: (0, 0) for r in w.robots}
+    for tick in range(10):
+        frame = replace(w, time=tick * CFG.dt, ball=replace(w.ball, x=w.ball.x + tick * 0.003))
+        command = selector.command(frame, w.robot(PRESSER), w.robot(CARRIER), observed, True)
+        if tick < 9:
+            assert selector.action(PRESSER) == "direct"
+    assert selector.action(PRESSER) in ("pivot_left", "pivot_right")
+    assert selector.events[-1]["reason"] == "shared_grip"
+    assert command.omega and command.dribbler and not command.kick
+
+
+def test_successful_pivot_keeps_the_roller_on_and_pulls_away_before_resuming_play():
+    w = contest(0.23)
+    presser, carrier = w.robot(PRESSER), w.robot(CARRIER)
+    selector = TackleSelector(BallSideTackle(37, 0.108, 0.22, 0))
+    observed = dict.fromkeys((r.key for r in w.robots), (0, 0))
+    for tick in range(8):
+        selector.command(replace(w, time=tick * CFG.dt), presser, carrier, observed, True)
+    held = replace(
+        w,
+        time=0.32,
+        ball=Ball(0.142, 0.012),
+        robots=tuple(replace(r, x=-0.20) if r.key == CARRIER else r for r in w.robots),
+    )
+    secure, rival = selector.secure_after_tackle(held, presser)
+    assert rival == CARRIER
+    assert world_vector(secure.vx, secure.vy, presser.yaw)[0] > 0
+    assert secure.dribbler and not secure.kick and not secure.omega
+    assert selector.secure_after_tackle(replace(held, time=0.88), presser) is None
+
+
+def test_tackle_veto_preserves_an_inward_pull_that_can_counter_drift():
+    ball = Ball(0, 2.95, vy=0.35)
+    assert release_risks(ball, 1, (0, 1)) == ("touchline",)
+    assert release_risks(ball, 1, (0, -1)) == ()
+
+
+def test_goal_cover_reserves_keeper_roller_and_releases_after_the_presser_yields():
+    w = contest(0.23)
+    keeper = RobotKey(PRESSER.team, 0)
+    robots = tuple(
+        replace(r, x=r.x + 4.16, y=0.08)
+        if r.key in (PRESSER, CARRIER)
+        else replace(r, x=4.24, y=0.44, yaw=math.pi)
+        if r.key == keeper
+        else r
+        for r in w.robots
+    )
+    w = replace(w, robots=robots, ball=Ball(4.275, 0.08, vx=0.15))
+    pair = GoalCover()
+    assert not pair.commands(w, w.robot(PRESSER), needed=False)
+    assert set(pair.commands(w, w.robot(PRESSER), needed=False, preparing=True)) == {keeper}
+    commands = pair.commands(w, w.robot(PRESSER), needed=True)
+    assert set(commands) == {keeper, PRESSER}
+    assert commands[keeper].dribbler == 1 and commands[PRESSER].dribbler == 0
+    assert all(command.kick == 0 for command in commands.values())
+    loose = replace(w, time=0.08, ball=Ball(4.40, 0.18, vx=0.18))
+    assert set(pair.commands(loose, loose.robot(PRESSER), needed=False)) == {keeper, PRESSER}
+    assert not pair.commands(replace(w, time=0.56), w.robot(PRESSER), needed=False)
+
+
+def test_goal_cover_cannot_assign_a_parked_keeper_at_the_other_end():
+    w = contest(0.23)
+    w = replace(w, ball=Ball(4.44, 0.2, vx=0.12))
+    assert not GoalCover().commands(w, w.robot(PRESSER), needed=True)
+
+
+def test_timed_cover_arms_the_keeper_and_yields_only_when_it_can_meet_the_deadline():
+    w = contest(0.23)
+    keeper = RobotKey(PRESSER.team, 0)
+    robots = tuple(
+        replace(r, x=r.x + 4.29, y=-0.26)
+        if r.key in (PRESSER, CARRIER)
+        else replace(r, x=4.24, y=0.29, yaw=math.pi)
+        if r.key == keeper
+        else r
+        for r in w.robots
+    )
+    w = replace(w, robots=robots, ball=Ball(4.405, -0.26, vx=0.34))
+    deadline, lane = crossing(w, PRESSER.team)
+    assert lane_arrival(lane - w.robot(keeper).y, 0) > deadline
+    assert lane_arrival(-0.5, -0.6) < lane_arrival(-0.5, 0.6)
+    assert set(GoalCover().commands(w, w.robot(PRESSER), False, preparing=True)) == {keeper}
+    cover = TimedGoalCover()
+    assert set(cover.commands(w, w.robot(PRESSER), False, preparing=True)) == {keeper}
+    ready = replace(
+        w,
+        time=0.12,
+        ball=replace(w.ball, vx=0.66),
+        robots=tuple(replace(r, y=-0.15, vy=-0.4) if r.key == keeper else r for r in w.robots),
+    )
+    commands = cover.commands(ready, ready.robot(PRESSER), False, preparing=True)
+    assert set(commands) == {keeper, PRESSER}
+    assert commands[PRESSER].dribbler == 0 and commands[keeper].dribbler == 1
+    assert all(command.kick == 0 for command in commands.values())
+    assert set(TimedGoalCover().commands(w, w.robot(PRESSER), True)) == {keeper, PRESSER}
+    assert not TimedGoalCover().commands(w, w.robot(PRESSER), False)
+
+
+def test_keeper_sweeps_a_shared_ball_upfield_while_the_presser_keeps_its_roller_off():
+    w = contest(0.23)
+    keeper = RobotKey(PRESSER.team, 0)
+    poses = {
+        CARRIER: (4.42, -0.30, math.pi / 2),
+        keeper: (4.42, -0.07, -math.pi / 2),
+        PRESSER: (3.25, -0.30, 0.0),
+    }
+    robots = tuple(
+        replace(r, x=poses[r.key][0], y=poses[r.key][1], yaw=poses[r.key][2])
+        if r.key in poses
+        else r
+        for r in w.robots
+    )
+    w = replace(w, ball=Ball(4.42, -0.185), robots=robots)
+    pair = GoalLaneCover().commands(w, w.robot(PRESSER), needed=True)
+    assert set(pair) == {keeper, PRESSER}
+    dx, dy = world_vector(pair[keeper].vx, pair[keeper].vy, w.robot(keeper).yaw)
+    assert dx < 0 and dy > 0
+    assert pair[keeper].omega == 0
+    assert pair[keeper].dribbler == 1 and pair[PRESSER].dribbler == 0
+    assert all(command.kick == 0 for command in pair.values())
+
+    pivot = GoalLaneCover(pivot=True)
+    pivot_commands = pivot.commands(w, w.robot(PRESSER), needed=True)
+    assert pivot_commands[keeper].omega < 0 and pivot_commands[keeper].kick == 0
+    keeper_robot = w.robot(keeper)
+    turned = replace(
+        w,
+        time=CFG.dt,
+        robots=tuple(replace(r, yaw=r.yaw - 0.10) if r.key == keeper else r for r in w.robots),
+    )
+    pivot.commands(turned, turned.robot(PRESSER), needed=True)
+    first, second = pivot.pivot_samples
+    assert first["target_yaw"] == second["target_yaw"]
+    assert math.isclose(first["target_yaw"], keeper_robot.yaw - math.radians(28))

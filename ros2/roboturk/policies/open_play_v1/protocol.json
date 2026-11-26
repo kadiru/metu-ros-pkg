@@ -1,0 +1,13 @@
+{
+  "previous": "policies/recovery_touch_v1/planned-policy-9.json",
+  "train_first": 16100000,
+  "train_starts": 8,
+  "training_seconds": 75,
+  "test_first": 16300000,
+  "test_starts": 16,
+  "match_seconds": 90,
+  "mixed_starts": 8,
+  "definition": "An opposing team held sole roller control for 0.20 s before a different team established sole control for 0.20 s, or two opponents shared the ball for 0.20 s and a contestant then won 0.20 s sole control. Collapse overlapping events at the same recovery. Exclude possession granted at each restart. Count both colors.",
+  "comparison": "Compare goals per 90 s and goals per confirmed recovery for mirror teams on all 16 matched ordinary starts. Separately swap colors on the first eight starts against the 31/40 checkpoint. Each game uses a fresh native Webots process. Record a full evaluation match and verify its events and all 9,000 physical samples.",
+  "selection": "Search over press speed, interception horizon and pass/shoot preference in full native mirror and cross-play. Rank by own recovery goals per team-game plus own fraction of recoveries converted. Break ties by lower candidate index."
+}

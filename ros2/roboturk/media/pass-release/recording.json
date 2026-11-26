@@ -1,0 +1,58 @@
+{
+  "seed": 19300004,
+  "trained_moment": {
+    "sample": 3702,
+    "winner": 3,
+    "kind": "takeaway",
+    "team": "yellow",
+    "outcome": "goal",
+    "end": 4187,
+    "goal": 4187,
+    "scorer": 1,
+    "passes": [
+      935
+    ]
+  },
+  "model": 1,
+  "exact_events": true,
+  "exact_trajectory": true,
+  "physical_samples": 9000,
+  "decision": {
+    "sample": 3702,
+    "tick": 930,
+    "team": "yellow",
+    "actor": 0,
+    "action": 2,
+    "intended": 2,
+    "alternative": 1,
+    "released_to": 1,
+    "release_tick": 935,
+    "completed": true,
+    "outcome": "goal",
+    "goal": 4187,
+    "end": 4187
+  },
+  "source": "fresh mirrors",
+  "matched": {},
+  "full_seconds": 90.04,
+  "native_sha256": "2026eebde9647237f23ef1807dff5b3b84357bddfe88dfd1259487e89bd6fea1",
+  "excerpt_seconds": [
+    35.43,
+    42.88
+  ],
+  "highlight_sha256": "7779fa092eeab73413a65bdebc21290e2de993bed7b7be5b0e8c3bc214192afc",
+  "full": {
+    "file": "open-play-match.gif",
+    "frames": 720,
+    "seconds": 90.01,
+    "fps": 8,
+    "sha256": "5ae70ce4e7234e86e08db7ee19020e57548d3979460e93c38ffeaf712f6a32ca"
+  },
+  "highlight": {
+    "file": "open-play-recovery.gif",
+    "frames": 93,
+    "seconds": 7.44,
+    "fps": 12.5,
+    "sha256": "358c24ed3f772107bcb6e474d0480f57e32a99918e0328fdd076aed546d4852e"
+  }
+}

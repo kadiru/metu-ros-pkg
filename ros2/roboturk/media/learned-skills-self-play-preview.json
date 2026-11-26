@@ -1,0 +1,19 @@
+{
+  "source": "media/learned-skills-self-play-demo.mp4",
+  "source_sha256": "ce92a558c634e88039a34549d8be5d2a2f1d2e81ec09d1fde307be1b1c40a2fb",
+  "gif": "media/learned-skills-self-play-preview.gif",
+  "gif_sha256": "90d2fc3e79e9717cd76779ef621bd210abf29b82fd824ae67884c3019239931c",
+  "bytes": 4775221,
+  "source_start_seconds": 0,
+  "source_duration_seconds": 79.96,
+  "gif_duration_seconds": 80.0,
+  "frames": 1000,
+  "fps": 12.5,
+  "width": 960,
+  "height": 540,
+  "speed": 1,
+  "loop": "forever",
+  "cuts": 0,
+  "outcome_selection": false,
+  "full_decode_passed": true
+}

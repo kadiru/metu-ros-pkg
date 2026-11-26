@@ -1,0 +1,121 @@
+{
+  "stem": "matched-reception",
+  "before": {
+    "outcome": "First touch intercepted",
+    "elapsed_s": 2.14
+  },
+  "play": {
+    "start": 0,
+    "recovery": 71,
+    "winner": 4,
+    "team": "yellow",
+    "goal": 423,
+    "shot": 86,
+    "scorer": 0,
+    "passes": [
+      25
+    ],
+    "dribble_m": 0.0,
+    "options": [
+      "pass",
+      "shoot"
+    ]
+  },
+  "original": {
+    "seed": 13300014,
+    "receiver": 0,
+    "team": "yellow",
+    "opponent": 0,
+    "exclusive_samples": 19,
+    "first_touch_sample": 194,
+    "interception_sample": 213,
+    "opponent_gap_first_m": 0.38747899768102245,
+    "opponent_gap_loss_m": 0.2571016246590816,
+    "delay_from_release_s": 1.1400000000000001,
+    "receiver_still_holds": true,
+    "reproduction": {
+      "samples": 1800,
+      "max_state_delta": 0,
+      "events_plans_options_match": true
+    }
+  },
+  "trained": {
+    "seed": 13300014,
+    "qualified": true,
+    "chain": {
+      "start": 0,
+      "recovery": 71,
+      "winner": 4,
+      "team": "yellow",
+      "goal": 423,
+      "shot": 86,
+      "scorer": 0,
+      "passes": [
+        25
+      ],
+      "dribble_m": 0.0,
+      "options": [
+        "pass",
+        "shoot"
+      ]
+    },
+    "passer": 1,
+    "receiver": 0,
+    "slot": 0,
+    "decision": 18,
+    "kick": 25,
+    "end": 53,
+    "direct": 0.12912109968391236,
+    "lane": 0.28069428321502365,
+    "space": 1.1707065068614655,
+    "pass_result": "complete",
+    "outcome": "pressured shield goal",
+    "pass_goal": true,
+    "intercepted": false,
+    "target": [
+      -1.5226921401345266,
+      -0.6539077394533731
+    ],
+    "run_speed": 0.5948848436766141,
+    "lead": 0.40215441728456675,
+    "contact": 194,
+    "advance": 0.33017056579306064,
+    "target_error": 0.08105462850760241,
+    "verified_lead": true,
+    "lead_goal": true,
+    "marker": 0,
+    "pressure": true,
+    "gap_m": 0.38747899768102245,
+    "approach_mps": 1.0917382192176197,
+    "sole_samples": 150,
+    "shield": true,
+    "shield_start": 228,
+    "shield_end": 247
+  },
+  "reproduction": {
+    "samples": 1800,
+    "max_state_delta": 0,
+    "events_plans_options_match": true
+  },
+  "excerpt": {
+    "file": "matched-reception.gif",
+    "frames": 66,
+    "seconds": 5.28,
+    "fps": 12.5,
+    "sha256": "3e52829c0846606608937848a7ed1edb8f8448773b949f617dc1d1b638783529"
+  },
+  "mp4_sha256": "e7241716cadf633939ffb42179e73c808b9b248afe66aa1173c32d70e85b14de",
+  "speed": 1,
+  "source_start": 0,
+  "source_end": 5.23,
+  "common_crop": [
+    116,
+    236,
+    568,
+    318
+  ],
+  "native_sources": {
+    "previous": "b84e4a0c114a3be4e3194a08706d9c51a682d13f05496067146955bdda693d22",
+    "trained": "e447fc3d44659c50cd0fc36d2ab7cdf0621d005bd86a980f58b335569023c2ff"
+  }
+}

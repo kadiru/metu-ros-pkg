@@ -1,0 +1,47 @@
+[
+  {
+    "source": "media/tdp-skills-demo.mp4",
+    "source_sha256": "aaa1867ca02601256010e9aaa31f1b73d2590e5a21a429dca35ae3c942f2ac69",
+    "gif": "media/tdp-skills-preview.gif",
+    "gif_sha256": "11727dcb6027f22bbbfba2ff0e0371172a1547d4252bb0583d7fe647e81883ed",
+    "bytes": 683661,
+    "source_start_seconds": 0.0,
+    "source_duration_seconds": 30.8,
+    "speed": 1,
+    "fps": 12.5,
+    "width": 960,
+    "height": 540,
+    "loop": "forever",
+    "full_decode_passed": true
+  },
+  {
+    "source": "media/learned-decisions-self-play-demo.mp4",
+    "source_sha256": "516aea01c351e2cc30d3f7c56bbd769f01f21c0f394c45b99370c5d8e468a39b",
+    "gif": "media/learned-pass-score-preview.gif",
+    "gif_sha256": "a3fbfb5f963e34e5dedab5f5765ebe4bd1357fbbaf72ac18ecc966fc9df2c93e",
+    "bytes": 2894629,
+    "source_start_seconds": 6.84,
+    "source_duration_seconds": 11.76,
+    "speed": 1,
+    "fps": 12.5,
+    "width": 960,
+    "height": 540,
+    "loop": "forever",
+    "full_decode_passed": true
+  },
+  {
+    "source": "media/continuous-self-play-demo.mp4",
+    "source_sha256": "1765d0373c27838cbec1880c45f4a94ed8201e185af667e897c846a264f2a114",
+    "gif": "media/continuous-goal-preview.gif",
+    "gif_sha256": "0287def5e8b51213f8e54e25d2771c547455b530073f440e995a1d32333a457a",
+    "bytes": 978523,
+    "source_start_seconds": 64.0,
+    "source_duration_seconds": 16.0,
+    "speed": 1,
+    "fps": 12.5,
+    "width": 960,
+    "height": 540,
+    "loop": "forever",
+    "full_decode_passed": true
+  }
+]

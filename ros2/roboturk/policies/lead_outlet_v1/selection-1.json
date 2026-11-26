@@ -1,0 +1,17 @@
+{
+  "games": 31,
+  "goals": 26,
+  "lead_goals": 26,
+  "interceptions": 0,
+  "outcomes": {
+    "pass goal": 26,
+    "no opening pass": 4,
+    "no uninterrupted finish": 1
+  },
+  "candidate": 3,
+  "league": "search4",
+  "layouts": 32,
+  "criterion": "Lead-pass goals minus 0.7 times opening interceptions, with verified lead-pass goals breaking ties.",
+  "first_train_seed": 13100350,
+  "last_train_seed": 13100381
+}

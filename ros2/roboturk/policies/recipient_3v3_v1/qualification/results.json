@@ -1,0 +1,490 @@
+[
+  {
+    "seed": 7500000,
+    "score": {},
+    "outcomes": {
+      "complete": 7,
+      "intercepted": 3
+    },
+    "stats": {
+      "safety_ticks": 468,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500001,
+    "score": {
+      "yellow": 1
+    },
+    "outcomes": {
+      "complete": 7,
+      "intercepted": 3,
+      "end": 1
+    },
+    "stats": {
+      "safety_ticks": 173,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500002,
+    "score": {},
+    "outcomes": {
+      "complete": 8,
+      "intercepted": 3,
+      "end": 1
+    },
+    "stats": {
+      "safety_ticks": 14,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500003,
+    "score": {},
+    "outcomes": {
+      "complete": 6,
+      "intercepted": 3
+    },
+    "stats": {
+      "safety_ticks": 28,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500004,
+    "score": {},
+    "outcomes": {
+      "complete": 7,
+      "intercepted": 4
+    },
+    "stats": {
+      "safety_ticks": 147,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500005,
+    "score": {},
+    "outcomes": {
+      "intercepted": 4,
+      "complete": 10
+    },
+    "stats": {
+      "safety_ticks": 45,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500006,
+    "score": {
+      "blue": 1
+    },
+    "outcomes": {
+      "complete": 7,
+      "intercepted": 5
+    },
+    "stats": {
+      "safety_ticks": 389,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500007,
+    "score": {
+      "blue": 1
+    },
+    "outcomes": {
+      "complete": 10,
+      "intercepted": 3,
+      "end": 1
+    },
+    "stats": {
+      "safety_ticks": 36,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500008,
+    "score": {},
+    "outcomes": {
+      "complete": 7,
+      "intercepted": 4
+    },
+    "stats": {
+      "safety_ticks": 87,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500009,
+    "score": {},
+    "outcomes": {
+      "complete": 7,
+      "intercepted": 5
+    },
+    "stats": {
+      "safety_ticks": 289,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500010,
+    "score": {
+      "blue": 1
+    },
+    "outcomes": {
+      "complete": 8,
+      "intercepted": 4
+    },
+    "stats": {
+      "safety_ticks": 81,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500011,
+    "score": {
+      "yellow": 1
+    },
+    "outcomes": {
+      "complete": 8,
+      "intercepted": 3,
+      "end": 1
+    },
+    "stats": {
+      "safety_ticks": 36,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500012,
+    "score": {},
+    "outcomes": {
+      "complete": 7,
+      "intercepted": 1,
+      "end": 1
+    },
+    "stats": {
+      "safety_ticks": 374,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500013,
+    "score": {
+      "yellow": 1
+    },
+    "outcomes": {
+      "complete": 10,
+      "intercepted": 4
+    },
+    "stats": {
+      "safety_ticks": 57,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500014,
+    "score": {},
+    "outcomes": {
+      "complete": 8,
+      "intercepted": 3,
+      "end": 1
+    },
+    "stats": {
+      "safety_ticks": 575,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500015,
+    "score": {},
+    "outcomes": {
+      "complete": 7,
+      "intercepted": 3
+    },
+    "stats": {
+      "safety_ticks": 66,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500016,
+    "score": {
+      "blue": 1
+    },
+    "outcomes": {
+      "complete": 8,
+      "intercepted": 3
+    },
+    "stats": {
+      "safety_ticks": 65,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500017,
+    "score": {},
+    "outcomes": {
+      "intercepted": 4,
+      "complete": 6
+    },
+    "stats": {
+      "safety_ticks": 81,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500018,
+    "score": {
+      "blue": 1
+    },
+    "outcomes": {
+      "complete": 7,
+      "intercepted": 3
+    },
+    "stats": {
+      "safety_ticks": 140,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500019,
+    "score": {
+      "blue": 1
+    },
+    "outcomes": {
+      "complete": 9,
+      "intercepted": 3,
+      "restart": 1
+    },
+    "stats": {
+      "safety_ticks": 79,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500020,
+    "score": {},
+    "outcomes": {
+      "complete": 11,
+      "intercepted": 3,
+      "timeout": 1
+    },
+    "stats": {
+      "safety_ticks": 221,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500021,
+    "score": {},
+    "outcomes": {
+      "complete": 4,
+      "intercepted": 3
+    },
+    "stats": {
+      "safety_ticks": 14,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500022,
+    "score": {
+      "yellow": 1
+    },
+    "outcomes": {
+      "complete": 9,
+      "intercepted": 2
+    },
+    "stats": {
+      "safety_ticks": 134,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500023,
+    "score": {
+      "blue": 1,
+      "yellow": 1
+    },
+    "outcomes": {
+      "complete": 12,
+      "intercepted": 3
+    },
+    "stats": {
+      "safety_ticks": 57,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500024,
+    "score": {
+      "yellow": 1
+    },
+    "outcomes": {
+      "complete": 10,
+      "intercepted": 3
+    },
+    "stats": {
+      "safety_ticks": 50,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500025,
+    "score": {},
+    "outcomes": {
+      "intercepted": 4,
+      "complete": 6
+    },
+    "stats": {
+      "safety_ticks": 96,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500026,
+    "score": {},
+    "outcomes": {
+      "complete": 5,
+      "intercepted": 4,
+      "end": 1
+    },
+    "stats": {
+      "safety_ticks": 154,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500027,
+    "score": {
+      "blue": 1
+    },
+    "outcomes": {
+      "complete": 10,
+      "intercepted": 4
+    },
+    "stats": {
+      "safety_ticks": 54,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500028,
+    "score": {},
+    "outcomes": {
+      "complete": 7,
+      "intercepted": 5
+    },
+    "stats": {
+      "safety_ticks": 90,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500029,
+    "score": {},
+    "outcomes": {
+      "intercepted": 4,
+      "complete": 11
+    },
+    "stats": {
+      "safety_ticks": 47,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500030,
+    "score": {
+      "blue": 2
+    },
+    "outcomes": {
+      "complete": 7,
+      "intercepted": 5
+    },
+    "stats": {
+      "safety_ticks": 390,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  },
+  {
+    "seed": 7500031,
+    "score": {},
+    "outcomes": {
+      "complete": 4,
+      "timeout": 1,
+      "intercepted": 2,
+      "end": 1
+    },
+    "stats": {
+      "safety_ticks": 579,
+      "physical_samples": 6000,
+      "contacts": 0,
+      "exits": 0
+    }
+  }
+]

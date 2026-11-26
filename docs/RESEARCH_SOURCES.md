@@ -39,4 +39,4 @@ Representative source, build and launch files were inspected; the repository was
 
 The papers and code are separate kinds of evidence. Reported results are not upgraded by the presence of related source files. Code and bundled third-party libraries retain their original, file-specific licenses; this documentation does not relicense them.
 
-[Affordance-learning stack](../stacks/affordance_learning/README.md) · [Robot-soccer stack](../stacks/robocup_ssl/README.md) · [Repository overview](../README.md)
+[Affordance-learning stack](../stacks/affordance_learning/README.md) · [RoboTurk ROS 1 archive](../legacy/robocup_ssl/README.md) · [Repository overview](../README.md)

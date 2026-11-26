@@ -1,0 +1,27 @@
+{
+  "frozen_at": "2026-11-19T04:19:46.150197-08:00",
+  "checkpoint_sha256": "7252f42b80f71f1578b238d28f288544ab38a5344660c7ac7106233a278e0be7",
+  "transfer_checkpoint_sha256": "7e3cf3125d10a532716ca5b621f436ef22278541504bc28f99063d7c580f7d5c",
+  "development_sha256": "c04bd75bde76da390addf6b80bc7fb267699bd1f05d35c8a4aa3038b047a4a3e",
+  "runtime_source_sha256": {
+    "keeper.py": "f0bd9959e61de8754de4d97d328dc5a1e7233b9b4c0081a11a7d2ce67fa12c91",
+    "defended.py": "3d1c58dee5717fe6d42f5142a2ea58d84f3417600e45e66e35665250e5c359b6",
+    "team.py": "72d3b7a52510fce31a433f77eea662aac27a2652d35137c8981b9559876c7463",
+    "team_play.py": "400302d30389d564cf9c8cef701a3acee02836a4a7dfc7bb86112ea27954411e",
+    "shoot.py": "fa67fef8c38cd050d79202b6cc575963d51f4e9f29b8cdda641c9c9aa3ff0b9e",
+    "shoot_contract.py": "35ac76186912737a47be2a0531809b7f5851cdd9735f37d3412fb7fe302b6218",
+    "webots_backend.py": "1cc82885cb85d158463a94ab39a224d9c734ad8ae8699be40e501b018d3befaf",
+    "model.py": "0489022ffecdaa2b269a7b547218d056401749aaa03f050b0cc8393d861cfa10"
+  },
+  "published_training_commit": "bc30b0a4e5a3c30b3ec9abd016e879aa39eb1f21",
+  "qualification_seeds": [
+    950000,
+    950199
+  ],
+  "demo_seeds": [
+    960000,
+    960005
+  ],
+  "gate": ">=190/200 clean complete goals; zero pre-release possession losses or robot collisions",
+  "opponents": "unchanged reactive_lane_defender_v1 plus corrected reactive_keeper_v1"
+}

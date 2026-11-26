@@ -1,0 +1,8 @@
+{
+  "started_source_commit": "65b1fd61bde94a1051d972de816dfa558fb1c9dc",
+  "runtime_inputs": {
+    "src/roboturk_core/roboturk/self_play.py": "a8782974798e03937a24171c79b4a3589f405afd025213742831a9efec9b9a0c",
+    "src/roboturk_core/roboturk/self_play_training.py": "86c7c585cff6dcafbd131b42be0ccabb7fab2cabc1a53fbdab07470f04bd4414",
+    "src/roboturk_core/roboturk/self_play_match.py": "03a72e297156ae63dbe9592c798cdebbf6f4422af93e7c32abbb46b4874ca843"
+  }
+}

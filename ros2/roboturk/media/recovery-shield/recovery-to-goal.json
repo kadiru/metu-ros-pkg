@@ -1,0 +1,43 @@
+{
+  "native_sha256": "9cc4942b0154ba43f1e874fa57d933abb32b0022a241ebe98832f6262a969342",
+  "native_frames": 2626,
+  "native_seconds": 105.04,
+  "full": {
+    "file": "recovery-to-goal.gif",
+    "frames": 1050,
+    "seconds": 105.0,
+    "fps": 10,
+    "sha256": "3c9abfe31b6d671739df59ba3a45912acc84593c96f3e97b09855cd33d99aadd"
+  },
+  "excerpt": {
+    "file": "recovery-goal-play.gif",
+    "frames": 82,
+    "seconds": 6.56,
+    "fps": 12.5,
+    "sha256": "360cb79e5073d1e7cfe989a69103b9ae4c9856e326c2654c73f77d0f98c711e2",
+    "match": 1,
+    "seed": 10600000,
+    "source_start": 0,
+    "source_end": 6.510000000000001,
+    "play": {
+      "start": 0,
+      "recovery": 74,
+      "winner": 3,
+      "team": "yellow",
+      "goal": 531,
+      "shot": 109,
+      "scorer": 1,
+      "passes": [
+        45
+      ],
+      "dribble_m": 0.0,
+      "options": [
+        "pass",
+        "shoot"
+      ]
+    }
+  },
+  "speed": 1,
+  "full_cuts": 0,
+  "fully_decoded": true
+}

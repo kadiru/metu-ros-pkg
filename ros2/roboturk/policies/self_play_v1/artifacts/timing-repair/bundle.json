@@ -1,0 +1,22 @@
+{
+  "defender": {
+    "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/timing-repair/defender.zip",
+    "sha256": "daad50e402d88f7b5d1f0f870bdec5e2dfe526b070cd156ad4637d964241ea46",
+    "actor_sha256": "b0de00f317bf00ed2552a142c8b8a467fe3723741852828e32ba48ad79229b9b"
+  },
+  "keeper": {
+    "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/timing-repair/keeper.zip",
+    "sha256": "ee100b88088d0e91c3674bfaff148d9a94ca2434dc40e29bf1d73385aba267ce",
+    "actor_sha256": "6f16273d50f5c612cc5e4c3a28b437fffb1b1db937485ee5635ff84a0937698a"
+  },
+  "transfer": {
+    "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/timing-repair/transfer.zip",
+    "sha256": "f106534191db105283e349d687a0e17dcaf39e306dbabd525f6f2d37ad21bb02",
+    "actor_sha256": "0c51fc4da34fd0c3774d7a0302d1aae0e3ecc65428a4d3a8ed946eb3487334d5"
+  },
+  "finish": {
+    "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/selfplay-v1/timing-repair/finish.zip",
+    "sha256": "8a8121f303fbd9464aac030522df71d982fc149df36be4389a29b30e18bd435d",
+    "actor_sha256": "daffea8624895f7dc423711199dd0d6d293564a3dce1c2a8dd00a88200873f8b"
+  }
+}

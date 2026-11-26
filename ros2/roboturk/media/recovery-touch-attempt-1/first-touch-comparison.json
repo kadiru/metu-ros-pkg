@@ -1,0 +1,573 @@
+{
+  "stem": "first-touch-comparison",
+  "seed": 14301018,
+  "before": {
+    "outcome": "Lost ball before pass",
+    "elapsed_s": 0.89
+  },
+  "original": {
+    "seed": 14301018,
+    "qualified": false,
+    "chain": {
+      "start": 0,
+      "recovery": 87,
+      "winner": 2,
+      "team": "blue"
+    },
+    "outcome": "no opening pass",
+    "pass_goal": false,
+    "intercepted": false,
+    "lead_goal": false,
+    "prepass_loss": true,
+    "first_break": 88,
+    "first_pass": null
+  },
+  "trained": {
+    "seed": 14301018,
+    "qualified": true,
+    "chain": {
+      "start": 0,
+      "recovery": 112,
+      "winner": 2,
+      "team": "blue",
+      "goal": 499,
+      "shot": 93,
+      "scorer": 0,
+      "passes": [
+        44
+      ],
+      "dribble_m": 0.0,
+      "options": [
+        "pass",
+        "shoot"
+      ]
+    },
+    "passer": 2,
+    "receiver": 0,
+    "slot": 0,
+    "decision": 29,
+    "kick": 44,
+    "end": 68,
+    "direct": 0.076608183215303,
+    "lane": 0.9307107345302001,
+    "space": 1.3030233979752937,
+    "pass_result": "complete",
+    "outcome": "pressured shield goal",
+    "pass_goal": true,
+    "intercepted": false,
+    "target": [
+      0.2644301380226286,
+      1.2330704953034684
+    ],
+    "run_speed": 0.5944429506862609,
+    "lead": 0.35886921718901726,
+    "contact": 253,
+    "advance": 0.28440764044264016,
+    "target_error": 0.07312032109284798,
+    "verified_lead": true,
+    "lead_goal": true,
+    "marker": 0,
+    "pressure": true,
+    "gap_m": 0.46982708101739046,
+    "approach_mps": 1.0341562108521716,
+    "sole_samples": 119,
+    "shield": true,
+    "shield_start": 297,
+    "shield_end": 316,
+    "prepass_loss": false,
+    "first_break": null,
+    "first_pass": 44
+  },
+  "play": {
+    "start": 0,
+    "recovery": 112,
+    "winner": 2,
+    "team": "blue",
+    "goal": 499,
+    "shot": 93,
+    "scorer": 0,
+    "passes": [
+      44
+    ],
+    "dribble_m": 0.0,
+    "options": [
+      "pass",
+      "shoot"
+    ]
+  },
+  "first_touches": [
+    {
+      "first": 12,
+      "team": "blue",
+      "actor": 2,
+      "action": "release",
+      "values": [
+        1.36608,
+        0.7105774095225773,
+        0.7679023360526946
+      ],
+      "last": 12
+    },
+    {
+      "first": 13,
+      "team": "blue",
+      "actor": 2,
+      "action": "sidestep",
+      "values": [
+        1.36608,
+        1.9276787780723317,
+        2.023373370499191
+      ],
+      "last": 13
+    },
+    {
+      "first": 14,
+      "team": "blue",
+      "actor": 2,
+      "action": "release",
+      "values": [
+        1.36608,
+        1.2217661251406353,
+        1.2677592890973457
+      ],
+      "last": 14
+    },
+    {
+      "first": 15,
+      "team": "blue",
+      "actor": 2,
+      "action": "sidestep",
+      "values": [
+        1.36608,
+        1.9143051165614198,
+        2.0084280408352204
+      ],
+      "last": 15
+    },
+    {
+      "first": 16,
+      "team": "blue",
+      "actor": 2,
+      "action": "release",
+      "values": [
+        1.36608,
+        1.0842560188862485,
+        1.15556548597441
+      ],
+      "last": 16
+    },
+    {
+      "first": 18,
+      "team": "blue",
+      "actor": 2,
+      "action": "release",
+      "values": [
+        1.36608,
+        0.8966325665591194,
+        0.9987212576643223
+      ],
+      "last": 18
+    },
+    {
+      "first": 19,
+      "team": "blue",
+      "actor": 2,
+      "action": "sidestep",
+      "values": [
+        1.36608,
+        1.608008081224422,
+        1.7460518827949572
+      ],
+      "last": 19
+    },
+    {
+      "first": 20,
+      "team": "blue",
+      "actor": 2,
+      "action": "release",
+      "values": [
+        1.36608,
+        1.0226289045496644,
+        1.1475069498701918
+      ],
+      "last": 20
+    },
+    {
+      "first": 21,
+      "team": "blue",
+      "actor": 2,
+      "action": "sidestep",
+      "values": [
+        1.36608,
+        2.68994281363984,
+        2.900424167543445
+      ],
+      "last": 21
+    },
+    {
+      "first": 22,
+      "team": "blue",
+      "actor": 2,
+      "action": "release",
+      "values": [
+        1.36608,
+        0.997431070873086,
+        1.2058169771156144
+      ],
+      "last": 22
+    },
+    {
+      "first": 24,
+      "team": "blue",
+      "actor": 2,
+      "action": "release",
+      "values": [
+        1.36608,
+        1.1303703671200371,
+        1.3657409089553247
+      ],
+      "last": 24
+    },
+    {
+      "first": 25,
+      "team": "blue",
+      "actor": 2,
+      "action": "sidestep",
+      "values": [
+        1.36608,
+        1.3430125836483011,
+        1.625633868168177
+      ],
+      "last": 26
+    },
+    {
+      "first": 27,
+      "team": "blue",
+      "actor": 2,
+      "action": "release",
+      "values": [
+        1.36608,
+        0.47106124245279485,
+        0.7886597318331479
+      ],
+      "last": 44
+    },
+    {
+      "first": 293,
+      "team": "blue",
+      "actor": 1,
+      "action": "sidestep",
+      "values": [
+        1.36608,
+        1.1364910751771764,
+        1.4740964064988478
+      ],
+      "last": 293
+    },
+    {
+      "first": 294,
+      "team": "blue",
+      "actor": 1,
+      "action": "release",
+      "values": [
+        1.36608,
+        0.7436251712383264,
+        1.061927715901621
+      ],
+      "last": 294
+    },
+    {
+      "first": 295,
+      "team": "blue",
+      "actor": 1,
+      "action": "sidestep",
+      "values": [
+        1.36608,
+        2.076412468107907,
+        2.378054788979395
+      ],
+      "last": 295
+    },
+    {
+      "first": 296,
+      "team": "blue",
+      "actor": 1,
+      "action": "release",
+      "values": [
+        1.36608,
+        1.03833452454018,
+        1.3301970882963992
+      ],
+      "last": 296
+    },
+    {
+      "first": 298,
+      "team": "blue",
+      "actor": 1,
+      "action": "sidestep",
+      "values": [
+        1.36608,
+        2.2426579367630572,
+        2.5331195328451375
+      ],
+      "last": 301
+    },
+    {
+      "first": 302,
+      "team": "blue",
+      "actor": 1,
+      "action": "release",
+      "values": [
+        1.36608,
+        0.8230083578664089,
+        1.0464990726474501
+      ],
+      "last": 302
+    },
+    {
+      "first": 303,
+      "team": "blue",
+      "actor": 1,
+      "action": "sidestep",
+      "values": [
+        1.36608,
+        1.692981107989983,
+        2.0423994458336883
+      ],
+      "last": 303
+    },
+    {
+      "first": 304,
+      "team": "blue",
+      "actor": 1,
+      "action": "release",
+      "values": [
+        1.36608,
+        0.479955127563022,
+        0.9063230828516766
+      ],
+      "last": 304
+    },
+    {
+      "first": 305,
+      "team": "blue",
+      "actor": 1,
+      "action": "sidestep",
+      "values": [
+        1.36608,
+        1.1705172199472795,
+        1.7348828576980204
+      ],
+      "last": 305
+    },
+    {
+      "first": 306,
+      "team": "blue",
+      "actor": 1,
+      "action": "release",
+      "values": [
+        1.36608,
+        0.4277963513175932,
+        1.0611112339281477
+      ],
+      "last": 306
+    },
+    {
+      "first": 307,
+      "team": "blue",
+      "actor": 1,
+      "action": "sidestep",
+      "values": [
+        1.36608,
+        1.0047089679538532,
+        1.7732841951129763
+      ],
+      "last": 308
+    },
+    {
+      "first": 309,
+      "team": "blue",
+      "actor": 1,
+      "action": "release",
+      "values": [
+        1.36608,
+        0.5156107406155913,
+        1.2757643452688474
+      ],
+      "last": 309
+    },
+    {
+      "first": 310,
+      "team": "blue",
+      "actor": 1,
+      "action": "sidestep",
+      "values": [
+        1.36608,
+        1.1022683794880144,
+        1.9107606905103118
+      ],
+      "last": 311
+    },
+    {
+      "first": 312,
+      "team": "blue",
+      "actor": 1,
+      "action": "release",
+      "values": [
+        1.36608,
+        0.39126011302651376,
+        1.1471785894129782
+      ],
+      "last": 312
+    },
+    {
+      "first": 313,
+      "team": "blue",
+      "actor": 1,
+      "action": "sidestep",
+      "values": [
+        1.36608,
+        1.099241180881412,
+        1.9015978052984082
+      ],
+      "last": 314
+    },
+    {
+      "first": 315,
+      "team": "blue",
+      "actor": 1,
+      "action": "release",
+      "values": [
+        1.36608,
+        0.3606547521535924,
+        1.0990453828612705
+      ],
+      "last": 315
+    },
+    {
+      "first": 316,
+      "team": "blue",
+      "actor": 1,
+      "action": "sidestep",
+      "values": [
+        1.36608,
+        1.0268305185490312,
+        1.808429725929063
+      ],
+      "last": 317
+    },
+    {
+      "first": 318,
+      "team": "blue",
+      "actor": 1,
+      "action": "release",
+      "values": [
+        1.36608,
+        0.3326034037203196,
+        1.0395502572404351
+      ],
+      "last": 318
+    },
+    {
+      "first": 319,
+      "team": "blue",
+      "actor": 1,
+      "action": "sidestep",
+      "values": [
+        1.36608,
+        0.9845884839263775,
+        1.7291220604785502
+      ],
+      "last": 320
+    },
+    {
+      "first": 321,
+      "team": "blue",
+      "actor": 1,
+      "action": "release",
+      "values": [
+        1.36608,
+        0.3120860927950742,
+        0.9686268137298939
+      ],
+      "last": 321
+    },
+    {
+      "first": 322,
+      "team": "blue",
+      "actor": 1,
+      "action": "sidestep",
+      "values": [
+        1.36608,
+        0.9827130037256988,
+        1.6672545355662385
+      ],
+      "last": 322
+    },
+    {
+      "first": 323,
+      "team": "blue",
+      "actor": 1,
+      "action": "release",
+      "values": [
+        1.36608,
+        0.7247480848772516,
+        1.3568546069613283
+      ],
+      "last": 323
+    },
+    {
+      "first": 324,
+      "team": "blue",
+      "actor": 1,
+      "action": "sidestep",
+      "values": [
+        1.36608,
+        0.7574520175599271,
+        1.4125578218378547
+      ],
+      "last": 325
+    },
+    {
+      "first": 326,
+      "team": "blue",
+      "actor": 1,
+      "action": "release",
+      "values": [
+        1.36608,
+        0.5580874810967125,
+        1.11886958514763
+      ],
+      "last": 326
+    },
+    {
+      "first": 327,
+      "team": "blue",
+      "actor": 1,
+      "action": "sidestep",
+      "values": [
+        1.36608,
+        0.869428267904196,
+        1.45296425653314
+      ],
+      "last": 328
+    }
+  ],
+  "first_different_sample": 52,
+  "same_first_frame": true,
+  "reproduced_samples_per_side": 1800,
+  "max_replay_delta": 0,
+  "excerpt": {
+    "file": "first-touch-comparison.gif",
+    "frames": 73,
+    "seconds": 5.84,
+    "fps": 12.5,
+    "sha256": "982c89cc9a0a3f87edb0138747aed2da02f497701e604479733a01edb29b752e"
+  },
+  "mp4_sha256": "b82cc2d02b6c7a778bc436a016d95c3c138db414c1bdd5ed1d1045861f40b154",
+  "speed": 1,
+  "native_sources": {
+    "previous": "6b6e53430f20178ac52787011078f16a8658c7b103cd6aae5744157fa36e7e1a",
+    "trained": "279b6d3fd4730aa8c91912d98615908abf0c689d648845860389181518cb9f6b"
+  }
+}

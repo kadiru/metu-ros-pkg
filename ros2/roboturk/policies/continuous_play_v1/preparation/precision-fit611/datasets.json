@@ -1,0 +1,40 @@
+{
+  "inputs": [
+    {
+      "path": "runs/continuous-v1/spacing-teacher-data",
+      "data_sha256": "235e8f73400ae630145c783e74889405050f49a1b533ebdc6e3e1bf929e3f783",
+      "collection_sha256": "d0b1d0cf2906bf308d379b77fd13a3349eb93f728027eb7162f9abecc89a3ee7",
+      "observations": 135224,
+      "seed": 4200000,
+      "count": 30,
+      "control": "training_teacher",
+      "base_observations": 122,
+      "training_observations": 122
+    },
+    {
+      "path": "runs/continuous-v1/spacing-dagger1-611",
+      "data_sha256": "523ce39f0f98de36421a6a2fa70b5103ad3a126bf0c2f851a01e36568e904da7",
+      "collection_sha256": "8eb6442db75a55c15efe705b82cb3eb96696b72655f098179647179460be4068",
+      "observations": 90068,
+      "seed": 4210000,
+      "count": 20,
+      "control": "mixed_neural_0.5",
+      "base_observations": 122,
+      "training_observations": 122
+    },
+    {
+      "path": "runs/continuous-v1/canonical-dagger2-611",
+      "data_sha256": "cd8d9a555a711164165920ebc251195cef63f9dae5f9bc3d7d70a76da89b6105",
+      "collection_sha256": "e25ef191aef4b5ac3c537273d37ee360814f11272bca15c5f87823079b9dfe49",
+      "observations": 130648,
+      "seed": 4210200,
+      "count": 30,
+      "control": "neural_rollouts_teacher_labels",
+      "base_observations": 122,
+      "training_observations": 122
+    }
+  ],
+  "source": "runs/continuous-v1/dagger2-fit611/seed611/bootstrap.zip",
+  "source_sha256": "1bd8b25b78a1f4a93efbffe0a75ad2156f8842a52a982b4d563a6a92534f71a3",
+  "data_sha256": "bd3e0bc18b572fa6e9c7e6e7b7920ddd8d444584b968c083511ebea8f0369481"
+}

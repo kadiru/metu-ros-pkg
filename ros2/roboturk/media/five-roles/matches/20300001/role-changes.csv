@@ -1,0 +1,338 @@
+match_seconds,team,jersey,old_role,new_role,phase,restart
+0.00,blue,0,,Keeper,Recover,0
+0.00,blue,1,,Left wing,Recover,0
+0.00,blue,2,,Chaser,Recover,0
+0.00,blue,3,,Cover,Recover,0
+0.00,blue,4,,Right wing,Recover,0
+0.00,yellow,0,,Keeper,Recover,0
+0.00,yellow,1,,Cover,Recover,0
+0.00,yellow,2,,Left wing,Recover,0
+0.00,yellow,3,,Right wing,Recover,0
+0.00,yellow,4,,Chaser,Recover,0
+0.08,blue,2,Chaser,Carrier,Attack,0
+0.08,blue,3,Cover,Anchor,Attack,0
+0.08,yellow,2,Left wing,Screen,Defend,0
+0.08,yellow,3,Right wing,Marker,Defend,0
+0.08,yellow,4,Chaser,Presser,Defend,0
+0.80,blue,2,Carrier,Contain,Recover,0
+0.80,blue,3,Anchor,Cover,Recover,0
+0.80,yellow,2,Screen,Left wing,Recover,0
+0.80,yellow,3,Marker,Right wing,Recover,0
+0.80,yellow,4,Presser,Chaser,Recover,0
+0.92,blue,1,Left wing,Marker,Defend,0
+0.92,blue,4,Right wing,Screen,Defend,0
+0.92,yellow,1,Cover,Anchor,Attack,0
+0.92,yellow,4,Chaser,Carrier,Attack,0
+1.36,blue,2,Contain,Presser,Defend,0
+2.36,blue,1,Marker,Left wing,Recover,0
+2.36,blue,2,Presser,Chaser,Recover,0
+2.36,blue,4,Screen,Right wing,Recover,0
+2.36,yellow,1,Anchor,Cover,Recover,0
+2.36,yellow,4,Carrier,Contain,Recover,0
+2.52,blue,2,Chaser,Carrier,Attack,0
+2.52,blue,3,Cover,Anchor,Attack,0
+2.52,yellow,2,Left wing,Marker,Defend,0
+2.52,yellow,3,Right wing,Screen,Defend,0
+2.88,yellow,4,Contain,Presser,Defend,0
+3.24,yellow,4,Presser,Contain,Defend,0
+3.96,blue,1,Left wing,Receiver,Attack,0
+3.96,blue,2,Carrier,Left wing,Attack,0
+3.96,yellow,3,Screen,Presser,Defend,0
+3.96,yellow,4,Contain,Screen,Defend,0
+4.36,blue,1,Receiver,Screen,Defend,0
+4.36,blue,2,Left wing,Presser,Defend,0
+4.36,blue,3,Anchor,Cover,Defend,0
+4.36,blue,4,Right wing,Marker,Defend,0
+4.36,yellow,1,Cover,Anchor,Attack,0
+4.36,yellow,2,Marker,Left wing,Attack,0
+4.36,yellow,3,Presser,Carrier,Attack,0
+4.36,yellow,4,Screen,Right wing,Attack,0
+4.92,yellow,2,Left wing,Receiver,Attack,0
+4.92,yellow,3,Carrier,Left wing,Attack,0
+5.12,blue,1,Screen,Left wing,Attack,0
+5.12,blue,2,Presser,Carrier,Attack,0
+5.12,blue,3,Cover,Anchor,Attack,0
+5.12,blue,4,Marker,Right wing,Attack,0
+5.12,yellow,1,Anchor,Cover,Defend,0
+5.12,yellow,2,Receiver,Marker,Defend,0
+5.12,yellow,3,Left wing,Presser,Defend,0
+5.12,yellow,4,Right wing,Screen,Defend,0
+5.44,blue,2,Carrier,Contain,Recover,0
+5.44,blue,3,Anchor,Cover,Recover,0
+5.44,yellow,2,Marker,Left wing,Recover,0
+5.44,yellow,3,Presser,Right wing,Recover,0
+5.44,yellow,4,Screen,Chaser,Recover,0
+6.00,blue,2,Contain,Chaser,Recover,0
+9.92,blue,0,Keeper,Keeper,Recover,1
+9.92,blue,1,Left wing,Chaser,Recover,1
+9.92,blue,2,Chaser,Cover,Recover,1
+9.92,blue,3,Cover,Left wing,Recover,1
+9.92,blue,4,Right wing,Right wing,Recover,1
+9.92,yellow,0,Keeper,Keeper,Recover,1
+9.92,yellow,1,Cover,Cover,Recover,1
+9.92,yellow,2,Left wing,Right wing,Recover,1
+9.92,yellow,3,Right wing,Left wing,Recover,1
+9.92,yellow,4,Chaser,Chaser,Recover,1
+10.00,blue,1,Chaser,Carrier,Attack,1
+10.00,blue,2,Cover,Anchor,Attack,1
+10.00,yellow,2,Right wing,Marker,Defend,1
+10.00,yellow,3,Left wing,Screen,Defend,1
+10.00,yellow,4,Chaser,Presser,Defend,1
+10.28,blue,1,Carrier,Left wing,Attack,1
+10.28,blue,3,Left wing,Receiver,Attack,1
+11.20,blue,3,Receiver,Carrier,Attack,1
+11.24,blue,1,Left wing,Right wing,Attack,1
+11.24,blue,3,Carrier,Left wing,Attack,1
+11.24,blue,4,Right wing,Receiver,Attack,1
+11.52,blue,1,Right wing,Marker,Defend,1
+11.52,blue,2,Anchor,Screen,Defend,1
+11.52,blue,3,Left wing,Presser,Defend,1
+11.52,blue,4,Receiver,Cover,Defend,1
+11.52,yellow,1,Cover,Left wing,Attack,1
+11.52,yellow,2,Marker,Right wing,Attack,1
+11.52,yellow,3,Screen,Anchor,Attack,1
+11.52,yellow,4,Presser,Carrier,Attack,1
+12.96,blue,1,Marker,Left wing,Recover,1
+12.96,blue,2,Screen,Cover,Recover,1
+12.96,blue,3,Presser,Chaser,Recover,1
+12.96,blue,4,Cover,Right wing,Recover,1
+12.96,yellow,1,Left wing,Cover,Recover,1
+12.96,yellow,3,Anchor,Left wing,Recover,1
+12.96,yellow,4,Carrier,Chaser,Recover,1
+15.76,blue,2,Cover,Anchor,Attack,1
+15.76,blue,3,Chaser,Carrier,Attack,1
+15.76,yellow,2,Right wing,Presser,Defend,1
+15.76,yellow,3,Left wing,Marker,Defend,1
+15.76,yellow,4,Chaser,Screen,Defend,1
+16.32,blue,1,Left wing,Receiver,Attack,1
+16.32,blue,3,Carrier,Left wing,Attack,1
+17.12,blue,1,Receiver,Carrier,Attack,1
+17.40,blue,1,Carrier,Left wing,Attack,1
+17.40,blue,3,Left wing,Right wing,Attack,1
+17.40,blue,4,Right wing,Receiver,Attack,1
+18.56,yellow,2,Presser,Marker,Defend,1
+18.56,yellow,3,Marker,Presser,Defend,1
+19.00,blue,4,Receiver,Carrier,Attack,1
+19.24,blue,1,Left wing,Receiver,Attack,1
+19.24,blue,3,Right wing,Left wing,Attack,1
+19.24,blue,4,Carrier,Right wing,Attack,1
+20.56,blue,1,Receiver,Carrier,Attack,1
+21.12,blue,1,Carrier,Left wing,Recover,1
+21.12,blue,2,Anchor,Cover,Recover,1
+21.12,blue,3,Left wing,Chaser,Recover,1
+21.12,yellow,2,Marker,Right wing,Recover,1
+21.12,yellow,3,Presser,Left wing,Recover,1
+21.12,yellow,4,Screen,Chaser,Recover,1
+21.32,blue,3,Chaser,Block outlet,Recover,1
+21.32,yellow,4,Chaser,Guard box,Recover,1
+21.72,blue,0,Keeper,Keeper,Recover,2
+21.72,blue,1,Left wing,Left wing,Recover,2
+21.72,blue,2,Cover,Cover,Recover,2
+21.72,blue,3,Block outlet,Chaser,Recover,2
+21.72,blue,4,Right wing,Right wing,Recover,2
+21.72,yellow,0,Keeper,Keeper,Recover,2
+21.72,yellow,1,Cover,Cover,Recover,2
+21.72,yellow,2,Right wing,Left wing,Recover,2
+21.72,yellow,3,Left wing,Chaser,Recover,2
+21.72,yellow,4,Guard box,Right wing,Recover,2
+21.80,blue,1,Left wing,Screen,Defend,2
+21.80,blue,3,Chaser,Presser,Defend,2
+21.80,blue,4,Right wing,Marker,Defend,2
+21.80,yellow,1,Cover,Anchor,Attack,2
+21.80,yellow,3,Chaser,Carrier,Attack,2
+22.08,yellow,2,Left wing,Receiver,Attack,2
+22.08,yellow,3,Carrier,Left wing,Attack,2
+22.88,yellow,2,Receiver,Carrier,Attack,2
+22.92,yellow,2,Carrier,Left wing,Attack,2
+22.92,yellow,3,Left wing,Right wing,Attack,2
+22.92,yellow,4,Right wing,Receiver,Attack,2
+23.12,blue,1,Screen,Left wing,Attack,2
+23.12,blue,2,Cover,Anchor,Attack,2
+23.12,blue,3,Presser,Carrier,Attack,2
+23.12,blue,4,Marker,Right wing,Attack,2
+23.12,yellow,1,Anchor,Screen,Defend,2
+23.12,yellow,2,Left wing,Presser,Defend,2
+23.12,yellow,3,Right wing,Marker,Defend,2
+23.12,yellow,4,Receiver,Cover,Defend,2
+24.48,blue,2,Anchor,Cover,Recover,2
+24.48,blue,3,Carrier,Chaser,Recover,2
+24.48,yellow,1,Screen,Cover,Recover,2
+24.48,yellow,2,Presser,Chaser,Recover,2
+24.48,yellow,3,Marker,Left wing,Recover,2
+24.48,yellow,4,Cover,Right wing,Recover,2
+27.52,blue,1,Left wing,Marker,Defend,2
+27.52,blue,3,Chaser,Presser,Defend,2
+27.52,blue,4,Right wing,Screen,Defend,2
+27.52,yellow,1,Cover,Anchor,Attack,2
+27.52,yellow,2,Chaser,Carrier,Attack,2
+29.04,blue,1,Marker,Left wing,Recover,2
+29.04,blue,3,Presser,Chaser,Recover,2
+29.04,blue,4,Screen,Right wing,Recover,2
+29.04,yellow,1,Anchor,Cover,Recover,2
+29.04,yellow,2,Carrier,Contain,Recover,2
+29.32,blue,2,Cover,Anchor,Attack,2
+29.32,blue,3,Chaser,Carrier,Attack,2
+29.32,yellow,3,Left wing,Marker,Defend,2
+29.32,yellow,4,Right wing,Screen,Defend,2
+29.60,yellow,2,Contain,Presser,Defend,2
+30.04,blue,2,Anchor,Cover,Recover,2
+30.04,blue,3,Carrier,Contain,Recover,2
+30.04,yellow,2,Presser,Chaser,Recover,2
+30.04,yellow,3,Marker,Left wing,Recover,2
+30.04,yellow,4,Screen,Right wing,Recover,2
+30.20,blue,1,Left wing,Marker,Defend,2
+30.20,blue,4,Right wing,Screen,Defend,2
+30.20,yellow,1,Cover,Anchor,Attack,2
+30.20,yellow,2,Chaser,Carrier,Attack,2
+30.60,blue,3,Contain,Presser,Defend,2
+31.44,blue,1,Marker,Left wing,Recover,2
+31.44,blue,3,Presser,Chaser,Recover,2
+31.44,blue,4,Screen,Right wing,Recover,2
+31.44,yellow,1,Anchor,Cover,Recover,2
+31.44,yellow,2,Carrier,Contain,Recover,2
+31.56,blue,2,Cover,Anchor,Attack,2
+31.56,blue,3,Chaser,Carrier,Attack,2
+31.56,yellow,3,Left wing,Marker,Defend,2
+31.56,yellow,4,Right wing,Screen,Defend,2
+32.00,yellow,2,Contain,Presser,Defend,2
+32.36,yellow,2,Presser,Contain,Defend,2
+32.72,blue,1,Left wing,Receiver,Attack,2
+32.72,blue,3,Carrier,Left wing,Attack,2
+33.08,yellow,2,Contain,Screen,Defend,2
+33.08,yellow,4,Screen,Presser,Defend,2
+33.56,blue,1,Receiver,Carrier,Attack,2
+33.76,blue,1,Carrier,Left wing,Attack,2
+33.76,blue,3,Left wing,Right wing,Attack,2
+33.76,blue,4,Right wing,Receiver,Attack,2
+35.40,blue,2,Anchor,Cover,Recover,2
+35.40,blue,4,Receiver,Chaser,Recover,2
+35.40,yellow,2,Screen,Left wing,Recover,2
+35.40,yellow,3,Marker,Chaser,Recover,2
+35.40,yellow,4,Presser,Right wing,Recover,2
+36.12,blue,1,Left wing,Marker,Defend,2
+36.12,blue,3,Right wing,Presser,Defend,2
+36.12,blue,4,Chaser,Screen,Defend,2
+36.12,yellow,1,Cover,Anchor,Attack,2
+36.12,yellow,3,Chaser,Carrier,Attack,2
+36.48,yellow,3,Carrier,Right wing,Attack,2
+36.48,yellow,4,Right wing,Receiver,Attack,2
+37.12,blue,1,Marker,Screen,Defend,2
+37.12,blue,4,Screen,Marker,Defend,2
+38.12,blue,1,Screen,Chaser,Recover,2
+38.12,blue,3,Presser,Left wing,Recover,2
+38.12,blue,4,Marker,Right wing,Recover,2
+38.12,yellow,1,Anchor,Cover,Recover,2
+38.12,yellow,4,Receiver,Chaser,Recover,2
+40.68,blue,1,Chaser,Guard box,Recover,2
+40.68,yellow,4,Chaser,Block outlet,Recover,2
+41.24,blue,0,Keeper,Keeper,Recover,3
+41.24,blue,1,Guard box,Cover,Recover,3
+41.24,blue,2,Cover,Left wing,Recover,3
+41.24,blue,3,Left wing,Chaser,Recover,3
+41.24,blue,4,Right wing,Right wing,Recover,3
+41.24,yellow,0,Keeper,Keeper,Recover,3
+41.24,yellow,1,Cover,Chaser,Recover,3
+41.24,yellow,2,Left wing,Cover,Recover,3
+41.24,yellow,3,Right wing,Left wing,Recover,3
+41.24,yellow,4,Block outlet,Right wing,Recover,3
+41.32,blue,1,Cover,Anchor,Attack,3
+41.32,blue,3,Chaser,Carrier,Attack,3
+41.32,yellow,1,Chaser,Presser,Defend,3
+41.32,yellow,3,Left wing,Screen,Defend,3
+41.32,yellow,4,Right wing,Marker,Defend,3
+41.64,blue,2,Left wing,Receiver,Attack,3
+41.64,blue,3,Carrier,Left wing,Attack,3
+42.36,blue,2,Receiver,Carrier,Attack,3
+42.40,blue,2,Carrier,Left wing,Attack,3
+42.40,blue,3,Left wing,Right wing,Attack,3
+42.40,blue,4,Right wing,Receiver,Attack,3
+42.60,blue,1,Anchor,Screen,Defend,3
+42.60,blue,2,Left wing,Presser,Defend,3
+42.60,blue,3,Right wing,Marker,Defend,3
+42.60,blue,4,Receiver,Cover,Defend,3
+42.60,yellow,1,Presser,Carrier,Attack,3
+42.60,yellow,2,Cover,Anchor,Attack,3
+42.60,yellow,3,Screen,Left wing,Attack,3
+42.60,yellow,4,Marker,Right wing,Attack,3
+44.08,yellow,1,Carrier,Left wing,Attack,3
+44.08,yellow,3,Left wing,Receiver,Attack,3
+44.72,yellow,3,Receiver,Carrier,Attack,3
+48.24,blue,2,Presser,Contain,Defend,3
+48.96,blue,2,Contain,Presser,Defend,3
+49.72,blue,1,Screen,Right wing,Recover,3
+49.72,blue,2,Presser,Chaser,Recover,3
+49.72,blue,3,Marker,Left wing,Recover,3
+49.72,yellow,2,Anchor,Cover,Recover,3
+49.72,yellow,3,Carrier,Contain,Recover,3
+49.84,blue,2,Chaser,Carrier,Attack,3
+49.84,blue,4,Cover,Anchor,Attack,3
+49.84,yellow,1,Left wing,Marker,Defend,3
+49.84,yellow,4,Right wing,Screen,Defend,3
+50.28,yellow,3,Contain,Presser,Defend,3
+50.76,blue,2,Carrier,Contain,Recover,3
+50.76,blue,4,Anchor,Cover,Recover,3
+50.76,yellow,1,Marker,Left wing,Recover,3
+50.76,yellow,3,Presser,Chaser,Recover,3
+50.76,yellow,4,Screen,Right wing,Recover,3
+50.92,blue,1,Right wing,Screen,Defend,3
+50.92,blue,3,Left wing,Marker,Defend,3
+50.92,yellow,2,Cover,Anchor,Attack,3
+50.92,yellow,3,Chaser,Carrier,Attack,3
+51.32,blue,2,Contain,Presser,Defend,3
+52.12,blue,1,Screen,Right wing,Recover,3
+52.12,blue,2,Presser,Chaser,Recover,3
+52.12,blue,3,Marker,Left wing,Recover,3
+52.12,yellow,2,Anchor,Cover,Recover,3
+52.12,yellow,3,Carrier,Contain,Recover,3
+52.24,blue,2,Chaser,Carrier,Attack,3
+52.24,blue,4,Cover,Anchor,Attack,3
+52.24,yellow,1,Left wing,Marker,Defend,3
+52.24,yellow,4,Right wing,Screen,Defend,3
+52.68,yellow,3,Contain,Presser,Defend,3
+53.04,yellow,3,Presser,Contain,Defend,3
+53.52,blue,2,Carrier,Left wing,Attack,3
+53.52,blue,3,Left wing,Receiver,Attack,3
+53.76,yellow,3,Contain,Screen,Defend,3
+53.76,yellow,4,Screen,Presser,Defend,3
+54.16,blue,1,Right wing,Marker,Defend,3
+54.16,blue,2,Left wing,Presser,Defend,3
+54.16,blue,3,Receiver,Screen,Defend,3
+54.16,blue,4,Anchor,Cover,Defend,3
+54.16,yellow,1,Marker,Left wing,Attack,3
+54.16,yellow,2,Cover,Anchor,Attack,3
+54.16,yellow,3,Screen,Right wing,Attack,3
+54.16,yellow,4,Presser,Carrier,Attack,3
+55.04,blue,1,Marker,Right wing,Attack,3
+55.04,blue,2,Presser,Carrier,Attack,3
+55.04,blue,3,Screen,Left wing,Attack,3
+55.04,blue,4,Cover,Anchor,Attack,3
+55.04,yellow,1,Left wing,Marker,Defend,3
+55.04,yellow,2,Anchor,Cover,Defend,3
+55.04,yellow,3,Right wing,Screen,Defend,3
+55.04,yellow,4,Carrier,Presser,Defend,3
+56.80,blue,2,Carrier,Contain,Recover,3
+56.80,blue,4,Anchor,Cover,Recover,3
+56.80,yellow,1,Marker,Left wing,Recover,3
+56.80,yellow,3,Screen,Right wing,Recover,3
+56.80,yellow,4,Presser,Chaser,Recover,3
+56.92,blue,1,Right wing,Marker,Defend,3
+56.92,blue,3,Left wing,Screen,Defend,3
+56.92,yellow,2,Cover,Anchor,Attack,3
+56.92,yellow,4,Chaser,Carrier,Attack,3
+57.36,blue,2,Contain,Presser,Defend,3
+57.88,blue,1,Marker,Right wing,Recover,3
+57.88,blue,2,Presser,Chaser,Recover,3
+57.88,blue,3,Screen,Left wing,Recover,3
+57.88,yellow,2,Anchor,Cover,Recover,3
+57.88,yellow,4,Carrier,Contain,Recover,3
+58.00,blue,2,Chaser,Carrier,Attack,3
+58.00,blue,4,Cover,Anchor,Attack,3
+58.00,yellow,1,Left wing,Marker,Defend,3
+58.00,yellow,3,Right wing,Screen,Defend,3
+58.44,yellow,4,Contain,Presser,Defend,3
+58.60,blue,2,Carrier,Left wing,Attack,3
+58.60,blue,3,Left wing,Receiver,Attack,3
+59.56,blue,3,Receiver,Carrier,Attack,3
+59.84,blue,1,Right wing,Receiver,Attack,3
+59.84,blue,2,Left wing,Right wing,Attack,3
+59.84,blue,3,Carrier,Left wing,Attack,3

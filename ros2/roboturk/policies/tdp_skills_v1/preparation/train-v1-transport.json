@@ -1,0 +1,938 @@
+[
+  {
+    "source": "runs/tdp-v1/train-v1/clear/anchor-updates.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/clear/anchor-updates.json",
+    "payload_sha256": "35dd0219d544f362e9aea525dc52ca4350b507937589b644be229077bacaab15",
+    "sha256": "35dd0219d544f362e9aea525dc52ca4350b507937589b644be229077bacaab15",
+    "original_bytes": 4744,
+    "bytes": 4744
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/clear/bc-development.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/clear/bc-development.json.gz",
+    "payload_sha256": "e1d624a59183596c566c268540d2910c00cc5cfe389d661351792e97aba8b6ea",
+    "sha256": "04d4ccdc6899b15c17f2bdab3a19c88dc521c8e32eec5dabbb177e3b2842c9db",
+    "original_bytes": 9615328,
+    "bytes": 3019107
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/clear/bc.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/clear/bc.json",
+    "payload_sha256": "183e947c8cd895edf0738c43677c2658efe4d64faefc566b6f133cc277adf14c",
+    "sha256": "183e947c8cd895edf0738c43677c2658efe4d64faefc566b6f133cc277adf14c",
+    "original_bytes": 1129,
+    "bytes": 1129
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/clear/bc.zip",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/clear/bc.zip",
+    "payload_sha256": "544edc5f87d1fa70e8daa7b1c428d4255520b63437b04d77daec84db38c71608",
+    "sha256": "544edc5f87d1fa70e8daa7b1c428d4255520b63437b04d77daec84db38c71608",
+    "original_bytes": 190346,
+    "bytes": 190346
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/clear/dagger-collection.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/clear/dagger-collection.json",
+    "payload_sha256": "e5a8c51ad9bae7b4e76d70b70e0e4ceead5a335799989624c4159d46f33cee49",
+    "sha256": "e5a8c51ad9bae7b4e76d70b70e0e4ceead5a335799989624c4159d46f33cee49",
+    "original_bytes": 167195,
+    "bytes": 167195
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/clear/dagger-development.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/clear/dagger-development.json.gz",
+    "payload_sha256": "033502124dcd3ba5ae5b0646e80ee88924ccadc01b6b8284eb975ad27c7f0198",
+    "sha256": "21a1425c377cd9a23d1dac6ffe8db93fd85f3c37e56c0f2796288105119f5379",
+    "original_bytes": 9632003,
+    "bytes": 3008223
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/clear/dagger.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/clear/dagger.json",
+    "payload_sha256": "1e17c883b14a510c669b86e9c94410d5a2706c4d5c96d770195e16fa886d0ad1",
+    "sha256": "1e17c883b14a510c669b86e9c94410d5a2706c4d5c96d770195e16fa886d0ad1",
+    "original_bytes": 1217,
+    "bytes": 1217
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/clear/dagger.zip",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/clear/dagger.zip",
+    "payload_sha256": "6105267e1dbe0bde114a192dbafebca8bb90c0c01df9f77abce922f01426f35c",
+    "sha256": "6105267e1dbe0bde114a192dbafebca8bb90c0c01df9f77abce922f01426f35c",
+    "original_bytes": 190346,
+    "bytes": 190346
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/clear/demonstrations.npz",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/clear/demonstrations.npz",
+    "payload_sha256": "aead765edb39a83c80c115f72aa14a71acc79e791100863092e7fcfcaaae3225",
+    "sha256": "aead765edb39a83c80c115f72aa14a71acc79e791100863092e7fcfcaaae3225",
+    "original_bytes": 2501494,
+    "bytes": 2501494
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/clear/policy-development.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/clear/policy-development.json.gz",
+    "payload_sha256": "13a8446fceaa2dfd4ab84a0658e07f28592303c08db1796eb97f3626f2fd5499",
+    "sha256": "158859c9cf3d95575ba7f39c191fbbd77c6ac9c9525da6b82d0b16491f8b4145",
+    "original_bytes": 9633030,
+    "bytes": 3007846
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/clear/policy.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/clear/policy.json",
+    "payload_sha256": "b3d3e9dda7ac4f9c75071e0fd7fb844d2e09ef75eceecb77f044d72ed2049260",
+    "sha256": "b3d3e9dda7ac4f9c75071e0fd7fb844d2e09ef75eceecb77f044d72ed2049260",
+    "original_bytes": 1377,
+    "bytes": 1377
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/clear/policy.zip",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/clear/policy.zip",
+    "payload_sha256": "1e7ee6b75ce9e0f8da17ccc5de40c282ba5b454ec07da4e2a006d09e4d7c7455",
+    "sha256": "1e7ee6b75ce9e0f8da17ccc5de40c282ba5b454ec07da4e2a006d09e4d7c7455",
+    "original_bytes": 545863,
+    "bytes": 545863
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/clear/ppo-resets.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/clear/ppo-resets.json",
+    "payload_sha256": "ca3b0821a5db23560910639ffc8b897a3749e60387193ee92fed905deb9bb0c2",
+    "sha256": "ca3b0821a5db23560910639ffc8b897a3749e60387193ee92fed905deb9bb0c2",
+    "original_bytes": 3050,
+    "bytes": 3050
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/clear/ppo-rollouts.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/clear/ppo-rollouts.json.gz",
+    "payload_sha256": "a948e99c626d065da334ddb9019f214fce0b93ebb0fbee8e0233feadd3fe346e",
+    "sha256": "da7481b6c1ddc65dcd3064a0c8940863fbb1fac91abe43fe27ac68ef40af114f",
+    "original_bytes": 663902,
+    "bytes": 134317
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/clear/teacher-collection.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/clear/teacher-collection.json",
+    "payload_sha256": "04d142a0f6dbc3fb04b120cb7b5a3938819de7dbe7d84fbc2b11248699381860",
+    "sha256": "04d142a0f6dbc3fb04b120cb7b5a3938819de7dbe7d84fbc2b11248699381860",
+    "original_bytes": 334605,
+    "bytes": 334605
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/clear/training-summary.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/clear/training-summary.json",
+    "payload_sha256": "30865149661322701f4460477f1d3f2af67a89c49e7353938cb949c35c19c996",
+    "sha256": "30865149661322701f4460477f1d3f2af67a89c49e7353938cb949c35c19c996",
+    "original_bytes": 358,
+    "bytes": 358
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/receive/anchor-updates.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/receive/anchor-updates.json",
+    "payload_sha256": "0d6054a571a8fce75c053cfb6073595a19b9bff21081ccef0b9c403a433bfaf5",
+    "sha256": "0d6054a571a8fce75c053cfb6073595a19b9bff21081ccef0b9c403a433bfaf5",
+    "original_bytes": 4764,
+    "bytes": 4764
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/receive/bc-development.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/receive/bc-development.json.gz",
+    "payload_sha256": "18e5ed5583309a531dfc7f5ab12d83b3758c5e5ee03c6927220b85ad45c7e66d",
+    "sha256": "65541254fa5b138207454927bbc0a6c54dfe8ed2dc74fdab20ce6e93cead2784",
+    "original_bytes": 11031813,
+    "bytes": 3110339
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/receive/bc.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/receive/bc.json",
+    "payload_sha256": "f881079ece9972a68c31b6d622fe5b90f6742056b19a5e47a77d58d2611fa998",
+    "sha256": "f881079ece9972a68c31b6d622fe5b90f6742056b19a5e47a77d58d2611fa998",
+    "original_bytes": 1131,
+    "bytes": 1131
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/receive/bc.zip",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/receive/bc.zip",
+    "payload_sha256": "4460303d1c5926d751cff87115290aef0015b4891652b744ee7d4334d56ed3d7",
+    "sha256": "4460303d1c5926d751cff87115290aef0015b4891652b744ee7d4334d56ed3d7",
+    "original_bytes": 190346,
+    "bytes": 190346
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/receive/dagger-collection.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/receive/dagger-collection.json",
+    "payload_sha256": "2db16b27516ad36f472ffb20ba136d4f3bdb69ea96bde79c661f87ba8d746024",
+    "sha256": "2db16b27516ad36f472ffb20ba136d4f3bdb69ea96bde79c661f87ba8d746024",
+    "original_bytes": 137995,
+    "bytes": 137995
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/receive/dagger-development.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/receive/dagger-development.json.gz",
+    "payload_sha256": "4a2530a04f835c76c543488eb8b4f1e39a1fdbc660b7aa96824788dfad008443",
+    "sha256": "c75a773ae50504a456ecbb409147863ec8d5987b13cb4317abaf7ac39b3e097b",
+    "original_bytes": 10977142,
+    "bytes": 3082110
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/receive/dagger.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/receive/dagger.json",
+    "payload_sha256": "7b6a744e3e953de7919c4e638a0a30af3d4435c5ae681dd552db1f7e53e47988",
+    "sha256": "7b6a744e3e953de7919c4e638a0a30af3d4435c5ae681dd552db1f7e53e47988",
+    "original_bytes": 1219,
+    "bytes": 1219
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/receive/dagger.zip",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/receive/dagger.zip",
+    "payload_sha256": "22de974ef50057199842e19bc57f415abda8fad5a94110eb0589d4cdd0de4794",
+    "sha256": "22de974ef50057199842e19bc57f415abda8fad5a94110eb0589d4cdd0de4794",
+    "original_bytes": 190346,
+    "bytes": 190346
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/receive/demonstrations.npz",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/receive/demonstrations.npz",
+    "payload_sha256": "f22a014ef3cc2e1110509deb4d8b33bb1e93ca0d09520736bf8da5981bb93476",
+    "sha256": "f22a014ef3cc2e1110509deb4d8b33bb1e93ca0d09520736bf8da5981bb93476",
+    "original_bytes": 3243399,
+    "bytes": 3243399
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/receive/policy-development.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/receive/policy-development.json.gz",
+    "payload_sha256": "9659bd20112d98f5ccd38a817a62c961ff8c5568a6871ebf4c27e7008ea1018a",
+    "sha256": "5106cdae71dd9a537d0b7c1cc107cf8c48cca045df31d545facbec6d388cda28",
+    "original_bytes": 10984504,
+    "bytes": 3085263
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/receive/policy.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/receive/policy.json",
+    "payload_sha256": "a12a8f4c81f99c9ad9c52baa854897c1b57183a25dec28370b3f60cb1e33e712",
+    "sha256": "a12a8f4c81f99c9ad9c52baa854897c1b57183a25dec28370b3f60cb1e33e712",
+    "original_bytes": 1379,
+    "bytes": 1379
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/receive/policy.zip",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/receive/policy.zip",
+    "payload_sha256": "1150761479d4ed0b9d3ac908c1d3050e3f1c5e5fd589fe68bc8b4d38d40988d3",
+    "sha256": "1150761479d4ed0b9d3ac908c1d3050e3f1c5e5fd589fe68bc8b4d38d40988d3",
+    "original_bytes": 545867,
+    "bytes": 545867
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/receive/ppo-resets.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/receive/ppo-resets.json",
+    "payload_sha256": "aa3011a170bcdd517db14a7a684227294da397f5d209d70c9d116239a82d3923",
+    "sha256": "aa3011a170bcdd517db14a7a684227294da397f5d209d70c9d116239a82d3923",
+    "original_bytes": 2658,
+    "bytes": 2658
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/receive/ppo-rollouts.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/receive/ppo-rollouts.json",
+    "payload_sha256": "3c4164bcdd5b6d2536963a8964500cece644b0a348e15db972ca091088b15c67",
+    "sha256": "3c4164bcdd5b6d2536963a8964500cece644b0a348e15db972ca091088b15c67",
+    "original_bytes": 481739,
+    "bytes": 481739
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/receive/teacher-collection.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/receive/teacher-collection.json",
+    "payload_sha256": "39a63ac26c3c7d2d7e0b77002a0cd79cd317017e83e4833c9a11f1cf39a91928",
+    "sha256": "39a63ac26c3c7d2d7e0b77002a0cd79cd317017e83e4833c9a11f1cf39a91928",
+    "original_bytes": 276062,
+    "bytes": 276062
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/receive/training-summary.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/receive/training-summary.json",
+    "payload_sha256": "f354c5e0249735ec3b26f4a2c4916d9faf1f52454c7c153526ebd7445fcaea96",
+    "sha256": "f354c5e0249735ec3b26f4a2c4916d9faf1f52454c7c153526ebd7445fcaea96",
+    "original_bytes": 360,
+    "bytes": 360
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/redirect/anchor-updates.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/redirect/anchor-updates.json",
+    "payload_sha256": "230b77c218d319cc3f2b1e085823e7488b230a1cb3cfb11b3e9addf539a20552",
+    "sha256": "230b77c218d319cc3f2b1e085823e7488b230a1cb3cfb11b3e9addf539a20552",
+    "original_bytes": 4763,
+    "bytes": 4763
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/redirect/bc-development.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/redirect/bc-development.json.gz",
+    "payload_sha256": "fb1fffa8c9b3af811082278631974fb8dc9d485f758a042a4cb9d726fa83924a",
+    "sha256": "1c7ff697614ef7534d0886a8ba74fb904d65c96e2af95983880e36e29143deeb",
+    "original_bytes": 13196006,
+    "bytes": 3614886
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/redirect/bc.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/redirect/bc.json",
+    "payload_sha256": "80efb6fcc18fad3e2195f6765d60748c803e24d2006330c4a236d922854e0495",
+    "sha256": "80efb6fcc18fad3e2195f6765d60748c803e24d2006330c4a236d922854e0495",
+    "original_bytes": 1132,
+    "bytes": 1132
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/redirect/bc.zip",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/redirect/bc.zip",
+    "payload_sha256": "dc6cfe729d912d333706499abb9e92c38d09e8152620aa701fd0fbc2ac3fc8da",
+    "sha256": "dc6cfe729d912d333706499abb9e92c38d09e8152620aa701fd0fbc2ac3fc8da",
+    "original_bytes": 190346,
+    "bytes": 190346
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/redirect/dagger-collection.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/redirect/dagger-collection.json",
+    "payload_sha256": "9ea097d7af473d5271e1585f12c6734777e56983497e0ae841ffe61c55613d48",
+    "sha256": "9ea097d7af473d5271e1585f12c6734777e56983497e0ae841ffe61c55613d48",
+    "original_bytes": 205374,
+    "bytes": 205374
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/redirect/dagger-development.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/redirect/dagger-development.json.gz",
+    "payload_sha256": "fa8f76f47cc3d089f551466ace788e178ca6d9c2a7fc18cf1db19106e1753c0a",
+    "sha256": "4beb79df25881c8f91bd31e9a0ace42c91f3cdc4dc3b62a40529615865772ef6",
+    "original_bytes": 13209115,
+    "bytes": 3594619
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/redirect/dagger.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/redirect/dagger.json",
+    "payload_sha256": "f2ab67e49d879cd70b5dd0541a47932527596cf3d317c130dce142fa63fee5fd",
+    "sha256": "f2ab67e49d879cd70b5dd0541a47932527596cf3d317c130dce142fa63fee5fd",
+    "original_bytes": 1220,
+    "bytes": 1220
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/redirect/dagger.zip",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/redirect/dagger.zip",
+    "payload_sha256": "96b6cca8be8244b08ff4b324890c52bf812ff94ee3cfd1b1f4b0da27cb71f51c",
+    "sha256": "96b6cca8be8244b08ff4b324890c52bf812ff94ee3cfd1b1f4b0da27cb71f51c",
+    "original_bytes": 190346,
+    "bytes": 190346
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/redirect/demonstrations.npz",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/redirect/demonstrations.npz",
+    "payload_sha256": "564f5c1c85a10dba5840e7d2c0e7892ffbe6a01255cc8970b17d69e38d2a90cb",
+    "sha256": "564f5c1c85a10dba5840e7d2c0e7892ffbe6a01255cc8970b17d69e38d2a90cb",
+    "original_bytes": 3308046,
+    "bytes": 3308046
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/redirect/policy-development.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/redirect/policy-development.json.gz",
+    "payload_sha256": "5a50af5364e5b89daf6360400082085d951aee650b71f20a15e22379589b118d",
+    "sha256": "e27fe3acdffe86812540656d392d207485dfabb40901603974ae22809856fe6b",
+    "original_bytes": 13209759,
+    "bytes": 3612837
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/redirect/policy.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/redirect/policy.json",
+    "payload_sha256": "6c9401214095a3954d22b18e2f38194bafd3a0145e7e29eba76f2f6cc8f0809c",
+    "sha256": "6c9401214095a3954d22b18e2f38194bafd3a0145e7e29eba76f2f6cc8f0809c",
+    "original_bytes": 1380,
+    "bytes": 1380
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/redirect/policy.zip",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/redirect/policy.zip",
+    "payload_sha256": "af193e2a7fa88972e3e32abbd42834c53517cd0c6e4d9d0d23e18ec9c0310fc0",
+    "sha256": "af193e2a7fa88972e3e32abbd42834c53517cd0c6e4d9d0d23e18ec9c0310fc0",
+    "original_bytes": 545863,
+    "bytes": 545863
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/redirect/ppo-resets.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/redirect/ppo-resets.json",
+    "payload_sha256": "637f5c7a0686ca7c49d1b545948cae2e26d263e3a75db2b4b36cd32c74772486",
+    "sha256": "637f5c7a0686ca7c49d1b545948cae2e26d263e3a75db2b4b36cd32c74772486",
+    "original_bytes": 2274,
+    "bytes": 2274
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/redirect/ppo-rollouts.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/redirect/ppo-rollouts.json.gz",
+    "payload_sha256": "013a8ac06b298b8abc7f54ca79efc857ea2c98bf30b7e1f71571299c6c0ca6c1",
+    "sha256": "f121e3468fc703e9d86fd806b8b084f4556f45689fe69f67908a578e7ca10189",
+    "original_bytes": 602019,
+    "bytes": 110516
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/redirect/teacher-collection.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/redirect/teacher-collection.json",
+    "payload_sha256": "1a7f59d8469c230c47663d039b8a2cee080f4b39a3f7ef68f9fb44935fcb86de",
+    "sha256": "1a7f59d8469c230c47663d039b8a2cee080f4b39a3f7ef68f9fb44935fcb86de",
+    "original_bytes": 410928,
+    "bytes": 410928
+  },
+  {
+    "source": "runs/tdp-v1/train-v1/redirect/training-summary.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1/redirect/training-summary.json",
+    "payload_sha256": "d573d94c4909050498a7d3e18e5ab14427c467ee450a54a18e4cfa0ea284d21a",
+    "sha256": "d573d94c4909050498a7d3e18e5ab14427c467ee450a54a18e4cfa0ea284d21a",
+    "original_bytes": 361,
+    "bytes": 361
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/scripts/run_tdp.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/scripts/run_tdp.py",
+    "payload_sha256": "67194affc6fb9f79468ee6b1bf32fe96ce29dfde5a49e0c2949ec220cb1608ef",
+    "sha256": "67194affc6fb9f79468ee6b1bf32fe96ce29dfde5a49e0c2949ec220cb1608ef",
+    "original_bytes": 4111,
+    "bytes": 4111
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/__init__.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/__init__.py",
+    "payload_sha256": "aa9bd1338e4c9e153c688e7852af996da1b05e372b4006d646392d3ee4715271",
+    "sha256": "aa9bd1338e4c9e153c688e7852af996da1b05e372b4006d646392d3ee4715271",
+    "original_bytes": 70,
+    "bytes": 70
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/adversarial_finish.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/adversarial_finish.py",
+    "payload_sha256": "c3ac8354e4e1ccc37d98eda42fadba94ca2477b673aec02c67696c372d146863",
+    "sha256": "c3ac8354e4e1ccc37d98eda42fadba94ca2477b673aec02c67696c372d146863",
+    "original_bytes": 3314,
+    "bytes": 3314
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/adversarial_training.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/adversarial_training.py",
+    "payload_sha256": "99ee62fc020ed7d5c39c2ea909a9487cd374d8368728ce8c21086b82fdfad01b",
+    "sha256": "99ee62fc020ed7d5c39c2ea909a9487cd374d8368728ce8c21086b82fdfad01b",
+    "original_bytes": 6374,
+    "bytes": 6374
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/backend.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/backend.py",
+    "payload_sha256": "1c782eadc7c9bfb767ccadf01406e1df1f840fae8e7f9061033500aa4b3e5eaf",
+    "sha256": "1c782eadc7c9bfb767ccadf01406e1df1f840fae8e7f9061033500aa4b3e5eaf",
+    "original_bytes": 3710,
+    "bytes": 3710
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/behavior.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/behavior.py",
+    "payload_sha256": "fde4a8a03911ac342cc4b68e4af259b2484aa3758b9febeac0d76b862f5249d4",
+    "sha256": "fde4a8a03911ac342cc4b68e4af259b2484aa3758b9febeac0d76b862f5249d4",
+    "original_bytes": 6063,
+    "bytes": 6063
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/capture.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/capture.py",
+    "payload_sha256": "d4c60adcd523f3d8d999a2c8319c24e88450c2b3c37409344df9cf829f1ea45d",
+    "sha256": "d4c60adcd523f3d8d999a2c8319c24e88450c2b3c37409344df9cf829f1ea45d",
+    "original_bytes": 7353,
+    "bytes": 7353
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/capture_contract.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/capture_contract.py",
+    "payload_sha256": "1aa3d0ddb1d5962c5844eecb713192bdd8643312b32177ad5b16928d00750e52",
+    "sha256": "1aa3d0ddb1d5962c5844eecb713192bdd8643312b32177ad5b16928d00750e52",
+    "original_bytes": 1849,
+    "bytes": 1849
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/capture_training.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/capture_training.py",
+    "payload_sha256": "a6302e06bea0a4b7599ea33ac185635df9ba52f9a5ea1da2916175e6e6a3d40d",
+    "sha256": "a6302e06bea0a4b7599ea33ac185635df9ba52f9a5ea1da2916175e6e6a3d40d",
+    "original_bytes": 5907,
+    "bytes": 5907
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/cli.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/cli.py",
+    "payload_sha256": "7e0216cf81b7222774278d59dd93aa5be078a840b5ece4b9029ec61a4472b073",
+    "sha256": "7e0216cf81b7222774278d59dd93aa5be078a840b5ece4b9029ec61a4472b073",
+    "original_bytes": 3671,
+    "bytes": 3671
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/continuous.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/continuous.py",
+    "payload_sha256": "85aec062569d4aec3cfdd6f6dcd0a14877d86a20d1d556fdd5033abf19faf261",
+    "sha256": "85aec062569d4aec3cfdd6f6dcd0a14877d86a20d1d556fdd5033abf19faf261",
+    "original_bytes": 21896,
+    "bytes": 21896
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/continuous_backend.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/continuous_backend.py",
+    "payload_sha256": "4ae894ea2282fe1a7551d6a58001b4310a14d8a65d84d4cca5b44b9c49d60cbf",
+    "sha256": "4ae894ea2282fe1a7551d6a58001b4310a14d8a65d84d4cca5b44b9c49d60cbf",
+    "original_bytes": 4067,
+    "bytes": 4067
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/continuous_distribution.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/continuous_distribution.py",
+    "payload_sha256": "7dd59172ed4938fd740014b63e376c6f299b06d03d551ccdeea3e8e9de330071",
+    "sha256": "7dd59172ed4938fd740014b63e376c6f299b06d03d551ccdeea3e8e9de330071",
+    "original_bytes": 1767,
+    "bytes": 1767
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/continuous_features.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/continuous_features.py",
+    "payload_sha256": "d4267acad3ce0e4ca6964debc6267a8ed44838890e506f025d1c96f5f30fa2c9",
+    "sha256": "d4267acad3ce0e4ca6964debc6267a8ed44838890e506f025d1c96f5f30fa2c9",
+    "original_bytes": 1673,
+    "bytes": 1673
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/continuous_preflight.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/continuous_preflight.py",
+    "payload_sha256": "03c5205750f505223c75e786a01f8d01b686fcd1691bb9ee8c0b4929dca0b421",
+    "sha256": "03c5205750f505223c75e786a01f8d01b686fcd1691bb9ee8c0b4929dca0b421",
+    "original_bytes": 2310,
+    "bytes": 2310
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/continuous_safety.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/continuous_safety.py",
+    "payload_sha256": "e77eafcec8c40878f6c2a494af2380a0f9f79a077bd3f8268914049d6594d16f",
+    "sha256": "e77eafcec8c40878f6c2a494af2380a0f9f79a077bd3f8268914049d6594d16f",
+    "original_bytes": 4062,
+    "bytes": 4062
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/continuous_selfplay.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/continuous_selfplay.py",
+    "payload_sha256": "3c0f9a412a5599dbc520122d697d485062619b90869065f5f995e3f4889fc795",
+    "sha256": "3c0f9a412a5599dbc520122d697d485062619b90869065f5f995e3f4889fc795",
+    "original_bytes": 13229,
+    "bytes": 13229
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/continuous_teacher.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/continuous_teacher.py",
+    "payload_sha256": "4b8fad6f917e4616d5bc852deeb3d12677a4aa5f2b1345bfeb12797ea0b75669",
+    "sha256": "4b8fad6f917e4616d5bc852deeb3d12677a4aa5f2b1345bfeb12797ea0b75669",
+    "original_bytes": 6818,
+    "bytes": 6818
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/continuous_training.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/continuous_training.py",
+    "payload_sha256": "1ac63b6a03e2ce37bb74ccc49d746abd99b0624461b8c1bbd66ffe66d6218e41",
+    "sha256": "1ac63b6a03e2ce37bb74ccc49d746abd99b0624461b8c1bbd66ffe66d6218e41",
+    "original_bytes": 11001,
+    "bytes": 11001
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/contract.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/contract.py",
+    "payload_sha256": "6616096b9e2ceb18fa136902861cde6db010ab288996db4fae14e598c67d3d1c",
+    "sha256": "6616096b9e2ceb18fa136902861cde6db010ab288996db4fae14e598c67d3d1c",
+    "original_bytes": 3398,
+    "bytes": 3398
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/decision_commitment.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/decision_commitment.py",
+    "payload_sha256": "5bdad6ab17ae5219bf9d21b200dbbcd7d279c7b2702fa87e03358d784bbdd340",
+    "sha256": "5bdad6ab17ae5219bf9d21b200dbbcd7d279c7b2702fa87e03358d784bbdd340",
+    "original_bytes": 4537,
+    "bytes": 4537
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/decision_flank.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/decision_flank.py",
+    "payload_sha256": "960321a92c8367e075524c550336cda09f962325956461db4d6e0ddfc288ca5c",
+    "sha256": "960321a92c8367e075524c550336cda09f962325956461db4d6e0ddfc288ca5c",
+    "original_bytes": 3205,
+    "bytes": 3205
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/decision_panel.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/decision_panel.py",
+    "payload_sha256": "93ed1602eefcca46cd32d57fb6f9f72622083a1b005897a30b4edc4f990bb6df",
+    "sha256": "93ed1602eefcca46cd32d57fb6f9f72622083a1b005897a30b4edc4f990bb6df",
+    "original_bytes": 2640,
+    "bytes": 2640
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/decision_play.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/decision_play.py",
+    "payload_sha256": "0e94eb28c5177444ab7897d95c7d37ee81d51e3aa9dbf03fb34a51faa08b8117",
+    "sha256": "0e94eb28c5177444ab7897d95c7d37ee81d51e3aa9dbf03fb34a51faa08b8117",
+    "original_bytes": 23324,
+    "bytes": 23324
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/decision_precision.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/decision_precision.py",
+    "payload_sha256": "a4a6991fca0188c2167c76890175b8f2aa8f87258ab72e4693e98772e4e73953",
+    "sha256": "a4a6991fca0188c2167c76890175b8f2aa8f87258ab72e4693e98772e4e73953",
+    "original_bytes": 8794,
+    "bytes": 8794
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/decision_prepare.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/decision_prepare.py",
+    "payload_sha256": "8d920c49fb45d9b32a121af92119e48c399911e88335f6c93fb54706e5f88bf9",
+    "sha256": "8d920c49fb45d9b32a121af92119e48c399911e88335f6c93fb54706e5f88bf9",
+    "original_bytes": 3119,
+    "bytes": 3119
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/decision_rewards.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/decision_rewards.py",
+    "payload_sha256": "074d0fe4113053cf8ff83df8642865d05b4e87bdbab1154299e0c785c945a56b",
+    "sha256": "074d0fe4113053cf8ff83df8642865d05b4e87bdbab1154299e0c785c945a56b",
+    "original_bytes": 1632,
+    "bytes": 1632
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/decision_training.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/decision_training.py",
+    "payload_sha256": "96bb95e9aa876fe882948cb0f80c7275f5d7bb7214e0048729084d88ed3e21ce",
+    "sha256": "96bb95e9aa876fe882948cb0f80c7275f5d7bb7214e0048729084d88ed3e21ce",
+    "original_bytes": 21404,
+    "bytes": 21404
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/defended.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/defended.py",
+    "payload_sha256": "3d1c58dee5717fe6d42f5142a2ea58d84f3417600e45e66e35665250e5c359b6",
+    "sha256": "3d1c58dee5717fe6d42f5142a2ea58d84f3417600e45e66e35665250e5c359b6",
+    "original_bytes": 17626,
+    "bytes": 17626
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/defended_tactical_training.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/defended_tactical_training.py",
+    "payload_sha256": "566ed57a0c396593e60a1ec89cd436417b0c8ebc0155149ac68c78e709326c28",
+    "sha256": "566ed57a0c396593e60a1ec89cd436417b0c8ebc0155149ac68c78e709326c28",
+    "original_bytes": 5775,
+    "bytes": 5775
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/defended_training.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/defended_training.py",
+    "payload_sha256": "9f5587a6c110cb6047812c00609ac01f2be7d43a3e5fe960b5f623f838a7457a",
+    "sha256": "9f5587a6c110cb6047812c00609ac01f2be7d43a3e5fe960b5f623f838a7457a",
+    "original_bytes": 5881,
+    "bytes": 5881
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/defended_upgrade.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/defended_upgrade.py",
+    "payload_sha256": "31d70e4abaa92a85f7e6e889fa46a0e5dac5807124d583e68724806a96509e39",
+    "sha256": "31d70e4abaa92a85f7e6e889fa46a0e5dac5807124d583e68724806a96509e39",
+    "original_bytes": 5947,
+    "bytes": 5947
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/defense_micro.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/defense_micro.py",
+    "payload_sha256": "26c4bbb354dcf80e48d490df3dda3db6fe38b76b50908205478348eec4fe80e6",
+    "sha256": "26c4bbb354dcf80e48d490df3dda3db6fe38b76b50908205478348eec4fe80e6",
+    "original_bytes": 11575,
+    "bytes": 11575
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/dribble.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/dribble.py",
+    "payload_sha256": "e09a3a302a7fee14eb980ec74fb5fe27068d1fe78e776c5b215f8e03693bd628",
+    "sha256": "e09a3a302a7fee14eb980ec74fb5fe27068d1fe78e776c5b215f8e03693bd628",
+    "original_bytes": 9895,
+    "bytes": 9895
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/dribble_contract.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/dribble_contract.py",
+    "payload_sha256": "7c44826fb910b14bb05ef804c6414ea58a7542d3b00a2cc20a160d8308ae846e",
+    "sha256": "7c44826fb910b14bb05ef804c6414ea58a7542d3b00a2cc20a160d8308ae846e",
+    "original_bytes": 744,
+    "bytes": 744
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/dribble_refinement.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/dribble_refinement.py",
+    "payload_sha256": "0defdc5942dd613f0fafb2bf357daa8c2c0ef33570b3876f723d31b14da8d5e6",
+    "sha256": "0defdc5942dd613f0fafb2bf357daa8c2c0ef33570b3876f723d31b14da8d5e6",
+    "original_bytes": 6477,
+    "bytes": 6477
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/dribble_training.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/dribble_training.py",
+    "payload_sha256": "5fd080b39d49436727acb4acc8bd9aeac9f615b73d491a8e329162aafd947d7e",
+    "sha256": "5fd080b39d49436727acb4acc8bd9aeac9f615b73d491a8e329162aafd947d7e",
+    "original_bytes": 7195,
+    "bytes": 7195
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/env.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/env.py",
+    "payload_sha256": "ffedfd2184096ffd80a95be46d5b372452aea4d281e1d5930844af3814bdc554",
+    "sha256": "ffedfd2184096ffd80a95be46d5b372452aea4d281e1d5930844af3814bdc554",
+    "original_bytes": 7343,
+    "bytes": 7343
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/keeper.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/keeper.py",
+    "payload_sha256": "f0bd9959e61de8754de4d97d328dc5a1e7233b9b4c0081a11a7d2ce67fa12c91",
+    "sha256": "f0bd9959e61de8754de4d97d328dc5a1e7233b9b4c0081a11a7d2ce67fa12c91",
+    "original_bytes": 14246,
+    "bytes": 14246
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/learned_opponents.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/learned_opponents.py",
+    "payload_sha256": "4d23e88e46803275ab6200a4cc223a510cb7bf6dd482972caa360c0f895cf84c",
+    "sha256": "4d23e88e46803275ab6200a4cc223a510cb7bf6dd482972caa360c0f895cf84c",
+    "original_bytes": 7882,
+    "bytes": 7882
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/micro_catalog.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/micro_catalog.py",
+    "payload_sha256": "18d58d38e43b97db90136a35126fe3930e5b65914eb67bd35c1179c16adda1a1",
+    "sha256": "18d58d38e43b97db90136a35126fe3930e5b65914eb67bd35c1179c16adda1a1",
+    "original_bytes": 7408,
+    "bytes": 7408
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/micro_training.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/micro_training.py",
+    "payload_sha256": "1a6991b63ab1f99663795bb728bceb8b259056e16ab568286dfb3f2c87757c95",
+    "sha256": "1a6991b63ab1f99663795bb728bceb8b259056e16ab568286dfb3f2c87757c95",
+    "original_bytes": 10457,
+    "bytes": 10457
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/model.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/model.py",
+    "payload_sha256": "0489022ffecdaa2b269a7b547218d056401749aaa03f050b0cc8393d861cfa10",
+    "sha256": "0489022ffecdaa2b269a7b547218d056401749aaa03f050b0cc8393d861cfa10",
+    "original_bytes": 4675,
+    "bytes": 4675
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/opponent_training.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/opponent_training.py",
+    "payload_sha256": "acf9002321d676486433f95dcfdfa4daa4682e5f1f7252224c4f7ac765f5d3ca",
+    "sha256": "acf9002321d676486433f95dcfdfa4daa4682e5f1f7252224c4f7ac765f5d3ca",
+    "original_bytes": 14118,
+    "bytes": 14118
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/self_play.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/self_play.py",
+    "payload_sha256": "8fddfa367a8ba5f72d8a16b92440df00866dbb5c2765f4024045f46fee565109",
+    "sha256": "8fddfa367a8ba5f72d8a16b92440df00866dbb5c2765f4024045f46fee565109",
+    "original_bytes": 13843,
+    "bytes": 13843
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/self_play_match.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/self_play_match.py",
+    "payload_sha256": "ddf8efefd6caed50727499d6c6654c84f95584500dff80260df249711d64bd1b",
+    "sha256": "ddf8efefd6caed50727499d6c6654c84f95584500dff80260df249711d64bd1b",
+    "original_bytes": 7787,
+    "bytes": 7787
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/self_play_panel.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/self_play_panel.py",
+    "payload_sha256": "03fbe5e0d89b77cac406dc0edf340ae9fb3251a5f04d5607b245acb67374b388",
+    "sha256": "03fbe5e0d89b77cac406dc0edf340ae9fb3251a5f04d5607b245acb67374b388",
+    "original_bytes": 3006,
+    "bytes": 3006
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/self_play_release_head.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/self_play_release_head.py",
+    "payload_sha256": "756cf948bd5d77c33dfd63c58112e4dad58be40c9425480a42b0b79a9831b75a",
+    "sha256": "756cf948bd5d77c33dfd63c58112e4dad58be40c9425480a42b0b79a9831b75a",
+    "original_bytes": 8691,
+    "bytes": 8691
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/self_play_repair.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/self_play_repair.py",
+    "payload_sha256": "97a78fa2233e9142357f661eaec55c15f71a78737a0a020c614844e34e57cb6d",
+    "sha256": "97a78fa2233e9142357f661eaec55c15f71a78737a0a020c614844e34e57cb6d",
+    "original_bytes": 6166,
+    "bytes": 6166
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/self_play_timing.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/self_play_timing.py",
+    "payload_sha256": "11338578ad17946e06bdb906227dc74922fce39295a69ec553c03a29eac9e431",
+    "sha256": "11338578ad17946e06bdb906227dc74922fce39295a69ec553c03a29eac9e431",
+    "original_bytes": 5773,
+    "bytes": 5773
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/self_play_training.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/self_play_training.py",
+    "payload_sha256": "6d29aa25f9c49559dd7767b88e7d3756a20cb738ecde72ba30cc4430cf35240b",
+    "sha256": "6d29aa25f9c49559dd7767b88e7d3756a20cb738ecde72ba30cc4430cf35240b",
+    "original_bytes": 24714,
+    "bytes": 24714
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/shoot.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/shoot.py",
+    "payload_sha256": "fa67fef8c38cd050d79202b6cc575963d51f4e9f29b8cdda641c9c9aa3ff0b9e",
+    "sha256": "fa67fef8c38cd050d79202b6cc575963d51f4e9f29b8cdda641c9c9aa3ff0b9e",
+    "original_bytes": 10191,
+    "bytes": 10191
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/shoot_contract.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/shoot_contract.py",
+    "payload_sha256": "35ac76186912737a47be2a0531809b7f5851cdd9735f37d3412fb7fe302b6218",
+    "sha256": "35ac76186912737a47be2a0531809b7f5851cdd9735f37d3412fb7fe302b6218",
+    "original_bytes": 1611,
+    "bytes": 1611
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/shoot_training.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/shoot_training.py",
+    "payload_sha256": "9cbe3bf77491368ef46efb6120cd0658a6d33527d6b6597ec9ea651b899f2de1",
+    "sha256": "9cbe3bf77491368ef46efb6120cd0658a6d33527d6b6597ec9ea651b899f2de1",
+    "original_bytes": 8082,
+    "bytes": 8082
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/shoot_upgrade.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/shoot_upgrade.py",
+    "payload_sha256": "a856001d16dbcdf9d711b6200923da10ee1cab52706be3c47b5990a31e1a92d3",
+    "sha256": "a856001d16dbcdf9d711b6200923da10ee1cab52706be3c47b5990a31e1a92d3",
+    "original_bytes": 5219,
+    "bytes": 5219
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/strategy.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/strategy.py",
+    "payload_sha256": "ad759e351764824e8255afbb2b691bbc2eb3dd3cacfbcb3bd51e809d26eda5a7",
+    "sha256": "ad759e351764824e8255afbb2b691bbc2eb3dd3cacfbcb3bd51e809d26eda5a7",
+    "original_bytes": 4481,
+    "bytes": 4481
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/tdp_options.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/tdp_options.py",
+    "payload_sha256": "8c1ee5828156bf6e41956aac82b7c1f986cdd2ea991be403040ceb0735d5bed0",
+    "sha256": "8c1ee5828156bf6e41956aac82b7c1f986cdd2ea991be403040ceb0735d5bed0",
+    "original_bytes": 17885,
+    "bytes": 17885
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/tdp_training.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/tdp_training.py",
+    "payload_sha256": "7a6993237c96021eea3dbb5577622fccb82b0ec0de3a925f6c4917d310ddc8c7",
+    "sha256": "7a6993237c96021eea3dbb5577622fccb82b0ec0de3a925f6c4917d310ddc8c7",
+    "original_bytes": 9637,
+    "bytes": 9637
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/team.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/team.py",
+    "payload_sha256": "e4b9c5558db60d1d5692cc8b830133dc52c07018bf8da4ff7b53020520c14cf3",
+    "sha256": "e4b9c5558db60d1d5692cc8b830133dc52c07018bf8da4ff7b53020520c14cf3",
+    "original_bytes": 17677,
+    "bytes": 17677
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/team_contract.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/team_contract.py",
+    "payload_sha256": "649ad7ddbe435759123fc26eb7ffcaad01102dc320aa1351e3071c6353c99a1d",
+    "sha256": "649ad7ddbe435759123fc26eb7ffcaad01102dc320aa1351e3071c6353c99a1d",
+    "original_bytes": 2912,
+    "bytes": 2912
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/team_play.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/team_play.py",
+    "payload_sha256": "400302d30389d564cf9c8cef701a3acee02836a4a7dfc7bb86112ea27954411e",
+    "sha256": "400302d30389d564cf9c8cef701a3acee02836a4a7dfc7bb86112ea27954411e",
+    "original_bytes": 3668,
+    "bytes": 3668
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/team_training.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/team_training.py",
+    "payload_sha256": "940c0c34cb4da8bf38df0b53b0de786f8b1691be7b739ec707de6e65f0b9693b",
+    "sha256": "940c0c34cb4da8bf38df0b53b0de786f8b1691be7b739ec707de6e65f0b9693b",
+    "original_bytes": 7899,
+    "bytes": 7899
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/team_upgrade.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/team_upgrade.py",
+    "payload_sha256": "6dc6213852a48f0b86c47cd955cd2b24f3b173b36be4c03e7f87699eb5e87a2c",
+    "sha256": "6dc6213852a48f0b86c47cd955cd2b24f3b173b36be4c03e7f87699eb5e87a2c",
+    "original_bytes": 5577,
+    "bytes": 5577
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_core/roboturk/webots_backend.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_core/roboturk/webots_backend.py",
+    "payload_sha256": "1cc82885cb85d158463a94ab39a224d9c734ad8ae8699be40e501b018d3befaf",
+    "sha256": "1cc82885cb85d158463a94ab39a224d9c734ad8ae8699be40e501b018d3befaf",
+    "original_bytes": 6320,
+    "bytes": 6320
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_ros/webots/controllers/roboturk_tdp/roboturk_tdp.py",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_ros/webots/controllers/roboturk_tdp/roboturk_tdp.py",
+    "payload_sha256": "0210c153a30a6dc708235daba032dbf7a0a0c41e892adfff79038c4900d70026",
+    "sha256": "0210c153a30a6dc708235daba032dbf7a0a0c41e892adfff79038c4900d70026",
+    "original_bytes": 3645,
+    "bytes": 3645
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_ros/webots/protos/SslBall.proto",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_ros/webots/protos/SslBall.proto",
+    "payload_sha256": "2550c2c6c24163ad793e1e4178da7049d463988d8769a5487a0f8fca070c05c0",
+    "sha256": "2550c2c6c24163ad793e1e4178da7049d463988d8769a5487a0f8fca070c05c0",
+    "original_bytes": 428,
+    "bytes": 428
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_ros/webots/protos/SslRobot.proto",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_ros/webots/protos/SslRobot.proto",
+    "payload_sha256": "10a7d7d461e671529c29e836c05c43ee8107b864115a6fbdabb99cc4fa22e0f5",
+    "sha256": "10a7d7d461e671529c29e836c05c43ee8107b864115a6fbdabb99cc4fa22e0f5",
+    "original_bytes": 1132,
+    "bytes": 1132
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch/runtime/src/roboturk_ros/webots/worlds/ssl_tdp.wbt",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch/runtime/src/roboturk_ros/webots/worlds/ssl_tdp.wbt",
+    "payload_sha256": "975de6321e013dc56ab29fbceb97aeff4cc6aa8ad231ff9447db527b44ea16c1",
+    "sha256": "975de6321e013dc56ab29fbceb97aeff4cc6aa8ad231ff9447db527b44ea16c1",
+    "original_bytes": 2260,
+    "bytes": 2260
+  },
+  {
+    "source": "runs/tdp-v1/train-v1.launch.json",
+    "path": "policies/tdp_skills_v1/preparation/train-v1.launch.json",
+    "payload_sha256": "cece13291eeaf65f5c7a11c9dc8daca162f4702d6ced9ef625c4e81aab90dcbe",
+    "sha256": "cece13291eeaf65f5c7a11c9dc8daca162f4702d6ced9ef625c4e81aab90dcbe",
+    "original_bytes": 8535,
+    "bytes": 8535
+  }
+]

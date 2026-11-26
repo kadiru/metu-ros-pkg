@@ -1,0 +1,14 @@
+{
+  "policies/contest_outlet_v1/freeze.json": "120ff18c020b53e015bc19d11a8603dd27b79f347dfbf2ba59be7dd60460e58a",
+  "policies/contest_outlet_v1/isolation-freeze.json": "a60b8b5e8149601431569197e79c7883d06cf7d1a512d7df9ad2d8e26f105c6c",
+  "policies/contest_outlet_v2/protocol.json": "c13e508371fb0ffaaf77a1ac18ff1696b903c7f3e53fa70417fa2703cc7da4a2",
+  "policies/contest_outlet_v2/policy.json": "e77ee316a9608779f6a49e7a6ca4e950f19678620f2080dbc6e23134d06cde1f",
+  "policies/contest_outlet_v2/training-poses.json": "32d6e923da207f471be4b2af9989e875d16737b14a1f36d4da019d4cbf275e29",
+  "scripts/run_outlet_league.py": "48d1bd984644743c34a20dcd776781bc773217ce2121bd8f3b40b6654f8744ec",
+  "scripts/fit_contest_returns.py": "4f7a4c864cc80b13607a7c85a52cbcf169d658e7ba0aed5fecb332914256d9e4",
+  "scripts/freeze_outlet_league.py": "92c1cba6165486d49e44ef0dee26376fee07197865923f1d498a3550e4149d74",
+  "scripts/build_contest_curriculum.py": "2373f76ad6eaeb2f7858892fa634c7edde35c5860ff619c54017ef8e968c4b2a",
+  "src/roboturk_core/roboturk/jaw_recovery.py": "30bb116bfdc4579091cab5ec6be495a764d58a700a503479429f40417e18bcd1",
+  "src/roboturk_ros/webots/worlds/ssl_outlet_league.wbt": "e9842bfdb322a909d4802ae8565488075e680f3ce7df0fbe409ff7ac3969121f",
+  "src/roboturk_ros/webots/controllers/roboturk_outlet_league/roboturk_outlet_league.py": "f729d8509216ae30ffaafd179cb48772b9addf8387d0ea5630ce4198ad5ec36f"
+}

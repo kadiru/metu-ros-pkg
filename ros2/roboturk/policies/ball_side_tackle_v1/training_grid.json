@@ -1,0 +1,38 @@
+{
+  "draw37": {
+    "angle_deg": 37,
+    "mouth_offset": 0.108,
+    "draw_speed": 0.22,
+    "flank": 0
+  },
+  "draw47": {
+    "angle_deg": 47,
+    "mouth_offset": 0.115,
+    "draw_speed": 0.25,
+    "flank": 0
+  },
+  "draw54": {
+    "angle_deg": 54,
+    "mouth_offset": 0.12,
+    "draw_speed": 0.23,
+    "flank": 0
+  },
+  "draw37-flank": {
+    "angle_deg": 37,
+    "mouth_offset": 0.108,
+    "draw_speed": 0.24,
+    "flank": 0.3
+  },
+  "draw47-flank": {
+    "angle_deg": 47,
+    "mouth_offset": 0.115,
+    "draw_speed": 0.24,
+    "flank": 0.3
+  },
+  "draw54-flank": {
+    "angle_deg": 54,
+    "mouth_offset": 0.12,
+    "draw_speed": 0.24,
+    "flank": 0.3
+  }
+}

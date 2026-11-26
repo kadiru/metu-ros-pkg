@@ -1,0 +1,12 @@
+{
+  "baseline": "placement_v1 at 0ea81b25c903707faddb6822e295b2081e346a6b",
+  "training_starts": [25100000, 25100023],
+  "development_starts": [25200000, 25200011],
+  "reserved_starts": [25300000, 25300039],
+  "natural_match_seeds": [25500000, 25500001, 25500002, 25500003],
+  "film_seed": 24400000,
+  "design": "Forty new crowded awards, alternating colors, same initial physics state and designated point for both policies. Independently report the four archived natural exits and all touchline exits in four additional 60-second matches.",
+  "gate": "At least 38/40 officially accepted placements within 30 simulation seconds, zero TIGERs unique or drawn crashes and zero placement interference across the candidate panel. Count crashes even when the controller declines a proposal. Replay the former collision opening with official crash adjudication and complete a direct kick to the receiver.",
+  "parameters": ["prediction_horizon_s", "clearance_m", "steering_angle_rad"],
+  "training_reward": "12 for successful stationary placement and withdrawal, minus 15 per episode with robot centers below 0.183 m, minus 30 times the shortfall below 0.235 m, minus 0.1 per second."
+}

@@ -1,0 +1,26 @@
+{
+  "source": "actual Webots movie recorder",
+  "seeds": [
+    960000,
+    960005
+  ],
+  "episodes": 6,
+  "goals": 6,
+  "native_frames": 2479,
+  "published_frames": 2479,
+  "duration_seconds": 99.16,
+  "width": 1280,
+  "height": 720,
+  "fps": 25,
+  "codec": "H.264 yuv420p",
+  "transcode": "libx264 CRF20, no trimming or episode selection",
+  "full_decode_check": "passed",
+  "visual_checks_seconds": [
+    4.46,
+    13,
+    29
+  ],
+  "native_sha256": "6a5e55321e294fd90091c81500cf9c303687aa53462b66e2611f186efa0520d3",
+  "published_sha256": "e046a5922deb905a04d02dd79e62c7003aeedd9cbc560a84492e5af8125cf99e",
+  "encoder_note": "Native Webots encoder emitted JPEG padding warnings; completed movie passed readiness and full published-video decode checks."
+}

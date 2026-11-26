@@ -1,0 +1,6 @@
+{
+  "games": 3,
+  "samples": 5400,
+  "exact_state_match": true,
+  "exact_game_match": true
+}

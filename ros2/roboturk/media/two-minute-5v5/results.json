@@ -1,0 +1,782 @@
+{
+  "seed": 38727000,
+  "final_score": [
+    2,
+    1
+  ],
+  "official_halves": [
+    {
+      "stage": "NORMAL_FIRST_HALF",
+      "kickoff": "blue",
+      "blue_attack_sign": 1,
+      "wire_start_s": 60.0,
+      "wire_end_s": -1.001999,
+      "running_native_s": 60.96
+    },
+    {
+      "stage": "NORMAL_SECOND_HALF",
+      "kickoff": "yellow",
+      "blue_attack_sign": -1,
+      "wire_start_s": 60.0,
+      "wire_end_s": -1.039999,
+      "running_native_s": 61.0
+    }
+  ],
+  "kickoff_prepare_native_seconds": [
+    0.32,
+    8.88,
+    8.48,
+    11.08,
+    8.36
+  ],
+  "native_seconds_by_mode": {
+    "halt": 3.84,
+    "stop": 60.56,
+    "running": 121.96
+  },
+  "simulated_seconds": 186.36,
+  "opening_tick": 16,
+  "goals": [
+    {
+      "team": "BLUE",
+      "score_tick": 362,
+      "crossing_tick": 328,
+      "score": [
+        1,
+        0
+      ]
+    },
+    {
+      "team": "YELLOW",
+      "score_tick": 1925,
+      "crossing_tick": 1891,
+      "score": [
+        1,
+        1
+      ]
+    },
+    {
+      "team": "BLUE",
+      "score_tick": 3404,
+      "crossing_tick": 3370,
+      "score": [
+        2,
+        1
+      ]
+    }
+  ],
+  "completed": [
+    {
+      "kick": 260,
+      "receive": 304,
+      "passer": [
+        "blue",
+        2
+      ],
+      "receiver": [
+        "blue",
+        1
+      ],
+      "restart_pass": false
+    },
+    {
+      "kick": 1162,
+      "receive": 1194,
+      "passer": [
+        "yellow",
+        2
+      ],
+      "receiver": [
+        "yellow",
+        3
+      ],
+      "restart_pass": true
+    },
+    {
+      "kick": 1636,
+      "receive": 1669,
+      "passer": [
+        "yellow",
+        2
+      ],
+      "receiver": [
+        "yellow",
+        3
+      ],
+      "restart_pass": true
+    },
+    {
+      "kick": 2160,
+      "receive": 2181,
+      "passer": [
+        "blue",
+        2
+      ],
+      "receiver": [
+        "blue",
+        3
+      ],
+      "restart_pass": false
+    },
+    {
+      "kick": 2295,
+      "receive": 2334,
+      "passer": [
+        "blue",
+        2
+      ],
+      "receiver": [
+        "blue",
+        3
+      ],
+      "restart_pass": false
+    },
+    {
+      "kick": 2339,
+      "receive": 2385,
+      "passer": [
+        "blue",
+        3
+      ],
+      "receiver": [
+        "blue",
+        4
+      ],
+      "restart_pass": false
+    },
+    {
+      "kick": 2390,
+      "receive": 2422,
+      "passer": [
+        "blue",
+        4
+      ],
+      "receiver": [
+        "blue",
+        3
+      ],
+      "restart_pass": false
+    },
+    {
+      "kick": 2427,
+      "receive": 2469,
+      "passer": [
+        "blue",
+        3
+      ],
+      "receiver": [
+        "blue",
+        2
+      ],
+      "restart_pass": false
+    },
+    {
+      "kick": 3636,
+      "receive": 3663,
+      "passer": [
+        "yellow",
+        4
+      ],
+      "receiver": [
+        "yellow",
+        2
+      ],
+      "restart_pass": false
+    },
+    {
+      "kick": 3663,
+      "receive": 3709,
+      "passer": [
+        "yellow",
+        2
+      ],
+      "receiver": [
+        "yellow",
+        1
+      ],
+      "restart_pass": false
+    },
+    {
+      "kick": 3771,
+      "receive": 3804,
+      "passer": [
+        "yellow",
+        2
+      ],
+      "receiver": [
+        "yellow",
+        1
+      ],
+      "restart_pass": false
+    },
+    {
+      "kick": 4172,
+      "receive": 4198,
+      "passer": [
+        "blue",
+        4
+      ],
+      "receiver": [
+        "blue",
+        3
+      ],
+      "restart_pass": false
+    },
+    {
+      "kick": 4202,
+      "receive": 4241,
+      "passer": [
+        "blue",
+        3
+      ],
+      "receiver": [
+        "blue",
+        1
+      ],
+      "restart_pass": false
+    },
+    {
+      "kick": 4261,
+      "receive": 4292,
+      "passer": [
+        "blue",
+        1
+      ],
+      "receiver": [
+        "blue",
+        3
+      ],
+      "restart_pass": false
+    },
+    {
+      "kick": 4309,
+      "receive": 4342,
+      "passer": [
+        "blue",
+        3
+      ],
+      "receiver": [
+        "blue",
+        4
+      ],
+      "restart_pass": false
+    },
+    {
+      "kick": 4374,
+      "receive": 4409,
+      "passer": [
+        "blue",
+        4
+      ],
+      "receiver": [
+        "blue",
+        3
+      ],
+      "restart_pass": false
+    }
+  ],
+  "attempts": 24,
+  "observed_crashes": [],
+  "accepted_crashes": [],
+  "accepted_events": {
+    "POSSIBLE_GOAL": 3,
+    "GOAL": 3,
+    "BALL_LEFT_FIELD_TOUCH_LINE": 1,
+    "PLACEMENT_SUCCEEDED": 2,
+    "BALL_LEFT_FIELD_GOAL_LINE": 1
+  },
+  "detector_events": {
+    "ATTACKER_DOUBLE_TOUCHED_BALL": 2,
+    "POSSIBLE_GOAL": 3,
+    "BALL_LEFT_FIELD_TOUCH_LINE": 1,
+    "PLACEMENT_SUCCEEDED": 2,
+    "ATTACKER_TOO_CLOSE_TO_DEFENSE_AREA": 1,
+    "BALL_LEFT_FIELD_GOAL_LINE": 1
+  },
+  "halftime_score": [
+    1,
+    1
+  ],
+  "body_contact_episodes": 0,
+  "minimum_body_gap_m": 0.025158367290568168,
+  "planner_decisions": {
+    "direct": 14324,
+    "detour": 1888,
+    "brake": 582,
+    "escape": 25,
+    "hold": 294,
+    "errt": 608,
+    "shortcut": 6
+  },
+  "tackle_decisions": [
+    {
+      "time": 0.76,
+      "presser": 8,
+      "carrier": 4,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 2.96,
+      "presser": 8,
+      "carrier": 4,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 3.48,
+      "presser": 4,
+      "carrier": 8,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 6.279999999999999,
+      "presser": 6,
+      "carrier": 4,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 10.24,
+      "presser": 6,
+      "carrier": 2,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 24.119999999999997,
+      "presser": 3,
+      "carrier": 6,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 29.2,
+      "presser": 7,
+      "carrier": 1,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 30.2,
+      "presser": 3,
+      "carrier": 7,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 67.03999999999999,
+      "presser": 3,
+      "carrier": 8,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 73.24,
+      "presser": 8,
+      "carrier": 4,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 74.8,
+      "presser": 2,
+      "carrier": 8,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 86.28,
+      "presser": 7,
+      "carrier": 2,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 91.72,
+      "presser": 7,
+      "carrier": 2,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 93.39999999999999,
+      "presser": 7,
+      "carrier": 3,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 95.44,
+      "presser": 7,
+      "carrier": 4,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 97.08,
+      "presser": 7,
+      "carrier": 3,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 98.8,
+      "presser": 7,
+      "carrier": 2,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 116.2,
+      "presser": 3,
+      "carrier": 7,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 121.52,
+      "presser": 9,
+      "carrier": 3,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 128.84,
+      "presser": 9,
+      "carrier": 1,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 133.64000000000001,
+      "presser": 7,
+      "carrier": 1,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 145.24,
+      "presser": 1,
+      "carrier": 9,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 150.68,
+      "presser": 3,
+      "carrier": 7,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 152.84,
+      "presser": 4,
+      "carrier": 6,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 154.28,
+      "presser": 4,
+      "carrier": 6,
+      "action": "pivot_left",
+      "reason": "stalled_draw",
+      "vetoes": {}
+    },
+    {
+      "time": 155.32000000000002,
+      "presser": 4,
+      "carrier": 6,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 157.20000000000002,
+      "presser": 6,
+      "carrier": 4,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 158.88000000000002,
+      "presser": 6,
+      "carrier": 4,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 159.8,
+      "presser": 4,
+      "carrier": 6,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 160.68,
+      "presser": 6,
+      "carrier": 4,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 162.56,
+      "presser": 6,
+      "carrier": 4,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 165.04000000000002,
+      "presser": 6,
+      "carrier": 4,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 166.8,
+      "presser": 7,
+      "carrier": 4,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 167.96,
+      "presser": 7,
+      "carrier": 3,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 172.36,
+      "presser": 9,
+      "carrier": 3,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 174.72,
+      "presser": 9,
+      "carrier": 4,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    },
+    {
+      "time": 176.44000000000003,
+      "presser": 9,
+      "carrier": 3,
+      "action": "direct",
+      "reason": "draw",
+      "vetoes": {}
+    }
+  ],
+  "keeper_cover_ticks": 15,
+  "takeaways": [
+    {
+      "actor": [
+        "yellow",
+        3
+      ],
+      "carrier": [
+        "blue",
+        4
+      ],
+      "presser": true,
+      "trained_tackle": true,
+      "contact": false,
+      "ref_crash": false,
+      "clean": true,
+      "reach_s": 3.156,
+      "confirmed_s": 3.578
+    },
+    {
+      "actor": [
+        "blue",
+        4
+      ],
+      "carrier": [
+        "yellow",
+        3
+      ],
+      "presser": true,
+      "trained_tackle": true,
+      "contact": false,
+      "ref_crash": false,
+      "clean": true,
+      "reach_s": 3.688,
+      "confirmed_s": 4.406
+    },
+    {
+      "actor": [
+        "yellow",
+        3
+      ],
+      "carrier": [
+        "blue",
+        4
+      ],
+      "presser": true,
+      "trained_tackle": true,
+      "contact": false,
+      "ref_crash": false,
+      "clean": true,
+      "reach_s": 4.462,
+      "confirmed_s": 5.188
+    },
+    {
+      "actor": [
+        "blue",
+        4
+      ],
+      "carrier": [
+        "yellow",
+        3
+      ],
+      "presser": true,
+      "trained_tackle": true,
+      "contact": false,
+      "ref_crash": false,
+      "clean": true,
+      "reach_s": 5.226,
+      "confirmed_s": 5.884
+    },
+    {
+      "actor": [
+        "blue",
+        4
+      ],
+      "carrier": [
+        "yellow",
+        1
+      ],
+      "presser": true,
+      "trained_tackle": true,
+      "contact": false,
+      "ref_crash": false,
+      "clean": true,
+      "reach_s": 156.482,
+      "confirmed_s": 157.292
+    },
+    {
+      "actor": [
+        "yellow",
+        1
+      ],
+      "carrier": [
+        "blue",
+        4
+      ],
+      "presser": true,
+      "trained_tackle": true,
+      "contact": false,
+      "ref_crash": false,
+      "clean": true,
+      "reach_s": 157.35,
+      "confirmed_s": 157.888
+    },
+    {
+      "actor": [
+        "blue",
+        4
+      ],
+      "carrier": [
+        "yellow",
+        1
+      ],
+      "presser": true,
+      "trained_tackle": true,
+      "contact": false,
+      "ref_crash": false,
+      "clean": true,
+      "reach_s": 158.226,
+      "confirmed_s": 158.978
+    },
+    {
+      "actor": [
+        "yellow",
+        1
+      ],
+      "carrier": [
+        "blue",
+        4
+      ],
+      "presser": true,
+      "trained_tackle": true,
+      "contact": false,
+      "ref_crash": false,
+      "clean": true,
+      "reach_s": 159.08,
+      "confirmed_s": 159.882
+    },
+    {
+      "actor": [
+        "blue",
+        4
+      ],
+      "carrier": [
+        "yellow",
+        1
+      ],
+      "presser": true,
+      "trained_tackle": true,
+      "contact": false,
+      "ref_crash": false,
+      "clean": true,
+      "reach_s": 160.094,
+      "confirmed_s": 160.766
+    },
+    {
+      "actor": [
+        "yellow",
+        1
+      ],
+      "carrier": [
+        "blue",
+        4
+      ],
+      "presser": true,
+      "trained_tackle": true,
+      "contact": false,
+      "ref_crash": false,
+      "clean": true,
+      "reach_s": 160.98,
+      "confirmed_s": 161.512
+    }
+  ]
+}

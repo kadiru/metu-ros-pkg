@@ -1,0 +1,10 @@
+{
+  "source_sha256": {
+    "src/roboturk_core/roboturk/self_play.py": "ffad8fc9c9009ba8301edb2ed81e8012235cfe3c2cfc9a2891c8d673319465d7",
+    "src/roboturk_core/roboturk/self_play_match.py": "ddf8efefd6caed50727499d6c6654c84f95584500dff80260df249711d64bd1b",
+    "src/roboturk_core/roboturk/self_play_training.py": "4575a45282baac9086469c1c6101d8b6fe56f87991ec2b732884d30d173a03af",
+    "src/roboturk_core/roboturk/self_play_repair.py": "f134709841d7ff5955f4f0b3eb1cb4d216b480456619c3f9bbcf7a606eb99de8"
+  },
+  "prepared_bundle_sha256": "5f6b128661f085a2069475e88a4abec94992bf5ec28b2081ef0ae927c360e4fd",
+  "reserved_started": false
+}

@@ -1,0 +1,302 @@
+{
+  "baseline": {
+    "trials": 40,
+    "valid_passes": 40,
+    "press_activations": 40,
+    "first_touches": 38,
+    "completed_passes": 24,
+    "valid_shots": 21,
+    "goals": 20,
+    "marker_robot_proximity_trials": 7,
+    "marker_ball_contact_or_possession_trials": 13,
+    "pre_kick_loss_trials": 0,
+    "median_marker_gap_at_stable_reception_m": 0.6905841404329565,
+    "terminal_phases": {
+      "after_shot": 1,
+      "carrying": 3,
+      "goal": 20,
+      "pass_in_flight": 2,
+      "securing_reception": 14
+    },
+    "outcomes": {
+      "defender_collision": 7,
+      "defender_interception": 13,
+      "goal": 20
+    },
+    "secured": {
+      "seeds": [
+        33822000,
+        33822001,
+        33822003,
+        33822005,
+        33822006,
+        33822008,
+        33822011,
+        33822015,
+        33822016,
+        33822018,
+        33822019,
+        33822020,
+        33822021,
+        33822022,
+        33822024,
+        33822026,
+        33822027,
+        33822028,
+        33822030,
+        33822031,
+        33822034,
+        33822036,
+        33822037,
+        33822038
+      ],
+      "transfer_reasons": {
+        "received": 24
+      },
+      "median_marker_gap_at_touch_m": 1.027155571736174,
+      "median_time_touch_to_transfer_end_s": 0.483000000000001,
+      "median_time_release_to_touch_s": 1.341
+    },
+    "touched_then_lost": {
+      "seeds": [
+        33822002,
+        33822004,
+        33822007,
+        33822009,
+        33822010,
+        33822012,
+        33822013,
+        33822014,
+        33822017,
+        33822029,
+        33822032,
+        33822033,
+        33822035,
+        33822039
+      ],
+      "transfer_reasons": {
+        "defender_collision": 4,
+        "defender_interception": 10
+      },
+      "median_marker_gap_at_touch_m": 0.45091617956031493,
+      "median_time_touch_to_transfer_end_s": 0.33000000000000185,
+      "median_time_release_to_touch_s": 1.6729999999999954
+    }
+  },
+  "trained": {
+    "trials": 40,
+    "valid_passes": 40,
+    "press_activations": 40,
+    "first_touches": 40,
+    "completed_passes": 39,
+    "valid_shots": 33,
+    "goals": 32,
+    "marker_robot_proximity_trials": 2,
+    "marker_ball_contact_or_possession_trials": 6,
+    "pre_kick_loss_trials": 0,
+    "median_marker_gap_at_stable_reception_m": 0.9579340229193195,
+    "terminal_phases": {
+      "after_shot": 1,
+      "carrying": 6,
+      "goal": 32,
+      "securing_reception": 1
+    },
+    "outcomes": {
+      "defender_collision": 2,
+      "defender_interception": 6,
+      "goal": 32
+    },
+    "secured": {
+      "seeds": [
+        33822000,
+        33822001,
+        33822002,
+        33822003,
+        33822004,
+        33822005,
+        33822006,
+        33822007,
+        33822008,
+        33822009,
+        33822010,
+        33822011,
+        33822012,
+        33822013,
+        33822014,
+        33822015,
+        33822016,
+        33822017,
+        33822018,
+        33822019,
+        33822020,
+        33822021,
+        33822022,
+        33822024,
+        33822025,
+        33822026,
+        33822027,
+        33822028,
+        33822029,
+        33822030,
+        33822031,
+        33822032,
+        33822033,
+        33822034,
+        33822035,
+        33822036,
+        33822037,
+        33822038,
+        33822039
+      ],
+      "transfer_reasons": {
+        "received": 39
+      },
+      "median_marker_gap_at_touch_m": 1.3250726685721075,
+      "median_time_touch_to_transfer_end_s": 0.46399999999999597,
+      "median_time_release_to_touch_s": 0.8719999999999963
+    },
+    "touched_then_lost": {
+      "seeds": [
+        33822023
+      ],
+      "transfer_reasons": {
+        "defender_collision": 1
+      },
+      "median_marker_gap_at_touch_m": 0.4248896151902904,
+      "median_time_touch_to_transfer_end_s": 0.39199999999999235,
+      "median_time_release_to_touch_s": 0.9880000000000075
+    }
+  },
+  "shared_first_touches": {
+    "count": 38,
+    "median_delta_release_to_touch_s": -0.5950000000000029,
+    "median_delta_marker_gap_m": 0.43925139028105475
+  },
+  "paired_seeds": {
+    "reception": {
+      "both": [
+        33822000,
+        33822001,
+        33822003,
+        33822005,
+        33822006,
+        33822008,
+        33822011,
+        33822015,
+        33822016,
+        33822018,
+        33822019,
+        33822020,
+        33822021,
+        33822022,
+        33822024,
+        33822026,
+        33822027,
+        33822028,
+        33822030,
+        33822031,
+        33822034,
+        33822036,
+        33822037,
+        33822038
+      ],
+      "baseline_only": [],
+      "trained_only": [
+        33822002,
+        33822004,
+        33822007,
+        33822009,
+        33822010,
+        33822012,
+        33822013,
+        33822014,
+        33822017,
+        33822025,
+        33822029,
+        33822032,
+        33822033,
+        33822035,
+        33822039
+      ],
+      "neither": [
+        33822023
+      ]
+    },
+    "goal": {
+      "both": [
+        33822000,
+        33822003,
+        33822005,
+        33822006,
+        33822008,
+        33822011,
+        33822015,
+        33822016,
+        33822018,
+        33822019,
+        33822020,
+        33822021,
+        33822024,
+        33822026,
+        33822028,
+        33822031,
+        33822034,
+        33822036,
+        33822037,
+        33822038
+      ],
+      "baseline_only": [],
+      "trained_only": [
+        33822007,
+        33822009,
+        33822010,
+        33822013,
+        33822014,
+        33822017,
+        33822022,
+        33822027,
+        33822029,
+        33822030,
+        33822032,
+        33822035
+      ],
+      "neither": [
+        33822001,
+        33822002,
+        33822004,
+        33822012,
+        33822023,
+        33822025,
+        33822033,
+        33822039
+      ]
+    }
+  },
+  "recovered_first_touch_losses": [
+    33822002,
+    33822004,
+    33822007,
+    33822009,
+    33822010,
+    33822012,
+    33822013,
+    33822014,
+    33822017,
+    33822029,
+    33822032,
+    33822033,
+    33822035,
+    33822039
+  ],
+  "goals_from_first_touch_losses": [
+    33822007,
+    33822009,
+    33822010,
+    33822013,
+    33822014,
+    33822017,
+    33822029,
+    33822032,
+    33822035
+  ]
+}

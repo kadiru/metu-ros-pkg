@@ -1,0 +1,122 @@
+{
+  "version": 1,
+  "contract": "roboturk.learned_options.v1",
+  "training_seeds": [
+    811,
+    822
+  ],
+  "primary_seed": 811,
+  "native_duration_seconds": 20,
+  "generations": 2,
+  "ppo_steps_per_generation": 32768,
+  "selection": "Final completed generation per training seed after development; no selection on reserved cases",
+  "preparation_seed_ranges": {
+    "teacher": [
+      6100000,
+      6119999
+    ],
+    "dagger": [
+      6120000,
+      6199999
+    ],
+    "self_play": [
+      6200000,
+      6299999
+    ],
+    "development": [
+      6300000,
+      6399999
+    ]
+  },
+  "panels": [
+    {
+      "name": "811-self",
+      "seed": 6500000,
+      "count": 20,
+      "blue": "811-final",
+      "yellow": "811-final"
+    },
+    {
+      "name": "822-self",
+      "seed": 6500100,
+      "count": 20,
+      "blue": "822-final",
+      "yellow": "822-final"
+    },
+    {
+      "name": "811-history",
+      "seed": 6500200,
+      "count": 20,
+      "blue": "811-final",
+      "yellow": "811-initial"
+    },
+    {
+      "name": "822-history",
+      "seed": 6500300,
+      "count": 20,
+      "blue": "822-final",
+      "yellow": "822-initial"
+    },
+    {
+      "name": "811-cross",
+      "seed": 6500400,
+      "count": 20,
+      "blue": "811-final",
+      "yellow": "822-final"
+    },
+    {
+      "name": "822-cross",
+      "seed": 6500500,
+      "count": 20,
+      "blue": "822-final",
+      "yellow": "811-final"
+    }
+  ],
+  "demo": {
+    "seed": 6600000,
+    "count": 4,
+    "blue": "811-final",
+    "yellow": "822-final",
+    "consecutive_uncut": true
+  },
+  "gates_per_seed_60_matches": {
+    "min_completion_fraction": 0.95,
+    "maximum_mean_contact_fraction": 0.02,
+    "maximum_field_exit_matches": 0,
+    "minimum_total_goals": 12,
+    "minimum_goals_per_color": 2,
+    "minimum_receive_stop": 5,
+    "minimum_redirect_kicks": 5,
+    "minimum_redirect_goals": 2,
+    "minimum_clearance_complete": 5,
+    "minimum_each_new_skill_ticks": 100,
+    "all_independent_physics_inference_and_hash_audits_pass": true
+  },
+  "families": [
+    "open",
+    "receive_opportunity",
+    "redirect_opportunity",
+    "clearance_opportunity"
+  ],
+  "inference": "Ten neural option choices; target parameters learned in native preparation and frozen during decision-head PPO; all motor networks frozen; no scripted playbook/phase handoff/target planner",
+  "safety": "Existing joint geometric translation projection is explicit and audited; rotations and kicks unchanged",
+  "boundaries": [
+    "Approximate ground-truth Webots ideal body velocity and spring dribbling",
+    "All four robots continuously use learned controllers; randomized tactical starting opportunities",
+    "Simplified goal/ball-out restarts to loose formations",
+    "No isolated PPO improvement, official SSL match, hardware or full live ROS graph claim"
+  ],
+  "selector": {
+    "observations": 162,
+    "actions": 17,
+    "choice_logits": 10,
+    "target_parameters": 6,
+    "target_refresh_score": 1,
+    "raw_actor_outputs": 31,
+    "intent_heads": 3,
+    "parameter_routing": "The neural categorical choice selects its own seven-value receive/redirect/clear intent head; the deployed action remains 17 values.",
+    "actor_features": "256 learned features, 162 direct observations, four unit-velocity/projection features; all target and choice coefficients learned"
+  },
+  "preparation_revision": 4,
+  "motor_preparation": "Original continuous/TDP actors preserved. Optional separate pass motor trained from training-range native states before strategy preparation; exact selected motor bank frozen through PPO and all qualification."
+}

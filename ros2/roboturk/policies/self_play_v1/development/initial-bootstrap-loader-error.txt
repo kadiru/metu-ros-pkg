@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/Users/kadir/linkedin/projects/roboturk/modern/src/roboturk_ros/webots/controllers/roboturk_supervisor/roboturk_supervisor.py", line 30, in main
+    run(supervisor, backend, cfg, mode)
+  File "/Users/kadir/linkedin/projects/roboturk/modern/src/roboturk_ros/webots/controllers/roboturk_supervisor/self_play_runner.py", line 35, in run
+    bootstrap(backend, cfg, output, sources, seed)
+  File "/Users/kadir/linkedin/projects/roboturk/modern/src/roboturk_core/roboturk/self_play_training.py", line 392, in bootstrap
+    models = {r: new_model(r, sources[r], seed + i) for i, r in enumerate(ROLES)}
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kadir/linkedin/projects/roboturk/modern/src/roboturk_core/roboturk/self_play_training.py", line 294, in new_model
+    v[:, : old[name].shape[1]] = old[name]
+    ~^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: The expanded size of the tensor (192) must match the existing size (128) at non-singleton dimension 0.  Target sizes: [192, 32].  Tensor sizes: [128, 32]

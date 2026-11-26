@@ -1,0 +1,28 @@
+{
+  "purpose": "recorder smoke test on development seeds; not reserved demo",
+  "seeds": [
+    2201000,
+    2201001
+  ],
+  "source": "native Webots recorder",
+  "sha256": "4dcdfc9740aa3eaa875b937ec05238f672a94930acf39bd33822dab2c2c935f2",
+  "duration_seconds": 14.36,
+  "width": 1280,
+  "height": 720,
+  "fps": 25,
+  "frames": 359,
+  "full_decode_errors": 0,
+  "visually_inspected_seconds": [
+    2.9,
+    12.0,
+    13.8,
+    14.1
+  ],
+  "observations": [
+    "interception outcome label and stationary robots during display",
+    "receiver carrying the ball with active defender and keeper",
+    "whole ball beyond goal line and inside posts at13.8s",
+    "goal display; ball can rebound after the scored terminal event"
+  ],
+  "encoder_log": "Webots x264 target-bitrate convergence warning; movieIsReady succeeded and full decode passed"
+}

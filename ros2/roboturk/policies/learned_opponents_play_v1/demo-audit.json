@@ -1,0 +1,40 @@
+{
+  "count": 6,
+  "successes": 6,
+  "failures": {},
+  "loss_episodes": 0,
+  "collision_episodes": 0,
+  "passes_gate": true,
+  "policy_calls": {
+    "defender": 4511,
+    "keeper": 4511
+  },
+  "models": {
+    "transfer": {
+      "path": "policies/learned_opponents_play_v1/transfer/policy.zip",
+      "sha256": "457a645ecad0ab35cbcf320710a8d3e20af648c1dc80131c2211e0f539803361",
+      "manifest_sha256": "06a5ac5b4acc4fc3f3968afdfd74614f86a29f774f2d82e78242f652fc7ce62f"
+    },
+    "finish": {
+      "path": "policies/learned_opponents_play_v1/finish/policy.zip",
+      "sha256": "c6575fa1e183ef58e0a4af75e1d5170801b8ccba0836919aa2fb0d7abace2e08",
+      "manifest_sha256": "9fc41a471960eb354f87c5c0962374b61a0e97f84d08873dbefa6c83050fcd4f"
+    },
+    "defender": {
+      "path": "policies/learned_opponents_v1/defender/policy.zip",
+      "sha256": "06fd042a37390dd0e51ab73f668763730a2e52faade721fbd421fa847612a726",
+      "manifest_sha256": "fe554b274ec1e9cf92b3bd6e7f23a85575d5e1779fc44b43cbfb9033d7801ba8"
+    },
+    "keeper": {
+      "path": "policies/learned_opponents_v1/keeper/policy.zip",
+      "sha256": "9dea9369b2b6bfe3811ca338c4d89f9b7854f7146ae0f33f1fd755967ecc52f4",
+      "manifest_sha256": "9f0f9b2a8639d613574e7e686a0c4723af295adb2cded16684cceb5d5a566641"
+    }
+  },
+  "runtime_verified": true,
+  "wilson_95": [
+    0.6096657120978346,
+    1.0
+  ],
+  "mean_success_seconds": 15.036666666666667
+}

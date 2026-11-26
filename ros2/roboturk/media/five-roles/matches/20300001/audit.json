@@ -1,0 +1,336 @@
+{
+  "seed": 20300001,
+  "seconds": 60,
+  "score": [
+    1,
+    0
+  ],
+  "control_frames": 1500,
+  "assignments_checked": 15000,
+  "open_play_role_changes": [
+    0,
+    39,
+    42,
+    46,
+    30,
+    0,
+    25,
+    35,
+    41,
+    39
+  ],
+  "control_frames_by_player": [
+    0,
+    54,
+    204,
+    143,
+    13,
+    0,
+    44,
+    75,
+    204,
+    118
+  ],
+  "turnovers": 20,
+  "passes": 18,
+  "confirmed_passes": [
+    {
+      "kick": 256,
+      "receive": 280,
+      "passer": 1,
+      "receiver": 3
+    },
+    {
+      "kick": 407,
+      "receive": 428,
+      "passer": 3,
+      "receiver": 1
+    },
+    {
+      "kick": 434,
+      "receive": 475,
+      "passer": 1,
+      "receiver": 4
+    },
+    {
+      "kick": 480,
+      "receive": 514,
+      "passer": 4,
+      "receiver": 1
+    },
+    {
+      "kick": 551,
+      "receive": 572,
+      "passer": 8,
+      "receiver": 7
+    },
+    {
+      "kick": 817,
+      "receive": 839,
+      "passer": 3,
+      "receiver": 1
+    },
+    {
+      "kick": 1040,
+      "receive": 1059,
+      "passer": 3,
+      "receiver": 2
+    },
+    {
+      "kick": 1101,
+      "receive": 1118,
+      "passer": 6,
+      "receiver": 8
+    },
+    {
+      "kick": 1464,
+      "receive": 1489,
+      "passer": 2,
+      "receiver": 3
+    }
+  ],
+  "control_changes": [
+    {
+      "tick": 23,
+      "time": 0.92,
+      "before": 2,
+      "after": 9,
+      "event": "turnover",
+      "restart": 0
+    },
+    {
+      "tick": 63,
+      "time": 2.52,
+      "before": 9,
+      "after": 2,
+      "event": "turnover",
+      "restart": 0
+    },
+    {
+      "tick": 109,
+      "time": 4.36,
+      "before": 2,
+      "after": 8,
+      "event": "turnover",
+      "restart": 0
+    },
+    {
+      "tick": 128,
+      "time": 5.12,
+      "before": 8,
+      "after": 2,
+      "event": "turnover",
+      "restart": 0
+    },
+    {
+      "tick": 280,
+      "time": 11.2,
+      "before": 1,
+      "after": 3,
+      "event": "handoff",
+      "restart": 1
+    },
+    {
+      "tick": 288,
+      "time": 11.52,
+      "before": 3,
+      "after": 9,
+      "event": "turnover",
+      "restart": 1
+    },
+    {
+      "tick": 394,
+      "time": 15.76,
+      "before": 9,
+      "after": 3,
+      "event": "turnover",
+      "restart": 1
+    },
+    {
+      "tick": 428,
+      "time": 17.12,
+      "before": 3,
+      "after": 1,
+      "event": "handoff",
+      "restart": 1
+    },
+    {
+      "tick": 475,
+      "time": 19.0,
+      "before": 1,
+      "after": 4,
+      "event": "handoff",
+      "restart": 1
+    },
+    {
+      "tick": 514,
+      "time": 20.56,
+      "before": 4,
+      "after": 1,
+      "event": "handoff",
+      "restart": 1
+    },
+    {
+      "tick": 572,
+      "time": 22.88,
+      "before": 8,
+      "after": 7,
+      "event": "handoff",
+      "restart": 2
+    },
+    {
+      "tick": 578,
+      "time": 23.12,
+      "before": 7,
+      "after": 3,
+      "event": "turnover",
+      "restart": 2
+    },
+    {
+      "tick": 688,
+      "time": 27.52,
+      "before": 3,
+      "after": 7,
+      "event": "turnover",
+      "restart": 2
+    },
+    {
+      "tick": 733,
+      "time": 29.32,
+      "before": 7,
+      "after": 3,
+      "event": "turnover",
+      "restart": 2
+    },
+    {
+      "tick": 755,
+      "time": 30.2,
+      "before": 3,
+      "after": 7,
+      "event": "turnover",
+      "restart": 2
+    },
+    {
+      "tick": 789,
+      "time": 31.56,
+      "before": 7,
+      "after": 3,
+      "event": "turnover",
+      "restart": 2
+    },
+    {
+      "tick": 839,
+      "time": 33.56,
+      "before": 3,
+      "after": 1,
+      "event": "handoff",
+      "restart": 2
+    },
+    {
+      "tick": 903,
+      "time": 36.12,
+      "before": 1,
+      "after": 8,
+      "event": "turnover",
+      "restart": 2
+    },
+    {
+      "tick": 1059,
+      "time": 42.36,
+      "before": 3,
+      "after": 2,
+      "event": "handoff",
+      "restart": 3
+    },
+    {
+      "tick": 1065,
+      "time": 42.6,
+      "before": 2,
+      "after": 6,
+      "event": "turnover",
+      "restart": 3
+    },
+    {
+      "tick": 1118,
+      "time": 44.72,
+      "before": 6,
+      "after": 8,
+      "event": "handoff",
+      "restart": 3
+    },
+    {
+      "tick": 1246,
+      "time": 49.84,
+      "before": 8,
+      "after": 2,
+      "event": "turnover",
+      "restart": 3
+    },
+    {
+      "tick": 1273,
+      "time": 50.92,
+      "before": 2,
+      "after": 8,
+      "event": "turnover",
+      "restart": 3
+    },
+    {
+      "tick": 1306,
+      "time": 52.24,
+      "before": 8,
+      "after": 2,
+      "event": "turnover",
+      "restart": 3
+    },
+    {
+      "tick": 1354,
+      "time": 54.16,
+      "before": 2,
+      "after": 9,
+      "event": "turnover",
+      "restart": 3
+    },
+    {
+      "tick": 1376,
+      "time": 55.04,
+      "before": 9,
+      "after": 2,
+      "event": "turnover",
+      "restart": 3
+    },
+    {
+      "tick": 1423,
+      "time": 56.92,
+      "before": 2,
+      "after": 9,
+      "event": "turnover",
+      "restart": 3
+    },
+    {
+      "tick": 1450,
+      "time": 58.0,
+      "before": 9,
+      "after": 2,
+      "event": "turnover",
+      "restart": 3
+    },
+    {
+      "tick": 1489,
+      "time": 59.56,
+      "before": 2,
+      "after": 3,
+      "event": "handoff",
+      "restart": 3
+    }
+  ],
+  "excerpt": [
+    1031,
+    1331
+  ],
+  "events": {
+    "pass": 18,
+    "out": 2,
+    "shot": 1,
+    "goal": 1
+  }
+}

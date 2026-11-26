@@ -1,0 +1,8 @@
+{
+  "reserved_starts": [26300000, 26300039],
+  "baseline_actor": "placement_v1",
+  "candidate_actor": "placement_v2_clear",
+  "regression_starts": [25300010,25300029,25300034,25300037,25300039],
+  "design": "Keep the frozen three learned steering parameters. At release choose a retreat segment that clears other players. Check all five prior misses separately. Compare to the released placer on forty new consecutive awards, twenty per color. Set exact poses and velocities before the first policy command and check their agreement.",
+  "gate": "At least 38/40 official placements within 30 s, zero TIGERs crash or placement interference reports, and the original live incident followed by a successful reception."
+}

@@ -1,0 +1,13 @@
+{
+  "epochs": 120,
+  "seed": 448,
+  "samples": 176011,
+  "mode_counts": {
+    "0": 53369,
+    "1": 108734,
+    "2": 13908
+  },
+  "last_mean_loss": 0.027061391757645954,
+  "reset_samples": 750,
+  "switch_samples": 6096
+}

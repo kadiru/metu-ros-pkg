@@ -1,0 +1,33 @@
+{
+  "totals": {
+    "baseline": {
+      "crashes": 47,
+      "passes": 151,
+      "goals": 21,
+      "attempts": 256
+    },
+    "candidate": {
+      "crashes": 0,
+      "passes": 201,
+      "goals": 21,
+      "attempts": 337
+    }
+  },
+  "paired_games": {
+    "crashes": {
+      "fewer": 14,
+      "same": 2,
+      "more": 0
+    },
+    "passes": {
+      "fewer": 6,
+      "same": 0,
+      "more": 10
+    },
+    "goals": {
+      "fewer": 6,
+      "same": 3,
+      "more": 7
+    }
+  }
+}

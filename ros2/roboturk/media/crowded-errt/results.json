@@ -1,0 +1,115 @@
+{
+  "current_planner": {
+    "starts": 40,
+    "arrivals": 17,
+    "timeouts": 23,
+    "starts_with_stall": 24,
+    "stall_episodes": 24,
+    "total_stalled_s": 183.16,
+    "median_arrival_among_successes_s": 2.92,
+    "mean_time_capped_at_deadline_s": 5.88,
+    "min_gap_m": {
+      "runner": 0.08963006771005688,
+      "robot": 0.08963006771005688,
+      "board": 0.5300000000000001,
+      "goal": 0.4149999999999999
+    },
+    "median_trial_min_gap_m": {
+      "runner": 0.1771051035151666,
+      "robot": 0.1771051035151666,
+      "board": 0.5300000000000001,
+      "goal": 0.4149999999999999
+    },
+    "starts_with_robot_contact": 0,
+    "starts_with_board_or_goal_contact": 0,
+    "decisions": {
+      "direct": 18963,
+      "detour": 419,
+      "errt": 0,
+      "brake": 4618
+    }
+  },
+  "errt_fallback": {
+    "starts": 40,
+    "arrivals": 38,
+    "timeouts": 2,
+    "starts_with_stall": 1,
+    "stall_episodes": 1,
+    "total_stalled_s": 6.44,
+    "median_arrival_among_successes_s": 2.92,
+    "mean_time_capped_at_deadline_s": 3.223,
+    "min_gap_m": {
+      "runner": 0.08963006803314927,
+      "robot": 0.08963006803314927,
+      "board": 0.5300000000000001,
+      "goal": 0.4149999999999999
+    },
+    "median_trial_min_gap_m": {
+      "runner": 0.14042260890632263,
+      "robot": 0.14042260890632263,
+      "board": 0.5300000000000001,
+      "goal": 0.4149999999999999
+    },
+    "starts_with_robot_contact": 0,
+    "starts_with_board_or_goal_contact": 0,
+    "decisions": {
+      "direct": 22835,
+      "detour": 698,
+      "errt": 300,
+      "brake": 167
+    }
+  },
+  "both_arrived_median_s": [
+    2.92,
+    2.92
+  ],
+  "paired": {
+    "both": [
+      38612003,
+      38612004,
+      38612006,
+      38612007,
+      38612010,
+      38612011,
+      38612013,
+      38612014,
+      38612015,
+      38612017,
+      38612019,
+      38612023,
+      38612027,
+      38612029,
+      38612030,
+      38612031,
+      38612035
+    ],
+    "errt_only": [
+      38612000,
+      38612001,
+      38612002,
+      38612005,
+      38612008,
+      38612009,
+      38612016,
+      38612018,
+      38612020,
+      38612021,
+      38612022,
+      38612024,
+      38612025,
+      38612026,
+      38612028,
+      38612032,
+      38612033,
+      38612034,
+      38612036,
+      38612037,
+      38612038
+    ],
+    "previous_only": [],
+    "neither": [
+      38612012,
+      38612039
+    ]
+  }
+}

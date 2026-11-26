@@ -1,0 +1,29 @@
+{
+  "stage": "dagger",
+  "seed": 217,
+  "sources": {
+    "defender": "06fd042a37390dd0e51ab73f668763730a2e52faade721fbd421fa847612a726",
+    "keeper": "9dea9369b2b6bfe3811ca338c4d89f9b7854f7146ae0f33f1fd755967ecc52f4",
+    "transfer": "457a645ecad0ab35cbcf320710a8d3e20af648c1dc80131c2211e0f539803361",
+    "finish": "c6575fa1e183ef58e0a4af75e1d5170801b8ccba0836919aa2fb0d7abace2e08"
+  },
+  "contract": "roboturk.mobile_transfer.v1",
+  "role": "transfer",
+  "config": {
+    "length": 9.0,
+    "width": 6.0,
+    "goal_width": 1.0,
+    "robot_radius": 0.09,
+    "ball_radius": 0.0215,
+    "ball_mass": 0.046,
+    "max_speed": 2.0,
+    "max_omega": 8.0,
+    "max_kick": 5.0,
+    "dt": 0.02,
+    "max_steps": 500,
+    "neighbors": 5,
+    "possession_x": 0.115
+  },
+  "actor_sha256": "1f5093c93ad1ac30adb4783973c9d30e7f98ae24312d3dab620cef8bcf0d9bd4",
+  "validated_for_hardware": false
+}

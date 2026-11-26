@@ -1,0 +1,70 @@
+{
+  "identical": true,
+  "games": [
+    {
+      "seed": 10600000,
+      "samples": 3500,
+      "max_state_delta": 0.0,
+      "same_options": true,
+      "same_events": true,
+      "same_conversions": true,
+      "repeat_state_sha256": "18af1baa27e0cd6aeaee2e9f502a16376944188a17302373902c3fa950dc0a91"
+    },
+    {
+      "seed": 10600001,
+      "samples": 3500,
+      "max_state_delta": 0.0,
+      "same_options": true,
+      "same_events": true,
+      "same_conversions": true,
+      "repeat_state_sha256": "77ca0798a470e768b2c74bd487c8d34a2a572056df02205e42c6874128fb920a"
+    },
+    {
+      "seed": 10600002,
+      "samples": 3500,
+      "max_state_delta": 0.0,
+      "same_options": true,
+      "same_events": true,
+      "same_conversions": true,
+      "repeat_state_sha256": "9955ad7048dde5771d36ad32d350147b8825a2da4655321eb4dbd067480a923f"
+    }
+  ],
+  "original_totals": {
+    "first": 2,
+    "recoveries": 2,
+    "chains": 2,
+    "mixed_first": 0,
+    "assisted": 1,
+    "carried": 0,
+    "blue": 1,
+    "yellow": 1,
+    "goals": 4,
+    "contacts": 0,
+    "exits": 0,
+    "samples": 10500,
+    "choices": {
+      "pass": 1,
+      "shoot": 2,
+      "dribble": 1
+    }
+  },
+  "repeat_totals": {
+    "first": 2,
+    "recoveries": 2,
+    "chains": 2,
+    "mixed_first": 0,
+    "assisted": 1,
+    "carried": 0,
+    "blue": 1,
+    "yellow": 1,
+    "goals": 4,
+    "contacts": 0,
+    "exits": 0,
+    "samples": 10500,
+    "choices": {
+      "pass": 1,
+      "shoot": 2,
+      "dribble": 1
+    }
+  }
+}

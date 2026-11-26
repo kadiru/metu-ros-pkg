@@ -1,0 +1,84 @@
+{
+  "schema": "roboturk.primitive_dojo.feedback_profiles.v1",
+  "control_period_s": 0.04,
+  "tasks": {
+    "arrival": {
+      "context_profiles": {
+        "stop": {
+          "gain": 3.2,
+          "speed": 2.4
+        },
+        "moving": {}
+      },
+      "source_profiles": {
+        "stop": "fast",
+        "moving": "terminal"
+      },
+      "fixed_passer": {}
+    },
+    "intercept": {
+      "context_profiles": {
+        "trap": {
+          "predict": true,
+          "speed": 1.6
+        },
+        "deflect": {
+          "station": {
+            "speed": 1.65,
+            "settle": 0.32,
+            "restitution": 0.45
+          }
+        }
+      },
+      "source_profiles": {
+        "trap": "early",
+        "deflect": "station_bounce"
+      },
+      "fixed_passer": {}
+    },
+    "pass": {
+      "context_profiles": {
+        "to feet": {
+          "lead": 1.08,
+          "base": 1.9,
+          "power": 0.24
+        },
+        "on the run": {
+          "lead": 1.08,
+          "base": 1.9,
+          "power": 0.24
+        }
+      },
+      "source_profiles": {
+        "to feet": "full_lead",
+        "on the run": "full_lead"
+      },
+      "fixed_passer": {}
+    },
+    "receive_race": {
+      "context_profiles": {
+        "slow rival": {
+          "predict": true,
+          "speed": 1.7,
+          "margin": -0.06,
+          "premeet": 0.53
+        },
+        "fast rival": {
+          "predict": true,
+          "speed": 1.7,
+          "margin": -0.06,
+          "premeet": 0.53
+        }
+      },
+      "source_profiles": {
+        "slow rival": "premeet_long",
+        "fast rival": "premeet_long"
+      },
+      "fixed_passer": {
+        "lead": 1.08,
+        "base": 1.9,
+        "power": 0.24
+      }
+    }
+  }
+}

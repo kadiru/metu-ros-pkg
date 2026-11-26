@@ -1,0 +1,18 @@
+{
+  "episodes": 720,
+  "eligible": 672,
+  "by_action": [
+    {
+      "eligible": 225,
+      "converted": 37
+    },
+    {
+      "eligible": 219,
+      "converted": 154
+    },
+    {
+      "eligible": 228,
+      "converted": 148
+    }
+  ]
+}

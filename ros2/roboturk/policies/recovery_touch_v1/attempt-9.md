@@ -1,0 +1,7 @@
+# Protecting possession while turning to pass or shoot
+
+Team 9 scored **31 qualifying goals in 40 fresh Webots openings**, with one loss before the pass and zero opening interceptions. The previous team scored 24, lost possession three times before passing and had one pass intercepted on the same 40 starts. Blue scored 16 qualifying goals and Yellow scored 15. [Matched results and seed-by-seed outcomes](comparison-9.json)
+
+The carrier forecasts whether the ball will slip from its roller or come within reach of the opposing roller. When the receiver pivots to shoot, it also adjusts its movement if that pivot would let the ball escape. The checkpoint won a six-candidate self-play league that started Webots independently for each game. It scored 18/24 with one pre-pass loss there. Its fresh qualification block was reserved before testing. [Native selection league](training/cold-league.json.gz) · [Frozen policy](planned-policy-9.json) · [Paired test registration](paired-challenge.json)
+
+From the same historical start, Blue 2 originally lost the ball 0.01 seconds after establishing sole possession. With the new controller, it carried the ball 0.44 m and led Blue 0 by 0.40 m. Blue 0 shielded from the closing marker and scored at 5.36 seconds. In the separate three-opening demo, Yellow 2 led Yellow 0 by 0.42 m for the only qualifying goal. [Matched Webots GIF](../../media/recovery-touch/first-touch-comparison.gif) · [Fresh Webots GIF](../../media/recovery-touch/first-touch.gif) · [All three openings on video](../../media/recovery-touch/first-touch.mp4)

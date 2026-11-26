@@ -1,0 +1,125 @@
+{
+  "models": [
+    {
+      "sides": 24,
+      "goals": 49,
+      "attempts": 16,
+      "complete": 13,
+      "intercepted": 2,
+      "action_0": 16,
+      "action_3": 17,
+      "head_to_head_margin": 13,
+      "learned_actions": [
+        0,
+        2,
+        3
+      ],
+      "mirror": {
+        "goals": 21,
+        "attempts": 7,
+        "completed": 6,
+        "interceptions": 1
+      },
+      "development_checks": {
+        "rate": true,
+        "keep_completions": true,
+        "goals": false
+      },
+      "value": 2.527083333333333
+    },
+    {
+      "sides": 24,
+      "goals": 51,
+      "attempts": 23,
+      "complete": 11,
+      "intercepted": 8,
+      "action_0": 23,
+      "action_3": 6,
+      "head_to_head_margin": 0,
+      "action_1": 3,
+      "learned_actions": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "mirror": {
+        "goals": 26,
+        "attempts": 12,
+        "completed": 6,
+        "interceptions": 4
+      },
+      "development_checks": {
+        "rate": false,
+        "keep_completions": true,
+        "goals": true
+      },
+      "value": 2.066666666666667
+    },
+    {
+      "sides": 24,
+      "goals": 48,
+      "attempts": 24,
+      "complete": 13,
+      "intercepted": 6,
+      "action_0": 22,
+      "action_3": 6,
+      "head_to_head_margin": 11,
+      "action_1": 2,
+      "learned_actions": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "mirror": {
+        "goals": 21,
+        "attempts": 11,
+        "completed": 6,
+        "interceptions": 3
+      },
+      "development_checks": {
+        "rate": true,
+        "keep_completions": true,
+        "goals": false
+      },
+      "value": 2.28125
+    },
+    {
+      "sides": 24,
+      "goals": 50,
+      "attempts": 17,
+      "complete": 15,
+      "intercepted": 2,
+      "action_0": 15,
+      "action_3": 13,
+      "head_to_head_margin": 16,
+      "action_2": 2,
+      "learned_actions": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "mirror": {
+        "goals": 21,
+        "attempts": 8,
+        "completed": 7,
+        "interceptions": 1
+      },
+      "development_checks": {
+        "rate": true,
+        "keep_completions": true,
+        "goals": false
+      },
+      "value": 2.6750000000000003
+    }
+  ],
+  "baseline_mirrors": {
+    "goals": 24,
+    "attempts": 13,
+    "completed": 7,
+    "interceptions": 4
+  },
+  "selected": 4
+}

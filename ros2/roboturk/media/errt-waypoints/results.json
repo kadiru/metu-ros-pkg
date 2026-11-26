@@ -1,0 +1,740 @@
+{
+  "original": {
+    "selective": {
+      "released": {
+        "starts": 40,
+        "arrivals": 38,
+        "timeouts": 2,
+        "starts_with_stall": 1,
+        "stall_episodes": 1,
+        "total_stalled_s": 6.44,
+        "median_arrival_among_successes_s": 2.92,
+        "mean_time_capped_at_deadline_s": 3.223,
+        "min_gap_m": {
+          "runner": 0.08963006803314927,
+          "robot": 0.08963006803314927,
+          "board": 0.5300000000000001,
+          "goal": 0.4149999999999999
+        },
+        "median_trial_min_gap_m": {
+          "runner": 0.14042260890632263,
+          "robot": 0.14042260890632263,
+          "board": 0.5300000000000001,
+          "goal": 0.4149999999999999
+        },
+        "starts_with_robot_contact": 0,
+        "starts_with_board_or_goal_contact": 0,
+        "decisions": {
+          "direct": 22835,
+          "detour": 698,
+          "errt": 300,
+          "escape": 0,
+          "hold": 0,
+          "brake": 167
+        }
+      },
+      "candidate": {
+        "starts": 40,
+        "arrivals": 40,
+        "timeouts": 0,
+        "starts_with_stall": 0,
+        "stall_episodes": 0,
+        "total_stalled_s": 0.0,
+        "median_arrival_among_successes_s": 2.96,
+        "mean_time_capped_at_deadline_s": 3.099,
+        "min_gap_m": {
+          "runner": 0.08959808638849731,
+          "robot": 0.08959808638849731,
+          "board": 0.5300000000000001,
+          "goal": 0.4149999999999999
+        },
+        "median_trial_min_gap_m": {
+          "runner": 0.14042260890632263,
+          "robot": 0.14042260890632263,
+          "board": 0.5300000000000001,
+          "goal": 0.4149999999999999
+        },
+        "starts_with_robot_contact": 0,
+        "starts_with_board_or_goal_contact": 0,
+        "decisions": {
+          "direct": 23059,
+          "detour": 636,
+          "errt": 211,
+          "escape": 1,
+          "hold": 86,
+          "brake": 7
+        }
+      },
+      "common_medians_s": [
+        2.92,
+        2.94
+      ],
+      "both": [
+        38612000,
+        38612001,
+        38612002,
+        38612003,
+        38612004,
+        38612005,
+        38612006,
+        38612007,
+        38612008,
+        38612009,
+        38612010,
+        38612011,
+        38612013,
+        38612014,
+        38612015,
+        38612016,
+        38612017,
+        38612018,
+        38612019,
+        38612020,
+        38612021,
+        38612022,
+        38612023,
+        38612024,
+        38612025,
+        38612026,
+        38612027,
+        38612028,
+        38612029,
+        38612030,
+        38612031,
+        38612032,
+        38612033,
+        38612034,
+        38612035,
+        38612036,
+        38612037,
+        38612038
+      ],
+      "candidate_only": [
+        38612012,
+        38612039
+      ],
+      "released_only": [],
+      "neither": []
+    },
+    "immediate": {
+      "released": {
+        "starts": 40,
+        "arrivals": 38,
+        "timeouts": 2,
+        "starts_with_stall": 1,
+        "stall_episodes": 1,
+        "total_stalled_s": 6.44,
+        "median_arrival_among_successes_s": 2.92,
+        "mean_time_capped_at_deadline_s": 3.223,
+        "min_gap_m": {
+          "runner": 0.08963006803314927,
+          "robot": 0.08963006803314927,
+          "board": 0.5300000000000001,
+          "goal": 0.4149999999999999
+        },
+        "median_trial_min_gap_m": {
+          "runner": 0.14042260890632263,
+          "robot": 0.14042260890632263,
+          "board": 0.5300000000000001,
+          "goal": 0.4149999999999999
+        },
+        "starts_with_robot_contact": 0,
+        "starts_with_board_or_goal_contact": 0,
+        "decisions": {
+          "direct": 22835,
+          "detour": 698,
+          "errt": 300,
+          "escape": 0,
+          "hold": 0,
+          "brake": 167
+        }
+      },
+      "candidate": {
+        "starts": 40,
+        "arrivals": 39,
+        "timeouts": 1,
+        "starts_with_stall": 0,
+        "stall_episodes": 0,
+        "total_stalled_s": 0.0,
+        "median_arrival_among_successes_s": 3.36,
+        "mean_time_capped_at_deadline_s": 3.821,
+        "min_gap_m": {
+          "runner": 0.08959808632693184,
+          "robot": 0.08959808632693184,
+          "board": 0.5300000000000001,
+          "goal": 0.4149999999999999
+        },
+        "median_trial_min_gap_m": {
+          "runner": 0.14663115841359015,
+          "robot": 0.14663115841359015,
+          "board": 0.5300000000000001,
+          "goal": 0.4149999999999999
+        },
+        "starts_with_robot_contact": 0,
+        "starts_with_board_or_goal_contact": 0,
+        "decisions": {
+          "direct": 22256,
+          "detour": 767,
+          "errt": 49,
+          "escape": 1,
+          "hold": 920,
+          "brake": 7
+        }
+      },
+      "common_medians_s": [
+        2.92,
+        3.36
+      ],
+      "both": [
+        38612000,
+        38612001,
+        38612002,
+        38612003,
+        38612004,
+        38612005,
+        38612006,
+        38612007,
+        38612008,
+        38612009,
+        38612010,
+        38612011,
+        38612013,
+        38612014,
+        38612015,
+        38612016,
+        38612017,
+        38612018,
+        38612019,
+        38612020,
+        38612021,
+        38612022,
+        38612023,
+        38612025,
+        38612026,
+        38612027,
+        38612028,
+        38612029,
+        38612030,
+        38612031,
+        38612032,
+        38612033,
+        38612034,
+        38612035,
+        38612036,
+        38612037,
+        38612038
+      ],
+      "candidate_only": [
+        38612012,
+        38612039
+      ],
+      "released_only": [
+        38612024
+      ],
+      "neither": []
+    }
+  },
+  "fresh": {
+    "selective": {
+      "released": {
+        "starts": 40,
+        "arrivals": 38,
+        "timeouts": 2,
+        "starts_with_stall": 2,
+        "stall_episodes": 2,
+        "total_stalled_s": 12.48,
+        "median_arrival_among_successes_s": 3.0,
+        "mean_time_capped_at_deadline_s": 3.245,
+        "min_gap_m": {
+          "runner": 0.10522636423441462,
+          "robot": 0.10522636423441462,
+          "board": 0.5300000000000001,
+          "goal": 0.4149999999999999
+        },
+        "median_trial_min_gap_m": {
+          "runner": 0.1427259829843704,
+          "robot": 0.1427259829843704,
+          "board": 0.5300000000000001,
+          "goal": 0.4149999999999999
+        },
+        "starts_with_robot_contact": 0,
+        "starts_with_board_or_goal_contact": 0,
+        "decisions": {
+          "direct": 22950,
+          "detour": 559,
+          "errt": 169,
+          "escape": 0,
+          "hold": 0,
+          "brake": 322
+        }
+      },
+      "candidate": {
+        "starts": 40,
+        "arrivals": 39,
+        "timeouts": 1,
+        "starts_with_stall": 1,
+        "stall_episodes": 1,
+        "total_stalled_s": 6.12,
+        "median_arrival_among_successes_s": 3.04,
+        "mean_time_capped_at_deadline_s": 3.173,
+        "min_gap_m": {
+          "runner": 0.10522636423441462,
+          "robot": 0.10522636423441462,
+          "board": 0.5300000000000001,
+          "goal": 0.4149999999999999
+        },
+        "median_trial_min_gap_m": {
+          "runner": 0.1415422399954027,
+          "robot": 0.1415422399954027,
+          "board": 0.5300000000000001,
+          "goal": 0.4149999999999999
+        },
+        "starts_with_robot_contact": 0,
+        "starts_with_board_or_goal_contact": 0,
+        "decisions": {
+          "direct": 23016,
+          "detour": 617,
+          "errt": 151,
+          "escape": 1,
+          "hold": 51,
+          "brake": 164
+        }
+      },
+      "common_medians_s": [
+        3.0,
+        3.04
+      ],
+      "both": [
+        38622000,
+        38622001,
+        38622002,
+        38622003,
+        38622004,
+        38622005,
+        38622006,
+        38622007,
+        38622008,
+        38622009,
+        38622010,
+        38622011,
+        38622012,
+        38622013,
+        38622014,
+        38622015,
+        38622016,
+        38622017,
+        38622018,
+        38622019,
+        38622020,
+        38622021,
+        38622022,
+        38622024,
+        38622025,
+        38622026,
+        38622027,
+        38622028,
+        38622029,
+        38622030,
+        38622032,
+        38622033,
+        38622034,
+        38622035,
+        38622036,
+        38622037,
+        38622038,
+        38622039
+      ],
+      "candidate_only": [
+        38622031
+      ],
+      "released_only": [],
+      "neither": [
+        38622023
+      ]
+    },
+    "immediate": {
+      "released": {
+        "starts": 40,
+        "arrivals": 38,
+        "timeouts": 2,
+        "starts_with_stall": 2,
+        "stall_episodes": 2,
+        "total_stalled_s": 12.48,
+        "median_arrival_among_successes_s": 3.0,
+        "mean_time_capped_at_deadline_s": 3.245,
+        "min_gap_m": {
+          "runner": 0.10522636423441462,
+          "robot": 0.10522636423441462,
+          "board": 0.5300000000000001,
+          "goal": 0.4149999999999999
+        },
+        "median_trial_min_gap_m": {
+          "runner": 0.1427259829843704,
+          "robot": 0.1427259829843704,
+          "board": 0.5300000000000001,
+          "goal": 0.4149999999999999
+        },
+        "starts_with_robot_contact": 0,
+        "starts_with_board_or_goal_contact": 0,
+        "decisions": {
+          "direct": 22950,
+          "detour": 559,
+          "errt": 169,
+          "escape": 0,
+          "hold": 0,
+          "brake": 322
+        }
+      },
+      "candidate": {
+        "starts": 40,
+        "arrivals": 37,
+        "timeouts": 3,
+        "starts_with_stall": 1,
+        "stall_episodes": 1,
+        "total_stalled_s": 6.12,
+        "median_arrival_among_successes_s": 3.16,
+        "mean_time_capped_at_deadline_s": 3.769,
+        "min_gap_m": {
+          "runner": 0.10522636423443271,
+          "robot": 0.10522636423443271,
+          "board": 0.5300000000000001,
+          "goal": 0.4149999999999999
+        },
+        "median_trial_min_gap_m": {
+          "runner": 0.14438795123679726,
+          "robot": 0.14438795123679726,
+          "board": 0.5300000000000001,
+          "goal": 0.4149999999999999
+        },
+        "starts_with_robot_contact": 0,
+        "starts_with_board_or_goal_contact": 0,
+        "decisions": {
+          "direct": 22302,
+          "detour": 738,
+          "errt": 47,
+          "escape": 1,
+          "hold": 746,
+          "brake": 166
+        }
+      },
+      "common_medians_s": [
+        3.0,
+        3.16
+      ],
+      "both": [
+        38622000,
+        38622001,
+        38622002,
+        38622003,
+        38622004,
+        38622005,
+        38622006,
+        38622007,
+        38622008,
+        38622009,
+        38622010,
+        38622011,
+        38622012,
+        38622013,
+        38622014,
+        38622016,
+        38622017,
+        38622018,
+        38622019,
+        38622020,
+        38622022,
+        38622024,
+        38622025,
+        38622026,
+        38622027,
+        38622028,
+        38622029,
+        38622030,
+        38622032,
+        38622033,
+        38622034,
+        38622035,
+        38622036,
+        38622037,
+        38622038,
+        38622039
+      ],
+      "candidate_only": [
+        38622031
+      ],
+      "released_only": [
+        38622015,
+        38622021
+      ],
+      "neither": [
+        38622023
+      ]
+    }
+  },
+  "confirmation": {
+    "selective": {
+      "released": {
+        "starts": 40,
+        "arrivals": 37,
+        "timeouts": 3,
+        "starts_with_stall": 3,
+        "stall_episodes": 3,
+        "total_stalled_s": 19.12,
+        "median_arrival_among_successes_s": 3.08,
+        "mean_time_capped_at_deadline_s": 3.427,
+        "min_gap_m": {
+          "runner": 0.07170284702602986,
+          "robot": 0.07170284702602986,
+          "board": 0.5300000000000001,
+          "goal": 0.4149999999999999
+        },
+        "median_trial_min_gap_m": {
+          "runner": 0.13835975188447053,
+          "robot": 0.13835975188447053,
+          "board": 0.5300000000000001,
+          "goal": 0.4149999999999999
+        },
+        "starts_with_robot_contact": 0,
+        "starts_with_board_or_goal_contact": 0,
+        "decisions": {
+          "direct": 22732,
+          "detour": 562,
+          "errt": 214,
+          "escape": 0,
+          "hold": 0,
+          "brake": 492
+        }
+      },
+      "candidate": {
+        "starts": 40,
+        "arrivals": 40,
+        "timeouts": 0,
+        "starts_with_stall": 0,
+        "stall_episodes": 0,
+        "total_stalled_s": 0.0,
+        "median_arrival_among_successes_s": 3.08,
+        "mean_time_capped_at_deadline_s": 3.101,
+        "min_gap_m": {
+          "runner": 0.07170284702602986,
+          "robot": 0.07170284702602986,
+          "board": 0.5300000000000001,
+          "goal": 0.4149999999999999
+        },
+        "median_trial_min_gap_m": {
+          "runner": 0.1384430744388267,
+          "robot": 0.1384430744388267,
+          "board": 0.5300000000000001,
+          "goal": 0.4149999999999999
+        },
+        "starts_with_robot_contact": 0,
+        "starts_with_board_or_goal_contact": 0,
+        "decisions": {
+          "direct": 23144,
+          "detour": 567,
+          "errt": 206,
+          "escape": 3,
+          "hold": 63,
+          "brake": 17
+        }
+      },
+      "common_medians_s": [
+        3.08,
+        3.08
+      ],
+      "both": [
+        38632000,
+        38632001,
+        38632002,
+        38632003,
+        38632004,
+        38632005,
+        38632006,
+        38632007,
+        38632008,
+        38632009,
+        38632010,
+        38632012,
+        38632013,
+        38632014,
+        38632015,
+        38632016,
+        38632017,
+        38632018,
+        38632020,
+        38632021,
+        38632022,
+        38632024,
+        38632025,
+        38632026,
+        38632027,
+        38632028,
+        38632029,
+        38632030,
+        38632031,
+        38632032,
+        38632033,
+        38632034,
+        38632035,
+        38632036,
+        38632037,
+        38632038,
+        38632039
+      ],
+      "candidate_only": [
+        38632011,
+        38632019,
+        38632023
+      ],
+      "released_only": [],
+      "neither": []
+    }
+  },
+  "replays": {
+    "blue": {
+      "released": {
+        "arrival_s": null,
+        "stalls": 0,
+        "gap_m": 0.2013882386514676,
+        "mode_counts": {
+          "errt": 100,
+          "detour": 100
+        },
+        "changes": 100,
+        "net_displacement_m": 0.019800000000000033
+      },
+      "selective": {
+        "arrival_s": 5.84,
+        "stalls": 0,
+        "gap_m": 0.17292543117335202,
+        "mode_counts": {
+          "errt": 3,
+          "detour": 33,
+          "hold": 44,
+          "direct": 120
+        },
+        "changes": 9,
+        "net_displacement_m": 2.5070702480579556
+      },
+      "immediate": {
+        "arrival_s": 5.6,
+        "stalls": 0,
+        "gap_m": 0.1424198779878873,
+        "mode_counts": {
+          "errt": 1,
+          "hold": 43,
+          "detour": 23,
+          "direct": 133
+        },
+        "changes": 15,
+        "net_displacement_m": 2.507056733782973
+      }
+    },
+    "yellow": {
+      "released": {
+        "arrival_s": null,
+        "stalls": 1,
+        "gap_m": 0.0896300678379865,
+        "mode_counts": {
+          "detour": 31,
+          "direct": 4,
+          "brake": 165
+        },
+        "changes": 3,
+        "net_displacement_m": 1.1910315635356745
+      },
+      "selective": {
+        "arrival_s": 3.32,
+        "stalls": 0,
+        "gap_m": 0.08959808631413185,
+        "mode_counts": {
+          "detour": 31,
+          "direct": 150,
+          "brake": 5,
+          "escape": 1,
+          "hold": 13
+        },
+        "changes": 6,
+        "net_displacement_m": 2.2915047364058876
+      },
+      "immediate": {
+        "arrival_s": 3.32,
+        "stalls": 0,
+        "gap_m": 0.08959808631413185,
+        "mode_counts": {
+          "detour": 31,
+          "direct": 150,
+          "brake": 5,
+          "escape": 1,
+          "hold": 13
+        },
+        "changes": 6,
+        "net_displacement_m": 2.2915047364058876
+      }
+    }
+  },
+  "reset_replay": {
+    "released_single": {
+      "arrival_s": 3.68,
+      "stalls": 0,
+      "gap_m": 0.14858704247800208
+    },
+    "immediate_single": {
+      "arrival_s": 4.52,
+      "stalls": 0,
+      "gap_m": 0.13464705833947094
+    },
+    "immediate_batch": {
+      "arrival_s": null,
+      "stalls": 0,
+      "gap_m": 0.23746863411855612
+    }
+  },
+  "open_match": {
+    "released": {
+      "seed": 38614000,
+      "score": [
+        1,
+        0
+      ],
+      "seconds": 30.0,
+      "planner_decisions": {
+        "direct": 3584,
+        "detour": 578,
+        "errt": 90,
+        "brake": 266
+      }
+    },
+    "immediate": {
+      "seed": 38614000,
+      "score": [
+        1,
+        1
+      ],
+      "seconds": 30.0,
+      "planner_decisions": {
+        "direct": 3534,
+        "detour": 572,
+        "errt": 28,
+        "hold": 217,
+        "brake": 180,
+        "escape": 5
+      }
+    },
+    "selective": {
+      "seed": 38614000,
+      "score": [
+        0,
+        0
+      ],
+      "seconds": 30.0,
+      "planner_decisions": {
+        "direct": 3527,
+        "detour": 676,
+        "errt": 62,
+        "brake": 161,
+        "escape": 4,
+        "hold": 62
+      }
+    }
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "seeds": [
+    38900000,
+    38900008
+  ],
+  "scores": {
+    "baseline": {
+      "clean": 6,
+      "rebound": 3,
+      "goals": 8,
+      "quick": 3
+    },
+    "0": {
+      "clean": 9,
+      "rebound": 0,
+      "goals": 9,
+      "quick": 5
+    },
+    "1": {
+      "clean": 9,
+      "rebound": 0,
+      "goals": 9,
+      "quick": 5
+    },
+    "2": {
+      "clean": 9,
+      "rebound": 0,
+      "goals": 7,
+      "quick": 4
+    },
+    "3": {
+      "clean": 9,
+      "rebound": 0,
+      "goals": 8,
+      "quick": 4
+    },
+    "4": {
+      "clean": 9,
+      "rebound": 0,
+      "goals": 8,
+      "quick": 4
+    }
+  },
+  "candidates": [
+    {
+      "cushion": 0.65,
+      "grip": 6.0,
+      "opening": 0.18
+    },
+    {
+      "cushion": 0.65,
+      "grip": 11.0,
+      "opening": 0.62
+    },
+    {
+      "cushion": 0.92,
+      "grip": 6.0,
+      "opening": 0.18
+    },
+    {
+      "cushion": 0.92,
+      "grip": 6.0,
+      "opening": 0.62
+    },
+    {
+      "cushion": 0.92,
+      "grip": 11.0,
+      "opening": 0.62
+    }
+  ],
+  "winner": 0
+}

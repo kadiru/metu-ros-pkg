@@ -1,0 +1,10 @@
+{
+  "mode": "develop",
+  "first": 8300000,
+  "matches": 12,
+  "seconds": 10,
+  "root": "/Users/kadir/linkedin/projects/roboturk/modern",
+  "seed": 917,
+  "model": "/Users/kadir/linkedin/projects/roboturk/modern/runs/contest/league/policy.json",
+  "webots_sha256": "035a91bad1d12e4f34108ec48c8cadcb2dab4dc3278e4f03c9e969bb82d6babe"
+}

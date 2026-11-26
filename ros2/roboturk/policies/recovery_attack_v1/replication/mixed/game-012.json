@@ -1,0 +1,130 @@
+{
+  "seed": 9900012,
+  "seconds": 24,
+  "score": {},
+  "stats": {
+    "safety_ticks": 174,
+    "physical_samples": 2400,
+    "contacts": 0,
+    "exits": 0
+  },
+  "passes": [
+    {
+      "receiver": 1,
+      "slot": 0,
+      "features": [
+        [
+          0.8192431808528492,
+          1.0,
+          -0.3994129202944084,
+          0.4033049420876914,
+          0.9991745962212971,
+          0.9999598917959577
+        ],
+        [
+          0.0020440574731126152,
+          0.49841538386246453,
+          0.39787185873267394,
+          0.4949791267172912,
+          -0.7414815360957,
+          0.9999979066546831
+        ]
+      ],
+      "probability": 0.25961982756170543,
+      "tick": 244,
+      "team": "yellow",
+      "passer": 0,
+      "ball": [
+        -0.14389316555933931,
+        0.0738291817042704
+      ],
+      "result": "complete",
+      "end": 271,
+      "reward": 1
+    },
+    {
+      "receiver": 2,
+      "slot": 1,
+      "features": [
+        [
+          0.0002578616302236882,
+          0.3969305044113752,
+          0.3655425001978898,
+          0.3667907436902166,
+          0.9991439923421543,
+          0.9999880083631215
+        ],
+        [
+          0.3008637435537556,
+          0.8570358131920955,
+          0.5076693734850306,
+          0.5732353517631577,
+          0.8657693428463855,
+          0.9985199862401891
+        ]
+      ],
+      "probability": 0.9264969011207583,
+      "tick": 324,
+      "team": "yellow",
+      "passer": 1,
+      "ball": [
+        0.972307138541953,
+        0.1780499267745629
+      ],
+      "result": "intercepted",
+      "end": 372,
+      "reward": -1
+    }
+  ],
+  "events": [
+    {
+      "tick": 0,
+      "event": "start",
+      "team": "blue"
+    },
+    {
+      "tick": 244,
+      "event": "kick",
+      "team": "yellow",
+      "robot": 0,
+      "speed": 2.2
+    },
+    {
+      "tick": 324,
+      "event": "kick",
+      "team": "yellow",
+      "robot": 1,
+      "speed": 2.2
+    }
+  ],
+  "options": [],
+  "learner": null,
+  "challenger": "blue",
+  "opponent": null,
+  "conversions": [
+    {
+      "start": 0,
+      "recovery": 575,
+      "winner": 3,
+      "team": "yellow"
+    },
+    {
+      "start": 577,
+      "recovery": 643,
+      "winner": 3,
+      "team": "yellow"
+    },
+    {
+      "start": 648,
+      "recovery": 717,
+      "winner": 3,
+      "team": "yellow"
+    },
+    {
+      "start": 1749,
+      "recovery": 1999,
+      "winner": 5,
+      "team": "yellow"
+    }
+  ]
+}

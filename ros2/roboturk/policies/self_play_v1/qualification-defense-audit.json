@@ -1,0 +1,92 @@
+{
+  "split": "defense",
+  "count": 100,
+  "passes_gate": true,
+  "counts": {
+    "goal": 47,
+    "goals": 47,
+    "stops": 50,
+    "collisions": 1,
+    "outside": 0,
+    "clean": 97,
+    "unforced": 2,
+    "defender_interception": 41,
+    "keeper_save": 9,
+    "defender_collision": 1,
+    "lost_possession": 1,
+    "timeout": 1
+  },
+  "directions": {
+    "-1": 59,
+    "1": 41
+  },
+  "policy_calls": {
+    "defender": 43800,
+    "keeper": 43800
+  },
+  "excursions_m": {
+    "defender": {
+      "x": {
+        "min": 0.06970915202802241,
+        "median": 2.8761566531576586,
+        "max": 4.021503009683475,
+        "mean": 1.9697494001720113
+      },
+      "y": {
+        "min": 0.45349152718259406,
+        "median": 1.2235185607277284,
+        "max": 1.9003789667317255,
+        "mean": 1.2606537666496374
+      }
+    },
+    "keeper": {
+      "x": {
+        "min": 0.0066793814130283735,
+        "median": 0.5875077808540397,
+        "max": 0.665597175533386,
+        "mean": 0.3757225975845982
+      },
+      "y": {
+        "min": 0.007628079841701099,
+        "median": 0.14481982849825764,
+        "max": 0.3979941433904798,
+        "mean": 0.1628367108185639
+      }
+    }
+  },
+  "goal_wilson_95": [
+    0.3751081795934127,
+    0.5671114302990063
+  ],
+  "clean_wilson_95": [
+    0.9154806357094724,
+    0.9897454759759611
+  ],
+  "models": {
+    "defender": {
+      "path": "policies/self_play_v1/final/defender/policy.zip",
+      "sha256": "ef0e9a73f29488d37b4302c3e3f2342f39c0a8e225732b990098c6e7e5202abc",
+      "manifest_sha256": "b68c6a0958fba95ce26b98ce131291410b1261549d425d55f9f5038190e29bc6",
+      "actor_sha256": "59b9598a05993578be7b300a5f0c9f242561f4b6b4be44a32ead1edcfdb85d36"
+    },
+    "keeper": {
+      "path": "policies/self_play_v1/final/keeper/policy.zip",
+      "sha256": "87e14001b27755ecef88ad8d554f90f34a806fcd8e47caef0dd85be3a7098ddd",
+      "manifest_sha256": "67a450292cb22f1d9db8f836badaf6eb1f3a432e1d71a8104603d68dc5a558fb",
+      "actor_sha256": "b6297278ab5d458a458b13f9664abfb9addaa51664e0d867a5d074719e0e3d83"
+    },
+    "transfer": {
+      "path": "policies/self_play_v1/bootstrap/transfer/policy.zip",
+      "sha256": "923171942a353f77e69fb562312b4c1acc12be3bc546f82b760e1f1f252648ec",
+      "manifest_sha256": "b7ac59fba1303f648622b03c09bdf723320e65f365410599f688203d1deb193a",
+      "actor_sha256": "1f5093c93ad1ac30adb4783973c9d30e7f98ae24312d3dab620cef8bcf0d9bd4"
+    },
+    "finish": {
+      "path": "policies/self_play_v1/bootstrap/finish/policy.zip",
+      "sha256": "0b1a4f6cf5219fbbef7c3ab7e31e7ebc79fb00cb34cc717c11fbbbc38ba7efcb",
+      "manifest_sha256": "f4bc379406dd40f5fd43d16e21cf28e330dfd2123dbbec7b38a38caea7af7204",
+      "actor_sha256": "96f75094499817a71f3307e21ca1c9c969f5be3a245c1a162bac33f6a03ac96b"
+    }
+  },
+  "runtime_verified": true
+}

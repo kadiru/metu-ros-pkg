@@ -1,0 +1,248 @@
+{
+  "trials": [
+    {
+      "seed": 24400000,
+      "crossing": null,
+      "team": "blue",
+      "target": [
+        0.331397216796875,
+        2.8
+      ],
+      "initial_ball": [
+        0.15,
+        2.48
+      ],
+      "vision_start": 1795401908.805701,
+      "event_ids": [
+        "5fb0fc64-f7df-4a3d-b415-634c6c58e9b1",
+        "0f4bf57b-576b-4b02-8054-c03124367565"
+      ],
+      "commands": [
+        [
+          1.4,
+          "FORCE_START",
+          2
+        ],
+        [
+          4.4,
+          "STOP",
+          3
+        ],
+        [
+          4.64,
+          "BALL_PLACEMENT_BLUE",
+          4
+        ],
+        [
+          15.28,
+          "STOP",
+          5
+        ],
+        [
+          15.44,
+          "DIRECT_FREE_BLUE",
+          6
+        ]
+      ],
+      "phases": [
+        [
+          4.64,
+          "capture"
+        ],
+        [
+          6.04,
+          "carry"
+        ],
+        [
+          7.88,
+          "retreat"
+        ],
+        [
+          15.44,
+          "free kick"
+        ]
+      ],
+      "kicks": [
+        {
+          "seconds": 1.88,
+          "team": "yellow",
+          "id": 1,
+          "speed": 1.05,
+          "ball": [
+            0.15,
+            2.48
+          ]
+        },
+        {
+          "seconds": 17.2,
+          "team": "blue",
+          "id": 4,
+          "speed": 1.75,
+          "ball": [
+            0.31321191309546115,
+            2.7950091857819324
+          ]
+        }
+      ],
+      "flight_contacts": [],
+      "opening_robots": [
+        [
+          "blue",
+          0,
+          4.18,
+          -4.1773112755644185e-18,
+          -2.443156871111231
+        ],
+        [
+          "blue",
+          1,
+          0.8180943205085989,
+          -1.2875792593494575,
+          0.7985654395105967
+        ],
+        [
+          "blue",
+          2,
+          0.6974774109975581,
+          -1.598962364799911,
+          1.039135756225015
+        ],
+        [
+          "blue",
+          3,
+          0.115,
+          7.663869613643117e-18,
+          1.3604336018477328
+        ],
+        [
+          "blue",
+          4,
+          1.0762545716586427,
+          1.5351310821704964,
+          -0.957308909843939
+        ],
+        [
+          "yellow",
+          0,
+          -4.18,
+          -4.9602263939022644e-18,
+          -0.2097694994389108
+        ],
+        [
+          "yellow",
+          1,
+          0.11048073917365459,
+          2.3720035740233074,
+          1.22
+        ],
+        [
+          "yellow",
+          2,
+          0.61,
+          2.89,
+          -1.9215926535897931
+        ],
+        [
+          "yellow",
+          3,
+          -0.8239333198719728,
+          -1.3222251842713721,
+          -0.7822730299700228
+        ],
+        [
+          "yellow",
+          4,
+          -1.4552231973290417,
+          -1.7766260139404761,
+          2.238175249553384
+        ]
+      ],
+      "min_center_m": 0.28854656611847723,
+      "actor": "placement_v2_clear",
+      "opening_ball_velocity": [
+        0.0,
+        0.0
+      ],
+      "opening_pass_to": [
+        "yellow",
+        2
+      ],
+      "placement_counter": 4,
+      "placer": 4,
+      "receiver": 3,
+      "placed_seconds": 10.64,
+      "final_error_m": 0.01885771718082337,
+      "speed_at_acceptance": 5e-324,
+      "received_seconds": 18.72,
+      "received_ball": [
+        1.6065495598262858,
+        1.8588675766429943
+      ],
+      "vision_end": 1795401926.125701,
+      "observer_events": [
+        {
+          "ballLeftFieldTouchLine": {
+            "byTeam": "YELLOW",
+            "byBot": 1,
+            "location": {
+              "x": 0.3313972,
+              "y": 3.0
+            }
+          },
+          "type": "BALL_LEFT_FIELD_TOUCH_LINE"
+        },
+        {
+          "placementSucceeded": {
+            "byTeam": "BLUE",
+            "timeTaken": 8.28,
+            "precision": 0.018857693,
+            "distance": 0.5397703
+          },
+          "type": "PLACEMENT_SUCCEEDED"
+        }
+      ],
+      "controller_events": [
+        {
+          "id": "5fb0fc64-f7df-4a3d-b415-634c6c58e9b1",
+          "type": "BALL_LEFT_FIELD_TOUCH_LINE",
+          "origin": [
+            "TIGERs AutoRef",
+            "Engine"
+          ],
+          "createdTimestamp": "1795401908655530",
+          "ballLeftFieldTouchLine": {
+            "byTeam": "YELLOW",
+            "byBot": 1,
+            "location": {
+              "x": 0.3313972,
+              "y": 2.8
+            }
+          }
+        },
+        {
+          "id": "0f4bf57b-576b-4b02-8054-c03124367565",
+          "type": "PLACEMENT_SUCCEEDED",
+          "origin": [
+            "TIGERs AutoRef",
+            "Engine"
+          ],
+          "createdTimestamp": "1795401913608679",
+          "placementSucceeded": {
+            "byTeam": "BLUE",
+            "timeTaken": 8.28,
+            "precision": 0.018857693,
+            "distance": 0.5397703
+          }
+        }
+      ],
+      "accepted": true
+    }
+  ],
+  "accepted": 1,
+  "interference": 0,
+  "emitted_placements": 1,
+  "total": 1,
+  "crashes": 0,
+  "controller_crashes": 0,
+  "clean": 1
+}

@@ -1,0 +1,113 @@
+{
+  "generation": 2,
+  "seed": 622,
+  "training_seed": 824,
+  "steps": 32768,
+  "backend": "webots_ideal_body_velocity",
+  "actor_before": "e49f101f10756244a80daaf40480499c107f0a4f0e0915c7ac8f66bf223974e0",
+  "actor_after": "976e896b836496a8af71bc569aec0470e69ee731ba9a618958e1762b1872a9c6",
+  "decision_head_before": "003786d8bae5fc428018618ab6b843ffba07cc43546483ad617134554f313020",
+  "decision_head_after": "33be3f8faf5c5c7de763d88bdad454f8ae5053bf907bf89d59f099e18286111d",
+  "sampled_modes": {
+    "5": 9737,
+    "1": 1916,
+    "0": 4110,
+    "6": 11038,
+    "4": 4135,
+    "3": 315,
+    "2": 1517
+  },
+  "choices_different_from_teammate_policy": 1149,
+  "opponent_pool": [
+    {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/continuous-v1/league622-v1/seed622/bootstrap.zip",
+      "sha256": "62b04f99fdade09f01d4410d396b6921c874a60704c2e059b54f198c19497b82",
+      "actor_sha256": "e712ba850056c0c964d111d19f9b525eab00275d564115158b79e044b72094f0"
+    },
+    {
+      "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/continuous-v1/league622-v1/seed622/round1/policy.zip",
+      "sha256": "e37e0301465e912e64c4e92c89427170cad2d1efc8b6d651f34e0c3f745f59fd",
+      "actor_sha256": "e49f101f10756244a80daaf40480499c107f0a4f0e0915c7ac8f66bf223974e0"
+    }
+  ],
+  "teammate": {
+    "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/continuous-v1/league622-v1/seed622/round1/policy.zip",
+    "sha256": "e37e0301465e912e64c4e92c89427170cad2d1efc8b6d651f34e0c3f745f59fd",
+    "actor_sha256": "e49f101f10756244a80daaf40480499c107f0a4f0e0915c7ac8f66bf223974e0"
+  },
+  "accepted_updates": 32,
+  "attempted_updates": 32,
+  "learning_rate": 3e-06,
+  "anchor_mse_limit": 0.0003,
+  "anchor_max_delta": 0.15,
+  "duration": 45.0,
+  "training_seconds": 143.47515129088424,
+  "training_seed_range": [
+    4300000,
+    4399999
+  ],
+  "reset_count": 15,
+  "data_sha256": "f8a45157fe9ffb7d1d779e6880ae4852e020858ffce2b24670cf14ba82fda19b",
+  "log_std": [
+    -0.7998644113540649,
+    -0.7997940182685852,
+    -0.7999430298805237,
+    -0.799937903881073,
+    -0.7997995018959045,
+    -0.7999617457389832,
+    -0.7999571561813354,
+    -5.000059604644775,
+    -4.999904155731201,
+    -4.999928951263428,
+    -1.5000998973846436,
+    -4.999893665313721,
+    -5.000056743621826,
+    -5.000000953674316,
+    -1.4999200105667114,
+    -4.999941825866699,
+    -4.999913215637207,
+    -5.000075340270996,
+    -1.4997910261154175,
+    -4.999825477600098,
+    -4.99995231628418,
+    -4.999922275543213,
+    -1.499969720840454,
+    -4.999903202056885,
+    -5.0000176429748535,
+    -4.999826431274414,
+    -1.500210165977478,
+    -5.000076770782471,
+    -5.000120162963867,
+    -5.000036716461182,
+    -1.5003772974014282,
+    -5.000128269195557,
+    -4.9999003410339355,
+    -5.00006103515625,
+    -1.5001006126403809
+  ],
+  "reward": {
+    "goal": 12.0,
+    "controlled_carry_meter": 0.1,
+    "acquisition": 0.05,
+    "reception": 0.2,
+    "contact_event": 3.0,
+    "contact_physics_sample": 0.02,
+    "outside_physics_sample": 0.1,
+    "stable_possession_control_tick": 0.002,
+    "loose_ball_progress_meter": 0.1
+  },
+  "role_sampling": "shuffled cycles of all four robot/color assignments",
+  "anchor_group_sizes": [
+    33095,
+    47730,
+    23470,
+    7977,
+    57229,
+    93619,
+    82284,
+    499,
+    47902,
+    185346,
+    3364
+  ]
+}

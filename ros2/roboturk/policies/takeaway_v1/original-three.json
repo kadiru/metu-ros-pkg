@@ -1,0 +1,208 @@
+[
+  {
+    "source": "game-025.json",
+    "seed": 16300006,
+    "sample": 1172,
+    "winner": 2,
+    "kind": "takeaway",
+    "team": "blue",
+    "outcome": "opponent touch",
+    "end": 1493,
+    "recovery_seconds": 11.73,
+    "elapsed_seconds": 3.21,
+    "position_m": [
+      0.9519251785245241,
+      -0.023552278125099788
+    ],
+    "end_position_m": [
+      -1.35423721692244,
+      -0.242978945497533
+    ],
+    "closest_rival_center_m": 0.36301476906345065,
+    "first_carrier_release_or_slip": 1301,
+    "kicks": [
+      {
+        "tick": 325,
+        "event": "kick",
+        "team": "blue",
+        "robot": 2,
+        "speed": 2.2
+      }
+    ],
+    "passes": [
+      {
+        "receiver": 0,
+        "slot": 0,
+        "features": [
+          [
+            0.85,
+            1.5,
+            -1.3671682846146362,
+            -0.7747603102339756,
+            0.281798104772629
+          ],
+          [
+            0.08212068741134612,
+            0.19654044941291962,
+            0.8786778761014964,
+            0.7502732500833964,
+            0.7687289278780554
+          ]
+        ],
+        "probability": 0.03222064021746885,
+        "tick": 325,
+        "team": "blue",
+        "passer": 2,
+        "ball": [
+          0.4488763923265245,
+          -0.8984809380974993
+        ],
+        "result": "complete",
+        "end": 344,
+        "reward": 1
+      }
+    ],
+    "choices": [
+      {
+        "team": "blue",
+        "recovery": 1172,
+        "tick": 294,
+        "actor": 2,
+        "action": "pass",
+        "values": [
+          1.5795816939283225,
+          0.650875064934731,
+          0.38313380099599875
+        ],
+        "receiver": 0,
+        "until": 369,
+        "route_scores": [
+          2.073007961601923,
+          -1.3293889178449962
+        ]
+      },
+      {
+        "team": "blue",
+        "recovery": 1172,
+        "tick": 345,
+        "actor": 0,
+        "action": "shoot",
+        "values": [
+          0.7377414913986214,
+          0.6826286326730964,
+          1.993112988856726
+        ],
+        "receiver": 2,
+        "until": 420
+      }
+    ]
+  },
+  {
+    "source": "game-033.json",
+    "seed": 16300008,
+    "sample": 4913,
+    "winner": 0,
+    "kind": "takeaway",
+    "team": "blue",
+    "outcome": "ball out",
+    "end": 5815,
+    "recovery_seconds": 49.14,
+    "elapsed_seconds": 9.02,
+    "position_m": [
+      -1.958677953269268,
+      2.9144192273449265
+    ],
+    "end_position_m": [
+      4.528714864502164,
+      -1.3422684627137593
+    ],
+    "closest_rival_center_m": 0.17222948450544653,
+    "first_carrier_release_or_slip": 4924,
+    "kicks": [],
+    "passes": [],
+    "choices": [
+      {
+        "team": "blue",
+        "recovery": 4913,
+        "tick": 1229,
+        "actor": 0,
+        "action": "shoot",
+        "values": [
+          -2.8912703978833374,
+          0.7092290329338093,
+          1.2375
+        ],
+        "receiver": 1,
+        "until": 1304
+      },
+      {
+        "team": "blue",
+        "recovery": 4913,
+        "tick": 1234,
+        "actor": 0,
+        "action": "shoot",
+        "values": [
+          -2.7984849974075283,
+          0.709122012050946,
+          1.2375
+        ],
+        "receiver": 1,
+        "until": 1309
+      },
+      {
+        "team": "blue",
+        "recovery": 4913,
+        "tick": 1236,
+        "actor": 0,
+        "action": "shoot",
+        "values": [
+          -2.6938119444700295,
+          0.7086081404976221,
+          1.2375
+        ],
+        "receiver": 1,
+        "until": 1311
+      }
+    ]
+  },
+  {
+    "source": "game-033.json",
+    "seed": 16300008,
+    "sample": 7872,
+    "winner": 2,
+    "kind": "takeaway",
+    "team": "blue",
+    "outcome": "opponent touch",
+    "end": 7886,
+    "recovery_seconds": 78.73,
+    "elapsed_seconds": 0.14,
+    "position_m": [
+      -3.886339790172256,
+      -0.7688024065995246
+    ],
+    "end_position_m": [
+      -3.936401261527326,
+      -0.8078110319440391
+    ],
+    "closest_rival_center_m": 0.11830117595064428,
+    "first_carrier_release_or_slip": null,
+    "kicks": [],
+    "passes": [],
+    "choices": [
+      {
+        "team": "blue",
+        "recovery": 7872,
+        "tick": 1969,
+        "actor": 2,
+        "action": "dribble",
+        "values": [
+          -0.6699284753768785,
+          0.7477607822285955,
+          0.36114716951411097
+        ],
+        "receiver": 0,
+        "until": 1981
+      }
+    ]
+  }
+]

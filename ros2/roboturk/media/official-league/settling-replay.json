@@ -1,0 +1,923 @@
+{
+  "pairs": [
+    {
+      "seed": 28300000,
+      "identical_opening": true,
+      "baseline": {
+        "seed": 28300000,
+        "final_score": [
+          2,
+          1
+        ],
+        "official_halves": [
+          {
+            "stage": "NORMAL_FIRST_HALF",
+            "kickoff": "blue",
+            "blue_attack_sign": 1,
+            "wire_start_s": 29.949909,
+            "wire_end_s": -1.03459,
+            "running_native_s": 23.84
+          },
+          {
+            "stage": "NORMAL_SECOND_HALF",
+            "kickoff": "yellow",
+            "blue_attack_sign": -1,
+            "wire_start_s": 29.958656,
+            "wire_end_s": -1.104025,
+            "running_native_s": 23.72
+          }
+        ],
+        "kickoff_prepare_native_seconds": [
+          2.36,
+          2.32,
+          2.36,
+          2.32,
+          2.32
+        ],
+        "native_seconds_by_mode": {
+          "halt": 4.2,
+          "stop": 22.32,
+          "running": 47.56
+        },
+        "simulated_seconds": 74.08,
+        "opening_tick": 71,
+        "goals": [
+          {
+            "team": "BLUE",
+            "score_tick": 316,
+            "crossing_tick": 288,
+            "score": [
+              1,
+              0
+            ]
+          },
+          {
+            "team": "BLUE",
+            "score_tick": 1343,
+            "crossing_tick": 1315,
+            "score": [
+              2,
+              0
+            ]
+          },
+          {
+            "team": "YELLOW",
+            "score_tick": 1648,
+            "crossing_tick": 1620,
+            "score": [
+              2,
+              1
+            ]
+          }
+        ],
+        "completed": [
+          {
+            "kick": 78,
+            "receive": 99,
+            "passer": [
+              "blue",
+              2
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 99,
+            "receive": 136,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              3
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 139,
+            "receive": 181,
+            "passer": [
+              "blue",
+              3
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 185,
+            "receive": 223,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 230,
+            "receive": 266,
+            "passer": [
+              "blue",
+              2
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 404,
+            "receive": 429,
+            "passer": [
+              "yellow",
+              3
+            ],
+            "receiver": [
+              "yellow",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 779,
+            "receive": 810,
+            "passer": [
+              "yellow",
+              1
+            ],
+            "receiver": [
+              "yellow",
+              3
+            ],
+            "restart_pass": true
+          },
+          {
+            "kick": 1127,
+            "receive": 1142,
+            "passer": [
+              "blue",
+              4
+            ],
+            "receiver": [
+              "blue",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1148,
+            "receive": 1172,
+            "passer": [
+              "blue",
+              2
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1175,
+            "receive": 1207,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1213,
+            "receive": 1248,
+            "passer": [
+              "blue",
+              2
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1252,
+            "receive": 1288,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              4
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1438,
+            "receive": 1457,
+            "passer": [
+              "yellow",
+              1
+            ],
+            "receiver": [
+              "yellow",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1457,
+            "receive": 1494,
+            "passer": [
+              "yellow",
+              2
+            ],
+            "receiver": [
+              "yellow",
+              3
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1498,
+            "receive": 1536,
+            "passer": [
+              "yellow",
+              3
+            ],
+            "receiver": [
+              "yellow",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1572,
+            "receive": 1598,
+            "passer": [
+              "yellow",
+              3
+            ],
+            "receiver": [
+              "yellow",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1768,
+            "receive": 1794,
+            "passer": [
+              "blue",
+              3
+            ],
+            "receiver": [
+              "blue",
+              2
+            ],
+            "restart_pass": false
+          }
+        ],
+        "attempts": 24,
+        "observed_crashes": [
+          {
+            "tick": 27,
+            "official_id": null,
+            "blue": 2,
+            "yellow": 2,
+            "command": "PREPARE_KICKOFF_BLUE",
+            "event": {
+              "botCrashUnique": {
+                "byTeam": "BLUE",
+                "violator": 2,
+                "victim": 2,
+                "location": {
+                  "x": 0.5223965,
+                  "y": -0.01586157
+                },
+                "crashSpeed": 3.398918,
+                "speedDiff": 3.4927108,
+                "crashAngle": 0.058701556
+              },
+              "type": "BOT_CRASH_UNIQUE"
+            },
+            "since_formation_s": 0.6,
+            "nearest_centers_previous_second_m": 0.735
+          },
+          {
+            "tick": 425,
+            "official_id": "cb513ca9-a302-45d8-8fcd-39567f92c75d",
+            "blue": 3,
+            "yellow": 3,
+            "command": "NORMAL_START",
+            "event": {
+              "botCrashDrawn": {
+                "botYellow": 3,
+                "botBlue": 3,
+                "location": {
+                  "x": -0.5488128,
+                  "y": -0.7248451
+                },
+                "crashSpeed": 1.8487318,
+                "speedDiff": 0.039348777,
+                "crashAngle": 2.3282022
+              },
+              "type": "BOT_CRASH_DRAWN"
+            },
+            "since_formation_s": 3.48,
+            "nearest_centers_previous_second_m": 0.2267
+          },
+          {
+            "tick": 1057,
+            "official_id": null,
+            "blue": 3,
+            "yellow": 0,
+            "command": "PREPARE_KICKOFF_YELLOW",
+            "event": {
+              "botCrashUnique": {
+                "byTeam": "BLUE",
+                "violator": 3,
+                "victim": 0,
+                "location": {
+                  "x": 4.2081275,
+                  "y": 0.14496177
+                },
+                "crashSpeed": 4.9298897,
+                "speedDiff": 7.074713,
+                "crashAngle": 0.20635454
+              },
+              "type": "BOT_CRASH_UNIQUE"
+            },
+            "since_formation_s": 1.12,
+            "nearest_centers_previous_second_m": 6.6037
+          },
+          {
+            "tick": 1106,
+            "official_id": "b5cace03-fed7-41e4-8bf8-80b7eb8f74c4",
+            "blue": 2,
+            "yellow": 1,
+            "command": "NORMAL_START",
+            "event": {
+              "botCrashUnique": {
+                "byTeam": "YELLOW",
+                "violator": 1,
+                "victim": 2,
+                "location": {
+                  "x": 0.13226253,
+                  "y": -1.2477012
+                },
+                "crashSpeed": 1.6001905,
+                "speedDiff": -0.5289385,
+                "crashAngle": 2.2744076
+              },
+              "type": "BOT_CRASH_UNIQUE"
+            },
+            "since_formation_s": 3.08,
+            "nearest_centers_previous_second_m": 0.2263
+          }
+        ],
+        "accepted_crashes": [
+          {
+            "id": "cb513ca9-a302-45d8-8fcd-39567f92c75d",
+            "type": "BOT_CRASH_DRAWN",
+            "origin": [
+              "TIGERs AutoRef",
+              "Engine"
+            ],
+            "createdTimestamp": "1795428661257437",
+            "botCrashDrawn": {
+              "botYellow": 3,
+              "botBlue": 3,
+              "location": {
+                "x": -0.5488128,
+                "y": -0.7248451
+              },
+              "crashSpeed": 1.8487318,
+              "speedDiff": 0.039348777,
+              "crashAngle": 2.3282022
+            }
+          },
+          {
+            "id": "b5cace03-fed7-41e4-8bf8-80b7eb8f74c4",
+            "type": "BOT_CRASH_UNIQUE",
+            "origin": [
+              "TIGERs AutoRef",
+              "Engine"
+            ],
+            "createdTimestamp": "1795428696748294",
+            "botCrashUnique": {
+              "byTeam": "YELLOW",
+              "violator": 1,
+              "victim": 2,
+              "location": {
+                "x": 0.13226253,
+                "y": -1.2477012
+              },
+              "crashSpeed": 1.6001905,
+              "speedDiff": -0.5289385,
+              "crashAngle": 2.2744076
+            }
+          }
+        ],
+        "accepted_events": {
+          "POSSIBLE_GOAL": 3,
+          "GOAL": 3,
+          "BOT_CRASH_DRAWN": 1,
+          "BALL_LEFT_FIELD_TOUCH_LINE": 1,
+          "PLACEMENT_SUCCEEDED": 1,
+          "BOT_CRASH_UNIQUE": 1
+        },
+        "detector_events": {
+          "BOT_CRASH_UNIQUE": 3,
+          "POSSIBLE_GOAL": 3,
+          "BOT_CRASH_DRAWN": 1,
+          "BALL_LEFT_FIELD_TOUCH_LINE": 1,
+          "PLACEMENT_SUCCEEDED": 1,
+          "DEFENDER_IN_DEFENSE_AREA": 1,
+          "ATTACKER_DOUBLE_TOUCHED_BALL": 3
+        }
+      },
+      "steering": {
+        "seed": 28300000,
+        "final_score": [
+          1,
+          1
+        ],
+        "official_halves": [
+          {
+            "stage": "NORMAL_FIRST_HALF",
+            "kickoff": "blue",
+            "blue_attack_sign": 1,
+            "wire_start_s": 29.956443,
+            "wire_end_s": -1.10394,
+            "running_native_s": 23.76
+          },
+          {
+            "stage": "NORMAL_SECOND_HALF",
+            "kickoff": "yellow",
+            "blue_attack_sign": -1,
+            "wire_start_s": 30.0,
+            "wire_end_s": -1.029178,
+            "running_native_s": 23.44
+          }
+        ],
+        "kickoff_prepare_native_seconds": [
+          2.36,
+          2.32,
+          4.4,
+          2.24
+        ],
+        "native_seconds_by_mode": {
+          "halt": 3.88,
+          "stop": 21.56,
+          "running": 47.2
+        },
+        "simulated_seconds": 72.64,
+        "opening_tick": 71,
+        "goals": [
+          {
+            "team": "YELLOW",
+            "score_tick": 1259,
+            "crossing_tick": 1230,
+            "score": [
+              0,
+              1
+            ]
+          },
+          {
+            "team": "BLUE",
+            "score_tick": 1633,
+            "crossing_tick": 1606,
+            "score": [
+              1,
+              1
+            ]
+          }
+        ],
+        "completed": [
+          {
+            "kick": 78,
+            "receive": 99,
+            "passer": [
+              "blue",
+              2
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 99,
+            "receive": 136,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              3
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 156,
+            "receive": 176,
+            "passer": [
+              "blue",
+              3
+            ],
+            "receiver": [
+              "blue",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 181,
+            "receive": 224,
+            "passer": [
+              "blue",
+              2
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 586,
+            "receive": 616,
+            "passer": [
+              "yellow",
+              2
+            ],
+            "receiver": [
+              "yellow",
+              4
+            ],
+            "restart_pass": true
+          },
+          {
+            "kick": 688,
+            "receive": 705,
+            "passer": [
+              "yellow",
+              2
+            ],
+            "receiver": [
+              "yellow",
+              4
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 715,
+            "receive": 757,
+            "passer": [
+              "yellow",
+              4
+            ],
+            "receiver": [
+              "yellow",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 771,
+            "receive": 792,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 807,
+            "receive": 831,
+            "passer": [
+              "blue",
+              2
+            ],
+            "receiver": [
+              "blue",
+              3
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 835,
+            "receive": 868,
+            "passer": [
+              "blue",
+              3
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1016,
+            "receive": 1041,
+            "passer": [
+              "yellow",
+              3
+            ],
+            "receiver": [
+              "yellow",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1043,
+            "receive": 1083,
+            "passer": [
+              "yellow",
+              2
+            ],
+            "receiver": [
+              "yellow",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1084,
+            "receive": 1120,
+            "passer": [
+              "yellow",
+              1
+            ],
+            "receiver": [
+              "yellow",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1125,
+            "receive": 1161,
+            "passer": [
+              "yellow",
+              2
+            ],
+            "receiver": [
+              "yellow",
+              3
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1165,
+            "receive": 1201,
+            "passer": [
+              "yellow",
+              3
+            ],
+            "receiver": [
+              "yellow",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1399,
+            "receive": 1420,
+            "passer": [
+              "blue",
+              4
+            ],
+            "receiver": [
+              "blue",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1421,
+            "receive": 1458,
+            "passer": [
+              "blue",
+              2
+            ],
+            "receiver": [
+              "blue",
+              1
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1462,
+            "receive": 1498,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              2
+            ],
+            "restart_pass": false
+          },
+          {
+            "kick": 1530,
+            "receive": 1556,
+            "passer": [
+              "blue",
+              1
+            ],
+            "receiver": [
+              "blue",
+              2
+            ],
+            "restart_pass": false
+          }
+        ],
+        "attempts": 27,
+        "observed_crashes": [
+          {
+            "tick": 27,
+            "official_id": null,
+            "blue": 2,
+            "yellow": 2,
+            "command": "PREPARE_KICKOFF_BLUE",
+            "event": {
+              "botCrashUnique": {
+                "byTeam": "BLUE",
+                "violator": 2,
+                "victim": 2,
+                "location": {
+                  "x": 0.52239716,
+                  "y": -0.015861608
+                },
+                "crashSpeed": 3.3989224,
+                "speedDiff": 3.4927166,
+                "crashAngle": 0.058701556
+              },
+              "type": "BOT_CRASH_UNIQUE"
+            },
+            "since_formation_s": 0.6,
+            "nearest_centers_previous_second_m": 0.735
+          },
+          {
+            "tick": 954,
+            "official_id": null,
+            "blue": 2,
+            "yellow": 1,
+            "command": "PREPARE_KICKOFF_YELLOW",
+            "event": {
+              "botCrashUnique": {
+                "byTeam": "BLUE",
+                "violator": 2,
+                "victim": 1,
+                "location": {
+                  "x": 0.74020433,
+                  "y": -0.3078036
+                },
+                "crashSpeed": 2.2468233,
+                "speedDiff": 3.5023775,
+                "crashAngle": 1.7130495
+              },
+              "type": "BOT_CRASH_UNIQUE"
+            },
+            "since_formation_s": 0.16,
+            "nearest_centers_previous_second_m": 0.7675
+          },
+          {
+            "tick": 972,
+            "official_id": null,
+            "blue": 4,
+            "yellow": 0,
+            "command": "PREPARE_KICKOFF_YELLOW",
+            "event": {
+              "botCrashUnique": {
+                "byTeam": "BLUE",
+                "violator": 4,
+                "victim": 0,
+                "location": {
+                  "x": 4.2480683,
+                  "y": -0.47549692
+                },
+                "crashSpeed": 1.7996681,
+                "speedDiff": 6.4370575,
+                "crashAngle": 0.010408457
+              },
+              "type": "BOT_CRASH_UNIQUE"
+            },
+            "since_formation_s": 0.88,
+            "nearest_centers_previous_second_m": 5.3966
+          },
+          {
+            "tick": 1313,
+            "official_id": "6fec5232-6185-45a1-90e8-1d546a53e9f3",
+            "blue": 4,
+            "yellow": 0,
+            "command": "PREPARE_KICKOFF_BLUE",
+            "event": {
+              "botCrashUnique": {
+                "byTeam": "BLUE",
+                "violator": 4,
+                "victim": 0,
+                "location": {
+                  "x": -4.088819,
+                  "y": -0.006407474
+                },
+                "crashSpeed": 6.682314,
+                "speedDiff": 6.7097063,
+                "crashAngle": 3.138484
+              },
+              "type": "BOT_CRASH_UNIQUE"
+            },
+            "since_formation_s": 1.28,
+            "nearest_centers_previous_second_m": 4.295
+          }
+        ],
+        "accepted_crashes": [
+          {
+            "id": "6fec5232-6185-45a1-90e8-1d546a53e9f3",
+            "type": "BOT_CRASH_UNIQUE",
+            "origin": [
+              "TIGERs AutoRef",
+              "Engine"
+            ],
+            "createdTimestamp": "1795428807160404",
+            "botCrashUnique": {
+              "byTeam": "BLUE",
+              "violator": 4,
+              "victim": 0,
+              "location": {
+                "x": -4.088819,
+                "y": -0.006407474
+              },
+              "crashSpeed": 6.682314,
+              "speedDiff": 6.7097063,
+              "crashAngle": 3.138484
+            }
+          }
+        ],
+        "accepted_events": {
+          "BALL_LEFT_FIELD_TOUCH_LINE": 1,
+          "PLACEMENT_SUCCEEDED": 1,
+          "POSSIBLE_GOAL": 2,
+          "GOAL": 2,
+          "BOT_CRASH_UNIQUE": 1
+        },
+        "detector_events": {
+          "BOT_CRASH_UNIQUE": 4,
+          "BALL_LEFT_FIELD_TOUCH_LINE": 1,
+          "PLACEMENT_SUCCEEDED": 1,
+          "DEFENDER_IN_DEFENSE_AREA": 2,
+          "POSSIBLE_GOAL": 2,
+          "ATTACKER_DOUBLE_TOUCHED_BALL": 1
+        }
+      }
+    }
+  ],
+  "totals": {
+    "baseline": {
+      "observed_crashes": 4,
+      "accepted_crashes": 2,
+      "calls_with_centers_within_30cm": 2,
+      "completed_passes": 17,
+      "restart_completions": 1,
+      "pass_attempts": 24,
+      "goals": 3,
+      "native_play_seconds": 47.56
+    },
+    "steering": {
+      "observed_crashes": 4,
+      "accepted_crashes": 1,
+      "calls_with_centers_within_30cm": 0,
+      "completed_passes": 19,
+      "restart_completions": 1,
+      "pass_attempts": 27,
+      "goals": 2,
+      "native_play_seconds": 47.2
+    }
+  }
+}

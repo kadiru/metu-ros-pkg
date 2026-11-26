@@ -1,0 +1,3 @@
+INFO: roboturk_strategy: Starting controller: python3 -u roboturk_strategy.py
+INFO: roboturk_strategy: Terminating.
+UNSUPPORTED (log once): POSSIBLE ISSUE: unit 1 GLD_TEXTURE_INDEX_2D is unloadable and bound to sampler type (Float) - using zero texture because texture unloadable

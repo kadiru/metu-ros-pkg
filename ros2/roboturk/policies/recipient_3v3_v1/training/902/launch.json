@@ -1,0 +1,13 @@
+{
+  "webots": "/Users/kadir/linkedin/projects/roboturk/runtime/Webots-nightly.app/Contents/MacOS/webots",
+  "mode": "train",
+  "output": "/Users/kadir/linkedin/projects/roboturk/modern/runs/recipient3/league902",
+  "seed": 902,
+  "first": 7210000,
+  "matches": 20,
+  "seconds": 60,
+  "models": null,
+  "root": "/Users/kadir/linkedin/projects/roboturk/modern",
+  "models_sha256": null,
+  "webots_sha256": "035a91bad1d12e4f34108ec48c8cadcb2dab4dc3278e4f03c9e969bb82d6babe"
+}

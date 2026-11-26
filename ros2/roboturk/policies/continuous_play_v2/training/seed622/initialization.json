@@ -1,0 +1,21 @@
+{
+  "seed": 622,
+  "files": [
+    {
+      "source": "/Users/kadir/linkedin/projects/roboturk/modern/runs/continuous-v1/allheads-release622/data.npz",
+      "copy": "data.npz",
+      "sha256": "3b68fba6a728a0456cc48f737fd987db62f0a2ab2bbb064ed143847ccb456795"
+    },
+    {
+      "source": "/Users/kadir/linkedin/projects/roboturk/modern/runs/continuous-v1/allheads-release622/seed622/bootstrap.zip",
+      "copy": "seed622/bootstrap.zip",
+      "sha256": "cb741f1bd3abdb687942ebb0c573ea56448ff8fca8bb3fe4207fcdab93b6d6a9"
+    },
+    {
+      "source": "/Users/kadir/linkedin/projects/roboturk/modern/runs/continuous-v1/allheads-release622/seed622/bootstrap.json",
+      "copy": "seed622/bootstrap.json",
+      "sha256": "1e06c5ed235df52937024bafa34f7766de5987e208be94706e315e3b39a65a4a"
+    }
+  ],
+  "method": "categorical behavior PPO; all learned motor functions frozen; explicit joint translation safety"
+}

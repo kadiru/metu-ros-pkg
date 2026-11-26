@@ -1,0 +1,1437 @@
+[
+  {
+    "generation": 0,
+    "index": 0,
+    "seed": 27100000,
+    "weights": {
+      "horizon": 0.37,
+      "clearance": 0.295,
+      "turn": 0.63
+    },
+    "incidents": [
+      {
+        "min_gap": 0.34369042562132085,
+        "fast": 0
+      },
+      {
+        "min_gap": 0.2718852822521752,
+        "fast": 0
+      }
+    ],
+    "game": {
+      "attempts": 11,
+      "passes": [
+        {
+          "kick": 47,
+          "receive": 75,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            3
+          ]
+        },
+        {
+          "kick": 81,
+          "receive": 120,
+          "passer": [
+            "blue",
+            3
+          ],
+          "receiver": [
+            "blue",
+            2
+          ]
+        },
+        {
+          "kick": 214,
+          "receive": 233,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            2
+          ]
+        },
+        {
+          "kick": 494,
+          "receive": 514,
+          "passer": [
+            "blue",
+            1
+          ],
+          "receiver": [
+            "blue",
+            4
+          ]
+        },
+        {
+          "kick": 545,
+          "receive": 562,
+          "passer": [
+            "yellow",
+            3
+          ],
+          "receiver": [
+            "yellow",
+            1
+          ]
+        },
+        {
+          "kick": 562,
+          "receive": 595,
+          "passer": [
+            "yellow",
+            1
+          ],
+          "receiver": [
+            "yellow",
+            2
+          ]
+        }
+      ],
+      "goals": [],
+      "fast_encounters": 5
+    },
+    "reward": 11.325685483478345
+  },
+  {
+    "generation": 0,
+    "index": 1,
+    "seed": 27100000,
+    "weights": {
+      "horizon": 0.2867042751955727,
+      "clearance": 0.24241673375834155,
+      "turn": 0.5895155761149375
+    },
+    "incidents": [
+      {
+        "min_gap": 0.2266356774591245,
+        "fast": 1
+      },
+      {
+        "min_gap": 0.1741967900767362,
+        "fast": 1
+      }
+    ],
+    "game": {
+      "attempts": 12,
+      "passes": [
+        {
+          "kick": 80,
+          "receive": 95,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            2
+          ]
+        },
+        {
+          "kick": 101,
+          "receive": 131,
+          "passer": [
+            "blue",
+            2
+          ],
+          "receiver": [
+            "blue",
+            3
+          ]
+        },
+        {
+          "kick": 136,
+          "receive": 171,
+          "passer": [
+            "blue",
+            3
+          ],
+          "receiver": [
+            "blue",
+            2
+          ]
+        },
+        {
+          "kick": 178,
+          "receive": 213,
+          "passer": [
+            "blue",
+            2
+          ],
+          "receiver": [
+            "blue",
+            3
+          ]
+        },
+        {
+          "kick": 246,
+          "receive": 270,
+          "passer": [
+            "yellow",
+            4
+          ],
+          "receiver": [
+            "yellow",
+            3
+          ]
+        },
+        {
+          "kick": 308,
+          "receive": 324,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            2
+          ]
+        },
+        {
+          "kick": 356,
+          "receive": 377,
+          "passer": [
+            "blue",
+            2
+          ],
+          "receiver": [
+            "blue",
+            4
+          ]
+        },
+        {
+          "kick": 384,
+          "receive": 422,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            1
+          ]
+        },
+        {
+          "kick": 426,
+          "receive": 464,
+          "passer": [
+            "blue",
+            1
+          ],
+          "receiver": [
+            "blue",
+            4
+          ]
+        },
+        {
+          "kick": 496,
+          "receive": 520,
+          "passer": [
+            "yellow",
+            3
+          ],
+          "receiver": [
+            "yellow",
+            1
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "tick": 238,
+          "event": "goal",
+          "team": "blue",
+          "crossing_xyz": [
+            4.528618123284204,
+            0.1361403323213824,
+            0.021477436999929166
+          ]
+        },
+        {
+          "tick": 487,
+          "event": "goal",
+          "team": "blue",
+          "crossing_xyz": [
+            4.533857754544193,
+            -0.11884906293733777,
+            0.02147743699333008
+          ]
+        }
+      ],
+      "fast_encounters": 13
+    },
+    "reward": -19.27783549760929
+  },
+  {
+    "generation": 0,
+    "index": 2,
+    "seed": 27100000,
+    "weights": {
+      "horizon": 0.2671699672885194,
+      "clearance": 0.2293298389512646,
+      "turn": 1.0378047989173194
+    },
+    "incidents": [
+      {
+        "min_gap": 0.24734529347623463,
+        "fast": 2
+      },
+      {
+        "min_gap": 0.1763402477000927,
+        "fast": 6
+      }
+    ],
+    "game": {
+      "attempts": 7,
+      "passes": [
+        {
+          "kick": 13,
+          "receive": 34,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            2
+          ]
+        },
+        {
+          "kick": 158,
+          "receive": 177,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            2
+          ]
+        },
+        {
+          "kick": 250,
+          "receive": 270,
+          "passer": [
+            "blue",
+            1
+          ],
+          "receiver": [
+            "blue",
+            4
+          ]
+        }
+      ],
+      "goals": [],
+      "fast_encounters": 11
+    },
+    "reward": -63.654297254911505
+  },
+  {
+    "generation": 0,
+    "index": 3,
+    "seed": 27100000,
+    "weights": {
+      "horizon": 0.3508167327954107,
+      "clearance": 0.27632809638204636,
+      "turn": 0.575075501173582
+    },
+    "incidents": [
+      {
+        "min_gap": 0.3034096626120024,
+        "fast": 1
+      },
+      {
+        "min_gap": 0.20491523277032767,
+        "fast": 1
+      }
+    ],
+    "game": {
+      "attempts": 10,
+      "passes": [
+        {
+          "kick": 62,
+          "receive": 74,
+          "passer": [
+            "yellow",
+            3
+          ],
+          "receiver": [
+            "yellow",
+            1
+          ]
+        },
+        {
+          "kick": 259,
+          "receive": 282,
+          "passer": [
+            "yellow",
+            1
+          ],
+          "receiver": [
+            "yellow",
+            2
+          ]
+        },
+        {
+          "kick": 326,
+          "receive": 345,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            2
+          ]
+        },
+        {
+          "kick": 371,
+          "receive": 399,
+          "passer": [
+            "yellow",
+            4
+          ],
+          "receiver": [
+            "yellow",
+            3
+          ]
+        },
+        {
+          "kick": 405,
+          "receive": 439,
+          "passer": [
+            "yellow",
+            3
+          ],
+          "receiver": [
+            "yellow",
+            1
+          ]
+        },
+        {
+          "kick": 479,
+          "receive": 499,
+          "passer": [
+            "yellow",
+            1
+          ],
+          "receiver": [
+            "yellow",
+            4
+          ]
+        },
+        {
+          "kick": 539,
+          "receive": 559,
+          "passer": [
+            "blue",
+            1
+          ],
+          "receiver": [
+            "blue",
+            4
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "tick": 308,
+          "event": "goal",
+          "team": "yellow",
+          "crossing_xyz": [
+            -4.539843028198704,
+            0.22886004771023238,
+            0.02147743699983695
+          ]
+        },
+        {
+          "tick": 531,
+          "event": "goal",
+          "team": "yellow",
+          "crossing_xyz": [
+            -4.521748477893726,
+            -0.22776073181817733,
+            0.021477436999999492
+          ]
+        }
+      ],
+      "fast_encounters": 7
+    },
+    "reward": 0.7883263588220046
+  },
+  {
+    "generation": 1,
+    "index": 0,
+    "seed": 27100001,
+    "weights": {
+      "horizon": 0.36040836639770535,
+      "clearance": 0.2856640481910232,
+      "turn": 0.602537750586791
+    },
+    "incidents": [
+      {
+        "min_gap": 0.25969822844938134,
+        "fast": 0
+      },
+      {
+        "min_gap": 0.28642107901254865,
+        "fast": 0
+      }
+    ],
+    "game": {
+      "attempts": 16,
+      "passes": [
+        {
+          "kick": 32,
+          "receive": 56,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            1
+          ]
+        },
+        {
+          "kick": 82,
+          "receive": 103,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            1
+          ]
+        },
+        {
+          "kick": 125,
+          "receive": 142,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            1
+          ]
+        },
+        {
+          "kick": 236,
+          "receive": 261,
+          "passer": [
+            "yellow",
+            1
+          ],
+          "receiver": [
+            "yellow",
+            3
+          ]
+        },
+        {
+          "kick": 304,
+          "receive": 326,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            2
+          ]
+        },
+        {
+          "kick": 364,
+          "receive": 385,
+          "passer": [
+            "blue",
+            2
+          ],
+          "receiver": [
+            "blue",
+            4
+          ]
+        },
+        {
+          "kick": 390,
+          "receive": 432,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            1
+          ]
+        },
+        {
+          "kick": 435,
+          "receive": 475,
+          "passer": [
+            "blue",
+            1
+          ],
+          "receiver": [
+            "blue",
+            4
+          ]
+        },
+        {
+          "kick": 568,
+          "receive": 589,
+          "passer": [
+            "blue",
+            1
+          ],
+          "receiver": [
+            "blue",
+            3
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "tick": 228,
+          "event": "goal",
+          "team": "blue",
+          "crossing_xyz": [
+            -4.546779121466031,
+            0.05955091650248998,
+            0.021477436999777392
+          ]
+        }
+      ],
+      "fast_encounters": 5
+    },
+    "reward": 17.707953830795333
+  },
+  {
+    "generation": 1,
+    "index": 1,
+    "seed": 27100001,
+    "weights": {
+      "horizon": 0.43483837811589815,
+      "clearance": 0.30895288359072165,
+      "turn": 0.499368692025147
+    },
+    "incidents": [
+      {
+        "min_gap": 0.2838452387912336,
+        "fast": 0
+      },
+      {
+        "min_gap": 0.28456500774128823,
+        "fast": 0
+      }
+    ],
+    "game": {
+      "attempts": 10,
+      "passes": [
+        {
+          "kick": 34,
+          "receive": 59,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            1
+          ]
+        },
+        {
+          "kick": 88,
+          "receive": 111,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            1
+          ]
+        },
+        {
+          "kick": 151,
+          "receive": 176,
+          "passer": [
+            "yellow",
+            1
+          ],
+          "receiver": [
+            "yellow",
+            3
+          ]
+        },
+        {
+          "kick": 222,
+          "receive": 241,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            2
+          ]
+        },
+        {
+          "kick": 244,
+          "receive": 282,
+          "passer": [
+            "blue",
+            2
+          ],
+          "receiver": [
+            "blue",
+            1
+          ]
+        },
+        {
+          "kick": 287,
+          "receive": 326,
+          "passer": [
+            "blue",
+            1
+          ],
+          "receiver": [
+            "blue",
+            2
+          ]
+        },
+        {
+          "kick": 361,
+          "receive": 384,
+          "passer": [
+            "yellow",
+            4
+          ],
+          "receiver": [
+            "yellow",
+            3
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "tick": 142,
+          "event": "goal",
+          "team": "blue",
+          "crossing_xyz": [
+            -4.527301487586524,
+            -0.1576597604003256,
+            0.021477436999994704
+          ]
+        },
+        {
+          "tick": 352,
+          "event": "goal",
+          "team": "blue",
+          "crossing_xyz": [
+            -4.53593958328028,
+            0.2149546714157397,
+            0.02147686557566254
+          ]
+        }
+      ],
+      "fast_encounters": 0
+    },
+    "reward": 35.794016435501455
+  },
+  {
+    "generation": 1,
+    "index": 2,
+    "seed": 27100001,
+    "weights": {
+      "horizon": 0.4013235845062801,
+      "clearance": 0.27525668251381596,
+      "turn": 0.7498597045349644
+    },
+    "incidents": [
+      {
+        "min_gap": 0.29593484988243374,
+        "fast": 0
+      },
+      {
+        "min_gap": 0.26795951262108025,
+        "fast": 1
+      }
+    ],
+    "game": {
+      "attempts": 12,
+      "passes": [
+        {
+          "kick": 31,
+          "receive": 56,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            1
+          ]
+        },
+        {
+          "kick": 87,
+          "receive": 109,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            1
+          ]
+        },
+        {
+          "kick": 151,
+          "receive": 176,
+          "passer": [
+            "yellow",
+            1
+          ],
+          "receiver": [
+            "yellow",
+            3
+          ]
+        },
+        {
+          "kick": 223,
+          "receive": 245,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            2
+          ]
+        },
+        {
+          "kick": 249,
+          "receive": 281,
+          "passer": [
+            "blue",
+            2
+          ],
+          "receiver": [
+            "blue",
+            1
+          ]
+        },
+        {
+          "kick": 287,
+          "receive": 323,
+          "passer": [
+            "blue",
+            1
+          ],
+          "receiver": [
+            "blue",
+            2
+          ]
+        },
+        {
+          "kick": 363,
+          "receive": 384,
+          "passer": [
+            "blue",
+            1
+          ],
+          "receiver": [
+            "blue",
+            3
+          ]
+        },
+        {
+          "kick": 572,
+          "receive": 594,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            2
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "tick": 142,
+          "event": "goal",
+          "team": "blue",
+          "crossing_xyz": [
+            -4.54175172023268,
+            -0.11932652884875583,
+            0.02147743699999989
+          ]
+        }
+      ],
+      "fast_encounters": 14
+    },
+    "reward": -14.807042499765732
+  },
+  {
+    "generation": 1,
+    "index": 3,
+    "seed": 27100001,
+    "weights": {
+      "horizon": 0.5050860540634019,
+      "clearance": 0.2685484905565233,
+      "turn": 0.416680685486197
+    },
+    "incidents": [
+      {
+        "min_gap": 0.2811640637309587,
+        "fast": 1
+      },
+      {
+        "min_gap": 0.24900600102322235,
+        "fast": 1
+      }
+    ],
+    "game": {
+      "attempts": 10,
+      "passes": [
+        {
+          "kick": 26,
+          "receive": 45,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            1
+          ]
+        },
+        {
+          "kick": 51,
+          "receive": 88,
+          "passer": [
+            "blue",
+            1
+          ],
+          "receiver": [
+            "blue",
+            2
+          ]
+        },
+        {
+          "kick": 143,
+          "receive": 168,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            2
+          ]
+        },
+        {
+          "kick": 202,
+          "receive": 226,
+          "passer": [
+            "yellow",
+            1
+          ],
+          "receiver": [
+            "yellow",
+            3
+          ]
+        },
+        {
+          "kick": 467,
+          "receive": 493,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            2
+          ]
+        },
+        {
+          "kick": 526,
+          "receive": 550,
+          "passer": [
+            "yellow",
+            4
+          ],
+          "receiver": [
+            "yellow",
+            3
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "tick": 193,
+          "event": "goal",
+          "team": "blue",
+          "crossing_xyz": [
+            -4.540105000816509,
+            0.1816277292502111,
+            0.021477436999061586
+          ]
+        },
+        {
+          "tick": 517,
+          "event": "goal",
+          "team": "blue",
+          "crossing_xyz": [
+            -4.532146977771217,
+            0.12451362485564148,
+            0.021477436997368628
+          ]
+        }
+      ],
+      "fast_encounters": 7
+    },
+    "reward": 0.5446709836120709
+  },
+  {
+    "generation": 2,
+    "index": 0,
+    "seed": 27100002,
+    "weights": {
+      "horizon": 0.3976233722568018,
+      "clearance": 0.29730846589087245,
+      "turn": 0.550953221305969
+    },
+    "incidents": [
+      {
+        "min_gap": 0.33539699248150096,
+        "fast": 1
+      },
+      {
+        "min_gap": 0.2755167898692623,
+        "fast": 1
+      }
+    ],
+    "game": {
+      "attempts": 6,
+      "passes": [
+        {
+          "kick": 12,
+          "receive": 34,
+          "passer": [
+            "yellow",
+            1
+          ],
+          "receiver": [
+            "yellow",
+            3
+          ]
+        },
+        {
+          "kick": 77,
+          "receive": 98,
+          "passer": [
+            "blue",
+            3
+          ],
+          "receiver": [
+            "blue",
+            2
+          ]
+        },
+        {
+          "kick": 98,
+          "receive": 132,
+          "passer": [
+            "blue",
+            2
+          ],
+          "receiver": [
+            "blue",
+            4
+          ]
+        },
+        {
+          "kick": 139,
+          "receive": 173,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            2
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "tick": 202,
+          "event": "goal",
+          "team": "blue",
+          "crossing_xyz": [
+            4.524246474009598,
+            -0.20447039175577006,
+            0.021475914042058786
+          ]
+        }
+      ],
+      "fast_encounters": 3
+    },
+    "reward": 9.167785991284156
+  },
+  {
+    "generation": 2,
+    "index": 1,
+    "seed": 27100002,
+    "weights": {
+      "horizon": 0.411465638911494,
+      "clearance": 0.3054226503222341,
+      "turn": 0.6156915636347893
+    },
+    "incidents": [
+      {
+        "min_gap": 0.28112338737141856,
+        "fast": 2
+      },
+      {
+        "min_gap": 0.26428743282409206,
+        "fast": 0
+      }
+    ],
+    "game": {
+      "attempts": 4,
+      "passes": [
+        {
+          "kick": 12,
+          "receive": 35,
+          "passer": [
+            "yellow",
+            1
+          ],
+          "receiver": [
+            "yellow",
+            3
+          ]
+        },
+        {
+          "kick": 507,
+          "receive": 532,
+          "passer": [
+            "blue",
+            1
+          ],
+          "receiver": [
+            "blue",
+            2
+          ]
+        }
+      ],
+      "goals": [],
+      "fast_encounters": 3
+    },
+    "reward": -3.2392786536326224
+  },
+  {
+    "generation": 2,
+    "index": 2,
+    "seed": 27100002,
+    "weights": {
+      "horizon": 0.4863797140695466,
+      "clearance": 0.3053541792451422,
+      "turn": 0.6634538017294119
+    },
+    "incidents": [
+      {
+        "min_gap": 0.34310797494099615,
+        "fast": 0
+      },
+      {
+        "min_gap": 0.31769008431611834,
+        "fast": 0
+      }
+    ],
+    "game": {
+      "attempts": 9,
+      "passes": [
+        {
+          "kick": 101,
+          "receive": 125,
+          "passer": [
+            "yellow",
+            1
+          ],
+          "receiver": [
+            "yellow",
+            3
+          ]
+        },
+        {
+          "kick": 130,
+          "receive": 173,
+          "passer": [
+            "yellow",
+            3
+          ],
+          "receiver": [
+            "yellow",
+            4
+          ]
+        },
+        {
+          "kick": 175,
+          "receive": 216,
+          "passer": [
+            "yellow",
+            4
+          ],
+          "receiver": [
+            "yellow",
+            3
+          ]
+        },
+        {
+          "kick": 359,
+          "receive": 390,
+          "passer": [
+            "blue",
+            0
+          ],
+          "receiver": [
+            "blue",
+            4
+          ]
+        },
+        {
+          "kick": 395,
+          "receive": 433,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            2
+          ]
+        },
+        {
+          "kick": 439,
+          "receive": 475,
+          "passer": [
+            "blue",
+            2
+          ],
+          "receiver": [
+            "blue",
+            4
+          ]
+        },
+        {
+          "kick": 495,
+          "receive": 512,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            1
+          ]
+        },
+        {
+          "kick": 519,
+          "receive": 560,
+          "passer": [
+            "blue",
+            1
+          ],
+          "receiver": [
+            "blue",
+            2
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "tick": 240,
+          "event": "goal",
+          "team": "yellow",
+          "crossing_xyz": [
+            -4.537872429986529,
+            -0.04097373237394071,
+            0.021477436999069625
+          ]
+        }
+      ],
+      "fast_encounters": 2
+    },
+    "reward": 31.77933895440789
+  },
+  {
+    "generation": 2,
+    "index": 3,
+    "seed": 27100002,
+    "weights": {
+      "horizon": 0.42936364254147236,
+      "clearance": 0.2756531381709045,
+      "turn": 0.6375657956358161
+    },
+    "incidents": [
+      {
+        "min_gap": 0.25112341623804113,
+        "fast": 0
+      },
+      {
+        "min_gap": 0.25915721988941554,
+        "fast": 1
+      }
+    ],
+    "game": {
+      "attempts": 12,
+      "passes": [
+        {
+          "kick": 12,
+          "receive": 36,
+          "passer": [
+            "yellow",
+            1
+          ],
+          "receiver": [
+            "yellow",
+            3
+          ]
+        },
+        {
+          "kick": 151,
+          "receive": 176,
+          "passer": [
+            "blue",
+            1
+          ],
+          "receiver": [
+            "blue",
+            4
+          ]
+        },
+        {
+          "kick": 181,
+          "receive": 221,
+          "passer": [
+            "blue",
+            4
+          ],
+          "receiver": [
+            "blue",
+            2
+          ]
+        },
+        {
+          "kick": 265,
+          "receive": 306,
+          "passer": [
+            "yellow",
+            1
+          ],
+          "receiver": [
+            "yellow",
+            4
+          ]
+        },
+        {
+          "kick": 324,
+          "receive": 345,
+          "passer": [
+            "yellow",
+            4
+          ],
+          "receiver": [
+            "yellow",
+            1
+          ]
+        },
+        {
+          "kick": 350,
+          "receive": 393,
+          "passer": [
+            "yellow",
+            1
+          ],
+          "receiver": [
+            "yellow",
+            2
+          ]
+        },
+        {
+          "kick": 397,
+          "receive": 436,
+          "passer": [
+            "yellow",
+            2
+          ],
+          "receiver": [
+            "yellow",
+            1
+          ]
+        },
+        {
+          "kick": 443,
+          "receive": 478,
+          "passer": [
+            "yellow",
+            1
+          ],
+          "receiver": [
+            "yellow",
+            2
+          ]
+        },
+        {
+          "kick": 482,
+          "receive": 521,
+          "passer": [
+            "yellow",
+            2
+          ],
+          "receiver": [
+            "yellow",
+            4
+          ]
+        },
+        {
+          "kick": 527,
+          "receive": 564,
+          "passer": [
+            "yellow",
+            4
+          ],
+          "receiver": [
+            "yellow",
+            2
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "tick": 587,
+          "event": "goal",
+          "team": "yellow",
+          "crossing_xyz": [
+            -4.539297860155695,
+            0.09906689536894006,
+            0.021477436997549566
+          ]
+        }
+      ],
+      "fast_encounters": 5
+    },
+    "reward": 12.018709075163779
+  }
+]

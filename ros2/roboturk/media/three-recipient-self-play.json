@@ -1,0 +1,26 @@
+{
+  "native_seconds": 119.96,
+  "native_frames": 2999,
+  "native_sha256": "f23d067421ec41bd949ab5bbd0905a01e4038e07f9ba3c5788541259f45700cf",
+  "gif_seconds": 120.0,
+  "gif_sha256": "769c12458f214be67fe23eda9386259c88385f886008d5193af4e9ffd6a6fabc",
+  "gif_frames": 1200,
+  "gif_fps": 10,
+  "cuts": 0,
+  "speed": 1,
+  "full_decodes": true,
+  "highlight": {
+    "file": "media/three-recipient-choices.gif",
+    "start_seconds": 60,
+    "end_seconds": 72,
+    "source": "native MP4",
+    "speed": 1,
+    "frames": 150,
+    "fps": 12.5,
+    "width": 960,
+    "height": 540,
+    "sha256": "65e168baa17d9c02f74daf94b83f4760d0e35d9accc1c91ac040673240ea68fd",
+    "full_decode_passed": true,
+    "visual_inspection": "Four representative frames and a full-resolution reference frame checked. Blue 2 chooses 0 and later 1."
+  }
+}

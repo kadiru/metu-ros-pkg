@@ -1,0 +1,326 @@
+[
+  {
+    "stage": "cloning",
+    "checkpoint_sha256": "860accb2131b6d1bceec64823ff3fa5cb1699274b16134876e8acb27953d166c",
+    "manifest": {
+      "contract": "roboturk.capture_dribble.v1",
+      "skill": "dribble",
+      "config": {
+        "length": 9.0,
+        "width": 6.0,
+        "goal_width": 1.0,
+        "robot_radius": 0.09,
+        "ball_radius": 0.0215,
+        "ball_mass": 0.046,
+        "max_speed": 2.0,
+        "max_omega": 8.0,
+        "max_kick": 5.0,
+        "dt": 0.02,
+        "max_steps": 500,
+        "neighbors": 5,
+        "possession_x": 0.115
+      },
+      "task": "capture_dribble.randomized.v1",
+      "backend": "webots_ideal_body_velocity",
+      "method": "Webots demonstration cloning + DAgger + PPO",
+      "stage": "cloned",
+      "actual_steps": 0,
+      "validated_for_hardware": false,
+      "episode_steps": 1200,
+      "target_radius": 0.18,
+      "arrival_hold_steps": 50,
+      "possession_sample_seconds": 0.005,
+      "seed": 17,
+      "demonstration_episodes": 300,
+      "dagger_episodes": 150,
+      "demonstration_seed_range": [
+        100000,
+        100299
+      ],
+      "dagger_seed_range": [
+        120000,
+        120149
+      ],
+      "development_seed_range": [
+        110000,
+        110059
+      ],
+      "qualification_seed_range": [
+        150000,
+        150199
+      ]
+    },
+    "development": {
+      "successes": 60,
+      "success_rate": 1.0,
+      "wilson_95": [
+        0.93982814785791,
+        0.9999999999999998
+      ],
+      "mean_success_seconds": 12.232666666666667,
+      "mean_carried_progress": 3.5127934146698014,
+      "possession_loss_episodes": 0,
+      "stationary": {
+        "successes": 24,
+        "episodes": 24
+      },
+      "moving": {
+        "successes": 36,
+        "episodes": 36
+      },
+      "positive_goal": {
+        "successes": 32,
+        "episodes": 32
+      },
+      "negative_goal": {
+        "successes": 28,
+        "episodes": 28
+      }
+    }
+  },
+  {
+    "stage": "dagger",
+    "checkpoint_sha256": "310ecb3136953f745a732594cb8c423a7cbf997191977f8198845c1edd7ff8cc",
+    "manifest": {
+      "contract": "roboturk.capture_dribble.v1",
+      "skill": "dribble",
+      "config": {
+        "length": 9.0,
+        "width": 6.0,
+        "goal_width": 1.0,
+        "robot_radius": 0.09,
+        "ball_radius": 0.0215,
+        "ball_mass": 0.046,
+        "max_speed": 2.0,
+        "max_omega": 8.0,
+        "max_kick": 5.0,
+        "dt": 0.02,
+        "max_steps": 500,
+        "neighbors": 5,
+        "possession_x": 0.115
+      },
+      "task": "capture_dribble.randomized.v1",
+      "backend": "webots_ideal_body_velocity",
+      "method": "Webots demonstration cloning + DAgger + PPO",
+      "stage": "dagger",
+      "actual_steps": 0,
+      "validated_for_hardware": false,
+      "episode_steps": 1200,
+      "target_radius": 0.18,
+      "arrival_hold_steps": 50,
+      "possession_sample_seconds": 0.005,
+      "seed": 17,
+      "demonstration_episodes": 300,
+      "dagger_episodes": 150,
+      "demonstration_seed_range": [
+        100000,
+        100299
+      ],
+      "dagger_seed_range": [
+        120000,
+        120149
+      ],
+      "development_seed_range": [
+        110000,
+        110059
+      ],
+      "qualification_seed_range": [
+        150000,
+        150199
+      ]
+    },
+    "development": {
+      "successes": 59,
+      "success_rate": 0.9833333333333333,
+      "wilson_95": [
+        0.9114487027240993,
+        0.9970518402052136
+      ],
+      "mean_success_seconds": 14.014237288135593,
+      "mean_carried_progress": 3.3568382553992455,
+      "possession_loss_episodes": 0,
+      "stationary": {
+        "successes": 24,
+        "episodes": 24
+      },
+      "moving": {
+        "successes": 35,
+        "episodes": 36
+      },
+      "positive_goal": {
+        "successes": 31,
+        "episodes": 32
+      },
+      "negative_goal": {
+        "successes": 28,
+        "episodes": 28
+      }
+    }
+  },
+  {
+    "stage": "rejected_ppo",
+    "checkpoint_sha256": "95942c66fc53e98ef5160d5e4296d5b34b032540d20baee9b2513fceb6cb5e87",
+    "manifest": {
+      "contract": "roboturk.capture_dribble.v1",
+      "skill": "dribble",
+      "config": {
+        "length": 9.0,
+        "width": 6.0,
+        "goal_width": 1.0,
+        "robot_radius": 0.09,
+        "ball_radius": 0.0215,
+        "ball_mass": 0.046,
+        "max_speed": 2.0,
+        "max_omega": 8.0,
+        "max_kick": 5.0,
+        "dt": 0.02,
+        "max_steps": 500,
+        "neighbors": 5,
+        "possession_x": 0.115
+      },
+      "task": "capture_dribble.randomized.v1",
+      "backend": "webots_ideal_body_velocity",
+      "method": "Webots demonstration cloning + DAgger + PPO",
+      "stage": "ppo",
+      "actual_steps": 131072,
+      "validated_for_hardware": false,
+      "episode_steps": 1200,
+      "target_radius": 0.18,
+      "arrival_hold_steps": 50,
+      "possession_sample_seconds": 0.005,
+      "seed": 17,
+      "demonstration_episodes": 300,
+      "dagger_episodes": 150,
+      "demonstration_seed_range": [
+        100000,
+        100299
+      ],
+      "dagger_seed_range": [
+        120000,
+        120149
+      ],
+      "development_seed_range": [
+        110000,
+        110059
+      ],
+      "qualification_seed_range": [
+        150000,
+        150199
+      ]
+    },
+    "development": {
+      "successes": 0,
+      "success_rate": 0.0,
+      "wilson_95": [
+        0.0,
+        0.06017185214208986
+      ],
+      "mean_success_seconds": null,
+      "mean_carried_progress": null,
+      "possession_loss_episodes": 60,
+      "stationary": {
+        "successes": 0,
+        "episodes": 24
+      },
+      "moving": {
+        "successes": 0,
+        "episodes": 36
+      },
+      "positive_goal": {
+        "successes": 0,
+        "episodes": 32
+      },
+      "negative_goal": {
+        "successes": 0,
+        "episodes": 28
+      }
+    }
+  },
+  {
+    "stage": "released_anchored_ppo",
+    "checkpoint_sha256": "1a6a6741f115093e54ad1d81fb25fcdf5f8583130d87ffb105b2e964dbb8779d",
+    "manifest": {
+      "contract": "roboturk.capture_dribble.v1",
+      "skill": "dribble",
+      "config": {
+        "length": 9.0,
+        "width": 6.0,
+        "goal_width": 1.0,
+        "robot_radius": 0.09,
+        "ball_radius": 0.0215,
+        "ball_mass": 0.046,
+        "max_speed": 2.0,
+        "max_omega": 8.0,
+        "max_kick": 5.0,
+        "dt": 0.02,
+        "max_steps": 500,
+        "neighbors": 5,
+        "possession_x": 0.115
+      },
+      "task": "capture_dribble.randomized.v1",
+      "backend": "webots_ideal_body_velocity",
+      "method": "Webots cloning + PPO with reference-policy anchoring",
+      "stage": "anchored_ppo",
+      "actual_steps": 65536,
+      "validated_for_hardware": false,
+      "episode_steps": 1200,
+      "target_radius": 0.18,
+      "arrival_hold_steps": 50,
+      "possession_sample_seconds": 0.005,
+      "seed": 18,
+      "demonstration_episodes": 300,
+      "dagger_episodes": 150,
+      "demonstration_seed_range": [
+        100000,
+        100299
+      ],
+      "dagger_seed_range": [
+        120000,
+        120149
+      ],
+      "development_seed_range": [
+        110000,
+        110059
+      ],
+      "qualification_seed_range": [
+        150000,
+        150199
+      ],
+      "parent_checkpoint_sha256": "860accb2131b6d1bceec64823ff3fa5cb1699274b16134876e8acb27953d166c",
+      "anchor_max_normalized_action_delta": 0.01,
+      "anchor_mean_square_delta": 1e-06,
+      "learning_rate": 3e-07,
+      "anchor_projection_steps": 8,
+      "anchor_reference": "cloned actor; demonstration and DAgger observations only",
+      "anchor_updates": 64,
+      "anchor_rejected_updates": 2
+    },
+    "development": {
+      "successes": 60,
+      "success_rate": 1.0,
+      "wilson_95": [
+        0.93982814785791,
+        0.9999999999999998
+      ],
+      "mean_success_seconds": 13.029333333333334,
+      "mean_carried_progress": 3.5412266783844735,
+      "possession_loss_episodes": 0,
+      "stationary": {
+        "successes": 24,
+        "episodes": 24
+      },
+      "moving": {
+        "successes": 36,
+        "episodes": 36
+      },
+      "positive_goal": {
+        "successes": 32,
+        "episodes": 32
+      },
+      "negative_goal": {
+        "successes": 28,
+        "episodes": 28
+      }
+    }
+  }
+]

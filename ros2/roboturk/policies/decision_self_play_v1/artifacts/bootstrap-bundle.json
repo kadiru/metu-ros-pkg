@@ -1,0 +1,27 @@
+{
+  "transfer": {
+    "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v3/transfer.zip",
+    "sha256": "ee4e3d54ae22024fa5cd0354ff23779e087941e78913270a2558b2f16b8ee5d3",
+    "actor_sha256": "a421cc217448f36e0232b9df973f0ca655ef6559d7fda8f0c39d817978c246e0"
+  },
+  "finish": {
+    "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v3/finish.zip",
+    "sha256": "8bf90bd83ff21ae9b518fe72fa87b6bd480ed71465abf77171eff0e15cb93875",
+    "actor_sha256": "33f846821a7b1335d09eaecd9f34a8a1f1640b5f12849acce13fafc116e13e5b"
+  },
+  "defender": {
+    "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v3/defender.zip",
+    "sha256": "d8730433968dc62312d72c9f09c89cb0cb991087b2048cd2ac03d98798de2641",
+    "actor_sha256": "59b9598a05993578be7b300a5f0c9f242561f4b6b4be44a32ead1edcfdb85d36"
+  },
+  "keeper": {
+    "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v3/keeper.zip",
+    "sha256": "b78f1b75ef5463339f9cb136e7618b8f7fb72f7104458415be39989ea5c77e25",
+    "actor_sha256": "b6297278ab5d458a458b13f9664abfb9addaa51664e0d867a5d074719e0e3d83"
+  },
+  "manager": {
+    "path": "/Users/kadir/linkedin/projects/roboturk/modern/runs/decision-selfplay-v1/dagger-v3/manager.zip",
+    "sha256": "4c521d8ba6956bc2da5d025567311e295b19dd3601a1ac6c7be45a4a22d2751f",
+    "actor_sha256": "a2e60c47dc377cd218d0206fde0d326b5b2c4bbde69660d7e2d21021d0b7ede8"
+  }
+}

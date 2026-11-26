@@ -180,6 +180,7 @@ button.primary:hover { background: #c1eed3; }
 .role-changes button:hover { background: color-mix(in srgb, var(--role-color) 15%, #131e28); }
 .role-changes button:focus-visible { outline-offset: -2px; }
 .role-changes time { color: var(--muted); font-variant-numeric: tabular-nums; }
+.role-changes .past-role-duration { grid-area: 2 / 1; font-size: 10px; font-weight: 500; line-height: 13px; white-space: nowrap; }
 .role-changes strong { color: var(--role-color); }
 .role-changes span { grid-column: 2; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; color: var(--muted); line-height: 13px; }
 .lineups { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }

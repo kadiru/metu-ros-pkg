@@ -478,20 +478,29 @@ function updateHistory(now) {
   list.dataset.robot = selected;
   recent.pop();  // The current role has its own card above the history.
   list.hidden = !recent.length;
-  list.replaceChildren(...recent.reverse().map(({ tick, role }) => {
+  const rows = recent.map(({ tick, role }, index) => {
     const button = document.createElement("button");
     button.type = "button";
     button.style.setProperty("--role-color", roleColor(role));
+    const startedAt = frames[tick].t;
+    const endedAt = frames[history[first + index + 1].tick].t;
+    const duration = Number((endedAt - startedAt).toFixed(6));
     const time = document.createElement("time");
-    time.textContent = replayTime(frames[tick].t);
+    time.textContent = replayTime(startedAt);
+    time.dateTime = `PT${startedAt}S`;
+    const elapsed = document.createElement("time");
+    elapsed.className = "past-role-duration";
+    elapsed.dateTime = `PT${duration}S`;
+    elapsed.textContent = `${duration.toFixed(duration < 0.1 ? 2 : 1)} s`;
     const label = document.createElement("strong");
     label.textContent = roleName(role);
     const task = document.createElement("span");
     task.textContent = task.title = robotTask(frames[tick], selected);
-    button.append(time, label, task);
+    button.append(time, label, elapsed, task);
     button.addEventListener("click", () => seek(tick));
     return button;
-  }));
+  });
+  list.replaceChildren(...rows.reverse());
   list.scrollTop = scrollTop;
 }
 

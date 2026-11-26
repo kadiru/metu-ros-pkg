@@ -1,80 +1,69 @@
-# Affordance Learning ROS Stack
+# What can I do with this object?
 
-**iCub · perception · grounded language · human-aware planning**  
-KOVAN Research Lab / EU FP7 ROSSI, Middle East Technical University · 2011–2013
+For a robot, an object is more than a shape. It may be pushable, graspable, or reachable only with someone's help. This iCub research uses **affordances — relationships between an entity, an action and its effect — to connect perception, language and planning**.
 
-[Repository overview](../../README.md) · [Robot-soccer stack](../robocup_ssl/README.md) · [Papers](#research-papers) · [Demo](#watch-the-research) · [Code map](#explore-the-code)
+KOVAN Research Lab / EU FP7 ROSSI, Middle East Technical University. Historical collaborative research, with the original ROS/C++ implementation preserved here.
 
 ![Robots that learn what is possible — the original research-page illustration](../../docs/assets/affordance-hero.svg)
 
-## From seeing an object to knowing what to do
+*Perception, affordances, planning and action form a loop: observe the world, predict what an action makes possible, act, and observe again.*
 
-An object is more than its appearance: it can be pushed, pulled, grasped, or passed by another person. This research connects **perception, action and observed effects** on the iCub humanoid, using a shared affordance representation:
+<a name="one-representation-two-uses"></a>
 
-**entity + behavior → effect**
+## From an action to a plan
 
-The stack contains ROS/C++ components for scene perception, working memory, learned effect prediction, robot behavior interfaces, gaze and speech. The associated papers investigate how these capabilities support language grounding and plans that include human assistance. The illustrations below explain those research systems; they are not screenshots of a running installation.
-
-## Social affordances and multi-step planning
+**Entity + behavior → predicted effect.** A behavior-specific model predicts what an action will do. A planner can then choose actions, observe their outcome and replan. When an object is out of reach, a person's presence can make “ask them to pass it” a useful action.
 
 ![Social affordance learning and planning architecture](../../docs/assets/social-architecture.svg)
 
-In **Learning Social Affordances and Using Them for Planning** [P1], object geometry and human presence, posture and gaze form the perceived state. A behavior-specific SVM predicts an effect; effect prototypes project possible future states. Breadth-first search considers sequences of up to three behaviors, and execution is followed by observation and replanning when the actual effect differs.
+*An explanatory research diagram, not a running-system screenshot. [Method and attribution](RESEARCH_GUIDE.md).*
 
-**Example:** an object beyond the robot's reach may still be obtainable when a person is present. The robot can select the voice behavior “pass me,” then continue manipulating the object itself. Without the required human assistance, it may determine that the goal cannot be reached.
+## From actions to language
 
-| Reported study scope [P1] | |
-| --- | --- |
-| Objects | 35 |
-| Object-interaction triplets | 413 |
-| Human-interaction triplets | 150 |
-| Human participants | 10 |
-
-The motor and voice behaviors are predefined; the learned component predicts their effects. The paper reports three planning scenarios, not a general-purpose autonomy benchmark.
-
-## Grounding adjectives and nouns in action
+The same action-based representation helps ground descriptions such as *thin* and *thick*. The language study compares effect-based representations with a direct appearance baseline: what a robot can do with an object provides a different kind of evidence from how the object looks.
 
 ![Affordance versus appearance representations for adjective and noun learning](../../docs/assets/language-architecture.svg)
 
-**Learning Adjectives and Nouns from Affordances on the iCub Humanoid Robot** [P2] compares three representations: **A48**, retaining six behaviors × eight effect confidences; **A8**, retaining the maximum confidence for each effect; and a **direct appearance-based baseline**.
+Some words also depend on the surrounding objects: the same object can be tall beside one neighbor and short beside another. [Representations, comparisons and context-aware language](RESEARCH_GUIDE.md#grounding-adjectives-and-nouns-in-action).
 
-Affordances help with selected adjective distinctions, while appearance is stronger for the four noun categories in this experiment. For example, the reported five-fold cross-validation accuracy for *thin/thick* is 95% with A48 versus 91% with the appearance baseline; noun accuracy is 87.5% versus 94%, respectively. These results are specific to the paper's object set, behaviors and evaluation protocol.
+## See it on iCub
 
-**Towards Context-aware Adjective Learning** [P3] adds the surrounding objects: the same object can be “tall” beside a shorter neighbor and “short” beside a taller one. The paper combines relative perceptual features with affordance information. Its context-aware study is separate from the A48/A8 comparison above.
+<a href="https://vimeo.com/kadiru/icub-language-grounding"><img src="../../docs/assets/showcase/icub.jpg" alt="iCub in the original laboratory demonstration" width="360"></a>
 
-## Explore the code
+*Archival physical-robot footage. The behaviors are predefined; the learned components predict effects and ground language. [Watch the research film](https://vimeo.com/kadiru/icub-language-grounding) · [Original paper-linked demonstration](https://www.youtube.com/watch?v=DxLFZseasYA).*
 
-| Start here | What to look for |
+## What the papers establish
+
+The social-affordance study used **35 objects, 413 object-interaction triplets, 150 human-interaction triplets and 10 participants**. It reports three planning scenarios, not general-purpose autonomy. The language study found that affordances helped selected adjective distinctions, while appearance performed better on its four noun categories. [Study scopes, comparisons and all three papers](RESEARCH_GUIDE.md#research-papers)
+
+**Kadir's contribution:** ROS/PCL sensing, data collection and learning/planning components across the iCub research. This is collaborative work; the complete paper author lists and source copyright notices preserve individual credit.
+
+## Follow the implementation
+
+| Step | Source |
 | --- | --- |
-| [`al_perception/CMakeLists.txt`](al_perception/CMakeLists.txt) | Perception target and human, spatial and surface feature-extractor sources |
-| [`al_memory/src/Memory.cpp`](al_memory/src/Memory.cpp) | Scene/entity services, working memory and feature-vector publication |
-| [`al_prediction/effect_predictor.cpp`](al_prediction/effect_predictor.cpp) | Per-behavior SVM loading, feature scaling, effect queries and behavior-by-effect services |
-| [`al_prediction/adjective_predictor.cpp`](al_prediction/adjective_predictor.cpp) | Affordance-based adjective prediction interfaces |
-| [`al_prediction/launch/al_prediction.launch`](al_prediction/launch/al_prediction.launch) | Historical effect, shape and adjective node orchestration |
-| [`al_behavior/`](al_behavior/) | Robot behavior interfaces |
-| [`al_hri_demo/hri_main.cpp`](al_hri_demo/hri_main.cpp) | ROS TF, YARP gaze control, actionlib speech and interaction-state logic |
-| [`al_msgs/`](al_msgs/) / [`al_srvs/`](al_srvs/) | Shared message and service definitions |
+| Perceive entities and features | [Perception targets](al_perception/CMakeLists.txt) |
+| Maintain a scene representation | [Working memory](al_memory/src/Memory.cpp) |
+| Predict action effects | [Effect predictor](al_prediction/effect_predictor.cpp) |
+| Ground adjectives | [Adjective predictor](al_prediction/adjective_predictor.cpp) |
+| Connect gaze, speech and interaction | [HRI demonstration](al_hri_demo/hri_main.cpp) |
 
-The code map identifies related implementation. It does not assert that every paper experiment is reproducible from this snapshot or that every package is complete.
+<a name="from-seeing-an-object-to-knowing-what-to-do"></a>
 
-## Watch the research
+<a name="social-affordances-and-multi-step-planning"></a>
 
-**[Watch the original iCub language-grounding demonstration →](https://www.youtube.com/watch?v=DxLFZseasYA)**  
-Archival video link cited in [P2], Section 5. It is the original demonstration, not a newly edited 30–60-second clip.
+<a name="grounding-adjectives-and-nouns-in-action"></a>
 
-## Research papers
+<a name="explore-the-code"></a>
 
-**[P1] [Learning Social Affordances and Using Them for Planning](https://escholarship.org/uc/item/9cj412wg)**  
-Kadir Fırat Uyanık, Yiğit Çalışkan, Asil Kaan Bozcuoğlu, Onur Yürüten, Sinan Kalkan, Erol Şahin. *CogSci*, 2013.
+<a name="watch-the-research"></a>
 
-**[P2] [Learning Adjectives and Nouns from Affordances on the iCub Humanoid Robot](https://link.springer.com/chapter/10.1007/978-3-642-33093-3_33)**  
-Onur Yürüten, Kadir Fırat Uyanık, Yiğit Çalışkan, Asil Kaan Bozcuoğlu, Erol Şahin, Sinan Kalkan. *From Animals to Animats 12*, 2012, pp. 330–340.
+<a name="research-papers"></a>
 
-**[P3] [Towards Context-aware Adjective Learning](https://kovan.ceng.metu.edu.tr/~sinan/publications/icra_hri_12.pdf)**  
-Kadir Fırat Uyanık, Onur Yürüten, Sinan Kalkan, Erol Şahin. *ICRA Workshop: The Future of HRI*, 2012.
+<a name="archive-status-and-credits"></a>
 
-## Archive status and credits
+## Archive status
 
-Historical ROS 1 / rosbuild-era research code. Legacy dependencies, launch files and configuration paths need review before attempting a build. No current build or hardware execution has been validated for this documentation update.
+This is ROS 1 / rosbuild-era code. The source map does not imply every paper experiment can be reproduced from this snapshot. A future reproduction starts by restoring dependencies, data and model artifacts for one named paper experiment, then comparing against its reported protocol.
 
-The research is collaborative; the author lists above credit the papers, and source files preserve individual and third-party copyright notices. [Source notes and visual attribution](../../docs/RESEARCH_SOURCES.md).
+[Full research guide and citations](RESEARCH_GUIDE.md) · [Source notes](../../docs/RESEARCH_SOURCES.md) · [Repository overview](../../README.md)

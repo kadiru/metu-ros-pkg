@@ -1,0 +1,1088 @@
+{
+  "arrival": {
+    "stop": {
+      "seed": 14600,
+      "candidate": "fast",
+      "observed_start": {
+        "time": 0.0,
+        "robots": [
+          {
+            "key": {
+              "team": "blue",
+              "id": 1
+            },
+            "x": 0.991380699076428,
+            "y": -0.6876204163650163,
+            "yaw": 0.044370092818414524,
+            "vx": 0.0,
+            "vy": 0.0,
+            "omega": 0.0,
+            "visible": true
+          }
+        ],
+        "ball": {
+          "x": 3.5,
+          "y": 2.5,
+          "vx": 0.0,
+          "vy": 0.0,
+          "visible": true,
+          "z": 0.0215,
+          "vz": 0.0
+        },
+        "referee": "running",
+        "attack_sign": 1
+      },
+      "context": "stop",
+      "success_s": 1.122,
+      "failure": null,
+      "return_value": 1.8549128908783221,
+      "closest_arrival_error": [
+        0.04426342978559098,
+        0.0036496542639514735,
+        0.1536981924605483
+      ],
+      "closest_speed": 0.1536981924605483,
+      "target_speed": 0.0,
+      "deflection_error_rad": null,
+      "first_touch_s": null,
+      "defender_touch_s": null,
+      "body_contact_s": null,
+      "release_s": null,
+      "lead_m": null,
+      "receiver_progress_m": null,
+      "receiving_zone_error_m": null,
+      "kicks": 0,
+      "events": [],
+      "terminal_state": {
+        "time": 1.122,
+        "robots": [
+          {
+            "key": {
+              "team": "blue",
+              "id": 1
+            },
+            "x": 0.40921675593858065,
+            "y": 0.07534028483914212,
+            "yaw": -1.7966616271024645,
+            "vx": -0.10262522321888704,
+            "vy": 0.11441677291775608,
+            "omega": -0.018432597292662445,
+            "visible": true
+          }
+        ],
+        "ball": {
+          "x": 3.5,
+          "y": 2.5,
+          "vx": 0.0,
+          "vy": 0.0,
+          "visible": true,
+          "z": 0.02149548740000001,
+          "vz": -7.67476874142697e-16
+        },
+        "referee": "running",
+        "attack_sign": 1
+      },
+      "attempts": [
+        {
+          "seed": 14600,
+          "qualification_s": 1.1219999999999573,
+          "replay_s": 1.122,
+          "failure": null
+        }
+      ],
+      "frame_count": 16
+    },
+    "moving": {
+      "seed": 14601,
+      "candidate": "terminal",
+      "observed_start": {
+        "time": 0.0,
+        "robots": [
+          {
+            "key": {
+              "team": "blue",
+              "id": 1
+            },
+            "x": -1.598522864930505,
+            "y": -1.5549838983684718,
+            "yaw": 1.9304502923600344,
+            "vx": 0.0,
+            "vy": 0.0,
+            "omega": 0.0,
+            "visible": true
+          }
+        ],
+        "ball": {
+          "x": 3.5,
+          "y": 2.5,
+          "vx": 0.0,
+          "vy": 0.0,
+          "visible": true,
+          "z": 0.0215,
+          "vz": 0.0
+        },
+        "referee": "running",
+        "attack_sign": 1
+      },
+      "context": "moving",
+      "success_s": 1.3660000000000003,
+      "failure": null,
+      "return_value": 1.8134673027253128,
+      "closest_arrival_error": [
+        0.0386247478358233,
+        0.0015399384820053985,
+        0.23124584619774033
+      ],
+      "closest_speed": 0.8910387971488899,
+      "target_speed": 0.6656051021238948,
+      "deflection_error_rad": null,
+      "first_touch_s": null,
+      "defender_touch_s": null,
+      "body_contact_s": null,
+      "release_s": null,
+      "lead_m": null,
+      "receiver_progress_m": null,
+      "receiving_zone_error_m": null,
+      "kicks": 0,
+      "events": [],
+      "terminal_state": {
+        "time": 1.3660000000000003,
+        "robots": [
+          {
+            "key": {
+              "team": "blue",
+              "id": 1
+            },
+            "x": -0.2243281118051518,
+            "y": -0.05583481201056667,
+            "yaw": -1.7918893088252072,
+            "vx": 0.6239321049610244,
+            "vy": 0.6361280267551853,
+            "omega": 0.007937827227041394,
+            "visible": true
+          }
+        ],
+        "ball": {
+          "x": 3.5,
+          "y": 2.5,
+          "vx": 0.0,
+          "vy": 0.0,
+          "visible": true,
+          "z": 0.02149548740000001,
+          "vz": -7.67476874142697e-16
+        },
+        "referee": "running",
+        "attack_sign": 1
+      },
+      "attempts": [
+        {
+          "seed": 14601,
+          "qualification_s": 1.3659999999999854,
+          "replay_s": 1.3660000000000003,
+          "failure": null
+        }
+      ],
+      "frame_count": 25
+    }
+  },
+  "intercept": {
+    "trap": {
+      "seed": 24600,
+      "candidate": "early",
+      "observed_start": {
+        "time": 0.0,
+        "robots": [
+          {
+            "key": {
+              "team": "blue",
+              "id": 1
+            },
+            "x": 0.2900859857283112,
+            "y": -0.608330972469744,
+            "yaw": 0.5675293428820236,
+            "vx": 0.0,
+            "vy": 0.0,
+            "omega": 0.0,
+            "visible": true
+          },
+          {
+            "key": {
+              "team": "yellow",
+              "id": 2
+            },
+            "x": 1.9,
+            "y": 0.0,
+            "yaw": 3.141592653589793,
+            "vx": 0.0,
+            "vy": 0.0,
+            "omega": 0.0,
+            "visible": true
+          },
+          {
+            "key": {
+              "team": "yellow",
+              "id": 3
+            },
+            "x": -1.9,
+            "y": 0.0,
+            "yaw": 0.0,
+            "vx": 0.0,
+            "vy": 0.0,
+            "omega": 0.0,
+            "visible": true
+          }
+        ],
+        "ball": {
+          "x": 1.785,
+          "y": 0.0,
+          "vx": 0.0,
+          "vy": 0.0,
+          "visible": true,
+          "z": 0.0215,
+          "vz": 0.0
+        },
+        "referee": "running",
+        "attack_sign": 1
+      },
+      "context": "trap",
+      "success_s": 1.9379999999999997,
+      "failure": null,
+      "return_value": 1.9949599999999998,
+      "closest_arrival_error": null,
+      "closest_speed": null,
+      "target_speed": null,
+      "deflection_error_rad": null,
+      "first_touch_s": 0.968,
+      "defender_touch_s": null,
+      "body_contact_s": null,
+      "release_s": null,
+      "lead_m": null,
+      "receiver_progress_m": null,
+      "receiving_zone_error_m": null,
+      "kicks": 1,
+      "events": [
+        {
+          "kind": "kick",
+          "t": 0.0,
+          "who": {
+            "team": "yellow",
+            "id": 2
+          },
+          "speed": 2.4511298767247824,
+          "point": [
+            1.785,
+            0.0
+          ]
+        },
+        {
+          "kind": "trapped",
+          "t": 1.2240000000000002,
+          "point": [
+            -0.07140962244220458,
+            0.0032539101857047502
+          ]
+        }
+      ],
+      "terminal_state": {
+        "time": 1.9379999999999997,
+        "robots": [
+          {
+            "key": {
+              "team": "blue",
+              "id": 1
+            },
+            "x": 0.036974243975067586,
+            "y": 0.0026098848948770534,
+            "yaw": -0.02530551979765981,
+            "vx": 0.37210632171519376,
+            "vy": -0.007981857732923151,
+            "omega": 4.6854806733356586e-05,
+            "visible": true
+          },
+          {
+            "key": {
+              "team": "yellow",
+              "id": 2
+            },
+            "x": 1.9,
+            "y": 0.0,
+            "yaw": 3.141592653589793,
+            "vx": 0.0,
+            "vy": 0.0,
+            "omega": 6.677570121447699e-35,
+            "visible": true
+          },
+          {
+            "key": {
+              "team": "yellow",
+              "id": 3
+            },
+            "x": -1.9,
+            "y": 0.0,
+            "yaw": -7.761966929905058e-35,
+            "vx": 0.0,
+            "vy": 0.0,
+            "omega": 2.881367905694542e-38,
+            "visible": true
+          }
+        ],
+        "ball": {
+          "x": 0.1484300843145521,
+          "y": -0.0002268066277870765,
+          "vx": 0.3720463689752883,
+          "vy": -0.008064568226309821,
+          "visible": true,
+          "z": 0.021494421067566848,
+          "vz": -9.399645972857938e-07
+        },
+        "referee": "running",
+        "attack_sign": 1
+      },
+      "attempts": [
+        {
+          "seed": 24600,
+          "qualification_s": 1.9379999999998745,
+          "replay_s": 1.9379999999999997,
+          "failure": null
+        }
+      ],
+      "frame_count": 26
+    },
+    "deflect": {
+      "seed": 24601,
+      "candidate": "station_bounce",
+      "observed_start": {
+        "time": 0.0,
+        "robots": [
+          {
+            "key": {
+              "team": "blue",
+              "id": 1
+            },
+            "x": -0.18321384685475683,
+            "y": 0.6026788829070543,
+            "yaw": 0.5056684302316583,
+            "vx": 0.0,
+            "vy": 0.0,
+            "omega": 0.0,
+            "visible": true
+          },
+          {
+            "key": {
+              "team": "yellow",
+              "id": 2
+            },
+            "x": -1.9,
+            "y": 0.0,
+            "yaw": 0.0,
+            "vx": 0.0,
+            "vy": 0.0,
+            "omega": 0.0,
+            "visible": true
+          },
+          {
+            "key": {
+              "team": "yellow",
+              "id": 3
+            },
+            "x": 1.9,
+            "y": 0.0,
+            "yaw": 3.141592653589793,
+            "vx": 0.0,
+            "vy": 0.0,
+            "omega": 0.0,
+            "visible": true
+          }
+        ],
+        "ball": {
+          "x": -1.785,
+          "y": 0.0,
+          "vx": 0.0,
+          "vy": 0.0,
+          "visible": true,
+          "z": 0.0215,
+          "vz": 0.0
+        },
+        "referee": "running",
+        "attack_sign": 1
+      },
+      "context": "deflect",
+      "success_s": 1.638,
+      "failure": null,
+      "return_value": 1.8570281000130875,
+      "closest_arrival_error": null,
+      "closest_speed": null,
+      "target_speed": null,
+      "deflection_error_rad": 0.04772759994764986,
+      "first_touch_s": null,
+      "defender_touch_s": null,
+      "body_contact_s": null,
+      "release_s": null,
+      "lead_m": null,
+      "receiver_progress_m": null,
+      "receiving_zone_error_m": null,
+      "kicks": 1,
+      "events": [
+        {
+          "kind": "kick",
+          "t": 0.0,
+          "who": {
+            "team": "yellow",
+            "id": 2
+          },
+          "speed": 2.5179455377059234,
+          "point": [
+            -1.785,
+            0.0
+          ]
+        },
+        {
+          "kind": "body_deflection",
+          "t": 1.2759999999999998,
+          "point": [
+            0.39084521834479075,
+            -0.0016624413496551323
+          ]
+        }
+      ],
+      "terminal_state": {
+        "time": 1.638,
+        "robots": [
+          {
+            "key": {
+              "team": "blue",
+              "id": 1
+            },
+            "x": 0.4741974837829672,
+            "y": 0.0743572653407199,
+            "yaw": -2.4072060884554927,
+            "vx": -0.0010452183898906524,
+            "vy": 0.001548481260294641,
+            "omega": -0.008322711889490303,
+            "visible": true
+          },
+          {
+            "key": {
+              "team": "yellow",
+              "id": 2
+            },
+            "x": -1.9,
+            "y": 0.0,
+            "yaw": 1.5090237507803756e-22,
+            "vx": 0.0,
+            "vy": 0.0,
+            "omega": 3.6250158786813844e-24,
+            "visible": true
+          },
+          {
+            "key": {
+              "team": "yellow",
+              "id": 3
+            },
+            "x": 1.9,
+            "y": 0.0,
+            "yaw": 3.141592653589793,
+            "vx": 0.0,
+            "vy": 0.0,
+            "omega": -2.4334673705555274e-23,
+            "visible": true
+          }
+        ],
+        "ball": {
+          "x": 0.4713249793409817,
+          "y": -0.27034216165502795,
+          "vx": 0.2665071494328591,
+          "vy": -0.6751785684292464,
+          "visible": true,
+          "z": 0.02149548739999999,
+          "vz": 6.1986547221147085e-16
+        },
+        "referee": "running",
+        "attack_sign": 1
+      },
+      "attempts": [
+        {
+          "seed": 24601,
+          "qualification_s": 1.63799999999992,
+          "replay_s": 1.638,
+          "failure": null
+        }
+      ],
+      "frame_count": 28
+    }
+  },
+  "pass": {
+    "to feet": {
+      "seed": 14600,
+      "candidate": "full_lead",
+      "observed_start": {
+        "time": 0.0,
+        "robots": [
+          {
+            "key": {
+              "team": "blue",
+              "id": 1
+            },
+            "x": -1.3,
+            "y": 0.0,
+            "yaw": -0.06678508682189281,
+            "vx": 0.0,
+            "vy": 0.0,
+            "omega": 0.0,
+            "visible": true
+          },
+          {
+            "key": {
+              "team": "blue",
+              "id": 2
+            },
+            "x": 1.0619875948517492,
+            "y": -0.27145912047952386,
+            "yaw": 3.141592653589793,
+            "vx": 0.0,
+            "vy": 0.0,
+            "omega": 0.0,
+            "visible": true
+          }
+        ],
+        "ball": {
+          "x": -1.185256368939416,
+          "y": -0.007674576928571417,
+          "vx": 0.0,
+          "vy": 0.0,
+          "visible": true,
+          "z": 0.0215,
+          "vz": 0.0
+        },
+        "referee": "running",
+        "attack_sign": 1
+      },
+      "context": "to feet",
+      "success_s": 1.9140000000000006,
+      "failure": null,
+      "return_value": 1.9968799999999998,
+      "closest_arrival_error": null,
+      "closest_speed": null,
+      "target_speed": null,
+      "deflection_error_rad": null,
+      "first_touch_s": 1.6540000000000008,
+      "defender_touch_s": null,
+      "body_contact_s": null,
+      "release_s": 0.1200000000000001,
+      "lead_m": 0.0,
+      "receiver_progress_m": -0.05110240227197893,
+      "receiving_zone_error_m": 0.37536751000662233,
+      "kicks": 1,
+      "events": [
+        {
+          "kind": "kick",
+          "t": 0.1200000000000001,
+          "who": {
+            "team": "blue",
+            "id": 1
+          },
+          "speed": 2.4430414464559957,
+          "point": [
+            -1.1852559117930594,
+            -0.007668239834341045
+          ]
+        }
+      ],
+      "terminal_state": {
+        "time": 1.9140000000000006,
+        "robots": [
+          {
+            "key": {
+              "team": "blue",
+              "id": 1
+            },
+            "x": -1.2998398509504792,
+            "y": 0.0021109101101697892,
+            "yaw": -0.0848078143080725,
+            "vx": 0.0,
+            "vy": 0.0,
+            "omega": 9.562985469651237e-23,
+            "visible": true
+          },
+          {
+            "key": {
+              "team": "blue",
+              "id": 2
+            },
+            "x": 1.5435352879213164,
+            "y": -0.22035671820754493,
+            "yaw": 3.0531138714276382,
+            "vx": 0.16696527821396953,
+            "vy": -0.02824893846340918,
+            "omega": -0.09357719393463748,
+            "visible": true
+          }
+        ],
+        "ball": {
+          "x": 1.4323751859369016,
+          "y": -0.21051816595213188,
+          "vx": 0.14214078462973098,
+          "vy": -0.018140726334423835,
+          "visible": true,
+          "z": 0.02164940256774667,
+          "vz": -0.010156101028950058
+        },
+        "referee": "running",
+        "attack_sign": 1
+      },
+      "attempts": [
+        {
+          "seed": 14600,
+          "qualification_s": 1.914000000000101,
+          "replay_s": 1.9140000000000006,
+          "failure": null
+        }
+      ],
+      "frame_count": 25
+    },
+    "on the run": {
+      "seed": 14601,
+      "candidate": "full_lead",
+      "observed_start": {
+        "time": 0.0,
+        "robots": [
+          {
+            "key": {
+              "team": "blue",
+              "id": 1
+            },
+            "x": -1.3,
+            "y": 0.0,
+            "yaw": 0.009815475098616015,
+            "vx": 0.0,
+            "vy": 0.0,
+            "omega": 0.0,
+            "visible": true
+          },
+          {
+            "key": {
+              "team": "blue",
+              "id": 2
+            },
+            "x": 0.9023137783895976,
+            "y": 0.060325590344347924,
+            "yaw": 3.141592653589793,
+            "vx": 0.0,
+            "vy": -0.47814390240094273,
+            "omega": 0.0,
+            "visible": true
+          }
+        ],
+        "ball": {
+          "x": -1.1850055397097297,
+          "y": 0.0011287615113216658,
+          "vx": 0.0,
+          "vy": 0.0,
+          "visible": true,
+          "z": 0.0215,
+          "vz": 0.0
+        },
+        "referee": "running",
+        "attack_sign": 1
+      },
+      "context": "on the run",
+      "success_s": 2.3340000000000014,
+      "failure": null,
+      "return_value": 1.9632799999999997,
+      "closest_arrival_error": null,
+      "closest_speed": null,
+      "target_speed": null,
+      "deflection_error_rad": null,
+      "first_touch_s": 2.072000000000001,
+      "defender_touch_s": null,
+      "body_contact_s": null,
+      "release_s": 0.5200000000000014,
+      "lead_m": 0.7721586206282212,
+      "receiver_progress_m": 0.8810077658675324,
+      "receiving_zone_error_m": 0.3570921591257587,
+      "kicks": 1,
+      "events": [
+        {
+          "kind": "kick",
+          "t": 0.5200000000000014,
+          "who": {
+            "team": "blue",
+            "id": 1
+          },
+          "speed": 2.4682341639142855,
+          "point": [
+            -1.1839858962472918,
+            0.005381330362561308
+          ]
+        }
+      ],
+      "terminal_state": {
+        "time": 2.3340000000000014,
+        "robots": [
+          {
+            "key": {
+              "team": "blue",
+              "id": 1
+            },
+            "x": -1.2870915819075368,
+            "y": 0.05631565979348098,
+            "yaw": -0.4583871426371852,
+            "vx": 0.0,
+            "vy": 0.0,
+            "omega": -3.1862371380990106e-08,
+            "visible": true
+          },
+          {
+            "key": {
+              "team": "blue",
+              "id": 2
+            },
+            "x": 1.356782024811876,
+            "y": -1.2252302763047638,
+            "yaw": 2.677519634568724,
+            "vx": 0.2860635496416011,
+            "vy": -0.1569280554972819,
+            "omega": -0.14332864545223853,
+            "visible": true
+          }
+        ],
+        "ball": {
+          "x": 1.254680105481866,
+          "y": -1.1742843404682153,
+          "vx": 0.26977570303520515,
+          "vy": -0.14417326866624813,
+          "visible": true,
+          "z": 0.02145132561349173,
+          "vz": 0.011521789189886708
+        },
+        "referee": "running",
+        "attack_sign": 1
+      },
+      "attempts": [
+        {
+          "seed": 14601,
+          "qualification_s": 2.33400000000006,
+          "replay_s": 2.3340000000000014,
+          "failure": null
+        }
+      ],
+      "frame_count": 31
+    }
+  },
+  "receive_race": {
+    "slow rival": {
+      "seed": 44602,
+      "candidate": "premeet_long",
+      "observed_start": {
+        "time": 0.0,
+        "robots": [
+          {
+            "key": {
+              "team": "blue",
+              "id": 1
+            },
+            "x": -1.3,
+            "y": 0.0,
+            "yaw": 0.025727882148827166,
+            "vx": 0.0,
+            "vy": 0.0,
+            "omega": 0.0,
+            "visible": true
+          },
+          {
+            "key": {
+              "team": "blue",
+              "id": 2
+            },
+            "x": 0.6003432707504952,
+            "y": -0.16786340977159575,
+            "yaw": 3.141592653589793,
+            "vx": 0.0,
+            "vy": 0.36841473283067494,
+            "omega": 0.0,
+            "visible": true
+          },
+          {
+            "key": {
+              "team": "yellow",
+              "id": 1
+            },
+            "x": 0.3939716820841158,
+            "y": 0.7690317950185582,
+            "yaw": 3.141592653589793,
+            "vx": 0.0,
+            "vy": 0.0,
+            "omega": 0.0,
+            "visible": true
+          }
+        ],
+        "ball": {
+          "x": -1.185038058526002,
+          "y": 0.0029583800514895653,
+          "vx": 0.0,
+          "vy": 0.0,
+          "visible": true,
+          "z": 0.0215,
+          "vz": 0.0
+        },
+        "referee": "running",
+        "attack_sign": 1
+      },
+      "context": "slow rival",
+      "success_s": 1.3620000000000019,
+      "failure": null,
+      "return_value": 2.0410399999999997,
+      "closest_arrival_error": null,
+      "closest_speed": null,
+      "target_speed": null,
+      "deflection_error_rad": null,
+      "first_touch_s": 1.1039999999999992,
+      "defender_touch_s": null,
+      "body_contact_s": null,
+      "release_s": 0.4399999999999995,
+      "lead_m": 0.4836223194251905,
+      "receiver_progress_m": 0.20403221162466273,
+      "receiving_zone_error_m": 0.576020180401174,
+      "kicks": 1,
+      "events": [
+        {
+          "kind": "kick",
+          "t": 0.4399999999999995,
+          "who": {
+            "team": "blue",
+            "id": 1
+          },
+          "speed": 2.3531514729821326,
+          "point": [
+            -1.1848894587470313,
+            0.002025284339088493
+          ]
+        }
+      ],
+      "terminal_state": {
+        "time": 1.3620000000000019,
+        "robots": [
+          {
+            "key": {
+              "team": "blue",
+              "id": 1
+            },
+            "x": -1.294777111349725,
+            "y": -0.0318832000725357,
+            "yaw": 0.29890818882488585,
+            "vx": 0.0,
+            "vy": 0.0,
+            "omega": 1.3019105266746722e-22,
+            "visible": true
+          },
+          {
+            "key": {
+              "team": "blue",
+              "id": 2
+            },
+            "x": 0.18237465937032057,
+            "y": 0.41444518680232895,
+            "yaw": -2.8372712432119376,
+            "vx": 0.15708876611495737,
+            "vy": 0.0665773972362095,
+            "omega": -0.0070314419498479245,
+            "visible": true
+          },
+          {
+            "key": {
+              "team": "yellow",
+              "id": 1
+            },
+            "x": 0.44300923331758546,
+            "y": 0.4922240164123631,
+            "yaw": -2.8395307926030298,
+            "vx": -0.5554405106012772,
+            "vy": -0.18558656624540135,
+            "omega": -0.04089120692348347,
+            "visible": true
+          }
+        ],
+        "ball": {
+          "x": 0.07507899699065726,
+          "y": 0.3808895328926656,
+          "vx": 0.10809207449791326,
+          "vy": 0.04099348212045488,
+          "visible": true,
+          "z": 0.021477072758217797,
+          "vz": 0.0023186167789017863
+        },
+        "referee": "running",
+        "attack_sign": 1
+      },
+      "attempts": [
+        {
+          "seed": 44600,
+          "qualification_s": 2.108000000000061,
+          "replay_s": null,
+          "failure": "timeout"
+        },
+        {
+          "seed": 44602,
+          "qualification_s": 1.3600000000000136,
+          "replay_s": 1.3620000000000019,
+          "failure": null
+        }
+      ],
+      "frame_count": 19
+    },
+    "fast rival": {
+      "seed": 44605,
+      "candidate": "premeet_long",
+      "observed_start": {
+        "time": 0.0,
+        "robots": [
+          {
+            "key": {
+              "team": "blue",
+              "id": 1
+            },
+            "x": -1.3,
+            "y": 0.0,
+            "yaw": -0.11993616769611959,
+            "vx": 0.0,
+            "vy": 0.0,
+            "omega": 0.0,
+            "visible": true
+          },
+          {
+            "key": {
+              "team": "blue",
+              "id": 2
+            },
+            "x": 0.8426929563407255,
+            "y": -0.2739848044696915,
+            "yaw": 3.141592653589793,
+            "vx": 0.0,
+            "vy": -0.4389648818405681,
+            "omega": 0.0,
+            "visible": true
+          },
+          {
+            "key": {
+              "team": "yellow",
+              "id": 1
+            },
+            "x": 0.33120987852659867,
+            "y": -1.3647347442912638,
+            "yaw": 3.141592653589793,
+            "vx": 0.0,
+            "vy": 0.0,
+            "omega": 0.0,
+            "visible": true
+          }
+        ],
+        "ball": {
+          "x": -1.1858261283362193,
+          "y": -0.013759615884991644,
+          "vx": 0.0,
+          "vy": 0.0,
+          "visible": true,
+          "z": 0.0215,
+          "vz": 0.0
+        },
+        "referee": "running",
+        "attack_sign": 1
+      },
+      "context": "fast rival",
+      "success_s": 1.6499999999999986,
+      "failure": null,
+      "return_value": 2.0180000000000002,
+      "closest_arrival_error": null,
+      "closest_speed": null,
+      "target_speed": null,
+      "deflection_error_rad": null,
+      "first_touch_s": 1.25,
+      "defender_touch_s": null,
+      "body_contact_s": null,
+      "release_s": 0.5199999999999996,
+      "lead_m": 0.5975990399828717,
+      "receiver_progress_m": 0.020839138502080412,
+      "receiving_zone_error_m": 0.9242734799472117,
+      "kicks": 1,
+      "events": [
+        {
+          "kind": "kick",
+          "t": 0.5199999999999996,
+          "who": {
+            "team": "blue",
+            "id": 1
+          },
+          "speed": 2.481355309451106,
+          "point": [
+            -1.184646128101181,
+            -0.010332013238184388
+          ]
+        }
+      ],
+      "terminal_state": {
+        "time": 1.6499999999999986,
+        "robots": [
+          {
+            "key": {
+              "team": "blue",
+              "id": 1
+            },
+            "x": -1.2827954702818927,
+            "y": 0.049599461778181635,
+            "yaw": -0.5478233552101117,
+            "vx": 0.0,
+            "vy": 0.0,
+            "omega": 1.3570632285253452e-22,
+            "visible": true
+          },
+          {
+            "key": {
+              "team": "blue",
+              "id": 2
+            },
+            "x": 0.20586423059759018,
+            "y": -0.8342498338613616,
+            "yaw": 2.628514818999534,
+            "vx": 0.09780416157573843,
+            "vy": -0.05466613878267974,
+            "omega": 0.005303820507176482,
+            "visible": true
+          },
+          {
+            "key": {
+              "team": "yellow",
+              "id": 1
+            },
+            "x": 0.4297473378621255,
+            "y": -0.9584911845274487,
+            "yaw": 2.6295079173936746,
+            "vx": -0.38939244821987307,
+            "vy": 0.2657651848441833,
+            "omega": 0.013802422181223848,
+            "visible": true
+          }
+        ],
+        "ball": {
+          "x": 0.10672325103780929,
+          "y": -0.7785275169639048,
+          "vx": 0.08122324494005527,
+          "vy": -0.04536988182428991,
+          "visible": true,
+          "z": 0.021495321276765993,
+          "vz": 2.0916840426760846e-05
+        },
+        "referee": "running",
+        "attack_sign": 1
+      },
+      "attempts": [
+        {
+          "seed": 44605,
+          "qualification_s": 1.6480000000000246,
+          "replay_s": 1.6499999999999986,
+          "failure": null
+        }
+      ],
+      "frame_count": 22
+    }
+  }
+}

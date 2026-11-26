@@ -1,5 +1,6 @@
 #VRML_SIM R2025a utf8
 IMPORTABLE EXTERNPROTO "../protos/SslRobot.proto"
+IMPORTABLE EXTERNPROTO "../protos/SslFlatChestRobot.proto"
 EXTERNPROTO "../protos/SslBall.proto"
 EXTERNPROTO "../protos/SslDivisionBField.proto"
 

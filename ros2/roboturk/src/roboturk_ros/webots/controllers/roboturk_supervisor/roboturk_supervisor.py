@@ -13,6 +13,11 @@ from roboturk.webots_backend import WebotsBackend
 def main():
     supervisor = Supervisor()
     mode = os.environ.get("ROBOTURK_MODE", "evaluate")
+    if mode in ("primitive-dojo", "primitive-dojo-demo", "primitive-dojo-transfer"):
+        from primitive_dojo_runner import run
+
+        run(supervisor, mode)
+        return
     if mode in ("receive-dojo", "receive-dojo-demo"):
         from receive_dojo import run
 

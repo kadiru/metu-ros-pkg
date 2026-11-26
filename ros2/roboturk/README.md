@@ -4,6 +4,12 @@ A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk st
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 
+## Arrival, interception and passing drills
+
+Four Webots drills train arrival at a specified pose and speed, trapping or redirecting a rolling ball, leading a moving teammate, and receiving under pressure. Starting the reception run before release improved contested passes from 18 to 32 on the same 40 starts. [Training curves, fitted profiles and Webots replays](media/primitive-dojo/README.md)
+
+[![Native Webots demos of moving arrival, body redirect, lead passing and contested reception](media/primitive-dojo/webots-drills.gif)](media/primitive-dojo/README.md)
+
 ## Watch each robot's role live
 
 Set each team's playbook in Practice and tune the shared motion limits before kickoff or from the gear during a live match. Pick your team color in Game, then follow role assignments, tactics, and motion commands live in Webots. [Run the match viewer](media/match-viewer/README.md)

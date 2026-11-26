@@ -22,6 +22,7 @@ from .model import (
 
 class WebotsBackend:
     name = "webots_ideal_body_velocity"
+    robot_proto = "SslRobot"
 
     def __init__(self, supervisor, cfg=Config()):
         defaults = Config()
@@ -50,7 +51,7 @@ class WebotsBackend:
                 # World has local EXTERNPROTO declarations; entities can be spawned on reset.
                 color = "0.05 0.25 0.95" if r.key.team == "blue" else "0.95 0.8 0.05"
                 self.supervisor.getRoot().getField("children").importMFNodeFromString(
-                    -1, f'DEF {name} SslRobot {{ name "{name}" color {color} }}'
+                    -1, f'DEF {name} {self.robot_proto} {{ name "{name}" color {color} }}'
                 )
                 node = self.supervisor.getFromDef(name)
             self.nodes[r.key] = node

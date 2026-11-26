@@ -49,6 +49,9 @@ def main():
             "dribble-demo",
             "receive-dojo",
             "receive-dojo-demo",
+            "primitive-dojo",
+            "primitive-dojo-demo",
+            "primitive-dojo-transfer",
             "opponents-train",
             "opponents-challenge",
             "opponents-evaluate",
@@ -90,6 +93,16 @@ def main():
     parser.add_argument("--episodes", type=int, default=10)
     parser.add_argument("--steps", type=int, default=2048)
     parser.add_argument("--seed", type=int, default=1000)
+    parser.add_argument(
+        "--dojo-task",
+        choices=("all", "arrival", "intercept", "pass", "receive_race"),
+        default="all",
+    )
+    parser.add_argument(
+        "--dojo-stages",
+        default="8,24,48",
+        help="Cumulative starts per candidate for the primitive dojo",
+    )
     parser.add_argument("--output", default="runs/webots/result")
     parser.add_argument("--checkpoint")
     parser.add_argument("--carry-profile", help="Closing-marker carry parameters (JSON)")
@@ -105,13 +118,15 @@ def main():
         parser.error("episodes, steps and timeout must be positive")
     if args.mode == "receive-dojo-demo" and not args.checkpoint:
         parser.error("Pass the receive-dojo comparison JSON with --checkpoint")
+    if args.mode in ("primitive-dojo-demo", "primitive-dojo-transfer") and not args.checkpoint:
+        parser.error("Pass the primitive-dojo results JSON with --checkpoint")
     env = dict(os.environ)
     env["PATH"] = str(Path(sys.executable).parent) + os.pathsep + env["PATH"]
     env["PYTHONPATH"] = os.pathsep.join(
         [str(root / "src/roboturk_core"), str(root / "src/roboturk_ros"), env.get("PYTHONPATH", "")]
     )
     for name, value in vars(args).items():
-        if name in ("mode", "skill", "episodes", "steps", "seed"):
+        if name in ("mode", "skill", "episodes", "steps", "seed", "dojo_task", "dojo_stages"):
             env["ROBOTURK_" + name.upper()] = str(value)
     if args.mode == "physics-check" and args.render:
         env["ROBOTURK_FILM_ROLL"] = "1"
@@ -146,7 +161,7 @@ def main():
         "--stderr",
         "--mode=realtime" if args.mode == "ros" else "--mode=fast",
     ]
-    if not args.render and args.mode != "receive-dojo-demo":
+    if not args.render and args.mode not in ("receive-dojo-demo", "primitive-dojo-demo"):
         command += ["--no-rendering", "--minimize"]
     command.append(str(root / "src/roboturk_ros/webots/worlds/ssl_training.wbt"))
     process = subprocess.Popen(command, env=env, start_new_session=True)

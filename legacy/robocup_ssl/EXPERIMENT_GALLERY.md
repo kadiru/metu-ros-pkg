@@ -3,7 +3,7 @@
 **RoboCup Small Size League · omnidirectional robots · planning · Webots**\
 METU IEEE Student Branch, Robotics and Automation Society · 2009–2011
 
-[Repository overview](../../README.md) · [Match GIFs](#robot-soccer-in-webots) · [Code map](#explore-the-code) · [Archival demos](#watch-the-experiments) · [Research](#papers-and-technical-reports) · [Affordance-learning stack](../affordance_learning/README.md)
+[Repository overview](../../README.md) · [Match GIFs](#robot-soccer-in-webots) · [Code map](#explore-the-code) · [Archival demos](#watch-the-experiments) · [Research](#papers-and-technical-reports) · [Affordance-learning stack](../../stacks/affordance_learning/README.md)
 
 ## From a global field view to robot motion
 

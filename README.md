@@ -1,6 +1,6 @@
 # From seeing the world to acting in it.
 
-Two strands of robotics research at Middle East Technical University: **iCub learns what actions mean; RoboTurk coordinates a team on the soccer field.** This repository preserves the collaborative ROS research archive and provides an entry point to the ongoing RoboTurk ROS 2/Webots successor.
+Two strands of robotics research at Middle East Technical University: **iCub learns what actions mean; RoboTurk coordinates a team on the soccer field.** This repository hosts the active RoboTurk ROS 2 and Webots project and preserves the collaborative ROS 1 research archive.
 
 ![Robots that learn what is possible — perception, affordances, planning and action](docs/assets/affordance-hero.svg)
 
@@ -8,10 +8,10 @@ Two strands of robotics research at Middle East Technical University: **iCub lea
 
 | Project | Core question | Explore |
 | --- | --- | --- |
-| **RoboTurk — robot soccer** | How do robots perceive a shared field, find space, win the ball and coordinate a play? | [Demo, results and code map](stacks/robocup_ssl/README.md) |
+| **RoboTurk — robot soccer** | How do robots perceive a shared field, find space, win the ball and coordinate a play? | [ROS 2 code, setup, and demos](ros2/roboturk/README.md) · [ROS 1 archive](legacy/robocup_ssl/README.md) |
 | **iCub — affordances and language** | Can a robot ground words and plans in the effects of its actions and the help a person can provide? | [Research story, demonstration and papers](stacks/affordance_learning/README.md) |
 
-[![A Webots match: Blue 2 challenges Yellow and takes the ball](docs/assets/roboturk-webots/5v5-takeaway.gif)](stacks/robocup_ssl/README.md)
+[![A Webots match: Blue 2 challenges Yellow and takes the ball](docs/assets/roboturk-webots/5v5-takeaway.gif)](ros2/roboturk/README.md)
 
 *RoboTurk's modern Webots simulation. [Matched trial record and control boundaries](https://github.com/kadiru/metu-ros-pkg/blob/ba71026d0843d4057ab620798c725e4dd5078ecf/ros2/roboturk/media/live-tackle/README.md). Historical hardware and modern simulation are documented separately.*
 
@@ -23,7 +23,8 @@ This was team research. Paper author lists, original source authors and per-file
 
 ## Know which version you are reading
 
-- **`stacks/` on the default branch:** historical ROS 1 / rosbuild-era code, including multiple experimental versions. A current build is not validated.
-- **[RoboTurk ROS 2 successor](https://github.com/kadiru/metu-ros-pkg/tree/codex/roboturk-ros2/ros2/roboturk):** active work on a separate branch and [draft PR](https://github.com/kadiru/metu-ros-pkg/pull/1). Its guide contains current setup and evaluation details.
+- **[RoboTurk ROS 2](ros2/roboturk/README.md)** is the active soccer project. Its guide covers setup, the match interface, and current evaluation results.
+- **[RoboTurk ROS 1 archive](legacy/robocup_ssl/README.md)** contains the original code, research illustrations, and experiment gallery.
+- **[Affordance-learning research](stacks/affordance_learning/README.md)** retains its original stack and project page.
 
 For a quick review, follow one project page into its demonstration, a named result and the corresponding source file. Reproducing the archive requires restoring legacy dependencies; the modern successor is the appropriate starting point for new RoboTurk experiments.

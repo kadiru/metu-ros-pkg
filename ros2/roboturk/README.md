@@ -1,6 +1,6 @@
 # RoboTurk: ROS 2, Webots and learned soccer skills
 
-A modern, separately maintained successor to [Kadir Fırat Uyanık's RoboTurk stack](https://github.com/kadiru/metu-ros-pkg/tree/master/stacks/robocup_ssl). The historical checkout is preserved at `../upstream`; no archival sources were overwritten.
+The active successor to [Kadir Fırat Uyanık's RoboTurk stack](../../legacy/robocup_ssl/README.md). The archived project contains the original ROS 1 implementation, research material, and licenses.
 
 A research prototype with learned soccer skills, continuous 2v2, 3v3 and 5v5 play, ROS 2 messages/nodes and a native Webots Supervisor backend. It is not a competition-ready team. See [validation](docs/VALIDATION.md) for exactly what has run.
 

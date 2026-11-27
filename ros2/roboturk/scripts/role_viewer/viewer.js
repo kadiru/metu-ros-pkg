@@ -275,7 +275,10 @@ function makeRosterButton(team, number, robot) {
   role.className = "roster-role";
   const task = document.createElement("span");
   task.className = "roster-task";
-  element.append(id, role, task);
+  const assignment = document.createElement("span");
+  assignment.className = "roster-assignment";
+  assignment.append(role, task);
+  element.append(id, assignment);
   element.addEventListener("click", () => {
     if (overlayEnabled.has(robot)) overlayEnabled.delete(robot);
     else overlayEnabled.add(robot);
@@ -310,9 +313,12 @@ function initializeTeams() {
     robotSelect.append(options);
     const plan = byId(`${team}-plan`);
     plan.append(byId("team-plan-template").content.cloneNode(true));
+    plan.querySelector(".lineup-team").textContent = label;
     teamPlans[team] = {
-      plan, labels: plan.querySelectorAll("[data-plan]"),
-      step: plan.querySelector('[data-plan="step"]').parentElement,
+      play: plan.querySelector('[data-plan="play"]'),
+      strategy: plan.querySelector('[data-plan="strategy"]'),
+      step: plan.querySelector('[data-plan="step"]'),
+      summary: plan.querySelector(".plan-summary"),
     };
     byId(`${team}-overlay`).addEventListener("click", () => {
       const roster = keys.flatMap(([color], robot) => color === team ? [robot] : []);
@@ -401,18 +407,17 @@ function updateLineup(frame) {
     button.disabled = !roster.length;
     button.setAttribute("aria-pressed", enabled === 0 ? "false" : enabled === roster.length ? "true" : "mixed");
     const entry = frame.plays?.[index];
-    const { plan, labels, step } = teamPlans[team];
-    plan.hidden = !entry;
-    if (entry) {
-      for (const label of labels) {
-        const value = entry[label.dataset.plan] ?? "";
-        if (label.textContent !== value) {
-          label.textContent = value;
-          label.title = value;
-        }
-      }
-      step.title = entry.reason ?? "";
+    const { play, strategy, step, summary } = teamPlans[team];
+    for (const label of [play, strategy, step]) {
+      const value = entry?.[label.dataset.plan] ?? "";
+      if (label.textContent !== value) label.textContent = value;
+      const item = label.parentElement.matches("[data-plan-item]") ? label.parentElement : label;
+      item.hidden = !value;
     }
+    summary.hidden = !entry?.strategy && !entry?.step;
+    const preference = entry?.passing;
+    strategy.title = preference && preference !== "Preset default" ? preference : "";
+    step.title = entry?.reason ?? "";
   }
   lineup.forEach(({ element, role, task }, robot) => {
     const current = roleName(frame.roles[robot]);

@@ -55,7 +55,7 @@ h3 { margin-bottom: 5px; font-size: 12px; font-weight: 650; color: var(--muted);
 .top-limits input[type="range"] { display: block; height: 14px; min-width: 0; margin: 0; }
 .top-limits input:disabled { opacity: .48; cursor: default; }
 .limit-feedback { color: var(--yellow); font-size: 11px; max-width: 150px; }
-.scoreboard, .board, .inspector, .lineup, .event-panel { border: 1px solid var(--line); border-radius: var(--round); background: var(--panel); }
+.scoreboard, .board, .inspector, .event-panel { border: 1px solid var(--line); border-radius: var(--round); background: var(--panel); }
 .scoreboard { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 5px 10px; min-height: 46px; }
 .score, .score-team, .game-info { display: flex; align-items: center; }
 .score { gap: 8px; }
@@ -138,14 +138,6 @@ button.primary:hover { background: #c1eed3; }
 .translation-row { display: flex; align-items: center; gap: 7px; }
 .motion-value, .turn-readout { display: grid; gap: 2px; }
 .turn-readout { border-inline-start: 1px solid var(--line); padding-inline-start: 10px; }
-.team-plan { min-width: 0; }
-.plan-chain { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin: 0; padding: 0; list-style: none; }
-.plan-chain li { position: relative; display: grid; align-content: start; gap: 4px; padding: 6px; color: var(--muted); background: #111e29; border: 1px solid var(--line); border-radius: 6px; font-size: 10px; line-height: 1.25; }
-.plan-chain li:last-child { background: #20382e; border-color: #416857; }
-.plan-chain li:not(:last-child)::after { content: "›"; position: absolute; top: 5px; right: -6px; z-index: 1; color: var(--mint); }
-.plan-chain li > span, .plan-chain small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.plan-chain strong { block-size: 2lh; font-size: 12px; color: var(--text); }
-.plan-chain small { block-size: 1lh; font-size: 10px; }
 .vector-dial { --dial-size: 38px; flex: 0 0 var(--dial-size); height: var(--dial-size); border-radius: 50%; border: 1px solid #637684; position: relative; background: repeating-radial-gradient(circle, transparent 0 7px, #293d49 8px 9px, transparent 10px 16px); }
 .vector-dial > span { position: absolute; inset: 1px 0 auto; z-index: 1; text-align: center; color: var(--muted); font-size: 8px; }
 .vector-dial::before, .vector-dial::after { content: ""; position: absolute; background: #3c5260; left: 50%; top: 50%; transform: translate(-50%, -50%); }
@@ -189,9 +181,16 @@ button.primary:hover { background: #c1eed3; }
 .role-changes .past-role-duration { grid-area: 2 / 1; font-size: 10px; font-weight: 500; line-height: 13px; white-space: nowrap; }
 .role-changes strong { color: var(--role-color); }
 .role-changes span { grid-column: 2; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; color: var(--muted); line-height: 13px; }
-.lineups { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
-.lineup { min-width: 0; border-color: color-mix(in srgb, var(--team) 24%, var(--line)); background: color-mix(in srgb, var(--team) 8%, var(--panel)); }
-.lineup-controls { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px; align-items: start; padding: 9px 10px 6px; }
+.lineups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px 20px; margin: 15px 5px 0; }
+.lineup { min-width: 0; }
+.lineup-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px; align-items: start; min-height: 58px; padding: 0 0 7px 4px; }
+.lineup-heading { color: var(--text); font-size: 14px; margin: 0 0 4px; line-height: 1.25; }
+.lineup-team { color: var(--team); }
+.lineup-heading [data-plan="play"]::before { content: " · "; color: var(--muted); }
+.plan-summary { display: flex; flex-wrap: wrap; gap: 2px 10px; margin: 0; font-size: 11px; line-height: 1.3; }
+.plan-summary div { display: flex; align-items: baseline; gap: 4px; min-width: 0; }
+.plan-summary dt { color: var(--muted); }
+.plan-summary dd { color: var(--text); margin: 0; overflow-wrap: anywhere; }
 .team-overlay { grid-area: 1 / 2; display: grid; place-items: center; width: 27px; min-height: 27px; padding: 0; color: var(--team); background: transparent; border-color: color-mix(in srgb, var(--team) 25%, var(--line)); }
 .team-overlay::before, .team-overlay::after { content: ""; grid-area: 1 / 1; width: 9px; height: 9px; border: 1px solid currentColor; border-radius: 2px; transform: translateY(-2px) rotate(45deg); }
 .team-overlay::after { border-width: 0 1px 1px 0; transform: translateY(2px) rotate(45deg); }
@@ -204,16 +203,14 @@ button.primary:hover { background: #c1eed3; }
 .overlay-key .chip-key::before { border-top-style: dotted; }
 .overlay-key .mouth-key::before { width: 7px; height: 7px; border: 1px solid #e7f4e7; border-radius: 50%; }
 .kick-readout { overflow-wrap: anywhere; color: var(--text); }
-.roster { padding: 0 10px 9px; }
-.roster button { display: grid; grid-template-columns: 23px minmax(52px, .7fr) minmax(0, 1.6fr); width: 100%; align-content: start; align-items: baseline; text-align: left; gap: 6px; block-size: calc(2lh + 16px); line-height: 1.2; border: 1px solid transparent; padding: 7px 6px; background: transparent; }
-.roster button + button { border-top-color: var(--line); }
+.roster button { display: grid; grid-template-columns: 23px minmax(0, 1fr); width: 100%; align-content: start; align-items: baseline; text-align: left; gap: 6px; block-size: 53px; line-height: 1.2; border: 1px solid transparent; border-top-color: var(--line); border-radius: 0; padding: 5px 4px; background: transparent; }
 .roster button:hover { background: var(--panel2); }
 .roster button[aria-pressed="true"] { background: color-mix(in srgb, var(--team) 10%, transparent); border-color: color-mix(in srgb, var(--team) 45%, transparent); }
 .roster button[aria-current="true"] { box-shadow: inset 2px 0 var(--team); }
-.roster-id { color: var(--team); font-variant-numeric: tabular-nums; }
-.roster-role { font-size: 12px; }
-.roster-task { color: var(--muted); font-size: 11px; font-weight: 500; line-height: 1.3; }
-.plan-chain strong, .roster-role, .roster-task { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; overflow-wrap: anywhere; }
+.roster-id { color: var(--team); font-variant-numeric: tabular-nums; font-weight: 550; }
+.roster-assignment { display: grid; min-width: 0; gap: 2px; }
+.roster-role { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.roster-task { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; overflow-wrap: anywhere; color: var(--muted); font-size: 11px; font-weight: 500; line-height: 1.25; }
 .event-panel { margin-top: 15px; overflow: hidden; }
 .event-navigation { display: flex; align-items: center; gap: 5px; }
 .event-navigation .label { margin-right: 3px; }
@@ -375,26 +372,26 @@ button.primary:hover { background: #c1eed3; }
       </section>
       <section class="lineups" aria-label="Team lineups">
         <section class="lineup blue" aria-label="Blue lineup">
-          <div class="lineup-controls">
-            <div id="blue-plan" class="team-plan" hidden></div>
+          <header class="lineup-header">
+            <div id="blue-plan" class="team-plan"></div>
             <button type="button" class="team-overlay" id="blue-overlay" aria-label="Toggle Blue overlays" title="Toggle Blue overlays" aria-pressed="false" disabled></button>
-          </div>
+          </header>
           <div id="blue-roster" class="roster"></div>
         </section>
         <section class="lineup yellow" aria-label="Yellow lineup">
-          <div class="lineup-controls">
-            <div id="yellow-plan" class="team-plan" hidden></div>
+          <header class="lineup-header">
+            <div id="yellow-plan" class="team-plan"></div>
             <button type="button" class="team-overlay" id="yellow-overlay" aria-label="Toggle Yellow overlays" title="Toggle Yellow overlays" aria-pressed="false" disabled></button>
-          </div>
+          </header>
           <div id="yellow-roster" class="roster"></div>
         </section>
       </section>
       <template id="team-plan-template">
-        <ol class="plan-chain" aria-label="Team plan">
-          <li><span>Strategy</span><strong data-plan="strategy"></strong><small data-plan="passing"></small></li>
-          <li><span>Play</span><strong data-plan="play"></strong></li>
-          <li><span>Current step</span><strong data-plan="step"></strong></li>
-        </ol>
+        <h3 class="lineup-heading"><span class="lineup-team"></span><span data-plan="play" hidden></span></h3>
+        <dl class="plan-summary" hidden>
+          <div data-plan-item hidden><dt>Strategy</dt><dd data-plan="strategy"></dd></div>
+          <div data-plan-item hidden><dt>Step</dt><dd data-plan="step"></dd></div>
+        </dl>
       </template>
       </div>
 
@@ -755,7 +752,10 @@ function makeRosterButton(team, number, robot) {
   role.className = "roster-role";
   const task = document.createElement("span");
   task.className = "roster-task";
-  element.append(id, role, task);
+  const assignment = document.createElement("span");
+  assignment.className = "roster-assignment";
+  assignment.append(role, task);
+  element.append(id, assignment);
   element.addEventListener("click", () => {
     if (overlayEnabled.has(robot)) overlayEnabled.delete(robot);
     else overlayEnabled.add(robot);
@@ -790,9 +790,12 @@ function initializeTeams() {
     robotSelect.append(options);
     const plan = byId(`${team}-plan`);
     plan.append(byId("team-plan-template").content.cloneNode(true));
+    plan.querySelector(".lineup-team").textContent = label;
     teamPlans[team] = {
-      plan, labels: plan.querySelectorAll("[data-plan]"),
-      step: plan.querySelector('[data-plan="step"]').parentElement,
+      play: plan.querySelector('[data-plan="play"]'),
+      strategy: plan.querySelector('[data-plan="strategy"]'),
+      step: plan.querySelector('[data-plan="step"]'),
+      summary: plan.querySelector(".plan-summary"),
     };
     byId(`${team}-overlay`).addEventListener("click", () => {
       const roster = keys.flatMap(([color], robot) => color === team ? [robot] : []);
@@ -881,18 +884,17 @@ function updateLineup(frame) {
     button.disabled = !roster.length;
     button.setAttribute("aria-pressed", enabled === 0 ? "false" : enabled === roster.length ? "true" : "mixed");
     const entry = frame.plays?.[index];
-    const { plan, labels, step } = teamPlans[team];
-    plan.hidden = !entry;
-    if (entry) {
-      for (const label of labels) {
-        const value = entry[label.dataset.plan] ?? "";
-        if (label.textContent !== value) {
-          label.textContent = value;
-          label.title = value;
-        }
-      }
-      step.title = entry.reason ?? "";
+    const { play, strategy, step, summary } = teamPlans[team];
+    for (const label of [play, strategy, step]) {
+      const value = entry?.[label.dataset.plan] ?? "";
+      if (label.textContent !== value) label.textContent = value;
+      const item = label.parentElement.matches("[data-plan-item]") ? label.parentElement : label;
+      item.hidden = !value;
     }
+    summary.hidden = !entry?.strategy && !entry?.step;
+    const preference = entry?.passing;
+    strategy.title = preference && preference !== "Preset default" ? preference : "";
+    step.title = entry?.reason ?? "";
   }
   lineup.forEach(({ element, role, task }, robot) => {
     const current = roleName(frame.roles[robot]);

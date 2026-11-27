@@ -105,26 +105,26 @@
       </section>
       <section class="lineups" aria-label="Team lineups">
         <section class="lineup blue" aria-label="Blue lineup">
-          <div class="lineup-controls">
-            <div id="blue-plan" class="team-plan" hidden></div>
+          <header class="lineup-header">
+            <div id="blue-plan" class="team-plan"></div>
             <button type="button" class="team-overlay" id="blue-overlay" aria-label="Toggle Blue overlays" title="Toggle Blue overlays" aria-pressed="false" disabled></button>
-          </div>
+          </header>
           <div id="blue-roster" class="roster"></div>
         </section>
         <section class="lineup yellow" aria-label="Yellow lineup">
-          <div class="lineup-controls">
-            <div id="yellow-plan" class="team-plan" hidden></div>
+          <header class="lineup-header">
+            <div id="yellow-plan" class="team-plan"></div>
             <button type="button" class="team-overlay" id="yellow-overlay" aria-label="Toggle Yellow overlays" title="Toggle Yellow overlays" aria-pressed="false" disabled></button>
-          </div>
+          </header>
           <div id="yellow-roster" class="roster"></div>
         </section>
       </section>
       <template id="team-plan-template">
-        <ol class="plan-chain" aria-label="Team plan">
-          <li><span>Strategy</span><strong data-plan="strategy"></strong><small data-plan="passing"></small></li>
-          <li><span>Play</span><strong data-plan="play"></strong></li>
-          <li><span>Current step</span><strong data-plan="step"></strong></li>
-        </ol>
+        <h3 class="lineup-heading"><span class="lineup-team"></span><span data-plan="play" hidden></span></h3>
+        <dl class="plan-summary" hidden>
+          <div data-plan-item hidden><dt>Strategy</dt><dd data-plan="strategy"></dd></div>
+          <div data-plan-item hidden><dt>Step</dt><dd data-plan="step"></dd></div>
+        </dl>
       </template>
       </div>
 

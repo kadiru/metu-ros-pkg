@@ -76,6 +76,34 @@ def go_to(robot, target, cfg=CFG, *, gain=3.2, speed=1.8, terminal=True):
     return bounded(Command(vx * scale, vy * scale, 5 * wrap(target.yaw - robot.yaw)), cfg)
 
 
+def stop_at(robot, target, cfg=CFG, *, speed=2.4):
+    """Reach a stationary goal with room for one control tick and measured lateral damping."""
+    if math.hypot(*target.velocity) > 0:
+        raise ValueError("stop_at requires zero terminal velocity")
+    ceiling = min(speed, cfg.max_speed)
+    dx, dy = target.point[0] - robot.x, target.point[1] - robot.y
+    distance = math.hypot(dx, dy)
+    ux, uy = unit(dx, dy)
+    yaw_rate = max(-cfg.max_omega, min(cfg.max_omega, 5 * wrap(target.yaw - robot.yaw)))
+
+    # Reserve some acceleration for tracking across the path or turning.
+    brake = 0.7 * cfg.max_acceleration
+    delay = brake * cfg.dt
+    travel = max(0, distance - 0.004)
+    # Numerically stable solution of d = v*dt + v**2 / (2*a).
+    closing = 2 * brake * travel / (math.sqrt(delay**2 + 2 * brake * travel) + delay)
+    closing = min(ceiling, closing)
+    along = robot.vx * ux + robot.vy * uy
+    lateral_x, lateral_y = robot.vx - along * ux, robot.vy - along * uy
+    vx, vy = closing * ux - 0.65 * lateral_x, closing * uy - 0.65 * lateral_y
+    if distance <= 0.004:
+        vx, vy = 0.0, 0.0
+    # The backend rotates a held body-frame request with the chassis at each substep.
+    vx, vy = body_vector(vx, vy, robot.yaw + yaw_rate * cfg.dt / 2)
+    scale = min(1.0, ceiling / max(0.001, math.hypot(vx, vy)))
+    return bounded(Command(vx * scale, vy * scale, yaw_rate), cfg)
+
+
 def ground_prediction(ball, seconds):
     """Rolling extrapolation for an observed ground ball after the initial slip."""
     speed = math.hypot(ball.vx, ball.vy)

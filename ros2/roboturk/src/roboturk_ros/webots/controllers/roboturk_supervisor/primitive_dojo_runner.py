@@ -30,6 +30,7 @@ from roboturk.primitive_dojo import (
     pass_plan,
     scenario,
     serve_relay,
+    stop_at,
     xy,
 )
 
@@ -39,6 +40,7 @@ PROFILES = {
         "terminal": {},
         "soft": {"gain": 2.0, "speed": 1.85},
         "fast": {"gain": 3.2, "speed": 2.4},
+        "braking": {"braking": True},
         "precise": {"gain": 4.8, "speed": 1.9},
         "gentle": {"gain": 2.5, "speed": 1.4},
     },
@@ -166,6 +168,8 @@ class Trial:
         r = world.robot(ACTOR)
         ball = world.ball
         if task == "arrival":
+            if self.profile.get("braking"):
+                return {ACTOR: stop_at(r, self.drill.arrival)}
             if self.arrival_route is not None:
                 return {ACTOR: self.arrival_route.command(r, **self.profile)}
             return {ACTOR: go_to(r, self.drill.arrival, **self.profile)}
@@ -574,6 +578,8 @@ def relay_audit(backend, seed):
 
 def candidates_for(task, context):
     profiles = PROFILES[task]
+    if task == "arrival" and context == "moving":
+        return {name: profile for name, profile in profiles.items() if name != "braking"}
     if task != "intercept":
         return profiles
     return {

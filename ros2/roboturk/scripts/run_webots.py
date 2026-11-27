@@ -51,6 +51,7 @@ def main():
             "receive-dojo",
             "receive-dojo-demo",
             "primitive-dojo",
+            "primitive-arrival-check",
             "primitive-dojo-demo",
             "primitive-dojo-transfer",
             "opponents-train",

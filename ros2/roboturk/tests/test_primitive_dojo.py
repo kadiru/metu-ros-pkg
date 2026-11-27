@@ -19,6 +19,7 @@ from roboturk.primitive_dojo import (
     pass_plan,
     scenario,
     serve_relay,
+    stop_at,
 )
 from roboturk.wheel_drive import (
     WHEEL_ANGLES_DEG,
@@ -36,6 +37,20 @@ def test_terminal_velocity_and_aim_are_independent():
     assert world_vector(command.vx, command.vy, robot.yaw) == pytest.approx((1.1, 0))
     assert command.omega == 0
     assert go_to(robot, target, terminal=False) == Command()
+
+
+def test_stationary_arrival_reserves_braking_distance_and_damps_lateral_motion():
+    robot = Robot(ACTOR, 0, 0, vx=0.6, vy=0.4)
+    goal = Arrival((0.064, 0), 0)
+    command = stop_at(robot, goal)
+    assert command.vy < 0
+    brake = 0.7 * CFG.max_acceleration
+    assert command.vx * CFG.dt + command.vx**2 / (2 * brake) == pytest.approx(0.06)
+    assert stop_at(robot, Arrival((0.002, 0), 0)) == Command()
+    cruise = stop_at(robot, Arrival((3, 0), 0))
+    assert math.hypot(cruise.vx, cruise.vy) == pytest.approx(2.4)
+    with pytest.raises(ValueError, match="zero terminal velocity"):
+        stop_at(robot, Arrival.at_speed((1, 0), 0, 1))
 
 
 def test_off_axis_arrival_moves_behind_target_before_final_approach():

@@ -100,7 +100,7 @@ h3 { margin-bottom: 5px; font-size: 12px; font-weight: 650; color: var(--muted);
 .forecast-summary {
   --forecast-actual: #b7f4de;
   --forecast-current: #ffc07d;
-  --forecast-kalman: #dbc0ff;
+  --forecast-model: #dbc0ff;
   display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px;
   padding: 8px 14px 0; font-size: 11px; color: var(--muted);
   font-variant-numeric: tabular-nums;
@@ -110,9 +110,10 @@ h3 { margin-bottom: 5px; font-size: 12px; font-weight: 650; color: var(--muted);
 .forecast-legend span::before { content: ""; width: 15px; border-top: 2px solid currentColor; }
 .forecast-actual { color: var(--forecast-actual); }
 .forecast-current { color: var(--forecast-current); }
-.forecast-kalman { color: var(--forecast-kalman); }
+.forecast-model { color: var(--forecast-model); }
 .forecast-legend .forecast-current::before { border-top-style: dashed; }
-.forecast-legend .forecast-kalman::before { border-top-style: dotted; }
+.forecast-legend .forecast-model::before { border-top-style: dotted; }
+#forecast-viewpoint { min-height: 24px; padding: 1px 5px; font-size: 11px; }
 .playback { display: grid; gap: 4px; padding: 7px 14px 10px; }
 .replay-status { display: grid; grid-template-columns: minmax(0, 1fr) max-content; align-items: baseline; gap: 10px; min-height: 1lh; color: var(--muted); font-size: 12px; line-height: 1.25; font-variant-numeric: tabular-nums; }
 #replay-time { text-align: right; white-space: nowrap; }

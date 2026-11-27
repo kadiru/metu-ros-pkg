@@ -19,10 +19,12 @@ from roboturk.five_strategy import DECISION_CONTROLLERS, PASS_PREFERENCES, PLAYB
 from roboturk.match_limits import GAME_LIMITS, PRACTICE_RANGES, limit_values, team_configs
 from roboturk.motion_forecast import open_play_segments, replay_forecasts
 from roboturk.role_telemetry import action_events, compact_frame, frame_events, viewer_header
+from roboturk.team_forecast import TeamModel, scene_features, team_predictions
 
 
 TEMPLATES = Path(__file__).with_suffix("")
 CHUNK_BYTES = 262_144
+TEAM_MODEL = TEMPLATES.parents[1] / "policies/team_forecast_v1/model.npz"
 
 
 def archive_folder(folder):
@@ -59,6 +61,18 @@ def build_data(folder):
         dt,
         open_play_segments(raw_frames, dt),
     )
+    bundle = forecasts.viewer_data() if forecasts.valid.any() else None
+    if (
+        bundle is not None and TEAM_MODEL.is_file() and len(keys) == 10
+        and any(frame.get("allocation") for frame in raw_frames)
+    ):
+        scene = scene_features(log, samples)
+        paths = team_predictions(log, samples, scene, TeamModel.load(TEAM_MODEL))
+        bundle["team_paths"] = {
+            team: {int(tick): row.round(4).ravel().tolist()
+                   for tick, row in zip(scene.origins, trajectory, strict=True)}
+            for team, trajectory in paths.items()
+        }
     frames, events = [], []
     previous = None
     for index, frame in enumerate(raw_frames):
@@ -99,7 +113,7 @@ def build_data(folder):
         intro=intro,
         audited=any(frame["allocation"] is not None for frame in frames),
         team_strategies=team_strategies,
-        forecast=forecasts.viewer_data() if forecasts.valid.any() else None,
+        forecast=bundle,
     )
 
 

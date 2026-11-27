@@ -222,6 +222,7 @@ def plan_team(
             trace[r.key] = dict(
                 mode=mode,
                 target=targets[r.key],
+                path=[[round(x, 4), round(y, 4)] for x, y in path],
                 speed_mps=math.hypot(r.vx, r.vy),
                 waypoint=memo.waypoints[0]
                 if memo and memo.waypoints and mode in ("errt", "escape", "hold")

@@ -28,7 +28,15 @@ const forecastToggle = byId("forecast-toggle");
 const forecastSummary = byId("forecast-summary");
 const forecastError = byId("forecast-error");
 const forecastReplay = byId("forecast-replay");
+const forecastViewpoint = byId("forecast-viewpoint");
+const teamPaths = match.forecast?.team_paths;
 const replayQuery = new URLSearchParams(location.search);
+const requestedViewpoint = replayQuery.get("view");
+const forecastLabel = teamPaths ? "Context + plans" : "Kalman";
+byId("forecast-model-key").textContent = forecastLabel;
+forecastViewpoint.hidden = !teamPaths;
+forecastViewpoint.value = ["blue", "yellow"].includes(requestedViewpoint)
+  ? requestedViewpoint : ownTeam ?? "blue";
 const teams = {
   blue: { label: "Blue", solid: "#639bff", pale: "#bcd3ff", ink: "#0b264c" },
   yellow: { label: "Yellow", solid: "#f5cd58", pale: "#ffe5a1", ink: "#382c0a" },
@@ -898,10 +906,17 @@ function drawForecast() {
   }
   const [x, y] = actual[0];
   const current = [[x, y], [x + horizon * vx, y + horizon * vy]];
-  const kalman = [[kx, ky], [kx + horizon * kvx, ky + horizon * kvy]];
+  let modelPath = [[kx, ky], [kx + horizon * kvx, ky + horizon * kvy]];
+  const teamRow = teamPaths?.[forecastViewpoint.value]?.[frameIndex];
+  if (teamRow) {
+    modelPath = [[x, y]];
+    const width = teamRow.length / keys.length;
+    const start = selected * width;
+    for (let i = start; i < start + width; i += 2) modelPath.push([teamRow[i], teamRow[i + 1]]);
+  }
   const style = getComputedStyle(forecastSummary);
   for (const [kind, path, dash] of [
-    ["actual", actual, []], ["current", current, [8, 4]], ["kalman", kalman, [2, 4]],
+    ["actual", actual, []], ["current", current, [8, 4]], ["model", modelPath, [2, 4]],
   ]) {
     const color = style.getPropertyValue(`--forecast-${kind}`).trim();
     const points = path.map(([px, py]) => project(px, py));
@@ -909,7 +924,9 @@ function drawForecast() {
     traceCircle(...points.at(-1), 4, "#16382e", color, 1.6);
   }
   const error = (path) => Math.hypot(...path.at(-1).map((v, axis) => v - actual.at(-1)[axis]));
-  forecastError.textContent = `${name} at +${horizon} s · Current ${error(current).toFixed(2)} m · Kalman ${error(kalman).toFixed(2)} m`;
+  const viewpoint = forecastViewpoint.value;
+  const relationship = teamRow ? (keys[selected][0] === viewpoint ? " teammate" : " opponent") : "";
+  forecastError.textContent = `${name}${relationship} at +${horizon} s · Current ${error(current).toFixed(2)} m · ${forecastLabel} ${error(modelPath).toFixed(2)} m`;
 }
 
 function drawField() {
@@ -1071,6 +1088,7 @@ forecastToggle.addEventListener("click", () => {
   forecastEnabled = !forecastEnabled;
   render();
 });
+forecastViewpoint.addEventListener("change", drawField);
 clipToggle.addEventListener("click", () => {
   clipPanel.hidden = !clipPanel.hidden;
   clipToggle.setAttribute("aria-expanded", String(!clipPanel.hidden));

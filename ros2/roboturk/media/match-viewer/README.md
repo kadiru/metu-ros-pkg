@@ -42,7 +42,7 @@ When a field player can meet an opposing ground pass, the team switches to **Int
 
 Open the **ⓘ** beside **Field** to see the overlay legend. The latest recorded kick and replay time share a row under the field, above the scrubber. The kick readout stays visible until another kick and includes launch speed, rotation or loft when present, and goal-line measurements when recorded. Use the speed selector next to **Play** to replay at 0.25× to 2× in quarter-speed steps. You can switch rates during playback. Live following runs at the simulator's pace.
 
-In a saved match, turn on **1 s forecast** to compare the selected robot's recorded path with the current and Kalman forecasts. The legend identifies the three paths and the readout shows the endpoint errors. After a live match finishes, **Review forecasts** reopens it as a saved match. [Benchmark and example](../../docs/MOTION_FORECAST.md)
+In a saved match, turn on **1 s forecast** to compare the selected robot's recorded path, the straight-line forecast, and the learned forecast. **Blue view** and **Yellow view** show the effect of knowing that team's plans. Older exports can show the original Kalman comparison. The readout gives the endpoint errors. After a live match finishes, **Review forecasts** reopens it as a saved match. [Clean Webots benchmark and example](../../docs/TEAM_FORECAST.md)
 
 ### Export a training example
 

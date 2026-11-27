@@ -64,7 +64,8 @@
         </div>
         <div class="pitch"><canvas id="pitch" aria-label="Recorded robot and ball positions. Select a robot here or in the lineup."></canvas></div>
         <section class="forecast-summary" id="forecast-summary" aria-label="One-second robot forecast" hidden>
-          <div class="forecast-legend"><span class="forecast-actual">Recorded</span><span class="forecast-current">Current</span><span class="forecast-kalman">Kalman</span></div>
+          <div class="forecast-legend"><span class="forecast-actual">Recorded</span><span class="forecast-current">Current</span><span id="forecast-model-key" class="forecast-model">Kalman</span></div>
+          <select id="forecast-viewpoint" aria-label="Forecast team's available plans" hidden><option value="blue">Blue view</option><option value="yellow">Yellow view</option></select>
           <output id="forecast-error"></output>
         </section>
         <div class="playback">

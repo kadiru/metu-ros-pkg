@@ -1,5 +1,7 @@
 # One-second robot forecasts in Hoca
 
+The [plan-aware forecast](TEAM_FORECAST.md) is the newer clean-Webots comparison. This page preserves the original velocity and Kalman benchmark.
+
 Open a saved match and turn on **1 s forecast**. Select a robot on the pitch, in a lineup, or in the robot detail menu. The solid mint line is its recorded motion. The dashed amber line is the current straight-line forecast and the dotted lavender line is the Kalman forecast. Circles mark the positions at +1 s. The readout shows each forecast's distance from the recorded endpoint.
 
 ![Hoca compares B2's two forecasts with the actual path](../media/match-viewer/forecast-preview.png)

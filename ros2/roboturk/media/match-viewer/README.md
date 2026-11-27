@@ -50,6 +50,23 @@ Open **Review** under the field. Use **Markers** to pick a team and the events w
 
 Use **Add note** at any frame to bookmark an observation or suggest a different tactic. Saved notes stay with that replay in the current browser. **Export moment** opens a clip around the bookmark, with two seconds of context on each side where available. Adjust the endpoints before downloading if the outcome takes longer to develop. Share the JSON with the AI as a coaching example.
 
+Use **Coach a play** to propose a coordinated response for two to five teammates. Pick the team, write one shared objective, and describe each selected robot's action. Hoca shows the recorded role alongside each robot ID and saves the proposal at the review frame. **Export moment** includes the proposal as `review.coaching_play`, with the team, objective, and players' IDs, recorded roles, and requested actions. Free-text notes and proposals can coexist on the same frame. Proposals are coaching examples for later drills.
+
+### Football terms for coaching a play
+
+| Level | Question | Hoca example |
+| --- | --- | --- |
+| Team mode | What is the team trying to do? | Attack, defend, recover a loose ball, or execute a restart. |
+| Play | How are we doing it together? | Build the attack, press and cover, or intercept the pass. |
+| Role | What is this robot's job here? | Carrier, receiver, winger, anchor, presser, cover, marker, screen, interceptor, or keeper. |
+| Behavior | What should that robot do now? | Lead a teammate with a pass, cushion the ball, get open, cut a lane, or close down the carrier. |
+
+An **outlet** is an available pass to a teammate. The **wingers** offer width and the **anchor** stays behind the ball as an outlet and as protection against a turnover. On defense the **presser** closes down the carrier, **cover** protects the space behind the presser, a **marker** tracks a specific opponent, and a **screen** protects a route through space. An **interceptor** moves to meet a traveling ball. The **keeper** protects the goal. Hoca assigns these jobs as play develops.
+
+Start with **two teammates** timing a pass and first touch. With **three**, the first receiver can lay the ball off to a third runner. With **four**, add an anchor who gives the group a way to recycle possession. With **all five**, include keeper positioning and assign the field players' response to losing the ball. A defensive sequence can develop from press and cover to screening a lane, tracking an opponent, and coordinating with the keeper. [FIFA Training Centre's third-player combinations](https://www.fifatrainingcentre.com/en/game/game-analysis/in-possession/third-player-combinations.php)
+
+Use the same referee state for the recorded and proposed play when running a drill. Compare possession after the first touch, where and when the team progresses the ball, and any fouls. Have robots protect passing lanes by positioning, with pushing and defense-area restrictions evaluated by the referee. [RoboCup SSL rules on fouls](https://robocup-ssl.github.io/ssl-rules/sslrules.html#_fouls)
+
 ### Export a training example
 
 Open **Export clip** under the field. Scrub to a second or two before the decision and click **Mark start**. Scrub past the outcome and click **Mark end**. The buttons also use the current frame while following a live match. In the note, describe what you saw, what you wanted the robots to do, and which robots were involved. Click **Download JSON** to save the interval locally. A good clip captures both the lead-up and what happened after the decision. Attach the JSON when sharing an example.
@@ -91,6 +108,28 @@ Run the decision benchmark with the same kickoff state and motion settings for e
 ```sh
 python scripts/benchmark_five_decisions.py runs/decision-benchmark --starts 4 --seconds 25
 ```
+
+### Planned boundary for independent teams
+
+Today one Webots match supervisor maintains the shared play state and steps both teams. Independent teams would each own their tracking, decisions, roles, and commanded actions in a process that can run on another computer. One simulator host would load the two robot models, step physics, and expose a command endpoint per color. A model-specific actuator adapter would translate that team's motion, dribbler, flat kick, and chip requests into its own hardware controls.
+
+```mermaid
+flowchart LR
+    Sim[Webots vision] --> Blue[Blue controller]
+    Sim --> Yellow[Yellow controller]
+    Ref[SSL Game Controller] --> Blue
+    Ref --> Yellow
+    Blue -->|Blue commands| B[Blue robot adapter]
+    Yellow -->|Yellow commands| Y[Yellow robot adapter]
+    B --> Sim
+    Y --> Sim
+    Sim -.-> Hoca[Hoca live and replay]
+    Ref -.-> Hoca
+    Blue -.->|Optional role and tactic trace| Hoca
+    Yellow -.->|Optional role and tactic trace| Hoca
+```
+
+Teams would share time-stamped observations of the pitch and referee messages. Each side could also use its own robot feedback and history. Opponent plans and motor commands stay private to that opponent. The simulator accepts commands only for the sending side and stops its robots when that command stream times out. Hoca observes both feeds for review and would send coaching scenarios to a separate practice run. The league already defines shared observation feeds and separate simulator robot-control ports for Blue and Yellow. [SSL technical overview](https://ssl.robocup.org/technical-overview-of-the-small-size-league/)
 
 ## Initial 5v5 playbooks
 

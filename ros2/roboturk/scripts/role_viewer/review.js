@@ -75,6 +75,11 @@ function createMatchReview({
   const noteButton = el("review-note-toggle");
   const noteForm = el("review-note-form");
   const noteField = el("review-note");
+  const playButton = el("review-play-toggle");
+  const playFields = el("review-coaching-play");
+  const playTeam = el("review-play-team");
+  const playObjective = el("review-play-objective");
+  const playPlayers = el("review-play-players");
   const noteStatus = el("review-status");
   const previous = el("prev");
   const next = el("next");
@@ -89,6 +94,7 @@ function createMatchReview({
   let groups = new Map();
   let ticks = [];
   let notes = new Map();
+  let players = [];
 
   function setStatus(message) {
     noteStatus.hidden = !message;
@@ -117,12 +123,14 @@ function createMatchReview({
     const kinds = new Set(choices.filter((input) => input.checked).map((input) => input.value));
     const term = search.value.trim().toLowerCase();
     const notesAsMarkers = [...notes.values()].map((note) => ({
-      tick: note.tick, kind: "note", label: note.text, teams: note.team ? [note.team] : [],
+      tick: note.tick, kind: "note", label: note.text || note.play?.objective,
+      teams: note.team ? [note.team] : [],
+      searchText: note.play ? [note.play.objective, ...note.play.players.map((player) => `${player.id} ${player.action}`)].join(" ") : "",
     }));
     groups = new Map();
     for (const marker of [...notesAsMarkers, ...markers]) {
       if (!kinds.has(marker.kind) || team.value && marker.teams.length && !marker.teams.includes(team.value)) continue;
-      if (term && !`${timeText(frames[marker.tick].t)} ${marker.label}`.toLowerCase().includes(term)) continue;
+      if (term && !`${timeText(frames[marker.tick].t)} ${marker.label} ${marker.searchText ?? ""}`.toLowerCase().includes(term)) continue;
       if (!groups.has(marker.tick)) groups.set(marker.tick, []);
       groups.get(marker.tick).push(marker);
     }
@@ -156,8 +164,9 @@ function createMatchReview({
     track.querySelector(".is-current")?.classList.remove("is-current");
     track.querySelector(`[data-tick="${tick}"]`)?.classList.add("is-current");
     const rows = [...(groups.get(tick) ?? [])];
-    if (notes.has(tick) && !rows.some(({ kind }) => kind === "note")) {
-      rows.unshift({ kind: "note", label: notes.get(tick).text });
+    const note = notes.get(tick);
+    if (note && !rows.some(({ kind }) => kind === "note")) {
+      rows.unshift({ kind: "note", label: note.text || note.play?.objective });
     }
     details.replaceChildren(...rows.map(({ kind, label }) => {
       const row = document.createElement("li");
@@ -166,13 +175,53 @@ function createMatchReview({
       return row;
     }));
     details.hidden = !rows.length;
-    noteButton.textContent = notes.has(tick) ? "Edit note" : "Add note";
+    noteButton.textContent = note?.text ? "Edit note" : "Add note";
+    playButton.textContent = note?.play ? `Edit play · ${note.play.players.length} robots` : "Coach a play";
   }
 
   function noteOpen(value) {
     noteForm.hidden = !value;
     noteButton.setAttribute("aria-expanded", String(value));
-    if (!value) editing = null;
+    if (!value) {
+      editing = null;
+      playFields.open = false;
+      playButton.setAttribute("aria-expanded", "false");
+    }
+  }
+
+  function fillPlayForm(play) {
+    playTeam.value = play?.team ?? editing.team ?? keys[editing.robot][0];
+    playObjective.value = play?.objective ?? "";
+    players = keys.map(([color], robot) => {
+      const id = robotName(robot);
+      const role = roleName(frames[editing.tick].roles[robot]) || "Unassigned";
+      const saved = play?.players.find((player) => player.robot === robot);
+      const row = document.createElement("div");
+      row.className = "review-play-player";
+      row.dataset.team = color;
+      row.hidden = color !== playTeam.value;
+      const label = document.createElement("label");
+      const name = document.createElement("strong");
+      name.textContent = id;
+      const recorded = document.createElement("span");
+      recorded.className = "recorded-role";
+      recorded.textContent = role;
+      const include = document.createElement("input");
+      include.type = "checkbox";
+      include.checked = Boolean(saved);
+      label.append(include, name, recorded);
+      const action = document.createElement("input");
+      action.type = "text";
+      action.maxLength = 200;
+      action.value = saved?.action ?? "";
+      action.hidden = !include.checked;
+      action.placeholder = "Proposed action";
+      action.setAttribute("aria-label", `Proposed action for ${id}`);
+      include.addEventListener("change", () => { action.hidden = !include.checked; });
+      row.append(label, action);
+      return { row, include, action, robot, id, recorded_role: role };
+    });
+    playPlayers.replaceChildren(...players.map(({ row }) => row));
   }
 
   toggle.addEventListener("click", () => {
@@ -200,38 +249,74 @@ function createMatchReview({
     const closest = ticks.reduce((best, index) => Math.abs(index - point) < Math.abs(best - point) ? index : best);
     seek(closest);
   });
-  noteButton.addEventListener("click", () => {
+  function editNote(startWithPlay) {
+    const trigger = startWithPlay ? playButton : noteButton;
+    if (editing?.tick === tick && !noteForm.hidden) {
+      editing.trigger = trigger;
+      playFields.open = startWithPlay;
+      (startWithPlay ? playObjective : noteField).focus();
+      return;
+    }
     seek(tick);
-    editing = { tick, team: team.value || null, robot: selectedRobot() };
-    noteField.value = notes.get(tick)?.text ?? "";
+    const existing = notes.get(tick);
+    editing = { tick, team: existing?.team ?? (team.value || null), robot: existing?.robot ?? selectedRobot(), trigger };
+    noteField.value = existing?.text ?? "";
     el("review-note-label").textContent = `Coaching note · ${timeText(frames[tick].t)}`;
+    fillPlayForm(existing?.play);
     noteOpen(true);
+    playFields.open = startWithPlay;
     setStatus("");
-    noteField.focus();
+    (startWithPlay ? playObjective : noteField).focus();
+  }
+  noteButton.addEventListener("click", () => editNote(false));
+  playButton.addEventListener("click", () => editNote(true));
+  playFields.addEventListener("toggle", () => {
+    playButton.setAttribute("aria-expanded", String(playFields.open));
+    noteForm.querySelector('[type="submit"]').textContent = playFields.open ? "Save play" : "Save note";
+  });
+  playTeam.addEventListener("change", () => {
+    for (const { row } of players) row.hidden = row.dataset.team !== playTeam.value;
   });
   el("review-note-cancel").addEventListener("click", () => {
+    const trigger = editing?.trigger ?? noteButton;
     noteOpen(false);
-    noteButton.focus();
+    trigger.focus();
   });
   noteForm.addEventListener("submit", (event) => {
     event.preventDefault();
+    if (!editing) return;
     const text = noteField.value.trim();
-    if (!text || !editing) {
+    const objective = playObjective.value.trim();
+    const lineup = players.filter(({ row, include }) => !row.hidden && include.checked)
+      .map(({ robot, id, recorded_role, action }) => ({ robot, id, recorded_role, action: action.value.trim() }));
+    const hasPlay = Boolean(objective || lineup.length);
+    if (hasPlay && (!objective || lineup.length < 2 || lineup.length > 5 || lineup.some(({ action }) => !action))) {
+      playFields.open = true;
+      setStatus("Give the play an objective and each of the two to five selected teammates an action.");
+      return;
+    }
+    if (!text && !hasPlay) {
       setStatus("Enter a coaching note.");
       return;
     }
-    const anchor = editing.tick;
-    notes.set(anchor, { ...editing, text });
+    const { tick: anchor, robot, trigger } = editing;
+    const note = { tick: anchor, team: editing.team, robot, text };
+    if (hasPlay) {
+      note.team = playTeam.value;
+      if (keys[robot][0] !== note.team) note.robot = lineup[0].robot;
+      note.play = { team: note.team, objective, players: lineup };
+    }
+    notes.set(anchor, note);
     noteOpen(false);
     try {
       localStorage.setItem(storageKey, JSON.stringify([...notes.values()]));
-      setStatus(`Note saved at ${timeText(frames[anchor].t)}.`);
+      setStatus(`${hasPlay ? "Play" : "Note"} saved at ${timeText(frames[anchor].t)}.`);
     } catch {
       setStatus("Note kept for this session. Export the moment to save a copy.");
     }
     refreshMarkers();
     seek(anchor);
-    noteButton.focus();
+    trigger.focus();
   });
   el("review-export").addEventListener("click", () => {
     const note = notes.get(tick);
@@ -241,6 +326,7 @@ function createMatchReview({
       team: note ? note.team : team.value || null,
       robot: note?.robot ?? selectedRobot(),
       markers: markers.filter((marker) => marker.tick === tick),
+      ...(note?.play && { coaching_play: note.play }),
     }, note?.text ?? "");
   });
 

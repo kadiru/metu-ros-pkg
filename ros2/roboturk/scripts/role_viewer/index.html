@@ -113,11 +113,24 @@
             <ul id="review-details" class="review-details" hidden></ul>
             <div class="review-note-actions">
               <button id="review-note-toggle" type="button" aria-expanded="false" aria-controls="review-note-form">Add note</button>
+              <button id="review-play-toggle" type="button" aria-expanded="false" aria-controls="review-coaching-play">Coach a play</button>
               <button id="review-export" type="button">Export moment</button>
             </div>
             <form id="review-note-form" class="review-note-form" hidden>
               <label id="review-note-label" for="review-note">Coaching note</label>
               <textarea id="review-note" rows="2" maxlength="4000" placeholder="What would you ask the team to do here?"></textarea>
+              <details id="review-coaching-play" class="review-coaching-play">
+                <summary>Coordinated play</summary>
+                <div class="review-play-fields">
+                  <label>Team<select id="review-play-team"><option value="blue">Blue</option><option value="yellow">Yellow</option></select></label>
+                  <label>Play objective<input id="review-play-objective" type="text" maxlength="200" placeholder="e.g. Play around the interceptor"></label>
+                </div>
+                <fieldset>
+                  <legend>Choose two to five teammates</legend>
+                  <p class="review-play-hint">Each robot shows its role at this moment. Give it an action for your proposed play.</p>
+                  <div id="review-play-players"></div>
+                </fieldset>
+              </details>
               <div class="review-note-actions"><button type="submit">Save note</button><button id="review-note-cancel" type="button">Cancel</button></div>
             </form>
             <p id="review-status" class="review-status" role="status" hidden></p>

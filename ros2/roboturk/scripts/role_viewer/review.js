@@ -4,8 +4,19 @@ function teamMode(phase) {
   return { Defend: "Defense", Recover: "Recover", HALT: "Halt", STOP: "Stop" }[phase] ?? phase;
 }
 
+function passLabel(type, launch, robotName) {
+  if (!["pass", "chip", "kickoff"].includes(type) || !Number.isInteger(launch?.receiver)) return null;
+  const turn = launch.spin_turn;
+  const spin = turn ? (turn.reverse ? "reverse spin" : "spin") : "";
+  const chip = type === "chip" || launch.elevation > 0;
+  const trajectory = chip ? "chip" : !turn && launch.elevation === 0 ? "flat" : "";
+  const technique = [type === "kickoff" ? "kickoff" : "", spin, trajectory, "pass"].filter(Boolean).join(" ");
+  return `${robotName(launch.actor)} ${technique} to ${robotName(launch.receiver)}`;
+}
+
 function createReviewIndex(frames, keys, events, robotName, roleName) {
   const markers = [];
+  const deflections = new Map();
   const sideNames = { blue: "Blue", yellow: "Yellow" };
   const add = (tick, kind, label, teams, details = {}) => markers.push({ tick, kind, label, teams, ...details });
   let lastOwner = null;
@@ -65,20 +76,23 @@ function createReviewIndex(frames, keys, events, robotName, roleName) {
     for (; nextEvent < events.length; nextEvent++) {
       const [tick, label, type, team, recorded] = events[nextEvent];
       if (tick >= frames.length) break;
+      if (type === "kick_trace" && recorded?.outcome === "deflected") {
+        deflections.set(`${recorded.kick_tick}:${recorded.actor}`, tick);
+      }
       if (frames[tick] && label && type !== "kick_trace") {
         const compact = label.replace(/\b(Blue|Yellow) (\d+)\b/g, (_, color, id) => color[0] + id);
         const launch = recorded?.origin
-          ? { speed: recorded.speed, elevation: recorded.elevation, turn: recorded.spin_turn }
+          ? { actor: recorded.actor, speed: recorded.speed, elevation: recorded.elevation, turn: recorded.spin_turn }
           : undefined;
-        const pass = ["pass", "chip"].includes(type) && keys[recorded?.actor]
-          && keys[recorded?.receiver]?.[0] === keys[recorded.actor][0] && recorded.actor !== recorded.receiver
-          ? { actor: recorded.actor, receiver: recorded.receiver }
-          : undefined;
-        add(tick, "event", compact, team ? [team] : [], { type, launch, pass });
+        const hasTeammate = keys[recorded?.actor] && keys[recorded?.receiver]?.[0] === keys[recorded.actor][0]
+          && recorded.actor !== recorded.receiver;
+        const typedLabel = hasTeammate ? passLabel(type, recorded, robotName) : null;
+        const pass = typedLabel ? { actor: recorded.actor, receiver: recorded.receiver } : undefined;
+        add(tick, "event", typedLabel ?? compact, team ? [team] : [], { type, launch, pass, searchText: compact });
       }
     }
   }
-  return { markers, update };
+  return { markers, deflections, update };
 }
 
 function linkedPassSteps(marker, frames, keys, events, robotName, roleName) {
@@ -277,6 +291,10 @@ function createMatchReview({
     return row;
   }
 
+  function deflectionTick(marker) {
+    return index.deflections.get(`${marker.tick}:${marker.launch?.actor}`);
+  }
+
   function eventDetails(index, steps) {
     const panel = document.createElement("div");
     panel.className = "event-details";
@@ -325,6 +343,8 @@ function createMatchReview({
         const values = [`Launch ${speed.toFixed(2)} m/s`];
         if (elevation > 0) values.push(`${Math.round(elevation * 180 / Math.PI)}° loft`);
         if (Number.isFinite(turn?.degrees)) values.push(`${Math.round(turn.degrees)}° ${turn.direction} rotation`);
+        const deflection = deflectionTick(marker);
+        if (frames[deflection]) values.push(`Deflection detected at ${timeText(frames[deflection].t, 2)}`);
         description = values.join(" · ");
       }
       const play = marker.kind === "note" ? notes.get(index)?.play : null;
@@ -348,8 +368,8 @@ function createMatchReview({
     }
     const button = expandedTick === null ? null : eventList.querySelector(`.event-entry[data-tick="${expandedTick}"]`);
     const steps = button && pass ? linkedPassSteps(pass, frames, keys, events, robotName, roleName) : [];
-    const stepStamp = steps.map(({ tick, label }) => `${tick}:${label}`).join("|");
-    if (button === (expansion?.button ?? null) && stepStamp === (expansion?.stepStamp ?? "")) {
+    const detailsStamp = button ? [...steps.map(({ tick, label }) => `${tick}:${label}`), ...rows.map(deflectionTick)].join("|") : "";
+    if (button === (expansion?.button ?? null) && detailsStamp === (expansion?.detailsStamp ?? "")) {
       updateActiveStep();
       return;
     }
@@ -364,7 +384,7 @@ function createMatchReview({
     button.setAttribute("aria-expanded", "true");
     button.setAttribute("aria-controls", details.id);
     button.after(details);
-    expansion = { button, details, stepStamp };
+    expansion = { button, details, detailsStamp };
     updateActiveStep();
   }
 

@@ -618,7 +618,8 @@ function updateKickReadout(kick) {
     const action = launch.elevation > 0 ? "chip" : launch.kind;
     const spin = turn ? `${turn.reverse ? "reverse " : ""}spin ` : "";
     const receiver = launch.receiver == null ? "" : ` to ${robotName(launch.receiver)}`;
-    text = `${robotName(launch.actor)} ${spin}${action}${receiver} · ${launch.speed.toFixed(1)} m/s launch`;
+    const label = passLabel(launch.kind, launch, robotName) ?? `${robotName(launch.actor)} ${spin}${action}${receiver}`;
+    text = `${label} · ${launch.speed.toFixed(1)} m/s launch`;
     if (turn) text += ` · ${turn.degrees.toFixed(0)}° ${turn.direction} rotation`;
     if (launch.elevation > 0) text += ` · ${Math.round(launch.elevation * 180 / Math.PI)}° loft`;
     if (result?.outcome === "goal mouth" || result?.outcome === "wide") {
@@ -627,6 +628,7 @@ function updateKickReadout(kick) {
     } else if (result && launch.elevation > 0) {
       text += ` · ${result.peak_z.toFixed(2)} m peak`;
     }
+    if (result?.outcome === "deflected") text += " · deflection detected";
   }
   const readout = byId("kick-readout");
   if (readout.textContent !== text) {

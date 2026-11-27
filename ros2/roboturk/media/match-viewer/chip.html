@@ -204,6 +204,7 @@ button.primary:hover { background: #c1eed3; }
 .roster { display: grid; grid-template-columns: repeat(var(--players, 5), minmax(85px, 1fr)); border-top: 1px solid var(--line); }
 .roster-player { display: grid; grid-row: span 4; grid-template-rows: subgrid; align-items: start; gap: 4px; min-width: 0; padding: 6px 7px 3px; border-inline-start: 1px solid var(--line); }
 .roster-player:first-child { border-inline-start: 0; padding-inline-start: 1px; }
+.roster-player[data-linked] { background: color-mix(in srgb, var(--team) 12%, transparent); box-shadow: inset 0 2px var(--team); }
 .roster-id { justify-self: start; min-height: 23px; padding: 2px 7px; color: var(--team); background: transparent; border-color: color-mix(in srgb, var(--team) 27%, var(--line)); border-radius: 4px; font-size: 11px; }
 .roster-id[aria-pressed="true"] { background: color-mix(in srgb, var(--team) 20%, transparent); border-color: var(--team); }
 .roster-id[aria-current="true"] { box-shadow: inset 0 -2px var(--team); }
@@ -224,7 +225,7 @@ button.primary:hover { background: #c1eed3; }
 #event-position { font-variant-numeric: tabular-nums; }
 .event-scroll { position: relative; min-height: 120px; padding: 0 11px 8px; overflow-y: auto; scrollbar-width: thin; }
 .event-track { list-style: none; margin: 0; padding: 0; }
-.event-track li { border-top: 1px solid var(--line); }
+.event-track > li { border-top: 1px solid var(--line); }
 .event-entry { display: grid; grid-template-columns: 5.7ch minmax(0, 1fr) auto; width: 100%; align-items: center; gap: 8px; min-height: 34px; padding: 6px 5px; text-align: left; background: transparent; border: 0; border-radius: 4px; }
 .event-entry:hover { background: var(--panel2); }
 .event-entry:focus-visible { outline-offset: -2px; }
@@ -243,6 +244,11 @@ button.primary:hover { background: #c1eed3; }
 .event-detail { display: grid; gap: 2px; }
 .event-detail .event-label { font-weight: 650; }
 .event-detail p { padding-inline-start: 9px; }
+.event-sequence-title { font-size: 11px; }
+.event-sequence { display: grid; gap: 3px; margin: 0 0 3px; padding: 0; list-style: none; }
+.event-sequence button { display: grid; grid-template-columns: 7ch minmax(0, 1fr); align-items: baseline; gap: 6px; width: 100%; min-height: 30px; padding: 4px 6px; color: var(--text); text-align: left; font-size: 11px; overflow-wrap: anywhere; }
+.event-sequence time { color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.event-sequence button[aria-current="step"] { border-color: var(--mint); background: color-mix(in srgb, var(--mint) 12%, var(--panel2)); }
 .event-empty { border-top: 1px solid var(--line); padding: 11px 4px; color: var(--muted); font-size: 12px; }
 .setup { max-width: 820px; }
 .setup form { display: grid; gap: 18px; }
@@ -592,11 +598,46 @@ function createReviewIndex(frames, keys, events, robotName, roleName) {
         const launch = recorded?.origin
           ? { speed: recorded.speed, elevation: recorded.elevation, turn: recorded.spin_turn }
           : undefined;
-        add(tick, "event", compact, team ? [team] : [], { type, launch });
+        const pass = ["pass", "chip"].includes(type) && keys[recorded?.actor]
+          && keys[recorded?.receiver]?.[0] === keys[recorded.actor][0] && recorded.actor !== recorded.receiver
+          ? { actor: recorded.actor, receiver: recorded.receiver }
+          : undefined;
+        add(tick, "event", compact, team ? [team] : [], { type, launch, pass });
       }
     }
   }
   return { markers, update };
+}
+
+function linkedPassSteps(marker, frames, keys, events, robotName, roleName) {
+  const { actor, receiver } = marker.pass;
+  const first = frames[marker.tick];
+  const team = keys[actor][0];
+  const steps = [{ tick: marker.tick, label: marker.label, robots: [actor, receiver] }];
+  const nextKick = events.find(([tick, , , , details]) => tick > marker.tick && details?.origin)?.[0] ?? frames.length;
+  const start = first.roles[receiver] === "Receiver" ? marker.tick : marker.tick + 1;
+  // The receiver assignment associates the frames with this specific pass.
+  if (frames[start]?.roles[receiver] !== "Receiver") return steps;
+  for (let tick = start; tick < nextKick && tick < frames.length; tick++) {
+    const frame = frames[tick];
+    if (frame.restart !== first.restart || frame.stage !== first.stage || (frame.mode && frame.mode !== "running")) break;
+    if (frame.roles[receiver] !== "Receiver") {
+      const owner = frame.owner;
+      if (keys[owner] && owner !== actor) {
+        const changesTeam = keys[owner][0] !== team;
+        const action = changesTeam ? "wins possession" : owner === receiver ? "receives the pass" : "secures the ball";
+        steps.push({ tick, label: `${robotName(owner)} ${action}`, robots: [owner, actor] });
+      }
+      break;
+    }
+    frame.roles.forEach((role, robot) => {
+      const previous = frames[tick - 1]?.roles[robot];
+      if (role === "Interceptor" && previous && previous !== role && keys[robot][0] !== team) {
+        steps.push({ tick, label: `${robotName(robot)} · ${roleName(previous)} → Interceptor`, robots: [robot, receiver] });
+      }
+    });
+  }
+  return steps;
 }
 
 function createMatchReview({
@@ -638,6 +679,7 @@ function createMatchReview({
   let ticks = [];
   let shownCount = null;
   let expandedTick = null;
+  let linkedStep = null;
   let expansion = null;
   let notes = new Map();
   let players = [];
@@ -748,14 +790,22 @@ function createMatchReview({
     if (rows.length > 1) indicator.textContent = `+${rows.length - 1}`;
     button.append(indicator);
     button.addEventListener("click", () => {
-      expandedTick = expandedTick === index ? null : index;
+      if (expandedTick === index) {
+        expandedTick = null;
+        linkedStep = null;
+        render();
+        return;
+      }
+      expandedTick = index;
+      const pass = rows.find((marker) => marker.pass)?.pass;
+      linkedStep = pass ? { tick: index, robots: [pass.actor, pass.receiver], order: 0 } : null;
       seek(index);
     });
     row.append(button);
     return row;
   }
 
-  function eventDetails(index) {
+  function eventDetails(index, steps) {
     const panel = document.createElement("div");
     panel.className = "event-details";
     panel.id = `event-details-${index}`;
@@ -765,6 +815,33 @@ function createMatchReview({
     const score = frame.score ? `Score ${frame.score.join("–")}` : null;
     context.textContent = [timeText(frame.t, 2), frame.stage, score].filter(Boolean).join(" · ");
     panel.append(context);
+    if (steps.length > 1) {
+      const heading = document.createElement("strong");
+      heading.className = "event-sequence-title";
+      heading.textContent = "Linked events";
+      const list = document.createElement("ol");
+      list.className = "event-sequence";
+      for (const [order, step] of steps.entries()) {
+        const item = document.createElement("li");
+        const button = document.createElement("button");
+        button.type = "button";
+        button.dataset.step = order;
+        button.dataset.tick = step.tick;
+        const time = document.createElement("time");
+        time.textContent = timeText(frames[step.tick].t, 2);
+        const caption = document.createElement("span");
+        caption.textContent = step.label;
+        button.append(time, caption);
+        button.setAttribute("aria-label", `${time.textContent} · ${step.label}. Highlight ${step.robots.map(robotName).join(" and ")}`);
+        button.addEventListener("click", () => {
+          linkedStep = { ...step, order };
+          seek(step.tick);
+        });
+        item.append(button);
+        list.append(item);
+      }
+      panel.append(heading, list);
+    }
     for (const marker of groups.get(index)) {
       const item = document.createElement("div");
       item.className = "event-detail";
@@ -791,9 +868,19 @@ function createMatchReview({
   }
 
   function syncExpansion() {
-    if (expandedTick !== tick || !groups.has(tick)) expandedTick = null;
-    const button = expandedTick === null ? null : eventList.querySelector(`[data-tick="${expandedTick}"]`);
-    if (button === (expansion?.button ?? null)) return;
+    const rows = groups.get(expandedTick);
+    const pass = rows?.find((marker) => marker.pass);
+    if (!rows || (expandedTick !== tick && linkedStep?.tick !== tick) || (linkedStep && !pass)) {
+      expandedTick = null;
+      linkedStep = null;
+    }
+    const button = expandedTick === null ? null : eventList.querySelector(`.event-entry[data-tick="${expandedTick}"]`);
+    const steps = button && pass ? linkedPassSteps(pass, frames, keys, events, robotName, roleName) : [];
+    const stepStamp = steps.map(({ tick, label }) => `${tick}:${label}`).join("|");
+    if (button === (expansion?.button ?? null) && stepStamp === (expansion?.stepStamp ?? "")) {
+      updateActiveStep();
+      return;
+    }
     if (expansion) {
       expansion.button.setAttribute("aria-expanded", "false");
       expansion.button.removeAttribute("aria-controls");
@@ -801,11 +888,20 @@ function createMatchReview({
       expansion = null;
     }
     if (!button) return;
-    const details = eventDetails(expandedTick);
+    const details = eventDetails(expandedTick, steps);
     button.setAttribute("aria-expanded", "true");
     button.setAttribute("aria-controls", details.id);
     button.after(details);
-    expansion = { button, details };
+    expansion = { button, details, stepStamp };
+    updateActiveStep();
+  }
+
+  function updateActiveStep() {
+    if (!expansion) return;
+    for (const step of expansion.details.querySelectorAll("[data-step]")) {
+      if (Number(step.dataset.step) === linkedStep?.order) step.setAttribute("aria-current", "step");
+      else step.removeAttribute("aria-current");
+    }
   }
 
   function showMoment() {
@@ -823,8 +919,8 @@ function createMatchReview({
       for (let removed = shownCount - count; removed > 0; removed--) eventList.firstElementChild.remove();
     }
     shownCount = count;
-    eventList.querySelector("[aria-current]")?.removeAttribute("aria-current");
-    eventList.querySelector(`[data-tick="${tick}"]`)?.setAttribute("aria-current", "true");
+    eventList.querySelector(".event-entry[aria-current]")?.removeAttribute("aria-current");
+    eventList.querySelector(`.event-entry[data-tick="${tick}"]`)?.setAttribute("aria-current", "true");
     eventPosition.textContent = frames[tick] ? `At ${timeText(frames[tick].t)}` : "";
     eventEmpty.hidden = count > 0;
     eventEmpty.textContent = !frames.length ? "Waiting for the first match event."
@@ -1006,7 +1102,11 @@ function createMatchReview({
     },
     collapse() {
       expandedTick = null;
+      linkedStep = null;
       syncExpansion();
+    },
+    highlightedRobots() {
+      return linkedStep?.robots ?? [];
     },
   };
 }
@@ -1021,6 +1121,7 @@ const kickFlightLimit = 2;
 const kickResultWindow = 1.25;
 const byId = (id) => document.getElementById(id);
 const canvas = byId("pitch");
+const pitchLabel = canvas.getAttribute("aria-label");
 const ctx = canvas.getContext("2d");
 const scrub = byId("scrub");
 const playButton = byId("play");
@@ -1430,6 +1531,7 @@ function robotTask(frame, robot) {
 }
 
 function updateLineup(frame) {
+  const highlighted = review.highlightedRobots();
   for (const [index, team] of Object.keys(teams).entries()) {
     const { mode, play, step, reason, side, overlay } = teamPlans[team];
     const roster = keys.flatMap(([color], robot) => color === team ? [robot] : []);
@@ -1463,6 +1565,7 @@ function updateLineup(frame) {
     detail.title = description === explanation ? explanation : `${description}
 ${explanation}`;
     column.style.setProperty("--role-color", roleColors[raw] ?? "var(--text)");
+    column.toggleAttribute("data-linked", highlighted.includes(robot));
     element.setAttribute("aria-label", `${robotName(robot)}, ${current}. ${behavior}. Toggle overlay`);
     element.setAttribute("aria-pressed", String(overlayEnabled.has(robot)));
     if (selected === robot) element.setAttribute("aria-current", "true");
@@ -1752,6 +1855,9 @@ function drawField() {
   if (!canvasWidth || !canvasHeight) return;
   const k = scale();
   const points = positions[frameIndex];
+  const highlighted = review.highlightedRobots();
+  const label = highlighted.length ? `${pitchLabel} Linked event highlights ${highlighted.map(robotName).join(" and ")}.` : pitchLabel;
+  if (canvas.getAttribute("aria-label") !== label) canvas.setAttribute("aria-label", label);
   ctx.fillStyle = "#16382e";
   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
   const [left, top] = project(-4.5, 3);
@@ -1794,13 +1900,19 @@ function drawField() {
   drawOverlays(frame, points, kick);
   drawForecast();
   keys.forEach(([team], robot) => {
-    if (!isVisible(robot)) return;
+    const linked = highlighted.includes(robot);
+    if (!linked && !isVisible(robot)) return;
     const offset = 2 + 3 * robot;
     const [x, y] = project(points[offset], points[offset + 1]);
     const yaw = points[offset + 2];
     const style = teams[team];
     const radius = Math.max(7, Math.min(13, .15 * k));
-    if (robot === selected) traceCircle(x, y, radius + 4, null, style.pale, 2);
+    if (linked) {
+      traceCircle(x, y, radius + 8, null, `${style.pale}69`, 1.5);
+      traceCircle(x, y, radius + 4.5, null, style.pale, 2.5);
+    } else if (!highlighted.length && robot === selected) {
+      traceCircle(x, y, radius + 4, null, style.pale, 2);
+    }
     traceCircle(x, y, radius, style.solid, style.ink, 1);
     const dx = Math.cos(yaw), dy = -Math.sin(yaw);
     ctx.strokeStyle = "#f6faff";
@@ -1876,6 +1988,7 @@ playButton.addEventListener("click", () => {
   playbackStart = frames[frameIndex].t;
   animationStart = performance.now();
   playButton.textContent = "Pause";
+  render();
   animationFrame = window.requestAnimationFrame(animate);
 });
 

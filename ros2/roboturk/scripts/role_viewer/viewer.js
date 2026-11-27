@@ -8,6 +8,7 @@ const kickFlightLimit = 2;
 const kickResultWindow = 1.25;
 const byId = (id) => document.getElementById(id);
 const canvas = byId("pitch");
+const pitchLabel = canvas.getAttribute("aria-label");
 const ctx = canvas.getContext("2d");
 const scrub = byId("scrub");
 const playButton = byId("play");
@@ -417,6 +418,7 @@ function robotTask(frame, robot) {
 }
 
 function updateLineup(frame) {
+  const highlighted = review.highlightedRobots();
   for (const [index, team] of Object.keys(teams).entries()) {
     const { mode, play, step, reason, side, overlay } = teamPlans[team];
     const roster = keys.flatMap(([color], robot) => color === team ? [robot] : []);
@@ -450,6 +452,7 @@ function updateLineup(frame) {
     detail.title = description === explanation ? explanation : `${description}
 ${explanation}`;
     column.style.setProperty("--role-color", roleColors[raw] ?? "var(--text)");
+    column.toggleAttribute("data-linked", highlighted.includes(robot));
     element.setAttribute("aria-label", `${robotName(robot)}, ${current}. ${behavior}. Toggle overlay`);
     element.setAttribute("aria-pressed", String(overlayEnabled.has(robot)));
     if (selected === robot) element.setAttribute("aria-current", "true");
@@ -739,6 +742,9 @@ function drawField() {
   if (!canvasWidth || !canvasHeight) return;
   const k = scale();
   const points = positions[frameIndex];
+  const highlighted = review.highlightedRobots();
+  const label = highlighted.length ? `${pitchLabel} Linked event highlights ${highlighted.map(robotName).join(" and ")}.` : pitchLabel;
+  if (canvas.getAttribute("aria-label") !== label) canvas.setAttribute("aria-label", label);
   ctx.fillStyle = "#16382e";
   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
   const [left, top] = project(-4.5, 3);
@@ -781,13 +787,19 @@ function drawField() {
   drawOverlays(frame, points, kick);
   drawForecast();
   keys.forEach(([team], robot) => {
-    if (!isVisible(robot)) return;
+    const linked = highlighted.includes(robot);
+    if (!linked && !isVisible(robot)) return;
     const offset = 2 + 3 * robot;
     const [x, y] = project(points[offset], points[offset + 1]);
     const yaw = points[offset + 2];
     const style = teams[team];
     const radius = Math.max(7, Math.min(13, .15 * k));
-    if (robot === selected) traceCircle(x, y, radius + 4, null, style.pale, 2);
+    if (linked) {
+      traceCircle(x, y, radius + 8, null, `${style.pale}69`, 1.5);
+      traceCircle(x, y, radius + 4.5, null, style.pale, 2.5);
+    } else if (!highlighted.length && robot === selected) {
+      traceCircle(x, y, radius + 4, null, style.pale, 2);
+    }
     traceCircle(x, y, radius, style.solid, style.ink, 1);
     const dx = Math.cos(yaw), dy = -Math.sin(yaw);
     ctx.strokeStyle = "#f6faff";
@@ -863,6 +875,7 @@ playButton.addEventListener("click", () => {
   playbackStart = frames[frameIndex].t;
   animationStart = performance.now();
   playButton.textContent = "Pause";
+  render();
   animationFrame = window.requestAnimationFrame(animate);
 });
 

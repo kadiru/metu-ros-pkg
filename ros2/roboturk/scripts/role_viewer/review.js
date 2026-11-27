@@ -70,11 +70,46 @@ function createReviewIndex(frames, keys, events, robotName, roleName) {
         const launch = recorded?.origin
           ? { speed: recorded.speed, elevation: recorded.elevation, turn: recorded.spin_turn }
           : undefined;
-        add(tick, "event", compact, team ? [team] : [], { type, launch });
+        const pass = ["pass", "chip"].includes(type) && keys[recorded?.actor]
+          && keys[recorded?.receiver]?.[0] === keys[recorded.actor][0] && recorded.actor !== recorded.receiver
+          ? { actor: recorded.actor, receiver: recorded.receiver }
+          : undefined;
+        add(tick, "event", compact, team ? [team] : [], { type, launch, pass });
       }
     }
   }
   return { markers, update };
+}
+
+function linkedPassSteps(marker, frames, keys, events, robotName, roleName) {
+  const { actor, receiver } = marker.pass;
+  const first = frames[marker.tick];
+  const team = keys[actor][0];
+  const steps = [{ tick: marker.tick, label: marker.label, robots: [actor, receiver] }];
+  const nextKick = events.find(([tick, , , , details]) => tick > marker.tick && details?.origin)?.[0] ?? frames.length;
+  const start = first.roles[receiver] === "Receiver" ? marker.tick : marker.tick + 1;
+  // The receiver assignment associates the frames with this specific pass.
+  if (frames[start]?.roles[receiver] !== "Receiver") return steps;
+  for (let tick = start; tick < nextKick && tick < frames.length; tick++) {
+    const frame = frames[tick];
+    if (frame.restart !== first.restart || frame.stage !== first.stage || (frame.mode && frame.mode !== "running")) break;
+    if (frame.roles[receiver] !== "Receiver") {
+      const owner = frame.owner;
+      if (keys[owner] && owner !== actor) {
+        const changesTeam = keys[owner][0] !== team;
+        const action = changesTeam ? "wins possession" : owner === receiver ? "receives the pass" : "secures the ball";
+        steps.push({ tick, label: `${robotName(owner)} ${action}`, robots: [owner, actor] });
+      }
+      break;
+    }
+    frame.roles.forEach((role, robot) => {
+      const previous = frames[tick - 1]?.roles[robot];
+      if (role === "Interceptor" && previous && previous !== role && keys[robot][0] !== team) {
+        steps.push({ tick, label: `${robotName(robot)} · ${roleName(previous)} → Interceptor`, robots: [robot, receiver] });
+      }
+    });
+  }
+  return steps;
 }
 
 function createMatchReview({
@@ -116,6 +151,7 @@ function createMatchReview({
   let ticks = [];
   let shownCount = null;
   let expandedTick = null;
+  let linkedStep = null;
   let expansion = null;
   let notes = new Map();
   let players = [];
@@ -226,14 +262,22 @@ function createMatchReview({
     if (rows.length > 1) indicator.textContent = `+${rows.length - 1}`;
     button.append(indicator);
     button.addEventListener("click", () => {
-      expandedTick = expandedTick === index ? null : index;
+      if (expandedTick === index) {
+        expandedTick = null;
+        linkedStep = null;
+        render();
+        return;
+      }
+      expandedTick = index;
+      const pass = rows.find((marker) => marker.pass)?.pass;
+      linkedStep = pass ? { tick: index, robots: [pass.actor, pass.receiver], order: 0 } : null;
       seek(index);
     });
     row.append(button);
     return row;
   }
 
-  function eventDetails(index) {
+  function eventDetails(index, steps) {
     const panel = document.createElement("div");
     panel.className = "event-details";
     panel.id = `event-details-${index}`;
@@ -243,6 +287,33 @@ function createMatchReview({
     const score = frame.score ? `Score ${frame.score.join("–")}` : null;
     context.textContent = [timeText(frame.t, 2), frame.stage, score].filter(Boolean).join(" · ");
     panel.append(context);
+    if (steps.length > 1) {
+      const heading = document.createElement("strong");
+      heading.className = "event-sequence-title";
+      heading.textContent = "Linked events";
+      const list = document.createElement("ol");
+      list.className = "event-sequence";
+      for (const [order, step] of steps.entries()) {
+        const item = document.createElement("li");
+        const button = document.createElement("button");
+        button.type = "button";
+        button.dataset.step = order;
+        button.dataset.tick = step.tick;
+        const time = document.createElement("time");
+        time.textContent = timeText(frames[step.tick].t, 2);
+        const caption = document.createElement("span");
+        caption.textContent = step.label;
+        button.append(time, caption);
+        button.setAttribute("aria-label", `${time.textContent} · ${step.label}. Highlight ${step.robots.map(robotName).join(" and ")}`);
+        button.addEventListener("click", () => {
+          linkedStep = { ...step, order };
+          seek(step.tick);
+        });
+        item.append(button);
+        list.append(item);
+      }
+      panel.append(heading, list);
+    }
     for (const marker of groups.get(index)) {
       const item = document.createElement("div");
       item.className = "event-detail";
@@ -269,9 +340,19 @@ function createMatchReview({
   }
 
   function syncExpansion() {
-    if (expandedTick !== tick || !groups.has(tick)) expandedTick = null;
-    const button = expandedTick === null ? null : eventList.querySelector(`[data-tick="${expandedTick}"]`);
-    if (button === (expansion?.button ?? null)) return;
+    const rows = groups.get(expandedTick);
+    const pass = rows?.find((marker) => marker.pass);
+    if (!rows || (expandedTick !== tick && linkedStep?.tick !== tick) || (linkedStep && !pass)) {
+      expandedTick = null;
+      linkedStep = null;
+    }
+    const button = expandedTick === null ? null : eventList.querySelector(`.event-entry[data-tick="${expandedTick}"]`);
+    const steps = button && pass ? linkedPassSteps(pass, frames, keys, events, robotName, roleName) : [];
+    const stepStamp = steps.map(({ tick, label }) => `${tick}:${label}`).join("|");
+    if (button === (expansion?.button ?? null) && stepStamp === (expansion?.stepStamp ?? "")) {
+      updateActiveStep();
+      return;
+    }
     if (expansion) {
       expansion.button.setAttribute("aria-expanded", "false");
       expansion.button.removeAttribute("aria-controls");
@@ -279,11 +360,20 @@ function createMatchReview({
       expansion = null;
     }
     if (!button) return;
-    const details = eventDetails(expandedTick);
+    const details = eventDetails(expandedTick, steps);
     button.setAttribute("aria-expanded", "true");
     button.setAttribute("aria-controls", details.id);
     button.after(details);
-    expansion = { button, details };
+    expansion = { button, details, stepStamp };
+    updateActiveStep();
+  }
+
+  function updateActiveStep() {
+    if (!expansion) return;
+    for (const step of expansion.details.querySelectorAll("[data-step]")) {
+      if (Number(step.dataset.step) === linkedStep?.order) step.setAttribute("aria-current", "step");
+      else step.removeAttribute("aria-current");
+    }
   }
 
   function showMoment() {
@@ -301,8 +391,8 @@ function createMatchReview({
       for (let removed = shownCount - count; removed > 0; removed--) eventList.firstElementChild.remove();
     }
     shownCount = count;
-    eventList.querySelector("[aria-current]")?.removeAttribute("aria-current");
-    eventList.querySelector(`[data-tick="${tick}"]`)?.setAttribute("aria-current", "true");
+    eventList.querySelector(".event-entry[aria-current]")?.removeAttribute("aria-current");
+    eventList.querySelector(`.event-entry[data-tick="${tick}"]`)?.setAttribute("aria-current", "true");
     eventPosition.textContent = frames[tick] ? `At ${timeText(frames[tick].t)}` : "";
     eventEmpty.hidden = count > 0;
     eventEmpty.textContent = !frames.length ? "Waiting for the first match event."
@@ -484,7 +574,11 @@ function createMatchReview({
     },
     collapse() {
       expandedTick = null;
+      linkedStep = null;
       syncExpansion();
+    },
+    highlightedRobots() {
+      return linkedStep?.robots ?? [];
     },
   };
 }

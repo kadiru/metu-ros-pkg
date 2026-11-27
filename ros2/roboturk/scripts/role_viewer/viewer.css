@@ -198,6 +198,7 @@ button.primary:hover { background: #c1eed3; }
 .roster { display: grid; grid-template-columns: repeat(var(--players, 5), minmax(85px, 1fr)); border-top: 1px solid var(--line); }
 .roster-player { display: grid; grid-row: span 4; grid-template-rows: subgrid; align-items: start; gap: 4px; min-width: 0; padding: 6px 7px 3px; border-inline-start: 1px solid var(--line); }
 .roster-player:first-child { border-inline-start: 0; padding-inline-start: 1px; }
+.roster-player[data-linked] { background: color-mix(in srgb, var(--team) 12%, transparent); box-shadow: inset 0 2px var(--team); }
 .roster-id { justify-self: start; min-height: 23px; padding: 2px 7px; color: var(--team); background: transparent; border-color: color-mix(in srgb, var(--team) 27%, var(--line)); border-radius: 4px; font-size: 11px; }
 .roster-id[aria-pressed="true"] { background: color-mix(in srgb, var(--team) 20%, transparent); border-color: var(--team); }
 .roster-id[aria-current="true"] { box-shadow: inset 0 -2px var(--team); }
@@ -218,7 +219,7 @@ button.primary:hover { background: #c1eed3; }
 #event-position { font-variant-numeric: tabular-nums; }
 .event-scroll { position: relative; min-height: 120px; padding: 0 11px 8px; overflow-y: auto; scrollbar-width: thin; }
 .event-track { list-style: none; margin: 0; padding: 0; }
-.event-track li { border-top: 1px solid var(--line); }
+.event-track > li { border-top: 1px solid var(--line); }
 .event-entry { display: grid; grid-template-columns: 5.7ch minmax(0, 1fr) auto; width: 100%; align-items: center; gap: 8px; min-height: 34px; padding: 6px 5px; text-align: left; background: transparent; border: 0; border-radius: 4px; }
 .event-entry:hover { background: var(--panel2); }
 .event-entry:focus-visible { outline-offset: -2px; }
@@ -237,6 +238,11 @@ button.primary:hover { background: #c1eed3; }
 .event-detail { display: grid; gap: 2px; }
 .event-detail .event-label { font-weight: 650; }
 .event-detail p { padding-inline-start: 9px; }
+.event-sequence-title { font-size: 11px; }
+.event-sequence { display: grid; gap: 3px; margin: 0 0 3px; padding: 0; list-style: none; }
+.event-sequence button { display: grid; grid-template-columns: 7ch minmax(0, 1fr); align-items: baseline; gap: 6px; width: 100%; min-height: 30px; padding: 4px 6px; color: var(--text); text-align: left; font-size: 11px; overflow-wrap: anywhere; }
+.event-sequence time { color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.event-sequence button[aria-current="step"] { border-color: var(--mint); background: color-mix(in srgb, var(--mint) 12%, var(--panel2)); }
 .event-empty { border-top: 1px solid var(--line); padding: 11px 4px; color: var(--muted); font-size: 12px; }
 .setup { max-width: 820px; }
 .setup form { display: grid; gap: 18px; }

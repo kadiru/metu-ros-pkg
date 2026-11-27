@@ -27,6 +27,10 @@ The fit used 21 training recordings across five seeds. The test used five record
 
 At one second, the context-and-plans model improved mean error by **12.4% for teammates** and **10.7% for opponents**. At 200 ms, extrapolating measured velocity was more accurate. In the held-out example at tick 581, the Blue view predicts Y2's one-second endpoint with 0.15 m error. Straight-line extrapolation misses by 1.70 m.
 
+![Mean XY error against forecast horizon for each model and team viewpoint](../media/match-viewer/forecast-error-curves.png)
+
+The [curve data](../policies/team_forecast_v1/error-curves.csv) add Kalman to the same clean windows and score all methods every 40 ms. The learned paths are interpolated between their native 200 ms outputs as in Hoca. Context + plans first scores below straight-line at 600 ms for teammates and 680 ms for opponents. To regenerate the curves, pass the two saved model files and the same named test recordings to `scripts/plot_forecast_error.py` in an environment with Matplotlib.
+
 ### Do the sampled paths help?
 
 On 5,658 forecasts where a teammate had a recorded timed route, the context-and-plans model averaged **0.446 m** at one second. With sampled routes removed from the same model at inference, and issued commands, targets and waypoints retained, the error was **0.414 m**. The straight-line result was **0.500 m**. This comparison is from one held-out match. We need more traced matches to test when the path adds value, especially through role changes and waypoint replanning.

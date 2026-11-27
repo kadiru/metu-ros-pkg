@@ -63,11 +63,14 @@ function createReviewIndex(frames, keys, events, robotName, roleName) {
       }
     }
     for (; nextEvent < events.length; nextEvent++) {
-      const [tick, label, type, team] = events[nextEvent];
+      const [tick, label, type, team, recorded] = events[nextEvent];
       if (tick >= frames.length) break;
       if (frames[tick] && label && type !== "kick_trace") {
         const compact = label.replace(/\b(Blue|Yellow) (\d+)\b/g, (_, color, id) => color[0] + id);
-        add(tick, "event", compact, team ? [team] : [], { type });
+        const launch = recorded?.origin
+          ? { speed: recorded.speed, elevation: recorded.elevation, turn: recorded.spin_turn }
+          : undefined;
+        add(tick, "event", compact, team ? [team] : [], { type, launch });
       }
     }
   }
@@ -75,7 +78,7 @@ function createReviewIndex(frames, keys, events, robotName, roleName) {
 }
 
 function createMatchReview({
-  frames, keys, positions, events, robotName, roleName, timeText, seek, render, selectedRobot, openClip,
+  frames, keys, positions, events, robotName, roleName, robotTask, timeText, seek, render, selectedRobot, openClip,
 }) {
   const el = (id) => document.getElementById(id);
   const actions = el("review-actions");
@@ -112,6 +115,8 @@ function createMatchReview({
   let groups = new Map();
   let ticks = [];
   let shownCount = null;
+  let expandedTick = null;
+  let expansion = null;
   let notes = new Map();
   let players = [];
 
@@ -136,6 +141,18 @@ function createMatchReview({
     } catch {
       // The session and clip export still work when storage is unavailable.
     }
+  }
+
+  function summaryOf(rows) {
+    const primary = ["event", "possession", "decision", "role", "note"]
+      .map((kind) => rows.find((row) => row.kind === kind)).find(Boolean);
+    let label = primary.label;
+    if (primary.kind === "decision" && primary.step) {
+      label = `${primary.teams[0] === "blue" ? "Blue" : "Yellow"} · ${primary.step}`;
+    } else if (primary.kind === "event") {
+      label = label.replace(/\s*·\s*\d+(?:\.\d+)?\s*m\/s$/, "");
+    }
+    return { ...primary, label: label.replace(/\s+/g, " ") };
   }
 
   function refreshMarkers() {
@@ -163,13 +180,13 @@ function createMatchReview({
     const marks = document.createDocumentFragment();
     for (const index of [...ticks].reverse()) {
       const rows = groups.get(index);
-      const label = rows[0].label.replace(/\s+/g, " ");
+      const { label, kind } = summaryOf(rows);
       const caption = label.length > 86 ? `${label.slice(0, 85)}…` : label;
       options.append(new Option(`${timeText(frames[index].t)} · ${caption}${rows.length > 1 ? ` (+${rows.length - 1})` : ""}`, index));
       const mark = document.createElement("span");
       mark.className = "review-mark";
       mark.dataset.tick = index;
-      mark.dataset.kind = rows[0].kind;
+      mark.dataset.kind = kind;
       mark.style.setProperty("--mark-position", `${100 * index / Math.max(1, frames.length - 1)}%`);
       marks.append(mark);
     }
@@ -183,29 +200,90 @@ function createMatchReview({
     if (replacement) eventScroll.scrollTop = scrollTop + replacement.offsetTop - oldTop;
   }
 
+  function eventLabel({ kind, label, type, teams }, className) {
+    const line = document.createElement("span");
+    line.className = className;
+    line.dataset.kind = kind;
+    if (type) line.dataset.type = type;
+    if (teams.length === 1) line.dataset.team = teams[0];
+    line.textContent = label;
+    return line;
+  }
+
   function eventRow(index) {
     const row = document.createElement("li");
     const button = document.createElement("button");
     button.type = "button";
     button.className = "event-entry";
     button.dataset.tick = index;
+    button.setAttribute("aria-expanded", "false");
     const time = document.createElement("time");
     time.textContent = timeText(frames[index].t);
-    const labels = document.createElement("span");
-    labels.className = "event-labels";
-    for (const { kind, label, type, teams } of groups.get(index)) {
-      const line = document.createElement("span");
-      line.className = "event-label";
-      line.dataset.kind = kind;
-      if (type) line.dataset.type = type;
-      if (teams.length === 1) line.dataset.team = teams[0];
-      line.textContent = label;
-      labels.append(line);
-    }
-    button.append(time, labels);
-    button.addEventListener("click", () => seek(index));
+    const rows = groups.get(index);
+    button.append(time, eventLabel(summaryOf(rows), "event-label event-summary"));
+    const indicator = document.createElement("span");
+    indicator.className = "event-indicator";
+    if (rows.length > 1) indicator.textContent = `+${rows.length - 1}`;
+    button.append(indicator);
+    button.addEventListener("click", () => {
+      expandedTick = expandedTick === index ? null : index;
+      seek(index);
+    });
     row.append(button);
     return row;
+  }
+
+  function eventDetails(index) {
+    const panel = document.createElement("div");
+    panel.className = "event-details";
+    panel.id = `event-details-${index}`;
+    const frame = frames[index];
+    const context = document.createElement("p");
+    context.className = "event-context";
+    const score = frame.score ? `Score ${frame.score.join("–")}` : null;
+    context.textContent = [timeText(frame.t, 2), frame.stage, score].filter(Boolean).join(" · ");
+    panel.append(context);
+    for (const marker of groups.get(index)) {
+      const item = document.createElement("div");
+      item.className = "event-detail";
+      item.append(eventLabel(marker, "event-label"));
+      let description = marker.reason;
+      if (marker.kind === "role") description = robotTask(frame, marker.robot);
+      if (Number.isFinite(marker.launch?.speed)) {
+        const { speed, elevation, turn } = marker.launch;
+        const values = [`Launch ${speed.toFixed(2)} m/s`];
+        if (elevation > 0) values.push(`${Math.round(elevation * 180 / Math.PI)}° loft`);
+        if (Number.isFinite(turn?.degrees)) values.push(`${Math.round(turn.degrees)}° ${turn.direction} rotation`);
+        description = values.join(" · ");
+      }
+      const play = marker.kind === "note" ? notes.get(index)?.play : null;
+      if (play) description = `${play.objective} · ${play.players.map(({ id }) => id).join(", ")}`;
+      if (description && description !== "—") {
+        const detail = document.createElement("p");
+        detail.textContent = description;
+        item.append(detail);
+      }
+      panel.append(item);
+    }
+    return panel;
+  }
+
+  function syncExpansion() {
+    if (expandedTick !== tick || !groups.has(tick)) expandedTick = null;
+    const button = expandedTick === null ? null : eventList.querySelector(`[data-tick="${expandedTick}"]`);
+    if (button === (expansion?.button ?? null)) return;
+    if (expansion) {
+      expansion.button.setAttribute("aria-expanded", "false");
+      expansion.button.removeAttribute("aria-controls");
+      expansion.details.remove();
+      expansion = null;
+    }
+    if (!button) return;
+    const details = eventDetails(expandedTick);
+    button.setAttribute("aria-expanded", "true");
+    button.setAttribute("aria-controls", details.id);
+    button.after(details);
+    expansion = { button, details };
   }
 
   function showMoment() {
@@ -394,6 +472,7 @@ function createMatchReview({
         if (markers.slice(before).some(({ kind }) => visibleKinds.includes(kind))) refreshMarkers();
       }
       showMoment();
+      syncExpansion();
       track.hidden = !ticks.length;
       previous.disabled = !ticks.length || tick <= ticks[0];
       next.disabled = !ticks.length || tick >= ticks.at(-1);
@@ -402,6 +481,10 @@ function createMatchReview({
       const target = direction < 0 ? ticks.findLast((index) => index < tick)
         : ticks.find((index) => index > tick);
       if (target !== undefined) seek(target);
+    },
+    collapse() {
+      expandedTick = null;
+      syncExpansion();
     },
   };
 }

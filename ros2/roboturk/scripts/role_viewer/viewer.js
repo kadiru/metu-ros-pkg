@@ -135,7 +135,7 @@ const filterButtons = [];
 const teamButtons = {};
 const motionControls = createLimitControls(byId("motion-limits"), match.limit_ranges, changeLimit);
 const review = createMatchReview({
-  frames, keys, positions, events, robotName, roleName, timeText: replayTime, seek, render,
+  frames, keys, positions, events, robotName, roleName, robotTask, timeText: replayTime, seek, render,
   selectedRobot: () => selected, openClip: openMomentClip,
 });
 
@@ -155,9 +155,13 @@ function clockText(seconds) {
   return `${Math.floor(whole / 60)}:${String(whole % 60).padStart(2, "0")}`;
 }
 
-function replayTime(seconds) {
-  const tenths = Math.round(seconds * 10);
-  return `${Math.floor(tenths / 600)}:${String(Math.floor(tenths / 10) % 60).padStart(2, "0")}.${tenths % 10}`;
+function replayTime(seconds, precision = 1) {
+  const scale = 10 ** precision;
+  const ticks = Math.round(seconds * scale);
+  const minutes = Math.floor(ticks / (60 * scale));
+  const wholeSeconds = String(Math.floor(ticks / scale) % 60).padStart(2, "0");
+  const fraction = String(ticks % scale).padStart(precision, "0");
+  return `${minutes}:${wholeSeconds}.${fraction}`;
 }
 
 function commandName(command) {
@@ -854,6 +858,7 @@ playButton.addEventListener("click", () => {
   if (!frames.length) return;
   if (playing) { pause(); return; }
   if (frameIndex >= frames.length - 1) goTo(0);
+  review.collapse();
   playing = true;
   playbackStart = frames[frameIndex].t;
   animationStart = performance.now();
@@ -906,6 +911,7 @@ previousButton.addEventListener("click", () => review.jump(-1));
 nextButton.addEventListener("click", () => review.jump(1));
 liveButton.addEventListener("click", () => {
   pause();
+  review.collapse();
   following = true;
   goTo(frames.length - 1);
 });

@@ -225,15 +225,24 @@ button.primary:hover { background: #c1eed3; }
 .event-scroll { position: relative; min-height: 120px; padding: 0 11px 8px; overflow-y: auto; scrollbar-width: thin; }
 .event-track { list-style: none; margin: 0; padding: 0; }
 .event-track li { border-top: 1px solid var(--line); }
-.event-entry { display: grid; grid-template-columns: 5.7ch minmax(0, 1fr); width: 100%; align-items: baseline; gap: 9px; min-height: 36px; padding: 7px 5px; text-align: left; background: transparent; border: 0; border-radius: 4px; }
+.event-entry { display: grid; grid-template-columns: 5.7ch minmax(0, 1fr) auto; width: 100%; align-items: center; gap: 8px; min-height: 34px; padding: 6px 5px; text-align: left; background: transparent; border: 0; border-radius: 4px; }
 .event-entry:hover { background: var(--panel2); }
 .event-entry:focus-visible { outline-offset: -2px; }
 .event-entry[aria-current="true"] { background: color-mix(in srgb, var(--mint) 10%, var(--panel)); box-shadow: inset 2px 0 var(--mint); }
 .event-entry time { color: var(--muted); font-size: 11px; font-weight: 550; white-space: nowrap; font-variant-numeric: tabular-nums; }
-.event-labels { display: grid; gap: 4px; }
 .event-label { border-inline-start: 2px solid var(--review-color, var(--line)); padding-inline-start: 7px; font-size: 12px; line-height: 1.3; overflow-wrap: anywhere; }
 .event-label[data-kind="event"][data-team="blue"] { --review-color: var(--blue); }
 .event-label[data-kind="event"][data-type="goal"] { color: var(--review-color); }
+.event-summary { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.event-indicator { display: inline-flex; align-items: center; gap: 6px; padding-right: 3px; color: var(--muted); font-size: 10px; }
+.event-indicator::after { content: ""; width: 5px; height: 5px; border: solid currentColor; border-width: 0 1px 1px 0; transform: rotate(45deg); }
+.event-entry[aria-expanded="true"] .event-indicator::after { transform: rotate(225deg); }
+.event-details { display: grid; gap: 7px; margin: 0 4px 7px; padding: 8px 9px; background: #121d26; border-inline-start: 2px solid var(--mint); border-radius: 0 0 5px 5px; }
+.event-context, .event-detail p { color: var(--muted); font-size: 11px; line-height: 1.35; overflow-wrap: anywhere; }
+.event-context { font-variant-numeric: tabular-nums; }
+.event-detail { display: grid; gap: 2px; }
+.event-detail .event-label { font-weight: 650; }
+.event-detail p { padding-inline-start: 9px; }
 .event-empty { border-top: 1px solid var(--line); padding: 11px 4px; color: var(--muted); font-size: 12px; }
 .setup { max-width: 820px; }
 .setup form { display: grid; gap: 18px; }
@@ -576,11 +585,14 @@ function createReviewIndex(frames, keys, events, robotName, roleName) {
       }
     }
     for (; nextEvent < events.length; nextEvent++) {
-      const [tick, label, type, team] = events[nextEvent];
+      const [tick, label, type, team, recorded] = events[nextEvent];
       if (tick >= frames.length) break;
       if (frames[tick] && label && type !== "kick_trace") {
         const compact = label.replace(/\b(Blue|Yellow) (\d+)\b/g, (_, color, id) => color[0] + id);
-        add(tick, "event", compact, team ? [team] : [], { type });
+        const launch = recorded?.origin
+          ? { speed: recorded.speed, elevation: recorded.elevation, turn: recorded.spin_turn }
+          : undefined;
+        add(tick, "event", compact, team ? [team] : [], { type, launch });
       }
     }
   }
@@ -588,7 +600,7 @@ function createReviewIndex(frames, keys, events, robotName, roleName) {
 }
 
 function createMatchReview({
-  frames, keys, positions, events, robotName, roleName, timeText, seek, render, selectedRobot, openClip,
+  frames, keys, positions, events, robotName, roleName, robotTask, timeText, seek, render, selectedRobot, openClip,
 }) {
   const el = (id) => document.getElementById(id);
   const actions = el("review-actions");
@@ -625,6 +637,8 @@ function createMatchReview({
   let groups = new Map();
   let ticks = [];
   let shownCount = null;
+  let expandedTick = null;
+  let expansion = null;
   let notes = new Map();
   let players = [];
 
@@ -649,6 +663,18 @@ function createMatchReview({
     } catch {
       // The session and clip export still work when storage is unavailable.
     }
+  }
+
+  function summaryOf(rows) {
+    const primary = ["event", "possession", "decision", "role", "note"]
+      .map((kind) => rows.find((row) => row.kind === kind)).find(Boolean);
+    let label = primary.label;
+    if (primary.kind === "decision" && primary.step) {
+      label = `${primary.teams[0] === "blue" ? "Blue" : "Yellow"} · ${primary.step}`;
+    } else if (primary.kind === "event") {
+      label = label.replace(/\s*·\s*\d+(?:\.\d+)?\s*m\/s$/, "");
+    }
+    return { ...primary, label: label.replace(/\s+/g, " ") };
   }
 
   function refreshMarkers() {
@@ -676,13 +702,13 @@ function createMatchReview({
     const marks = document.createDocumentFragment();
     for (const index of [...ticks].reverse()) {
       const rows = groups.get(index);
-      const label = rows[0].label.replace(/\s+/g, " ");
+      const { label, kind } = summaryOf(rows);
       const caption = label.length > 86 ? `${label.slice(0, 85)}…` : label;
       options.append(new Option(`${timeText(frames[index].t)} · ${caption}${rows.length > 1 ? ` (+${rows.length - 1})` : ""}`, index));
       const mark = document.createElement("span");
       mark.className = "review-mark";
       mark.dataset.tick = index;
-      mark.dataset.kind = rows[0].kind;
+      mark.dataset.kind = kind;
       mark.style.setProperty("--mark-position", `${100 * index / Math.max(1, frames.length - 1)}%`);
       marks.append(mark);
     }
@@ -696,29 +722,90 @@ function createMatchReview({
     if (replacement) eventScroll.scrollTop = scrollTop + replacement.offsetTop - oldTop;
   }
 
+  function eventLabel({ kind, label, type, teams }, className) {
+    const line = document.createElement("span");
+    line.className = className;
+    line.dataset.kind = kind;
+    if (type) line.dataset.type = type;
+    if (teams.length === 1) line.dataset.team = teams[0];
+    line.textContent = label;
+    return line;
+  }
+
   function eventRow(index) {
     const row = document.createElement("li");
     const button = document.createElement("button");
     button.type = "button";
     button.className = "event-entry";
     button.dataset.tick = index;
+    button.setAttribute("aria-expanded", "false");
     const time = document.createElement("time");
     time.textContent = timeText(frames[index].t);
-    const labels = document.createElement("span");
-    labels.className = "event-labels";
-    for (const { kind, label, type, teams } of groups.get(index)) {
-      const line = document.createElement("span");
-      line.className = "event-label";
-      line.dataset.kind = kind;
-      if (type) line.dataset.type = type;
-      if (teams.length === 1) line.dataset.team = teams[0];
-      line.textContent = label;
-      labels.append(line);
-    }
-    button.append(time, labels);
-    button.addEventListener("click", () => seek(index));
+    const rows = groups.get(index);
+    button.append(time, eventLabel(summaryOf(rows), "event-label event-summary"));
+    const indicator = document.createElement("span");
+    indicator.className = "event-indicator";
+    if (rows.length > 1) indicator.textContent = `+${rows.length - 1}`;
+    button.append(indicator);
+    button.addEventListener("click", () => {
+      expandedTick = expandedTick === index ? null : index;
+      seek(index);
+    });
     row.append(button);
     return row;
+  }
+
+  function eventDetails(index) {
+    const panel = document.createElement("div");
+    panel.className = "event-details";
+    panel.id = `event-details-${index}`;
+    const frame = frames[index];
+    const context = document.createElement("p");
+    context.className = "event-context";
+    const score = frame.score ? `Score ${frame.score.join("–")}` : null;
+    context.textContent = [timeText(frame.t, 2), frame.stage, score].filter(Boolean).join(" · ");
+    panel.append(context);
+    for (const marker of groups.get(index)) {
+      const item = document.createElement("div");
+      item.className = "event-detail";
+      item.append(eventLabel(marker, "event-label"));
+      let description = marker.reason;
+      if (marker.kind === "role") description = robotTask(frame, marker.robot);
+      if (Number.isFinite(marker.launch?.speed)) {
+        const { speed, elevation, turn } = marker.launch;
+        const values = [`Launch ${speed.toFixed(2)} m/s`];
+        if (elevation > 0) values.push(`${Math.round(elevation * 180 / Math.PI)}° loft`);
+        if (Number.isFinite(turn?.degrees)) values.push(`${Math.round(turn.degrees)}° ${turn.direction} rotation`);
+        description = values.join(" · ");
+      }
+      const play = marker.kind === "note" ? notes.get(index)?.play : null;
+      if (play) description = `${play.objective} · ${play.players.map(({ id }) => id).join(", ")}`;
+      if (description && description !== "—") {
+        const detail = document.createElement("p");
+        detail.textContent = description;
+        item.append(detail);
+      }
+      panel.append(item);
+    }
+    return panel;
+  }
+
+  function syncExpansion() {
+    if (expandedTick !== tick || !groups.has(tick)) expandedTick = null;
+    const button = expandedTick === null ? null : eventList.querySelector(`[data-tick="${expandedTick}"]`);
+    if (button === (expansion?.button ?? null)) return;
+    if (expansion) {
+      expansion.button.setAttribute("aria-expanded", "false");
+      expansion.button.removeAttribute("aria-controls");
+      expansion.details.remove();
+      expansion = null;
+    }
+    if (!button) return;
+    const details = eventDetails(expandedTick);
+    button.setAttribute("aria-expanded", "true");
+    button.setAttribute("aria-controls", details.id);
+    button.after(details);
+    expansion = { button, details };
   }
 
   function showMoment() {
@@ -907,6 +994,7 @@ function createMatchReview({
         if (markers.slice(before).some(({ kind }) => visibleKinds.includes(kind))) refreshMarkers();
       }
       showMoment();
+      syncExpansion();
       track.hidden = !ticks.length;
       previous.disabled = !ticks.length || tick <= ticks[0];
       next.disabled = !ticks.length || tick >= ticks.at(-1);
@@ -915,6 +1003,10 @@ function createMatchReview({
       const target = direction < 0 ? ticks.findLast((index) => index < tick)
         : ticks.find((index) => index > tick);
       if (target !== undefined) seek(target);
+    },
+    collapse() {
+      expandedTick = null;
+      syncExpansion();
     },
   };
 }
@@ -1056,7 +1148,7 @@ const filterButtons = [];
 const teamButtons = {};
 const motionControls = createLimitControls(byId("motion-limits"), match.limit_ranges, changeLimit);
 const review = createMatchReview({
-  frames, keys, positions, events, robotName, roleName, timeText: replayTime, seek, render,
+  frames, keys, positions, events, robotName, roleName, robotTask, timeText: replayTime, seek, render,
   selectedRobot: () => selected, openClip: openMomentClip,
 });
 
@@ -1076,9 +1168,13 @@ function clockText(seconds) {
   return `${Math.floor(whole / 60)}:${String(whole % 60).padStart(2, "0")}`;
 }
 
-function replayTime(seconds) {
-  const tenths = Math.round(seconds * 10);
-  return `${Math.floor(tenths / 600)}:${String(Math.floor(tenths / 10) % 60).padStart(2, "0")}.${tenths % 10}`;
+function replayTime(seconds, precision = 1) {
+  const scale = 10 ** precision;
+  const ticks = Math.round(seconds * scale);
+  const minutes = Math.floor(ticks / (60 * scale));
+  const wholeSeconds = String(Math.floor(ticks / scale) % 60).padStart(2, "0");
+  const fraction = String(ticks % scale).padStart(precision, "0");
+  return `${minutes}:${wholeSeconds}.${fraction}`;
 }
 
 function commandName(command) {
@@ -1775,6 +1871,7 @@ playButton.addEventListener("click", () => {
   if (!frames.length) return;
   if (playing) { pause(); return; }
   if (frameIndex >= frames.length - 1) goTo(0);
+  review.collapse();
   playing = true;
   playbackStart = frames[frameIndex].t;
   animationStart = performance.now();
@@ -1827,6 +1924,7 @@ previousButton.addEventListener("click", () => review.jump(-1));
 nextButton.addEventListener("click", () => review.jump(1));
 liveButton.addEventListener("click", () => {
   pause();
+  review.collapse();
   following = true;
   goTo(frames.length - 1);
 });

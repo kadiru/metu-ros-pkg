@@ -24,6 +24,11 @@ const clipToggle = byId("clip-toggle");
 const clipPanel = byId("clip-panel");
 const clipDownload = byId("clip-download");
 const clipStatus = byId("clip-status");
+const forecastToggle = byId("forecast-toggle");
+const forecastSummary = byId("forecast-summary");
+const forecastError = byId("forecast-error");
+const forecastReplay = byId("forecast-replay");
+const replayQuery = new URLSearchParams(location.search);
 const teams = {
   blue: { label: "Blue", solid: "#639bff", pale: "#bcd3ff", ink: "#0b264c" },
   yellow: { label: "Yellow", solid: "#f5cd58", pale: "#ffe5a1", ink: "#382c0a" },
@@ -87,6 +92,18 @@ let sourceHeader = match;
 let clipStart = null;
 let clipEnd = null;
 let selected = match.intro?.robot ?? 0;
+let forecastEnabled = Boolean(match.forecast && replayQuery.get("forecast") === "1");
+if (!livePage && replayQuery.has("frame")) {
+  const frame = Number(replayQuery.get("frame"));
+  if (Number.isInteger(frame) && frame >= 0 && frame < frames.length) frameIndex = frame;
+} else if (forecastEnabled) {
+  const valid = match.forecast.states.findIndex((row, index) => row && index >= frameIndex);
+  if (valid >= 0) frameIndex = valid;
+}
+if (!livePage && replayQuery.has("robot")) {
+  const robot = keys.findIndex((_, robot) => robotName(robot) === replayQuery.get("robot"));
+  if (robot >= 0) selected = robot;
+}
 let initialLimits;
 let limits;
 let slidersEditable;
@@ -704,6 +721,9 @@ function render() {
   playbackRateSelect.disabled = playButton.disabled;
   scrub.disabled = !frame;
   clipToggle.disabled = !frame;
+  forecastToggle.hidden = !match.forecast;
+  forecastToggle.setAttribute("aria-pressed", String(forecastEnabled));
+  forecastSummary.hidden = !forecastEnabled;
   previousButton.disabled = nextButton.disabled = !frame;
   if (!frame) {
     updateEventTrack(0);
@@ -855,6 +875,43 @@ function drawOverlays(frame, points, kick) {
   }
 }
 
+function drawForecast() {
+  if (!forecastEnabled) return;
+  const row = match.forecast.states[frameIndex];
+  const name = robotName(selected);
+  if (!isVisible(selected) || !row) {
+    forecastError.textContent = !isVisible(selected) ? `Show ${name} to see its path.`
+      : "Choose a frame with a full second of open play ahead.";
+    return;
+  }
+  const offset = 2 + selected * 3;
+  const [vx, vy, kx, ky, kvx, kvy] = row.slice(selected * 6, (selected + 1) * 6);
+  const horizon = match.forecast.horizon;
+  const sample = horizon / match.dt;
+  const whole = Math.floor(sample + 1e-9);
+  const actual = positions.slice(frameIndex, frameIndex + whole + 1)
+    .map((points) => points.slice(offset, offset + 2));
+  if (sample - whole > 1e-9) {
+    const next = positions[frameIndex + whole + 1];
+    actual.push(actual.at(-1).map((value, axis) =>
+      value + (sample - whole) * (next[offset + axis] - value)));
+  }
+  const [x, y] = actual[0];
+  const current = [[x, y], [x + horizon * vx, y + horizon * vy]];
+  const kalman = [[kx, ky], [kx + horizon * kvx, ky + horizon * kvy]];
+  const style = getComputedStyle(forecastSummary);
+  for (const [kind, path, dash] of [
+    ["actual", actual, []], ["current", current, [8, 4]], ["kalman", kalman, [2, 4]],
+  ]) {
+    const color = style.getPropertyValue(`--forecast-${kind}`).trim();
+    const points = path.map(([px, py]) => project(px, py));
+    strokePath(points, color, 2.1, dash);
+    traceCircle(...points.at(-1), 4, "#16382e", color, 1.6);
+  }
+  const error = (path) => Math.hypot(...path.at(-1).map((v, axis) => v - actual.at(-1)[axis]));
+  forecastError.textContent = `${name} at +${horizon} s · Current ${error(current).toFixed(2)} m · Kalman ${error(kalman).toFixed(2)} m`;
+}
+
 function drawField() {
   const frame = frames[frameIndex];
   const kick = frame ? latestKick() : null;
@@ -902,6 +959,7 @@ function drawField() {
   }
   if (!frame) return;
   drawOverlays(frame, points, kick);
+  drawForecast();
   keys.forEach(([team], robot) => {
     if (!isVisible(robot)) return;
     const offset = 2 + 3 * robot;
@@ -1009,6 +1067,10 @@ for (const disclosure of [byId("field-info"), motionSettings]) {
 }
 
 scrub.addEventListener("input", () => seek(Number(scrub.value)));
+forecastToggle.addEventListener("click", () => {
+  forecastEnabled = !forecastEnabled;
+  render();
+});
 clipToggle.addEventListener("click", () => {
   clipPanel.hidden = !clipPanel.hidden;
   clipToggle.setAttribute("aria-expanded", String(!clipPanel.hidden));
@@ -1063,6 +1125,7 @@ function updateFeed() {
   else if (frames.length) [state, label] = following ? ["live", "Live · Webots"] : ["review", "Reviewing live match"];
   byId("feed-state").dataset.state = state;
   byId("feed-label").textContent = label;
+  forecastReplay.hidden = !finished || matchFailed;
   liveButton.hidden = !frames.length || (finished && frameIndex === frames.length - 1);
   liveButton.disabled = following && !finished;
   liveButton.textContent = finished ? "Jump to end" : following ? "Following live" : "Go live";

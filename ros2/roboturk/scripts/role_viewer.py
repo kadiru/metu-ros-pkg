@@ -17,6 +17,7 @@ from match_sessions import HALF_SECONDS_RANGE, LimitsLocked, MatchRunning, Match
 from roboturk.five_roles import CFG
 from roboturk.five_strategy import DECISION_CONTROLLERS, PASS_PREFERENCES, PLAYBOOKS
 from roboturk.match_limits import GAME_LIMITS, PRACTICE_RANGES, limit_values, team_configs
+from roboturk.motion_forecast import open_play_segments, replay_forecasts
 from roboturk.role_telemetry import action_events, compact_frame, frame_events, viewer_header
 
 
@@ -29,7 +30,12 @@ def archive_folder(folder):
     return path if (path / "roles.json.gz").is_file() else path / "match"
 
 
-def build_data(folder):
+def archive_ready(folder):
+    archive = archive_folder(folder)
+    return (archive / "roles.json.gz").is_file() and (archive / "positions.npz").is_file()
+
+
+def read_recording(folder):
     folder = archive_folder(folder)
     with gzip.open(folder / "roles.json.gz", "rt") as source:
         log = json.load(source)
@@ -40,6 +46,19 @@ def build_data(folder):
         raise ValueError("Positions and roles must contain the same match samples")
     if not np.isfinite(samples).all():
         raise ValueError("Match positions must be finite")
+    return log, samples
+
+
+def build_data(folder):
+    folder = archive_folder(folder)
+    log, samples = read_recording(folder)
+    keys, raw_frames = log["keys"], log["frames"]
+    dt = log["dt"]
+    forecasts = replay_forecasts(
+        samples[:, 4:].reshape(len(samples), len(keys), 3)[..., :2],
+        dt,
+        open_play_segments(raw_frames, dt),
+    )
     frames, events = [], []
     previous = None
     for index, frame in enumerate(raw_frames):
@@ -80,6 +99,7 @@ def build_data(folder):
         intro=intro,
         audited=any(frame["allocation"] is not None for frame in frames),
         team_strategies=team_strategies,
+        forecast=forecasts.viewer_data() if forecasts.valid.any() else None,
     )
 
 
@@ -125,7 +145,8 @@ class ViewerRequest(BaseHTTPRequestHandler):
     def do_GET(self):
         url = urlsplit(self.path)
         if url.path == "/":
-            self.respond(self.html, "text/html; charset=utf-8")
+            html = page(build_data(self.folder)).encode() if archive_ready(self.folder) else self.html
+            self.respond(html, "text/html; charset=utf-8")
             return
         if url.path != "/telemetry":
             self.send_error(404)
@@ -182,15 +203,16 @@ class SessionRequest(ViewerRequest):
             data = build_data(archived)
             self.respond(page(dict(data, setup_url="/")).encode(), "text/html; charset=utf-8")
         elif parts[3] == "":
-            html = page(
-                dict(
+            if session.process.poll() == 0 and archive_ready(session.match):
+                data = dict(build_data(session.match), session=session.options, setup_url="/")
+            else:
+                data = dict(
                     live=True,
                     session=session.options,
                     setup_url="/",
                     edit_limits=session.limit_path is not None and session.process.poll() is None,
                 )
-            )
-            self.respond(html.encode(), "text/html; charset=utf-8")
+            self.respond(page(data).encode(), "text/html; charset=utf-8")
         elif parts[3] == "telemetry":
             self.telemetry(session.match, url.query, session.failed)
         else:

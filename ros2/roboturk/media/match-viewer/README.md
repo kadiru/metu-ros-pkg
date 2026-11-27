@@ -42,6 +42,8 @@ When a field player can meet an opposing ground pass, the team switches to **Int
 
 Open the **ⓘ** beside **Field** to see the overlay legend. The latest recorded kick and replay time share a row under the field, above the scrubber. The kick readout stays visible until another kick and includes launch speed, rotation or loft when present, and goal-line measurements when recorded. Use the speed selector next to **Play** to replay at 0.25× to 2× in quarter-speed steps. You can switch rates during playback. Live following runs at the simulator's pace.
 
+In a saved match, turn on **1 s forecast** to compare the selected robot's recorded path with the current and Kalman forecasts. The legend identifies the three paths and the readout shows the endpoint errors. After a live match finishes, **Review forecasts** reopens it as a saved match. [Benchmark and example](../../docs/MOTION_FORECAST.md)
+
 ### Export a training example
 
 Open **Export clip** under the field. Scrub to a second or two before the decision and click **Mark start**. Scrub past the outcome and click **Mark end**. The buttons also use the current frame while following a live match. In the note, describe what you saw, what you wanted the robots to do, and which robots were involved. Click **Download JSON** to save the interval locally. A good clip captures both the lead-up and what happened after the decision. Attach the JSON when sharing an example.

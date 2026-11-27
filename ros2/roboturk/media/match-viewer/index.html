@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>RoboTurk Match Viewer</title>
+  <title>Hoca · Match</title>
   <style>:root {
   color-scheme: dark;
   font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -287,7 +287,7 @@ button.primary:hover { background: #c1eed3; }
     <header class="masthead match-masthead">
       <div class="viewer-brand">
         <div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></div>
-        <div><span class="brand">RoboTurk</span><h1>Match viewer</h1></div>
+        <div><span class="brand">RoboTurk</span><h1>Hoca</h1></div>
       </div>
       <section class="scoreboard" aria-label="Game state">
         <div class="score">
@@ -732,7 +732,7 @@ function downloadClip() {
   const url = URL.createObjectURL(new Blob([JSON.stringify(clip, null, 2)], { type: "application/json" }));
   const link = document.createElement("a");
   link.href = url;
-  link.download = `roboturk-${matchId ?? sourceHeader.seed ?? "match"}-${clipStart}-${clipEnd}.json`;
+  link.download = `hoca-${matchId ?? sourceHeader.seed ?? "match"}-${clipStart}-${clipEnd}.json`;
   document.body.append(link);
   link.click();
   link.remove();

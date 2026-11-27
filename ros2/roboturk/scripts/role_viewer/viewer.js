@@ -227,7 +227,7 @@ function downloadClip() {
   const url = URL.createObjectURL(new Blob([JSON.stringify(clip, null, 2)], { type: "application/json" }));
   const link = document.createElement("a");
   link.href = url;
-  link.download = `roboturk-${matchId ?? sourceHeader.seed ?? "match"}-${clipStart}-${clipEnd}.json`;
+  link.download = `hoca-${matchId ?? sourceHeader.seed ?? "match"}-${clipStart}-${clipEnd}.json`;
   document.body.append(link);
   link.click();
   link.remove();

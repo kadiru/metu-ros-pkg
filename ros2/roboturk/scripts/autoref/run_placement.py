@@ -3,6 +3,7 @@
 import argparse
 from contextlib import ExitStack
 import json
+import os
 from pathlib import Path
 import shutil
 
@@ -81,15 +82,14 @@ KEEP = {
 
 
 def main():
+    runtime = Path(os.environ.get("ROBOTURK_RUNTIME", str(ROOT.parent / "runtime"))).resolve()
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("spec", type=Path)
     p.add_argument("output", type=Path)
-    p.add_argument("--game-controller", default=ROOT.parent / "runtime/ssl-game-controller")
-    p.add_argument("--distribution", type=Path, default=ROOT.parent / "runtime/autoReferee")
+    p.add_argument("--game-controller", default=runtime / "ssl-game-controller")
+    p.add_argument("--distribution", type=Path, default=runtime / "autoReferee")
     p.add_argument("--classes", type=Path, default=ROOT / "runs/autoref-v1")
-    p.add_argument(
-        "--java", default=str(ROOT.parent / "runtime/java-autoref/Contents/Home/bin/java")
-    )
+    p.add_argument("--java", default=str(runtime / "java-autoref/Contents/Home/bin/java"))
     p.add_argument("--webots", type=Path)
     p.add_argument(
         "--live-viewer", action="store_true", help="Stream match state for the role viewer"

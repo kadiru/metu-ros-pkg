@@ -1,6 +1,8 @@
-# RoboTurk Match Viewer
+# Hoca
 
-![The match viewer with the field, team plans, and the robot inspector](preview.png)
+Hoca is the RoboTurk coaching studio. Watch or replay a Webots match, inspect role changes, and mark moments with a coaching note for a future drill.
+
+![Hoca with the field, team plans, and the robot inspector](preview.png)
 
 ## Start a live match
 
@@ -10,7 +12,9 @@ Run this from the RoboTurk stack root in the project's Python environment. Use t
 python scripts/role_viewer.py --setup media/match-viewer/match-spec.json runs/viewer-sessions
 ```
 
-Open [the local setup page](http://127.0.0.1:8765/). Use **Match timing** to choose one period or two halves and set the playing time per period before launch. Both modes use the SSL Game Controller and TIGERs AutoRef for 5v5 Webots play. The session saves a replay under its `run/viewer.html` path. Use `--port` to pick a different port and Ctrl-C to stop the service. Set `"realtime": true` in the preset to also show the native Webots window.
+Open [Hoca match setup](http://127.0.0.1:8765/). Use **Match timing** to choose one period or two halves and set the playing time per period before launch. Both modes use the SSL Game Controller and TIGERs AutoRef for 5v5 Webots play. The session saves a replay under its `run/viewer.html` path. Use `--port` to pick a different port and Ctrl-C to stop the service. Set `"realtime": true` in the preset to also show the native Webots window.
+
+Set `ROBOTURK_RUNTIME` to the installed runtime directory if it lives outside `../runtime`. Put `webots` on `PATH` and keep the compiled AutoRef observer under `runs/autoref-v1`.
 
 Open setup at the address printed by the viewer service. The `scripts/role_viewer/setup.html` template offers a link to the default live address when opened from disk. Saved match URLs under the same session directory reopen as replays after a service restart.
 
@@ -43,6 +47,24 @@ Open the **ⓘ** beside **Field** to see the overlay legend. The latest recorded
 Open **Export clip** under the field. Scrub to a second or two before the decision and click **Mark start**. Scrub past the outcome and click **Mark end**. The buttons also use the current frame while following a live match. In the note, describe what you saw, what you wanted the robots to do, and which robots were involved. Click **Download JSON** to save the interval locally. A good clip captures both the lead-up and what happened after the decision. Attach the JSON when sharing an example.
 
 The versioned JSON includes both endpoint frames, in-range match events, and the last preceding kick when present. Each sample carries the source tick, the ball's XY position followed by robot XY/yaw triples in `robot_keys` order, and the recorded state. State includes ball height and velocity, possession, referee state, team plays and steps, role assignments and reasons, movement targets, commands, and resolved per-team limits when recorded. Ball velocity and measured robot velocity are in the world frame. The command vector is in the robot frame. Robot indices, such as `owner` or `pass_to`, refer to `robot_keys`. Older recordings may lack some fields, including full velocities and audit details.
+
+## How a decision reaches the robots
+
+```mermaid
+flowchart TD
+    Sense["Observe · robot poses, ball motion, referee state"] --> World["Interpret · possession, pass in flight, reachable interception"]
+    World --> Team["Decide · playbook, team play, roles and targets"]
+    Team --> Skill["Request · each robot’s movement and ball actions"]
+    Skill --> Plan["Plan motion · routes, clearance and limits"]
+    Plan --> Sim["Act · Webots moves robots and applies ball actions"]
+    Sim -->|Next observation| Sense
+    Team -.-> Hoca["Hoca · inspect roles, replay and annotate clips"]
+    Sim -.-> Hoca
+```
+
+During open play, the controller updates every 40 ms. Roles and targets feed the skill commands, and observed possession or ball motion can change the team play on the next update. Kickoffs and other referee-controlled restarts route through their own set plays. The match uses simulated body motion. The [actuated four-wheel bench](../actuator-bench/README.md) validates wheel and striker control separately.
+
+The current 5v5 controller combines explicit play and role rules with learned or fitted components such as pass ranking and receiving. A separate [2v2 experiment](../../docs/LEARNED_SKILL_STRATEGY.md) trained a selector over a bank of skills. Hoca can export the observation, decision, commands, and a coaching note for a chosen interval. Replaying the interval with an alternate coached decision is planned.
 
 ## Decision controllers
 
@@ -80,7 +102,7 @@ The CMDragons system selects team plays using applicability conditions and fills
 
 ## Play a recording
 
-[Download the goal replay](https://raw.githubusercontent.com/kadiru/metu-ros-pkg/codex/roboturk-ros2/ros2/roboturk/media/match-viewer/index.html) or the [blocked-lane chip replay](https://raw.githubusercontent.com/kadiru/metu-ros-pkg/codex/roboturk-ros2/ros2/roboturk/media/match-viewer/chip.html) and open it in a browser. Both are native Webots recordings. The chip replay starts with B1's pass over Y1 and B4 securing it shortly afterward.
+[Download the goal replay](https://raw.githubusercontent.com/kadiru/metu-ros-pkg/master/ros2/roboturk/media/match-viewer/index.html) or the [blocked-lane chip replay](https://raw.githubusercontent.com/kadiru/metu-ros-pkg/master/ros2/roboturk/media/match-viewer/chip.html) and open it in a browser. Both are native Webots recordings. The chip replay starts with B1's pass over Y1 and B4 securing it shortly afterward.
 
 ```sh
 python scripts/role_viewer.py runs/viewer-sessions/SESSION/run runs/viewer-sessions/SESSION/run/viewer.html

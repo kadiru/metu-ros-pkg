@@ -1,4 +1,4 @@
-"""Export, stream, or run a 5v5 match with the role viewer."""
+"""Export, stream, or run a 5v5 match with Hoca."""
 
 import argparse
 from functools import partial
@@ -213,7 +213,7 @@ class SessionRequest(ViewerRequest):
             self.headers.get("Origin") != origin
             or self.headers.get_content_type() != "application/json"
         ):
-            self.json_response({"error": "Open the local viewer address to change a match."}, 403)
+            self.json_response({"error": "Open the local Hoca address to change a match."}, 403)
             return
         try:
             length = int(self.headers.get("Content-Length", "0"))
@@ -257,7 +257,7 @@ def serve_setup(folder, port, spec):
     )
     try:
         with ThreadingHTTPServer(("127.0.0.1", port), handler) as server:
-            print(f"Match setup http://127.0.0.1:{server.server_port}/", flush=True)
+            print(f"Hoca setup http://127.0.0.1:{server.server_port}/", flush=True)
             server.serve_forever()
     finally:
         sessions.close()
@@ -266,7 +266,7 @@ def serve_setup(folder, port, spec):
 def serve(folder, port, spec=None):
     folder = folder.resolve()
     with viewer_server(folder, port) as server:
-        print(f"Match viewer http://127.0.0.1:{server.server_port}/", flush=True)
+        print(f"Hoca http://127.0.0.1:{server.server_port}/", flush=True)
         if spec is not None:
             server_thread = Thread(target=server.serve_forever, daemon=True)
             server_thread.start()
@@ -282,7 +282,7 @@ def serve(folder, port, spec=None):
                     check=True,
                 )
                 export(folder, folder / "viewer.html")
-                print("Match finished. Press Ctrl-C here to close the live viewer.", flush=True)
+                print("Match finished. Press Ctrl-C here to close Hoca.", flush=True)
                 server_thread.join()
             finally:
                 server.shutdown()
@@ -302,7 +302,7 @@ def main():
     modes.add_argument(
         "--setup", type=Path, metavar="SPEC", help="Choose Practice or Game in the browser"
     )
-    parser.add_argument("--port", type=int, default=8765, help="Loopback port for the live viewer")
+    parser.add_argument("--port", type=int, default=8765, help="Loopback port for Hoca")
     args = parser.parse_args()
     if args.serve or args.play or args.setup:
         if args.output or (args.play and args.match.exists()):

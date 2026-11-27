@@ -17,11 +17,11 @@ Four Webots drills train arrival at a specified pose and speed, trapping or redi
 
 [![Native Webots demos of moving arrival, body redirect, lead passing and contested reception](media/primitive-dojo/webots-drills.gif)](media/primitive-dojo/README.md)
 
-## Watch each robot's role live
+## Hoca, the RoboTurk coaching studio
 
-Set each team's playbook in Practice and tune the shared motion limits before kickoff or from the gear during a live match. Pick your team color in Game, then follow role assignments, tactics, and motion commands live in Webots. [Run the match viewer](media/match-viewer/README.md)
+Set each team's playbook in Practice and tune the shared motion limits before kickoff or from the gear during a live match. Pick your team color in Game, then follow role assignments, tactics, and motion commands live in Webots. [Run Hoca](media/match-viewer/README.md)
 
-[![RoboTurk match viewer showing the score, field, and robot roles](media/match-viewer/preview.png)](media/match-viewer/README.md)
+[![Hoca showing the score, field, and robot roles](media/match-viewer/preview.png)](media/match-viewer/README.md)
 
 ## Reverse-spin passes and shots
 

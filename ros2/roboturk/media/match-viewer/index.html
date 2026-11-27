@@ -128,6 +128,34 @@ button.primary:hover { background: #c1eed3; }
 .clip-panel textarea { width: 100%; min-height: 44px; resize: vertical; padding: 6px 8px; border: 1px solid #384b5c; border-radius: 6px; background: var(--panel2); color: var(--text); font: inherit; font-size: 12px; }
 .clip-panel textarea:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
 #clip-status { color: var(--muted); font-size: 11px; }
+#review-toggle[aria-pressed="true"] { color: var(--mint); border-color: #557565; }
+.review-track { position: relative; height: 16px; margin: 1px 8px -2px; cursor: pointer; }
+.review-track::before { content: ""; position: absolute; inset: auto 0 1px; border-top: 1px solid var(--line); }
+.review-mark { position: absolute; inset: auto auto 1px var(--mark-position); width: 2px; height: 8px; background: var(--review-color); transform: translateX(-50%); pointer-events: none; }
+.review-mark[data-kind="possession"], .review-details [data-kind="possession"] { --review-color: var(--mint); }
+.review-mark[data-kind="decision"], .review-details [data-kind="decision"] { --review-color: #b4b6f1; }
+.review-mark[data-kind="role"], .review-details [data-kind="role"] { --review-color: var(--blue); }
+.review-mark[data-kind="event"], .review-details [data-kind="event"] { --review-color: var(--yellow); }
+.review-mark[data-kind="note"], .review-details [data-kind="note"] { --review-color: #ffbd89; }
+.review-mark[data-kind="note"] { height: 11px; }
+.review-mark.is-current { z-index: 1; width: 3px; height: 14px; }
+.review-panel { display: grid; gap: 7px; margin-top: 5px; padding: 8px 0 1px; border-top: 1px solid var(--line); }
+.review-controls { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 7px; }
+.review-panel button, .review-panel select { min-height: 30px; padding: 4px 8px; font-size: 12px; }
+#review-moment { min-width: 0; width: 100%; }
+#review-filter-toggle::after { content: " ▾"; color: var(--muted); }
+.review-options { display: grid; grid-template-columns: minmax(94px, 1fr) minmax(0, 2fr); gap: 9px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 7px; background: #131e28; font-size: 12px; }
+.review-options > label { display: grid; gap: 4px; color: var(--muted); }
+.review-options fieldset { display: flex; flex-wrap: wrap; grid-column: 1 / -1; min-width: 0; gap: 5px 10px; margin: 0; padding: 5px 0 0; border: 0; border-top: 1px solid var(--line); }
+.review-options legend { padding: 0 6px 0 0; color: var(--muted); }
+.review-options input[type="checkbox"] { accent-color: var(--mint); }
+.review-options input[type="search"], .review-note-form textarea { min-width: 0; width: 100%; border: 1px solid #384b5c; border-radius: 6px; background: var(--panel2); color: var(--text); font: inherit; padding: 6px 8px; }
+.review-details { display: grid; gap: 4px; padding: 0; margin: 0; list-style: none; font-size: 12px; overflow-wrap: anywhere; }
+.review-details li { border-inline-start: 2px solid var(--review-color); padding-inline-start: 7px; }
+.review-note-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.review-note-form { display: grid; gap: 5px; font-size: 12px; }
+.review-note-form textarea { resize: vertical; min-height: 44px; }
+.review-status { color: var(--muted); font-size: 11px; }
 .inspector { display: flex; flex-direction: column; padding: 0 15px 9px; min-width: 0; min-height: 0; contain: size; overflow-y: auto; }
 .robot-heading { display: flex; flex: none; align-items: center; gap: 10px; min-height: 58px; font-variant-numeric: tabular-nums; }
 .robot-picker { flex: none; width: 54px; min-height: 27px; padding: 3px 4px; font-size: 12px; font-weight: 700; color: var(--team, var(--text)); background: color-mix(in srgb, var(--team, var(--text)) 12%, var(--panel)); border-color: color-mix(in srgb, var(--team, var(--text)) 25%, var(--line)); }
@@ -338,6 +366,7 @@ button.primary:hover { background: #c1eed3; }
         <div class="pitch"><canvas id="pitch" aria-label="Recorded robot and ball positions. Select a robot here or in the lineup."></canvas></div>
         <div class="playback">
           <div class="replay-status"><p id="kick-readout" class="kick-readout"></p><span id="replay-time"></span></div>
+          <div id="review-track" class="review-track" aria-hidden="true" hidden></div>
           <input id="scrub" type="range" aria-label="Replay position" min="0" max="0" value="0">
           <div class="playbar">
             <button class="primary" id="play" type="button">Play</button>
@@ -354,8 +383,40 @@ button.primary:hover { background: #c1eed3; }
             <button id="prev" type="button" title="Previous role change" aria-label="Previous role change">‹</button>
             <button id="next" type="button" title="Next role change" aria-label="Next role change">›</button>
             <button id="go-live" type="button" hidden>Go live</button>
+            <button id="review-toggle" type="button" aria-pressed="false" aria-controls="review-panel" hidden>Review</button>
             <button id="clip-toggle" type="button" aria-expanded="false" aria-controls="clip-panel" disabled>Export clip</button>
           </div>
+          <section id="review-panel" class="review-panel" aria-label="Match review" hidden>
+            <div class="review-controls">
+              <select id="review-moment" aria-label="Jump to a marked moment"></select>
+              <button id="review-filter-toggle" type="button" aria-expanded="false" aria-controls="review-filters">Markers</button>
+            </div>
+            <div id="review-filters" class="review-options" hidden>
+              <label>Team
+                <select id="review-team"><option value="">Both teams</option><option value="blue">Blue</option><option value="yellow">Yellow</option></select>
+              </label>
+              <label>Find a moment <input id="review-search" type="search" placeholder="Robot, play, or time"></label>
+              <fieldset>
+                <legend>Show on timeline</legend>
+                <label><input type="checkbox" value="possession" checked> Possession</label>
+                <label><input type="checkbox" value="decision"> Decisions</label>
+                <label><input type="checkbox" value="role"> Role assignments</label>
+                <label><input type="checkbox" value="event" checked> Key events</label>
+                <label><input type="checkbox" value="note" checked> Coaching notes</label>
+              </fieldset>
+            </div>
+            <ul id="review-details" class="review-details" hidden></ul>
+            <div class="review-note-actions">
+              <button id="review-note-toggle" type="button" aria-expanded="false" aria-controls="review-note-form">Add note</button>
+              <button id="review-export" type="button">Export moment</button>
+            </div>
+            <form id="review-note-form" class="review-note-form" hidden>
+              <label id="review-note-label" for="review-note">Coaching note</label>
+              <textarea id="review-note" rows="2" maxlength="4000" placeholder="What would you ask the team to do here?"></textarea>
+              <div class="review-note-actions"><button type="submit">Save note</button><button id="review-note-cancel" type="button">Cancel</button></div>
+            </form>
+            <p id="review-status" class="review-status" role="status" hidden></p>
+          </section>
           <section id="clip-panel" class="clip-panel" aria-label="Export a telemetry clip" hidden>
             <div class="clip-marks">
               <button id="clip-mark-start" type="button">Mark start</button><output id="clip-start">—</output>
@@ -504,6 +565,285 @@ button.primary:hover { background: #c1eed3; }
 </script>
   <script>"use strict";
 
+function indexReviewMarkers(frames, keys, events, robotName, roleName) {
+  const markers = [];
+  const sideNames = { blue: "Blue", yellow: "Yellow" };
+  const add = (tick, kind, label, teams, details = {}) => markers.push({ tick, kind, label, teams, ...details });
+  let lastOwner = null;
+  let ballState = null;
+  for (const [tick, frame] of frames.entries()) {
+    const previous = frames[tick - 1];
+    const inPlay = !frame.mode || frame.mode === "running";
+    if (!inPlay || previous?.restart !== frame.restart) {
+      lastOwner = null;
+      ballState = null;
+    }
+    if (inPlay) {
+      const owner = keys[frame.owner] ? frame.owner : null;
+      const state = frame.roles.includes("Receiver") ? "pass" : owner === null ? "loose" : "owned";
+      if (state === "owned" && (owner !== lastOwner || ballState !== "owned")) {
+        const team = keys[owner][0];
+        const before = lastOwner === null ? null : keys[lastOwner][0];
+        const action = before && before !== team ? "Turnover"
+          : lastOwner === null || owner === lastOwner ? "Recovery" : "Possession";
+        const label = lastOwner !== null && lastOwner !== owner
+          ? `${action} · ${robotName(lastOwner)} → ${robotName(owner)}`
+          : `${action} · ${robotName(owner)} secures the ball`;
+        add(tick, "possession", label, before && before !== team ? [before, team] : [team],
+          { action, from: lastOwner, to: owner });
+        lastOwner = owner;
+      } else if (state === "loose" && ballState && ballState !== "loose") {
+        add(tick, "possession", "Loose ball", lastOwner === null ? [] : [keys[lastOwner][0]],
+          { action: "Loose ball", from: lastOwner, to: null });
+      }
+      ballState = state;
+    }
+    if (!previous) continue;
+    for (const [index, team] of ["blue", "yellow"].entries()) {
+      const next = frame.plays?.[index];
+      const prior = previous.plays?.[index];
+      if (prior && next && (next.strategy !== prior.strategy || next.play !== prior.play || next.step !== prior.step)) {
+        add(tick, "decision", [sideNames[team], next.play, next.step].filter(Boolean).join(" · "), [team],
+          { strategy: next.strategy, play: next.play, step: next.step, reason: next.reason });
+      }
+    }
+    for (const [robot, [team]] of keys.entries()) {
+      const role = frame.roles[robot], before = previous.roles[robot];
+      if (role && role !== before) {
+        add(tick, "role", `${robotName(robot)} · ${roleName(before) || "Unassigned"} → ${roleName(role)}`,
+          [team], { robot, from: before, to: role });
+      }
+    }
+  }
+  for (const [tick, label, type, team] of events) {
+    if (frames[tick] && label && type !== "kick_trace") {
+      add(tick, "event", label, team ? [team] : [], { type });
+    }
+  }
+  return markers;
+}
+
+function createMatchReview({
+  frames, keys, positions, events, robotName, roleName, timeText, seek, render, selectedRobot, openClip,
+}) {
+  const el = (id) => document.getElementById(id);
+  const toggle = el("review-toggle");
+  const panel = el("review-panel");
+  const track = el("review-track");
+  const moment = el("review-moment");
+  const filters = el("review-filters");
+  const filterToggle = el("review-filter-toggle");
+  const team = el("review-team");
+  const search = el("review-search");
+  const choices = [...filters.querySelectorAll('input[type="checkbox"]')];
+  const details = el("review-details");
+  const noteButton = el("review-note-toggle");
+  const noteForm = el("review-note-form");
+  const noteField = el("review-note");
+  const noteStatus = el("review-status");
+  const previous = el("prev");
+  const next = el("next");
+  const query = new URLSearchParams(location.search);
+  let active = query.get("review") === "1";
+  if (["blue", "yellow"].includes(query.get("team"))) team.value = query.get("team");
+  let tick = 0;
+  let editing = null;
+  let lastRenderedTick = null;
+  let storageKey;
+  let markers;
+  let groups = new Map();
+  let ticks = [];
+  let notes = new Map();
+
+  function setStatus(message) {
+    noteStatus.hidden = !message;
+    noteStatus.textContent = message;
+  }
+
+  function loadNotes(source) {
+    const identity = location.pathname.match(/\/matches\/([a-f0-9]{12})\//)?.[1] ?? [
+      source.seed, frames.length, frames.at(-1).t, frames.at(-1).score,
+      positions[0]?.slice(0, 8), positions.at(-1)?.slice(0, 8),
+    ];
+    storageKey = `hoca.review.notes.v1:${JSON.stringify(identity)}`;
+    try {
+      const rows = JSON.parse(localStorage.getItem(storageKey) ?? "[]");
+      for (const note of rows) {
+        if (Number.isInteger(note.tick) && frames[note.tick] && typeof note.text === "string") {
+          notes.set(note.tick, note);
+        }
+      }
+    } catch {
+      // The session and clip export still work when storage is unavailable.
+    }
+  }
+
+  function refreshMarkers() {
+    const kinds = new Set(choices.filter((input) => input.checked).map((input) => input.value));
+    const term = search.value.trim().toLowerCase();
+    const notesAsMarkers = [...notes.values()].map((note) => ({
+      tick: note.tick, kind: "note", label: note.text, teams: note.team ? [note.team] : [],
+    }));
+    groups = new Map();
+    for (const marker of [...notesAsMarkers, ...markers]) {
+      if (!kinds.has(marker.kind) || team.value && marker.teams.length && !marker.teams.includes(team.value)) continue;
+      if (term && !`${timeText(frames[marker.tick].t)} ${marker.label}`.toLowerCase().includes(term)) continue;
+      if (!groups.has(marker.tick)) groups.set(marker.tick, []);
+      groups.get(marker.tick).push(marker);
+    }
+    ticks = Array.from(groups.keys()).sort((a, b) => a - b);
+    const options = document.createDocumentFragment();
+    options.append(new Option(ticks.length ? `${ticks.length} marked moments` : "No matching moments", ""));
+    const marks = document.createDocumentFragment();
+    for (const index of ticks) {
+      const rows = groups.get(index);
+      const label = rows[0].label.replace(/\s+/g, " ");
+      const caption = label.length > 86 ? `${label.slice(0, 85)}…` : label;
+      options.append(new Option(`${timeText(frames[index].t)} · ${caption}${rows.length > 1 ? ` (+${rows.length - 1})` : ""}`, index));
+      const mark = document.createElement("span");
+      mark.className = "review-mark";
+      mark.dataset.tick = index;
+      mark.dataset.kind = rows[0].kind;
+      mark.style.setProperty("--mark-position", `${100 * index / Math.max(1, frames.length - 1)}%`);
+      marks.append(mark);
+    }
+    moment.replaceChildren(options);
+    track.replaceChildren(marks);
+    moment.disabled = !ticks.length;
+    lastRenderedTick = null;
+    showMoment();
+  }
+
+  function showMoment() {
+    if (lastRenderedTick === tick) return;
+    lastRenderedTick = tick;
+    moment.value = groups.has(tick) ? String(tick) : "";
+    track.querySelector(".is-current")?.classList.remove("is-current");
+    track.querySelector(`[data-tick="${tick}"]`)?.classList.add("is-current");
+    const rows = [...(groups.get(tick) ?? [])];
+    if (notes.has(tick) && !rows.some(({ kind }) => kind === "note")) {
+      rows.unshift({ kind: "note", label: notes.get(tick).text });
+    }
+    details.replaceChildren(...rows.map(({ kind, label }) => {
+      const row = document.createElement("li");
+      row.dataset.kind = kind;
+      row.textContent = label;
+      return row;
+    }));
+    details.hidden = !rows.length;
+    noteButton.textContent = notes.has(tick) ? "Edit note" : "Add note";
+  }
+
+  function noteOpen(value) {
+    noteForm.hidden = !value;
+    noteButton.setAttribute("aria-expanded", String(value));
+    if (!value) editing = null;
+  }
+
+  toggle.addEventListener("click", () => {
+    active = !active;
+    noteOpen(false);
+    render();
+  });
+  filterToggle.addEventListener("click", () => {
+    filters.hidden = !filters.hidden;
+    filterToggle.setAttribute("aria-expanded", String(!filters.hidden));
+  });
+  function filterChanged() {
+    refreshMarkers();
+    render();
+  }
+  for (const control of [team, ...choices]) control.addEventListener("change", filterChanged);
+  search.addEventListener("input", filterChanged);
+  moment.addEventListener("change", () => {
+    if (moment.value !== "") seek(Number(moment.value));
+  });
+  track.addEventListener("click", (event) => {
+    if (!ticks.length) return;
+    const box = track.getBoundingClientRect();
+    const point = (event.clientX - box.left) / box.width * (frames.length - 1);
+    const closest = ticks.reduce((best, index) => Math.abs(index - point) < Math.abs(best - point) ? index : best);
+    seek(closest);
+  });
+  noteButton.addEventListener("click", () => {
+    seek(tick);
+    editing = { tick, team: team.value || null, robot: selectedRobot() };
+    noteField.value = notes.get(tick)?.text ?? "";
+    el("review-note-label").textContent = `Coaching note · ${timeText(frames[tick].t)}`;
+    noteOpen(true);
+    setStatus("");
+    noteField.focus();
+  });
+  el("review-note-cancel").addEventListener("click", () => {
+    noteOpen(false);
+    noteButton.focus();
+  });
+  noteForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const text = noteField.value.trim();
+    if (!text || !editing) {
+      setStatus("Enter a coaching note.");
+      return;
+    }
+    const anchor = editing.tick;
+    notes.set(anchor, { ...editing, text });
+    noteOpen(false);
+    try {
+      localStorage.setItem(storageKey, JSON.stringify([...notes.values()]));
+      setStatus(`Note saved at ${timeText(frames[anchor].t)}.`);
+    } catch {
+      setStatus("Note kept for this session. Export the moment to save a copy.");
+    }
+    refreshMarkers();
+    seek(anchor);
+    noteButton.focus();
+  });
+  el("review-export").addEventListener("click", () => {
+    const note = notes.get(tick);
+    openClip({
+      tick,
+      time_s: frames[tick].t,
+      team: note ? note.team : team.value || null,
+      robot: note?.robot ?? selectedRobot(),
+      markers: markers.filter((marker) => marker.tick === tick),
+    }, note?.text ?? "");
+  });
+
+  return {
+    update(index, ready, source) {
+      tick = index;
+      toggle.hidden = !ready;
+      const reviewing = ready && active;
+      toggle.setAttribute("aria-pressed", String(reviewing));
+      panel.hidden = track.hidden = !reviewing;
+      for (const [button, direction] of [[previous, "Previous"], [next, "Next"]]) {
+        const label = `${direction} ${reviewing ? "marked moment" : "role change"}`;
+        button.title = label;
+        button.setAttribute("aria-label", label);
+      }
+      if (!reviewing) return;
+      if (!markers) {
+        markers = indexReviewMarkers(frames, keys, events, robotName, roleName);
+        loadNotes(source);
+        refreshMarkers();
+      }
+      showMoment();
+      // Role-history rendering also updates these buttons during playback.
+      previous.disabled = !ticks.length || tick <= ticks[0];
+      next.disabled = !ticks.length || tick >= ticks.at(-1);
+    },
+    jump(direction) {
+      if (!active || !markers) return false;
+      const target = direction < 0 ? ticks.findLast((index) => index < tick)
+        : ticks.find((index) => index > tick);
+      if (target !== undefined) seek(target);
+      return true;
+    },
+  };
+}
+</script>
+  <script>"use strict";
+
 const match = JSON.parse(document.getElementById("match-data").textContent);
 const { frames = [], keys = [], positions = [], events = [] } = match;
 const livePage = match.live === true;
@@ -588,6 +928,7 @@ let frameIndex = match.intro?.frame ?? 0;
 let sourceHeader = match;
 let clipStart = null;
 let clipEnd = null;
+let clipReview = null;
 let selected = match.intro?.robot ?? 0;
 let initialLimits;
 let limits;
@@ -620,6 +961,10 @@ const teamPlans = {};
 const filterButtons = [];
 const teamButtons = {};
 const motionControls = createLimitControls(byId("motion-limits"), match.limit_ranges, changeLimit);
+const review = createMatchReview({
+  frames, keys, positions, events, robotName, roleName, timeText: replayTime, seek, render,
+  selectedRobot: () => selected, openClip: openMomentClip,
+});
 
 function robotName(index) {
   const [team, number] = keys[index];
@@ -694,6 +1039,19 @@ function updateClipRange() {
   }
 }
 
+function openMomentClip(anchor, note) {
+  seek(anchor.tick);
+  clipReview = anchor;
+  clipStart = Math.max(0, frames.findLastIndex((frame) => frame.t <= anchor.time_s - 2));
+  const end = frames.findIndex((frame) => frame.t >= anchor.time_s + 2);
+  clipEnd = end < 0 ? frames.length - 1 : end;
+  byId("clip-note").value = note;
+  clipPanel.hidden = false;
+  clipToggle.setAttribute("aria-expanded", "true");
+  updateClipRange();
+  byId("clip-note").focus();
+}
+
 function downloadClip() {
   if (clipDownload.disabled) return;
   const matchId = location.pathname.match(/\/matches\/([a-f0-9]{12})\/$/)?.[1] ?? null;
@@ -726,6 +1084,9 @@ function downloadClip() {
     preceding_kick: previousKick ? eventData(previousKick) : null,
     events: events.filter(([tick]) => clipStart <= tick && tick <= clipEnd).map(eventData),
   };
+  if (clipReview && clipStart <= clipReview.tick && clipReview.tick <= clipEnd) {
+    clip.review = clipReview;
+  }
   const url = URL.createObjectURL(new Blob([JSON.stringify(clip, null, 2)], { type: "application/json" }));
   const link = document.createElement("a");
   link.href = url;
@@ -1212,6 +1573,7 @@ function render() {
   clipToggle.disabled = !frame;
   previousButton.disabled = nextButton.disabled = !frame;
   if (!frame) {
+    review.update(frameIndex, false, sourceHeader);
     updateEventTrack(0);
     drawField();
     return;
@@ -1231,6 +1593,7 @@ function render() {
   scrub.value = frameIndex;
   scrub.setAttribute("aria-valuetext", `${replayTime(frame.t)} elapsed`);
   updateInspector(frame);
+  review.update(frameIndex, !livePage || (finished && !matchFailed), sourceHeader);
   updateLineup(frame);
   updateEventTrack(frame.t);
   drawField();
@@ -1534,10 +1897,12 @@ roleWindowSelect.addEventListener("change", () => {
   if (frames[frameIndex]) updateHistory(frames[frameIndex].t);
 });
 previousButton.addEventListener("click", () => {
+  if (review.jump(-1)) return;
   const index = historyIndex(selected);
   if (index > 0) seek(histories[selected][index - 1].tick);
 });
 nextButton.addEventListener("click", () => {
+  if (review.jump(1)) return;
   const next = histories[selected][historyIndex(selected) + 1];
   if (next) seek(next.tick);
 });

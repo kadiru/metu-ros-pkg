@@ -124,6 +124,7 @@ def page(match, template="index", script="viewer"):
     html = (TEMPLATES / f"{template}.html").read_text()
     html = html.replace("/* VIEWER_STYLES */", (TEMPLATES / "viewer.css").read_text())
     html = html.replace("/* LIMIT_CONTROLS */", (TEMPLATES / "limits.js").read_text())
+    html = html.replace("/* MATCH_REVIEW */", (TEMPLATES / "review.js").read_text())
     html = html.replace("/* VIEWER_SCRIPT */", (TEMPLATES / f"{script}.js").read_text())
     return html.replace("<!-- MATCH_DATA -->", data)
 

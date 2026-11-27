@@ -44,11 +44,17 @@ Open the **ⓘ** beside **Field** to see the overlay legend. The latest recorded
 
 In a saved match, turn on **1 s forecast** to compare the selected robot's recorded path, the straight-line forecast, and the learned forecast. **Blue view** and **Yellow view** show the effect of knowing that team's plans. Older exports can show the original Kalman comparison. The readout gives the endpoint errors. After a live match finishes, **Review forecasts** reopens it as a saved match. [Clean Webots benchmark and example](../../docs/TEAM_FORECAST.md)
 
+### Review a finished match
+
+Open **Review** under the field. Use **Markers** to pick a team and the events worth stepping through. A review can show possession, changes to team plays or steps, robot role assignments, recorded match events, and coaching notes. Search by robot, event text, or replay time. Select a marked moment or use **‹** and **›** to jump between the filtered markers. Possession markers follow confirmed control across touches and passes. A pass in flight keeps its own launch marker.
+
+Use **Add note** at any frame to bookmark an observation or suggest a different tactic. Saved notes stay with that replay in the current browser. **Export moment** opens a clip around the bookmark, with two seconds of context on each side where available. Adjust the endpoints before downloading if the outcome takes longer to develop. Share the JSON with the AI as a coaching example.
+
 ### Export a training example
 
 Open **Export clip** under the field. Scrub to a second or two before the decision and click **Mark start**. Scrub past the outcome and click **Mark end**. The buttons also use the current frame while following a live match. In the note, describe what you saw, what you wanted the robots to do, and which robots were involved. Click **Download JSON** to save the interval locally. A good clip captures both the lead-up and what happened after the decision. Attach the JSON when sharing an example.
 
-The versioned JSON includes both endpoint frames, in-range match events, and the last preceding kick when present. Each sample carries the source tick, the ball's XY position followed by robot XY/yaw triples in `robot_keys` order, and the recorded state. State includes ball height and velocity, possession, referee state, team plays and steps, role assignments and reasons, movement targets, commands, and resolved per-team limits when recorded. Ball velocity and measured robot velocity are in the world frame. The command vector is in the robot frame. Robot indices, such as `owner` or `pass_to`, refer to `robot_keys`. Older recordings may lack some fields, including full velocities and audit details.
+The versioned JSON includes both endpoint frames, in-range match events, and the last preceding kick when present. A clip exported from Review also carries the focal frame and its markers in `review`. Each sample carries the source tick, the ball's XY position followed by robot XY/yaw triples in `robot_keys` order, and the recorded state. State includes ball height and velocity, possession, referee state, team plays and steps, role assignments and reasons, movement targets, commands, and resolved per-team limits when recorded. Ball velocity and measured robot velocity are in the world frame. The command vector is in the robot frame. Robot indices, such as `owner` or `pass_to`, refer to `robot_keys`. Older recordings may lack some fields, including full velocities and audit details.
 
 ## How a decision reaches the robots
 

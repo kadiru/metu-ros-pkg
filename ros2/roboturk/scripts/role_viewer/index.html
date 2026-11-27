@@ -70,6 +70,7 @@
         </section>
         <div class="playback">
           <div class="replay-status"><p id="kick-readout" class="kick-readout"></p><span id="replay-time"></span></div>
+          <div id="review-track" class="review-track" aria-hidden="true" hidden></div>
           <input id="scrub" type="range" aria-label="Replay position" min="0" max="0" value="0">
           <div class="playbar">
             <button class="primary" id="play" type="button">Play</button>
@@ -87,8 +88,40 @@
             <button id="next" type="button" title="Next role change" aria-label="Next role change">›</button>
             <button id="go-live" type="button" hidden>Go live</button>
             <a id="forecast-replay" class="setup-link" href="?forecast=1" hidden>Review forecasts</a>
+            <button id="review-toggle" type="button" aria-pressed="false" aria-controls="review-panel" hidden>Review</button>
             <button id="clip-toggle" type="button" aria-expanded="false" aria-controls="clip-panel" disabled>Export clip</button>
           </div>
+          <section id="review-panel" class="review-panel" aria-label="Match review" hidden>
+            <div class="review-controls">
+              <select id="review-moment" aria-label="Jump to a marked moment"></select>
+              <button id="review-filter-toggle" type="button" aria-expanded="false" aria-controls="review-filters">Markers</button>
+            </div>
+            <div id="review-filters" class="review-options" hidden>
+              <label>Team
+                <select id="review-team"><option value="">Both teams</option><option value="blue">Blue</option><option value="yellow">Yellow</option></select>
+              </label>
+              <label>Find a moment <input id="review-search" type="search" placeholder="Robot, play, or time"></label>
+              <fieldset>
+                <legend>Show on timeline</legend>
+                <label><input type="checkbox" value="possession" checked> Possession</label>
+                <label><input type="checkbox" value="decision"> Decisions</label>
+                <label><input type="checkbox" value="role"> Role assignments</label>
+                <label><input type="checkbox" value="event" checked> Key events</label>
+                <label><input type="checkbox" value="note" checked> Coaching notes</label>
+              </fieldset>
+            </div>
+            <ul id="review-details" class="review-details" hidden></ul>
+            <div class="review-note-actions">
+              <button id="review-note-toggle" type="button" aria-expanded="false" aria-controls="review-note-form">Add note</button>
+              <button id="review-export" type="button">Export moment</button>
+            </div>
+            <form id="review-note-form" class="review-note-form" hidden>
+              <label id="review-note-label" for="review-note">Coaching note</label>
+              <textarea id="review-note" rows="2" maxlength="4000" placeholder="What would you ask the team to do here?"></textarea>
+              <div class="review-note-actions"><button type="submit">Save note</button><button id="review-note-cancel" type="button">Cancel</button></div>
+            </form>
+            <p id="review-status" class="review-status" role="status" hidden></p>
+          </section>
           <section id="clip-panel" class="clip-panel" aria-label="Export a telemetry clip" hidden>
             <div class="clip-marks">
               <button id="clip-mark-start" type="button">Mark start</button><output id="clip-start">—</output>
@@ -183,6 +216,7 @@
   </main>
   <script id="match-data" type="application/json"><!-- MATCH_DATA --></script>
   <script>/* LIMIT_CONTROLS */</script>
+  <script>/* MATCH_REVIEW */</script>
   <script>/* VIEWER_SCRIPT */</script>
 </body>
 </html>

@@ -99,6 +99,7 @@ let frameIndex = match.intro?.frame ?? 0;
 let sourceHeader = match;
 let clipStart = null;
 let clipEnd = null;
+let clipReview = null;
 let selected = match.intro?.robot ?? 0;
 let forecastEnabled = Boolean(match.forecast && replayQuery.get("forecast") === "1");
 if (!livePage && replayQuery.has("frame")) {
@@ -143,6 +144,10 @@ const teamPlans = {};
 const filterButtons = [];
 const teamButtons = {};
 const motionControls = createLimitControls(byId("motion-limits"), match.limit_ranges, changeLimit);
+const review = createMatchReview({
+  frames, keys, positions, events, robotName, roleName, timeText: replayTime, seek, render,
+  selectedRobot: () => selected, openClip: openMomentClip,
+});
 
 function robotName(index) {
   const [team, number] = keys[index];
@@ -217,6 +222,19 @@ function updateClipRange() {
   }
 }
 
+function openMomentClip(anchor, note) {
+  seek(anchor.tick);
+  clipReview = anchor;
+  clipStart = Math.max(0, frames.findLastIndex((frame) => frame.t <= anchor.time_s - 2));
+  const end = frames.findIndex((frame) => frame.t >= anchor.time_s + 2);
+  clipEnd = end < 0 ? frames.length - 1 : end;
+  byId("clip-note").value = note;
+  clipPanel.hidden = false;
+  clipToggle.setAttribute("aria-expanded", "true");
+  updateClipRange();
+  byId("clip-note").focus();
+}
+
 function downloadClip() {
   if (clipDownload.disabled) return;
   const matchId = location.pathname.match(/\/matches\/([a-f0-9]{12})\/$/)?.[1] ?? null;
@@ -249,6 +267,9 @@ function downloadClip() {
     preceding_kick: previousKick ? eventData(previousKick) : null,
     events: events.filter(([tick]) => clipStart <= tick && tick <= clipEnd).map(eventData),
   };
+  if (clipReview && clipStart <= clipReview.tick && clipReview.tick <= clipEnd) {
+    clip.review = clipReview;
+  }
   const url = URL.createObjectURL(new Blob([JSON.stringify(clip, null, 2)], { type: "application/json" }));
   const link = document.createElement("a");
   link.href = url;
@@ -739,6 +760,7 @@ function render() {
   forecastSummary.hidden = !forecastEnabled;
   previousButton.disabled = nextButton.disabled = !frame;
   if (!frame) {
+    review.update(frameIndex, false, sourceHeader);
     updateEventTrack(0);
     drawField();
     return;
@@ -758,6 +780,7 @@ function render() {
   scrub.value = frameIndex;
   scrub.setAttribute("aria-valuetext", `${replayTime(frame.t)} elapsed`);
   updateInspector(frame);
+  review.update(frameIndex, !livePage || (finished && !matchFailed), sourceHeader);
   updateLineup(frame);
   updateEventTrack(frame.t);
   drawField();
@@ -1113,10 +1136,12 @@ roleWindowSelect.addEventListener("change", () => {
   if (frames[frameIndex]) updateHistory(frames[frameIndex].t);
 });
 previousButton.addEventListener("click", () => {
+  if (review.jump(-1)) return;
   const index = historyIndex(selected);
   if (index > 0) seek(histories[selected][index - 1].tick);
 });
 nextButton.addEventListener("click", () => {
+  if (review.jump(1)) return;
   const next = histories[selected][historyIndex(selected) + 1];
   if (next) seek(next.tick);
 });

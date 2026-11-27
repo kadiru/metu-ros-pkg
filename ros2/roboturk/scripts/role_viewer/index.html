@@ -45,187 +45,141 @@
 
     <div class="workspace">
       <div class="field-column">
-      <section class="board" aria-label="Field and playback">
-        <div class="section-heading board-heading">
-          <div class="field-heading">
-            <h2>Field</h2>
-            <details id="field-info" class="field-info">
-              <summary aria-label="Field overlay legend"><span aria-hidden="true">i</span></summary>
-              <div class="overlay-key" role="group" aria-label="Field overlay legend">
-                <span class="target-key">Movement target</span><span class="flat-key">Flat kick</span><span class="chip-key">Chip</span><span class="mouth-key">Goal-line crossing</span>
-              </div>
-            </details>
-          </div>
-          <div class="phases"><span class="blue" id="blue-phase"></span><span class="yellow" id="yellow-phase"></span></div>
-        </div>
-        <div class="field-controls" aria-label="Field visibility">
-          <div class="field-filters" id="field-filters"></div>
-          <div class="focus-controls"><button id="forecast-toggle" type="button" aria-pressed="false" aria-controls="forecast-summary" hidden>1 s forecast</button><button id="solo" type="button" aria-pressed="false">Solo selected</button><button id="show-all" type="button">Show all</button></div>
-        </div>
-        <div class="pitch"><canvas id="pitch" aria-label="Recorded robot and ball positions. Select a robot here or in the lineup."></canvas></div>
-        <section class="forecast-summary" id="forecast-summary" aria-label="One-second robot forecast" hidden>
-          <div class="forecast-legend"><span class="forecast-actual">Recorded</span><span class="forecast-current">Current</span><span id="forecast-model-key" class="forecast-model">Kalman</span></div>
-          <select id="forecast-viewpoint" aria-label="Forecast team's available plans" hidden><option value="blue">Blue view</option><option value="yellow">Yellow view</option></select>
-          <output id="forecast-error"></output>
-        </section>
-        <div class="playback">
-          <div class="replay-status"><p id="kick-readout" class="kick-readout"></p><span id="replay-time"></span></div>
-          <div id="review-track" class="review-track" aria-hidden="true" hidden></div>
-          <input id="scrub" type="range" aria-label="Replay position" min="0" max="0" value="0">
-          <div class="playbar">
-            <button class="primary" id="play" type="button">Play</button>
-            <select id="playback-rate" aria-label="Playback speed">
-              <option value="0.25">0.25×</option>
-              <option value="0.5">0.5×</option>
-              <option value="0.75">0.75×</option>
-              <option value="1" selected>1×</option>
-              <option value="1.25">1.25×</option>
-              <option value="1.5">1.5×</option>
-              <option value="1.75">1.75×</option>
-              <option value="2">2×</option>
-            </select>
-            <button id="prev" type="button" title="Previous role change" aria-label="Previous role change">‹</button>
-            <button id="next" type="button" title="Next role change" aria-label="Next role change">›</button>
-            <button id="go-live" type="button" hidden>Go live</button>
-            <a id="forecast-replay" class="setup-link" href="?forecast=1" hidden>Review forecasts</a>
-            <button id="review-toggle" type="button" aria-pressed="false" aria-controls="review-panel" hidden>Review</button>
-            <button id="clip-toggle" type="button" aria-expanded="false" aria-controls="clip-panel" disabled>Export clip</button>
-          </div>
-          <section id="review-panel" class="review-panel" aria-label="Match review" hidden>
-            <div class="review-controls">
-              <select id="review-moment" aria-label="Jump to a marked moment"></select>
-              <button id="review-filter-toggle" type="button" aria-expanded="false" aria-controls="review-filters">Markers</button>
-            </div>
-            <div id="review-filters" class="review-options" hidden>
-              <label>Team
-                <select id="review-team"><option value="">Both teams</option><option value="blue">Blue</option><option value="yellow">Yellow</option></select>
-              </label>
-              <label>Find a moment <input id="review-search" type="search" placeholder="Robot, play, or time"></label>
-              <fieldset>
-                <legend>Show on timeline</legend>
-                <label><input type="checkbox" value="possession" checked> Possession</label>
-                <label><input type="checkbox" value="decision"> Decisions</label>
-                <label><input type="checkbox" value="role"> Role assignments</label>
-                <label><input type="checkbox" value="event" checked> Key events</label>
-                <label><input type="checkbox" value="note" checked> Coaching notes</label>
-              </fieldset>
-            </div>
-            <ul id="review-details" class="review-details" hidden></ul>
-            <div class="review-note-actions">
-              <button id="review-note-toggle" type="button" aria-expanded="false" aria-controls="review-note-form">Add note</button>
-              <button id="review-play-toggle" type="button" aria-expanded="false" aria-controls="review-coaching-play">Coach a play</button>
-              <button id="review-export" type="button">Export moment</button>
-            </div>
-            <form id="review-note-form" class="review-note-form" hidden>
-              <label id="review-note-label" for="review-note">Coaching note</label>
-              <textarea id="review-note" rows="2" maxlength="4000" placeholder="What would you ask the team to do here?"></textarea>
-              <details id="review-coaching-play" class="review-coaching-play">
-                <summary>Coordinated play</summary>
-                <div class="review-play-fields">
-                  <label>Team<select id="review-play-team"><option value="blue">Blue</option><option value="yellow">Yellow</option></select></label>
-                  <label>Play objective<input id="review-play-objective" type="text" maxlength="200" placeholder="e.g. Play around the interceptor"></label>
+        <section class="board" aria-label="Field and playback">
+          <div class="section-heading board-heading">
+            <div class="field-heading">
+              <h2>Field</h2>
+              <details id="field-info" class="field-info">
+                <summary aria-label="Field overlay legend"><span aria-hidden="true">i</span></summary>
+                <div class="overlay-key" role="group" aria-label="Field overlay legend">
+                  <span class="target-key">Movement target</span><span class="flat-key">Flat kick</span><span class="chip-key">Chip</span><span class="mouth-key">Goal-line crossing</span>
                 </div>
-                <fieldset>
-                  <legend>Choose two to five teammates</legend>
-                  <p class="review-play-hint">Each robot shows its role at this moment. Give it an action for your proposed play.</p>
-                  <div id="review-play-players"></div>
-                </fieldset>
               </details>
-              <div class="review-note-actions"><button type="submit">Save note</button><button id="review-note-cancel" type="button">Cancel</button></div>
-            </form>
-            <p id="review-status" class="review-status" role="status" hidden></p>
-          </section>
-          <section id="clip-panel" class="clip-panel" aria-label="Export a telemetry clip" hidden>
-            <div class="clip-marks">
-              <button id="clip-mark-start" type="button">Mark start</button><output id="clip-start">—</output>
-              <button id="clip-mark-end" type="button">Mark end</button><output id="clip-end">—</output>
-            </div>
-            <label for="clip-note" class="label">Observation or suggested play</label>
-            <textarea id="clip-note" rows="2" maxlength="4000" placeholder="B1 could secure the pass, then chip to B3."></textarea>
-            <div class="clip-actions">
-              <button id="clip-download" class="primary" type="button" disabled>Download JSON</button>
-              <p id="clip-status" role="status"></p>
-            </div>
-          </section>
-        </div>
-      </section>
-      <section class="lineups" aria-label="Team lineups">
-        <section class="lineup blue" aria-label="Blue lineup">
-          <header class="lineup-header">
-            <div id="blue-plan" class="team-plan"></div>
-            <button type="button" class="team-overlay" id="blue-overlay" aria-label="Toggle Blue overlays" title="Toggle Blue overlays" aria-pressed="false" disabled></button>
-          </header>
-          <div id="blue-roster" class="roster"></div>
-        </section>
-        <section class="lineup yellow" aria-label="Yellow lineup">
-          <header class="lineup-header">
-            <div id="yellow-plan" class="team-plan"></div>
-            <button type="button" class="team-overlay" id="yellow-overlay" aria-label="Toggle Yellow overlays" title="Toggle Yellow overlays" aria-pressed="false" disabled></button>
-          </header>
-          <div id="yellow-roster" class="roster"></div>
-        </section>
-      </section>
-      <template id="team-plan-template">
-        <h3 class="lineup-heading"><span class="lineup-team"></span><span data-plan="play" hidden></span></h3>
-        <dl class="plan-summary" hidden>
-          <div data-plan-item hidden><dt>Strategy</dt><dd data-plan="strategy"></dd></div>
-          <div data-plan-item hidden><dt>Step</dt><dd data-plan="step"></dd></div>
-        </dl>
-      </template>
-      </div>
-
-      <section class="inspector" aria-label="Selected robot">
-        <div class="robot-heading">
-          <select id="robot-select" class="robot-picker" aria-label="Selected robot" disabled><option>—</option></select>
-          <p id="command-unavailable">Waiting for motion data.</p>
-          <div id="command-details" role="group" aria-label="Robot motion" hidden>
-            <div class="translation-row">
-              <div class="vector-dial" id="translation" role="img"><span aria-hidden="true">F</span><div id="vector-needle"></div><i></i></div>
-              <div class="motion-value"><span class="label" id="speed-label" title="Travel speed">Travel</span><strong id="speed">—</strong></div>
-            </div>
-            <div class="turn-readout">
-              <span class="label" title="Turn command">Turn</span><strong id="turn">—</strong>
-              <div class="yaw-track" id="rotation" role="img"><i id="yaw-fill"></i></div>
             </div>
           </div>
-        </div>
-        <div class="role-timeline">
-          <div class="timeline-heading">
-            <h3>Role timeline</h3>
-            <div class="timeline-controls">
-              <p class="role-count">Role changes <strong id="role-change-count">—</strong></p>
-              <select id="role-window" aria-label="Role timeline window">
-                <option value="5">Last 5 s</option><option value="10" selected>Last 10 s</option>
-                <option value="15">Last 15 s</option><option value="30">Last 30 s</option><option value="60">Last 60 s</option>
+          <div class="field-controls" aria-label="Field visibility">
+            <div class="field-filters" id="field-filters"></div>
+            <div class="focus-controls"><button id="forecast-toggle" type="button" aria-pressed="false" aria-controls="forecast-summary" hidden>1 s forecast</button><button id="solo" type="button" aria-pressed="false">Solo selected</button><button id="show-all" type="button">Show all</button></div>
+          </div>
+          <div class="pitch"><canvas id="pitch" aria-label="Recorded robot and ball positions. Select a robot here or in the lineup."></canvas></div>
+          <section class="forecast-summary" id="forecast-summary" aria-label="One-second robot forecast" hidden>
+            <div class="forecast-legend"><span class="forecast-actual">Recorded</span><span class="forecast-current">Current</span><span id="forecast-model-key" class="forecast-model">Kalman</span></div>
+            <select id="forecast-viewpoint" aria-label="Forecast team's available plans" hidden><option value="blue">Blue view</option><option value="yellow">Yellow view</option></select>
+            <output id="forecast-error"></output>
+          </section>
+          <div class="playback">
+            <div class="replay-status"><p id="kick-readout" class="kick-readout"></p><span id="replay-time"></span></div>
+            <div id="review-track" class="review-track" aria-hidden="true" hidden></div>
+            <input id="scrub" type="range" aria-label="Replay position" min="0" max="0" value="0">
+            <div class="playbar">
+              <button class="primary" id="play" type="button">Play</button>
+              <select id="playback-rate" aria-label="Playback speed">
+                <option value="0.25">0.25×</option>
+                <option value="0.5">0.5×</option>
+                <option value="0.75">0.75×</option>
+                <option value="1" selected>1×</option>
+                <option value="1.25">1.25×</option>
+                <option value="1.5">1.5×</option>
+                <option value="1.75">1.75×</option>
+                <option value="2">2×</option>
               </select>
+              <button id="prev" type="button" title="Previous marked moment" aria-label="Previous marked moment">‹</button>
+              <button id="next" type="button" title="Next marked moment" aria-label="Next marked moment">›</button>
+              <button id="go-live" type="button" hidden>Go live</button>
+              <a id="forecast-replay" class="setup-link" href="?forecast=1" hidden>Review forecasts</a>
+              <button id="clip-toggle" type="button" aria-expanded="false" aria-controls="clip-panel" disabled>Export clip</button>
             </div>
           </div>
-          <div id="role-track" class="role-track" role="group" aria-label="Role changes in the last 10 seconds"></div>
-          <div class="history-axis"><span id="role-window-start">−10 s</span><span>Selected time</span></div>
-        </div>
-        <div class="role-details">
-          <article id="current-role-card" class="current-role-card" aria-label="Current role" hidden>
-            <div class="current-role-heading">
-              <h4 id="role">—</h4>
-              <div class="role-timing"><time id="role-assigned-at" title="Assignment time"></time><span aria-hidden="true">·</span><span id="role-duration" title="Time in this role"></span></div>
-            </div>
-            <div class="role-note"><span class="label">Role detail</span><p id="task"></p></div>
-            <div class="role-note"><span class="label">Role reason</span><p id="reason"></p></div>
-          </article>
-          <div id="role-changes" class="role-changes" role="group" aria-label="Past roles" tabindex="0" hidden></div>
-        </div>
-      </section>
-    </div>
+        </section>
+        <section class="lineups" aria-label="Team decisions and assignments">
+          <section id="blue-plan" class="lineup blue" aria-label="Blue team decisions"></section>
+          <section id="yellow-plan" class="lineup yellow" aria-label="Yellow team decisions"></section>
+        </section>
+        <template id="team-plan-template">
+          <header class="lineup-header">
+            <h3 class="lineup-team"></h3>
+            <span class="goal-side"></span>
+            <button type="button" class="team-overlay" aria-pressed="false" disabled></button>
+            <button type="button" class="lineup-toggle" aria-expanded="true" disabled>Hide lineup</button>
+          </header>
+          <dl class="plan-summary">
+            <div><dt>Mode</dt><dd data-plan="mode">—</dd></div>
+            <div><dt>Play</dt><dd data-plan="play">—</dd></div>
+            <div><dt>Current step</dt><dd data-plan="step">—</dd></div>
+          </dl>
+          <p class="plan-reason" hidden></p>
+          <div class="roster-scroll" tabindex="0">
+            <div class="roster"></div>
+          </div>
+        </template>
+      </div>
 
-    <section class="event-panel" aria-labelledby="events-title">
-      <div class="section-heading">
-        <h2 id="events-title">Match events</h2>
-        <div class="event-navigation"><span class="label">Last 60 s</span><button id="earlier-events" type="button" aria-label="Scroll to earlier events">‹</button><button id="later-events" type="button" aria-label="Scroll to later events">›</button></div>
-      </div>
-      <div class="event-scroll" id="event-scroll" tabindex="0" aria-label="Scrollable match events timeline">
-        <div id="event-track" class="event-track"></div>
-      </div>
-    </section>
+      <aside class="event-panel" aria-labelledby="events-title">
+        <div class="section-heading">
+          <h2 id="events-title">Match events</h2>
+          <span id="event-position" class="label"></span>
+        </div>
+        <div class="review-panel">
+          <div class="review-controls">
+            <input id="review-search" type="search" aria-label="Find a moment" placeholder="Find a moment">
+            <button id="review-filter-toggle" type="button" aria-expanded="false" aria-controls="review-filters">Markers</button>
+          </div>
+          <div id="review-filters" class="review-options" hidden>
+            <label>Team
+              <select id="review-team"><option value="">Both teams</option><option value="blue">Blue</option><option value="yellow">Yellow</option></select>
+            </label>
+            <fieldset>
+              <legend>Show on timeline</legend>
+              <label><input type="checkbox" value="possession" checked> Possession</label>
+              <label><input type="checkbox" value="decision"> Decisions</label>
+              <label><input type="checkbox" value="role"> Role assignments</label>
+              <label><input type="checkbox" value="event" checked> Key events</label>
+              <label><input type="checkbox" value="note" checked> Coaching notes</label>
+            </fieldset>
+          </div>
+          <div id="review-actions" class="review-note-actions" hidden>
+            <button id="review-note-toggle" type="button" aria-expanded="false" aria-controls="review-note-form">Add note</button>
+            <button id="review-play-toggle" type="button" aria-expanded="false" aria-controls="review-coaching-play">Coach a play</button>
+            <button id="review-export" type="button">Export moment</button>
+          </div>
+          <form id="review-note-form" class="review-note-form" hidden>
+            <label id="review-note-label" for="review-note">Coaching note</label>
+            <textarea id="review-note" rows="2" maxlength="4000" placeholder="What would you ask the team to do here?"></textarea>
+            <details id="review-coaching-play" class="review-coaching-play">
+              <summary>Coordinated play</summary>
+              <div class="review-play-fields">
+                <label>Team<select id="review-play-team"><option value="blue">Blue</option><option value="yellow">Yellow</option></select></label>
+                <label>Play objective<input id="review-play-objective" type="text" maxlength="200" placeholder="e.g. Play around the interceptor"></label>
+              </div>
+              <fieldset>
+                <legend>Choose two to five teammates</legend>
+                <p class="review-play-hint">Each robot shows its role at this moment. Give it an action for your proposed play.</p>
+                <div id="review-play-players"></div>
+              </fieldset>
+            </details>
+            <div class="review-note-actions"><button type="submit">Save note</button><button id="review-note-cancel" type="button">Cancel</button></div>
+          </form>
+          <p id="review-status" class="review-status" role="status" hidden></p>
+          <select id="review-moment" aria-label="Jump to a marked moment"></select>
+        </div>
+        <section id="clip-panel" class="clip-panel" aria-label="Export a telemetry clip" hidden>
+          <div class="clip-marks">
+            <button id="clip-mark-start" type="button">Mark start</button><output id="clip-start">—</output>
+            <button id="clip-mark-end" type="button">Mark end</button><output id="clip-end">—</output>
+          </div>
+          <label for="clip-note" class="label">Observation or suggested play</label>
+          <textarea id="clip-note" rows="2" maxlength="4000" placeholder="B1 could secure the pass, then chip to B3."></textarea>
+          <div class="clip-actions">
+            <button id="clip-download" class="primary" type="button" disabled>Download JSON</button>
+            <p id="clip-status" role="status"></p>
+          </div>
+        </section>
+        <div class="event-scroll" id="event-scroll" tabindex="0" aria-label="Match events, newest first">
+          <ol id="event-track" class="event-track" reversed></ol>
+          <p id="event-empty" class="event-empty">Waiting for the first match event.</p>
+        </div>
+      </aside>
+    </div>
   </main>
   <script id="match-data" type="application/json"><!-- MATCH_DATA --></script>
   <script>/* LIMIT_CONTROLS */</script>

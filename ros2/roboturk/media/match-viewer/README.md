@@ -2,7 +2,7 @@
 
 Hoca is the RoboTurk coaching studio. Watch or replay a Webots match, inspect role changes, and mark moments with a coaching note for a future drill.
 
-![Hoca with the field, team plans, and the robot inspector](preview.png)
+![Hoca with the field, horizontal team assignments, and the match event timeline](preview.png)
 
 ## Start a live match
 
@@ -34,21 +34,21 @@ The gear opens the match menu. Its status shows whether the viewer is following 
 
 Practice starts with the Game limits. The open-play planner uses the selected speed and acceleration for travel and braking. Clear, lined-up shots request the selected kick speed. Passes keep their reception-tuned speeds, and restarts, close challenges, and ball control still use slower approaches. The SSL rulebook sets the 6.5 m/s ball-speed cap. The 5 m/s² drive setting comes from RoboTurk's motion model. [SSL ball-speed rule](https://robocup-ssl.github.io/ssl-rules/sslrules.html#_ball_speed) · [RoboTurk drive and kicker tests](../ssl-physics/README.md#drive-and-kicker)
 
-Each lineup shows its team's strategy, play, and current step, plus every robot's role and task. Select any robot from the inspector dropdown, the field, or a lineup. Measured travel speed and the signed turn command sit beside the robot ID, along with a dial for the requested drive direction. Older recordings use a labeled speed command when measured speed is unavailable. The horizontal **Role timeline** shows the last 10 seconds by default, with options for 5, 15, 30, and 60 seconds. The fixed-height current role card shows the assignment time, time spent in the role, task, and reason. Earlier roles appear in fixed-height rows using the timeline colors. The list scrolls when it exceeds the available space. Click a role change or match event to jump to that moment. **Go live** catches up. Team and player filters control which robots the viewer draws.
+Under the field, each team shows its defended goal and the current **Mode → Play → Current step**. The lineup reads across the robots, with each ID above its role, behavior, and explanation. Collapse either lineup to keep the team decision visible while hiding its robots. On narrow screens you can scroll the lineup sideways. The defended goal follows the teams when they change ends. Team and player filters control which robots the viewer draws.
 
 Click any number of robot IDs in the lineups to show their movement targets and kicks. Use the layers icon in either tinted lineup to switch the whole team's overlays on or off. Solid trails show flat kicks. Dotted, raised trails show chips. The trail clears when the kick ends or a new kick starts. The goal-mouth marker and crossing speed stay visible briefly after the trail clears. Use the match events to revisit a kick or goal. Goal-line markers record a physical crossing. The scoreboard uses the referee's decision. Older replays can still show assigned movement targets.
 
-When a field player can meet an opposing ground pass, the team switches to **Intercept the pass** and assigns that player **Interceptor**. The inspector shows the reachability reason with the robot's assignment. [Matched Webots comparison](../pass-interception/README.md)
+When a field player can meet an opposing ground pass, the team switches to **Intercept the pass** and assigns that player **Interceptor**. The team decision shows the predicted time to reach the ball. [Matched Webots comparison](../pass-interception/README.md)
 
 Open the **ⓘ** beside **Field** to see the overlay legend. The latest recorded kick and replay time share a row under the field, above the scrubber. The kick readout stays visible until another kick and includes launch speed, rotation or loft when present, and goal-line measurements when recorded. Use the speed selector next to **Play** to replay at 0.25× to 2× in quarter-speed steps. You can switch rates during playback. Live following runs at the simulator's pace.
 
 In a saved match, turn on **1 s forecast** to compare the selected robot's recorded path, the straight-line forecast, and the learned forecast. **Blue view** and **Yellow view** show the effect of knowing that team's plans. Older exports can show the original Kalman comparison. The readout gives the endpoint errors. After a live match finishes, **Review forecasts** reopens it as a saved match. [Clean Webots benchmark and example](../../docs/TEAM_FORECAST.md)
 
-### Review a finished match
+### Find and coach a match moment
 
-Open **Review** under the field. Use **Markers** to pick a team and the events worth stepping through. A review can show possession, changes to team plays or steps, robot role assignments, recorded match events, and coaching notes. Search by robot, event text, or replay time. Select a marked moment or use **‹** and **›** to jump between the filtered markers. Possession markers follow confirmed control across touches and passes. A pass in flight keeps its own launch marker.
+**Match events** shows the newest moment at the top, up to the current playhead. **Find a moment** searches the entire recorded portion of the match for a robot, play, event, or time. Use **Markers** to filter by team or show possession, team decisions, robot role assignments, recorded match events, and coaching notes. Click a timeline row, choose a time from the dropdown, or use **‹** and **›** under the field to jump between matching markers. **Go live** catches up. Possession markers follow confirmed control across touches and passes. A pass in flight keeps its own launch marker.
 
-Use **Add note** at any frame to bookmark an observation or suggest a different tactic. Saved notes stay with that replay in the current browser. **Export moment** opens a clip around the bookmark, with two seconds of context on each side where available. Adjust the endpoints before downloading if the outcome takes longer to develop. Share the JSON with the AI as a coaching example.
+After the match, use **Add note** at any frame to bookmark an observation or suggest a different tactic. Saved notes stay with that replay in the current browser. **Export moment** opens a clip around the bookmark, with two seconds of context on each side where available. Adjust the endpoints before downloading if the outcome takes longer to develop. Share the JSON with the AI as a coaching example.
 
 Use **Coach a play** to propose a coordinated response for two to five teammates. Pick the team, write one shared objective, and describe each selected robot's action. Hoca shows the recorded role alongside each robot ID and saves the proposal at the review frame. **Export moment** includes the proposal as `review.coaching_play`, with the team, objective, and players' IDs, recorded roles, and requested actions. Free-text notes and proposals can coexist on the same frame. Proposals are coaching examples for later drills.
 

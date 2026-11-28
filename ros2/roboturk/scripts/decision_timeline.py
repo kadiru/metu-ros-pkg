@@ -4,6 +4,7 @@ import gzip
 import hashlib
 import json
 import os
+from datetime import datetime, timezone
 from pathlib import Path
 import shutil
 import signal
@@ -123,14 +124,16 @@ def branch_replay(parent, timeline, trial=None, *, streaming=False):
     )
 
 
-def candidate_controllers(record, build, strategies):
-    manifest = json.loads(Path(record["record"]).read_text())
+def candidate_controllers(record, manifest, build, strategies):
     teams = match_releases(load_catalog(), None, strategies)
     target = record.get("team", "blue")
     teams[target] = dict(
         teams[target],
-        name=record["title"],
+        name=record.get("controller", {}).get("name", record["title"]),
         version=manifest.get("candidate_version"),
+        implementation=manifest.get("implementation")
+        or record.get("controller", {}).get("implementation")
+        or teams[target]["implementation"],
         candidate=True,
     )
     return {"build": build, "teams": teams}
@@ -144,6 +147,53 @@ class DecisionTimelines:
         self.lock = Lock()
         self.running = None
         self.process = None
+        self.installed_controllers = None
+
+    def controllers(self):
+        if self.installed_controllers is None:
+            catalog = load_catalog()
+            self.installed_controllers = {}
+            for release_id in catalog["installed"]:
+                release = catalog["releases"][release_id]
+                try:
+                    date = git(self.stack, "show", "-s", "--format=%cI", release["introduced_by"])
+                except ValueError:
+                    date = None
+                self.installed_controllers[release_id] = dict(
+                    id=release_id,
+                    name=release["name"],
+                    version=release["version"],
+                    implementation=release["implementation"],
+                    created_at=date,
+                    updated_at=date,
+                )
+        saved = (
+            json.loads(path.read_text()) for path in (self.root / "controllers").glob("*.json")
+        )
+        return self.installed_controllers | {release["id"]: release for release in saved}
+
+    def save_controller(self, record):
+        build = record.get("build")
+        identity = record.get("controller")
+        if not identity or not build or build.get("working_copy_sha256"):
+            return
+        team = record["controller_versions"]["teams"][record["team"]]
+        commit = build["commit"]
+        version = dict(
+            identity,
+            id=f"{identity['id']}@{commit[:12]}",
+            commit=commit,
+            version=team["version"] or commit[:8],
+            implementation=team["implementation"],
+            updated_at=git(self.stack, "show", "-s", "--format=%cI", commit),
+        )
+        root = self.root / "controllers"
+        root.mkdir(parents=True, exist_ok=True)
+        key = hashlib.sha256(version["id"].encode()).hexdigest()[:20]
+        path = root / f"{key}.json"
+        pending = path.with_suffix(".tmp")
+        pending.write_text(json.dumps(version, indent=2) + "\n")
+        pending.replace(path)
 
     def directory(self, source):
         return self.root / hashlib.sha256(source.encode()).hexdigest()[:20]
@@ -186,7 +236,14 @@ class DecisionTimelines:
                 if saved.is_file() and request == json.loads(saved.read_text()):
                     return existing, False
                 raise ValueError("This match already has a candidate timeline.")
-            candidate = create_candidate(request, stack=self.stack)
+            parent_id = request.get("controller_base")
+            parent = self.controllers().get(parent_id) if parent_id else None
+            if parent_id and parent is None:
+                raise ValueError("Choose an available controller version to build on.")
+            candidate = create_candidate(
+                request, stack=self.stack, base=parent.get("commit", "HEAD") if parent else "HEAD"
+            )
+            now = datetime.now(timezone.utc).isoformat(timespec="seconds")
             record = {key: value for key, value in candidate.items() if key != "created"} | {
                 "source": source,
                 "title": request["title"],
@@ -197,6 +254,16 @@ class DecisionTimelines:
                 "status": "awaiting",
                 "run": None,
                 "trial_end": time,
+                "controller": {
+                    "id": candidate["branch"],
+                    "name": parent["name"]
+                    if parent
+                    else request.get("controller_name", "").strip() or request["title"],
+                    "created_at": parent["created_at"] if parent else now,
+                    "updated_at": now,
+                    "parent_id": parent_id,
+                    "implementation": parent["implementation"] if parent else None,
+                },
             }
             self.directory(source).mkdir(parents=True, exist_ok=True)
             self.save(source, record)
@@ -221,9 +288,21 @@ class DecisionTimelines:
             if not runner.is_file():
                 raise ValueError("The candidate workspace is unavailable.")
             build = source_build(stack, RUNTIME_PATHS)
+            manifest = json.loads(Path(record["record"]).read_text())
+            if record.get("controller") and build and not build["working_copy_sha256"]:
+                record["controller"]["updated_at"] = git(
+                    stack, "show", "-s", "--format=%cI", build["commit"]
+                )
+            options = initial["options"]
             versions = candidate_controllers(
-                record, build, initial["options"].get("team_strategies")
+                record, manifest, build, options.get("team_strategies")
             )
+            target = record.get("team", "blue")
+            strategies = options.get("team_strategies") or {
+                team: {"strategy": "balanced", "pass_preference": 0} for team in ("blue", "yellow")
+            }
+            strategies[target]["controller"] = versions["teams"][target]["implementation"]
+            options["team_strategies"] = strategies
             run = self.directory(source) / uuid4().hex[:12]
             run.mkdir()
             spec = run / "fork.json"
@@ -274,6 +353,7 @@ class DecisionTimelines:
                 return
             if ready.is_file() and process.poll() is None:
                 self.save(source, self.finished_record(status, folder / "preview", "ready"))
+                self.save_controller(status)
             elif process.poll() is None:
                 self.stop(status)
                 self.save(source, dict(status, status="failed"))

@@ -31,6 +31,12 @@ def validate_request(value):
             raise ValueError(f"Enter a {field} for the decision change.")
     if value.get("team") not in ("blue", "yellow"):
         raise ValueError("Choose the team whose decision should change.")
+    name = value.get("controller_name", "")
+    parent = value.get("controller_base")
+    if not isinstance(name, str) or len(name) > 100:
+        raise ValueError("Keep the controller name within 100 characters.")
+    if parent is not None and (not isinstance(parent, str) or not 0 < len(parent) <= 160):
+        raise ValueError("Choose a controller version to build on.")
     checks = value.get("acceptance", "")
     if not isinstance(checks, str) or len(checks) > 4000:
         raise ValueError("Keep the acceptance criteria within 4,000 characters.")

@@ -23,6 +23,8 @@ const clipDownload = byId("clip-download");
 const clipStatus = byId("clip-status");
 const clipNote = byId("clip-note");
 const changeCreate = byId("change-create");
+const changeController = byId("change-controller");
+const branchControllers = match.branch_controllers ?? [];
 const forecastToggle = byId("forecast-toggle");
 const forecastSummary = byId("forecast-summary");
 const forecastError = byId("forecast-error");
@@ -243,6 +245,10 @@ function openMomentClip(anchor, note, requestChange = false) {
     byId("change-title").value = coachingPlay?.objective?.slice(0, 100) || `Decision at ${replayTime(anchor.time_s)}`;
     byId("change-team").value = coachingPlay?.team || anchor.team || keys[anchor.robot]?.[0] || "blue";
     byId("change-acceptance").value = "";
+    byId("change-controller-fields").hidden = changeCreate.hidden;
+    byId("change-controller-name").value = "";
+    changeController.value = "";
+    updateChangeController();
   }
   clipNote.value = note;
   clipPanel.hidden = false;
@@ -298,8 +304,22 @@ function decisionRequest(clip) {
     team: byId("change-team").value,
     intent: clip.note,
     acceptance: byId("change-acceptance").value.trim(),
+    ...(changeController.value ? { controller_base: changeController.value }
+      : { controller_name: byId("change-controller-name").value.trim() }),
     evidence: clip,
   };
+}
+
+function controllerDate(value) {
+  return value ? new Date(value).toLocaleString([], { dateStyle: "medium", timeStyle: "short" }) : "Unrecorded";
+}
+
+function updateChangeController() {
+  const chosen = branchControllers.find(release => release.id === changeController.value);
+  byId("change-controller-name-label").hidden = Boolean(chosen);
+  const dates = byId("change-controller-dates");
+  dates.hidden = !chosen;
+  if (chosen) dates.textContent = `Created ${controllerDate(chosen.created_at)} · Updated ${controllerDate(chosen.updated_at)}`;
 }
 
 function downloadClip() {
@@ -1025,6 +1045,10 @@ byId("clip-mark-end").addEventListener("click", () => {
 });
 clipDownload.addEventListener("click", downloadClip);
 changeCreate.addEventListener("click", createDecisionBranch);
+for (const release of branchControllers) {
+  changeController.add(new Option(`${release.name} · ${release.version}`, release.id));
+}
+changeController.addEventListener("change", updateChangeController);
 for (const field of [byId("change-title"), clipNote]) field.addEventListener("input", updateClipRange);
 previousButton.addEventListener("click", () => review.jump(-1));
 nextButton.addEventListener("click", () => review.jump(1));
@@ -1150,9 +1174,13 @@ if (match.controller_versions || match.decision_timeline) {
     rows.push(["Build", `${build.number} · ${build.commit.slice(0, 8)}${checkout}`]);
   }
   if (match.decision_timeline) {
-    const { build: trial, worktree } = match.decision_timeline;
+    const { build: trial, worktree, controller } = match.decision_timeline;
     byId("version-heading").textContent = "Parent and candidate builds";
     if (trial) rows.push(["Trial", trial.commit.slice(0, 8)]);
+    if (controller) {
+      rows.push(["Controller created", controllerDate(controller.created_at)]);
+      rows.push(["Last updated", controllerDate(controller.updated_at)]);
+    }
     const copy = byId("copy-candidate");
     copy.hidden = false;
     copy.title = worktree;

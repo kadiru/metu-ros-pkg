@@ -318,7 +318,7 @@ class SessionRequest(ViewerRequest):
             parent = dict(live_replay(folder), controller_versions=live_session.controller_versions)
         else:
             parent = {}
-        data = dict(parent, setup_url="/", **metadata)
+        data = dict(parent, setup_url="/", branch_controllers=list(timelines.controllers().values()), **metadata)
         if record:
             data["decision_timeline"] = dict(
                 record, parent_end=data["frames"][-1]["t"], parent_last=len(data["frames"]) - 1,

@@ -14,6 +14,7 @@ from urllib.parse import parse_qs, urlsplit
 import numpy as np
 
 from controller_versions import MATCH_VERSIONS_FILE
+from decision_changes import create_candidate
 from match_sessions import HALF_SECONDS_RANGE, LimitsLocked, MatchRunning, MatchSessions
 from roboturk.five_roles import CFG
 from roboturk.five_strategy import PASS_PREFERENCES, PLAYBOOKS
@@ -221,6 +222,7 @@ class SessionRequest(ViewerRequest):
             data = build_data(folder)
             data["intro"] = dict(frame=moment["frame"], robot=moment["robot"])
             data["setup_url"] = "/"
+            data["replay_moment"] = parts[2]
             self.respond(page(data).encode(), "text/html; charset=utf-8")
             return
         if len(parts) != 4 or parts[1] != "matches":
@@ -260,7 +262,8 @@ class SessionRequest(ViewerRequest):
 
     def do_POST(self):
         session = None
-        if self.path != "/matches":
+        decision_change = self.path == "/decision-changes"
+        if self.path != "/matches" and not decision_change:
             parts = self.path.split("/")
             if len(parts) == 4 and parts[1] == "matches" and parts[3] == "limits":
                 session = self.sessions.sessions.get(parts[2])
@@ -276,9 +279,14 @@ class SessionRequest(ViewerRequest):
             return
         try:
             length = int(self.headers.get("Content-Length", "0"))
-            if not 0 < length <= 4096:
-                raise ValueError("Invalid match setup.")
+            maximum = 16 * 1024 * 1024 if decision_change else 4096
+            if not 0 < length <= maximum:
+                raise ValueError("The request is empty or exceeds the local upload size limit.")
             request = json.loads(self.rfile.read(length))
+            if decision_change:
+                candidate = create_candidate(request)
+                self.json_response(candidate, 201 if candidate["created"] else 200)
+                return
             if session is not None:
                 self.sessions.edit_limits(session, request)
                 self.json_response({"saved": True})
@@ -291,7 +299,8 @@ class SessionRequest(ViewerRequest):
         except ValueError as error:
             self.json_response({"error": str(error)}, 400)
         except OSError:
-            self.json_response({"error": "Could not update the local Webots match."}, 500)
+            error = "Could not create the local candidate." if decision_change else "Could not update the local Webots match."
+            self.json_response({"error": error}, 500)
         else:
             self.json_response({"url": session.url}, 201)
 

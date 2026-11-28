@@ -556,7 +556,7 @@ function createMatchReview({
     seek(anchor);
     trigger.focus();
   });
-  el("review-export").addEventListener("click", () => {
+  function exportMoment(requestChange) {
     const note = notes.get(tick);
     openClip({
       tick,
@@ -565,8 +565,10 @@ function createMatchReview({
       robot: note?.robot ?? selectedRobot(),
       markers: markers.filter((marker) => marker.tick === tick),
       ...(note?.play && { coaching_play: note.play }),
-    }, note?.text ?? "");
-  });
+    }, note?.text ?? "", requestChange);
+  }
+  el("review-export").addEventListener("click", () => exportMoment(false));
+  el("review-change").addEventListener("click", () => exportMoment(true));
 
   return {
     update(frame, canCoach, source) {

@@ -1,0 +1,43 @@
+# Decision change requests
+
+A request describes what the team should do differently in a situation and what would count as a better result. The attached frame is evidence for the situation. The requested action can be one candidate to test alongside other ways of meeting the coaching objective.
+
+For the crowded Y2 pass, the objective could be to keep possession and advance when the first receiver is under pressure. A candidate could have Y4 get open, Y2 score its passing options by how soon each receiver and defender can reach them, and Y4 cushion the pass. Those changes can span an interaction, the pass evaluator, and an individual receiving behavior. The comparable test is clean possession and progression against the same Blue controller on matched starts.
+
+```mermaid
+flowchart TD
+    Replay["Replay frame and coaching request"] --> Candidate["Isolated candidate branch"]
+    Candidate --> Strategy["Strategy · when to switch team plans or assign roles"]
+    Strategy --> Interaction["Play and interaction · how teammates coordinate"]
+    Interaction --> Behavior["Behavior · how each robot executes its action"]
+    Candidate --> Tests["Compare with the baseline on matched starts"]
+    Tests --> Release["Review results and record the release"]
+```
+
+## Open a candidate
+
+1. In a saved Hoca replay, pause at the decision and select **Request change**. Give it a title, team, desired outcome, and any acceptance criteria. Adjust the evidence interval to include the lead-up and outcome.
+2. Select **Create candidate branch** in the local Hoca setup server. The branch uses the server checkout's committed HEAD and has its own Git worktree. The returned path contains `docs/controller-changes/<request>/request.json` and `candidate.json`. The former preserves the evidence and the coaching request. The latter records the starting commit, the release recorded in the clip when available, and fields for the change plan and comparison results. Repeating the same request against the same baseline opens the same workspace.
+3. In that workspace, trace the decision to the relevant layers. Fill in the affected behavior, interaction, and strategy entries and their dependencies before assigning a version. Keep the observed match, proposed behavior, and measured trial results distinct in the candidate record.
+
+**Download request** lets you hand the same package to a coding agent or run the local command from the RoboTurk stack. Use `--base` with a commit or ref to start from another code baseline. The default is the current checkout's committed HEAD.
+
+```sh
+python scripts/decision_changes.py create /path/to/hoca-change.json
+```
+
+## Bump the highest layer changed
+
+| Version field | What changed | Example from v1.0.0 |
+| --- | --- | --- |
+| Patch | Execution of an individual skill within the existing action contract | Cushion the first touch more reliably → **v1.0.1** |
+| Minor | Coordination across robots within a play or interaction | Time the outlet run and release together, with a revised receiving skill → **v1.1.0** |
+| Major | Team-wide strategy, play selection, or how roles are allocated across situations | Switch from a fixed presser assignment to choosing the press and cover as a unit → **v2.0.0** |
+
+Classify the highest layer whose **decisions or behavior** change. Wiring several files together can support a lower-level change. A change that breaks an existing controller or skill interface takes a major bump as well. Keep runtime decision scoring separate from the evaluation used to compare versions. Report changes to the latter as changes to the test protocol and keep the comparison protocol fixed within a trial.
+
+```sh
+python scripts/decision_changes.py version 1.0.0 behavior interaction
+```
+
+A controller release pins the versions of the behaviors it uses. Record dependencies by component, interface, and the source commit or policy artifact used. Once the candidate has been tested, record the results, commit the changes with their source moment, and review them for promotion through the [controller catalog](CONTROLLER_VERSIONS.md). The match fork needed to replay a different future from the same in-game state is a separate piece of infrastructure.

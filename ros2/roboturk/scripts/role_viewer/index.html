@@ -145,6 +145,7 @@
             <button id="review-note-toggle" type="button" aria-expanded="false" aria-controls="review-note-form">Add note</button>
             <button id="review-play-toggle" type="button" aria-expanded="false" aria-controls="review-coaching-play">Coach a play</button>
             <button id="review-export" type="button">Export moment</button>
+            <button id="review-change" type="button">Request change</button>
           </div>
           <form id="review-note-form" class="review-note-form" hidden>
             <label id="review-note-label" for="review-note">Coaching note</label>
@@ -171,10 +172,16 @@
             <button id="clip-mark-start" type="button">Mark start</button><output id="clip-start">—</output>
             <button id="clip-mark-end" type="button">Mark end</button><output id="clip-end">—</output>
           </div>
-          <label for="clip-note" class="label">Observation or suggested play</label>
+          <div id="change-fields" class="change-fields" hidden>
+            <label>Change title<input id="change-title" type="text" maxlength="100" placeholder="Choose a safer outlet under pressure"></label>
+            <label>Team<select id="change-team"><option value="blue">Blue</option><option value="yellow">Yellow</option></select></label>
+            <label>How should we test it?<textarea id="change-acceptance" rows="2" maxlength="4000" placeholder="Compare clean receptions and possession against the same opponent."></textarea></label>
+          </div>
+          <label id="clip-note-label" for="clip-note" class="label">Observation or suggested play</label>
           <textarea id="clip-note" rows="2" maxlength="4000" placeholder="B1 could secure the pass, then chip to B3."></textarea>
           <div class="clip-actions">
             <button id="clip-download" class="primary" type="button" disabled>Download JSON</button>
+            <button id="change-create" class="primary" type="button" hidden disabled>Create candidate branch</button>
             <p id="clip-status" role="status"></p>
           </div>
         </section>

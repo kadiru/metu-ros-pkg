@@ -21,6 +21,8 @@ const clipToggle = byId("clip-toggle");
 const clipPanel = byId("clip-panel");
 const clipDownload = byId("clip-download");
 const clipStatus = byId("clip-status");
+const clipNote = byId("clip-note");
+const changeCreate = byId("change-create");
 const forecastToggle = byId("forecast-toggle");
 const forecastSummary = byId("forecast-summary");
 const forecastError = byId("forecast-error");
@@ -95,6 +97,8 @@ let sourceHeader = match;
 let clipStart = null;
 let clipEnd = null;
 let clipReview = null;
+let requestingChange = false;
+let branchPending = false;
 let selected = match.intro?.robot ?? 0;
 let forecastEnabled = Boolean(match.forecast && replayQuery.get("forecast") === "1");
 if (!livePage && replayQuery.has("frame")) {
@@ -197,8 +201,15 @@ function updateClipRange() {
     byId(id).textContent = tick === null ? "—" : replayTime(frames[tick].t);
   }
   const valid = clipStart !== null && clipEnd !== null && clipEnd > clipStart;
-  clipDownload.disabled = !valid;
-  if (valid) {
+  const containsDecision = valid && clipReview && clipStart <= clipReview.tick && clipReview.tick <= clipEnd;
+  const hasRequest = Boolean(containsDecision && byId("change-title").value.trim() && clipNote.value.trim());
+  clipDownload.disabled = requestingChange ? !hasRequest : !valid;
+  changeCreate.disabled = branchPending || !requestingChange || !hasRequest;
+  if (requestingChange && !containsDecision) {
+    clipStatus.textContent = "Keep the decision frame inside the evidence range.";
+  } else if (requestingChange && !hasRequest) {
+    clipStatus.textContent = "Enter a title and the decision you want the team to make.";
+  } else if (valid) {
     const duration = frames[clipEnd].t - frames[clipStart].t;
     clipStatus.textContent = `${duration.toFixed(2)} s · ${clipEnd - clipStart + 1} samples`;
   } else {
@@ -208,21 +219,32 @@ function updateClipRange() {
   }
 }
 
-function openMomentClip(anchor, note) {
+function openMomentClip(anchor, note, requestChange = false) {
   seek(anchor.tick);
   clipReview = anchor;
   clipStart = Math.max(0, frames.findLastIndex((frame) => frame.t <= anchor.time_s - 2));
   const end = frames.findIndex((frame) => frame.t >= anchor.time_s + 2);
   clipEnd = end < 0 ? frames.length - 1 : end;
-  byId("clip-note").value = note;
+  requestingChange = requestChange;
+  byId("change-fields").hidden = !requestChange;
+  changeCreate.hidden = !requestChange || !match.setup_url || location.protocol === "file:";
+  clipDownload.textContent = requestChange ? "Download request" : "Download JSON";
+  clipDownload.classList.toggle("primary", changeCreate.hidden);
+  byId("clip-note-label").textContent = requestChange ? "Desired decision or outcome" : "Observation or suggested play";
+  if (requestChange) {
+    const coachingPlay = anchor.coaching_play;
+    byId("change-title").value = coachingPlay?.objective?.slice(0, 100) || `Decision at ${replayTime(anchor.time_s)}`;
+    byId("change-team").value = coachingPlay?.team || anchor.team || keys[anchor.robot]?.[0] || "blue";
+    byId("change-acceptance").value = "";
+  }
+  clipNote.value = note;
   clipPanel.hidden = false;
   clipToggle.setAttribute("aria-expanded", "true");
   updateClipRange();
-  byId("clip-note").focus();
+  clipNote.focus();
 }
 
-function downloadClip() {
-  if (clipDownload.disabled) return;
+function telemetryClip() {
   const matchId = location.pathname.match(/\/matches\/([a-f0-9]{12})\/$/)?.[1] ?? null;
   const eventData = ([tick, label, kind, team, details]) => (
     { tick, time_s: frames[tick]?.t ?? null, label, kind, team, details: details ?? null }
@@ -236,6 +258,7 @@ function downloadClip() {
       sample_period_s: sourceHeader.dt ?? null,
       team_strategies: match.team_strategies ?? match.session?.strategies ?? null,
       ...(match.controller_versions && { controller_versions: match.controller_versions }),
+      ...(match.replay_moment && { replay_moment: match.replay_moment }),
     },
     range: {
       start_tick: clipStart,
@@ -243,7 +266,7 @@ function downloadClip() {
       start_s: frames[clipStart].t,
       end_s: frames[clipEnd].t,
     },
-    note: byId("clip-note").value.trim(),
+    note: clipNote.value.trim(),
     robot_keys: keys,
     position_fields: { ball: ["x_m", "y_m"], robot: ["x_m", "y_m", "heading_rad"] },
     command_fields: ["forward_m_s", "left_m_s", "turn_rad_s", "dribbler", "kick_m_s"],
@@ -257,15 +280,61 @@ function downloadClip() {
   if (clipReview && clipStart <= clipReview.tick && clipReview.tick <= clipEnd) {
     clip.review = clipReview;
   }
-  const url = URL.createObjectURL(new Blob([JSON.stringify(clip, null, 2)], { type: "application/json" }));
+  return clip;
+}
+
+function decisionRequest(clip) {
+  return {
+    format: "roboturk.decision_change_request.v1",
+    title: byId("change-title").value.trim(),
+    team: byId("change-team").value,
+    intent: clip.note,
+    acceptance: byId("change-acceptance").value.trim(),
+    evidence: clip,
+  };
+}
+
+function downloadClip() {
+  if (clipDownload.disabled) return;
+  const clip = telemetryClip();
+  const value = requestingChange ? decisionRequest(clip) : clip;
+  const url = URL.createObjectURL(new Blob([JSON.stringify(value, null, 2)], { type: "application/json" }));
   const link = document.createElement("a");
   link.href = url;
-  link.download = `hoca-${matchId ?? sourceHeader.seed ?? "match"}-${clipStart}-${clipEnd}.json`;
+  const source = clip.source.match_id ?? clip.source.seed ?? "match";
+  link.download = requestingChange ? `hoca-change-${source}-${clip.review.tick}.json`
+    : `hoca-${source}-${clipStart}-${clipEnd}.json`;
   document.body.append(link);
   link.click();
   link.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
-  clipStatus.textContent = `Exported ${clip.samples.length} samples as JSON.`;
+  clipStatus.textContent = requestingChange ? "Downloaded the change request with its replay evidence."
+    : `Exported ${clip.samples.length} samples as JSON.`;
+}
+
+async function createDecisionBranch() {
+  if (changeCreate.disabled) return;
+  const request = decisionRequest(telemetryClip());
+  branchPending = true;
+  changeCreate.disabled = true;
+  clipStatus.textContent = "Preparing the candidate workspace…";
+  let message;
+  try {
+    const response = await fetch("/decision-changes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(request),
+    });
+    const payload = await response.json();
+    message = response.ok ? `${payload.created ? "Created" : "Found"} ${payload.branch} in ${payload.worktree}`
+      : payload.error;
+  } catch {
+    message = "Could not reach the local candidate workspace service. You can still download the request.";
+  } finally {
+    branchPending = false;
+    updateClipRange();
+    clipStatus.textContent = message;
+  }
 }
 
 function choose(robot) {
@@ -923,6 +992,8 @@ byId("clip-mark-end").addEventListener("click", () => {
   updateClipRange();
 });
 clipDownload.addEventListener("click", downloadClip);
+changeCreate.addEventListener("click", createDecisionBranch);
+for (const field of [byId("change-title"), clipNote]) field.addEventListener("input", updateClipRange);
 previousButton.addEventListener("click", () => review.jump(-1));
 nextButton.addEventListener("click", () => review.jump(1));
 liveButton.addEventListener("click", () => {

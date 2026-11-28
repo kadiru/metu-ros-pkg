@@ -74,6 +74,16 @@ h3 { margin-bottom: 5px; font-size: 12px; font-weight: 650; color: var(--muted);
 .motion-popover { position: absolute; inset: calc(100% + 5px) 0 auto auto; width: min(260px, 100%); padding: 12px; background: var(--panel); border: 1px solid #384b5c; border-radius: 9px; box-shadow: 0 8px 20px #070c1280; }
 .match-menu-links { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
 .motion-limit-section { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+.recorded-versions { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+.recorded-versions dl { display: grid; gap: 4px; margin: 5px 0 0; font-size: 11px; }
+.recorded-versions dl > div { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 7px; }
+.recorded-versions dt { color: var(--muted); }
+.recorded-versions dd { margin: 0; overflow-wrap: anywhere; }
+.change-fields { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 7px; }
+.change-fields label { display: grid; align-content: start; gap: 4px; color: var(--muted); font-size: 11px; }
+.change-fields label:last-child { grid-column: 1 / -1; }
+.change-fields input { min-width: 0; width: 100%; padding: 5px 6px; border: 1px solid #384b5c; border-radius: 6px; background: var(--panel2); color: var(--text); font: inherit; }
+#clip-status { overflow-wrap: anywhere; }
 .motion-popover h2 { font-size: 13px; margin-bottom: 9px; }
 .motion-popover .top-limits { grid-template-columns: minmax(0, 1fr); gap: 8px; margin: 0; }
 .motion-popover .limit-feedback { margin-top: 8px; max-width: none; }
@@ -271,6 +281,13 @@ button.primary:hover { background: #c1eed3; }
 .setup a { color: var(--mint); }
 #setup-error:empty { display: none; }
 #setup-error { color: #ffb7a0; font-size: 13px; }
+.version-history { margin-top: 18px; padding: 12px; border: 1px solid var(--line); border-radius: var(--round); background: var(--panel); font-size: 13px; }
+.version-history summary { cursor: pointer; font-weight: 650; }
+.version-history h2 { margin: 12px 0 5px; }
+.version-history article { margin: 8px 0; padding: 7px 0; border-top: 1px solid var(--line); }
+.version-history article p { margin-top: 3px; color: var(--muted); }
+.version-history ul { padding-left: 20px; margin: 7px 0; }
+.version-history article a + a { margin-left: 8px; }
 @media (max-width: 1000px) {
   .match-masthead { grid-template-columns: minmax(0, 1fr) auto; }
   .match-masthead .scoreboard { grid-row: 2; grid-column: 1 / -1; justify-self: center; max-width: 100%; }
@@ -324,6 +341,10 @@ button.primary:hover { background: #c1eed3; }
               <span class="feed-state" id="feed-state" data-state="replay"><i aria-hidden="true"></i><span id="feed-label">Recorded match</span></span>
               <a id="setup-link" class="setup-link" hidden>Match setup</a>
             </div>
+            <section id="recorded-versions" class="recorded-versions" hidden>
+              <h2>Controller versions</h2>
+              <dl id="recorded-version-list"></dl>
+            </section>
             <section id="motion-limit-section" class="motion-limit-section" aria-labelledby="motion-limit-title" hidden>
               <h2 id="motion-limit-title">Motion limits</h2>
               <div id="motion-limits" class="top-limits" role="group" aria-label="Shared motion limits" hidden></div>
@@ -432,6 +453,7 @@ button.primary:hover { background: #c1eed3; }
             <button id="review-note-toggle" type="button" aria-expanded="false" aria-controls="review-note-form">Add note</button>
             <button id="review-play-toggle" type="button" aria-expanded="false" aria-controls="review-coaching-play">Coach a play</button>
             <button id="review-export" type="button">Export moment</button>
+            <button id="review-change" type="button">Request change</button>
           </div>
           <form id="review-note-form" class="review-note-form" hidden>
             <label id="review-note-label" for="review-note">Coaching note</label>
@@ -458,10 +480,16 @@ button.primary:hover { background: #c1eed3; }
             <button id="clip-mark-start" type="button">Mark start</button><output id="clip-start">—</output>
             <button id="clip-mark-end" type="button">Mark end</button><output id="clip-end">—</output>
           </div>
-          <label for="clip-note" class="label">Observation or suggested play</label>
+          <div id="change-fields" class="change-fields" hidden>
+            <label>Change title<input id="change-title" type="text" maxlength="100" placeholder="Choose a safer outlet under pressure"></label>
+            <label>Team<select id="change-team"><option value="blue">Blue</option><option value="yellow">Yellow</option></select></label>
+            <label>How should we test it?<textarea id="change-acceptance" rows="2" maxlength="4000" placeholder="Compare clean receptions and possession against the same opponent."></textarea></label>
+          </div>
+          <label id="clip-note-label" for="clip-note" class="label">Observation or suggested play</label>
           <textarea id="clip-note" rows="2" maxlength="4000" placeholder="B1 could secure the pass, then chip to B3."></textarea>
           <div class="clip-actions">
             <button id="clip-download" class="primary" type="button" disabled>Download JSON</button>
+            <button id="change-create" class="primary" type="button" hidden disabled>Create candidate branch</button>
             <p id="clip-status" role="status"></p>
           </div>
         </section>
@@ -1084,7 +1112,7 @@ function createMatchReview({
     seek(anchor);
     trigger.focus();
   });
-  el("review-export").addEventListener("click", () => {
+  function exportMoment(requestChange) {
     const note = notes.get(tick);
     openClip({
       tick,
@@ -1093,8 +1121,10 @@ function createMatchReview({
       robot: note?.robot ?? selectedRobot(),
       markers: markers.filter((marker) => marker.tick === tick),
       ...(note?.play && { coaching_play: note.play }),
-    }, note?.text ?? "");
-  });
+    }, note?.text ?? "", requestChange);
+  }
+  el("review-export").addEventListener("click", () => exportMoment(false));
+  el("review-change").addEventListener("click", () => exportMoment(true));
 
   return {
     update(frame, canCoach, source) {
@@ -1154,6 +1184,8 @@ const clipToggle = byId("clip-toggle");
 const clipPanel = byId("clip-panel");
 const clipDownload = byId("clip-download");
 const clipStatus = byId("clip-status");
+const clipNote = byId("clip-note");
+const changeCreate = byId("change-create");
 const forecastToggle = byId("forecast-toggle");
 const forecastSummary = byId("forecast-summary");
 const forecastError = byId("forecast-error");
@@ -1228,6 +1260,8 @@ let sourceHeader = match;
 let clipStart = null;
 let clipEnd = null;
 let clipReview = null;
+let requestingChange = false;
+let branchPending = false;
 let selected = match.intro?.robot ?? 0;
 let forecastEnabled = Boolean(match.forecast && replayQuery.get("forecast") === "1");
 if (!livePage && replayQuery.has("frame")) {
@@ -1330,8 +1364,15 @@ function updateClipRange() {
     byId(id).textContent = tick === null ? "—" : replayTime(frames[tick].t);
   }
   const valid = clipStart !== null && clipEnd !== null && clipEnd > clipStart;
-  clipDownload.disabled = !valid;
-  if (valid) {
+  const containsDecision = valid && clipReview && clipStart <= clipReview.tick && clipReview.tick <= clipEnd;
+  const hasRequest = Boolean(containsDecision && byId("change-title").value.trim() && clipNote.value.trim());
+  clipDownload.disabled = requestingChange ? !hasRequest : !valid;
+  changeCreate.disabled = branchPending || !requestingChange || !hasRequest;
+  if (requestingChange && !containsDecision) {
+    clipStatus.textContent = "Keep the decision frame inside the evidence range.";
+  } else if (requestingChange && !hasRequest) {
+    clipStatus.textContent = "Enter a title and the decision you want the team to make.";
+  } else if (valid) {
     const duration = frames[clipEnd].t - frames[clipStart].t;
     clipStatus.textContent = `${duration.toFixed(2)} s · ${clipEnd - clipStart + 1} samples`;
   } else {
@@ -1341,21 +1382,32 @@ function updateClipRange() {
   }
 }
 
-function openMomentClip(anchor, note) {
+function openMomentClip(anchor, note, requestChange = false) {
   seek(anchor.tick);
   clipReview = anchor;
   clipStart = Math.max(0, frames.findLastIndex((frame) => frame.t <= anchor.time_s - 2));
   const end = frames.findIndex((frame) => frame.t >= anchor.time_s + 2);
   clipEnd = end < 0 ? frames.length - 1 : end;
-  byId("clip-note").value = note;
+  requestingChange = requestChange;
+  byId("change-fields").hidden = !requestChange;
+  changeCreate.hidden = !requestChange || !match.setup_url || location.protocol === "file:";
+  clipDownload.textContent = requestChange ? "Download request" : "Download JSON";
+  clipDownload.classList.toggle("primary", changeCreate.hidden);
+  byId("clip-note-label").textContent = requestChange ? "Desired decision or outcome" : "Observation or suggested play";
+  if (requestChange) {
+    const coachingPlay = anchor.coaching_play;
+    byId("change-title").value = coachingPlay?.objective?.slice(0, 100) || `Decision at ${replayTime(anchor.time_s)}`;
+    byId("change-team").value = coachingPlay?.team || anchor.team || keys[anchor.robot]?.[0] || "blue";
+    byId("change-acceptance").value = "";
+  }
+  clipNote.value = note;
   clipPanel.hidden = false;
   clipToggle.setAttribute("aria-expanded", "true");
   updateClipRange();
-  byId("clip-note").focus();
+  clipNote.focus();
 }
 
-function downloadClip() {
-  if (clipDownload.disabled) return;
+function telemetryClip() {
   const matchId = location.pathname.match(/\/matches\/([a-f0-9]{12})\/$/)?.[1] ?? null;
   const eventData = ([tick, label, kind, team, details]) => (
     { tick, time_s: frames[tick]?.t ?? null, label, kind, team, details: details ?? null }
@@ -1368,6 +1420,8 @@ function downloadClip() {
       seed: sourceHeader.seed ?? null,
       sample_period_s: sourceHeader.dt ?? null,
       team_strategies: match.team_strategies ?? match.session?.strategies ?? null,
+      ...(match.controller_versions && { controller_versions: match.controller_versions }),
+      ...(match.replay_moment && { replay_moment: match.replay_moment }),
     },
     range: {
       start_tick: clipStart,
@@ -1375,7 +1429,7 @@ function downloadClip() {
       start_s: frames[clipStart].t,
       end_s: frames[clipEnd].t,
     },
-    note: byId("clip-note").value.trim(),
+    note: clipNote.value.trim(),
     robot_keys: keys,
     position_fields: { ball: ["x_m", "y_m"], robot: ["x_m", "y_m", "heading_rad"] },
     command_fields: ["forward_m_s", "left_m_s", "turn_rad_s", "dribbler", "kick_m_s"],
@@ -1389,15 +1443,61 @@ function downloadClip() {
   if (clipReview && clipStart <= clipReview.tick && clipReview.tick <= clipEnd) {
     clip.review = clipReview;
   }
-  const url = URL.createObjectURL(new Blob([JSON.stringify(clip, null, 2)], { type: "application/json" }));
+  return clip;
+}
+
+function decisionRequest(clip) {
+  return {
+    format: "roboturk.decision_change_request.v1",
+    title: byId("change-title").value.trim(),
+    team: byId("change-team").value,
+    intent: clip.note,
+    acceptance: byId("change-acceptance").value.trim(),
+    evidence: clip,
+  };
+}
+
+function downloadClip() {
+  if (clipDownload.disabled) return;
+  const clip = telemetryClip();
+  const value = requestingChange ? decisionRequest(clip) : clip;
+  const url = URL.createObjectURL(new Blob([JSON.stringify(value, null, 2)], { type: "application/json" }));
   const link = document.createElement("a");
   link.href = url;
-  link.download = `hoca-${matchId ?? sourceHeader.seed ?? "match"}-${clipStart}-${clipEnd}.json`;
+  const source = clip.source.match_id ?? clip.source.seed ?? "match";
+  link.download = requestingChange ? `hoca-change-${source}-${clip.review.tick}.json`
+    : `hoca-${source}-${clipStart}-${clipEnd}.json`;
   document.body.append(link);
   link.click();
   link.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
-  clipStatus.textContent = `Exported ${clip.samples.length} samples as JSON.`;
+  clipStatus.textContent = requestingChange ? "Downloaded the change request with its replay evidence."
+    : `Exported ${clip.samples.length} samples as JSON.`;
+}
+
+async function createDecisionBranch() {
+  if (changeCreate.disabled) return;
+  const request = decisionRequest(telemetryClip());
+  branchPending = true;
+  changeCreate.disabled = true;
+  clipStatus.textContent = "Preparing the candidate workspace…";
+  let message;
+  try {
+    const response = await fetch("/decision-changes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(request),
+    });
+    const payload = await response.json();
+    message = response.ok ? `${payload.created ? "Created" : "Found"} ${payload.branch} in ${payload.worktree}`
+      : payload.error;
+  } catch {
+    message = "Could not reach the local candidate workspace service. You can still download the request.";
+  } finally {
+    branchPending = false;
+    updateClipRange();
+    clipStatus.textContent = message;
+  }
 }
 
 function choose(robot) {
@@ -2055,6 +2155,8 @@ byId("clip-mark-end").addEventListener("click", () => {
   updateClipRange();
 });
 clipDownload.addEventListener("click", downloadClip);
+changeCreate.addEventListener("click", createDecisionBranch);
+for (const field of [byId("change-title"), clipNote]) field.addEventListener("input", updateClipRange);
 previousButton.addEventListener("click", () => review.jump(-1));
 nextButton.addEventListener("click", () => review.jump(1));
 liveButton.addEventListener("click", () => {
@@ -2142,6 +2244,27 @@ if (match.setup_url) {
   const link = byId("setup-link");
   link.href = match.setup_url;
   link.hidden = false;
+}
+if (match.controller_versions) {
+  const { build, teams: releases } = match.controller_versions;
+  const rows = Object.entries(teams).map(([color, { label }]) => {
+    const release = releases[color];
+    return [label, `${release.name} · v${release.version}`];
+  });
+  if (build) {
+    const checkout = build.working_copy_sha256 ? ` · local ${build.working_copy_sha256.slice(0, 8)}` : "";
+    rows.push(["Build", `${build.number} · ${build.commit.slice(0, 8)}${checkout}`]);
+  }
+  for (const [label, value] of rows) {
+    const row = document.createElement("div");
+    const term = document.createElement("dt");
+    term.textContent = label;
+    const detail = document.createElement("dd");
+    detail.textContent = value;
+    row.append(term, detail);
+    byId("recorded-version-list").append(row);
+  }
+  byId("recorded-versions").hidden = false;
 }
 if (livePage) poll();
 else {

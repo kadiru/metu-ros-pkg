@@ -22,6 +22,8 @@ The picker offers installed implementations. To re-run a specific historical sou
 
 ## Connect a change to its evidence
 
+Use [a decision change request](DECISION_CHANGES.md) to open a candidate branch from a replay moment and work out the version bump from the final scope.
+
 1. Save the parent recording and the decision frame. Add a stable moment ID to the catalog with the frame, time, seed, archive path, and coaching question. Confirm that the link opens on the correct frame.
 2. Create a candidate release record with the parent release, the affected layers, and the dependencies affected by the change. Keep the original release record alongside it. Commit the candidate code and link its introduction commit from the catalog.
 3. Compare the candidate with the baseline on the same fresh starts, swap team colors, and save the comparison with the release IDs and source build. Record outcomes such as possession retained, completed passes, goals, and body contacts.

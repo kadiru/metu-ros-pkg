@@ -73,6 +73,11 @@ h3 { margin-bottom: 5px; font-size: 12px; font-weight: 650; color: var(--muted);
 .recorded-versions dl > div { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 7px; }
 .recorded-versions dt { color: var(--muted); }
 .recorded-versions dd { margin: 0; overflow-wrap: anywhere; }
+.change-fields { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 7px; }
+.change-fields label { display: grid; align-content: start; gap: 4px; color: var(--muted); font-size: 11px; }
+.change-fields label:last-child { grid-column: 1 / -1; }
+.change-fields input { min-width: 0; width: 100%; padding: 5px 6px; border: 1px solid #384b5c; border-radius: 6px; background: var(--panel2); color: var(--text); font: inherit; }
+#clip-status { overflow-wrap: anywhere; }
 .motion-popover h2 { font-size: 13px; margin-bottom: 9px; }
 .motion-popover .top-limits { grid-template-columns: minmax(0, 1fr); gap: 8px; margin: 0; }
 .motion-popover .limit-feedback { margin-top: 8px; max-width: none; }

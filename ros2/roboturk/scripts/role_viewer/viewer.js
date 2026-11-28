@@ -25,6 +25,10 @@ const clipNote = byId("clip-note");
 const changeCreate = byId("change-create");
 const changeController = byId("change-controller");
 const branchControllers = match.branch_controllers ?? [];
+const trialController = byId("trial-controller");
+const tryController = byId("try-controller");
+const requestChangeButton = byId("review-change");
+let openCoaching = new URLSearchParams(location.search).get("coach") === "1";
 const forecastToggle = byId("forecast-toggle");
 const forecastSummary = byId("forecast-summary");
 const forecastError = byId("forecast-error");
@@ -314,6 +318,69 @@ function controllerDate(value) {
   return value ? new Date(value).toLocaleString([], { dateStyle: "medium", timeStyle: "short" }) : "Unrecorded";
 }
 
+function controllerOption(release) {
+  return `${release.name} · v${release.version} · Created ${controllerDate(release.created_at)} · Updated ${controllerDate(release.updated_at)}`;
+}
+
+function showControllerReport() {
+  const release = branchControllers.find(item => item.id === trialController.value);
+  const box = byId("controller-report");
+  box.replaceChildren();
+  if (!release) return;
+  const report = release.report || {};
+  function line(tag, text) {
+    const node = document.createElement(tag);
+    node.textContent = text;
+    box.append(node);
+    return node;
+  }
+  line("h3", `${release.name} · v${release.version}`);
+  line("p", `Created ${controllerDate(release.created_at)} · Updated ${controllerDate(release.updated_at)}`).className = "label";
+  if (release.commit) line("p", `Build ${release.commit.slice(0, 12)}`).className = "label";
+  if (report.trigger) line("h4", report.trigger);
+  if (report.description) line("p", report.description);
+  for (const [heading, items] of [["What changed", report.changes], ["Dependencies", report.depends_on]]) {
+    if (!items?.length) continue;
+    line("h4", heading);
+    const list = line("ul", "");
+    for (const item of items) {
+      const bullet = document.createElement("li");
+      bullet.textContent = item.description ?? item;
+      list.append(bullet);
+    }
+  }
+  const links = line("div", "");
+  links.className = "controller-tools";
+  for (const [label, url] of [["Original moment", report.source_url], ["Tested replay", report.replay_url]]) {
+    if (!url) continue;
+    const link = document.createElement("a");
+    link.href = url;
+    link.className = "setup-link";
+    link.textContent = label;
+    links.append(link);
+  }
+}
+
+async function startControllerTrial() {
+  pause();
+  tryController.disabled = true;
+  const status = byId("controller-status");
+  status.textContent = "Preparing Webots trial…";
+  try {
+    const response = await fetch("timeline", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "try-controller", controller: trialController.value,
+        team: byId("trial-team").value, tick: Math.min(frameIndex, match.decision_timeline?.parent_last ?? frameIndex) }),
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error);
+    timelineControls.open(result.fork_tick, new URL(result.source, location.origin).searchParams.get("trial"));
+  } catch (error) {
+    status.textContent = error.message || "Could not start the controller trial.";
+    tryController.disabled = false;
+  }
+}
+
 function updateChangeController() {
   const chosen = branchControllers.find(release => release.id === changeController.value);
   byId("change-controller-name-label").hidden = Boolean(chosen);
@@ -348,14 +415,14 @@ async function createDecisionBranch() {
   clipStatus.textContent = "Preparing the candidate workspace…";
   let message;
   try {
-    const response = await fetch("/decision-changes", {
+    const response = await fetch(match.decision_timeline ? "/decision-changes?separate=1" : "/decision-changes", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(request),
     });
     const payload = await response.json();
     if (response.ok) {
-      timelineControls.open(payload.fork_tick);
+      timelineControls.open(payload.fork_tick, new URL(payload.source, location.origin).searchParams.get("trial"));
       return;
     }
     message = payload.error;
@@ -679,6 +746,11 @@ function render() {
   scrub.value = frameIndex;
   scrub.setAttribute("aria-valuetext", `${replayTime(frame.t)} elapsed`);
   review.update(frameIndex, !livePage || (!following || finished) && !matchFailed, sourceHeader);
+  requestChangeButton.disabled = false;
+  if (openCoaching && (!livePage || requestedFrame === null)) {
+    openCoaching = false;
+    review.requestChange();
+  }
   updateLineup(frame);
   drawField();
 }
@@ -1046,9 +1118,33 @@ byId("clip-mark-end").addEventListener("click", () => {
 clipDownload.addEventListener("click", downloadClip);
 changeCreate.addEventListener("click", createDecisionBranch);
 for (const release of branchControllers) {
-  changeController.add(new Option(`${release.name} · ${release.version}`, release.id));
+  changeController.add(new Option(controllerOption(release), release.id));
+  trialController.add(new Option(controllerOption(release), release.id));
 }
 changeController.addEventListener("change", updateChangeController);
+byId("controller-tools").hidden = false;
+byId("controller-toggle").hidden = !branchControllers.length;
+byId("controller-toggle").addEventListener("click", () => {
+  const panel = byId("controller-panel");
+  panel.hidden = !panel.hidden;
+  byId("controller-toggle").setAttribute("aria-expanded", String(!panel.hidden));
+  if (!panel.hidden) {
+    const timeline = match.decision_timeline;
+    const team = timeline?.team;
+    if (team) byId("trial-team").value = team;
+    const saved = timeline?.controller ? branchControllers.find(release => release.commit === timeline.build?.commit
+      && release.name === timeline.controller.name) : timeline?.selected_controller;
+    if (saved) trialController.value = saved.id;
+    showControllerReport();
+    tryController.disabled = !frames.length;
+  }
+});
+trialController.addEventListener("change", showControllerReport);
+tryController.addEventListener("click", startControllerTrial);
+requestChangeButton.addEventListener("click", () => {
+  if (match.active_timeline) timelineControls.requestFromMain();
+  else review.requestChange();
+});
 for (const field of [byId("change-title"), clipNote]) field.addEventListener("input", updateClipRange);
 previousButton.addEventListener("click", () => review.jump(-1));
 nextButton.addEventListener("click", () => review.jump(1));
@@ -1083,7 +1179,9 @@ function updateFeed() {
 
 async function poll(offset = 0) {
   try {
-    const response = await fetch(`${match.telemetry_url ?? "telemetry"}?offset=${offset}`);
+    const stream = new URL(match.telemetry_url ?? "telemetry", location.href);
+    stream.searchParams.set("offset", offset);
+    const response = await fetch(stream);
     if (!response.ok) throw new Error("Telemetry request failed");
     const continuation = response.headers.get("X-Hoca-Continuation");
     const handoff = response.headers.has("X-Hoca-Handoff");

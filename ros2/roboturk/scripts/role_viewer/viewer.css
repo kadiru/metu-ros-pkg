@@ -80,6 +80,16 @@ h3 { margin-bottom: 5px; font-size: 12px; font-weight: 650; color: var(--muted);
 .change-fields label { display: grid; align-content: start; gap: 4px; color: var(--muted); font-size: 11px; }
 .change-fields label:last-child { grid-column: 1 / -1; }
 .change-fields input { min-width: 0; width: 100%; padding: 5px 6px; border: 1px solid #384b5c; border-radius: 6px; background: var(--panel2); color: var(--text); font: inherit; }
+.change-fields select, #trial-picker, .controller-fields select { width: 100%; min-width: 0; }
+#change-controller-fields { grid-column: 1 / -1; grid-template-columns: minmax(0, 1fr); }
+.controller-tools { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.controller-panel { min-width: 0; padding: 9px; margin: 7px 0; border: 1px solid var(--line); border-radius: 8px; }
+.controller-fields { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 7px; }
+.controller-fields label { display: grid; gap: 4px; color: var(--muted); font-size: 11px; }
+.controller-report { display: grid; gap: 5px; margin: 10px 0; font-size: 12px; overflow-wrap: anywhere; }
+.controller-report :is(h3, h4, p, ul), #controller-status { margin: 0; }
+.controller-report ul { padding-left: 17px; }
+#controller-status:not(:empty) { margin-top: 6px; }
 #clip-status { overflow-wrap: anywhere; }
 .motion-popover h2 { font-size: 13px; margin-bottom: 9px; }
 .motion-popover .top-limits { grid-template-columns: minmax(0, 1fr); gap: 8px; margin: 0; }

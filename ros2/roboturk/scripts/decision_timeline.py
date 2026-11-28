@@ -6,6 +6,7 @@ import json
 import os
 from datetime import datetime, timezone
 from pathlib import Path
+import re
 import shutil
 import signal
 import subprocess
@@ -15,7 +16,7 @@ import time
 from uuid import uuid4
 
 from controller_versions import load_catalog, match_releases, source_build
-from decision_changes import STACK, create_candidate, git, validate_request
+from decision_changes import STACK, checkout, create_candidate, git, validate_request
 from roboturk.five_roles import CFG
 
 
@@ -124,11 +125,16 @@ def branch_replay(parent, timeline, trial=None, *, streaming=False):
     )
 
 
-def candidate_controllers(record, manifest, build, strategies):
-    teams = match_releases(load_catalog(), None, strategies)
+def candidate_controllers(record, manifest, build, strategies, recorded=None):
+    teams = dict(recorded or match_releases(load_catalog(), None, strategies))
     target = record.get("team", "blue")
-    teams[target] = dict(
-        teams[target],
+    selected = record.get("selected_controller")
+    identity = record.get("controller", {})
+    release_id = identity.get("id")
+    if release_id and build and not build["working_copy_sha256"]:
+        release_id += f"@{build['commit'][:12]}"
+    teams[target] = selected or dict(
+        teams[target], id=release_id,
         name=record.get("controller", {}).get("name", record["title"]),
         version=manifest.get("candidate_version"),
         implementation=manifest.get("implementation")
@@ -166,37 +172,98 @@ class DecisionTimelines:
                     implementation=release["implementation"],
                     created_at=date,
                     updated_at=date,
+                    report={key: release[key] for key in ("description", "trigger", "changes", "depends_on")},
                 )
-        saved = (
-            json.loads(path.read_text()) for path in (self.root / "controllers").glob("*.json")
-        )
-        return self.installed_controllers | {release["id"]: release for release in saved}
+        saved = {}
+        for path in sorted((self.root / "controllers").glob("*.json")):
+            release = json.loads(path.read_text())
+            if "report" in release or release["id"] not in saved:
+                saved[release["id"]] = release
+        return self.installed_controllers | saved
+
+    def backfill_controller_reports(self):
+        legacy = {key for key, item in self.controllers().items() if item.get("commit") and "report" not in item}
+        if not legacy:
+            return
+        for path in (*self.root.glob("*/timeline.json"), *self.root.glob("*/alternatives/*/timeline.json")):
+            record = json.loads(path.read_text())
+            controller, build = record.get("controller"), record.get("build")
+            if controller and build and f"{controller['id']}@{build['commit'][:12]}" in legacy:
+                if record["status"] in ("ready", "continuing", "finished"):
+                    self.save_controller(record)
 
     def save_controller(self, record):
         build = record.get("build")
         identity = record.get("controller")
-        if not identity or not build or build.get("working_copy_sha256"):
+        if not identity or not build or build.get("working_copy_sha256") or record.get("selected_controller"):
             return
         team = record["controller_versions"]["teams"][record["team"]]
         commit = build["commit"]
+        if not team["version"]:
+            return
+        manifest_path = Path(record["record"])
+        repo = Path(git(self.stack, "rev-parse", "--show-toplevel"))
+        relative = manifest_path.relative_to(record["worktree"])
+        try:
+            manifest = json.loads(git(repo, "show", f"{commit}:{relative.as_posix()}"))
+        except ValueError:
+            return
+        request_file = manifest_path.with_name("request.json")
+        request = json.loads(request_file.read_text()) if request_file.is_file() else {}
+        plan = manifest["change_plan"]
+        source, _, variant = record["source"].partition("?trial=")
+        replay_url = f"{source}?timeline=branch&frame={record['fork_tick']}"
+        if variant:
+            replay_url += f"&trial={variant}"
+        report = {
+            "trigger": request.get("title", record["title"]),
+            "description": request.get("intent", ""),
+            "changes": plan["changes"], "depends_on": plan["dependencies"],
+            "source_url": f"{source}?frame={record['fork_tick']}", "replay_url": replay_url,
+            "comparisons": manifest.get("comparisons", []),
+        }
         version = dict(
             identity,
             id=f"{identity['id']}@{commit[:12]}",
             commit=commit,
-            version=team["version"] or commit[:8],
+            version=team["version"],
             implementation=team["implementation"],
             updated_at=git(self.stack, "show", "-s", "--format=%cI", commit),
+            report=report,
         )
         root = self.root / "controllers"
         root.mkdir(parents=True, exist_ok=True)
-        key = hashlib.sha256(version["id"].encode()).hexdigest()[:20]
-        path = root / f"{key}.json"
+        name = re.sub(r"[^a-z0-9]+", "-", version["name"].lower()).strip("-")[:64] or "controller"
+        number = re.sub(r"[^0-9.]", "", version["version"]) or "build"
+        path = root / f"{name}-v{number}-{commit[:12]}.json"
         pending = path.with_suffix(".tmp")
         pending.write_text(json.dumps(version, indent=2) + "\n")
         pending.replace(path)
+        changes = "\n".join(f"- {change}" for change in report["changes"])
+        dependencies = "\n".join(f"- {item}" for item in report["depends_on"])
+        note = path.with_suffix(".md")
+        draft = note.with_suffix(".md.tmp")
+        draft.write_text(
+            f"# {version['name']} v{version['version']}\n\n"
+            f"Created {version['created_at']} · Updated {version['updated_at']}\n\n"
+            f"Source commit `{commit}`\n\n## Why it changed\n\n"
+            f"{report['trigger']}\n\n{report['description']}\n\n"
+            f"## Changes\n\n{changes}\n\n## Dependencies\n\n{dependencies}\n\n"
+            f"[Original moment]({report['source_url']}) · [Webots trial]({replay_url})\n"
+        )
+        draft.replace(note)
 
     def directory(self, source):
-        return self.root / hashlib.sha256(source.encode()).hexdigest()[:20]
+        path, _, variant = source.partition("?trial=")
+        root = self.root / hashlib.sha256(path.encode()).hexdigest()[:20]
+        return root / "alternatives" / variant if variant else root
+
+    def alternatives(self, source):
+        root = self.directory(source)
+        variants = [path.parent.name for path in sorted(root.glob("alternatives/*/timeline.json"))]
+        keys = [("", source)] + [(variant, f"{source}?trial={variant}") for variant in variants]
+        return [dict(variant=variant, title=record["title"], promoted=bool(record.get("promoted")))
+                for variant, key in keys if (record := self.read(key))]
 
     def read(self, source):
         path = self.directory(source) / "timeline.json"
@@ -222,8 +289,11 @@ class DecisionTimelines:
         )
         pending.replace(path)
 
-    def create(self, source, request, log):
+    def create(self, source, request, log, *, separate=False):
         validate_request(request)
+        if separate:
+            fingerprint = hashlib.sha256(json.dumps(request, sort_keys=True).encode()).hexdigest()[:12]
+            source += f"?trial={fingerprint}"
         clip = request["evidence"]
         tick = clip["review"]["tick"]
         if tick >= len(log["frames"]) or clip["source"].get("seed") != log["seed"]:
@@ -269,16 +339,40 @@ class DecisionTimelines:
             self.save(source, record)
             return dict(record, resumable=False), True
 
-    def run(self, source, log, samples, config, duration):
+    def select_controller(self, source, release_id, team, tick, log, samples, config):
+        release = self.controllers().get(release_id) if isinstance(release_id, str) else None
+        if team not in ("blue", "yellow") or not release:
+            raise ValueError("Choose a team and a saved controller version.")
+        if type(tick) is not int or not 0 <= tick < len(log["frames"]):
+            raise ValueError("Choose a frame on the main timeline.")
+        fork_input(log, samples, tick, config)
+        with self.lock:
+            repo = Path(git(self.stack, "rev-parse", "--show-toplevel"))
+            build = release.get("commit") or git(self.stack, "rev-parse", "HEAD")
+            fingerprint = hashlib.sha256(f"{release_id}:{team}:{tick}:{build}".encode()).hexdigest()[:12]
+            key = f"{source}?trial={fingerprint}"
+            if self.read(key):
+                return key
+            worktree = self.root / "builds" / build
+            if not worktree.exists():
+                worktree.parent.mkdir(parents=True, exist_ok=True)
+                checkout(repo, worktree, build)
+            record = {
+                "source": key, "title": f"{team.title()} · {release['name']} v{release['version']}",
+                "team": team, "worktree": str(worktree), "selected_controller": release,
+                "expected_commit": build, "parent_timeline": "main", "fork_tick": tick,
+                "fork_time": log["frames"][tick]["clock"], "status": "awaiting", "run": None,
+                "trial_end": log["frames"][tick]["clock"],
+            }
+            self.directory(key).mkdir(parents=True, exist_ok=True)
+            self.save(key, record)
+            return key
+
+    def run(self, source, log, samples, config, duration, recorded=None):
         with self.lock:
             record = self.read(source)
             if not record or record.get("promoted"):
                 raise ValueError("Open a candidate timeline that has yet to take over.")
-            if self.running is not None:
-                active = self.read(self.running)
-                if active["status"] != "ready":
-                    raise ValueError("Wait for the active branch to finish.")
-                self.stop(active)
             initial = fork_input(log, samples, record["fork_tick"], config)
             initial["preview_seconds"] = TRIAL_SECONDS
             stack = Path(record["worktree"]) / self.stack.relative_to(
@@ -288,21 +382,35 @@ class DecisionTimelines:
             if not runner.is_file():
                 raise ValueError("The candidate workspace is unavailable.")
             build = source_build(stack, RUNTIME_PATHS)
-            manifest = json.loads(Path(record["record"]).read_text())
+            if record.get("expected_commit") and (
+                not build or build["commit"] != record["expected_commit"] or build["working_copy_sha256"]
+            ):
+                raise ValueError("The saved controller checkout no longer matches its version.")
+            manifest = json.loads(Path(record["record"]).read_text()) if record.get("record") else {}
             if record.get("controller") and build and not build["working_copy_sha256"]:
                 record["controller"]["updated_at"] = git(
                     stack, "show", "-s", "--format=%cI", build["commit"]
                 )
             options = initial["options"]
             versions = candidate_controllers(
-                record, manifest, build, options.get("team_strategies")
+                record, manifest, build, options.get("team_strategies"), recorded
             )
             target = record.get("team", "blue")
             strategies = options.get("team_strategies") or {
                 team: {"strategy": "balanced", "pass_preference": 0} for team in ("blue", "yellow")
             }
-            strategies[target]["controller"] = versions["teams"][target]["implementation"]
+            other = "yellow" if target == "blue" else "blue"
+            opponent = versions["teams"][other]
+            if opponent.get("commit") and opponent["commit"] != build["commit"]:
+                raise ValueError("These teams require different controller builds. Choose compatible versions.")
+            for team, version in versions["teams"].items():
+                strategies[team]["controller"] = version["implementation"]
             options["team_strategies"] = strategies
+            if self.running is not None:
+                active = self.read(self.running)
+                if active["status"] != "ready":
+                    raise ValueError("Wait for the active branch to finish.")
+                self.stop(active)
             run = self.directory(source) / uuid4().hex[:12]
             run.mkdir()
             spec = run / "fork.json"
@@ -353,7 +461,10 @@ class DecisionTimelines:
                 return
             if ready.is_file() and process.poll() is None:
                 self.save(source, self.finished_record(status, folder / "preview", "ready"))
-                self.save_controller(status)
+                try:
+                    self.save_controller(status)
+                except (OSError, ValueError) as error:
+                    print(f"Could not save the controller release: {error}", file=sys.stderr)
             elif process.poll() is None:
                 self.stop(status)
                 self.save(source, dict(status, status="failed"))
@@ -383,7 +494,7 @@ class DecisionTimelines:
             trial_end=round(status["fork_time"] + trace["frames"][-1]["clock"], 6),
         )
 
-    def promote(self, source, stop_parent):
+    def promote(self, source, stop_parent, *, merge=True):
         with self.lock:
             record = self.read(source)
             if not record or not record["resumable"]:
@@ -391,41 +502,43 @@ class DecisionTimelines:
                     "Run the trial and wait for Webots to pause at the end of the preview."
                 )
             build = record["build"]
-            manifest = json.loads(Path(record["record"]).read_text())
             if (
                 not build
                 or build["working_copy_sha256"]
-                or build["commit"] == manifest["base_commit"]
+                or (not record.get("selected_controller") and
+                    build["commit"] == json.loads(Path(record["record"]).read_text())["base_commit"])
             ):
                 raise ValueError(
                     "Commit the controller change and run a trial of that commit before continuing."
                 )
-            master = git(self.stack, "symbolic-ref", "--short", "HEAD")
-            if master not in ("main", "master"):
-                raise ValueError("Open Hoca from the main checkout to verify the merge.")
-            try:
-                git(self.stack, "merge-base", "--is-ancestor", build["commit"], "HEAD")
-            except ValueError:
-                if git(self.stack, "status", "--porcelain"):
-                    raise ValueError(
-                        "Finish the local edits on main before merging this trial."
-                    ) from None
-                try:
-                    git(self.stack, "merge", "--ff-only", build["commit"])
-                except ValueError:
-                    raise ValueError(
-                        "Main has diverged. Merge the tested commit, then return to Hoca."
-                    ) from None
+            if merge:
+                if record.get("selected_controller"):
+                    raise ValueError("Use this saved controller for the match from its trial.")
+                self.merge_trial(build["commit"])
             self.save(source, dict(record, status="switching"))
             try:
                 stop_parent()
-                promoted = dict(record, status="continuing", promoted=True)
+                promoted = dict(record, status="continuing", promoted=True, merged=merge)
                 self.save(source, promoted)
                 (self.trial_folder(record) / "continue-branch").touch()
             except (OSError, ValueError):
                 self.save(source, record)
                 raise
             return promoted
+
+    def merge_trial(self, commit):
+        master = git(self.stack, "symbolic-ref", "--short", "HEAD")
+        if master not in ("main", "master"):
+            raise ValueError("Open Hoca from the main checkout to verify the merge.")
+        try:
+            git(self.stack, "merge-base", "--is-ancestor", commit, "HEAD")
+        except ValueError:
+            if git(self.stack, "status", "--porcelain"):
+                raise ValueError("Finish the local edits on main before merging this trial.") from None
+            try:
+                git(self.stack, "merge", "--ff-only", commit)
+            except ValueError:
+                raise ValueError("Main has diverged. Merge the tested commit, then return to Hoca.") from None
 
     def stop(self, record):
         process = self.process

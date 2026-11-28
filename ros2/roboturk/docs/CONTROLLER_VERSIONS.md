@@ -18,7 +18,9 @@ flowchart LR
 
 Each Hoca-launched match writes `controller-versions.json` beside its recording. It captures both release records, the source build, and hashes of the world and policy inputs. The full Git commit identifies the source across branches. The build number is the first-parent commit count and is meaningful within one line of development. A local working copy has a separate change digest. Match setup keeps the strategies, seed, motion limits, and runtime options in `spec.json`. The match menu shows the recorded versions and telemetry clip exports carry the same record. Use a committed checkout for a reproducible comparison.
 
-The picker offers installed implementations. To re-run a specific historical source build today, launch Hoca from that commit's checkout in a separate environment. Hoca can branch a saved match into a reconstructed open-play trial. Exact mid-match checkpoint restoration and competition between two independently loaded source builds are future work.
+The match's **Controllers** picker lists installed implementations and committed, tested releases saved on this Hoca server. Each row shows its name, version, creation date, and last update. For a saved candidate, Hoca runs the pinned Git commit in a detached worktree. The release report links its original coaching moment and the Webots trial. Both teams share the trial build, so versions that require different source checkouts cannot be combined in one trial. Exact mid-match checkpoint restoration and separate runtime builds per team are future work.
+
+Git versions the full controller and its dependencies. Each saved release has a readable `name-vX.Y.Z-commit.json` and matching Markdown report in the Hoca sessions directory under `decision-timelines/controllers`. Source files keep stable names. The [Relay Outlet v1.0.0 release note](controller-releases/relay-outlet-v1.0.0.md) shows the trigger, the sequence, and the comparison with the original pass.
 
 The scoreboard shows the controller name and version for both teams. For a candidate continuation, it displays the proposed release or the candidate build commit. The build is also visible in match settings.
 

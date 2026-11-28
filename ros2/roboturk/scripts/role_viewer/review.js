@@ -568,9 +568,9 @@ function createMatchReview({
     }, note?.text ?? "", requestChange);
   }
   el("review-export").addEventListener("click", () => exportMoment(false));
-  el("review-change").addEventListener("click", () => exportMoment(true));
 
   return {
+    requestChange: () => exportMoment(true),
     update(frame, canCoach, source) {
       tick = frame;
       actions.hidden = !canCoach;

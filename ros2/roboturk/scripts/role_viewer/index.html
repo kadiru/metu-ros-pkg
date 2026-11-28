@@ -75,6 +75,7 @@
           <div class="playback">
             <div class="replay-status"><p id="kick-readout" class="kick-readout"></p><span id="replay-time"></span></div>
             <section id="decision-timelines" class="decision-timelines" aria-label="Match timelines" hidden>
+              <select id="trial-picker" aria-label="Compare with trial" hidden></select>
               <button id="main-timeline" class="timeline-row" type="button" aria-pressed="true">
                 <span id="main-title">Main match</span><span class="timeline-lane" aria-hidden="true"><i></i></span>
               </button>
@@ -84,6 +85,7 @@
               <div class="timeline-actions">
                 <button id="timeline-reset" type="button">Return to fork</button>
                 <button id="timeline-run" type="button">Run Webots trial</button>
+                <button id="timeline-use" class="primary" type="button" hidden>Continue with this controller</button>
                 <button id="timeline-promote" class="primary" type="button" hidden>Merge &amp; continue</button>
                 <span id="timeline-status" role="status"></span>
               </div>
@@ -138,6 +140,19 @@
           <h2 id="events-title">Match events</h2>
           <span id="event-position" class="label"></span>
         </div>
+        <div class="controller-tools" id="controller-tools" hidden>
+          <button id="controller-toggle" type="button" aria-expanded="false" aria-controls="controller-panel">Controllers</button>
+          <button id="review-change" type="button" disabled>Request change</button>
+        </div>
+        <section id="controller-panel" class="controller-panel" aria-label="Controller library" hidden>
+          <div class="controller-fields">
+            <label>Team<select id="trial-team"><option value="blue">Blue</option><option value="yellow">Yellow</option></select></label>
+            <label>Saved controller<select id="trial-controller"></select></label>
+          </div>
+          <article id="controller-report" class="controller-report"></article>
+          <button id="try-controller" class="primary" type="button" disabled>Test from main timeline</button>
+          <p id="controller-status" class="label" role="status"></p>
+        </section>
         <div class="review-panel">
           <div class="review-controls">
             <input id="review-search" type="search" aria-label="Find a moment" placeholder="Find a moment">
@@ -160,7 +175,6 @@
             <button id="review-note-toggle" type="button" aria-expanded="false" aria-controls="review-note-form">Add note</button>
             <button id="review-play-toggle" type="button" aria-expanded="false" aria-controls="review-coaching-play">Coach a play</button>
             <button id="review-export" type="button">Export moment</button>
-            <button id="review-change" type="button">Request change</button>
           </div>
           <form id="review-note-form" class="review-note-form" hidden>
             <label id="review-note-label" for="review-note">Coaching note</label>

@@ -17,7 +17,7 @@ flowchart TD
 ## Open a candidate
 
 1. In a saved Hoca replay or while reviewing a live match, pause at the decision and select **Request change**. Give it a title, team, desired outcome, and any acceptance criteria. Adjust the evidence interval to include the lead-up and outcome.
-2. Select **Create candidate branch** in the local Hoca setup server. Hoca puts a candidate timeline below the main match at the chosen frame. The branch uses the server checkout's committed HEAD and has its own Git worktree. In match settings, **Copy candidate workspace** gives you its location. `docs/controller-changes/<request>/request.json` preserves the request and evidence. `candidate.json` records the starting commit, the recorded release when available, and fields for the change plan and results. Hoca keeps one candidate per recording and reopens it when the same request is submitted again.
+2. Under **Controller**, name a new controller or choose a saved release as the base. Select **Create candidate branch**. Hoca puts the trial under the main timeline, keeping earlier trials available in the trial picker. Each code change has its own Git worktree. In match settings, **Copy candidate workspace** gives you its location. `docs/controller-changes/<request>/request.json` preserves the request and evidence. `candidate.json` records the starting commit, recorded release, change plan, version, and results.
 3. In that workspace, trace the decision to the relevant layers. Fill in the affected behavior, interaction, and strategy entries and their dependencies before assigning a version. Keep the observed match, proposed behavior, and measured trial results distinct in the candidate record.
 
 **Download request** lets you hand the same package to a coding agent or run the local command from the RoboTurk stack. Use `--base` with a commit or ref to start from another code baseline. The default is the current checkout's committed HEAD.
@@ -29,6 +29,10 @@ python scripts/decision_changes.py create /path/to/hoca-change.json
 ## Watch the candidate in Hoca
 
 Select **Run Webots trial** once the candidate code is ready. Webots runs eight seconds using the candidate worktree and then waits in place. It starts from the recorded poses, velocities, score, and limits at an open-play decision frame. The branch shares the main match up to the fork and then shows the trial's own events. Select either row to use it with play, pause, the scrubber, and the previous and next markers. **Return to fork** selects the main match and seeks the exact source frame. The score shows the controller name and release for each team. While watching the candidate, Hoca uses its proposed version or the Git commit if no version has been assigned.
+
+## Use a controller in the match
+
+Open **Controllers** above Match events. Pick Blue or Yellow and a saved release, read its change report, and select **Test from main timeline** at an open-play frame. **Continue with this controller** resumes the paused Webots trial as the match continuation and preserves the original timeline and Git checkout. A live Practice match hands off its simulator. A finished recording gets a playable continuation. Live Game mode keeps its fixed controllers.
 
 ## Merge and continue
 

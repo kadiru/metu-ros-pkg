@@ -128,6 +128,10 @@ def test_hoca_remembers_one_candidate_per_recording(change_tool, tmp_path, monke
     assert reopened.create(source, request, log) == (record, False)
     with pytest.raises(ValueError, match="already has a candidate"):
         reopened.create(source, dict(request, title="Another request"), log)
+    alternative, _ = reopened.create(source, dict(request, title="Another request"), log, separate=True)
+    assert alternative["source"].startswith(source + "?trial=")
+    assert reopened.read(source) == record
+    assert [item["title"] for item in reopened.alternatives(source)] == [record["title"], "Another request"]
 
 
 def test_merge_handoff_resumes_only_after_stopping_parent(change_tool, tmp_path):
@@ -172,3 +176,33 @@ def test_merge_handoff_resumes_only_after_stopping_parent(change_tool, tmp_path)
     assert signal_file.exists()
     assert service.read(source)["promoted"]
     assert service.process.poll() is None
+
+
+def test_continue_with_saved_controller_leaves_main_at_its_current_commit(change_tool, tmp_path):
+    timeline = importlib.import_module("decision_timeline")
+    service = timeline.DecisionTimelines(tmp_path, None)
+    service.merge_trial = Mock(side_effect=AssertionError("Continuation must not merge"))
+    key = "/matches/123456789abc/?trial=abc123abc123"
+    service.running = key
+    service.process = Mock()
+    service.process.poll.return_value = None
+    record = dict(source=key, status="ready", run="trial", selected_controller={"id": "relay-v1"},
+                  build=dict(commit="a" * 40, working_copy_sha256=None))
+    folder = service.trial_folder(record)
+    folder.mkdir(parents=True)
+    service.save(key, record)
+    stop_parent = Mock()
+    assert service.promote(key, stop_parent, merge=False)["status"] == "continuing"
+    stop_parent.assert_called_once()
+    service.merge_trial.assert_not_called()
+    assert (folder / "continue-branch").exists()
+
+
+def test_team_switch_keeps_the_other_teams_release(change_tool):
+    timeline = importlib.import_module("decision_timeline")
+    picked = {"id": "relay-v1", "name": "Relay Outlet", "implementation": "relay-outlet"}
+    original = {"blue": {"id": "blue-v1"}, "yellow": {"id": "yellow-v2"}}
+    record = {"team": "blue", "selected_controller": picked}
+    result = timeline.candidate_controllers(record, {}, {"commit": "a"}, {}, original)
+    assert result["teams"] == {"blue": picked, "yellow": original["yellow"]}
+    assert original["blue"]["id"] == "blue-v1"

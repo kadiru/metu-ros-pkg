@@ -76,6 +76,23 @@ def next_version(previous, changed_layers, *, breaks_contract=False):
     return ".".join(map(str, parts))
 
 
+def checkout(repo, directory, commit, branch=None):
+    selection = ["-b", branch] if branch else ["--detach"]
+    git(repo, "worktree", "add", "--no-checkout", *selection, str(directory), commit)
+    sparse = subprocess.run(
+        ["git", "config", "--bool", "--get", "core.sparseCheckout"],
+        cwd=repo, capture_output=True, text=True, check=False,
+    )
+    if sparse.stdout.strip() == "true":
+        cone = git(repo, "config", "--default", "true", "--bool", "--get", "core.sparseCheckoutCone")
+        patterns = git(repo, "sparse-checkout", "list")
+        git(
+            directory, "sparse-checkout", "set", "--cone" if cone == "true" else "--no-cone",
+            "--stdin", data=patterns + "\n",
+        )
+    git(directory, "read-tree", "-mu", "HEAD")
+
+
 def create_candidate(request, *, stack=STACK, base="HEAD", workspace=None):
     validate_request(request)
     repo = Path(git(stack, "rev-parse", "--show-toplevel"))
@@ -97,22 +114,8 @@ def create_candidate(request, *, stack=STACK, base="HEAD", workspace=None):
     if directory.exists():
         raise ValueError(f"Candidate workspace already exists without a matching request record: {directory}")
     directory.parent.mkdir(parents=True, exist_ok=True)
-    git(repo, "worktree", "add", "--no-checkout", "-b", branch, str(directory), commit)
     try:
-        sparse = subprocess.run(
-            ["git", "config", "--bool", "--get", "core.sparseCheckout"],
-            cwd=repo, capture_output=True, text=True, check=False,
-        )
-        if sparse.stdout.strip() == "true":
-            cone = git(
-                repo, "config", "--default", "true", "--bool", "--get", "core.sparseCheckoutCone"
-            )
-            patterns = git(repo, "sparse-checkout", "list")
-            git(
-                directory, "sparse-checkout", "set", "--cone" if cone == "true" else "--no-cone",
-                "--stdin", data=patterns + "\n",
-            )
-        git(directory, "read-tree", "-mu", "HEAD")
+        checkout(repo, directory, commit, branch)
         record_dir.mkdir(parents=True, exist_ok=False)
         (record_dir / "request.json").write_text(json.dumps(request, indent=2, ensure_ascii=False) + "\n")
         source = request["evidence"]["source"]

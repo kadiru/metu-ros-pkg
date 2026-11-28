@@ -139,6 +139,8 @@ function createMatchReview({
   const moment = el("review-moment");
   const filters = el("review-filters");
   const filterToggle = el("review-filter-toggle");
+  const coachToggle = el("coach-toggle");
+  const coachActions = el("coach-actions");
   const team = el("review-team");
   const search = el("review-search");
   const choices = [...filters.querySelectorAll('input[type="checkbox"]')];
@@ -467,10 +469,19 @@ function createMatchReview({
     playPlayers.replaceChildren(...players.map(({ row }) => row));
   }
 
-  filterToggle.addEventListener("click", () => {
-    filters.hidden = !filters.hidden;
-    filterToggle.setAttribute("aria-expanded", String(!filters.hidden));
-  });
+  for (const [button, panel, otherButton, otherPanel] of [
+    [filterToggle, filters, coachToggle, coachActions],
+    [coachToggle, coachActions, filterToggle, filters],
+  ]) {
+    button.addEventListener("click", () => {
+      panel.hidden = !panel.hidden;
+      button.setAttribute("aria-expanded", String(!panel.hidden));
+      if (!panel.hidden) {
+        otherPanel.hidden = true;
+        otherButton.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
   function filterChanged() {
     refreshMarkers();
     render();

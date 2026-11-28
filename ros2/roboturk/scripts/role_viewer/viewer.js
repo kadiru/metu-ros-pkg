@@ -16,7 +16,6 @@ const playbackRateSelect = byId("playback-rate");
 const previousButton = byId("prev");
 const nextButton = byId("next");
 const liveButton = byId("go-live");
-const motionSettings = byId("motion-settings");
 const clipToggle = byId("clip-toggle");
 const clipPanel = byId("clip-panel");
 const clipDownload = byId("clip-download");
@@ -455,7 +454,7 @@ function rosterMotion(robot) {
   const dial = document.createElement("canvas");
   const size = 48;
   const pixels = window.devicePixelRatio || 1;
-  dial.width = dial.height = Math.round(size * pixels);
+  dial.width = dial.height = Math.round(52 * pixels);
   dial.setAttribute("aria-hidden", "true");
   const plot = dial.getContext("2d");
   plot.setTransform(dial.width / size, 0, 0, dial.height / size, 0, 0);
@@ -617,6 +616,7 @@ function initializeTeams() {
     const plan = byId(`${team}-plan`);
     plan.append(byId("team-plan-template").content.cloneNode(true));
     plan.querySelector(".lineup-team").textContent = label;
+    const detailToggle = plan.querySelector(".lineup-detail-toggle");
     const lineupToggle = plan.querySelector(".lineup-toggle");
     const scroll = plan.querySelector(".roster-scroll");
     const roster = plan.querySelector(".roster");
@@ -638,6 +638,11 @@ function initializeTeams() {
       scroll.hidden = !scroll.hidden;
       lineupToggle.setAttribute("aria-expanded", String(!scroll.hidden));
       lineupToggle.textContent = scroll.hidden ? "Show lineup" : "Hide lineup";
+    });
+    detailToggle.addEventListener("click", () => {
+      const expanded = plan.toggleAttribute("data-details");
+      detailToggle.setAttribute("aria-pressed", String(expanded));
+      detailToggle.textContent = expanded ? "Hide explanations" : "Show explanations";
     });
     overlay.addEventListener("click", () => {
       const roster = keys.flatMap(([color], robot) => color === team ? [robot] : []);
@@ -854,6 +859,7 @@ function render() {
   updateLimitControls();
   const frame = frames[frameIndex];
   updateControllerLabels(frame);
+  byId("field-view").toggleAttribute("data-active", forecastEnabled || solo || !byId("show-all").disabled);
   playButton.disabled = !frame || (livePage && following && !finished);
   playbackRateSelect.disabled = playButton.disabled;
   scrub.disabled = !frame;
@@ -1219,17 +1225,19 @@ playbackRateSelect.addEventListener("change", () => {
   playbackRate = Number(playbackRateSelect.value);
 });
 
-for (const disclosure of [byId("field-info"), motionSettings]) {
-  document.addEventListener("click", (event) => {
-    if (disclosure.open && !disclosure.contains(event.target)) disclosure.open = false;
-  });
-  disclosure.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && disclosure.open) {
-      disclosure.open = false;
-      disclosure.querySelector("summary").focus();
-    }
-  });
-}
+const openMenus = ".toolbar-menu[open], #field-info[open], #motion-settings[open]";
+document.addEventListener("click", (event) => {
+  for (const menu of document.querySelectorAll(openMenus)) {
+    if (!menu.contains(event.target)) menu.open = false;
+  }
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape") return;
+  const menu = event.target.closest(openMenus);
+  if (!menu) return;
+  menu.open = false;
+  menu.querySelector("summary").focus();
+});
 
 scrub.addEventListener("input", () => seek(Number(scrub.value)));
 forecastToggle.addEventListener("click", () => {
@@ -1257,7 +1265,6 @@ for (const release of branchControllers) {
   trialController.add(new Option(controllerOption(release), release.id));
 }
 changeController.addEventListener("change", updateChangeController);
-byId("controller-tools").hidden = false;
 byId("controller-toggle").hidden = !branchControllers.length;
 byId("controller-toggle").addEventListener("click", () => {
   const panel = byId("controller-panel");

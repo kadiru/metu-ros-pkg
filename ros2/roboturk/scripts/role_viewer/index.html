@@ -61,10 +61,13 @@
                 </div>
               </details>
             </div>
-          </div>
-          <div class="field-controls" aria-label="Field visibility">
-            <div class="field-filters" id="field-filters"></div>
-            <div class="focus-controls"><button id="forecast-toggle" type="button" aria-pressed="false" aria-controls="forecast-summary" hidden>1 s forecast</button><button id="solo" type="button" aria-pressed="false">Solo selected</button><button id="show-all" type="button">Show all</button></div>
+            <details id="field-view" class="toolbar-menu">
+              <summary>View</summary>
+              <div class="toolbar-popover field-controls" aria-label="Field visibility">
+                <div class="field-filters" id="field-filters"></div>
+                <div class="focus-controls"><button id="forecast-toggle" type="button" aria-pressed="false" aria-controls="forecast-summary" hidden>1 s forecast</button><button id="solo" type="button" aria-pressed="false">Solo selected</button><button id="show-all" type="button">Show all</button></div>
+              </div>
+            </details>
           </div>
           <div class="pitch"><canvas id="pitch" aria-label="Recorded robot and ball positions. Select a robot here or in the lineup."></canvas></div>
           <section class="forecast-summary" id="forecast-summary" aria-label="One-second robot forecast" hidden>
@@ -73,23 +76,32 @@
             <output id="forecast-error"></output>
           </section>
           <div class="playback">
-            <div class="replay-status"><p id="kick-readout" class="kick-readout"></p><span id="replay-time"></span></div>
+            <div class="replay-status">
+              <p id="kick-readout" class="kick-readout"></p>
+              <span id="replay-time"></span>
+              <details id="trial-menu" class="toolbar-menu" hidden>
+                <summary>Trials</summary>
+                <div class="toolbar-popover trial-options">
+                  <label id="trial-picker-label" hidden>Compare with<select id="trial-picker"></select></label>
+                  <div class="timeline-actions">
+                    <button id="timeline-reset" type="button">Return to fork</button>
+                    <button id="timeline-run" type="button">Run Webots trial</button>
+                    <button id="timeline-use" class="primary" type="button" hidden>Continue with this controller</button>
+                    <button id="timeline-promote" type="button" hidden>Merge &amp; continue</button>
+                  </div>
+                  <span id="timeline-status" role="status"></span>
+                </div>
+              </details>
+            </div>
             <section id="decision-timelines" class="decision-timelines" aria-label="Match timelines" hidden>
-              <select id="trial-picker" aria-label="Compare with trial" hidden></select>
               <button id="main-timeline" class="timeline-row" type="button" aria-pressed="true">
                 <span id="main-title">Main match</span><span class="timeline-lane" aria-hidden="true"><i></i></span>
               </button>
               <button id="candidate-timeline" class="timeline-row" type="button" aria-pressed="false">
                 <span id="candidate-title"></span><span class="timeline-lane candidate-lane" aria-hidden="true"><i></i></span>
               </button>
-              <div class="timeline-actions">
-                <button id="timeline-reset" type="button">Return to fork</button>
-                <button id="timeline-run" type="button">Run Webots trial</button>
-                <button id="timeline-use" class="primary" type="button" hidden>Continue with this controller</button>
-                <button id="timeline-promote" class="primary" type="button" hidden>Merge &amp; continue</button>
-                <span id="timeline-status" role="status"></span>
-              </div>
             </section>
+            <p id="trial-feedback" class="label" role="status" hidden></p>
             <div id="review-track" class="review-track" aria-hidden="true" hidden></div>
             <input id="scrub" type="range" aria-label="Replay position" min="0" max="0" value="0">
             <div class="playbar">
@@ -125,8 +137,14 @@
           <header class="lineup-header">
             <h3 class="lineup-team"></h3>
             <span class="goal-side"></span>
-            <button type="button" class="team-overlay" aria-pressed="false" disabled></button>
-            <button type="button" class="lineup-toggle" aria-expanded="true" disabled>Hide lineup</button>
+            <details class="toolbar-menu lineup-menu">
+              <summary>Lineup</summary>
+              <div class="toolbar-popover lineup-options">
+                <button type="button" class="team-overlay" aria-pressed="false" disabled>Robot overlays</button>
+                <button type="button" class="lineup-detail-toggle" aria-pressed="false">Show explanations</button>
+                <button type="button" class="lineup-toggle" aria-expanded="true" disabled>Hide lineup</button>
+              </div>
+            </details>
           </header>
           <dl class="plan-summary">
             <div><dt>Mode</dt><dd data-plan="mode">—</dd></div>
@@ -144,24 +162,12 @@
         <div class="section-heading">
           <h2 id="events-title">Match events</h2>
           <span id="event-position" class="label"></span>
+          <button id="coach-toggle" class="toolbar-button" type="button" aria-expanded="false" aria-controls="coach-actions">Coach</button>
         </div>
-        <div class="controller-tools" id="controller-tools" hidden>
-          <button id="controller-toggle" type="button" aria-expanded="false" aria-controls="controller-panel">Controllers</button>
-          <button id="review-change" type="button" disabled>Request change</button>
-        </div>
-        <section id="controller-panel" class="controller-panel" aria-label="Controller library" hidden>
-          <div class="controller-fields">
-            <label>Team<select id="trial-team"><option value="blue">Blue</option><option value="yellow">Yellow</option></select></label>
-            <label>Saved controller<select id="trial-controller"></select></label>
-          </div>
-          <article id="controller-report" class="controller-report"></article>
-          <button id="try-controller" class="primary" type="button" disabled>Test from main timeline</button>
-          <p id="controller-status" class="label" role="status"></p>
-        </section>
         <div class="review-panel">
           <div class="review-controls">
-            <input id="review-search" type="search" aria-label="Find a moment" placeholder="Find a moment">
-            <button id="review-filter-toggle" type="button" aria-expanded="false" aria-controls="review-filters">Markers</button>
+            <input id="review-search" type="search" aria-label="Search events" placeholder="Search events">
+            <button id="review-filter-toggle" class="toolbar-button" type="button" aria-expanded="false" aria-controls="review-filters">Filters</button>
           </div>
           <div id="review-filters" class="review-options" hidden>
             <label>Team
@@ -175,11 +181,27 @@
               <label><input type="checkbox" value="event" checked> Key events</label>
               <label><input type="checkbox" value="note" checked> Coaching notes</label>
             </fieldset>
+            <select id="review-moment" aria-label="Jump to a marked moment"></select>
           </div>
-          <div id="review-actions" class="review-note-actions" hidden>
-            <button id="review-note-toggle" type="button" aria-expanded="false" aria-controls="review-note-form">Add note</button>
-            <button id="review-play-toggle" type="button" aria-expanded="false" aria-controls="review-coaching-play">Coach a play</button>
-            <button id="review-export" type="button">Export moment</button>
+          <div id="coach-actions" class="coach-actions" hidden>
+            <div id="review-actions" hidden>
+              <button id="review-note-toggle" type="button" aria-expanded="false" aria-controls="review-note-form">Add note</button>
+              <button id="review-play-toggle" type="button" aria-expanded="false" aria-controls="review-coaching-play">Coach a play</button>
+              <button id="review-export" type="button">Export moment</button>
+            </div>
+            <div>
+              <button id="controller-toggle" type="button" aria-expanded="false" aria-controls="controller-panel">Controllers</button>
+              <button id="review-change" type="button" disabled>Request change</button>
+            </div>
+            <section id="controller-panel" class="controller-panel" aria-label="Controller library" hidden>
+              <div class="controller-fields">
+                <label>Team<select id="trial-team"><option value="blue">Blue</option><option value="yellow">Yellow</option></select></label>
+                <label>Saved controller<select id="trial-controller"></select></label>
+              </div>
+              <article id="controller-report" class="controller-report"></article>
+              <button id="try-controller" class="primary" type="button" disabled>Test from main timeline</button>
+              <p id="controller-status" class="label" role="status"></p>
+            </section>
           </div>
           <form id="review-note-form" class="review-note-form" hidden>
             <label id="review-note-label" for="review-note">Coaching note</label>
@@ -199,7 +221,6 @@
             <div class="review-note-actions"><button type="submit">Save note</button><button id="review-note-cancel" type="button">Cancel</button></div>
           </form>
           <p id="review-status" class="review-status" role="status" hidden></p>
-          <select id="review-moment" aria-label="Jump to a marked moment"></select>
         </div>
         <section id="clip-panel" class="clip-panel" aria-label="Export a telemetry clip" hidden>
           <div class="clip-marks">

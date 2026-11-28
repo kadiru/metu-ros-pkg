@@ -31,7 +31,9 @@ function createTimelineControls(match, currentFrame, currentRobot, timeText) {
     const use = byId("timeline-use");
     const picker = byId("trial-picker");
     const status = byId("timeline-status");
+    const feedback = byId("trial-feedback");
     panel.hidden = false;
+    byId("trial-menu").hidden = false;
     original.setAttribute("aria-pressed", String(!onBranch));
     candidate.setAttribute("aria-pressed", String(onBranch));
     byId("candidate-title").textContent = timeline.title;
@@ -41,9 +43,15 @@ function createTimelineControls(match, currentFrame, currentRobot, timeText) {
       picker.add(new Option(trial.title, trial.variant));
     }
     picker.value = variant;
-    picker.hidden = picker.options.length < 2;
+    byId("trial-picker-label").hidden = picker.options.length < 2;
     picker.addEventListener("change", () => show(true, currentFrame(), picker.value));
     const forkLabel = `Fork at ${timeText(timeline.fork_time, 2)}`;
+
+    function trialStatus(message, showFeedback = false) {
+      status.textContent = `${forkLabel} · ${message}`;
+      feedback.textContent = showFeedback ? message : "";
+      feedback.hidden = !showFeedback;
+    }
 
     extend = (end) => {
       const scale = Math.max(timeline.parent_end, end, 0.04);
@@ -60,7 +68,7 @@ function createTimelineControls(match, currentFrame, currentRobot, timeText) {
         running: "Running Webots trial…", awaiting: "Awaiting a Webots trial",
         switching: "Ending the original match…", continuing: "Live on this branch", finished: "Branch match finished",
       };
-      status.textContent = `${forkLabel} · ${labels[latest.status]}`;
+      trialStatus(labels[latest.status], ["failed", "running", "switching"].includes(latest.status));
       byId("main-title").textContent = latest.promoted ? "Original match" : "Main match";
       run.textContent = latest.status === "ready" ? "Run again" : "Run Webots trial";
       run.disabled = ["running", "switching"].includes(latest.status);
@@ -90,7 +98,7 @@ function createTimelineControls(match, currentFrame, currentRobot, timeText) {
         else if (onBranch && latest.status === "ready") show(true, timeline.fork_tick);
         else renderStatus(latest);
       } catch {
-        status.textContent = "Could not check the Webots trial. Reload Hoca to reconnect.";
+        trialStatus("Could not check the Webots trial. Reload Hoca to reconnect.", true);
       }
     }
 
@@ -107,14 +115,14 @@ function createTimelineControls(match, currentFrame, currentRobot, timeText) {
           setTimeout(checkTrial, 750);
         } else show(true, timeline.fork_tick);
       } catch (error) {
-        status.textContent = error.message || "Could not start the Webots trial.";
+        trialStatus(error.message || "Could not start the Webots trial.", true);
         run.disabled = false;
       }
     });
     async function continueMatch(action) {
       use.disabled = promote.disabled = run.disabled = true;
-      status.textContent = action === "continue" ? "Merging the tested commit and handing off Webots…"
-        : "Continuing Webots with the tested controller…";
+      trialStatus(action === "continue" ? "Merging the tested commit and handing off Webots…"
+        : "Continuing Webots with the tested controller…", true);
       try {
         const response = await fetch(endpoint, {
           method: "POST", headers: { "Content-Type": "application/json" },
@@ -124,7 +132,7 @@ function createTimelineControls(match, currentFrame, currentRobot, timeText) {
         if (!response.ok) throw new Error(value.error);
         show(true, timeline.fork_tick);
       } catch (error) {
-        status.textContent = error.message || "Could not continue the branch.";
+        trialStatus(error.message || "Could not continue the branch.", true);
         use.disabled = promote.disabled = run.disabled = false;
       }
     }

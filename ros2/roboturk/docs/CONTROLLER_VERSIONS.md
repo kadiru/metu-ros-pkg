@@ -35,3 +35,5 @@ The matched native benchmark accepts catalog IDs and writes both the exact selec
 python scripts/benchmark_five_decisions.py runs/version-comparison \
   --baseline team-wide@1.0.0 --challenger coordinated@1.0.0 --starts 4
 ```
+
+In the [first versioned comparison](../media/match-viewer/controller-version-smoke.json), Webots verified the same opening on seed `38728000`. Coordinated ran as each color in two 12-second games. It recorded one win, one draw, three completed passes from four attempts, and no body contacts. The team-wide self-play baseline ended 0–0. This is a smoke check of the version and comparison workflow on one seed.

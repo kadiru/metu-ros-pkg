@@ -1,0 +1,152 @@
+{
+  "seconds": 12,
+  "referee": "local",
+  "totals": {
+    "coordinated": {
+      "matches": 2,
+      "wins": 1,
+      "draws": 1,
+      "losses": 0,
+      "goals_for": 1,
+      "goals_against": 0,
+      "baseline_goals_for": 0,
+      "baseline_goals_against": 0,
+      "completed": 3,
+      "passes": 4,
+      "baseline_completed": 2,
+      "baseline_passes": 4,
+      "contacts": 0,
+      "baseline_contacts": 0
+    }
+  },
+  "pairs": [
+    {
+      "seed": 38728000,
+      "controller": "coordinated",
+      "controller_version": "coordinated@1.0.0",
+      "team": "blue",
+      "baseline": {
+        "score": [
+          0,
+          0
+        ],
+        "passes": [
+          2,
+          2
+        ],
+        "completed": [
+          1,
+          1
+        ],
+        "contacts": 0
+      },
+      "changed": {
+        "score": [
+          1,
+          0
+        ],
+        "passes": [
+          2,
+          0
+        ],
+        "completed": [
+          2,
+          0
+        ],
+        "contacts": 0
+      }
+    },
+    {
+      "seed": 38728000,
+      "controller": "coordinated",
+      "controller_version": "coordinated@1.0.0",
+      "team": "yellow",
+      "baseline": {
+        "score": [
+          0,
+          0
+        ],
+        "passes": [
+          2,
+          2
+        ],
+        "completed": [
+          1,
+          1
+        ],
+        "contacts": 0
+      },
+      "changed": {
+        "score": [
+          0,
+          0
+        ],
+        "passes": [
+          0,
+          2
+        ],
+        "completed": [
+          0,
+          1
+        ],
+        "contacts": 0
+      }
+    }
+  ],
+  "controller_versions": {
+    "build": {
+      "number": 50,
+      "commit": "dfb275041f4bfe9c1adb044077fd95ec68881805",
+      "working_copy_sha256": null
+    },
+    "baseline": "team-wide@1.0.0",
+    "releases": {
+      "team-wide@1.0.0": {
+        "name": "Team-wide assignment",
+        "version": "1.0.0",
+        "implementation": "balanced",
+        "parent": null,
+        "description": "Assign roles together to reduce travel and role changes.",
+        "trigger": "Register the existing team-wide allocator as the initial comparison baseline.",
+        "changes": [
+          {
+            "layer": "roles",
+            "description": "Use the existing minimum-cost team assignment."
+          }
+        ],
+        "depends_on": [
+          "strategy",
+          "plays",
+          "roles"
+        ],
+        "introduced_by": "9442b694afb7e9f0f58e7de67194690628ae419a",
+        "moments": []
+      },
+      "coordinated@1.0.0": {
+        "name": "Coordinated",
+        "version": "1.0.0",
+        "implementation": "coordinated",
+        "parent": "team-wide@1.0.0",
+        "description": "Position two passing options together and check where defenders could intercept.",
+        "trigger": "Test whether coordinated outlets improve decisions against independent defenders.",
+        "changes": [
+          {
+            "layer": "roles",
+            "description": "Choose a pair of complementary wing outlets."
+          },
+          {
+            "layer": "plays",
+            "description": "Rank passing lanes using observed defender motion and carry when lanes are blocked."
+          }
+        ],
+        "depends_on": [
+          "strategy",
+          "plays",
+          "roles"
+        ],
+        "introduced_by": "9442b694afb7e9f0f58e7de67194690628ae419a",
+        "moments": []
+      }
+    }
+  }
+}

@@ -23,7 +23,7 @@ from roboturk.five_strategy import decode_strategies, describe_play
 from roboturk.kickoff_drive import KickoffDrive, ParallelKickoffDrive
 from roboturk.match_limits import PracticeLimitFeed, limit_values, shared_configs, team_configs
 from roboturk.team_kickoff import IndependentKickoffs
-from roboturk.model import Referee, SSL_KICK_LIMIT, bounded, possession
+from roboturk.model import Ball, Referee, Robot, RobotKey, SSL_KICK_LIMIT, World, bounded, possession
 from roboturk.open_motion import Steering, observed_velocity
 from roboturk.placement import KickoffKick, PlacementRestart, xy
 from roboturk.pivot_fetch import PivotFetch
@@ -102,7 +102,13 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
     placed = None
     goal_field = sim.getFromDef("FIELD")
     marked_sign = None
-    if drive:
+    fork = cfg.get("fork_state")
+    if fork:
+        sign = fork["sign"]
+        robots = tuple(Robot(RobotKey(team, number), *state) for team, number, *state in fork["robots"])
+        x, y, vx, vy, z, vz = fork["ball"]
+        w = backend.reset(World(0, robots, Ball(x, y, vx, vy, z=z, vz=vz), Referee.RUNNING, sign))
+    elif drive:
         # The league table starts Blue on the negative half and alternates first service.
         w = backend.reset(kickoff(seed + 101, TEAMS[seed % 2], 1, referee_placement=referee_places))
     else:
@@ -119,6 +125,8 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
         ERRTFallback(seed, commit_waypoints, early_release) if cfg.get("errt_fallback") else None
     )
     tactics = FiveRoles()
+    if fork and fork["owner"] is not None and possession(w, keys[fork["owner"]], CFG):
+        tactics.control = keys[fork["owner"]]
     tackle = BallSideTackle(**cfg["tackle_policy"]) if cfg.get("tackle_policy") else None
     if tackle and cfg.get("pivot_fetch"):
         tackle = PivotFetch(tackle)
@@ -160,7 +168,7 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
     steps = []
     states = []
     events = []
-    score = [0, 0]
+    score = fork["score"].copy() if fork else [0, 0]
     restarts = 0
     if cfg.get("await_force_start"):
         deadline = time.monotonic() + 6

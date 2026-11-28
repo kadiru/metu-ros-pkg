@@ -80,3 +80,50 @@ def test_rejects_missing_decision_frame(change_tool):
 )
 def test_version_uses_highest_changed_layer(change_tool, layers, breaks, version):
     assert change_tool.next_version("1.2.3", layers, breaks_contract=breaks) == version
+
+
+def test_match_timeline_replaces_parent_future_and_reindexes_trial_events(change_tool):
+    timeline = importlib.import_module("decision_timeline")
+    parent = dict(
+        keys=[["blue", 0]], dt=0.04, intro={"frame": 0, "robot": 0},
+        frames=[{"t": 0.0}, {"t": 0.04}, {"t": 0.08}], positions=[[0], [1], [2]],
+        events=[[0, "Shared", "period", None], [1, "Original pass", "pass", "blue"]],
+    )
+    trial = dict(
+        keys=parent["keys"], dt=parent["dt"], frames=[{"t": 0.0}, {"t": 0.04}],
+        positions=[[1], [3]], events=[
+            [0, "Branch shot", "shot", "blue", {"tick": 0}],
+            [1, "", "kick_trace", "blue", {"tick": 1, "kick_tick": 0}],
+        ],
+    )
+    pending = timeline.branch_replay(parent, {"fork_tick": 1})
+    assert [item[1] for item in pending["events"]] == ["Shared"]
+    assert pending["frames"][-1]["stage"] == "Branch point"
+    branch = timeline.branch_replay(parent, {"fork_tick": 1}, trial)
+    assert branch["positions"] == [[0], [1], [3]]
+    assert [frame["t"] for frame in branch["frames"]] == [0, 0.04, 0.08]
+    assert [item[1] for item in branch["events"]] == ["Shared", "Branch shot", ""]
+    assert branch["events"][-1][4] == {"tick": 2, "kick_tick": 1}
+    assert parent["events"][-1][1] == "Original pass"
+    assert parent["positions"] == [[0], [1], [2]]
+
+
+def test_hoca_remembers_one_candidate_per_recording(change_tool, tmp_path, monkeypatch):
+    timeline = importlib.import_module("decision_timeline")
+    request = request_value()
+    request["evidence"]["source"]["seed"] = 123
+    saved = tmp_path / "request.json"
+    saved.write_text(json.dumps(request))
+    monkeypatch.setattr(timeline, "create_candidate", lambda value: {
+        "branch": "candidate/example", "record": str(tmp_path / "candidate.json"), "created": True,
+    })
+    source = "/matches/123456789abc/"
+    log = {"seed": 123, "frames": [{}] * 100, "dt": 0.04}
+    record, created = timeline.DecisionTimelines(tmp_path, None).create(source, request, log)
+    assert created
+    assert record["fork_time"] == 3.6
+    reopened = timeline.DecisionTimelines(tmp_path, None)
+    assert reopened.read(source) == record
+    assert reopened.create(source, request, log) == (record, False)
+    with pytest.raises(ValueError, match="already has a candidate"):
+        reopened.create(source, dict(request, title="Another request"), log)

@@ -17,7 +17,7 @@ flowchart TD
 ## Open a candidate
 
 1. In a saved Hoca replay, pause at the decision and select **Request change**. Give it a title, team, desired outcome, and any acceptance criteria. Adjust the evidence interval to include the lead-up and outcome.
-2. Select **Create candidate branch** in the local Hoca setup server. The branch uses the server checkout's committed HEAD and has its own Git worktree. The returned path contains `docs/controller-changes/<request>/request.json` and `candidate.json`. The former preserves the evidence and the coaching request. The latter records the starting commit, the release recorded in the clip when available, and fields for the change plan and comparison results. Repeating the same request against the same baseline opens the same workspace.
+2. Select **Create candidate branch** in the local Hoca setup server. Hoca puts a candidate timeline below the main match at the chosen frame. The branch uses the server checkout's committed HEAD and has its own Git worktree. In match settings, **Copy candidate workspace** gives you its location. `docs/controller-changes/<request>/request.json` preserves the request and evidence. `candidate.json` records the starting commit, the recorded release when available, and fields for the change plan and results. Hoca keeps one candidate per recording and reopens it when the same request is submitted again.
 3. In that workspace, trace the decision to the relevant layers. Fill in the affected behavior, interaction, and strategy entries and their dependencies before assigning a version. Keep the observed match, proposed behavior, and measured trial results distinct in the candidate record.
 
 **Download request** lets you hand the same package to a coding agent or run the local command from the RoboTurk stack. Use `--base` with a commit or ref to start from another code baseline. The default is the current checkout's committed HEAD.
@@ -25,6 +25,12 @@ flowchart TD
 ```sh
 python scripts/decision_changes.py create /path/to/hoca-change.json
 ```
+
+## Watch the candidate in Hoca
+
+Select **Run Webots trial** once the candidate code is ready. The trial runs eight seconds using the candidate worktree. It starts from the recorded poses, velocities, score, and limits at an open-play decision frame. The branch shares the main match up to the fork and then shows the trial's own events. Select either row to use it with play, pause, the scrubber, and the previous and next markers. **Return to fork** selects the main match and seeks the exact source frame.
+
+The trial reconstructs an open-play start. Both teams run under the candidate build and the local match logic. An edit to shared controller code may affect both teams. Use matched trials against a fixed opponent to judge a candidate's effectiveness. Exact mid-match restoration will also require the controllers' internal state and the official referee state. Hoca stores the trial build and each run's raw Webots recording locally beside the timeline.
 
 ## Bump the highest layer changed
 
@@ -40,4 +46,4 @@ Classify the highest layer whose **decisions or behavior** change. Wiring severa
 python scripts/decision_changes.py version 1.0.0 behavior interaction
 ```
 
-A controller release pins the versions of the behaviors it uses. Record dependencies by component, interface, and the source commit or policy artifact used. Once the candidate has been tested, record the results, commit the changes with their source moment, and review them for promotion through the [controller catalog](CONTROLLER_VERSIONS.md). The match fork needed to replay a different future from the same in-game state is a separate piece of infrastructure.
+A controller release pins the versions of the behaviors it uses. Record dependencies by component, interface, and the source commit or policy artifact used. Once the candidate has been tested, record the results, commit the changes with their source moment, and review them for promotion through the [controller catalog](CONTROLLER_VERSIONS.md).

@@ -39,10 +39,10 @@ def match_releases(catalog, requested, strategies):
     return {team: {"id": key, **releases[key]} for team, key in requested.items()}
 
 
-def source_build():
+def source_build(root=ROOT):
     """Use Git ancestry for the build number and distinguish local working copies."""
     def git(*args):
-        return subprocess.check_output(["git", *args], cwd=ROOT, stderr=subprocess.DEVNULL)
+        return subprocess.check_output(["git", *args], cwd=root, stderr=subprocess.DEVNULL)
 
     try:
         commit = git("rev-parse", "HEAD").strip().decode("ascii")
@@ -53,7 +53,7 @@ def source_build():
         if tracked or untracked:
             digest = hashlib.sha256(tracked)
             for path in sorted(untracked.split(b"\0")[:-1]):
-                file = ROOT / path.decode(errors="surrogateescape")
+                file = root / path.decode(errors="surrogateescape")
                 digest.update(path + b"\0")
                 contents = str(file.readlink()).encode() if file.is_symlink() else file.read_bytes()
                 digest.update(hashlib.sha256(contents).digest())

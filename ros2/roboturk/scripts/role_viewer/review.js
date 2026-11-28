@@ -176,7 +176,7 @@ function createMatchReview({
   }
 
   function loadNotes(source) {
-    const identity = location.pathname.match(/\/matches\/([a-f0-9]{12})\//)?.[1] ?? [
+    const identity = source.active_timeline ? source.decision_timeline.branch : location.pathname.match(/\/matches\/([a-f0-9]{12})\//)?.[1] ?? [
       source.seed, frames.length, frames.at(-1).t, frames.at(-1).score,
       positions[0]?.slice(0, 8), positions.at(-1)?.slice(0, 8),
     ];

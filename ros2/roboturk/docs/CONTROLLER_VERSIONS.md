@@ -18,7 +18,7 @@ flowchart LR
 
 Each Hoca-launched match writes `controller-versions.json` beside its recording. It captures both release records, the source build, and hashes of the world and policy inputs. The full Git commit identifies the source across branches. The build number is the first-parent commit count and is meaningful within one line of development. A local working copy has a separate change digest. Match setup keeps the strategies, seed, motion limits, and runtime options in `spec.json`. The match menu shows the recorded versions and telemetry clip exports carry the same record. Use a committed checkout for a reproducible comparison.
 
-The picker offers installed implementations. To re-run a specific historical source build today, launch Hoca from that commit's checkout in a separate environment. Parallel historical builds and mid-match simulation forks are future work.
+The picker offers installed implementations. To re-run a specific historical source build today, launch Hoca from that commit's checkout in a separate environment. Hoca can branch a saved match into a reconstructed open-play trial. Exact mid-match checkpoint restoration and competition between two independently loaded source builds are future work.
 
 ## Connect a change to its evidence
 

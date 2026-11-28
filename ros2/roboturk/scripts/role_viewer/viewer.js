@@ -143,6 +143,9 @@ const review = createMatchReview({
   frames, keys, positions, events, robotName, roleName, robotTask, timeText: replayTime, seek, render,
   selectedRobot: () => selected, openClip: openMomentClip,
 });
+const timelineControls = createTimelineControls(
+  match, () => frameIndex, () => keys[selected] && robotName(selected), replayTime,
+);
 
 function robotName(index) {
   const [team, number] = keys[index];
@@ -259,6 +262,7 @@ function telemetryClip() {
       team_strategies: match.team_strategies ?? match.session?.strategies ?? null,
       ...(match.controller_versions && { controller_versions: match.controller_versions }),
       ...(match.replay_moment && { replay_moment: match.replay_moment }),
+      ...(match.active_timeline && { branch: match.decision_timeline.branch, trial: match.decision_timeline.build }),
     },
     range: {
       start_tick: clipStart,
@@ -326,14 +330,17 @@ async function createDecisionBranch() {
       body: JSON.stringify(request),
     });
     const payload = await response.json();
-    message = response.ok ? `${payload.created ? "Created" : "Found"} ${payload.branch} in ${payload.worktree}`
-      : payload.error;
+    if (response.ok) {
+      timelineControls.open(payload.fork_tick);
+      return;
+    }
+    message = payload.error;
   } catch {
     message = "Could not reach the local candidate workspace service. You can still download the request.";
   } finally {
     branchPending = false;
     updateClipRange();
-    clipStatus.textContent = message;
+    if (message) clipStatus.textContent = message;
   }
 }
 
@@ -941,7 +948,10 @@ function animate(now) {
 playButton.addEventListener("click", () => {
   if (!frames.length) return;
   if (playing) { pause(); return; }
-  if (frameIndex >= frames.length - 1) goTo(0);
+  if (frameIndex >= frames.length - 1) {
+    const start = match.active_timeline ? match.decision_timeline.fork_tick : 0;
+    goTo(start < frames.length - 1 ? start : 0);
+  }
   review.collapse();
   playing = true;
   playbackStart = frames[frameIndex].t;
@@ -1082,15 +1092,31 @@ if (match.setup_url) {
   link.href = match.setup_url;
   link.hidden = false;
 }
-if (match.controller_versions) {
-  const { build, teams: releases } = match.controller_versions;
+if (match.controller_versions || match.decision_timeline) {
+  const { build, teams: releases = {} } = match.controller_versions ?? {};
   const rows = Object.entries(teams).map(([color, { label }]) => {
-    const release = releases[color];
-    return [label, `${release.name} · v${release.version}`];
-  });
+    const { name, version } = releases[color] ?? {};
+    return name && [label, `${name} · v${version}`];
+  }).filter(Boolean);
   if (build) {
     const checkout = build.working_copy_sha256 ? ` · local ${build.working_copy_sha256.slice(0, 8)}` : "";
     rows.push(["Build", `${build.number} · ${build.commit.slice(0, 8)}${checkout}`]);
+  }
+  if (match.decision_timeline) {
+    const { build: trial, worktree } = match.decision_timeline;
+    byId("version-heading").textContent = "Parent and candidate builds";
+    if (trial) rows.push(["Trial", trial.commit.slice(0, 8)]);
+    const copy = byId("copy-candidate");
+    copy.hidden = false;
+    copy.title = worktree;
+    copy.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(worktree);
+        copy.textContent = "Workspace copied";
+      } catch {
+        copy.textContent = "Workspace path in tooltip";
+      }
+    });
   }
   for (const [label, value] of rows) {
     const row = document.createElement("div");

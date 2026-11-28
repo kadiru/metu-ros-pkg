@@ -8,13 +8,14 @@ import json
 from pathlib import Path
 import subprocess
 import sys
-from threading import Thread
+from threading import Lock, Thread
 from urllib.parse import parse_qs, urlsplit
 
 import numpy as np
 
 from controller_versions import MATCH_VERSIONS_FILE
-from decision_changes import create_candidate
+from decision_changes import validate_request
+from decision_timeline import DecisionTimelines, branch_replay, webots_path
 from match_sessions import HALF_SECONDS_RANGE, LimitsLocked, MatchRunning, MatchSessions
 from roboturk.five_roles import CFG
 from roboturk.five_strategy import PASS_PREFERENCES, PLAYBOOKS
@@ -53,17 +54,19 @@ def read_recording(folder):
     return log, samples
 
 
-def build_data(folder):
+def build_data(folder, *, include_forecast=True):
     folder = archive_folder(folder)
     log, samples = read_recording(folder)
     keys, raw_frames = log["keys"], log["frames"]
     dt = log["dt"]
-    forecasts = replay_forecasts(
-        samples[:, 4:].reshape(len(samples), len(keys), 3)[..., :2],
-        dt,
-        open_play_segments(raw_frames, dt),
-    )
-    bundle = forecasts.viewer_data() if forecasts.valid.any() else None
+    bundle = None
+    if include_forecast:
+        forecasts = replay_forecasts(
+            samples[:, 4:].reshape(len(samples), len(keys), 3)[..., :2],
+            dt,
+            open_play_segments(raw_frames, dt),
+        )
+        bundle = forecasts.viewer_data() if forecasts.valid.any() else None
     if (
         bundle is not None and TEAM_MODEL.is_file() and len(keys) == 10
         and any(frame.get("allocation") for frame in raw_frames)
@@ -133,6 +136,7 @@ def page(match, template="index", script="viewer"):
     html = html.replace("/* VIEWER_STYLES */", (TEMPLATES / "viewer.css").read_text())
     html = html.replace("/* LIMIT_CONTROLS */", (TEMPLATES / "limits.js").read_text())
     html = html.replace("/* MATCH_REVIEW */", (TEMPLATES / "review.js").read_text())
+    html = html.replace("/* TIMELINE_CONTROLS */", (TEMPLATES / "timeline.js").read_text())
     html = html.replace("/* VIEWER_SCRIPT */", (TEMPLATES / f"{script}.js").read_text())
     return html.replace("<!-- MATCH_DATA -->", data)
 
@@ -210,6 +214,10 @@ class SessionRequest(ViewerRequest):
             self.respond(self.html, "text/html; charset=utf-8")
             return
         parts = url.path.split("/")
+        if len(parts) == 4 and parts[1] in ("controller-replays", "matches") and parts[3] == "timeline":
+            record = self.sessions.timelines.read(url.path.removesuffix("timeline"))
+            self.json_response({"timeline": record})
+            return
         if len(parts) == 4 and parts[1] == "controller-replays" and not parts[3]:
             moment = self.sessions.catalog["moments"].get(parts[2])
             if moment is None:
@@ -219,11 +227,8 @@ class SessionRequest(ViewerRequest):
             if not archive_ready(folder):
                 self.send_error(404, "Archived replay not installed")
                 return
-            data = build_data(folder)
-            data["intro"] = dict(frame=moment["frame"], robot=moment["robot"])
-            data["setup_url"] = "/"
-            data["replay_moment"] = parts[2]
-            self.respond(page(data).encode(), "text/html; charset=utf-8")
+            self.recording(folder, url, replay_moment=parts[2],
+                           intro=dict(frame=moment["frame"], robot=moment["robot"]))
             return
         if len(parts) != 4 or parts[1] != "matches":
             self.send_error(404)
@@ -238,11 +243,11 @@ class SessionRequest(ViewerRequest):
             if not (archived / "viewer.html").is_file():
                 self.send_error(404)
                 return
-            data = build_data(archived)
-            self.respond(page(dict(data, setup_url="/")).encode(), "text/html; charset=utf-8")
+            self.recording(archived, url)
         elif parts[3] == "":
             if session.process.poll() == 0 and archive_ready(session.match):
-                data = dict(build_data(session.match), session=session.options, setup_url="/")
+                self.recording(session.match, url, session=session.options)
+                return
             else:
                 data = dict(
                     live=True,
@@ -260,10 +265,42 @@ class SessionRequest(ViewerRequest):
     def json_response(self, value, status=200):
         self.respond(json.dumps(value).encode(), "application/json", status=status)
 
+    def recording(self, folder, url, **metadata):
+        timelines = self.sessions.timelines
+        record = timelines.read(url.path)
+        on_branch = record is not None and parse_qs(url.query).get("timeline") == ["branch"]
+        data = dict(build_data(folder, include_forecast=not on_branch), setup_url="/", **metadata)
+        if record:
+            data["decision_timeline"] = dict(
+                record, parent_end=data["frames"][-1]["t"], parent_last=len(data["frames"]) - 1,
+            )
+            if on_branch:
+                trial = (build_data(timelines.trial_folder(record), include_forecast=False)
+                         if record["status"] == "ready" else None)
+                data = branch_replay(data, record, trial)
+        self.respond(page(data).encode(), "text/html; charset=utf-8")
+
+    def recording_folder(self, source):
+        parts = source.split("/")
+        folder = None
+        if len(parts) == 4 and not parts[0] and not parts[3]:
+            if parts[1] == "controller-replays":
+                moment = self.sessions.catalog["moments"].get(parts[2])
+                if moment:
+                    folder = TEMPLATES.parents[1] / moment["archive"]
+            elif parts[1] == "matches" and len(parts[2]) == 12 and all(c in "0123456789abcdef" for c in parts[2]):
+                session = self.sessions.sessions.get(parts[2])
+                if not session or session.process.poll() == 0:
+                    folder = self.sessions.root / parts[2] / "run"
+        if folder is None or not archive_ready(folder):
+            raise ValueError("Open a saved Hoca recording to branch the timeline.")
+        return archive_folder(folder)
+
     def do_POST(self):
         session = None
         decision_change = self.path == "/decision-changes"
-        if self.path != "/matches" and not decision_change:
+        run_trial = self.path.endswith("/timeline")
+        if self.path != "/matches" and not decision_change and not run_trial:
             parts = self.path.split("/")
             if len(parts) == 4 and parts[1] == "matches" and parts[3] == "limits":
                 session = self.sessions.sessions.get(parts[2])
@@ -284,14 +321,38 @@ class SessionRequest(ViewerRequest):
                 raise ValueError("The request is empty or exceeds the local upload size limit.")
             request = json.loads(self.rfile.read(length))
             if decision_change:
-                candidate = create_candidate(request)
-                self.json_response(candidate, 201 if candidate["created"] else 200)
+                validate_request(request)
+                clip_source = request["evidence"]["source"]
+                if clip_source.get("replay_moment"):
+                    source = f"/controller-replays/{clip_source['replay_moment']}/"
+                else:
+                    source = f"/matches/{clip_source.get('match_id')}/"
+                log, _ = read_recording(self.recording_folder(source))
+                record, created = self.sessions.timelines.create(source, request, log)
+                self.json_response(dict(record, created=created), 201 if created else 200)
+                return
+            if run_trial:
+                source = self.path.removesuffix("timeline")
+                folder = self.recording_folder(source)
+                log, samples = read_recording(folder)
+                config = folder / "config.json"
+                with self.sessions.launch_lock:
+                    active = self.sessions.active
+                    if active and active.process.poll() is None:
+                        raise MatchRunning(active.url)
+                    record = self.sessions.timelines.run(
+                        source, log, samples, json.loads(config.read_text()) if config.is_file() else {},
+                    )
+                self.json_response(record, 202)
                 return
             if session is not None:
                 self.sessions.edit_limits(session, request)
                 self.json_response({"saved": True})
                 return
-            session = self.sessions.start(request)
+            with self.sessions.launch_lock:
+                if self.sessions.timelines.running:
+                    raise LimitsLocked("Wait for the Webots branch trial to finish.")
+                session = self.sessions.start(request)
         except MatchRunning as error:
             self.json_response({"error": "A match is already running.", "url": error.url}, 409)
         except LimitsLocked as error:
@@ -312,6 +373,8 @@ def viewer_server(folder, port):
 
 def serve_setup(folder, port, spec):
     sessions = MatchSessions(folder.resolve(), spec, export)
+    sessions.launch_lock = Lock()
+    sessions.timelines = DecisionTimelines(sessions.root, webots_path(sessions.spec))
     setup = dict(
         strategies={key: [book.name, book.description] for key, book in PLAYBOOKS.items()},
         controller_catalog=sessions.catalog,

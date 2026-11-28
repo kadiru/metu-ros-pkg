@@ -34,6 +34,7 @@ def main():
     )
     p.add_argument("--seed", type=int, default=20300000)
     p.add_argument("--seconds", type=int, default=60)
+    p.add_argument("--fork-state", type=Path, help=argparse.SUPPRESS)
     p.add_argument("--referee", choices=("local", "ssl"), default="local")
     p.add_argument("--referee-address", default="224.5.23.1")
     p.add_argument("--referee-port", type=int, default=10003)
@@ -425,6 +426,7 @@ def main():
         p.error("--exit-tails requires a local match with vision output")
     dest = a.output.resolve()
     dest.mkdir(parents=True, exist_ok=False)
+    fork = json.loads(a.fork_state.read_text()) if a.fork_state else None
     (dest / "config.json").write_text(
         json.dumps(
             dict(
@@ -500,7 +502,7 @@ def main():
                 referee_address=a.referee_address,
                 referee_port=a.referee_port,
                 referee_interface=a.referee_interface,
-            ),
+            ) | (fork["options"] | {"fork_state": fork} if fork else {}),
             indent=2,
         )
         + "\n"
@@ -524,7 +526,8 @@ def main():
         cmd.extend(["--no-rendering", "--minimize"])
     with (dest / "webots.log").open("w") as log:
         subprocess.run(
-            [*cmd, str(WORLD)], env=env, stdout=log, stderr=subprocess.STDOUT, check=True
+            [*cmd, str(WORLD)], env=env, stdout=log, stderr=subprocess.STDOUT, check=True,
+            timeout=55 if fork else None,
         )
     if a.tackle_trials:
         if a.tackle_panel:

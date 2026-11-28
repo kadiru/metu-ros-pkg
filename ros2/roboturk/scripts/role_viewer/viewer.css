@@ -128,6 +128,16 @@ h3 { margin-bottom: 5px; font-size: 12px; font-weight: 650; color: var(--muted);
 #replay-time { text-align: right; white-space: nowrap; }
 input[type="range"] { width: 100%; margin: 7px 0 8px; accent-color: var(--mint); cursor: pointer; }
 #scrub { min-width: 0; height: 14px; margin: 0; }
+.decision-timelines { display: grid; gap: 4px; margin: 3px 0; }
+.timeline-row { display: grid; grid-template-columns: minmax(95px, 25%) minmax(0, 1fr); align-items: center; gap: 8px; min-height: 26px; padding: 3px 7px; text-align: left; font-size: 11px; }
+.timeline-row > span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.timeline-row[aria-pressed="true"] { border-color: var(--mint); background: #21362f; }
+.timeline-lane { position: relative; height: 5px; border-radius: 3px; background: #3a4a58; }
+.timeline-lane i { position: absolute; inset: 0 auto 0 0; width: var(--parent-end); border-radius: inherit; background: #82a4c5; }
+.candidate-lane i { left: var(--fork); width: calc(var(--branch-end) - var(--fork)); background: var(--mint); }
+.candidate-lane::after { content: ""; position: absolute; left: var(--fork); top: -2px; width: 2px; height: 9px; border-radius: 1px; background: var(--mint); }
+.timeline-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 5px 8px; color: var(--muted); font-size: 11px; }
+.timeline-actions button { min-height: 27px; padding: 3px 7px; font-size: 11px; }
 .playbar { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
 button, select { color: var(--text); font: inherit; font-size: 13px; border: 1px solid #384b5c; background: var(--panel2); border-radius: 7px; padding: 7px 10px; min-height: 34px; }
 button { cursor: pointer; font-weight: 650; }

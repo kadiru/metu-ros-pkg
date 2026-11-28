@@ -34,8 +34,9 @@
               <a id="setup-link" class="setup-link" hidden>Match setup</a>
             </div>
             <section id="recorded-versions" class="recorded-versions" hidden>
-              <h2>Controller versions</h2>
+              <h2 id="version-heading">Controller versions</h2>
               <dl id="recorded-version-list"></dl>
+              <button id="copy-candidate" type="button" hidden>Copy candidate workspace</button>
             </section>
             <section id="motion-limit-section" class="motion-limit-section" aria-labelledby="motion-limit-title" hidden>
               <h2 id="motion-limit-title">Motion limits</h2>
@@ -73,6 +74,19 @@
           </section>
           <div class="playback">
             <div class="replay-status"><p id="kick-readout" class="kick-readout"></p><span id="replay-time"></span></div>
+            <section id="decision-timelines" class="decision-timelines" aria-label="Match timelines" hidden>
+              <button id="main-timeline" class="timeline-row" type="button" aria-pressed="true">
+                <span>Main match</span><span class="timeline-lane" aria-hidden="true"><i></i></span>
+              </button>
+              <button id="candidate-timeline" class="timeline-row" type="button" aria-pressed="false">
+                <span id="candidate-title"></span><span class="timeline-lane candidate-lane" aria-hidden="true"><i></i></span>
+              </button>
+              <div class="timeline-actions">
+                <button id="timeline-reset" type="button">Return to fork</button>
+                <button id="timeline-run" type="button">Run Webots trial</button>
+                <span id="timeline-status" role="status"></span>
+              </div>
+            </section>
             <div id="review-track" class="review-track" aria-hidden="true" hidden></div>
             <input id="scrub" type="range" aria-label="Replay position" min="0" max="0" value="0">
             <div class="playbar">
@@ -195,6 +209,7 @@
   <script id="match-data" type="application/json"><!-- MATCH_DATA --></script>
   <script>/* LIMIT_CONTROLS */</script>
   <script>/* MATCH_REVIEW */</script>
+  <script>/* TIMELINE_CONTROLS */</script>
   <script>/* VIEWER_SCRIPT */</script>
 </body>
 </html>

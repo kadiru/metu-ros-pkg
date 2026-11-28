@@ -440,6 +440,136 @@ function choose(robot) {
   render();
 }
 
+function rosterMotion(robot) {
+  const display = document.createElement("div");
+  display.className = "robot-motion";
+  display.setAttribute("role", "img");
+  const readings = document.createElement("span");
+  readings.className = "motion-readings";
+  readings.setAttribute("aria-hidden", "true");
+  const travel = document.createElement("span");
+  const turn = document.createElement("span");
+  travel.className = "motion-travel";
+  turn.className = "motion-turn";
+  readings.append(travel, turn);
+  const dial = document.createElement("canvas");
+  const size = 48;
+  const pixels = window.devicePixelRatio || 1;
+  dial.width = dial.height = Math.round(size * pixels);
+  dial.setAttribute("aria-hidden", "true");
+  const plot = dial.getContext("2d");
+  plot.setTransform(dial.width / size, 0, 0, dial.height / size, 0, 0);
+  plot.lineCap = "round";
+  plot.lineJoin = "round";
+  display.append(readings, dial);
+
+  let lastFrame;
+  return {
+    display,
+    show(frame) {
+      if (lastFrame === frame) return;
+      lastFrame = frame;
+      const pose = positions[frameIndex];
+      const yaw = pose[4 + 3 * robot];
+      const measured = frame.allocation?.[robot]?.measured_velocity;
+      const hasMeasurement = measured?.length === 3 && measured.every(Number.isFinite);
+      const velocity = hasMeasurement ? measured : estimateRobotVelocity(frame, pose, robot);
+      const [vx, vy, omega] = velocity ?? [0, 0, 0];
+      const speed = Math.hypot(vx, vy);
+      const direction = Math.abs(omega) < .05 ? "" : omega > 0 ? "counterclockwise" : "clockwise";
+      travel.textContent = velocity ? speed.toFixed(2) : "—";
+      turn.textContent = velocity ? Math.abs(omega).toFixed(1) : "—";
+      const summary = velocity
+        ? `${hasMeasurement ? "Measured" : "Estimated"} travel ${travel.textContent} m/s, turn ${turn.textContent} rad/s${direction ? ` ${direction}` : ""}.`
+        : "Velocity unavailable at this frame.";
+      const heading = Number.isFinite(yaw) ? ` Heading ${Math.round(yaw * 180 / Math.PI)}° from field right.` : "";
+      display.setAttribute("aria-label", `${robotName(robot)}. ${summary}${heading}`);
+      display.title = velocity ? `${summary}\nField velocity (${vx.toFixed(2)}, ${vy.toFixed(2)}) m/s.` : summary;
+
+      const teamLimits = limits?.[keys[robot][0]];
+      const maxSpeed = teamLimits?.max_speed || 3;
+      const maxTurn = teamLimits?.max_omega || 8;
+      plot.clearRect(0, 0, size, size);
+      drawRosterDial(plot, yaw, vx, vy, omega, maxSpeed, maxTurn);
+    },
+  };
+}
+
+function estimateRobotVelocity(frame, pose, robot) {
+  const previous = frames[frameIndex - 1];
+  const before = positions[frameIndex - 1];
+  // A restart or fork can reposition robots without motion between those poses.
+  if (!previous || !before || frame.restart !== previous.restart || frame.sign !== previous.sign
+    || frame.stage !== previous.stage || frame.score.some((score, team) => score !== previous.score[team])) return null;
+  const dt = frame.t - previous.t;
+  if (!(dt > 0) || dt > 1.5 * sourceHeader.dt) return null;
+  const offset = 2 + 3 * robot;
+  const dx = pose[offset] - before[offset];
+  const dy = pose[offset + 1] - before[offset + 1];
+  const da = pose[offset + 2] - before[offset + 2];
+  if (![dx, dy, da].every(Number.isFinite)) return null;
+  return [dx / dt, dy / dt, Math.atan2(Math.sin(da), Math.cos(da)) / dt];
+}
+
+function motionArrow(plot, x, y, angle, length, tip) {
+  const dx = Math.cos(angle), dy = Math.sin(angle);
+  const endX = x + dx * length, endY = y + dy * length;
+  const baseX = endX - dx * tip, baseY = endY - dy * tip;
+  plot.moveTo(x, y);
+  plot.lineTo(endX, endY);
+  plot.moveTo(baseX - dy * tip * .65, baseY + dx * tip * .65);
+  plot.lineTo(endX, endY);
+  plot.lineTo(baseX + dy * tip * .65, baseY - dx * tip * .65);
+}
+
+function drawRosterDial(plot, yaw, vx, vy, omega, maxSpeed, maxTurn) {
+  const center = 24;
+  plot.lineWidth = 1;
+  plot.strokeStyle = "#526575";
+  plot.beginPath();
+  plot.arc(center, center, 20, 0, 2 * Math.PI);
+  plot.moveTo(13, center);
+  plot.lineTo(35, center);
+  plot.moveTo(center, 13);
+  plot.lineTo(center, 35);
+  plot.stroke();
+
+  const speed = Math.hypot(vx, vy);
+  if (speed >= .005) {
+    // Give low-speed motion room on the compact dial. The readout shows the exact speed.
+    const travelLength = 14 * Math.sqrt(Math.min(1, speed / maxSpeed));
+    plot.lineWidth = 2.1;
+    plot.strokeStyle = "#a6e0bf";
+    plot.beginPath();
+    motionArrow(plot, center, center, Math.atan2(-vy, vx), travelLength, Math.min(travelLength * .6, 4));
+    plot.stroke();
+  }
+
+  if (Math.abs(omega) >= .05) {
+    const sign = -Math.sign(omega); // Field +Y points up on the screen.
+    const radius = 16.5;
+    const start = -Math.PI / 2;
+    const sweep = Math.max(.22, 1.65 * Math.PI * Math.min(1, Math.abs(omega) / maxTurn));
+    const end = start + sign * sweep;
+    const tip = Math.min(3.6, radius * sweep * .7);
+    plot.lineWidth = 1.65;
+    plot.strokeStyle = "#e7b5fb";
+    plot.beginPath();
+    plot.arc(center, center, radius, start, end, sign < 0);
+    motionArrow(plot, center + radius * Math.cos(end), center + radius * Math.sin(end),
+      end + sign * Math.PI / 2, 0, tip);
+    plot.stroke();
+  }
+
+  if (Number.isFinite(yaw)) {
+    plot.lineWidth = 1.9;
+    plot.strokeStyle = "#f0f5fa";
+    plot.beginPath();
+    motionArrow(plot, center + 17 * Math.cos(yaw), center - 17 * Math.sin(yaw), -yaw, 6, 3.8);
+    plot.stroke();
+  }
+}
+
 function makeRosterColumn(team, robot) {
   const column = document.createElement("article");
   column.className = "roster-player";
@@ -447,20 +577,24 @@ function makeRosterColumn(team, robot) {
   element.type = "button";
   element.className = "roster-id";
   element.textContent = robotName(robot);
+  const head = document.createElement("div");
+  head.className = "roster-head";
+  const motion = rosterMotion(robot);
+  head.append(element, motion.display);
   const role = document.createElement("strong");
   role.className = "roster-role";
   const task = document.createElement("p");
   task.className = "roster-task";
   const detail = document.createElement("p");
   detail.className = "roster-detail";
-  column.append(element, role, task, detail);
+  column.append(head, role, task, detail);
   element.addEventListener("click", () => {
     if (overlayEnabled.has(robot)) overlayEnabled.delete(robot);
     else overlayEnabled.add(robot);
     choose(robot);
   });
   teamPlans[team].roster.append(column);
-  return { column, element, role, task, detail };
+  return { column, element, role, task, detail, motion };
 }
 
 function filterButton(parent, label, name, callback) {
@@ -607,13 +741,14 @@ function updateLineup(frame) {
     side.textContent = `Defends ${goal} goal`;
     play.title = [entry?.strategy, entry?.passing === "Preset default" ? null : entry?.passing].filter(Boolean).join(" · ");
   }
-  lineup.forEach(({ column, element, role, task, detail }, robot) => {
+  lineup.forEach(({ column, element, role, task, detail, motion }, robot) => {
     const raw = frame.roles[robot];
     const current = roleName(raw) || "—";
     const behavior = robotTask(frame, robot);
     const audit = frame.allocation?.[robot];
     const explanation = explain(frame, raw, audit, keys[robot][0]);
     const description = audit?.decision || roleTasks[raw] || explanation;
+    motion.show(frame);
     if (role.textContent !== current) role.textContent = current;
     if (task.textContent !== behavior) task.textContent = behavior;
     if (detail.textContent !== description) detail.textContent = description;

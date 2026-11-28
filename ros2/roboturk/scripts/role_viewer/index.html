@@ -15,9 +15,9 @@
       </div>
       <section class="scoreboard" aria-label="Game state">
         <div class="score">
-          <div class="score-team blue"><span>Blue</span><strong id="blue-score">0</strong></div>
+          <div class="score-team blue"><span class="score-team-name">Blue<small id="blue-controller"></small></span><strong id="blue-score">0</strong></div>
           <div class="game-clock"><strong id="clock">—</strong><span id="period">Replay</span></div>
-          <div class="score-team yellow"><strong id="yellow-score">0</strong><span>Yellow</span></div>
+          <div class="score-team yellow"><strong id="yellow-score">0</strong><span class="score-team-name">Yellow<small id="yellow-controller"></small></span></div>
         </div>
         <div class="game-info">
           <div><span class="label">Referee</span><span id="referee" class="reference">—</span></div>
@@ -76,7 +76,7 @@
             <div class="replay-status"><p id="kick-readout" class="kick-readout"></p><span id="replay-time"></span></div>
             <section id="decision-timelines" class="decision-timelines" aria-label="Match timelines" hidden>
               <button id="main-timeline" class="timeline-row" type="button" aria-pressed="true">
-                <span>Main match</span><span class="timeline-lane" aria-hidden="true"><i></i></span>
+                <span id="main-title">Main match</span><span class="timeline-lane" aria-hidden="true"><i></i></span>
               </button>
               <button id="candidate-timeline" class="timeline-row" type="button" aria-pressed="false">
                 <span id="candidate-title"></span><span class="timeline-lane candidate-lane" aria-hidden="true"><i></i></span>
@@ -84,6 +84,7 @@
               <div class="timeline-actions">
                 <button id="timeline-reset" type="button">Return to fork</button>
                 <button id="timeline-run" type="button">Run Webots trial</button>
+                <button id="timeline-promote" class="primary" type="button" hidden>Merge &amp; continue</button>
                 <span id="timeline-status" role="status"></span>
               </div>
             </section>

@@ -207,7 +207,34 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
         (folder / "referee-ready").touch()
     kick_trace = KickTrace(CFG)
     goal_heights = dict.fromkeys(TEAMS, CFG.ball_radius)
+    preview_ticks = round(fork.get("preview_seconds", 0) / CFG.dt) if fork else 0
+    resumed_at = None
+
+    def recording():
+        return dict(
+            carpet_length=CFG.length + 2 * CARPET_MARGIN, seed=seed, dt=CFG.dt,
+            keys=[[k.team, k.id] for k in keys], sign=sign, score=score, frames=steps,
+            events=events, seconds=len(steps) * CFG.dt, limits=initial_limits,
+        )
+
     for tick in range(round(cfg["seconds"] / CFG.dt)):
+        if preview_ticks and tick == preview_ticks:
+            preview = folder / "preview"
+            preview.mkdir()
+            (preview / "roles.json.gz").write_bytes(
+                gzip.compress(json.dumps(recording(), separators=(",", ":")).encode(), mtime=0)
+            )
+            np.savez_compressed(preview / "positions.npz", states=np.array(states))
+            (folder / "preview-ready").touch()
+            while not (folder / "continue-branch").exists() and not (folder / "stop-branch").exists():
+                time.sleep(0.05)
+            if (folder / "stop-branch").exists():
+                break
+            resumed_at = time.monotonic()
+        if resumed_at is not None:
+            if (folder / "stop-branch").exists():
+                break
+            time.sleep(max(0, resumed_at + (tick - preview_ticks) * CFG.dt - time.monotonic()))
         limit_change = limit_feed.poll() if limit_feed else None
         if limit_change:
             motion_configs = shared_configs(match_config, limit_change)
@@ -714,18 +741,7 @@ def match(sim, folder, cfg, receiver=None, vision=None, telemetry_stream=None):
         if not sim.movieIsReady() or sim.movieFailed():
             raise RuntimeError("Webots recording failed")
     if folder is not None:
-        log = dict(
-            carpet_length=CFG.length + 2 * CARPET_MARGIN,
-            seed=seed,
-            dt=CFG.dt,
-            keys=[[k.team, k.id] for k in keys],
-            sign=sign,
-            score=score,
-            frames=steps,
-            events=events,
-            seconds=len(steps) * CFG.dt,
-            limits=initial_limits,
-        )
+        log = recording()
         if isinstance(tackle, PivotFetch):
             log["pivot_sweeps"] = [[t, keys.index(k), keys.index(c)] for t, k, c in tackle.sweeps]
         if isinstance(tackle, TackleSelector):

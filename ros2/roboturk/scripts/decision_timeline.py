@@ -6,17 +6,20 @@ import json
 import os
 from pathlib import Path
 import shutil
+import signal
 import subprocess
 import sys
 from threading import Lock, Thread
+import time
 from uuid import uuid4
 
-from controller_versions import source_build
-from decision_changes import STACK, create_candidate, validate_request
+from controller_versions import load_catalog, match_releases, source_build
+from decision_changes import STACK, create_candidate, git, validate_request
 from roboturk.five_roles import CFG
 
 
 TRIAL_SECONDS = 8
+RUNTIME_PATHS = ("scripts", "src", "policies")
 
 
 def fork_input(log, samples, tick, config):
@@ -66,10 +69,10 @@ def fork_input(log, samples, tick, config):
     )
     return {
         "robots": [
-            list(key) + positions[4 + 3 * i : 7 + 3 * i].tolist() + velocity
+            list(key) + list(positions[4 + 3 * i : 7 + 3 * i]) + velocity
             for i, (key, velocity) in enumerate(zip(log["keys"], velocities, strict=True))
         ],
-        "ball": positions[:4].tolist() + [frame["ball_z"], frame["ball_vz"]],
+        "ball": list(positions[:4]) + [frame["ball_z"], frame["ball_vz"]],
         "sign": frame.get("attack_sign", log.get("sign", 1)),
         "owner": frame.get("control"),
         "score": frame["score"],
@@ -77,10 +80,10 @@ def fork_input(log, samples, tick, config):
     }
 
 
-def branch_replay(parent, timeline, trial=None):
+def branch_replay(parent, timeline, trial=None, *, streaming=False):
     tick = timeline["fork_tick"]
     origin = parent["frames"][tick]
-    take = tick if trial else tick + 1
+    take = tick if trial or streaming else tick + 1
     frames = parent["frames"][:take]
     positions = parent["positions"][:take]
     events = [event for event in parent["events"] if event[0] < tick]
@@ -88,7 +91,12 @@ def branch_replay(parent, timeline, trial=None):
         if parent["keys"] != trial["keys"] or parent["dt"] != trial["dt"]:
             raise ValueError("The Webots trial uses a different replay format.")
         for frame in trial["frames"]:
-            frames.append(dict(frame, t=round(origin["t"] + frame["t"], 6), stage="Branch trial"))
+            stage = (
+                "Continued match"
+                if timeline.get("promoted") and frame["t"] >= TRIAL_SECONDS
+                else "Branch trial"
+            )
+            frames.append(dict(frame, t=round(origin["t"] + frame["t"], 6), stage=stage))
         positions.extend(trial["positions"])
         for index, label, kind, team, *extra in trial["events"]:
             if extra and extra[0]:
@@ -101,7 +109,7 @@ def branch_replay(parent, timeline, trial=None):
                     }
                 ]
             events.append([tick + index, label, kind, team, *extra])
-    else:
+    elif not streaming:
         # The coach is changing this decision. The parent event at the fork belongs to its future.
         frames[-1] = dict(origin, stage="Branch point")
     return dict(
@@ -115,12 +123,27 @@ def branch_replay(parent, timeline, trial=None):
     )
 
 
+def candidate_controllers(record, build, strategies):
+    manifest = json.loads(Path(record["record"]).read_text())
+    teams = match_releases(load_catalog(), None, strategies)
+    target = record.get("team", "blue")
+    teams[target] = dict(
+        teams[target],
+        name=record["title"],
+        version=manifest.get("candidate_version"),
+        candidate=True,
+    )
+    return {"build": build, "teams": teams}
+
+
 class DecisionTimelines:
-    def __init__(self, root, webots):
+    def __init__(self, root, webots, stack=STACK):
         self.root = root / "decision-timelines"
         self.webots = webots
+        self.stack = stack
         self.lock = Lock()
         self.running = None
+        self.process = None
 
     def directory(self, source):
         return self.root / hashlib.sha256(source.encode()).hexdigest()[:20]
@@ -130,14 +153,23 @@ class DecisionTimelines:
         if not path.is_file():
             return None
         record = json.loads(path.read_text())
-        if record["status"] == "running" and self.running != source:
-            return dict(record, status="failed")
-        return record
+        attached = (
+            self.running == source and self.process is not None and self.process.poll() is None
+        )
+        if (
+            record["status"] in ("running", "switching", "continuing")
+            and not attached
+            and self.running != source
+        ):
+            record["status"] = "failed"
+        return dict(record, resumable=attached and record["status"] == "ready")
 
     def save(self, source, record):
         path = self.directory(source) / "timeline.json"
         pending = path.with_suffix(".tmp")
-        pending.write_text(json.dumps(record, indent=2) + "\n")
+        pending.write_text(
+            json.dumps({k: v for k, v in record.items() if k != "resumable"}, indent=2) + "\n"
+        )
         pending.replace(path)
 
     def create(self, source, request, log):
@@ -154,10 +186,11 @@ class DecisionTimelines:
                 if saved.is_file() and request == json.loads(saved.read_text()):
                     return existing, False
                 raise ValueError("This match already has a candidate timeline.")
-            candidate = create_candidate(request)
+            candidate = create_candidate(request, stack=self.stack)
             record = {key: value for key, value in candidate.items() if key != "created"} | {
                 "source": source,
                 "title": request["title"],
+                "team": request["team"],
                 "parent_timeline": "main",
                 "fork_tick": tick,
                 "fork_time": time,
@@ -167,27 +200,41 @@ class DecisionTimelines:
             }
             self.directory(source).mkdir(parents=True, exist_ok=True)
             self.save(source, record)
-            return record, True
+            return dict(record, resumable=False), True
 
-    def run(self, source, log, samples, config):
+    def run(self, source, log, samples, config, duration):
         with self.lock:
             record = self.read(source)
-            if not record or self.running is not None:
-                raise ValueError(
-                    "Open a candidate timeline and wait for any running trial to finish."
-                )
+            if not record or record.get("promoted"):
+                raise ValueError("Open a candidate timeline that has yet to take over.")
+            if self.running is not None:
+                active = self.read(self.running)
+                if active["status"] != "ready":
+                    raise ValueError("Wait for the active branch to finish.")
+                self.stop(active)
             initial = fork_input(log, samples, record["fork_tick"], config)
-            stack = Path(record["record"]).parents[3]
+            initial["preview_seconds"] = TRIAL_SECONDS
+            stack = Path(record["worktree"]) / self.stack.relative_to(
+                Path(git(self.stack, "rev-parse", "--show-toplevel"))
+            )
             runner = stack / "scripts/run_five_roles.py"
             if not runner.is_file():
                 raise ValueError("The candidate workspace is unavailable.")
-            build = source_build(stack)
+            build = source_build(stack, RUNTIME_PATHS)
+            versions = candidate_controllers(
+                record, build, initial["options"].get("team_strategies")
+            )
             run = self.directory(source) / uuid4().hex[:12]
             run.mkdir()
             spec = run / "fork.json"
             spec.write_text(json.dumps(initial, allow_nan=False))
             status = dict(
-                record, status="running", run=run.name, build=build, trial_end=record["fork_time"]
+                record,
+                status="running",
+                run=run.name,
+                build=build,
+                trial_end=record["fork_time"],
+                controller_versions=versions,
             )
             command = [
                 sys.executable,
@@ -198,39 +245,131 @@ class DecisionTimelines:
                 "--seed",
                 str(log["seed"]),
                 "--seconds",
-                str(TRIAL_SECONDS),
-                "--role-audit",
+                str(max(TRIAL_SECONDS + 1, duration)),
+                "--live-viewer",
             ]
             if self.webots:
                 command.extend(["--webots", self.webots])
-            self.running = source
+            with (run / "launch.log").open("w") as output:
+                process = subprocess.Popen(
+                    command, stdout=output, stderr=subprocess.STDOUT, start_new_session=True
+                )
+            self.running, self.process = source, process
             try:
                 self.save(source, status)
             except OSError:
-                self.running = None
+                self.stop(status)
                 raise
-            Thread(target=self.finish, args=(source, run, command, status), daemon=True).start()
+            Thread(target=self.monitor, args=(source, process, status), daemon=True).start()
             return status
 
-    def finish(self, source, run, command, status):
-        result = "failed"
-        try:
-            with (run / "launch.log").open("w") as output:
-                subprocess.run(
-                    command, stdout=output, stderr=subprocess.STDOUT, check=True, timeout=65
+    def monitor(self, source, process, status):
+        folder = self.trial_folder(status)
+        ready = folder / "preview-ready"
+        until = time.monotonic() + 55
+        while process.poll() is None and not ready.is_file() and time.monotonic() < until:
+            time.sleep(0.05)
+        with self.lock:
+            if self.process is not process:
+                return
+            if ready.is_file() and process.poll() is None:
+                self.save(source, self.finished_record(status, folder / "preview", "ready"))
+            elif process.poll() is None:
+                self.stop(status)
+                self.save(source, dict(status, status="failed"))
+                return
+        process.wait()
+        with self.lock:
+            if self.process is not process:
+                return
+            latest = self.read(source)
+            try:
+                if process.returncode == 0 and latest.get("promoted"):
+                    self.save(source, self.finished_record(latest, folder, "finished"))
+                elif process.returncode == 0 and (folder / "roles.json.gz").is_file():
+                    self.save(source, self.finished_record(latest, folder, "ready"))
+                elif latest["status"] != "ready":
+                    self.save(source, dict(latest, status="failed"))
+            finally:
+                self.running, self.process = None, None
+
+    @staticmethod
+    def finished_record(status, folder, phase):
+        with gzip.open(folder / "roles.json.gz", "rt") as roles:
+            trace = json.load(roles)
+        return dict(
+            status,
+            status=phase,
+            trial_end=round(status["fork_time"] + trace["frames"][-1]["clock"], 6),
+        )
+
+    def promote(self, source, stop_parent):
+        with self.lock:
+            record = self.read(source)
+            if not record or not record["resumable"]:
+                raise ValueError(
+                    "Run the trial and wait for Webots to pause at the end of the preview."
                 )
-            with gzip.open(run / "match/roles.json.gz", "rt") as roles:
-                trace = json.load(roles)
-            status["trial_end"] = round(status["fork_time"] + trace["frames"][-1]["clock"], 6)
-            result = "ready"
-        except (OSError, ValueError, KeyError, IndexError, subprocess.SubprocessError):
-            pass
-        finally:
-            with self.lock:
+            build = record["build"]
+            manifest = json.loads(Path(record["record"]).read_text())
+            if (
+                not build
+                or build["working_copy_sha256"]
+                or build["commit"] == manifest["base_commit"]
+            ):
+                raise ValueError(
+                    "Commit the controller change and run a trial of that commit before continuing."
+                )
+            master = git(self.stack, "symbolic-ref", "--short", "HEAD")
+            if master not in ("main", "master"):
+                raise ValueError("Open Hoca from the main checkout to verify the merge.")
+            try:
+                git(self.stack, "merge-base", "--is-ancestor", build["commit"], "HEAD")
+            except ValueError:
+                if git(self.stack, "status", "--porcelain"):
+                    raise ValueError(
+                        "Finish the local edits on main before merging this trial."
+                    ) from None
                 try:
-                    self.save(source, dict(status, status=result))
-                finally:
-                    self.running = None
+                    git(self.stack, "merge", "--ff-only", build["commit"])
+                except ValueError:
+                    raise ValueError(
+                        "Main has diverged. Merge the tested commit, then return to Hoca."
+                    ) from None
+            self.save(source, dict(record, status="switching"))
+            try:
+                stop_parent()
+                promoted = dict(record, status="continuing", promoted=True)
+                self.save(source, promoted)
+                (self.trial_folder(record) / "continue-branch").touch()
+            except (OSError, ValueError):
+                self.save(source, record)
+                raise
+            return promoted
+
+    def stop(self, record):
+        process = self.process
+        if process is None:
+            return
+        if process.poll() is None:
+            folder = self.trial_folder(record)
+            try:
+                (folder / "stop-branch").touch()
+                process.wait(timeout=3)
+            except (OSError, subprocess.TimeoutExpired):
+                try:
+                    os.killpg(process.pid, signal.SIGTERM)
+                    process.wait(timeout=5)
+                except ProcessLookupError:
+                    process.wait()
+                except subprocess.TimeoutExpired:
+                    raise ValueError("Webots is still shutting down. Try again shortly.") from None
+        self.running, self.process = None, None
+
+    def close(self):
+        with self.lock:
+            if self.running:
+                self.stop(self.read(self.running))
 
     def trial_folder(self, record):
         return self.directory(record["source"]) / record["run"] / "match"

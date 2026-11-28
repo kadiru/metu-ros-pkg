@@ -26,11 +26,11 @@ def endpoint(value):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("output", type=Path)
+    runtime = Path(os.environ.get("ROBOTURK_RUNTIME", ROOT.parent / "runtime"))
     p.add_argument(
         "--webots",
         type=Path,
-        default=shutil.which("webots")
-        or ROOT.parent / "runtime/Webots-nightly.app/Contents/MacOS/webots",
+        default=shutil.which("webots") or runtime / "Webots-nightly.app/Contents/MacOS/webots",
     )
     p.add_argument("--seed", type=int, default=20300000)
     p.add_argument("--seconds", type=int, default=60)
@@ -527,7 +527,7 @@ def main():
     with (dest / "webots.log").open("w") as log:
         subprocess.run(
             [*cmd, str(WORLD)], env=env, stdout=log, stderr=subprocess.STDOUT, check=True,
-            timeout=55 if fork else None,
+            timeout=55 if fork and not fork.get("preview_seconds") else None,
         )
     if a.tackle_trials:
         if a.tackle_panel:

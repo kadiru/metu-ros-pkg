@@ -20,6 +20,8 @@ Each Hoca-launched match writes `controller-versions.json` beside its recording.
 
 The picker offers installed implementations. To re-run a specific historical source build today, launch Hoca from that commit's checkout in a separate environment. Hoca can branch a saved match into a reconstructed open-play trial. Exact mid-match checkpoint restoration and competition between two independently loaded source builds are future work.
 
+The scoreboard shows the controller name and version for both teams. For a candidate continuation, it displays the proposed release or the candidate build commit. The build is also visible in match settings.
+
 ## Connect a change to its evidence
 
 Use [a decision change request](DECISION_CHANGES.md) to open a candidate branch from a replay moment and work out the version bump from the final scope.

@@ -30,6 +30,9 @@ const forecastReplay = byId("forecast-replay");
 const forecastViewpoint = byId("forecast-viewpoint");
 const teamPaths = match.forecast?.team_paths;
 const replayQuery = new URLSearchParams(location.search);
+let requestedFrame = livePage && !match.active_timeline && replayQuery.has("frame")
+  ? Number(replayQuery.get("frame")) : null;
+if (!Number.isInteger(requestedFrame) || requestedFrame < 0) requestedFrame = null;
 const requestedViewpoint = replayQuery.get("view");
 const forecastLabel = teamPaths ? "Context + plans" : "Kalman";
 byId("forecast-model-key").textContent = forecastLabel;
@@ -119,7 +122,7 @@ let lastSliderValues;
 let limitWrites = Promise.resolve();
 const pendingLimits = new Map();
 const limitsByFrame = [];
-let following = livePage;
+let following = livePage && requestedFrame === null;
 let finished = false;
 let matchFailed = false;
 let feedError = false;
@@ -194,6 +197,7 @@ function goTo(index) {
 }
 
 function seek(index) {
+  requestedFrame = null;
   following = false;
   pause();
   goTo(index);
@@ -606,11 +610,28 @@ function updateLimitControls() {
   motionControls.show(limits, editable, editable ? pendingLimits : undefined);
 }
 
+function updateControllerLabels(frame) {
+  const candidate = match.active_timeline && frameIndex >= match.decision_timeline.fork_tick
+    && frame?.stage !== "Branch point" ? match.decision_timeline.controller_versions : null;
+  const versions = candidate ?? match.controller_versions;
+  for (const team of Object.keys(teams)) {
+    const label = byId(`${team}-controller`);
+    const release = versions?.teams?.[team] ?? match.legacy_controllers?.[team];
+    const commit = versions?.build?.commit.slice(0, 8);
+    const version = release?.version && versions ? `v${release.version}`
+      : commit ?? "Unversioned";
+    const detail = release ? `${release.name} · ${version}` : "Controller unrecorded";
+    label.textContent = detail;
+    label.title = commit && commit !== version ? `${detail} · Build ${commit}` : detail;
+  }
+}
+
 function render() {
   updateFeed();
   updateFilters();
   updateLimitControls();
   const frame = frames[frameIndex];
+  updateControllerLabels(frame);
   playButton.disabled = !frame || (livePage && following && !finished);
   playbackRateSelect.disabled = playButton.disabled;
   scrub.disabled = !frame;
@@ -633,10 +654,11 @@ function render() {
   byId("owner").textContent = receiver >= 0 ? `Pass to ${robotName(receiver)}`
     : frame.owner === null ? "Loose ball" : robotName(frame.owner);
   byId("replay-time").textContent = `${replayTime(frame.t)} / ${replayTime(frames.at(-1).t)}`;
+  if (match.telemetry_url) timelineControls.extend(frames.at(-1).t);
   scrub.max = frames.length - 1;
   scrub.value = frameIndex;
   scrub.setAttribute("aria-valuetext", `${replayTime(frame.t)} elapsed`);
-  review.update(frameIndex, !livePage || (finished && !matchFailed), sourceHeader);
+  review.update(frameIndex, !livePage || (!following || finished) && !matchFailed, sourceHeader);
   updateLineup(frame);
   drawField();
 }
@@ -1010,6 +1032,7 @@ liveButton.addEventListener("click", () => {
   pause();
   review.collapse();
   following = true;
+  requestedFrame = null;
   goTo(frames.length - 1);
 });
 byId("solo").addEventListener("click", () => { solo = !solo; render(); });
@@ -1036,14 +1059,21 @@ function updateFeed() {
 
 async function poll(offset = 0) {
   try {
-    const response = await fetch(`telemetry?offset=${offset}`);
+    const response = await fetch(`${match.telemetry_url ?? "telemetry"}?offset=${offset}`);
     if (!response.ok) throw new Error("Telemetry request failed");
+    const continuation = response.headers.get("X-Hoca-Continuation");
+    const handoff = response.headers.has("X-Hoca-Handoff");
+    if (continuation) {
+      if (following) { location.assign(continuation); return; }
+      finished = true;
+    }
     matchFailed = response.headers.has("X-Match-Failed");
     const batch = await response.text();
     for (const line of batch.trimEnd().split("\n")) {
       if (!line) continue;
       const item = JSON.parse(line);
       if (item.header) {
+        if (match.telemetry_url) continue;
         sourceHeader = item.header;
         keys.push(...item.header.keys);
         initialLimits = initialLimitValues(item.header.limits);
@@ -1051,10 +1081,23 @@ async function poll(offset = 0) {
           const ownRobot = keys.findIndex(([team, number]) => team === ownTeam && number === 1);
           if (ownRobot >= 0) selected = ownRobot;
         }
+        const requestedRobot = keys.findIndex((_, robot) => robotName(robot) === replayQuery.get("robot"));
+        if (requestedRobot >= 0) selected = requestedRobot;
         initializeTeams();
       } else if (item.done) {
-        finished = true;
+        if (!handoff) finished = true;
       } else {
+        const branch = match.telemetry_url && match.decision_timeline;
+        if (branch) {
+          item.frame.stage = item.frame.t >= branch.preview_seconds ? "Continued match" : "Branch trial";
+          item.frame.t = Math.round((branch.fork_time + item.frame.t) * 1e6) / 1e6;
+          for (const event of item.events) {
+            event[0] += branch.fork_tick;
+            for (const field of ["tick", "kick_tick"]) {
+              if (Number.isInteger(event[4]?.[field])) event[4][field] += branch.fork_tick;
+            }
+          }
+        }
         addLimitSample(item.frame);
         frames.push(item.frame);
         positions.push(item.position);
@@ -1064,6 +1107,10 @@ async function poll(offset = 0) {
     offset = Number(response.headers.get("X-Telemetry-Offset"));
     feedError = false;
     if (following && frames.length) frameIndex = frames.length - 1;
+    if (requestedFrame !== null && frames.length) {
+      frameIndex = Math.min(requestedFrame, frames.length - 1);
+      if (frameIndex === requestedFrame || finished) requestedFrame = null;
+    }
     if (batch || !frames.length) render();
     else {
       updateFeed();
@@ -1129,11 +1176,11 @@ if (match.controller_versions || match.decision_timeline) {
   }
   byId("recorded-versions").hidden = false;
 }
-if (livePage) poll();
-else {
+if (!livePage || match.telemetry_url) {
   initialLimits = initialLimitValues(match.limits);
   initializeTeams();
   frames.forEach(addLimitSample);
 }
+if (livePage) poll();
 new ResizeObserver(resizeCanvas).observe(canvas);
 render();

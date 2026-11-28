@@ -173,13 +173,20 @@ class MatchSessions:
                 print(f"Replay export failed: {error}", file=log)
 
     def close(self):
-        active = self.active
-        if not active or active.process.poll() is not None:
+        self.stop(self.active)
+
+    @staticmethod
+    def stop(session):
+        if not session or session.process.poll() is not None:
             return
         try:
-            os.killpg(active.process.pid, signal.SIGINT)
-            active.process.wait(timeout=8)
-        except ProcessLookupError:
-            pass
+            os.killpg(session.process.pid, signal.SIGINT)
+            session.process.wait(timeout=6)
         except subprocess.TimeoutExpired:
-            os.killpg(active.process.pid, signal.SIGTERM)
+            os.killpg(session.process.pid, signal.SIGTERM)
+            try:
+                session.process.wait(timeout=4)
+            except subprocess.TimeoutExpired:
+                raise ValueError("The original Webots match is still running. Try the handoff again.") from None
+        except ProcessLookupError:
+            session.process.wait()

@@ -16,7 +16,7 @@ flowchart TD
 
 ## Open a candidate
 
-1. In a saved Hoca replay, pause at the decision and select **Request change**. Give it a title, team, desired outcome, and any acceptance criteria. Adjust the evidence interval to include the lead-up and outcome.
+1. In a saved Hoca replay or while reviewing a live match, pause at the decision and select **Request change**. Give it a title, team, desired outcome, and any acceptance criteria. Adjust the evidence interval to include the lead-up and outcome.
 2. Select **Create candidate branch** in the local Hoca setup server. Hoca puts a candidate timeline below the main match at the chosen frame. The branch uses the server checkout's committed HEAD and has its own Git worktree. In match settings, **Copy candidate workspace** gives you its location. `docs/controller-changes/<request>/request.json` preserves the request and evidence. `candidate.json` records the starting commit, the recorded release when available, and fields for the change plan and results. Hoca keeps one candidate per recording and reopens it when the same request is submitted again.
 3. In that workspace, trace the decision to the relevant layers. Fill in the affected behavior, interaction, and strategy entries and their dependencies before assigning a version. Keep the observed match, proposed behavior, and measured trial results distinct in the candidate record.
 
@@ -28,9 +28,13 @@ python scripts/decision_changes.py create /path/to/hoca-change.json
 
 ## Watch the candidate in Hoca
 
-Select **Run Webots trial** once the candidate code is ready. The trial runs eight seconds using the candidate worktree. It starts from the recorded poses, velocities, score, and limits at an open-play decision frame. The branch shares the main match up to the fork and then shows the trial's own events. Select either row to use it with play, pause, the scrubber, and the previous and next markers. **Return to fork** selects the main match and seeks the exact source frame.
+Select **Run Webots trial** once the candidate code is ready. Webots runs eight seconds using the candidate worktree and then waits in place. It starts from the recorded poses, velocities, score, and limits at an open-play decision frame. The branch shares the main match up to the fork and then shows the trial's own events. Select either row to use it with play, pause, the scrubber, and the previous and next markers. **Return to fork** selects the main match and seeks the exact source frame. The score shows the controller name and release for each team. While watching the candidate, Hoca uses its proposed version or the Git commit if no version has been assigned.
 
-The trial reconstructs an open-play start. Both teams run under the candidate build and the local match logic. An edit to shared controller code may affect both teams. Use matched trials against a fixed opponent to judge a candidate's effectiveness. Exact mid-match restoration will also require the controllers' internal state and the official referee state. Hoca stores the trial build and each run's raw Webots recording locally beside the timeline.
+## Merge and continue
+
+Commit the candidate controller changes and run a preview of that commit. **Merge & continue** fast-forwards the local main branch to the tested commit, or verifies that main already includes it. If main has diverged, merge the tested commit before selecting the action. Hoca archives and ends the original simulator if it is still live. The candidate resumes in the same Webots process from the end of the preview. Viewers following the original match move to the live branch. You can still select the original recording to review it.
+
+The branch reconstructs an open-play start and continues with the local match logic. Both teams run under the candidate build, so an edit to shared controller code may affect both teams. Use matched trials against a fixed opponent to judge a candidate's effectiveness. Exact restoration of the original match will require the controllers' internal state and the official referee state. Hoca stores the trial build and each run's raw Webots recording locally beside the timeline.
 
 ## Bump the highest layer changed
 

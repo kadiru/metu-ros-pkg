@@ -13,9 +13,9 @@ from urllib.parse import parse_qs, urlsplit
 
 import numpy as np
 
-from controller_versions import MATCH_VERSIONS_FILE
+from controller_versions import MATCH_VERSIONS_FILE, match_releases
 from decision_changes import validate_request
-from decision_timeline import DecisionTimelines, branch_replay, webots_path
+from decision_timeline import TRIAL_SECONDS, DecisionTimelines, branch_replay, webots_path
 from match_sessions import HALF_SECONDS_RANGE, LimitsLocked, MatchRunning, MatchSessions
 from roboturk.five_roles import CFG
 from roboturk.five_strategy import PASS_PREFERENCES, PLAYBOOKS
@@ -52,6 +52,37 @@ def read_recording(folder):
     if not np.isfinite(samples).all():
         raise ValueError("Match positions must be finite")
     return log, samples
+
+
+def live_replay(folder):
+    stream = (folder / "telemetry.jsonl")
+    if not stream.is_file():
+        stream = folder / "match/telemetry.jsonl"
+    if not stream.is_file():
+        raise ValueError("Wait for the first Webots frame.")
+    data = dict(frames=[], positions=[], events=[], intro={"frame": 0, "robot": 1})
+    with stream.open() as source:
+        for line in source:
+            if not line.endswith("\n"):
+                break
+            entry = json.loads(line)
+            if "header" in entry:
+                data.update(entry["header"])
+            elif "frame" in entry:
+                data["frames"].append(entry["frame"])
+                data["positions"].append(entry["position"])
+                data["events"].extend(entry["events"])
+    if not data["frames"]:
+        raise ValueError("Wait for the first Webots frame.")
+    return data
+
+
+def live_fork_trace(data):
+    frames = [dict(frame, clock=frame["t"], attack_sign=frame["sign"], control=frame["owner"])
+              for frame in data["frames"]]
+    samples = [position[:2] + (frame["ball_vxy"] or [0, 0]) + position[2:]
+               for position, frame in zip(data["positions"], frames, strict=True)]
+    return dict(data, frames=frames), samples
 
 
 def build_data(folder, *, include_forecast=True):
@@ -157,7 +188,7 @@ class ViewerRequest(BaseHTTPRequestHandler):
     def log_request(self, code="-", size="-"):
         pass  # The browser polls several times a second.
 
-    def respond(self, content, content_type, offset=None, *, status=200, failed=False):
+    def respond(self, content, content_type, offset=None, *, status=200, failed=False, continuation=None, handoff=False):
         self.send_response(status)
         self.send_header("Content-Type", content_type)
         self.send_header("Content-Length", str(len(content)))
@@ -166,6 +197,10 @@ class ViewerRequest(BaseHTTPRequestHandler):
             self.send_header("X-Telemetry-Offset", str(offset))
         if failed:
             self.send_header("X-Match-Failed", "1")
+        if continuation:
+            self.send_header("X-Hoca-Continuation", continuation)
+        if handoff:
+            self.send_header("X-Hoca-Handoff", "1")
         self.end_headers()
         self.wfile.write(content)
 
@@ -180,7 +215,7 @@ class ViewerRequest(BaseHTTPRequestHandler):
             return
         self.telemetry(self.folder, url.query)
 
-    def telemetry(self, folder, query, failed=False):
+    def telemetry(self, folder, query, failed=False, continuation=None, handoff=False):
         try:
             offset = int(parse_qs(query).get("offset", ["0"])[0])
             if not 0 <= offset < 2**63:
@@ -200,7 +235,8 @@ class ViewerRequest(BaseHTTPRequestHandler):
             chunk = b""
         # Webots may be writing the last record as this request arrives.
         chunk = chunk[: chunk.rfind(b"\n") + 1]
-        self.respond(chunk, "application/x-ndjson", offset + len(chunk), failed=failed)
+        self.respond(chunk, "application/x-ndjson", offset + len(chunk), failed=failed and not handoff,
+                     continuation=continuation, handoff=handoff)
 
 
 class SessionRequest(ViewerRequest):
@@ -217,6 +253,14 @@ class SessionRequest(ViewerRequest):
         if len(parts) == 4 and parts[1] in ("controller-replays", "matches") and parts[3] == "timeline":
             record = self.sessions.timelines.read(url.path.removesuffix("timeline"))
             self.json_response({"timeline": record})
+            return
+        if len(parts) == 4 and parts[1] in ("controller-replays", "matches") and parts[3] == "timeline-stream":
+            timelines = self.sessions.timelines
+            record = timelines.read(url.path.removesuffix("timeline-stream"))
+            if record and record.get("promoted"):
+                self.telemetry(timelines.trial_folder(record), url.query, record["status"] == "failed")
+            else:
+                self.send_error(404)
             return
         if len(parts) == 4 and parts[1] == "controller-replays" and not parts[3]:
             moment = self.sessions.catalog["moments"].get(parts[2])
@@ -235,49 +279,68 @@ class SessionRequest(ViewerRequest):
             return
         match_id = parts[2]
         session = self.sessions.sessions.get(match_id)
+        source = f"/matches/{match_id}/"
+        record = self.sessions.timelines.read(source)
+        frozen = self.sessions.timelines.directory(source) / "parent.json"
         if session is None:
             if parts[3] or len(match_id) != 12 or any(c not in "0123456789abcdef" for c in match_id):
                 self.send_error(404)
                 return
             archived = self.sessions.root / match_id / "run"
-            if not (archived / "viewer.html").is_file():
+            if not (archived / "viewer.html").is_file() and not frozen.is_file():
                 self.send_error(404)
                 return
             self.recording(archived, url)
         elif parts[3] == "":
-            if session.process.poll() == 0 and archive_ready(session.match):
-                self.recording(session.match, url, session=session.options)
-                return
-            else:
-                data = dict(
-                    live=True,
-                    session=session.options,
-                    setup_url="/",
-                    controller_versions=session.controller_versions,
-                    edit_limits=session.limit_path is not None and session.process.poll() is None,
-                )
-            self.respond(page(data).encode(), "text/html; charset=utf-8")
+            self.recording(session.match, url, live_session=session, session=session.options)
         elif parts[3] == "telemetry":
-            self.telemetry(session.match, url.query, session.failed)
+            failed = session.failed
+            record = self.sessions.timelines.read(source)
+            continuation = source + "?timeline=branch" if record and record.get("promoted") else None
+            handoff = record and record["status"] == "switching"
+            self.telemetry(session.match, url.query, failed and not continuation, continuation, handoff)
         else:
             self.send_error(404)
 
     def json_response(self, value, status=200):
         self.respond(json.dumps(value).encode(), "application/json", status=status)
 
-    def recording(self, folder, url, **metadata):
+    def recording(self, folder, url, live_session=None, **metadata):
         timelines = self.sessions.timelines
         record = timelines.read(url.path)
         on_branch = record is not None and parse_qs(url.query).get("timeline") == ["branch"]
-        data = dict(build_data(folder, include_forecast=not on_branch), setup_url="/", **metadata)
+        frozen = timelines.directory(url.path) / "parent.json"
+        if archive_ready(folder):
+            parent = build_data(folder, include_forecast=not on_branch)
+        elif frozen.is_file() and (not live_session or live_session.process.poll() is not None):
+            parent = json.loads(frozen.read_text())
+        elif live_session and record:
+            parent = dict(live_replay(folder), controller_versions=live_session.controller_versions)
+        else:
+            parent = {}
+        data = dict(parent, setup_url="/", **metadata)
         if record:
             data["decision_timeline"] = dict(
                 record, parent_end=data["frames"][-1]["t"], parent_last=len(data["frames"]) - 1,
+                preview_seconds=TRIAL_SECONDS,
             )
             if on_branch:
-                trial = (build_data(timelines.trial_folder(record), include_forecast=False)
-                         if record["status"] == "ready" else None)
-                data = branch_replay(data, record, trial)
+                run_folder = timelines.trial_folder(record) if record["run"] else None
+                streaming = record["status"] == "continuing"
+                preview = run_folder / "preview" if run_folder and archive_ready(run_folder / "preview") else run_folder
+                archive = run_folder if record["status"] == "finished" else preview
+                trial = (build_data(archive, include_forecast=False)
+                         if archive and archive_ready(archive) and not streaming else None)
+                data = branch_replay(data, record, trial, streaming=streaming)
+                if streaming:
+                    data.update(live=True, telemetry_url="timeline-stream")
+        if live_session and not on_branch and not frozen.is_file() and not archive_ready(folder):
+            for field in ("frames", "positions", "events", "keys"):
+                data.pop(field, None)
+            data.update(live=True, controller_versions=live_session.controller_versions,
+                        edit_limits=live_session.limit_path is not None and live_session.process.poll() is None)
+        if not data.get("controller_versions"):
+            data["legacy_controllers"] = match_releases(self.sessions.catalog, None, data.get("team_strategies"))
         self.respond(page(data).encode(), "text/html; charset=utf-8")
 
     def recording_folder(self, source):
@@ -290,11 +353,47 @@ class SessionRequest(ViewerRequest):
                     folder = TEMPLATES.parents[1] / moment["archive"]
             elif parts[1] == "matches" and len(parts[2]) == 12 and all(c in "0123456789abcdef" for c in parts[2]):
                 session = self.sessions.sessions.get(parts[2])
-                if not session or session.process.poll() == 0:
+                if not session or not session.failed:
                     folder = self.sessions.root / parts[2] / "run"
-        if folder is None or not archive_ready(folder):
-            raise ValueError("Open a saved Hoca recording to branch the timeline.")
+        if folder is None or not (archive_ready(folder) or (archive_folder(folder) / "telemetry.jsonl").is_file()):
+            raise ValueError("Open a Hoca match with recorded frames to branch the timeline.")
         return archive_folder(folder)
+
+    def stop_parent(self, source, active):
+        if not active or active.url != source or active.process.poll() is not None:
+            return
+        live_replay(active.match)
+        self.sessions.stop(active)
+        parent = dict(live_replay(active.match), controller_versions=active.controller_versions)
+        frozen = self.sessions.timelines.directory(source) / "parent.json"
+        pending = frozen.with_suffix(".tmp")
+        pending.write_text(json.dumps(parent, allow_nan=False))
+        pending.replace(frozen)
+
+    def change_timeline(self, source, request):
+        with self.sessions.launch_lock:
+            active = self.sessions.active
+            if active and active.process.poll() is None and active.url != source:
+                raise MatchRunning(active.url)
+            timelines = self.sessions.timelines
+            if request == {"action": "continue"}:
+                return timelines.promote(source, lambda: self.stop_parent(source, active))
+            if request != {}:
+                raise ValueError("Choose to run the trial or continue the merged branch.")
+            folder = self.recording_folder(source)
+            log, samples = (read_recording(folder) if archive_ready(folder)
+                            else live_fork_trace(live_replay(folder)))
+            config = folder / "config.json"
+            fork = timelines.read(source)
+            if fork is None:
+                raise ValueError("Create a candidate branch first.")
+            elapsed = log["frames"][-1]["clock"]
+            if active and active.url == source and active.process.poll() is None:
+                elapsed = max(elapsed, active.options["half_seconds"] * active.options["periods"])
+            return timelines.run(
+                source, log, samples, json.loads(config.read_text()) if config.is_file() else {},
+                round(elapsed - fork["fork_time"]),
+            )
 
     def do_POST(self):
         session = None
@@ -327,23 +426,14 @@ class SessionRequest(ViewerRequest):
                     source = f"/controller-replays/{clip_source['replay_moment']}/"
                 else:
                     source = f"/matches/{clip_source.get('match_id')}/"
-                log, _ = read_recording(self.recording_folder(source))
+                folder = self.recording_folder(source)
+                log, _ = read_recording(folder) if archive_ready(folder) else live_fork_trace(live_replay(folder))
                 record, created = self.sessions.timelines.create(source, request, log)
                 self.json_response(dict(record, created=created), 201 if created else 200)
                 return
             if run_trial:
                 source = self.path.removesuffix("timeline")
-                folder = self.recording_folder(source)
-                log, samples = read_recording(folder)
-                config = folder / "config.json"
-                with self.sessions.launch_lock:
-                    active = self.sessions.active
-                    if active and active.process.poll() is None:
-                        raise MatchRunning(active.url)
-                    record = self.sessions.timelines.run(
-                        source, log, samples, json.loads(config.read_text()) if config.is_file() else {},
-                    )
-                self.json_response(record, 202)
+                self.json_response(self.change_timeline(source, request), 202)
                 return
             if session is not None:
                 self.sessions.edit_limits(session, request)
@@ -351,7 +441,9 @@ class SessionRequest(ViewerRequest):
                 return
             with self.sessions.launch_lock:
                 if self.sessions.timelines.running:
-                    raise LimitsLocked("Wait for the Webots branch trial to finish.")
+                    current = self.sessions.timelines.read(self.sessions.timelines.running)
+                    if current["status"] != "ready":
+                        raise LimitsLocked("Wait for the active Webots branch to finish.")
                 session = self.sessions.start(request)
         except MatchRunning as error:
             self.json_response({"error": "A match is already running.", "url": error.url}, 409)
@@ -391,7 +483,10 @@ def serve_setup(folder, port, spec):
             print(f"Hoca setup http://127.0.0.1:{server.server_port}/", flush=True)
             server.serve_forever()
     finally:
-        sessions.close()
+        try:
+            sessions.timelines.close()
+        finally:
+            sessions.close()
 
 
 def serve(folder, port, spec=None):

@@ -1,6 +1,7 @@
 import importlib
 import json
 from pathlib import Path
+from unittest.mock import Mock
 
 import pytest
 
@@ -114,7 +115,7 @@ def test_hoca_remembers_one_candidate_per_recording(change_tool, tmp_path, monke
     request["evidence"]["source"]["seed"] = 123
     saved = tmp_path / "request.json"
     saved.write_text(json.dumps(request))
-    monkeypatch.setattr(timeline, "create_candidate", lambda value: {
+    monkeypatch.setattr(timeline, "create_candidate", lambda value, **kwargs: {
         "branch": "candidate/example", "record": str(tmp_path / "candidate.json"), "created": True,
     })
     source = "/matches/123456789abc/"
@@ -127,3 +128,47 @@ def test_hoca_remembers_one_candidate_per_recording(change_tool, tmp_path, monke
     assert reopened.create(source, request, log) == (record, False)
     with pytest.raises(ValueError, match="already has a candidate"):
         reopened.create(source, dict(request, title="Another request"), log)
+
+
+def test_merge_handoff_resumes_only_after_stopping_parent(change_tool, tmp_path):
+    timeline = importlib.import_module("decision_timeline")
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    git = change_tool.git
+    git(repo, "init", "-b", "master")
+    git(repo, "config", "user.name", "Kadir Uyanik")
+    git(repo, "config", "user.email", "717445+kadiru@users.noreply.github.com")
+    controller = repo / "controller.py"
+    controller.write_text("decision = 'parent'\n")
+    git(repo, "add", ".")
+    git(repo, "commit", "-m", "Parent")
+    git(repo, "switch", "-c", "candidate")
+    controller.write_text("decision = 'candidate'\n")
+    git(repo, "commit", "-am", "Candidate")
+    candidate = git(repo, "rev-parse", "HEAD")
+    git(repo, "switch", "master")
+    manifest = tmp_path / "candidate.json"
+    manifest.write_text(json.dumps({"base_commit": git(repo, "rev-parse", "HEAD")}))
+    source = "/matches/123456789abc/"
+    service = timeline.DecisionTimelines(tmp_path, None, stack=repo)
+    service.process = Mock()
+    service.process.poll.return_value = None
+    service.running = source
+    record = dict(
+        source=source, record=str(manifest), status="ready", run="trial",
+        build=dict(commit=candidate, working_copy_sha256=None),
+    )
+    folder = service.trial_folder(record)
+    folder.mkdir(parents=True)
+    service.save(source, record)
+    signal_file = folder / "continue-branch"
+
+    def stop_parent():
+        assert git(repo, "rev-parse", "HEAD") == candidate
+        assert service.read(source)["status"] == "switching"
+        assert not signal_file.exists()
+
+    assert service.promote(source, stop_parent)["status"] == "continuing"
+    assert signal_file.exists()
+    assert service.read(source)["promoted"]
+    assert service.process.poll() is None

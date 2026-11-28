@@ -10,6 +10,7 @@ import sys
 from threading import Lock, Thread
 from uuid import uuid4
 
+from controller_versions import load_catalog, match_artifacts, match_releases, source_build
 from roboturk.five_strategy import decode_strategies
 from roboturk.match_limits import GAME_LIMITS, PRACTICE_RANGES, validate_limits
 
@@ -26,7 +27,7 @@ def session_options(request):
         if request.keys() - allowed or request.get("team") not in ("blue", "yellow"):
             raise ValueError("In Game mode, choose Blue or Yellow as your team.")
     elif request.get("mode") == "practice":
-        allowed = timing | {"mode", "strategies", "limits"}
+        allowed = timing | {"mode", "strategies", "limits", "controller_versions"}
         if request.keys() - allowed or request.get("strategies") is None:
             raise ValueError("In Practice mode, choose a playbook for each team.")
         decode_strategies(request["strategies"])
@@ -53,6 +54,7 @@ class MatchSession:
     directory: Path
     options: dict
     process: subprocess.Popen
+    controller_versions: dict
     failed: bool = False
 
     @property
@@ -87,6 +89,7 @@ class MatchSessions:
     def __init__(self, root, spec, export):
         self.root = root
         self.spec = json.loads(spec.read_text())
+        self.catalog = load_catalog()
         if self.spec.get("mode") != "league_match":
             raise ValueError("The viewer setup requires an official league-match preset.")
         self.timing = dict(half_seconds=self.spec["half_seconds"], periods=self.spec.get("periods", 2))
@@ -97,6 +100,13 @@ class MatchSessions:
 
     def start(self, request):
         options = self.timing | session_options(request)
+        strategies = options.get("strategies")
+        releases = match_releases(self.catalog, options.get("controller_versions"), strategies)
+        if strategies is not None:
+            options["strategies"] = {
+                team: entry | {"controller": releases[team]["implementation"]}
+                for team, entry in strategies.items()
+            }
         spec = self.spec | {key: options[key] for key in self.timing}
         playing_seconds = spec["periods"] * spec["half_seconds"]
         # This watchdog also covers stoppages and kickoff setup.
@@ -108,6 +118,13 @@ class MatchSessions:
         with self.lock:
             if self.active and self.active.process.poll() is None:
                 raise MatchRunning(self.active.url)
+            versions = {
+                "format": "roboturk.match_versions.v1",
+                "build": source_build(),
+                "teams": releases,
+                "artifacts": match_artifacts(spec),
+            }
+            spec["controller_versions"] = versions
             directory = self.root / uuid4().hex[:12]
             directory.mkdir(parents=True)
             if options["mode"] == "practice":
@@ -129,7 +146,7 @@ class MatchSessions:
                     stderr=subprocess.STDOUT,
                     start_new_session=True,
                 )
-            session = MatchSession(directory, options, process)
+            session = MatchSession(directory, options, process, versions)
             self.sessions[directory.name] = self.active = session
         Thread(target=self.finish, args=(session,), daemon=True).start()
         return session

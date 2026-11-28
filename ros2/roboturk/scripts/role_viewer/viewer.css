@@ -68,6 +68,11 @@ h3 { margin-bottom: 5px; font-size: 12px; font-weight: 650; color: var(--muted);
 .motion-popover { position: absolute; inset: calc(100% + 5px) 0 auto auto; width: min(260px, 100%); padding: 12px; background: var(--panel); border: 1px solid #384b5c; border-radius: 9px; box-shadow: 0 8px 20px #070c1280; }
 .match-menu-links { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
 .motion-limit-section { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+.recorded-versions { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+.recorded-versions dl { display: grid; gap: 4px; margin: 5px 0 0; font-size: 11px; }
+.recorded-versions dl > div { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 7px; }
+.recorded-versions dt { color: var(--muted); }
+.recorded-versions dd { margin: 0; overflow-wrap: anywhere; }
 .motion-popover h2 { font-size: 13px; margin-bottom: 9px; }
 .motion-popover .top-limits { grid-template-columns: minmax(0, 1fr); gap: 8px; margin: 0; }
 .motion-popover .limit-feedback { margin-top: 8px; max-width: none; }
@@ -265,6 +270,13 @@ button.primary:hover { background: #c1eed3; }
 .setup a { color: var(--mint); }
 #setup-error:empty { display: none; }
 #setup-error { color: #ffb7a0; font-size: 13px; }
+.version-history { margin-top: 18px; padding: 12px; border: 1px solid var(--line); border-radius: var(--round); background: var(--panel); font-size: 13px; }
+.version-history summary { cursor: pointer; font-weight: 650; }
+.version-history h2 { margin: 12px 0 5px; }
+.version-history article { margin: 8px 0; padding: 7px 0; border-top: 1px solid var(--line); }
+.version-history article p { margin-top: 3px; color: var(--muted); }
+.version-history ul { padding-left: 20px; margin: 7px 0; }
+.version-history article a + a { margin-left: 8px; }
 @media (max-width: 1000px) {
   .match-masthead { grid-template-columns: minmax(0, 1fr) auto; }
   .match-masthead .scoreboard { grid-row: 2; grid-column: 1 / -1; justify-self: center; max-width: 100%; }

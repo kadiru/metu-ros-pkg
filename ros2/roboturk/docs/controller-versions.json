@@ -1,0 +1,65 @@
+{
+  "format": "roboturk.controller_catalog.v1",
+  "installed": ["team-wide@1.0.0", "local-priority@1.0.0", "coordinated@1.0.0"],
+  "components": {
+    "strategy": {"name": "Team playbook", "depends_on": ["plays"], "source": "src/roboturk_core/roboturk/five_strategy.py"},
+    "plays": {"name": "5v5 plays and restart handoffs", "depends_on": ["roles", "skills"], "source": "src/roboturk_core/roboturk/five_play.py"},
+    "roles": {"name": "Role allocation and interception", "depends_on": [], "source": "src/roboturk_core/roboturk/five_roles.py"},
+    "skills": {"name": "5v5 motion and ball skills", "depends_on": [], "source": "src/roboturk_ros/webots/controllers/roboturk_five_roles/roboturk_five_roles.py"}
+  },
+  "releases": {
+    "team-wide@1.0.0": {
+      "name": "Team-wide assignment",
+      "version": "1.0.0",
+      "implementation": "balanced",
+      "parent": null,
+      "description": "Assign roles together to reduce travel and role changes.",
+      "trigger": "Register the existing team-wide allocator as the initial comparison baseline.",
+      "changes": [{"layer": "roles", "description": "Use the existing minimum-cost team assignment."}],
+      "depends_on": ["strategy", "plays", "roles"],
+      "introduced_by": "9442b694afb7e9f0f58e7de67194690628ae419a",
+      "moments": []
+    },
+    "local-priority@1.0.0": {
+      "name": "Local Priority",
+      "version": "1.0.0",
+      "implementation": "priority",
+      "parent": "team-wide@1.0.0",
+      "description": "Fill each role in order with the best available robot.",
+      "trigger": "Compare team-wide assignment with a simpler role-by-role baseline on matched starts.",
+      "changes": [{"layer": "roles", "description": "Select the lowest-cost eligible robot for each role in priority order."}],
+      "depends_on": ["strategy", "plays", "roles"],
+      "introduced_by": "9442b694afb7e9f0f58e7de67194690628ae419a",
+      "moments": []
+    },
+    "coordinated@1.0.0": {
+      "name": "Coordinated",
+      "version": "1.0.0",
+      "implementation": "coordinated",
+      "parent": "team-wide@1.0.0",
+      "description": "Position two passing options together and check where defenders could intercept.",
+      "trigger": "Test whether coordinated outlets improve decisions against independent defenders.",
+      "changes": [
+        {"layer": "roles", "description": "Choose a pair of complementary wing outlets."},
+        {"layer": "plays", "description": "Rank passing lanes using observed defender motion and carry when lanes are blocked."}
+      ],
+      "depends_on": ["strategy", "plays", "roles"],
+      "introduced_by": "9442b694afb7e9f0f58e7de67194690628ae419a",
+      "moments": []
+    }
+  },
+  "moments": {
+    "yellow-crowded-outlet": {
+      "name": "Yellow's crowded outlet",
+      "description": "Y2 passes to Y3 under pressure from B2 and B3. Compare with Y4 as the outlet while holding Blue's controller fixed.",
+      "status": "Proposed",
+      "archive": "media/match-viewer/replays/38727045-interception",
+      "seed": 38727045,
+      "frame": 90,
+      "robot": 7,
+      "time_s": 3.6,
+      "observed_until_frame": 123,
+      "match_report_commit": "7c5f1003fa3eb04d0dd9e45e7b27bf9d283df4ec"
+    }
+  }
+}

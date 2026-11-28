@@ -13,9 +13,10 @@ from urllib.parse import parse_qs, urlsplit
 
 import numpy as np
 
+from controller_versions import MATCH_VERSIONS_FILE
 from match_sessions import HALF_SECONDS_RANGE, LimitsLocked, MatchRunning, MatchSessions
 from roboturk.five_roles import CFG
-from roboturk.five_strategy import DECISION_CONTROLLERS, PASS_PREFERENCES, PLAYBOOKS
+from roboturk.five_strategy import PASS_PREFERENCES, PLAYBOOKS
 from roboturk.match_limits import GAME_LIMITS, PRACTICE_RANGES, limit_values, team_configs
 from roboturk.motion_forecast import open_play_segments, replay_forecasts
 from roboturk.role_telemetry import action_events, compact_frame, frame_events, viewer_header
@@ -104,7 +105,7 @@ def build_data(folder):
     team_strategies = None
     if config_path.is_file():
         team_strategies = json.loads(config_path.read_text()).get("team_strategies")
-    return dict(
+    recording = dict(
         viewer_header(keys, log["seed"], CFG, limits),
         dt=log["dt"],
         frames=frames,
@@ -115,6 +116,12 @@ def build_data(folder):
         team_strategies=team_strategies,
         forecast=bundle,
     )
+    for directory in (folder, folder.parent) if folder.name == "match" else (folder,):
+        versions = directory / MATCH_VERSIONS_FILE
+        if versions.is_file():
+            recording["controller_versions"] = json.loads(versions.read_text())
+            break
+    return recording
 
 
 def page(match, template="index", script="viewer"):
@@ -202,6 +209,20 @@ class SessionRequest(ViewerRequest):
             self.respond(self.html, "text/html; charset=utf-8")
             return
         parts = url.path.split("/")
+        if len(parts) == 4 and parts[1] == "controller-replays" and not parts[3]:
+            moment = self.sessions.catalog["moments"].get(parts[2])
+            if moment is None:
+                self.send_error(404)
+                return
+            folder = TEMPLATES.parents[1] / moment["archive"]
+            if not archive_ready(folder):
+                self.send_error(404, "Archived replay not installed")
+                return
+            data = build_data(folder)
+            data["intro"] = dict(frame=moment["frame"], robot=moment["robot"])
+            data["setup_url"] = "/"
+            self.respond(page(data).encode(), "text/html; charset=utf-8")
+            return
         if len(parts) != 4 or parts[1] != "matches":
             self.send_error(404)
             return
@@ -225,6 +246,7 @@ class SessionRequest(ViewerRequest):
                     live=True,
                     session=session.options,
                     setup_url="/",
+                    controller_versions=session.controller_versions,
                     edit_limits=session.limit_path is not None and session.process.poll() is None,
                 )
             self.respond(page(data).encode(), "text/html; charset=utf-8")
@@ -283,7 +305,7 @@ def serve_setup(folder, port, spec):
     sessions = MatchSessions(folder.resolve(), spec, export)
     setup = dict(
         strategies={key: [book.name, book.description] for key, book in PLAYBOOKS.items()},
-        controllers=DECISION_CONTROLLERS,
+        controller_catalog=sessions.catalog,
         passing=PASS_PREFERENCES,
         limit_defaults=GAME_LIMITS,
         timing=sessions.timing,

@@ -11,7 +11,11 @@ from roboturk.match_limits import GAME_LIMITS
 @pytest.fixture
 def sessions(monkeypatch):
     monkeypatch.syspath_prepend(str(Path(__file__).resolve().parents[1] / "scripts"))
-    return importlib.import_module("match_sessions")
+    module = importlib.import_module("match_sessions")
+    monkeypatch.setattr(
+        module, "source_build", lambda: dict(number=49, commit="a" * 40, working_copy_sha256=None)
+    )
+    return module
 
 
 def test_match_launch_uses_selected_timing_and_preserves_preset_defaults(
@@ -28,6 +32,7 @@ def test_match_launch_uses_selected_timing_and_preserves_preset_defaults(
     game_spec = json.loads((game.directory / "spec.json").read_text())
     assert (game_spec["half_seconds"], game_spec["periods"]) == (60, 2)
     assert game.limit_path is None
+    assert game.controller_versions["teams"]["blue"]["id"] == "team-wide@1.0.0"
 
     limits = dict(GAME_LIMITS, max_kick=10)
     strategy = dict(strategy="balanced", pass_preference=0)
@@ -35,6 +40,7 @@ def test_match_launch_uses_selected_timing_and_preserves_preset_defaults(
         dict(
             mode="practice",
             strategies=dict.fromkeys(("blue", "yellow"), strategy),
+            controller_versions={"blue": "coordinated@1.0.0", "yellow": "local-priority@1.0.0"},
             limits=limits,
             half_seconds=300,
             periods=1,
@@ -44,6 +50,11 @@ def test_match_launch_uses_selected_timing_and_preserves_preset_defaults(
     assert (practice_spec["half_seconds"], practice_spec["periods"]) == (300, 1)
     assert practice_spec["seconds"] > 600
     assert json.loads(practice.limit_path.read_text()) == limits
+    assert practice_spec["team_strategies"]["blue"]["controller"] == "coordinated"
+    assert practice_spec["team_strategies"]["yellow"]["controller"] == "priority"
+    assert practice_spec["controller_versions"] == practice.controller_versions
+    assert practice.controller_versions["build"]["commit"] == "a" * 40
+    assert practice.controller_versions["artifacts"]["world"]["sha256"]
 
     default = manager.start(dict(mode="game", team="yellow"))
     assert (default.options["half_seconds"], default.options["periods"]) == (30, 2)
@@ -59,6 +70,7 @@ def test_match_launch_uses_selected_timing_and_preserves_preset_defaults(
         dict(periods=3),
         dict(periods="2"),
         dict(limits=GAME_LIMITS),
+        dict(controller_versions={"blue": "coordinated@1.0.0", "yellow": "team-wide@1.0.0"}),
     ],
 )
 def test_game_rejects_invalid_timing_and_motion_overrides(sessions, invalid):

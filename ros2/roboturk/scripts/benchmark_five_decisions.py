@@ -10,11 +10,11 @@ import sys
 import numpy as np
 
 from audit_five_roles import audit, load_match
+from controller_versions import load_catalog, source_build
 
 
 ROOT = Path(__file__).resolve().parents[1]
 TEAMS = ("blue", "yellow")
-CHALLENGERS = ("priority", "coordinated")
 
 
 def play(output, seed, seconds, controllers):
@@ -71,24 +71,35 @@ def play(output, seed, seconds, controllers):
 
 
 def main():
+    catalog = load_catalog()
+    installed = catalog["installed"]
+    releases = catalog["releases"]
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("output", type=Path)
     parser.add_argument("--seed", type=int, default=38728000)
     parser.add_argument("--starts", type=int, default=4)
     parser.add_argument("--seconds", type=int, default=25)
+    parser.add_argument("--baseline", choices=installed, default=installed[0])
+    parser.add_argument("--challenger", choices=installed, action="append")
     args = parser.parse_args()
     if args.starts < 1 or args.seconds < 1:
         parser.error("Use at least one start and a positive duration.")
+    challengers = args.challenger or [key for key in installed if key != args.baseline]
+    if args.baseline in challengers or len(set(challengers)) != len(challengers):
+        parser.error("Choose distinct challenger versions with a separate baseline.")
+    build = source_build()
+    baseline_controller = releases[args.baseline]["implementation"]
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
-    rows, totals = [], {c: Counter() for c in CHALLENGERS}
+    rows, totals = [], {releases[key]["implementation"]: Counter() for key in challengers}
     for seed in range(args.seed, args.seed + args.starts):
         baseline, initial, velocities = play(
-            output / str(seed) / "balanced", seed, args.seconds, ("balanced", "balanced")
+            output / str(seed) / baseline_controller, seed, args.seconds, (baseline_controller,) * 2
         )
-        for name in CHALLENGERS:
+        for release in challengers:
+            name = releases[release]["implementation"]
             for side, team in enumerate(TEAMS):
-                opponents = ["balanced", "balanced"]
+                opponents = [baseline_controller, baseline_controller]
                 opponents[side] = name
                 changed, state, speed = play(
                     output / str(seed) / f"{name}-{team}", seed, args.seconds, opponents
@@ -116,10 +127,24 @@ def main():
                     )
                 )
                 rows.append(
-                    dict(seed=seed, controller=name, team=team, baseline=baseline, changed=changed)
+                    dict(
+                        seed=seed,
+                        controller=name,
+                        controller_version=release,
+                        team=team,
+                        baseline=baseline,
+                        changed=changed,
+                    )
                 )
         print(f"Finished matched start {seed}", flush=True)
-    report = dict(seconds=args.seconds, referee="local", totals=totals, pairs=rows)
+    report = dict(
+        seconds=args.seconds, referee="local", totals=totals, pairs=rows,
+        controller_versions=dict(
+            build=build,
+            baseline=args.baseline,
+            releases={key: releases[key] for key in [args.baseline, *challengers]},
+        ),
+    )
     (output / "comparison.json").write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps(totals, indent=2))
 

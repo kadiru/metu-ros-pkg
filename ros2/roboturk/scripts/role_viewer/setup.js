@@ -5,6 +5,7 @@ const catalog = JSON.parse(byId("match-data").textContent);
 const form = byId("setup-form");
 const start = byId("start-match");
 const teams = ["blue", "yellow"];
+const { releases, installed, moments } = catalog.controller_catalog;
 const practiceLimits = { ...catalog.limit_defaults };
 const motionControls = createLimitControls(byId("motion-limits"), catalog.limit_ranges, (key, value) => {
   practiceLimits[key] = value;
@@ -12,8 +13,9 @@ const motionControls = createLimitControls(byId("motion-limits"), catalog.limit_
 
 for (const team of teams) {
   const controller = byId(`${team}-controller`);
-  for (const [key, [name]] of Object.entries(catalog.controllers)) {
-    controller.add(new Option(name, key));
+  for (const id of installed) {
+    const { name, version } = releases[id];
+    controller.add(new Option(`${name} · v${version}`, id));
   }
   const strategy = byId(`${team}-strategy`);
   for (const [key, [name]] of Object.entries(catalog.strategies)) {
@@ -25,12 +27,45 @@ for (const team of teams) {
   }
   passing.value = "0";
   const describe = () => {
-    byId(`${team}-controller-preview`).textContent = catalog.controllers[controller.value][1];
+    byId(`${team}-controller-preview`).textContent = releases[controller.value].description;
     byId(`${team}-preview`).textContent = catalog.strategies[strategy.value][1];
   };
   controller.addEventListener("change", describe);
   strategy.addEventListener("change", describe);
   describe();
+}
+
+function replayLink(id) {
+  const link = document.createElement("a");
+  link.href = `/controller-replays/${encodeURIComponent(id)}/`;
+  link.textContent = `Replay ${moments[id].name}`;
+  return link;
+}
+
+for (const release of Object.values(releases)) {
+  const article = document.createElement("article");
+  const name = document.createElement("h3");
+  name.textContent = `${release.name} · v${release.version}`;
+  const trigger = document.createElement("p");
+  trigger.textContent = release.trigger;
+  const changes = document.createElement("ul");
+  for (const { description } of release.changes) {
+    const item = document.createElement("li");
+    item.textContent = description;
+    changes.append(item);
+  }
+  const source = document.createElement("a");
+  source.href = `https://github.com/kadiru/metu-ros-pkg/commit/${release.introduced_by}`;
+  source.textContent = "Introducing commit";
+  article.append(name, trigger, changes, source, ...release.moments.map(replayLink));
+  byId("controller-history").append(article);
+}
+for (const [id, moment] of Object.entries(moments)) {
+  const article = document.createElement("article");
+  const description = document.createElement("p");
+  description.textContent = moment.description;
+  article.append(replayLink(id), description);
+  byId("controller-moments").append(article);
 }
 
 function updateMode() {
@@ -66,8 +101,8 @@ form.addEventListener("submit", async (event) => {
     ? { mode, team: form.elements.team.value }
     : {
       mode,
+      controller_versions: Object.fromEntries(teams.map(team => [team, byId(`${team}-controller`).value])),
       strategies: Object.fromEntries(teams.map((team) => [team, {
-        controller: byId(`${team}-controller`).value,
         strategy: byId(`${team}-strategy`).value,
         pass_preference: Number(byId(`${team}-passing`).value),
       }])),

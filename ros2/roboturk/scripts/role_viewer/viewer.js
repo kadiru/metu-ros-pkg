@@ -235,6 +235,7 @@ function downloadClip() {
       seed: sourceHeader.seed ?? null,
       sample_period_s: sourceHeader.dt ?? null,
       team_strategies: match.team_strategies ?? match.session?.strategies ?? null,
+      ...(match.controller_versions && { controller_versions: match.controller_versions }),
     },
     range: {
       start_tick: clipStart,
@@ -1009,6 +1010,27 @@ if (match.setup_url) {
   const link = byId("setup-link");
   link.href = match.setup_url;
   link.hidden = false;
+}
+if (match.controller_versions) {
+  const { build, teams: releases } = match.controller_versions;
+  const rows = Object.entries(teams).map(([color, { label }]) => {
+    const release = releases[color];
+    return [label, `${release.name} · v${release.version}`];
+  });
+  if (build) {
+    const checkout = build.working_copy_sha256 ? ` · local ${build.working_copy_sha256.slice(0, 8)}` : "";
+    rows.push(["Build", `${build.number} · ${build.commit.slice(0, 8)}${checkout}`]);
+  }
+  for (const [label, value] of rows) {
+    const row = document.createElement("div");
+    const term = document.createElement("dt");
+    term.textContent = label;
+    const detail = document.createElement("dd");
+    detail.textContent = value;
+    row.append(term, detail);
+    byId("recorded-version-list").append(row);
+  }
+  byId("recorded-versions").hidden = false;
 }
 if (livePage) poll();
 else {

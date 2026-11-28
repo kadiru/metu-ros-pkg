@@ -101,6 +101,10 @@ def main():
         p.error("--live-viewer requires a league match spec")
     dest = args.output.resolve()
     dest.mkdir(parents=True, exist_ok=False)
+    if spec.get("controller_versions") is not None:
+        (dest / "controller-versions.json").write_text(
+            json.dumps(spec["controller_versions"], indent=2) + "\n"
+        )
     config = dest / "gc/config"
     config.mkdir(parents=True)
     simulation_clock = league and spec.get("simulation_clock", False)

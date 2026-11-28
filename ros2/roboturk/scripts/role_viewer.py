@@ -16,7 +16,7 @@ import numpy as np
 from controller_versions import MATCH_VERSIONS_FILE, match_releases
 from decision_changes import validate_request
 from decision_timeline import TRIAL_SECONDS, DecisionTimelines, branch_replay, webots_path
-from match_sessions import HALF_SECONDS_RANGE, LimitsLocked, MatchRunning, MatchSessions
+from match_sessions import LimitsLocked, MatchRunning, MatchSessions
 from roboturk.five_roles import CFG
 from roboturk.five_strategy import PASS_PREFERENCES, PLAYBOOKS
 from roboturk.match_limits import GAME_LIMITS, PRACTICE_RANGES, limit_values, team_configs
@@ -473,7 +473,6 @@ def serve_setup(folder, port, spec):
         passing=PASS_PREFERENCES,
         limit_defaults=GAME_LIMITS,
         timing=sessions.timing,
-        half_seconds_range=HALF_SECONDS_RANGE,
     )
     handler = partial(
         SessionRequest, sessions=sessions, html=page(setup, "setup", "setup").encode()

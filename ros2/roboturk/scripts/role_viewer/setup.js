@@ -81,14 +81,13 @@ form.elements.mode.forEach((radio) => radio.addEventListener("change", updateMod
 const periods = form.elements.periods;
 const halfSeconds = form.elements.half_seconds;
 periods.value = catalog.timing.periods;
-[halfSeconds.min, halfSeconds.max] = catalog.half_seconds_range;
-halfSeconds.value = catalog.timing.half_seconds;
+const preset = [...halfSeconds.options].find(option => Number(option.value) === catalog.timing.half_seconds);
+if (preset) halfSeconds.value = preset.value;
 const updateDuration = () => {
-  byId("match-duration").textContent = halfSeconds.validity.valid
-    ? `5v5 · ${periods.value} × ${halfSeconds.valueAsNumber} s` : "5v5";
+  byId("match-duration").textContent = `5v5 · ${periods.value} × ${halfSeconds.selectedOptions[0].text}`;
 };
 periods.addEventListener("change", updateDuration);
-halfSeconds.addEventListener("input", updateDuration);
+halfSeconds.addEventListener("change", updateDuration);
 updateDuration();
 
 form.addEventListener("submit", async (event) => {
@@ -109,7 +108,7 @@ form.addEventListener("submit", async (event) => {
       limits: practiceLimits,
     };
   request.periods = Number(periods.value);
-  request.half_seconds = halfSeconds.valueAsNumber;
+  request.half_seconds = Number(halfSeconds.value);
   try {
     const response = await fetch("/matches", {
       method: "POST",

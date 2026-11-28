@@ -1,0 +1,62 @@
+{
+  "format": "roboturk.controller_candidate.v1",
+  "request_sha256": "dd539ae0293c81344fbd902bb034efb804e2bf5437a527caa08c1c9a1c743306",
+  "branch": "candidate/secure-and-recycle-through-b3-dd539ae0293c",
+  "base_commit": "5a1e0ba0af7bbb9635e07cd2e10d67c4b3ba634f",
+  "recorded_release": "team-wide@1.0.0",
+  "status": "tested_on_source_moment",
+  "change_plan": {
+    "layers": [
+      "interaction",
+      "behavior"
+    ],
+    "changes": [
+      "Choose a safe rear outlet under pressure when the forward lanes are closed.",
+      "Use roller control to shield, turn and release.",
+      "Assign the passer and original forward option to opposite wings and offer a return pass."
+    ],
+    "dependencies": [
+      "FiveRoles possession and flight state",
+      "Shared 5v5 reception profile",
+      "Timed motion and collision avoidance",
+      "Observed-motion lane clearance"
+    ],
+    "breaks_contract": false
+  },
+  "candidate_version": "1.0.0",
+  "comparisons": [
+    {
+      "match_id": "9cda44b067a3",
+      "source_frame": 92,
+      "fork_time_s": 3.68,
+      "scope": "One reconstructed Webots start with the same Yellow controller and no referee state restore.",
+      "original": {
+        "controller": "team-wide@1.0.0",
+        "pass": "B1 to B4",
+        "kick_time_s": 3.68,
+        "yellow_control": "Y1",
+        "yellow_control_s": 4.56
+      },
+      "reconstructed_control": {
+        "pass": "B1 to B4",
+        "kick_time_s": 3.76,
+        "next_blue_control": "B4",
+        "next_blue_control_s": 5.32,
+        "later_yellow_control": "Y4",
+        "later_yellow_control_s": 6.56
+      },
+      "candidate": {
+        "controller": "Relay Outlet v1.0.0",
+        "backpass_s": 4.36,
+        "B3_control_s": 5.76,
+        "wing_runners": [
+          "B1",
+          "B4"
+        ],
+        "return_launch_s": 8.48,
+        "B4_control_s": 10.28
+      }
+    }
+  ],
+  "implementation": "relay-outlet"
+}

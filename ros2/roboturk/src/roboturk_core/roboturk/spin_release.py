@@ -20,7 +20,7 @@ def turn_rate(cfg):
     )
 
 
-def arc_clear(world, actor, sweep, rate, cfg, observed, clearance):
+def arc_clear(world, actor, sweep, rate, cfg, observed, clearance, *, shield_escape=False):
     """Check the dribbler and chassis along the proposed sweep using observed motion."""
     ball = world.ball
     radius = cfg.possession_x
@@ -31,7 +31,10 @@ def arc_clear(world, actor, sweep, rate, cfg, observed, clearance):
     for i in range(samples + 1):
         angle = actor.yaw + sweep * i / samples
         c, s = math.cos(angle), math.sin(angle)
-        x, y = ball.x - radius * c, ball.y - radius * s
+        ahead = min(0.48, abs(sweep) * i / (samples * rate))
+        ball_x = ball.x + (ahead * ball.vx if shield_escape else 0.0)
+        ball_y = ball.y + (ahead * ball.vy if shield_escape else 0.0)
+        x, y = ball_x - radius * c, ball_y - radius * s
         if abs(x) > cfg.length / 2 - 0.15 or abs(y) > cfg.width / 2 - 0.15:
             return False
         padding = cfg.robot_radius + 0.015
@@ -40,16 +43,21 @@ def arc_clear(world, actor, sweep, rate, cfg, observed, clearance):
             and abs(y) < field.DEFENSE_WIDTH / 2 + padding
         ):
             return False
-        ahead = min(0.48, abs(sweep) * i / (samples * rate))
         for other in neighbors:
             vx, vy = observed.get(other.key, (0.0, 0.0))
             qx, qy = other.x + ahead * vx, other.y + ahead * vy
             if math.hypot(x - qx, y - qy) < clearance:
                 return False
-            dx, dy = qx - ball.x, qy - ball.y
+            dx, dy = qx - ball_x, qy - ball_y
             gap = math.hypot(dx, dy)
             if other.key.team != actor.key.team and gap < 0.27 and dx * c + dy * s > 0.5 * gap:
-                return False
+                def exposure(yaw):
+                    return dx * math.cos(yaw) + dy * math.sin(yaw)
+
+                # Allow a short shield rotation out of an already exposed grip.
+                # Check the chassis clearance over the same full arc in either case.
+                if not shield_escape or exposure(actor.yaw + sweep) >= exposure(actor.yaw):
+                    return False
     return True
 
 

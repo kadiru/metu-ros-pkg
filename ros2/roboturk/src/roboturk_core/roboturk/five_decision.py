@@ -201,4 +201,5 @@ CONTROLLERS: dict[str, TeamController] = {
     "balanced": BalancedController(),
     "priority": LocalPriorityController(),
     "coordinated": CoordinatedController(),
+    "relay-outlet": BalancedController(),
 }

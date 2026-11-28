@@ -15,6 +15,7 @@ from .model import Command, Skill, possession, unit, wrap
 from .open_motion import steer_team
 from .pass_intercept import intercept_pass
 from .pivot_fetch import PivotFetch
+from .relay_outlet import Relay
 from .tackle_selector import CONTAIN, PIVOT_SIDES, TackleSelector
 from .timed_keeper import TimedGoalCover
 from .three_match import filter_commands
@@ -106,6 +107,22 @@ def commands(
         role = positions[r.key].role
         tx, ty = positions[r.key].target
         angle = math.atan2(ball.y - r.y, ball.x - r.x)
+        relay = tactics.relays.get(team)
+        if relay and relay.phase == "turn" and relay.passer == r.key:
+            cmd, flight, task = relay.backpass(world, r, motion or CFG, observed or {}, receive)
+            out[r.key] = cmd
+            if flight:
+                passes[r.key] = flight
+            if tasks is not None:
+                tasks[r.key] = task
+            if decisions is not None:
+                decisions[r.key] = "Forward lanes are crowded. Recycle through the open rear outlet."
+            continue
+        if relay and relay.phase == "turn" and relay.outlet == r.key:
+            out[r.key] = move(r, tx, ty, angle, speed=0.65)
+            if tasks is not None:
+                tasks[r.key] = "Face the ball and present the rear outlet"
+            continue
         if role == "Interceptor":
             interception = tactics.interception
             out[r.key] = interception.command(world, r, motion or CFG, receive)
@@ -139,7 +156,15 @@ def commands(
         ):
             strategy = strategies[team] if strategies else BALANCED
             controller = controllers[team] if controllers else CONTROLLERS[strategy.controller]
-            decision = controller.attack(world, r, strategy, weights[team], role == "Keeper")
+            if relay and relay.phase == "return" and relay.outlet == r.key:
+                decision = relay.return_pass(world, r, receive)
+                if decision is None:
+                    out[r.key] = carrying(world, r, (0, 0), r.yaw)
+                    if tasks is not None:
+                        tasks[r.key] = "Secure the ball and wait for an open wing"
+                    continue
+            else:
+                decision = controller.attack(world, r, strategy, weights[team], role == "Keeper")
             pass_now = decision.intent.skill == Skill.PASS
             shoot = decision.intent.skill == Skill.SHOOT
             receiver = decision.intent.receiver
@@ -249,6 +274,8 @@ def commands(
                 room = max(0, math.hypot(r.x - ball.x, r.y - ball.y) - 0.65)
                 speed = min(speed, math.sqrt(1.0 + motion.max_acceleration * room))
         out[r.key] = move(r, *target, angle, speed=speed, turn_limit=turn_limit)
+        if relay and relay.wing_targets and r.key in relay.wing_targets and tasks is not None:
+            tasks[r.key] = "Run wide for the return pass"
         if role == "Contain":
             out[r.key] = replace(out[r.key], dribbler=0)
     return out, passes
@@ -387,6 +414,19 @@ def open_play(
     )
     if not spin_releases or secure is not None:
         tactics.spin.turn = None
+    for team, strategy in (strategies or {}).items():
+        if strategy.controller != "relay-outlet":
+            continue
+        relay = tactics.relays.get(team)
+        if relay:
+            if not relay.advance(world, tactics.control, sole, flight):
+                del tactics.relays[team]
+                tactics.relay_retry[team] = world.time + 0.6
+        elif (not flight and sole and sole.team == team and tactics.control == sole
+                and secure is None and world.time >= tactics.relay_retry.get(team, 0)):
+            relay = Relay.choose(world, world.robot(sole), weights[team])
+            if relay:
+                tactics.relays[team] = relay
     roles, phases = {}, {}
     for team in ("blue", "yellow"):
         phases[team], side = tactics.assign(
@@ -397,6 +437,17 @@ def open_play(
             strategy=strategies[team] if strategies else BALANCED,
             controller=controllers[team] if controllers else None,
         )
+        if team in tactics.relays:
+            before = side.copy()
+            tactics.relays[team].assignments(world, side)
+            if allocation_audit is not None:
+                for key, assignment in side.items():
+                    if assignment != before[key]:
+                        actor = world.robot(key)
+                        allocation_audit[key] = {
+                            "basis": "relay_outlet",
+                            "distance_m": round(math.dist((actor.x, actor.y), assignment.target), 4),
+                        }
         roles.update(side)
     targets = {} if trajectory else None
     spin_margin = max(0.24, policy.clearance + 0.009) if policy else 0.31
@@ -447,6 +498,7 @@ def open_play(
             task_audit.update({key: "Approach a crowded loose ball" for key in fetching})
         challenges = {}
         turning = set()
+        turning.update(relay.passer for relay in tactics.relays.values() if relay.phase == "turn")
         if tactics.spin.turn:
             turning.add(tactics.spin.turn.actor)
         rival_in_recovery = None

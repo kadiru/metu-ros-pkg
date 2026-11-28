@@ -49,6 +49,7 @@ DECISION_CONTROLLERS = {
         "Coordinated",
         "Position two passing options together and check where defenders could intercept.",
     ),
+    "relay-outlet": ("Relay Outlet", "Recycle a crowded ball and reopen two wide passing options."),
 }
 
 
